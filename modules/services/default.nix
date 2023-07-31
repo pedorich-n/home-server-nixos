@@ -5,6 +5,6 @@
     ./openssh.nix
     ./gui.nix
     # ./netdata.nix
-    # ./telegram-lessons-bot.nix
+    ./telegram-lessons-bot.nix
   ];
 }

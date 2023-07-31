@@ -29,6 +29,9 @@ in
       tailscale-key = ({
         file = pathFor "tailscale_key.txt.age";
       } // permissions);
+      telegram-airtable-bot-config = ({
+        file = pathFor "telegram_airtable_bot_config_main.yaml.age";
+      } // permissions);
       # ha-secrets = ({
       #   file = ./secrets/ha_secrets.age;
       # } // permissions);
@@ -37,9 +40,6 @@ in
       # } // permissions);
       # zigbee2mqtt-secrets = ({
       #   file = ./secrets/zigbee2mqtt_secrets.age;
-      # } // permissions);
-      # telegram-airtable-bot-config = ({
-      #   file = ./secrets/telegram_airtable_bot_config.age;
       # } // permissions);
     };
   };
