@@ -5,9 +5,10 @@ let
   storeRoot = "/mnt/ha-store";
   storeFor = localPath: remotePath: "${storeRoot}/${localPath}:${remotePath}";
 
-  staticIP = {
+  staticIPs = {
     dnsmasq = "172.32.0.2";
     homeassistant = "172.32.0.5";
+    tailscale = "172.32.0.10";
   };
 
   configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) ({
@@ -75,8 +76,8 @@ in
             };
             service = {
               container_name = "traefik";
-              # user = userSetting;
-              ports = [ "80:80" "8123:8123" ];
+              user = userSetting;
+              ports = [ "80:80" ];
               networks = [ "traefik" ];
               volumes = [
                 "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -99,6 +100,9 @@ in
             volumes = [
               (storeFor "homer" "/www/assets")
             ];
+            labels = {
+              "wud.tag.exclude" = "^latest.*$";
+            };
           };
 
           # TODO: use Netdata: https://learn.netdata.cloud/docs/installing/docker
@@ -118,7 +122,7 @@ in
             networks = [ "traefik" ];
             restart = "unless-stopped";
             labels = {
-              "wud.tag.include" = "^\d+\.\d+(\.\d+)?-alpine$";
+              "wud.tag.include" = ''^\d+\.\d+(\.\d+)?-alpine$'';
             };
           };
 
@@ -137,7 +141,7 @@ in
               (storeFor "whatsupdocker" "/store")
             ];
             labels = {
-              "wud.tag.include" = "^\d+\.\d+(\.\d+)?$";
+              "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
             };
           };
 
@@ -148,15 +152,16 @@ in
                 (toString (lib.getExe pkgs.dnsmasq))
                 "--keep-in-foreground"
                 "--log-facility=-"
-                "--address=/homeassistant.server.local/${staticIP.homeassistant}"
+                "--address=/homeassistant.server.local/${staticIPs.homeassistant}"
               ];
               contents = with pkgs.dockerTools; [ fakeNss helpers.dnsmasq ];
             };
             service = {
               container_name = "dnsmasq";
-              # restart = "unless-stopped";
-              # user = userSetting;
-              networks.tailscale.ipv4_address = staticIP.dnsmasq;
+              stop_signal = "SIGKILL";
+              restart = "unless-stopped";
+              user = userSetting;
+              networks.tailscale.ipv4_address = staticIPs.dnsmasq;
               labels = {
                 "wud.watch" = "false";
               };
@@ -175,13 +180,16 @@ in
               TS_ROUTES = "172.32.0.0/24";
               TS_EXTRA_ARGS = "--hostname=homeassistant-nixos";
             };
-            networks.tailscale = { };
+            networks.tailscale.ipv4_address = staticIPs.tailscale;
             volumes = [
               (storeFor "tailscale" "/etc/tailscaled_state")
               "${config.age.secrets.tailscale-key.path}:/var/run/key.txt:ro"
               "${helpers.tailscaleEntryPoint}:/usr/local/bin/custom-entrypoint.sh:ro"
             ];
             depends_on = [ "dnsmasq" ];
+            labels = {
+              "wud.tag.exclude" = "^unstable.*$";
+            };
           };
 
           # Home Automation
@@ -252,6 +260,7 @@ in
             user = userSetting;
             environment = {
               TZ = "${config.time.timeZone}";
+              NODE_RED_ENABLE_PROJECTS = "true";
             };
             restart = "unless-stopped";
             networks = [ "traefik" "default" ];
@@ -265,7 +274,7 @@ in
           };
 
           homeassistant.service = {
-            image = "homeassistant/home-assistant:2023.6";
+            image = "homeassistant/home-assistant:2023.7";
             container_name = "homeassistant";
             user = userSetting;
             environment = {
@@ -275,7 +284,7 @@ in
             networks = {
               default = { };
               traefik = { };
-              tailscale.ipv4_address = staticIP.homeassistant;
+              tailscale.ipv4_address = staticIPs.homeassistant;
             };
             capabilities = {
               CAP_NET_RAW = true;
@@ -286,7 +295,7 @@ in
               # "${config.age.secrets.ha-secrets.path}:/config/secrets.yaml"
             ];
             labels = {
-              "wud.tag.include" = "^\d+\.\d+(\.\d+)?$";
+              "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
               "wud.display.icon" = "si:homeassistant";
             };
             depends_on = [

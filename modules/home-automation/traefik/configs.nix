@@ -17,7 +17,7 @@ let
 
     entryPoints = {
       web.address = ":80";
-      ha.address = ":8123";
+      # ha.address = ":8123";
     };
   };
 
@@ -25,7 +25,7 @@ let
     http = {
       routers = {
         homeassistant = {
-          entryPoints = [ "web" "ha" ];
+          entryPoints = [ "web" ];
           rule = "Host(`homeassistant.server.local`)";
           service = "homeassistant";
         };
@@ -54,11 +54,6 @@ let
           rule = "Host(`portainer.server.local`)";
           service = "portainer";
         };
-        glances = {
-          entryPoints = [ "web" ];
-          rule = "Host(`glances.server.local`)";
-          service = "glances";
-        };
         homer = {
           entryPoints = [ "web" ];
           rule = "Host(`server.local`)";
@@ -68,7 +63,7 @@ let
       services = {
         homeassistant = {
           loadBalancer = {
-            servers = [{ url = "http://homeassistant:8123"; }];
+            servers = [{ url = "http://homeassistant:80"; }];
           };
         };
         nodered = {
@@ -94,11 +89,6 @@ let
         portainer = {
           loadBalancer = {
             servers = [{ url = "http://portainer:9000"; }];
-          };
-        };
-        glances = {
-          loadBalancer = {
-            servers = [{ url = "http://glances:61208"; }];
           };
         };
         homer = {
