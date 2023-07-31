@@ -32,11 +32,11 @@ in
       telegram-airtable-bot-config = ({
         file = pathFor "telegram_airtable_bot_config_main.yaml.age";
       } // permissions);
+      mosquitto-passwords = ({
+        file = pathFor "mosquitto_passwords_hashed.txt.age";
+      } // permissions);
       # ha-secrets = ({
       #   file = ./secrets/ha_secrets.age;
-      # } // permissions);
-      # mosquitto-passwords = ({
-      #   file = ./secrets/mosquitto_passwords.age;
       # } // permissions);
       # zigbee2mqtt-secrets = ({
       #   file = ./secrets/zigbee2mqtt_secrets.age;

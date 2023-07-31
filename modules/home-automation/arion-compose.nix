@@ -10,17 +10,15 @@ let
     homeassistant = "172.32.0.5";
   };
 
-  dnsmasqHelper = pkgs.runCommand "dnsmasq-mkdir" { } ''
-    mkdir -p $out/var/run/
-  '';
+  configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) ({
+    traefik = ./traefik/configs.nix;
+    mosquitto = ./mosquitto/config.nix;
+  });
 
-  traefikConfigs = pkgs.callPackage ./traefik/configs.nix { };
-
-  tailscaleEntrypoint = pkgs.writeScript "tailscale-entrypoint.sh" ''
-    #!/bin/sh
-    export TS_AUTH_KEY=$(cat /var/run/key.txt)
-    /usr/local/bin/containerboot
-  '';
+  helpers = builtins.mapAttrs (_: path: pkgs.callPackage path { }) ({
+    dnsmasq = ./dnsmasq/helper.nix;
+    tailscaleEntryPoint = ./tailscale/entrypoint.nix;
+  });
 in
 {
 
@@ -82,8 +80,8 @@ in
               networks = [ "traefik" ];
               volumes = [
                 "/var/run/docker.sock:/var/run/docker.sock:ro"
-                "${traefikConfigs.static}:/config/static.yaml:ro"
-                "${traefikConfigs.dynamic}:/config/dynamic.yaml:ro"
+                "${configs.traefik.static}:/config/static.yaml:ro"
+                "${configs.traefik.dynamic}:/config/dynamic.yaml:ro"
               ];
               restart = "unless-stopped";
               labels = {
@@ -152,7 +150,7 @@ in
                 "--log-facility=-"
                 "--address=/homeassistant.server.local/${staticIP.homeassistant}"
               ];
-              contents = with pkgs.dockerTools; [ fakeNss dnsmasqHelper ];
+              contents = with pkgs.dockerTools; [ fakeNss helpers.dnsmasq ];
             };
             service = {
               container_name = "dnsmasq";
@@ -181,7 +179,7 @@ in
             volumes = [
               (storeFor "tailscale" "/etc/tailscaled_state")
               "${config.age.secrets.tailscale-key.path}:/var/run/key.txt:ro"
-              "${tailscaleEntrypoint}:/usr/local/bin/custom-entrypoint.sh:ro"
+              "${helpers.tailscaleEntryPoint}:/usr/local/bin/custom-entrypoint.sh:ro"
             ];
             depends_on = [ "dnsmasq" ];
           };
@@ -218,7 +216,8 @@ in
             user = userSetting;
             restart = "unless-stopped";
             volumes = [
-              (storeFor "mosquitto/config" "/mosquitto/config")
+              "${configs.mosquitto}:/mosquitto/config/mosquitto.conf:ro"
+              "${config.age.secrets.mosquitto-passwords.path}:/mosquitto/config/passwords.txt:ro"
               (storeFor "mosquitto/data" "/mosquitto/data")
               (storeFor "mosquitto/log" "/mosquitto/log")
             ];
