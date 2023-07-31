@@ -3,7 +3,6 @@
     arion
     bat
     curl
-    firefox
     git
     htop
     vim

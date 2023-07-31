@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 with lib;
 let
   cfg = config.custom.gui;
@@ -13,6 +13,10 @@ in
 
   ###### implementation
   config = mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [
+      firefox
+    ];
+
     services.xserver = {
       enable = true;
       displayManager.lightdm.enable = true;
