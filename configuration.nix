@@ -7,7 +7,7 @@
     ./modules/nix.nix
     ./modules/users.nix
     ./modules/secrets.nix
-    ./modules/home-automation-docker.nix
+    ./modules/home-automation/arion-compose.nix
   ];
 
   system.stateVersion = "23.05";

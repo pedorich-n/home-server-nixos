@@ -14,6 +14,8 @@ let
     mkdir -p $out/var/run/
   '';
 
+  traefikConfigs = pkgs.callPackage ./traefik/configs.nix { };
+
   tailscaleEntrypoint = pkgs.writeScript "tailscale-entrypoint.sh" ''
     #!/bin/sh
     export TS_AUTH_KEY=$(cat /var/run/key.txt)
@@ -65,28 +67,28 @@ in
 
         services = {
           # Server management
-          traefik.service = {
-            image = "traefik:2.10"; # TODO: build docker image from nixpkgs?
-            container_name = "traefik";
-            command = [
-              "--api.dashboard=true"
-              "--api.insecure=true"
-              "--providers.file.filename=/config/dynamic-config.yaml" # TODO: manage by nix?
-              "--providers.file.watch=true"
-              "--entrypoints.web.address=:80"
-              "--entrypoints.ha.address=:8123"
-            ];
-            # user = userSetting;
-            ports = [ "80:80" "8123:8123" ];
-            networks = [ "traefik" ];
-            volumes = [
-              "/var/run/docker.sock:/var/run/docker.sock:ro"
-              "/home/user/ha/dynamic-config.yaml:/config/dynamic-config.yaml"
-            ];
-            restart = "unless-stopped";
-            labels = {
-              "wud.display.icon" = "si:traefikproxy";
-              "wud.tag.include" = "^\d+\.\d+(\.\d+)?$";
+          traefik = {
+            image = {
+              name = "nixpkgs-traefik";
+              command = [
+                (toString (lib.getExe pkgs.traefik))
+                "--configfile=/config/static.yaml"
+              ];
+            };
+            service = {
+              container_name = "traefik";
+              # user = userSetting;
+              ports = [ "80:80" "8123:8123" ];
+              networks = [ "traefik" ];
+              volumes = [
+                "/var/run/docker.sock:/var/run/docker.sock:ro"
+                "${traefikConfigs.static}:/config/static.yaml:ro"
+                "${traefikConfigs.dynamic}:/config/dynamic.yaml:ro"
+              ];
+              restart = "unless-stopped";
+              labels = {
+                "wud.watch" = "false";
+              };
             };
           };
 
@@ -157,6 +159,9 @@ in
               # restart = "unless-stopped";
               # user = userSetting;
               networks.tailscale.ipv4_address = staticIP.dnsmasq;
+              labels = {
+                "wud.watch" = "false";
+              };
             };
           };
 
@@ -175,8 +180,8 @@ in
             networks.tailscale = { };
             volumes = [
               (storeFor "tailscale" "/etc/tailscaled_state")
-              "${config.age.secrets.tailscale-key.path}:/var/run/key.txt"
-              "${tailscaleEntrypoint}:/usr/local/bin/custom-entrypoint.sh"
+              "${config.age.secrets.tailscale-key.path}:/var/run/key.txt:ro"
+              "${tailscaleEntrypoint}:/usr/local/bin/custom-entrypoint.sh:ro"
             ];
             depends_on = [ "dnsmasq" ];
           };
@@ -196,9 +201,9 @@ in
             };
             volumes = [
               (storeFor "mariadb" "/var/lib/mysql")
-              "${config.age.secrets.mariadb-root-password.path}:/var/lib/mysql/root_password"
-              "${config.age.secrets.mariadb-user.path}:/var/lib/mysql/user"
-              "${config.age.secrets.mariadb-password.path}:/var/lib/mysql/password"
+              "${config.age.secrets.mariadb-root-password.path}:/var/lib/mysql/root_password:ro"
+              "${config.age.secrets.mariadb-user.path}:/var/lib/mysql/user:ro"
+              "${config.age.secrets.mariadb-password.path}:/var/lib/mysql/password:ro"
             ];
             networks = [ "default" ];
             labels = {
