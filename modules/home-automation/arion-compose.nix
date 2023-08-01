@@ -12,8 +12,9 @@ let
   };
 
   configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) ({
-    traefik = ./traefik/configs.nix;
+    glances = ./glances/config.nix;
     mosquitto = ./mosquitto/config.nix;
+    traefik = ./traefik/configs.nix;
   });
 
   helpers = builtins.mapAttrs (_: path: pkgs.callPackage path { }) ({
@@ -22,19 +23,24 @@ let
   });
 in
 {
+  environment.systemPackages = with pkgs; [ arion podman-compose ];
 
-  systemd.services.arion-home-automation.after = [ "network-online.target" ];
-
-  networking = {
-    # firewall = {
-    #   allowedUDPPorts = [ 53 5353 ];
-    #   allowedTCPPorts = [ 80 8123 ];
-    # };
+  networking.firewall.interfaces."podman+" = {
+    allowedUDPPorts = [ 53 5353 ];
+    allowedTCPPorts = [ 80 ];
   };
 
+  systemd.services.arion-home-automation = {
+    after = [ "network-online.target" ];
+    serviceConfig = {
+      User = config.users.users.user.name;
+      # Group = config.users.groups.podman.name;
+      Group = config.users.users.user.group;
+    };
+  };
 
   virtualisation.arion = {
-    backend = "docker";
+    backend = "podman-socket";
     projects = {
       home-automation.settings = {
         enableDefaultNetwork = false;
@@ -69,18 +75,16 @@ in
           traefik = {
             image = {
               name = "nixpkgs-traefik";
-              command = [
-                (toString (lib.getExe pkgs.traefik))
-                "--configfile=/config/static.yaml"
-              ];
+              command = [ "traefik" "--configfile=/config/static.yaml" ];
+              contents = [ pkgs.traefik ];
             };
             service = {
               container_name = "traefik";
-              user = userSetting;
               ports = [ "80:80" ];
               networks = [ "traefik" ];
               volumes = [
-                "/var/run/docker.sock:/var/run/docker.sock:ro"
+                "/run/podman/podman.sock:/var/run/docker.sock:ro"
+                # "/var/run/docker.sock:/var/run/docker.sock:ro"
                 "${configs.traefik.static}:/config/static.yaml:ro"
                 "${configs.traefik.dynamic}:/config/dynamic.yaml:ro"
               ];
@@ -88,15 +92,18 @@ in
               labels = {
                 "wud.watch" = "false";
               };
+              capabilities = {
+                CAP_NET_BIND_SERVICE = true;
+              };
             };
           };
 
           homer.service = {
             image = "b4bz/homer:v23.05.1";
             container_name = "homer";
-            user = userSetting;
             networks = [ "traefik" ];
             restart = "unless-stopped";
+            user = userSetting;
             volumes = [
               (storeFor "homer" "/www/assets")
             ];
@@ -105,21 +112,37 @@ in
             };
           };
 
-          # TODO: use Netdata: https://learn.netdata.cloud/docs/installing/docker
+          glances = {
+            out.service = {
+              pid = "host"; # Not implemented in Arion
+            };
+            service = {
+              image = "nicolargo/glances:3.4.0.3-full";
+              container_name = "glances";
+              networks = [ "traefik" ];
+              environment = {
+                GLANCES_OPT = "--webserver --disable-left-sidebar --config /etc/glances.conf";
+              };
+              volumes = [
+                "${configs.glances}:/etc/glances.conf:ro"
+                "/run/podman/podman.sock:/var/run/podman.sock:ro"
+              ];
+            };
+          };
 
           portainer.service = {
             image = "portainer/portainer-ce:2.18.4-alpine";
             container_name = "portainer";
-            # user = userSetting;
             environment = {
               TZ = "${config.time.timeZone}";
             };
             volumes = [
-              # "/run/podman/podman.sock:/var/run/docker.sock:ro"
-              "/var/run/docker.sock:/var/run/docker.sock:ro"
+              "/run/podman/podman.sock:/var/run/docker.sock:ro"
+              # "/var/run/docker.sock:/var/run/docker.sock:ro"
               (storeFor "portainer" "/data")
             ];
             networks = [ "traefik" ];
+            # user = userSetting;
             restart = "unless-stopped";
             labels = {
               "wud.tag.include" = ''^\d+\.\d+(\.\d+)?-alpine$'';
@@ -132,12 +155,12 @@ in
             environment = {
               TZ = "${config.time.timeZone}";
             };
-            # user = userSetting;
             networks = [ "traefik" ];
+            # user = userSetting;
             restart = "unless-stopped";
             volumes = [
-              # "/run/podman/podman.sock:/var/run/docker.sock:ro"
-              "/var/run/docker.sock:/var/run/docker.sock:ro"
+              "/run/podman/podman.sock:/var/run/docker.sock:ro"
+              # "/var/run/docker.sock:/var/run/docker.sock:ro"
               (storeFor "whatsupdocker" "/store")
             ];
             labels = {
@@ -149,18 +172,17 @@ in
             image = {
               name = "nixpkgs-dnsmasq";
               command = [
-                (toString (lib.getExe pkgs.dnsmasq))
+                "dnsmasq"
                 "--keep-in-foreground"
                 "--log-facility=-"
                 "--address=/homeassistant.server.local/${staticIPs.homeassistant}"
               ];
-              contents = with pkgs.dockerTools; [ fakeNss helpers.dnsmasq ];
+              contents = with pkgs.dockerTools; [ fakeNss helpers.dnsmasq pkgs.dnsmasq ];
             };
             service = {
               container_name = "dnsmasq";
               stop_signal = "SIGKILL";
               restart = "unless-stopped";
-              user = userSetting;
               networks.tailscale.ipv4_address = staticIPs.dnsmasq;
               labels = {
                 "wud.watch" = "false";
@@ -172,7 +194,6 @@ in
             image = "tailscale/tailscale:v1.44.0";
             command = [ "/usr/local/bin/custom-entrypoint.sh" ];
             container_name = "tailscale";
-            user = userSetting;
             restart = "unless-stopped";
             environment = {
               TS_ACCEPT_DNS = "true";
@@ -181,6 +202,7 @@ in
               TS_EXTRA_ARGS = "--hostname=homeassistant-nixos";
             };
             networks.tailscale.ipv4_address = staticIPs.tailscale;
+            user = userSetting;
             volumes = [
               (storeFor "tailscale" "/etc/tailscaled_state")
               "${config.age.secrets.tailscale-key.path}:/var/run/key.txt:ro"
@@ -196,7 +218,6 @@ in
           mariadb.service = {
             image = "mariadb:11.0-jammy";
             container_name = "mariadb";
-            user = userSetting;
             restart = "unless-stopped";
             environment = {
               MARIADB_ROOT_PASSWORD_FILE = "/var/lib/mysql/root_password";
@@ -205,6 +226,7 @@ in
               MARIAD_PASSWORD_FILE = "/var/lib/mysql/password";
               TZ = "${config.time.timeZone}";
             };
+            user = userSetting;
             volumes = [
               (storeFor "mariadb" "/var/lib/mysql")
               "${config.age.secrets.mariadb-root-password.path}:/var/lib/mysql/root_password:ro"
@@ -221,7 +243,6 @@ in
           mosquitto.service = {
             image = "eclipse-mosquitto:2.0";
             container_name = "mosquitto";
-            user = userSetting;
             restart = "unless-stopped";
             volumes = [
               "${configs.mosquitto}:/mosquitto/config/mosquitto.conf:ro"
@@ -230,6 +251,7 @@ in
               (storeFor "mosquitto/log" "/mosquitto/log")
             ];
             networks = [ "default" ];
+            user = userSetting;
             labels = {
               "wud.display.icon" = "si:eclipsemosquitto";
             };
@@ -249,6 +271,7 @@ in
             devices = [ "/dev/ttyUSB0:/dev/ttyZigbee" ];
             depends_on = [ "mosquitto" ];
             networks = [ "default" "traefik" ];
+            # user = userSetting;
             labels = {
               "wud.display.icon" = "si:zigbee";
             };
@@ -257,13 +280,13 @@ in
           nodered.service = {
             image = "nodered/node-red:3.0";
             container_name = "node-red";
-            user = userSetting;
             environment = {
               TZ = "${config.time.timeZone}";
               NODE_RED_ENABLE_PROJECTS = "true";
             };
             restart = "unless-stopped";
             networks = [ "traefik" "default" ];
+            user = userSetting;
             volumes = [
               (storeFor "nodered" "/data")
             ];
@@ -276,7 +299,6 @@ in
           homeassistant.service = {
             image = "homeassistant/home-assistant:2023.7";
             container_name = "homeassistant";
-            user = userSetting;
             environment = {
               TZ = "${config.time.timeZone}";
             };
@@ -286,8 +308,10 @@ in
               traefik = { };
               tailscale.ipv4_address = staticIPs.homeassistant;
             };
+            # user = userSetting;
             capabilities = {
               CAP_NET_RAW = true;
+              CAP_NET_BIND_SERVICE = true;
             };
             volumes = [
               (storeFor "homeassistant" "/config")

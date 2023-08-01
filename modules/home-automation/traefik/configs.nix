@@ -59,6 +59,11 @@ let
           rule = "Host(`server.local`)";
           service = "homer";
         };
+        glances = {
+          entryPoints = [ "web" ];
+          rule = "Host(`glances.server.local`)";
+          service = "glances";
+        };
       };
       services = {
         homeassistant = {
@@ -94,6 +99,11 @@ let
         homer = {
           loadBalancer = {
             servers = [{ url = "http://homer:8080"; }];
+          };
+        };
+        glances = {
+          loadBalancer = {
+            servers = [{ url = "http://glances:61208"; }];
           };
         };
       };
