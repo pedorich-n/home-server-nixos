@@ -35,11 +35,11 @@ in
       mosquitto-passwords = ({
         file = pathFor "mosquitto_passwords_hashed.txt.age";
       } // permissions);
+      zigbee2mqtt-secrets = ({
+        file = pathFor "zigbee2mqtt_secrets.yaml.age";
+      } // permissions);
       # ha-secrets = ({
       #   file = ./secrets/ha_secrets.age;
-      # } // permissions);
-      # zigbee2mqtt-secrets = ({
-      #   file = ./secrets/zigbee2mqtt_secrets.age;
       # } // permissions);
     };
   };

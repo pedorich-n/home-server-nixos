@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 let
   userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
 
@@ -274,6 +274,8 @@ in
             };
             volumes = [
               (storeFor "zigbee2mqtt" "/app/data")
+              "${config.age.secrets.zigbee2mqtt-secrets.path}:/app/data/secrets.yaml:ro"
+              "${./zigbee2mqtt/configuration.yaml}:/app/data/configuration.yaml:ro"
               "/run/udev:/run/udev:ro"
             ];
             devices = [ "/dev/ttyUSB0:/dev/ttyZigbee" ];
