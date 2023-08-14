@@ -46,7 +46,7 @@ in
         enableDefaultNetwork = false;
 
         docker-compose.volumes = {
-          homer = {};
+          homer = { };
         };
 
         networks = {

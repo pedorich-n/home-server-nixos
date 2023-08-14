@@ -3,7 +3,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    flake-parts.url = "github:hercules-ci/flake-parts"; # Only here to have single entry in the flake.lock
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
     arion = {
       url = "github:hercules-ci/arion";
@@ -45,21 +45,49 @@
       };
     };
 
+    # Dev tools
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
-  outputs = { self, nixpkgs, arion, ragenix, airtable-telegram-bot, nixos-mutable-files-manager, ... } @ inputs: {
-    nixosConfigurations = {
-      nucbox5 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          arion.nixosModules.arion
-          ragenix.nixosModules.default
-          airtable-telegram-bot.nixosModules.default
-          nixos-mutable-files-manager.nixosModules.default
-          ./configuration.nix
-        ];
-        specialArgs = { inherit inputs; };
+
+  outputs = inputs@{ flake-parts, systems, ... }: flake-parts.lib.mkFlake { inherit inputs; } (rec {
+    systems = [ "x86_64-linux" ];
+    imports = [
+      inputs.treefmt-nix.flakeModule
+    ];
+
+    perSystem = { config, self', inputs', pkgs, system, ... }: {
+      packages.nucbox5 = flake.nixosConfigurations.nucbox5.config.system.build.vm;
+
+      # https://numtide.github.io/treefmt/
+      treefmt.config = {
+        projectRootFile = "flake.nix";
+        programs = {
+          nixpkgs-fmt.enable = true;
+          prettier.enable = true;
+        };
+        settings.formatter = {
+          prettier.includes = [ "*.yaml" ];
+        };
       };
     };
-    packages.x86_64-linux.nucbox5 = self.nixosConfigurations.nucbox5.config.system.build.vm;
-  };
+
+    flake = {
+      nixosConfigurations = {
+        nucbox5 = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            inputs.arion.nixosModules.arion
+            inputs.ragenix.nixosModules.default
+            inputs.airtable-telegram-bot.nixosModules.default
+            inputs.nixos-mutable-files-manager.nixosModules.default
+            ./configuration.nix
+          ];
+          specialArgs = { inherit inputs; };
+        };
+      };
+    };
+  });
 }
