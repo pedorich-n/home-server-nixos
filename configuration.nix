@@ -7,7 +7,6 @@
     ./modules/nix.nix
     ./modules/users.nix
     ./modules/secrets.nix
-    ./modules/custom/mutable-files
     ./modules/home-automation/arion-compose.nix
   ];
 
@@ -38,9 +37,6 @@
 
   custom = {
     gui.enable = false;
-    # environment.mutable-files = {
-    #   "/mnt/ha-store/test".source = ./folders_test/source;
-    # };
   };
 
 

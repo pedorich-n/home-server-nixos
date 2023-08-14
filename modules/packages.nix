@@ -5,6 +5,7 @@
     git
     htop
     jq
+    tree
     vim
   ];
 }

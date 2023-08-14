@@ -45,6 +45,10 @@ in
       home-automation.settings = {
         enableDefaultNetwork = false;
 
+        docker-compose.volumes = {
+          homer = {};
+        };
+
         networks = {
           default = {
             name = "internal";
@@ -104,8 +108,12 @@ in
             networks = [ "traefik" ];
             restart = "unless-stopped";
             user = userSetting;
+            environment = {
+              INIT_ASSETS = "1";
+            };
             volumes = [
-              (storeFor "homer" "/www/assets")
+              "${./homer/config.yml}:/www/assets/config.yml"
+              "homer:/www/assets/"
             ];
             labels = {
               "wud.tag.exclude" = "^latest.*$";
