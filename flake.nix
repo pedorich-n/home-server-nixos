@@ -69,7 +69,10 @@
           prettier.enable = true;
         };
         settings.formatter = {
-          prettier.includes = [ "*.yaml" ];
+          prettier.includes = [
+            "*.json"
+            "*.yaml"
+          ];
         };
       };
     };

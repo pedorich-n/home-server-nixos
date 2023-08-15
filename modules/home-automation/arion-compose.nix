@@ -45,10 +45,6 @@ in
       home-automation.settings = {
         enableDefaultNetwork = false;
 
-        docker-compose.volumes = {
-          homer = { };
-        };
-
         networks = {
           default = {
             name = "internal";
@@ -112,8 +108,8 @@ in
               INIT_ASSETS = "1";
             };
             volumes = [
-              "${./homer/config.yml}:/www/assets/config.yml"
-              "homer:/www/assets/"
+              # configuration file is managed by environment.mutable-files
+              (storeFor "homer" "/www/assets")
             ];
             labels = {
               "wud.tag.exclude" = "^latest.*$";
@@ -273,9 +269,9 @@ in
               TZ = "${config.time.timeZone}";
             };
             volumes = [
+              # configuration file is managed by environment.mutable-files
               (storeFor "zigbee2mqtt" "/app/data")
               "${config.age.secrets.zigbee2mqtt-secrets.path}:/app/data/secrets.yaml:ro"
-              "${./zigbee2mqtt/configuration.yaml}:/app/data/configuration.yaml:ro"
               "/run/udev:/run/udev:ro"
             ];
             devices = [ "/dev/ttyUSB0:/dev/ttyZigbee" ];
@@ -326,7 +322,7 @@ in
             volumes = [
               (storeFor "homeassistant" "/config")
               (storeFor "homeassistant/local" "/.local")
-              # "${config.age.secrets.ha-secrets.path}:/config/secrets.yaml"
+              "${config.age.secrets.ha-secrets.path}:/config/secrets.yaml"
             ];
             labels = {
               "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';

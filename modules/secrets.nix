@@ -38,9 +38,9 @@ in
       zigbee2mqtt-secrets = ({
         file = pathFor "zigbee2mqtt_secrets.yaml.age";
       } // permissions);
-      # ha-secrets = ({
-      #   file = ./secrets/ha_secrets.age;
-      # } // permissions);
+      ha-secrets = ({
+        file = pathFor "ha_secrets.yaml.age";
+      } // permissions);
     };
   };
 }
