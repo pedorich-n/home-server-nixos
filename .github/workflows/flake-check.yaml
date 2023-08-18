@@ -5,11 +5,13 @@ jobs:
   nix-flake-check:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_ACTION_KEY }}
       - name: Checkout repository
         uses: actions/checkout@v3.5.3
       - name: Install Nix
         uses: cachix/install-nix-action@v22
-        with:
-          github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Flake Check
         run: nix flake check
