@@ -11,16 +11,16 @@ let
     tailscale = "172.32.0.10";
   };
 
-  configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) ({
+  configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
     glances = ./glances/config.nix;
     mosquitto = ./mosquitto/config.nix;
     traefik = ./traefik/configs.nix;
-  });
+  };
 
-  helpers = builtins.mapAttrs (_: path: pkgs.callPackage path { }) ({
+  helpers = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
     dnsmasq = ./dnsmasq/helper.nix;
     tailscaleEntryPoint = ./tailscale/entrypoint.nix;
-  });
+  };
 in
 {
   environment.systemPackages = with pkgs; [ arion podman-compose ];

@@ -1,5 +1,0 @@
-{
-  services.sshd = {
-    enable = true;
-  };
-}

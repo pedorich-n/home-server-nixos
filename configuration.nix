@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }: {
+{
   imports = [
     ./modules/hardware
     ./modules/services
@@ -11,12 +11,6 @@
   ];
 
   system.stateVersion = "23.05";
-
-  #nixpkgs.overlays = [ (import ./overlays inputs) ];
-
-  # virtualisation.docker = {
-  #   enable = true;
-  # };
 
   i18n = {
     defaultLocale = "en_US.UTF-8";
@@ -38,11 +32,6 @@
   custom = {
     gui.enable = false;
   };
-
-
-  # programs = {
-  #   zsh.enable = true;
-  # };
 
   time.timeZone = "Asia/Tokyo";
 

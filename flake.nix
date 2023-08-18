@@ -46,26 +46,44 @@
     };
 
     # Dev tools
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
     };
   };
 
-  outputs = inputs@{ flake-parts, systems, ... }: flake-parts.lib.mkFlake { inherit inputs; } (rec {
+  outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } rec {
     systems = [ "x86_64-linux" ];
     imports = [
       inputs.treefmt-nix.flakeModule
+      inputs.pre-commit-hooks.flakeModule
     ];
 
-    perSystem = { config, self', inputs', pkgs, system, ... }: {
-      packages.nucbox5 = flake.nixosConfigurations.nucbox5.config.system.build.vm;
+    perSystem = { config, ... }: {
+      packages = {
+        # nucbox5 = flake.nixosConfigurations.nucbox5.config.system.build.vm;
+      };
 
-      # https://numtide.github.io/treefmt/
+      devShells = {
+        pre-commit = config.pre-commit.devShell;
+      };
+
       treefmt.config = {
         projectRootFile = "flake.nix";
         programs = {
+          # Nix
           nixpkgs-fmt.enable = true;
+
+          # Other
           prettier.enable = true;
         };
         settings.formatter = {
@@ -73,6 +91,17 @@
             "*.json"
             "*.yaml"
           ];
+        };
+      };
+
+      pre-commit.settings = {
+        settings.treefmt.package = config.treefmt.build.wrapper;
+
+        hooks = {
+          deadnix.enable = true;
+          statix.enable = true;
+
+          treefmt.enable = true;
         };
       };
     };
@@ -92,5 +121,5 @@
         };
       };
     };
-  });
+  };
 }
