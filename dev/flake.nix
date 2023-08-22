@@ -49,13 +49,6 @@
           # Other
           prettier.enable = true;
         };
-
-        settings.formatter = {
-          prettier.includes = [
-            "*.json"
-            "*.yaml"
-          ];
-        };
       };
 
       pre-commit.settings = {
