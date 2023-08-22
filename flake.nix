@@ -55,68 +55,16 @@
         flake-utils.follows = "flake-utils";
       };
     };
-
-    # Dev tools
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-      };
-    };
-
-    treefmt-nix = {
-      url = "github:numtide/treefmt-nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
   };
 
   outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
     systems = [ "x86_64-linux" ];
-    imports = [
-      inputs.treefmt-nix.flakeModule
-      inputs.pre-commit-hooks.flakeModule
-    ];
 
-    perSystem = { config, ... }: {
-      packages = {
-        # nucbox5 = flake.nixosConfigurations.nucbox5.config.system.build.vm;
-      };
-
-      devShells = {
-        pre-commit = config.pre-commit.devShell;
-      };
-
-      treefmt.config = {
-        projectRootFile = "flake.nix";
-        programs = {
-          # Nix
-          nixpkgs-fmt.enable = true;
-
-          # Other
-          prettier.enable = true;
-        };
-        settings.formatter = {
-          prettier.includes = [
-            "*.json"
-            "*.yaml"
-          ];
-        };
-      };
-
-      pre-commit.settings = {
-        settings.treefmt.package = config.treefmt.build.wrapper;
-
-        hooks = {
-          deadnix.enable = true;
-          statix.enable = true;
-
-          treefmt.enable = true;
-        };
-      };
-    };
+    # perSystem = { config, lib, pkgs, inputs', ... }: {
+    #   packages = {
+    #     nucbox5 = flake.nixosConfigurations.nucbox5.config.system.build.vm;
+    #   };
+    # };
 
     flake = {
       nixosConfigurations = {
