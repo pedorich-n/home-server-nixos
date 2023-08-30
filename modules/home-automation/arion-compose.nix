@@ -2,8 +2,7 @@
 let
   userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
 
-  storeRoot = "/mnt/ha-store";
-  storeFor = localPath: remotePath: "${storeRoot}/${localPath}:${remotePath}";
+  storeFor = localPath: remotePath: "/mnt/ha-store/${localPath}:${remotePath}";
 
   staticIPs = {
     dnsmasq = "172.32.0.2";
@@ -34,7 +33,6 @@ in
     after = [ "network-online.target" ];
     serviceConfig = {
       User = config.users.users.user.name;
-      # Group = config.users.groups.podman.name;
       Group = config.users.users.user.group;
     };
   };
