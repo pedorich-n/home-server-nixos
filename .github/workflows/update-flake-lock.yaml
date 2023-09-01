@@ -5,7 +5,7 @@ on:
     - cron: "0 10 1,14 * *"
 
 jobs:
-  lockfile:
+  update-flake-locks:
     runs-on: ubuntu-latest
     steps:
       - name: Setup SSH agent

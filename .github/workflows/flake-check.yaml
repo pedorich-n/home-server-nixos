@@ -1,5 +1,5 @@
 name: nix-flake-check
-on: 
+on:
   push:
   pull_request:
 
