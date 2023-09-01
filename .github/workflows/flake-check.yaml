@@ -1,7 +1,5 @@
 name: nix-flake-check
-on:
-  push:
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   nix-flake-check:

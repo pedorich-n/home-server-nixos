@@ -19,6 +19,7 @@ jobs:
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@v20
         with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
           branch: update_flake_lock_action
           pr-title: "Update flake.lock"
           pr-labels: |
@@ -27,6 +28,7 @@ jobs:
       - name: Update dev flake.lock
         uses: DeterminateSystems/update-flake-lock@v20
         with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
           branch: update_dev_flake_lock_action
           path-to-flake-dir: ./dev
           pr-title: "Update dev flake.lock"
