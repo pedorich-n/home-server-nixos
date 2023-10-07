@@ -97,13 +97,14 @@ in
           };
 
           homer.service = {
-            image = "b4bz/homer:v23.05.1";
+            image = "b4bz/homer:v23.09.1";
             container_name = "homer";
             networks = [ "traefik" ];
             restart = "unless-stopped";
             user = userSetting;
             environment = {
               INIT_ASSETS = "1";
+              PORT = "8080";
             };
             volumes = [
               # configuration file is managed by environment.mutable-files
@@ -133,7 +134,7 @@ in
           };
 
           portainer.service = {
-            image = "portainer/portainer-ce:2.19.0-alpine";
+            image = "portainer/portainer-ce:2.19.1-alpine";
             container_name = "portainer";
             environment = {
               TZ = "${config.time.timeZone}";
@@ -193,7 +194,7 @@ in
           };
 
           tailscalse.service = {
-            image = "tailscale/tailscale:v1.48.1";
+            image = "tailscale/tailscale:v1.50.1";
             command = [ "/usr/local/bin/custom-entrypoint.sh" ];
             container_name = "tailscale";
             restart = "unless-stopped";
@@ -243,7 +244,7 @@ in
           };
 
           mosquitto.service = {
-            image = "eclipse-mosquitto:2.0.17";
+            image = "eclipse-mosquitto:2.0.18";
             container_name = "mosquitto";
             restart = "unless-stopped";
             volumes = [
@@ -260,7 +261,7 @@ in
           };
 
           zigbee2mqtt.service = {
-            image = "koenkk/zigbee2mqtt:1.33.0";
+            image = "koenkk/zigbee2mqtt:1.33.1";
             container_name = "zigbee2mqtt";
             restart = "unless-stopped";
             environment = {
@@ -301,7 +302,7 @@ in
           };
 
           homeassistant.service = {
-            image = "homeassistant/home-assistant:2023.9.0";
+            image = "homeassistant/home-assistant:2023.10.1";
             container_name = "homeassistant";
             environment = {
               TZ = "${config.time.timeZone}";

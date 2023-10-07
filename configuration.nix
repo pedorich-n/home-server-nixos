@@ -7,6 +7,7 @@
     ./modules/nix.nix
     ./modules/users.nix
     ./modules/secrets.nix
+    ./modules/switch-diff.nix
     ./modules/home-automation
   ];
 
