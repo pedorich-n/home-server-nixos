@@ -29,7 +29,7 @@
     };
 
     home-server-nixos-secrets = {
-      url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets";
+      url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets?ref=main";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         flake-parts.follows = "flake-parts";
