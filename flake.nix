@@ -10,6 +10,25 @@
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
     };
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
+
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
+
+    crane = {
+      url = "github:ipetkov/crane";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+      };
+    };
 
     arion = {
       url = "github:hercules-ci/arion";
@@ -24,6 +43,8 @@
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         flake-utils.follows = "flake-utils";
+        rust-overlay.follows = "rust-overlay";
+        crane.follows = "crane";
         # agenix.inputs.darwin.follows = ""; # https://github.com/NixOS/nix/issues/5790
       };
     };
@@ -59,17 +80,25 @@
     nix-minecraft = {
       url = "github:Infinidoge/nix-minecraft";
       inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
         flake-utils.follows = "flake-utils";
+        flake-compat.follows = "flake-compat";
       };
+    };
+
+
+    playit-agent-source = {
+      url = "github:playit-cloud/playit-agent";
+      flake = false;
     };
   };
 
   outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
     systems = [ "x86_64-linux" ];
 
-    # perSystem = { config, lib, pkgs, inputs', ... }: {
+    # perSystem = { config, lib, inputs', system, ... }: {
     #   packages = {
-    #     nucbox5 = flake.nixosConfigurations.nucbox5.config.system.build.vm;
+    #    nucbox5 = flake.nixosConfigurations.nucbox5.config.system.build.vm;
     #   };
     # };
 
