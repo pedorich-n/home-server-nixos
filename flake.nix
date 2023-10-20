@@ -55,6 +55,13 @@
         flake-utils.follows = "flake-utils";
       };
     };
+
+    nix-minecraft = {
+      url = "github:Infinidoge/nix-minecraft";
+      inputs = {
+        flake-utils.follows = "flake-utils";
+      };
+    };
   };
 
   outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
@@ -75,6 +82,7 @@
             inputs.ragenix.nixosModules.default
             inputs.airtable-telegram-bot.nixosModules.default
             inputs.nixos-mutable-files-manager.nixosModules.default
+            inputs.nix-minecraft.nixosModules.minecraft-servers
             ./configuration.nix
           ];
           specialArgs = { inherit inputs; };

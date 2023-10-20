@@ -5,6 +5,7 @@
     ./modules/packages.nix
     ./modules/virtualisation.nix
     ./modules/nix.nix
+    ./modules/nixpkgs.nix
     ./modules/users.nix
     ./modules/secrets.nix
     ./modules/switch-diff.nix
@@ -32,6 +33,8 @@
 
   custom = {
     gui.enable = false;
+    godns.enable = true;
+    minecraft-servers.enable = true;
   };
 
   time.timeZone = "Asia/Tokyo";
