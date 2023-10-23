@@ -41,8 +41,8 @@ in
       ha-secrets = {
         file = pathFor "ha_secrets.yaml.age";
       } // permissions;
-      duckdns-key = {
-        file = pathFor "duckdns_key.txt.age";
+      playit-secret = {
+        file = pathFor "playit_secret.toml.age";
       } // permissions;
     };
   };

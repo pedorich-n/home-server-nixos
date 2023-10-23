@@ -2,11 +2,6 @@
 with lib;
 let
   cfg = config.custom.playit;
-
-  generateToml = filename: content: (pkgs.formats.toml { }).generate filename content;
-  secret = generateToml "playit.toml" {
-    secret_key = "be938ed30f0d5d36cbe01cd76125d8b307158fbd3993b278f1b505298b899afb";
-  };
 in
 {
   ###### interface
@@ -21,7 +16,12 @@ in
     environment.systemPackages = [ pkgs.playit-cli ];
     services.playit = {
       enable = true;
-      secretPath = secret;
+      user = config.users.users.user.name;
+      group = config.users.users.user.group;
+      secretPath = config.age.secrets.playit-secret.path;
+      runOverride = {
+        "62884177-5592-45a9-9662-492b42407881" = { port = 43000; };
+      };
     };
   };
 }
