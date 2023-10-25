@@ -38,10 +38,25 @@ in
 
           symlinks = with pkgs; {
             mods = linkFarmFromDrvs "mods" (builtins.attrValues {
+              FabricApi = fetchurl {
+                # Lightweight and modular API providing common hooks and intercompatibility measures utilized by mods using the Fabric toolchain.
+                url = "https://cdn.modrinth.com/data/P7dR8mSH/versions/ZI1BEw1i/fabric-api-0.90.4%2B1.20.2.jar";
+                sha512 = "31f3b114c2b37bae5419e162d212bc7aaffcad9df122e94d2a461e9f92d694af6ab5b7a2d9684f6df75dd7df5c7b0d2ce8df2046fd6bccd8dd4fa0fa3a3727de";
+              };
               FerriteCore = fetchurl {
                 # Memory usage optimizations
                 url = "https://cdn.modrinth.com/data/uXXizFIs/versions/unerR5MN/ferritecore-6.0.1-fabric.jar";
                 sha512 = "9b7dc686bfa7937815d88c7bbc6908857cd6646b05e7a96ddbdcada328a385bd4ba056532cd1d7df9d2d7f4265fd48bd49ff683f217f6d4e817177b87f6bc457";
+              };
+              Floodgate = fetchurl {
+                # Hybrid mode plugin to allow for connections from Geyser to join online mode servers.
+                url = "https://cdn.modrinth.com/data/bWrNNfkb/versions/y7veyylg/floodgate-fabric.jar";
+                sha512 = "c3b5d92eca7c9621d70ab745445d890ee74634c3dbe208e6447f08c5feae72f33c9b5c3d8e01ea27c1bb4048e9102a1a65945d2ba98feecfb43d49e79cbd6254";
+              };
+              Geyser = fetchurl {
+                # A bridge/proxy allowing you to connect to Minecraft: Java Edition servers with Minecraft: Bedrock Edition.
+                url = "https://cdn.modrinth.com/data/wKkoqHrH/versions/CNONDqIv/geyser-fabric-2.2.0-SNAPSHOT%2Bbuild.339.jar";
+                sha512 = "abd16cd0ec91d82da0f739933fe23b34eda54d6ff8f1a80eb93d16ac670559e31621dce9c16b7578f11b570198873fa43dc82b5fd2386e4afd027666614d5ce9";
               };
               Krypton = fetchurl {
                 # A mod to optimize the Minecraft networking stack
