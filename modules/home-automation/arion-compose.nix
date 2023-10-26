@@ -133,6 +133,57 @@ in
             };
           };
 
+          docker-socker-proxy = {
+            service = {
+              image = "tecnativa/docker-socket-proxy:0.1.1";
+              container_name = "docker_socket_proxy";
+              networks = [ "default" ];
+              environment = {
+                CONTAINERS = 1;
+                IMAGES = 1;
+              };
+              volumes = [
+                "/run/podman/podman.sock:/var/run/docker.sock:ro"
+              ];
+            };
+          };
+
+          netdata = {
+            out.service = {
+              pid = "host"; # Not implemented in Arion
+            };
+            service = {
+              image = "netdata/netdata:v1.43.0";
+              container_name = "netdata";
+              hostname = "nucbox5";
+              networks = [
+                "default"
+                "traefik"
+              ];
+              capabilities = {
+                SYS_ADMIN = true;
+                SYS_PTRACE = true;
+              };
+              environment = {
+                PODMAN_HOST = "http://docker_socket_proxy:2375";
+                NETDATA_DISABLE_CLOUD = 1;
+              };
+              # user = "root:root";
+              volumes = [
+                (storeFor "netdata/cache" "/var/cache/netdata")
+                (storeFor "netdata/config" "/etc/netdata")
+                (storeFor "netdata/data" "/var/lib/netdata")
+                # "/run/podman/podman.sock:/run/podman/podman.sock:ro"
+                "/etc/passwd:/host/etc/passwd:ro"
+                "/etc/group:/host/etc/group:ro"
+                "/proc:/host/proc:ro"
+                "/sys:/host/sys:ro"
+                "/etc/os-release:/host/etc/os-release:ro"
+              ];
+              # depends_on = [ "docker_socket_proxy" ];
+            };
+          };
+
           portainer.service = {
             image = "portainer/portainer-ce:2.19.1-alpine";
             container_name = "portainer";
