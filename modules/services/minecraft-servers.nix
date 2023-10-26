@@ -13,6 +13,10 @@ in
 
   ###### implementation
   config = mkIf cfg.enable {
+    networking.firewall = {
+      allowedUDPPorts = [ 19132 ]; # For Geyser
+    };
+
     services.minecraft-servers = {
       enable = true;
       openFirewall = true;
