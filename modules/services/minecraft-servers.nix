@@ -33,10 +33,11 @@ in
           serverProperties = {
             server-port = 43000;
             difficulty = 2;
-            enable-status = true;
             level-name = "the_best_1";
             motd = "NixOS Managed Server. Humans are not allowed.";
             max-players = 10;
+            enable-status = true;
+            enforce-secure-profile = false;
           };
           jvmOpts = "-Xms1024M -Xmx4092M";
 
