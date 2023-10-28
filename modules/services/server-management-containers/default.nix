@@ -1,0 +1,5 @@
+{
+  imports = [
+    ./arion-compose.nix
+  ];
+}

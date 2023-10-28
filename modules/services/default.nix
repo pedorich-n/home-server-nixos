@@ -6,5 +6,7 @@
     ./minecraft-servers.nix
     ./playit.nix
     ./traefik.nix
+    ./server-management-containers
+    ./home-automation
   ];
 }

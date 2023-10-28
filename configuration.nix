@@ -9,7 +9,6 @@
     ./modules/users.nix
     ./modules/secrets.nix
     ./modules/switch-diff.nix
-    ./modules/home-automation
   ];
 
   system.stateVersion = "23.05";
