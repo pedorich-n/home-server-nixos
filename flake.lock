@@ -490,6 +490,39 @@
         "type": "github"
       }
     },
+    "playit-nixos-module": {
+      "inputs": {
+        "crane": [
+          "crane"
+        ],
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "playit-agent-source": "playit-agent-source",
+        "rust-overlay": [
+          "rust-overlay"
+        ]
+      },
+      "locked": {
+        "lastModified": 1698458392,
+        "narHash": "sha256-54lxnL+Xq10+hWnIUHrVwcqvEH/ydnARFoLJdXoK1eA=",
+        "ref": "refs/heads/main",
+        "rev": "2ca8c8230799b9e727b56b521c2cf7e75fd35f17",
+        "revCount": 5,
+        "type": "git",
+        "url": "ssh://git@github.com/pedorich-n/playit-nixos-module"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/pedorich-n/playit-nixos-module"
+      }
+    },
     "poetry2nix": {
       "inputs": {
         "flake-utils": [
@@ -587,7 +620,7 @@
         "nixos-mutable-files-manager": "nixos-mutable-files-manager",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "playit-agent-source": "playit-agent-source",
+        "playit-nixos-module": "playit-nixos-module",
         "ragenix": "ragenix",
         "rust-overlay": "rust-overlay",
         "systems": "systems"

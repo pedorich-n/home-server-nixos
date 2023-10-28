@@ -86,10 +86,15 @@
       };
     };
 
-
-    playit-agent-source = {
-      url = "github:playit-cloud/playit-agent";
-      flake = false;
+    playit-nixos-module = {
+      url = "git+ssh://git@github.com/pedorich-n/playit-nixos-module";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        flake-parts.follows = "flake-parts";
+        flake-utils.follows = "flake-utils";
+        rust-overlay.follows = "rust-overlay";
+        crane.follows = "crane";
+      };
     };
   };
 
@@ -112,6 +117,7 @@
             inputs.airtable-telegram-bot.nixosModules.default
             inputs.nixos-mutable-files-manager.nixosModules.default
             inputs.nix-minecraft.nixosModules.minecraft-servers
+            inputs.playit-nixos-module.nixosModules.default
             ./configuration.nix
           ];
           specialArgs = { inherit inputs; };

@@ -10,7 +10,6 @@
     ./modules/secrets.nix
     ./modules/switch-diff.nix
     ./modules/home-automation
-    ./modules/playit.nix
   ];
 
   system.stateVersion = "23.05";
@@ -34,7 +33,6 @@
 
   custom = {
     gui.enable = false;
-    playit.enable = true;
     minecraft-servers.enable = true;
   };
 

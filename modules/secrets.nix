@@ -43,7 +43,10 @@ in
       } // permissions;
       playit-secret = {
         file = pathFor "playit_secret.toml.age";
-      } // permissions;
+        mode = "440";
+        owner = "playit";
+        group = "playit";
+      };
     };
   };
 }
