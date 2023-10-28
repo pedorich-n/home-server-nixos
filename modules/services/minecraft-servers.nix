@@ -2,6 +2,14 @@
 with lib;
 let
   cfg = config.custom.minecraft-servers;
+
+  generateJson = filename: content: (pkgs.formats.json { }).generate filename content;
+
+  opsFile = generateJson "ops.json" [{
+    uuid = "d4ff6d7d-da01-472d-b8d0-2f5b29e20b32";
+    name = "SlickFerret";
+    level = "4";
+  }];
 in
 {
   ###### interface
@@ -42,7 +50,13 @@ in
           jvmOpts = "-Xms1024M -Xmx4092M";
 
           symlinks = with pkgs; {
+            "ops.json" = opsFile;
             mods = linkFarmFromDrvs "mods" (builtins.attrValues {
+              DiscordIntegration = fetchurl {
+                # This mod links your server chat with a channel on your discord server
+                url = "https://cdn.modrinth.com/data/rbJ7eS5V/versions/ZlLJC9ox/dcintegration-fabric-3.0.3-1.20.2.jar";
+                sha512 = "1a33f0c414caa50f87644f7972b4226e855c06fd557be8cc47f99f01e498dadc35a9f2b76ee7ed1fa88ada22560bbeab08239beb58f5cd6070f5e1cac3cbf4d2";
+              };
               FabricApi = fetchurl {
                 # Lightweight and modular API providing common hooks and intercompatibility measures utilized by mods using the Fabric toolchain.
                 url = "https://cdn.modrinth.com/data/P7dR8mSH/versions/ZI1BEw1i/fabric-api-0.90.4%2B1.20.2.jar";
