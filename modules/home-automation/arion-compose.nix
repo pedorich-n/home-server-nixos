@@ -13,7 +13,6 @@ let
   configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
     glances = ./glances/config.nix;
     mosquitto = ./mosquitto/config.nix;
-    traefik = ./traefik/configs.nix;
     netdata = ./netdata/config.nix;
   };
 
@@ -27,7 +26,7 @@ in
 
   networking.firewall.interfaces."podman+" = {
     allowedUDPPorts = [ 53 5353 ];
-    allowedTCPPorts = [ 80 ];
+    # allowedTCPPorts = [ 80 ];
   };
 
   systemd.services.arion-home-automation = {
@@ -70,33 +69,6 @@ in
         };
 
         services = {
-          # Server management
-          traefik = {
-            image = {
-              name = "nixpkgs-traefik";
-              command = [ "traefik" "--configfile=/config/static.yaml" ];
-              contents = [ pkgs.traefik ];
-            };
-            service = {
-              container_name = "traefik";
-              ports = [ "80:80" ];
-              networks = [ "traefik" ];
-              volumes = [
-                "/run/podman/podman.sock:/var/run/docker.sock:ro"
-                # "/var/run/docker.sock:/var/run/docker.sock:ro"
-                "${configs.traefik.static}:/config/static.yaml:ro"
-                "${configs.traefik.dynamic}:/config/dynamic.yaml:ro"
-              ];
-              restart = "unless-stopped";
-              labels = {
-                "wud.watch" = "false";
-              };
-              capabilities = {
-                CAP_NET_BIND_SERVICE = true;
-              };
-            };
-          };
-
           homer.service = {
             image = "b4bz/homer:v23.09.1";
             container_name = "homer";
@@ -112,6 +84,11 @@ in
               (storeFor "homer" "/www/assets")
             ];
             labels = {
+              "traefik.enable" = "true";
+              "traefik.http.routers.homer.rule" = "Host(`server.local`)";
+              "traefik.http.routers.homer.entrypoints" = "web";
+              "traefik.http.routers.homer.service" = "homer";
+              "traefik.http.services.homer.loadBalancer.server.port" = "8080";
               "wud.tag.exclude" = "^latest.*$";
             };
           };
@@ -131,6 +108,13 @@ in
                 "${configs.glances}:/etc/glances.conf:ro"
                 "/run/podman/podman.sock:/var/run/podman.sock:ro"
               ];
+              labels = {
+                "traefik.enable" = "true";
+                "traefik.http.routers.glances.rule" = "Host(`glances.server.local`)";
+                "traefik.http.routers.glances.entrypoints" = "web";
+                "traefik.http.routers.glances.service" = "glances";
+                "traefik.http.services.glances.loadBalancer.server.port" = "61208";
+              };
             };
           };
 
@@ -183,6 +167,11 @@ in
                 "/etc/os-release:/host/etc/os-release:ro"
               ];
               labels = {
+                "traefik.enable" = "true";
+                "traefik.http.routers.netdata.rule" = "Host(`netdata.server.local`)";
+                "traefik.http.routers.netdata.entrypoints" = "web";
+                "traefik.http.routers.netdata.service" = "netdata";
+                "traefik.http.services.netdata.loadBalancer.server.port" = "19999";
                 "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
               };
               # depends_on = [ "docker_socket_proxy" ];
@@ -204,6 +193,11 @@ in
             # user = userSetting;
             restart = "unless-stopped";
             labels = {
+              "traefik.enable" = "true";
+              "traefik.http.routers.portainer.rule" = "Host(`portainer.server.local`)";
+              "traefik.http.routers.portainer.entrypoints" = "web";
+              "traefik.http.routers.portainer.service" = "portainer";
+              "traefik.http.services.portainer.loadBalancer.server.port" = "9000";
               "wud.tag.include" = ''^\d+\.\d+(\.\d+)?-alpine$'';
             };
           };
@@ -223,6 +217,11 @@ in
               (storeFor "whatsupdocker" "/store")
             ];
             labels = {
+              "traefik.enable" = "true";
+              "traefik.http.routers.whatsupdocker.rule" = "Host(`whatsupdocker.server.local`)";
+              "traefik.http.routers.whatsupdocker.entrypoints" = "web";
+              "traefik.http.routers.whatsupdocker.service" = "whatsupdocker";
+              "traefik.http.services.whatsupdocker.loadBalancer.server.port" = "3000";
               "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
             };
           };
@@ -334,6 +333,11 @@ in
             networks = [ "default" "traefik" ];
             # user = userSetting;
             labels = {
+              "traefik.enable" = "true";
+              "traefik.http.routers.zigbee2mqtt.rule" = "Host(`zigbee2mqtt.server.local`)";
+              "traefik.http.routers.zigbee2mqtt.entrypoints" = "web";
+              "traefik.http.routers.zigbee2mqtt.service" = "zigbee2mqtt";
+              "traefik.http.services.zigbee2mqtt.loadBalancer.server.port" = "8080";
               "wud.display.icon" = "si:zigbee";
             };
           };
@@ -352,6 +356,11 @@ in
               (storeFor "nodered" "/data")
             ];
             labels = {
+              "traefik.enable" = "true";
+              "traefik.http.routers.nodered.rule" = "Host(`nodered.server.local`)";
+              "traefik.http.routers.nodered.entrypoints" = "web";
+              "traefik.http.routers.nodered.service" = "nodered";
+              "traefik.http.services.nodered.loadBalancer.server.port" = "1880";
               "wud.tag.exclude" = "^latest.*$";
               "wud.display.icon" = "si:nodered";
             };
@@ -380,6 +389,11 @@ in
               "${config.age.secrets.ha-secrets.path}:/config/secrets.yaml"
             ];
             labels = {
+              "traefik.enable" = "true";
+              "traefik.http.routers.homeassistant.rule" = "Host(`homeassistant.server.local`)";
+              "traefik.http.routers.homeassistant.entrypoints" = "web";
+              "traefik.http.routers.homeassistant.service" = "homeassistant";
+              "traefik.http.services.homeassistant.loadBalancer.server.port" = "80";
               "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
               "wud.display.icon" = "si:homeassistant";
             };

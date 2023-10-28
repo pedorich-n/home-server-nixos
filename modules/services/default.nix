@@ -5,5 +5,6 @@
     ./telegram-lessons-bot.nix
     ./minecraft-servers.nix
     ./playit.nix
+    ./traefik.nix
   ];
 }
