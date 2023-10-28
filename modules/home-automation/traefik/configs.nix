@@ -64,6 +64,11 @@ let
           rule = "Host(`glances.server.local`)";
           service = "glances";
         };
+        netdata = {
+          entryPoints = [ "web" ];
+          rule = "Host(`netdata.server.local`)";
+          service = "netdata";
+        };
       };
       services = {
         homeassistant = {
@@ -104,6 +109,11 @@ let
         glances = {
           loadBalancer = {
             servers = [{ url = "http://glances:61208"; }];
+          };
+        };
+        netdata = {
+          loadBalancer = {
+            servers = [{ url = "http://netdata:19999"; }];
           };
         };
       };
