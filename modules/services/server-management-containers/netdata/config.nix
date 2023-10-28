@@ -21,7 +21,6 @@ let
       "enable cpuacct cpu shares" = "no";
       "enable swap memory" = "no";
       "enable cpu pressure" = "no";
-      "enable memory some pressure" = "no";
       "enable memory full pressure" = "no";
     };
 
@@ -34,11 +33,8 @@ let
       "/proc/pressure" = "no";
       "/proc/interrupts" = "no";
       "/proc/softirqs" = "no";
-      "/proc/net/netstat" = "yes";
-      "/proc/net/sctp/snmp" = "yes";
       "/proc/net/softnet_stat" = "no";
       "/proc/net/stat/conntrack" = "no";
-      "/proc/diskstats" = "yes";
       "ipc" = "no";
     };
 

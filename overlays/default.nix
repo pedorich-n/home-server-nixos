@@ -1,2 +1,2 @@
-inputs: _: prev:
-{ }
+/* inputs: final: prev: */
+_: _: _: { }
