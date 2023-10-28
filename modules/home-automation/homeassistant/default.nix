@@ -5,7 +5,7 @@ let
     value = {
       inherit source;
       user = config.users.users.user.name;
-      inherit (config.users.users.user) group;
+      group = config.users.users.user.group;
     };
   };
 in

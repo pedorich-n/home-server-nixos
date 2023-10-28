@@ -3,7 +3,7 @@ let
   permissions = {
     mode = "440";
     owner = config.users.users.user.name;
-    inherit (config.users.users.user) group;
+    group = config.users.users.user.group;
   };
 
   pathFor = file: "${inputs.home-server-nixos-secrets}/encrypted/${file}";
@@ -29,9 +29,6 @@ in
       tailscale-key = {
         file = pathFor "tailscale_key.txt.age";
       } // permissions;
-      telegram-airtable-bot-config = {
-        file = pathFor "telegram_airtable_bot_config_main.yaml.age";
-      } // permissions;
       mosquitto-passwords = {
         file = pathFor "mosquitto_passwords_hashed.txt.age";
       } // permissions;
@@ -40,6 +37,9 @@ in
       } // permissions;
       ha-secrets = {
         file = pathFor "ha_secrets.yaml.age";
+      } // permissions;
+      telegram-airtable-bot-config = {
+        file = pathFor "telegram_airtable_bot_config_main.yaml.age";
       } // permissions;
       playit-secret = {
         file = pathFor "playit_secret.toml.age";

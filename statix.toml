@@ -1,3 +1,4 @@
 disabled = [
-  "eta_reduction"
+  "eta_reduction",
+  "manual_inherit_from"
 ]
