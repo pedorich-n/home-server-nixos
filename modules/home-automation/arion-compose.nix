@@ -14,6 +14,7 @@ let
     glances = ./glances/config.nix;
     mosquitto = ./mosquitto/config.nix;
     traefik = ./traefik/configs.nix;
+    netdata = ./netdata/config.nix;
   };
 
   helpers = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
@@ -173,6 +174,7 @@ in
                 (storeFor "netdata/cache" "/var/cache/netdata")
                 (storeFor "netdata/config" "/etc/netdata")
                 (storeFor "netdata/data" "/var/lib/netdata")
+                "${configs.netdata}:/etc/netdata/netdata.conf:ro"
                 # "/run/podman/podman.sock:/run/podman/podman.sock:ro"
                 "/etc/passwd:/host/etc/passwd:ro"
                 "/etc/group:/host/etc/group:ro"
@@ -180,6 +182,9 @@ in
                 "/sys:/host/sys:ro"
                 "/etc/os-release:/host/etc/os-release:ro"
               ];
+              labels = {
+                "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
+              };
               # depends_on = [ "docker_socket_proxy" ];
             };
           };
