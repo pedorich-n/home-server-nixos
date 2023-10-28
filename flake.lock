@@ -312,6 +312,24 @@
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }
     },
+    "homer-theme": {
+      "flake": false,
+      "locked": {
+        "dir": "assets",
+        "lastModified": 1676025017,
+        "narHash": "sha256-Oj0PGa70VxSwxg0AtIla+OHmbDHVXXg0qHebssDyiP8=",
+        "owner": "walkxcode",
+        "repo": "homer-theme",
+        "rev": "88f17f2eaaffe6466c3d940c6f15b41a6e255bd2",
+        "type": "github"
+      },
+      "original": {
+        "dir": "assets",
+        "owner": "walkxcode",
+        "repo": "homer-theme",
+        "type": "github"
+      }
+    },
     "nix-github-actions": {
       "inputs": {
         "nixpkgs": [
@@ -623,6 +641,7 @@
         "flake-parts": "flake-parts_3",
         "flake-utils": "flake-utils",
         "home-server-nixos-secrets": "home-server-nixos-secrets",
+        "homer-theme": "homer-theme",
         "nix-minecraft": "nix-minecraft",
         "nixos-mutable-files-manager": "nixos-mutable-files-manager",
         "nixpkgs": "nixpkgs_2",

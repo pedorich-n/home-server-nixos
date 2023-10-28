@@ -97,6 +97,11 @@
         crane.follows = "crane";
       };
     };
+
+    homer-theme = {
+      url = "github:walkxcode/homer-theme?dir=assets";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
@@ -113,6 +118,7 @@
         nucbox5 = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
+            { _module.args.inputs = inputs; }
             inputs.arion.nixosModules.arion
             inputs.ragenix.nixosModules.default
             inputs.airtable-telegram-bot.nixosModules.default
