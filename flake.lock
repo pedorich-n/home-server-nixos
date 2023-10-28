@@ -507,14 +507,17 @@
         "playit-agent-source": "playit-agent-source",
         "rust-overlay": [
           "rust-overlay"
+        ],
+        "systems": [
+          "systems"
         ]
       },
       "locked": {
-        "lastModified": 1698458392,
-        "narHash": "sha256-54lxnL+Xq10+hWnIUHrVwcqvEH/ydnARFoLJdXoK1eA=",
+        "lastModified": 1698459462,
+        "narHash": "sha256-G9VF+0TluHYSSm/KEK5Iuz5Z0dROIGJcZnRv1vjf7UA=",
         "ref": "refs/heads/main",
-        "rev": "2ca8c8230799b9e727b56b521c2cf7e75fd35f17",
-        "revCount": 5,
+        "rev": "53546f2d1bb37cbd4c3da3528e86ef07dd0beb8a",
+        "revCount": 6,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/playit-nixos-module"
       },

@@ -90,6 +90,7 @@
       url = "git+ssh://git@github.com/pedorich-n/playit-nixos-module";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
+        systems.follows = "systems";
         flake-parts.follows = "flake-parts";
         flake-utils.follows = "flake-utils";
         rust-overlay.follows = "rust-overlay";
