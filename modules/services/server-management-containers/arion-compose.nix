@@ -37,31 +37,6 @@ in
         };
 
         services = {
-          glances = {
-            out.service = {
-              pid = "host"; # Not implemented in Arion
-            };
-            service = {
-              image = "nicolargo/glances:3.4.0.3-full";
-              container_name = "glances";
-              networks = [ "traefik" ];
-              environment = {
-                GLANCES_OPT = "--webserver --disable-left-sidebar --config /etc/glances.conf";
-              };
-              volumes = [
-                "${configs.glances}:/etc/glances.conf:ro"
-                "/run/podman/podman.sock:/var/run/podman.sock:ro"
-              ];
-              labels = {
-                "traefik.enable" = "true";
-                "traefik.http.routers.glances.rule" = "Host(`glances.server.local`)";
-                "traefik.http.routers.glances.entrypoints" = "web";
-                "traefik.http.routers.glances.service" = "glances";
-                "traefik.http.services.glances.loadBalancer.server.port" = "61208";
-              };
-            };
-          };
-
           docker-socker-proxy = {
             service = {
               # nightly release as of 2023-10-23
@@ -83,7 +58,7 @@ in
               pid = "host"; # Not implemented in Arion
             };
             service = {
-              image = "netdata/netdata:v1.43.0";
+              image = "netdata/netdata:v1.43.1";
               container_name = "netdata";
               hostname = "nucbox5";
               networks = [

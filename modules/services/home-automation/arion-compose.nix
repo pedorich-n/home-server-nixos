@@ -61,7 +61,7 @@ in
 
         services = {
           homer.service = {
-            image = "b4bz/homer:v23.09.1";
+            image = "b4bz/homer:v23.10.1";
             container_name = "homer";
             networks = [ "traefik" ];
             restart = "unless-stopped";
@@ -225,7 +225,7 @@ in
           };
 
           homeassistant.service = {
-            image = "homeassistant/home-assistant:2023.10.1";
+            image = "homeassistant/home-assistant:2023.10.5";
             container_name = "homeassistant";
             environment = {
               TZ = "${config.time.timeZone}";
