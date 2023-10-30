@@ -11,6 +11,7 @@ pystemd = "^0.13.2"
 toml = "^0.10.2"
 mcstatus = "^11.0.1"
 dacite = "^1.8.1"
+tenacity = "^8.2.3"
 
 [tool.poetry.scripts]
 server-check = "src.main:main"

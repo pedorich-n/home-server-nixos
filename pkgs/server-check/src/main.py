@@ -8,6 +8,8 @@ import toml
 from mcstatus import BedrockServer, JavaServer, MCServer
 from mcstatus.address import Address
 from pystemd.systemd1 import Unit as SDUnit
+from tenacity import retry, wait_fixed, retry_if_result, stop_after_attempt
+
 
 S = TypeVar("S", bound=MCServer)
 
@@ -46,6 +48,11 @@ def stringify_address(address: Address) -> str:
     return f"{address.host}:{address.port}"
 
 
+@retry(
+    wait=wait_fixed(10),
+    stop=stop_after_attempt(5),
+    retry=retry_if_result(lambda x: isinstance(x, FailedToGetServerStatus)),
+)
 def try_check_server(
     server: S, get_status: Callable[[S], ServerStatus]
 ) -> Union[FailedToGetServerStatus, ServerStatus]:
@@ -108,4 +115,3 @@ def main():
             restart_service(config.tunnel_service_name)
     else:
         logger.info("All addresses are reachable.")
-
