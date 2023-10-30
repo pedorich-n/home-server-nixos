@@ -27,6 +27,7 @@ class Config:
     local_server_address: str
     minecraft_service_name: str
     tunnel_service_name: str
+    timeout: int
 
 
 @dataclass
@@ -91,8 +92,8 @@ def main():
         data=toml.load(args.config),
     )
 
-    java_server = JavaServer.lookup(config.remote_server_address)
-    java_server_local = JavaServer.lookup(config.local_server_address)
+    java_server = JavaServer.lookup(config.remote_server_address, config.timeout)
+    java_server_local = JavaServer.lookup(config.local_server_address, config.timeout)
 
     java_server_status = try_check_server(java_server, check_java_server)
     java_server_local_status = try_check_server(java_server_local, check_java_server)
