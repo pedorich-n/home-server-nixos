@@ -118,12 +118,13 @@
   outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
     systems = [ "x86_64-linux" ];
 
-    # perSystem = { config, lib, inputs', system, pkgs, ... }: {
-    #   packages = {
-    #     #  nucbox5 = flake.nixosConfigurations.nucbox5.config.system.build.vm;
-    #     server-check = pkgs.callPackage ./pkgs/server-check { };
-    #   };
-    # };
+    perSystem = { /* config, lib, inputs', system, */ pkgs, ... }: {
+      packages = {
+        #  nucbox5 = flake.nixosConfigurations.nucbox5.config.system.build.vm;
+        # server-check = pkgs.callPackage ./pkgs/server-check { };
+        prefetch-jar = pkgs.callPackage ./pkgs/prefetch-jar { };
+      };
+    };
 
     flake = {
       nixosConfigurations = {
