@@ -8,5 +8,6 @@
     ./traefik.nix
     ./server-management-containers
     ./home-automation
+    ./server-check.nix
   ];
 }

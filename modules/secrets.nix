@@ -47,6 +47,9 @@ in
         owner = "playit";
         group = "playit";
       };
+      server-check-config = {
+        file = pathFor "server_check_config.toml.age";
+      };
     };
   };
 }

@@ -30,6 +30,17 @@
       };
     };
 
+    poetry2nix = {
+      url = "github:nix-community/poetry2nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        flake-utils.follows = "flake-utils";
+        systems.follows = "systems";
+        treefmt-nix.follows = "";
+        nix-github-actions.follows = "";
+      };
+    };
+
     arion = {
       url = "github:hercules-ci/arion";
       inputs = {
@@ -87,7 +98,7 @@
     };
 
     playit-nixos-module = {
-      url = "git+ssh://git@github.com/pedorich-n/playit-nixos-module";
+      url = "github:pedorich-n/playit-nixos-module";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         systems.follows = "systems";
@@ -107,18 +118,31 @@
   outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
     systems = [ "x86_64-linux" ];
 
-    # perSystem = { config, lib, inputs', system, ... }: {
+    # perSystem = { config, lib, inputs', system, pkgs, ... }: {
     #   packages = {
-    #    nucbox5 = flake.nixosConfigurations.nucbox5.config.system.build.vm;
+    #     #  nucbox5 = flake.nixosConfigurations.nucbox5.config.system.build.vm;
+    #     server-check = pkgs.callPackage ./pkgs/server-check { };
     #   };
     # };
 
     flake = {
       nixosConfigurations = {
-        nucbox5 = inputs.nixpkgs.lib.nixosSystem {
+        nucbox5 = inputs.nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           modules = [
-            { _module.args.inputs = inputs; }
+            {
+              _module.args = {
+                inherit inputs;
+                pkgs-unstable = import inputs.nixpkgs-unstable {
+                  inherit system;
+                  overlays = [
+                    inputs.poetry2nix.overlays.default
+                    (_: prev: { server-check = prev.callPackage ./pkgs/server-check { }; })
+                    # TODO: fix this, this looks ugly. Maybe extratc into a separate module
+                  ];
+                };
+              };
+            }
             inputs.arion.nixosModules.arion
             inputs.ragenix.nixosModules.default
             inputs.airtable-telegram-bot.nixosModules.default

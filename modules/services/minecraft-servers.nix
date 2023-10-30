@@ -54,11 +54,11 @@ in
                 url = "https://cdn.modrinth.com/data/P7dR8mSH/versions/ZI1BEw1i/fabric-api-0.90.4%2B1.20.2.jar";
                 sha512 = "31f3b114c2b37bae5419e162d212bc7aaffcad9df122e94d2a461e9f92d694af6ab5b7a2d9684f6df75dd7df5c7b0d2ce8df2046fd6bccd8dd4fa0fa3a3727de";
               };
-              FabricExporter = fetchurl {
-                # Fabric mod that adds a Prometheus exporter with general metrics of your server
-                url = "https://cdn.modrinth.com/data/dbVXHSlv/versions/hbHNI2Vs/fabricexporter-1.0.10.jar";
-                sha512 = "61d14878c66189c13670fd20ff480a5a5b1fca2047e972362f38258fd69dd33a4b7bf618e6dc08105a8d6955afd1675a1aa965c9e374c9c082ffe17c4ad06b0c";
-              };
+              # FabricExporter = fetchurl {
+              #   # Fabric mod that adds a Prometheus exporter with general metrics of your server
+              #   url = "https://cdn.modrinth.com/data/dbVXHSlv/versions/hbHNI2Vs/fabricexporter-1.0.10.jar";
+              #   sha512 = "61d14878c66189c13670fd20ff480a5a5b1fca2047e972362f38258fd69dd33a4b7bf618e6dc08105a8d6955afd1675a1aa965c9e374c9c082ffe17c4ad06b0c";
+              # };
               FerriteCore = fetchurl {
                 # Memory usage optimizations
                 url = "https://cdn.modrinth.com/data/uXXizFIs/versions/unerR5MN/ferritecore-6.0.1-fabric.jar";
@@ -94,11 +94,11 @@ in
                 url = "https://cdn.modrinth.com/data/nmDcB62a/versions/5YONh7M3/modernfix-fabric-5.8.1%2Bmc1.20.2.jar";
                 sha512 = "4ff35db3f997cbe54580db4bf73df92095496dae817952d9cba7ad7c03a5894b3d63248ff1dbd77135c97bcb4de2a03cfc98e23e6baf1d766d13f8a1c7300f9c";
               };
-              Spark = fetchurl {
-                # Performance profiler
-                url = "https://cdn.modrinth.com/data/l6YH9Als/versions/tCU9VuzX/spark-1.10.54-fabric.jar";
-                sha512 = "474ff248f395a6c42ddfec805880f67301466a2b345df5dc219c60932d9ddccfb03efc76990d6db4841a0dc3459ac4755ff875380572b723c5655e3acfcc659f";
-              };
+              # Spark = fetchurl {
+              #   # Performance profiler
+              #   url = "https://cdn.modrinth.com/data/l6YH9Als/versions/tCU9VuzX/spark-1.10.54-fabric.jar";
+              #   sha512 = "474ff248f395a6c42ddfec805880f67301466a2b345df5dc219c60932d9ddccfb03efc76990d6db4841a0dc3459ac4755ff875380572b723c5655e3acfcc659f";
+              # };
               Starlight = fetchurl {
                 # Rewrites the light engine to fix lighting performance and lighting errors
                 url = "https://cdn.modrinth.com/data/H8CaAYZC/versions/PLbxwptm/starlight-1.1.3%2Bfabric.5867eae.jar";

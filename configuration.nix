@@ -33,6 +33,7 @@
   custom = {
     gui.enable = false;
     minecraft-servers.enable = true;
+    services.server-check.enable = true;
   };
 
   time.timeZone = "Asia/Tokyo";

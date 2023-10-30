@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "server-check"
+version = "0.1.0"
+description = ""
+authors = []
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.8.1"
+pystemd = "^0.13.2"
+toml = "^0.10.2"
+mcstatus = "^11.0.1"
+dacite = "^1.8.1"
+
+[tool.poetry.scripts]
+server-check = "src.main:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

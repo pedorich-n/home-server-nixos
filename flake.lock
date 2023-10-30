@@ -298,11 +298,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1698074389,
-        "narHash": "sha256-vd/eVxBA+ghFFVhbrpRH7cE9XPGzbTi/AYZxskndaOU=",
+        "lastModified": 1698673313,
+        "narHash": "sha256-nwPPZLvQJHpcpkPFVHhp8KuE8wcuhNGJt2lIq/6Q8GM=",
         "ref": "main",
-        "rev": "57d11a42c4e782ce0295888007a9b2b3083c03d8",
-        "revCount": 18,
+        "rev": "d7f95cb7b6c42033cb036c2fe2db3ca1d8b4fea9",
+        "revCount": 19,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -531,17 +531,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1698459462,
-        "narHash": "sha256-G9VF+0TluHYSSm/KEK5Iuz5Z0dROIGJcZnRv1vjf7UA=",
-        "ref": "refs/heads/main",
-        "rev": "53546f2d1bb37cbd4c3da3528e86ef07dd0beb8a",
-        "revCount": 6,
-        "type": "git",
-        "url": "ssh://git@github.com/pedorich-n/playit-nixos-module"
+        "lastModified": 1698581215,
+        "narHash": "sha256-bT5lk+SrB3qv0cMzuctZHfslKUq+8ufXDtgFvceQ5dc=",
+        "owner": "pedorich-n",
+        "repo": "playit-nixos-module",
+        "rev": "446754f06acda4a3a25e52476150ac3116f74d70",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/pedorich-n/playit-nixos-module"
+        "owner": "pedorich-n",
+        "repo": "playit-nixos-module",
+        "type": "github"
       }
     },
     "poetry2nix": {
@@ -602,6 +602,34 @@
         "type": "github"
       }
     },
+    "poetry2nix_3": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nix-github-actions": [],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "systems": [
+          "systems"
+        ],
+        "treefmt-nix": []
+      },
+      "locked": {
+        "lastModified": 1698640399,
+        "narHash": "sha256-mXzyx79/iFLZ0UDuSkqgFfejYRcSJfsCnJ9WlMusaI0=",
+        "owner": "nix-community",
+        "repo": "poetry2nix",
+        "rev": "626111646fe236cb1ddc8191a48c75e072a82b7c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "poetry2nix",
+        "type": "github"
+      }
+    },
     "ragenix": {
       "inputs": {
         "agenix": "agenix",
@@ -647,6 +675,7 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "playit-nixos-module": "playit-nixos-module",
+        "poetry2nix": "poetry2nix_3",
         "ragenix": "ragenix",
         "rust-overlay": "rust-overlay",
         "systems": "systems_3"
