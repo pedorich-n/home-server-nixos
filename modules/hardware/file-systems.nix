@@ -8,8 +8,8 @@
       device = "/dev/disk/by-label/BOOT";
       fsType = "vfat";
     };
-    "/mnt/debian" = {
-      device = "/dev/disk/by-label/debian";
+    "/mnt/store" = {
+      device = "/dev/disk/by-label/store";
       fsType = "ext4";
     };
     "/mnt/ha-store" = {

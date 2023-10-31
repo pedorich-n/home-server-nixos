@@ -22,7 +22,7 @@ in
       enable = true;
       openFirewall = true;
       eula = true;
-      dataDir = "/mnt/ha-store/minecraft";
+      dataDir = "/mnt/store/minecraft";
 
       servers = {
         "money-guys-1" = {
@@ -39,6 +39,7 @@ in
             max-players = 10;
             enable-status = true;
             enforce-secure-profile = false;
+            max-world-size = 8000; # Value is a radius, so the world size is 16000x16000
           };
           jvmOpts = "-Xms1024M -Xmx4092M";
 

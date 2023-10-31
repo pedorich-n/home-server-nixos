@@ -4,5 +4,5 @@ writeShellScriptBin "nix-modrinth-prefetch" ''
   path=$(${nix}/bin/nix-prefetch-url --print-path "$url" | tail -1)
   hash=$(nix-hash --type sha512 --flat "$path")
 
-  echo "fetchurl { url = \"$url\"; sha512 = \"$hash\" }"
+  echo "fetchurl { url = \"$url\"; sha512 = \"$hash\"; }"
 ''
