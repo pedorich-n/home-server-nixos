@@ -1,15 +1,14 @@
 import argparse
 import logging
 from dataclasses import dataclass
-from typing import Callable, TypeVar, Union, get_args, get_origin
+from typing import Callable, TypeVar, Union
 
 import dacite
 import toml
 from mcstatus import BedrockServer, JavaServer, MCServer
 from mcstatus.address import Address
 from pystemd.systemd1 import Unit as SDUnit
-from tenacity import retry, wait_fixed, retry_if_result, stop_after_attempt
-
+from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_fixed
 
 S = TypeVar("S", bound=MCServer)
 
@@ -48,11 +47,7 @@ def stringify_address(address: Address) -> str:
     return f"{address.host}:{address.port}"
 
 
-@retry(
-    wait=wait_fixed(10),
-    stop=stop_after_attempt(5),
-    retry=retry_if_result(lambda x: isinstance(x, FailedToGetServerStatus)),
-)
+@retry(wait=wait_fixed(10), stop=stop_after_attempt(3), retry=retry_if_exception_type(), reraise=True)
 def try_check_server(
     server: S, get_status: Callable[[S], ServerStatus]
 ) -> Union[FailedToGetServerStatus, ServerStatus]:

@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  _.module.args.minecraftLib = pkgs.callPackage ./lib.nix { };
+  _module.args.minecraftLib = pkgs.callPackage ./lib.nix { };
 
   imports = [
     ./money-guys-1
