@@ -365,11 +365,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1698471646,
-        "narHash": "sha256-+1c4oNDPUtT4iuipUvmw/4xaTKT7zLMgSYqZx8R6icg=",
+        "lastModified": 1698628585,
+        "narHash": "sha256-LYm82sNbT/jJDhZKabErQ+WvkdqzWYiFcCKDe/d0sYs=",
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "0581ffbd2fbc223edf1baae72efbf7f96f190d0a",
+        "rev": "cf1eaf82f209521cd1bfd216d57f8726dc4ded8a",
         "type": "github"
       },
       "original": {
@@ -495,15 +495,16 @@
     "playit-agent-source": {
       "flake": false,
       "locked": {
-        "lastModified": 1698070946,
-        "narHash": "sha256-H3dknrL5BWz+BaJsI4MetkyueS8xk0K6+/OJCKaowWU=",
-        "owner": "playit-cloud",
+        "lastModified": 1698808677,
+        "narHash": "sha256-KZx4drFJWUF8q8hsEHVxlWJ6Y6qXQe7rjp1rMap2tV4=",
+        "owner": "pedorich-n",
         "repo": "playit-agent",
-        "rev": "0006045dc4c4f743564401301f5863752ff8bc49",
+        "rev": "66d474ba45879d505743a3e02e0626a1c1733917",
         "type": "github"
       },
       "original": {
-        "owner": "playit-cloud",
+        "owner": "pedorich-n",
+        "ref": "lookup-add-port-check",
         "repo": "playit-agent",
         "type": "github"
       }
@@ -522,7 +523,9 @@
         "nixpkgs": [
           "nixpkgs-unstable"
         ],
-        "playit-agent-source": "playit-agent-source",
+        "playit-agent-source": [
+          "playit-agent-source"
+        ],
         "rust-overlay": [
           "rust-overlay"
         ],
@@ -674,6 +677,7 @@
         "nixos-mutable-files-manager": "nixos-mutable-files-manager",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "playit-agent-source": "playit-agent-source",
         "playit-nixos-module": "playit-nixos-module",
         "poetry2nix": "poetry2nix_3",
         "ragenix": "ragenix",

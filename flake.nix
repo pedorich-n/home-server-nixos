@@ -97,9 +97,15 @@
       };
     };
 
+    playit-agent-source = {
+      url = "github:pedorich-n/playit-agent/lookup-add-port-check";
+      flake = false;
+    };
+
     playit-nixos-module = {
       url = "github:pedorich-n/playit-nixos-module";
       inputs = {
+        playit-agent-source.follows = "playit-agent-source";
         nixpkgs.follows = "nixpkgs-unstable";
         systems.follows = "systems";
         flake-parts.follows = "flake-parts";

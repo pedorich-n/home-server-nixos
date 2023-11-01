@@ -1,6 +1,8 @@
-{
+{ pkgs, ... }: {
+  _.module.args.minecraftLib = pkgs.callPackage ./lib.nix { };
+
   imports = [
-    ./money-guys-1.nix
+    ./money-guys-1
   ];
 
   services.minecraft-servers = {
