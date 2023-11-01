@@ -27,7 +27,7 @@
         max-world-size = 8000; # Value is a radius, so the world size is 16000x16000
         spawn-protection = 0;
       };
-      jvmOpts = minecraftLib.aikarFlagsWith "4096M ";
+      jvmOpts = minecraftLib.aikarFlagsWith "4096M";
 
       symlinks = with pkgs; {
         "server-icon.png" = ./server-icon.png;

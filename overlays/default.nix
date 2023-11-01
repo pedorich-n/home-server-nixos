@@ -1,2 +1,4 @@
 /* inputs: final: prev: */
-_: _: _: { }
+_: _: prev: {
+  server-check = prev.callPackage ../pkgs/server-check { };
+}

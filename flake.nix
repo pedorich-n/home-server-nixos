@@ -61,7 +61,7 @@
     };
 
     home-server-nixos-secrets = {
-      url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets?ref=main";
+      url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         flake-parts.follows = "flake-parts";
@@ -137,19 +137,6 @@
         nucbox5 = inputs.nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           modules = [
-            {
-              _module.args = {
-                inherit inputs;
-                pkgs-unstable = import inputs.nixpkgs-unstable {
-                  inherit system;
-                  overlays = [
-                    inputs.poetry2nix.overlays.default
-                    (_: prev: { server-check = prev.callPackage ./pkgs/server-check { }; })
-                    # TODO: fix this, this looks ugly. Maybe extratc into a separate module
-                  ];
-                };
-              };
-            }
             inputs.arion.nixosModules.arion
             inputs.ragenix.nixosModules.default
             inputs.airtable-telegram-bot.nixosModules.default

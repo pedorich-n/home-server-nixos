@@ -1,5 +1,6 @@
-{ inputs, ... }: {
-  nixpkgs = {
+{ inputs, ... }:
+let
+  settings = {
     overlays = [
       inputs.nix-minecraft.overlay
       inputs.rust-overlay.overlays.default
@@ -10,4 +11,9 @@
       allowUnfree = true;
     };
   };
+in
+{
+  _module.args.nixpkgs-unstable = import inputs.nixpkgs-unstable ({ system = builtins.currentSystem; } // settings);
+
+  nixpkgs = settings;
 }
