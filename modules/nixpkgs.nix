@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, system, ... }:
 let
   settings = {
     overlays = [
@@ -13,7 +13,7 @@ let
   };
 in
 {
-  _module.args.nixpkgs-unstable = import inputs.nixpkgs-unstable ({ system = builtins.currentSystem; } // settings);
+  _module.args.pkgs-unstable = import inputs.nixpkgs-unstable ({ inherit system; } // settings);
 
   nixpkgs = settings;
 }

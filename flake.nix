@@ -145,7 +145,7 @@
             inputs.playit-nixos-module.nixosModules.default
             ./configuration.nix
           ];
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs system; };
         };
       };
     };
