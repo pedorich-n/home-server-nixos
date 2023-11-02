@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ lib, pkgs, ... }: {
   # https://docs.papermc.io/paper/aikars-flags
   # TODO: look into https://github.com/etil2jz/etil-minecraft-flags?
   aikarFlagsWith = memory: builtins.concatStringsSep " " [
@@ -25,4 +25,10 @@
   ];
 
   mkPluginSymlinks = with lib.attrsets; attrs: mapAttrs' (name: value: nameValuePair "plugins/${name}.jar" value) attrs;
+
+  mkConsoleAccessSymlink = name: {
+    "consol-access.sh" = pkgs.writeShellScript "minecraft-console-${name}" ''
+      ${pkgs.sudo}/bin/sudo -u minecraft ${lib.getExe pkgs.tmux} -S /run/minecraft/${name}.sock attach
+    '';
+  };
 }

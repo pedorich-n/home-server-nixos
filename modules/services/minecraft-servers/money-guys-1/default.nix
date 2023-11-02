@@ -1,4 +1,7 @@
 { minecraftLib, pkgs, ... }:
+let
+  serverName = "money-guys-1";
+in
 {
   networking.firewall = {
     allowedUDPPorts = [
@@ -10,7 +13,7 @@
   };
 
   services.minecraft-servers.servers = {
-    "money-guys-1" = {
+    ${serverName} = {
       enable = true;
       autoStart = true;
       openFirewall = true;
@@ -31,11 +34,17 @@
 
       symlinks = with pkgs; {
         "server-icon.png" = ./server-icon.png;
-      } // (minecraftLib.mkPluginSymlinks {
+      } // (minecraftLib.mkConsoleAccessSymlink serverName)
+      // (minecraftLib.mkPluginSymlinks {
         AureliumSkills = fetchurl {
           # Enhance the survival experience with advanced skills, stats, abilities, and more
           url = "https://hangarcdn.papermc.io/plugins/Archy/AureliumSkills/versions/Beta1.3.23/PAPER/AureliumSkills-Beta1.3.23.jar";
           sha512 = "b78e0daadcdbbdbfdb7b399ecaf26f670917eabf8b192abcd4904c2c27190e31bd9e4fd7af24ffad72828a41dcb66b26ba67c2949ed9074e9403fbfebcf6c28b";
+        };
+        BetterAnvils = fetchurl {
+          # A Spigot plugin to bring the anvil into the modern age of Minecraft
+          url = "https://github.com/lthoerner/betteranvils/releases/download/v0.1.2/BetterAnvils.jar";
+          sha512 = "a8407b89eb6046bae931b278dad471bf18a4402caeb003f981574ed141f6b46bd5c5b64c8d9e3dd7ff90192049e2b453c41340eae7176dc3a34e57bdc0fcee76";
         };
         Chunky = fetchurl {
           # Pre-generates chunks, quickly, efficiently, and safely
@@ -61,6 +70,11 @@
           # This mod links your server chat with a channel on your discord server
           url = "https://cdn.modrinth.com/data/rbJ7eS5V/versions/8aXeAavL/dcintegration-spigot-3.0.3-1.20.2.jar";
           sha512 = "ad5e34f1d9ee3bfb37b2adc66c3fcbb4845deb43bdea2f598a24f26786c85dc39a3ac8d0308b0c738b07326ca94392e0a310905603fb00895f67aadccfcec683";
+        };
+        FarmingUpgrade = fetchurl {
+          # Bukkit plugin improving farming mechanics.
+          url = "https://github.com/hypmc/FarmingUpgrade/releases/download/v1.6.0/farmingupgrade-1.6.0.jar";
+          sha512 = "b87f2044ffd529a9f7d8e0c659c9dce48c242dded4f7a51e10bd6de06ae78d7f975888ea45ae95131de0f0dee2695b33c1e63b96532071b40cca12452ea3fe02";
         };
         FloodGate = fetchurl {
           # Hybrid mode plugin to allow for connections from Geyser to join online mode servers.
