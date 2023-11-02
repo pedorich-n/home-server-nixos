@@ -36,15 +36,20 @@ in
         "server-icon.png" = ./server-icon.png;
       } // (minecraftLib.mkConsoleAccessSymlink serverName)
       // (minecraftLib.mkPluginSymlinks {
+        AntiPopup = fetchurl {
+          # AntiPopup is a plugin aiming to remove chat reporting system entirely using packets.
+          url = "https://github.com/KaspianDev/AntiPopup/releases/download/d1fac38/AntiPopup-7.1.jar";
+          sha512 = "48f753c07b3b0cc7629f0a8a7f02292f76093e9557f4d7fa527707da8aa506e32a7cada26c2467181e5f7c10dcf598d01969e71a0f73eacda57b63cd93dfe923";
+        };
         AureliumSkills = fetchurl {
           # Enhance the survival experience with advanced skills, stats, abilities, and more
           url = "https://hangarcdn.papermc.io/plugins/Archy/AureliumSkills/versions/Beta1.3.23/PAPER/AureliumSkills-Beta1.3.23.jar";
           sha512 = "b78e0daadcdbbdbfdb7b399ecaf26f670917eabf8b192abcd4904c2c27190e31bd9e4fd7af24ffad72828a41dcb66b26ba67c2949ed9074e9403fbfebcf6c28b";
         };
-        BetterAnvils = fetchurl {
-          # A Spigot plugin to bring the anvil into the modern age of Minecraft
-          url = "https://github.com/lthoerner/betteranvils/releases/download/v0.1.2/BetterAnvils.jar";
-          sha512 = "a8407b89eb6046bae931b278dad471bf18a4402caeb003f981574ed141f6b46bd5c5b64c8d9e3dd7ff90192049e2b453c41340eae7176dc3a34e57bdc0fcee76";
+        BKCommonLib = fetchurl {
+          # Spigot/Paper Utility Library and Minecraft Server API. Needed for TrainCarts
+          url = "https://cdn.modrinth.com/data/rTg6ckWb/versions/jorZqzXs/BKCommonLib-1.20.2-v1-1634.jar";
+          sha512 = "f08b582f2874f6c3db76e9c495814382d246bfc8db9c50bd292d59a83f90970b2c8afccba2b7c289c385e31cef086301bad6d728830f019539d54e415fa625f8";
         };
         Chunky = fetchurl {
           # Pre-generates chunks, quickly, efficiently, and safely
@@ -90,6 +95,11 @@ in
           # A minimalistic & lightweight world map viewer for Minecraft servers, using the vanilla map rendering style
           url = "https://cdn.modrinth.com/data/PFb7ZqK6/versions/mPe19wqu/squaremap-paper-mc1.20.2-1.2.1.jar";
           sha512 = "a48048d7e300fbc30ce36148be835ae1ebda29828a945683e62fa5c13fd77d000942e40d6e70d5e527ab51b8e57a20f41e818c092f00e40a8fa8f97619db2dba";
+        };
+        TrainCarts = fetchurl {
+          # Automated metro networks, rollercoasters, gondolas, ski-lifts or amusement park rides. 
+          url = "https://cdn.modrinth.com/data/7xgugLBo/versions/X7sHFeSR/TrainCarts-1.20.2-v1-1464.jar";
+          sha512 = "fbc003d0917ae1babc8244317f0e32065fbe70d0ad4c6631b450578fbce1038ba97742a67705f730c5ec819ca6add9485694b5c91b7654970eec877079c71036";
         };
       });
     };

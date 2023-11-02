@@ -27,7 +27,7 @@
   mkPluginSymlinks = with lib.attrsets; attrs: mapAttrs' (name: value: nameValuePair "plugins/${name}.jar" value) attrs;
 
   mkConsoleAccessSymlink = name: {
-    "consol-access.sh" = pkgs.writeShellScript "minecraft-console-${name}" ''
+    "console-access.sh" = pkgs.writeShellScript "minecraft-console-${name}" ''
       ${pkgs.sudo}/bin/sudo -u minecraft ${lib.getExe pkgs.tmux} -S /run/minecraft/${name}.sock attach
     '';
   };
