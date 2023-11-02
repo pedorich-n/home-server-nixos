@@ -8,6 +8,7 @@ in
       # 19132 # Geyser
     ];
     allowedTCPPorts = [
+      44040 # Metrics Exporter
       44080 # SquareMap
     ];
   };
@@ -91,6 +92,11 @@ in
           url = "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/1522/artifact/bootstrap/spigot/build/libs/Geyser-Spigot.jar";
           sha512 = "8f79b72cab3ffaf8e781bdb6012d936d922d5077f14848074df6b5c66e93df222df69b80282e280cfe4e99f8cebe14777066444fbc196c2b5740dbfcc7d7105b";
         };
+        SlimeFun = fetchurl {
+          # Turn the server into a modpack without ever installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks!
+          url = "https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/Slimefun4-35.jar";
+          sha512 = "16e0de7502430d6aa19af32b44252f37519eadf8fecc2eab6efe885511e7b8d135962ffe6ae9496accbd54f7873985ef3c2b6a9c82cbb72a04d0e6ca3ffc83d7";
+        };
         SquareMap = fetchurl {
           # A minimalistic & lightweight world map viewer for Minecraft servers, using the vanilla map rendering style
           url = "https://cdn.modrinth.com/data/PFb7ZqK6/versions/mPe19wqu/squaremap-paper-mc1.20.2-1.2.1.jar";
@@ -100,6 +106,16 @@ in
           # Automated metro networks, rollercoasters, gondolas, ski-lifts or amusement park rides. 
           url = "https://cdn.modrinth.com/data/7xgugLBo/versions/X7sHFeSR/TrainCarts-1.20.2-v1-1464.jar";
           sha512 = "fbc003d0917ae1babc8244317f0e32065fbe70d0ad4c6631b450578fbce1038ba97742a67705f730c5ec819ca6add9485694b5c91b7654970eec877079c71036";
+        };
+        UnifiedMetrics = fetchurl {
+          # Fully-featured metrics collection agent for Minecraft servers
+          url = "https://github.com/Cubxity/UnifiedMetrics/releases/download/v0.3.x-SNAPSHOT/unifiedmetrics-platform-bukkit-0.3.9-SNAPSHOT.jar";
+          sha512 = "2c43c7d3faa28fb5057c632a590f9db6fda8f6a7535804d4243225e760e8536522b62a01d119ac9c31a78729e67570ea73dab953950e0aecab7911fa57b98aba";
+        };
+        WhatIsThis = fetchurl {
+          # Plugin that uses the action bar to display the name of the block or entity currently being looked at.
+          url = "https://github.com/steve4744/WhatIsThis/releases/download/v5.4-SNAPSHOT.51/WhatIsThis-5.4-SNAPSHOT.jar";
+          sha512 = "39b1841108ed4b7ad88d86eecb42fbc179f4a4756f0dd096e1685e0a5269fc71212489211b60ad931a37644d5097fbb38ca365da76f87094af27e5b006ea7ea1";
         };
       });
     };
