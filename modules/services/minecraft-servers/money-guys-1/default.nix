@@ -94,8 +94,8 @@ in
         };
         SlimeFun = fetchurl {
           # Turn the server into a modpack without ever installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks!
-          url = "https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/Slimefun4-35.jar";
-          sha512 = "16e0de7502430d6aa19af32b44252f37519eadf8fecc2eab6efe885511e7b8d135962ffe6ae9496accbd54f7873985ef3c2b6a9c82cbb72a04d0e6ca3ffc83d7";
+          url = "https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/Slimefun4-1104.jar";
+          sha512 = "63b3ec6a9e20a39fffdf646d24aa77354e44f479d16946be4da6190656804703369b586978fe56b55851bbaa46cf16f8531fa4e5307408adbf16439bfbafe1ae";
         };
         SquareMap = fetchurl {
           # A minimalistic & lightweight world map viewer for Minecraft servers, using the vanilla map rendering style
