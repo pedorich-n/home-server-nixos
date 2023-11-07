@@ -1,13 +1,14 @@
 {
   imports = [
-    ./openssh.nix
+    ./arion.nix
     ./gui.nix
-    ./telegram-lessons-bot.nix
-    ./minecraft-servers
-    ./playit.nix
-    ./traefik.nix
-    ./server-management
     ./home-automation
+    ./minecraft-servers
+    ./openssh.nix
+    ./playit.nix
     ./server-check.nix
+    ./server-management
+    ./telegram-lessons-bot.nix
+    ./traefik.nix
   ];
 }

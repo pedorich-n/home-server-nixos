@@ -2,7 +2,7 @@
 let
   settings = {
     overlays = [
-      inputs.nix-minecraft.overlay
+      inputs.nix-minecraft.overlays.default
       inputs.rust-overlay.overlays.default
       inputs.poetry2nix.overlays.default
       (import ../overlays inputs)

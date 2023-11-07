@@ -2,13 +2,14 @@
   imports = [
     ./modules/hardware
     ./modules/services
-    ./modules/packages.nix
-    ./modules/virtualisation.nix
+
     ./modules/nix.nix
     ./modules/nixpkgs.nix
-    ./modules/users.nix
+    ./modules/packages.nix
     ./modules/secrets.nix
     ./modules/switch-diff.nix
+    ./modules/users.nix
+    ./modules/virtualisation.nix
   ];
 
   system.stateVersion = "23.05";

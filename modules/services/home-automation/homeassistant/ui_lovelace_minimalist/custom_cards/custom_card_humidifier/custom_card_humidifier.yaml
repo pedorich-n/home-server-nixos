@@ -51,7 +51,7 @@ custom_widget_humidity:
   show_icon: false
   show_name: false
   show_label: true
-  label: "[[[ return variables.ulm_translation_state_unit ]]]"
+  label: "[[[ return variables.ulm_translation_state ]]]"
   styles:
     card:
       - background: "none"

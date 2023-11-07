@@ -121,13 +121,18 @@
     };
   };
 
-  outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
-    systems = [ "x86_64-linux" ];
+  outputs = inputs@{ flake-parts, systems, self, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+    systems = import systems;
 
-    perSystem = { /* config, lib, inputs', system, */ pkgs, ... }: {
+    perSystem = { /* config, lib, inputs', self', system, */ pkgs, ... }: {
+      apps = {
+        vm-nucbox5 = {
+          type = "app";
+          program = self.nixosConfigurations.nucbox5.config.system.build.vm;
+        };
+      };
+
       packages = {
-        #  nucbox5 = flake.nixosConfigurations.nucbox5.config.system.build.vm;
-        # server-check = pkgs.callPackage ./pkgs/server-check { };
         prefetch-jar = pkgs.callPackage ./pkgs/prefetch-jar { };
       };
     };
