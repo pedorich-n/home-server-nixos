@@ -3,7 +3,6 @@ let
   storeFor = localPath: remotePath: "/mnt/ha-store/${localPath}:${remotePath}";
 
   configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
-    glances = ./glances/config.nix;
     netdata = ./netdata/config.nix;
   };
 in
@@ -58,7 +57,7 @@ in
               pid = "host"; # Not implemented in Arion
             };
             service = {
-              image = "netdata/netdata:v1.43.1";
+              image = "netdata/netdata:v1.43.2";
               container_name = "netdata";
               hostname = "nucbox5";
               networks = [

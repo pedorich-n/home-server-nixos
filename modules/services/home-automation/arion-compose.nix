@@ -106,8 +106,8 @@ in
             };
           };
 
-          tailscalse.service = {
-            image = "tailscale/tailscale:v1.50.1";
+          tailscale.service = {
+            image = "tailscale/tailscale:v1.52.0";
             command = [ "/usr/local/bin/custom-entrypoint.sh" ];
             container_name = "tailscale";
             restart = "unless-stopped";
@@ -174,7 +174,7 @@ in
           };
 
           zigbee2mqtt.service = {
-            image = "koenkk/zigbee2mqtt:1.33.1";
+            image = "koenkk/zigbee2mqtt:1.33.2";
             container_name = "zigbee2mqtt";
             restart = "unless-stopped";
             environment = {
@@ -225,7 +225,7 @@ in
           };
 
           homeassistant.service = {
-            image = "homeassistant/home-assistant:2023.10.5";
+            image = "homeassistant/home-assistant:2023.11.1";
             container_name = "homeassistant";
             environment = {
               TZ = "${config.time.timeZone}";
