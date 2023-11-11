@@ -35,7 +35,7 @@
     gui.enable = false;
     services.server-check = {
       enable = true;
-      server = "minecraft-servers-money-guys-2.service";
+      server = "minecraft-server-money-guys-2.service";
     };
   };
 
