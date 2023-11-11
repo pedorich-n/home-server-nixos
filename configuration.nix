@@ -33,7 +33,10 @@
 
   custom = {
     gui.enable = false;
-    services.server-check.enable = true;
+    services.server-check = {
+      enable = true;
+      server = "minecraft-servers-money-guys-2.service";
+    };
   };
 
   time.timeZone = "Asia/Tokyo";

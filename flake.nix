@@ -97,6 +97,15 @@
       };
     };
 
+    fabric-modpack = {
+      url = "github:pedorich-n/FabricModpack";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        systems.follows = "systems";
+        flake-parts.follows = "flake-parts";
+      };
+    };
+
     playit-agent-source = {
       url = "github:pedorich-n/playit-agent/lookup-add-port-check";
       flake = false;

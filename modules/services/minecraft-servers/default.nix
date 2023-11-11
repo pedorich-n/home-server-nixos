@@ -3,6 +3,7 @@
 
   imports = [
     ./money-guys-1
+    ./money-guys-2
   ];
 
   services.minecraft-servers = {

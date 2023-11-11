@@ -26,6 +26,13 @@
 
   mkPluginSymlinks = with lib.attrsets; attrs: mapAttrs' (name: value: nameValuePair "plugins/${name}.jar" value) attrs;
 
+  mkPackwizModsSymlinks = pkg:
+    let
+      getNameFor = path: with lib.strings; unsafeDiscardStringContext (removePrefix "${pkg}/" path);
+      mods = lib.filesystem.listFilesRecursive "${pkg}/mods";
+    in
+    builtins.listToAttrs (builtins.map (mod: { name = getNameFor mod; value = mod; }) mods);
+
   mkConsoleAccessSymlink = name: {
     # TODO: use ${lib.getExe' pkgs.sudo "sudo"} once in stable
     "console-access.sh" = pkgs.writeShellScript "minecraft-console-${name}" ''

@@ -120,6 +120,33 @@
         "type": "github"
       }
     },
+    "fabric-modpack": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "packwiz2nix": "packwiz2nix",
+        "systems": [
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1699665718,
+        "narHash": "sha256-fg7wvDnn+hPSFhpKjWM76v4g777lUR3m2EQVrhZkPWE=",
+        "owner": "pedorich-n",
+        "repo": "FabricModpack",
+        "rev": "1b4ecb8ada062308c70bff3c97e4fce766fe8703",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pedorich-n",
+        "repo": "FabricModpack",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -298,11 +325,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1698849367,
-        "narHash": "sha256-Kj3cGY0NrK0RPLujU2ImanmE7zX12jRmDXxJqw76zQM=",
+        "lastModified": 1699665821,
+        "narHash": "sha256-/VZmih0U7RUGPT6D5G5MKlOeJc0eXfY/Bi8dn14OGXc=",
         "ref": "refs/heads/main",
-        "rev": "d3981fa6b8d434d0109cd6cc81aa086d57b3398d",
-        "revCount": 21,
+        "rev": "76485c991d78384816f6424f626a0c119c7704ca",
+        "revCount": 22,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -491,6 +518,28 @@
         "type": "github"
       }
     },
+    "packwiz2nix": {
+      "inputs": {
+        "nixpkgs": [
+          "fabric-modpack",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1695101165,
+        "narHash": "sha256-Epv0PEu1s9kLEohWOSBAsFVRNC9z9UAazdYIwKF0Ptw=",
+        "owner": "getchoo",
+        "repo": "packwiz2nix",
+        "rev": "92ef4547a654cbad32ee2f6488bd816717cbfe96",
+        "type": "github"
+      },
+      "original": {
+        "owner": "getchoo",
+        "ref": "rewrite",
+        "repo": "packwiz2nix",
+        "type": "github"
+      }
+    },
     "playit-agent-source": {
       "flake": false,
       "locked": {
@@ -667,6 +716,7 @@
         "airtable-telegram-bot": "airtable-telegram-bot",
         "arion": "arion",
         "crane": "crane",
+        "fabric-modpack": "fabric-modpack",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts_3",
         "flake-utils": "flake-utils",

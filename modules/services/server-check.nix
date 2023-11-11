@@ -8,6 +8,10 @@ in
   options = {
     custom.services.server-check = {
       enable = mkEnableOption "GUI";
+
+      server = mkOption {
+        type = types.str;
+      };
     };
   };
 
@@ -16,7 +20,10 @@ in
     systemd.services.minecraft-server-check = {
       description = "Minecraft Server and Tunnel health-check";
       wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" "systemd-resolved.service" ];
+      after = [ "network.target" "systemd-resolved.service" cfg.server ];
+      partOf = [ cfg.server ];
+      requires = [ cfg.server ];
+
       startAt = "*-*-* *:*:00"; # Every minute
 
       script = ''

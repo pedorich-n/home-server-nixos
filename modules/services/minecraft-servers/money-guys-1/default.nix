@@ -15,8 +15,8 @@ in
 
   services.minecraft-servers.servers = {
     ${serverName} = {
-      enable = true;
-      autoStart = true;
+      enable = false;
+      autoStart = false;
       openFirewall = true;
 
       package = pkgs.paperServers.paper-1_20_2;
