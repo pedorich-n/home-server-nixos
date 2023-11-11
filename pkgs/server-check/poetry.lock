@@ -215,6 +215,17 @@ lint = ["black", "isort", "mypi"]
 t = ["pytest", "pytest-cov"]
 
 [[package]]
+name = "schedule"
+version = "1.2.1"
+description = "Job scheduling for humans."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "schedule-1.2.1-py2.py3-none-any.whl", hash = "sha256:14cdeb083a596aa1de6dc77639a1b2ac8bf6eaafa82b1c9279d3612823063d01"},
+    {file = "schedule-1.2.1.tar.gz", hash = "sha256:843bc0538b99c93f02b8b50e3e39886c06f2d003b24f48e1aa4cadfa3f341279"},
+]
+
+[[package]]
 name = "tenacity"
 version = "8.2.3"
 description = "Retry code until it succeeds"
@@ -242,4 +253,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.1"
-content-hash = "0af99a8b08c650f0e3915ca74d1d75bdf0d66d3b89315c7dadd12a61729b914a"
+content-hash = "7c0df205831908f88529a7f6299244c8138ffdf9ca54f124dcc3b0816d34af37"

@@ -22,6 +22,7 @@
     "-XX:SurvivorRatio=32"
     "-XX:+PerfDisableSharedMem"
     "-XX:MaxTenuringThreshold=1"
+    "-Dlog4j.skipJansi=false" # Needed for https://modrinth.com/mod/jline4mcdsrv
   ];
 
   mkPluginSymlinks = with lib.attrsets; attrs: mapAttrs' (name: value: nameValuePair "plugins/${name}.jar" value) attrs;

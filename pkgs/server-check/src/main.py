@@ -1,13 +1,18 @@
 import argparse
 import logging
+import signal
+import sys
+import time
 from dataclasses import dataclass
 from typing import Callable, TypeVar, Union
 
 import dacite
+import schedule
 import toml
 from mcstatus import BedrockServer, JavaServer, MCServer
 from mcstatus.address import Address
-from pystemd.systemd1 import Unit as SDUnit
+
+# from pystemd.systemd1 import Unit as SDUnit
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_fixed
 
 S = TypeVar("S", bound=MCServer)
@@ -26,9 +31,6 @@ logger = logging.getLogger("server-check")
 class Config:
     remote_server_address: str
     local_server_address: str
-    minecraft_service_name: str
-    tunnel_service_name: str
-    timeout: int
 
 
 @dataclass
@@ -36,6 +38,16 @@ class ServerStatus:
     address: str
     players_online: int
     latency: float
+
+
+@dataclass
+class LoopConfig:
+    remote_server_address: str
+    local_server_address: str
+    server_service: str
+    tunnel_service: str
+    timeout: int
+    restart_timeout: int
 
 
 class FailedToGetServerStatus(Exception):
@@ -68,6 +80,7 @@ def check_java_server(server: JavaServer) -> ServerStatus:
     return status
 
 
+# Unused
 def check_bedrock_server(server: BedrockServer) -> ServerStatus:
     status_response = server.status()
     status = ServerStatus(
@@ -79,21 +92,23 @@ def check_bedrock_server(server: BedrockServer) -> ServerStatus:
 
 
 def restart_service(service_name: str):
-    with SDUnit(service_name.encode()) as service:
-        service.Unit.Restart(b"replace")
+    pass
+    # with SDUnit(service_name.encode()) as service:
+    # service.Unit.Restart(b"replace")
 
 
-def main():
-    parser = argparse.ArgumentParser("server-check")
-    parser.add_argument("--config", type=str, required=True)
+def graceful_shutdown(signum, frame):
+    logger.info("Received signal to shut down gracefully...")
 
-    args = parser.parse_args()
+    # Cancel the scheduled job
+    if schedule.jobs:
+        schedule.clear()
 
-    config = dacite.from_dict(
-        data_class=Config,
-        data=toml.load(args.config),
-    )
+    sys.exit(0)
 
+
+def loop(config: LoopConfig):
+    logger.info(f"Checking server...")
     java_server = JavaServer.lookup(config.remote_server_address, config.timeout)
     java_server_local = JavaServer.lookup(config.local_server_address, config.timeout)
 
@@ -104,9 +119,57 @@ def main():
         logger.warning(f"External address is unreachable. {java_server_status}")
         if isinstance(java_server_local_status, FailedToGetServerStatus):
             logger.warning(f"Local address is unreachable! Restarting Minecraft Server...")
-            restart_service(config.minecraft_service_name)
+            restart_service(config.server_service)
+            time.sleep(config.restart_timeout)
         else:
             logger.warning(f"Local Server is reachable, restarting tunnel...")
-            restart_service(config.tunnel_service_name)
+            restart_service(config.tunnel_service)
     else:
         logger.info("All addresses are reachable.")
+
+
+def main():
+    parser = argparse.ArgumentParser("server-check")
+    parser.add_argument("--config", type=str, required=True)
+    parser.add_argument("--server-service", type=str, required=True)
+    parser.add_argument("--tunnel-service", type=str, required=True)
+    parser.add_argument(
+        "--timeout", type=int, required=False, default=10, help="How long to wait for server response. In seconds"
+    )
+    parser.add_argument(
+        "--restart-timeout",
+        type=int,
+        required=False,
+        default=120,
+        help="How long to wait after server restart, before another check. In seconds",
+    )
+    parser.add_argument("--interval", type=int, required=False, default=60, help="Run check every X seconds")
+
+    args = parser.parse_args()
+
+    config = dacite.from_dict(
+        data_class=Config,
+        data=toml.load(args.config),
+    )
+    signal.signal(signal.SIGTERM, graceful_shutdown)
+    signal.signal(signal.SIGINT, graceful_shutdown)
+
+    logger.info("Program started")
+
+    loop_config = LoopConfig(
+        remote_server_address=config.remote_server_address,
+        local_server_address=config.local_server_address,
+        server_service=args.server_service,
+        tunnel_service=args.tunnel_service,
+        timeout=args.timeout,
+        restart_timeout=args.restart_timeout,
+    )
+
+    logger.info(f"Sleeping for {args.restart_timeout} seconds...")
+    time.sleep(args.restart_timeout)
+    job = schedule.every(args.interval).seconds.do(loop, config=loop_config)
+    logger.info(f"Starting a job, running every {args.interval} seconds...")
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
