@@ -54,7 +54,7 @@ in
       requires = [ cfg.server-service cfg.tunnel-service ];
 
       script = builtins.concatStringsSep " " [
-        "${getExe pkgs-unstable.server-check}"
+        "${getExe pkgs-unstable.minecraft-server-check}"
         "--config ${config.age.secrets.server-check-config.path}"
         "--server-service ${cfg.server-service}"
         "--tunnel-service ${cfg.tunnel-service}"

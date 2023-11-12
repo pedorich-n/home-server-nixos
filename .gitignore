@@ -1,4 +1,5 @@
 .pre-commit-config.yaml
 result
 **/*.pyc
-/pkgs/server-check/config.toml
+**/__pycache__
+/pkgs/minecraft-server-check/config.toml

@@ -3,19 +3,20 @@ import logging
 import signal
 import sys
 import time
+import tomllib
 from dataclasses import dataclass
 from typing import Callable, TypeVar, Union
 
 import dacite
 import schedule
-import toml
 from mcstatus import BedrockServer, JavaServer, MCServer
 from mcstatus.address import Address
-
-# from pystemd.systemd1 import Unit as SDUnit
+from pystemd import SDUnit
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_fixed
 
 S = TypeVar("S", bound=MCServer)
+
+# region GlobalConfig
 
 logging.addLevelName(logging.WARNING, "WARN")
 logging.basicConfig(
@@ -25,6 +26,22 @@ logging.basicConfig(
     style="{",
 )
 logger = logging.getLogger("server-check")
+
+
+def graceful_shutdown(signum, frame):
+    logger.info("Received signal to shut down gracefully...")
+
+    # Cancel the scheduled job
+    if schedule.jobs:
+        schedule.clear()
+
+    sys.exit(0)
+
+
+signal.signal(signal.SIGTERM, graceful_shutdown)
+signal.signal(signal.SIGINT, graceful_shutdown)
+
+# endregion
 
 
 @dataclass
@@ -92,19 +109,8 @@ def check_bedrock_server(server: BedrockServer) -> ServerStatus:
 
 
 def restart_service(service_name: str):
-    pass
-    # with SDUnit(service_name.encode()) as service:
-    # service.Unit.Restart(b"replace")
-
-
-def graceful_shutdown(signum, frame):
-    logger.info("Received signal to shut down gracefully...")
-
-    # Cancel the scheduled job
-    if schedule.jobs:
-        schedule.clear()
-
-    sys.exit(0)
+    with SDUnit(service_name.encode()) as service:
+        service.Unit.Restart(b"replace")
 
 
 def loop(config: LoopConfig):
@@ -147,29 +153,28 @@ def main():
 
     args = parser.parse_args()
 
-    config = dacite.from_dict(
-        data_class=Config,
-        data=toml.load(args.config),
-    )
-    signal.signal(signal.SIGTERM, graceful_shutdown)
-    signal.signal(signal.SIGINT, graceful_shutdown)
+    with open(args.config, "rb") as config_file:
+        config = dacite.from_dict(
+            data_class=Config,
+            data=tomllib.load(config_file),
+        )
 
-    logger.info("Program started")
+        logger.info("Program started")
 
-    loop_config = LoopConfig(
-        remote_server_address=config.remote_server_address,
-        local_server_address=config.local_server_address,
-        server_service=args.server_service,
-        tunnel_service=args.tunnel_service,
-        timeout=args.timeout,
-        restart_timeout=args.restart_timeout,
-    )
+        loop_config = LoopConfig(
+            remote_server_address=config.remote_server_address,
+            local_server_address=config.local_server_address,
+            server_service=args.server_service,
+            tunnel_service=args.tunnel_service,
+            timeout=args.timeout,
+            restart_timeout=args.restart_timeout,
+        )
 
-    logger.info(f"Sleeping for {args.restart_timeout} seconds...")
-    time.sleep(args.restart_timeout)
-    job = schedule.every(args.interval).seconds.do(loop, config=loop_config)
-    logger.info(f"Starting a job, running every {args.interval} seconds...")
+        logger.info(f"Sleeping for {args.restart_timeout} seconds...")
+        time.sleep(args.restart_timeout)
+        job = schedule.every(args.interval).seconds.do(loop, config=loop_config)
+        logger.info(f"Starting a job, running every {args.interval} seconds...")
 
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+        while True:
+            schedule.run_pending()
+            time.sleep(1)
