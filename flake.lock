@@ -39,11 +39,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1698849342,
-        "narHash": "sha256-mR4fxbbpyKEh+xnBFvNVzX1bUgwfnXPSBYu2aPFj6kI=",
+        "lastModified": 1699249854,
+        "narHash": "sha256-//6snC4woC7Tww4B9v6Ags4iWyrFd7cdBcCKFOXWPtw=",
         "ref": "refs/heads/main",
-        "rev": "3c92a29223dfdaf80b6bb37b8e85790040876882",
-        "revCount": 35,
+        "rev": "ee0409ab1a30f4599096ddd9c72e82d452d9e6be",
+        "revCount": 36,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
       },
@@ -84,11 +84,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1698166613,
-        "narHash": "sha256-y4rdN4flxRiROqNi1waMYIZj/Fs7L2OrszFk/1ry9vU=",
+        "lastModified": 1699548976,
+        "narHash": "sha256-xnpxms0koM8mQpxIup9JnT0F7GrKdvv0QvtxvRuOYR4=",
         "owner": "ipetkov",
         "repo": "crane",
-        "rev": "b7db46f0f1751f7b1d1911f6be7daf568ad5bc65",
+        "rev": "6849911446e18e520970cc6b7a691e64ee90d649",
         "type": "github"
       },
       "original": {
@@ -134,11 +134,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1699867883,
-        "narHash": "sha256-E01VN+c0jDI8vF23YUhGgOrmWNws2jytbggOMKk45vo=",
+        "lastModified": 1699949962,
+        "narHash": "sha256-TDDzeBybYBrys6Ohqlaf91V6SoHhSG+imvGwjC6lBVA=",
         "owner": "pedorich-n",
         "repo": "FabricModpack",
-        "rev": "43e164782f1b78f363ccd0c4f90f36e15c68844a",
+        "rev": "06478a22087f4f488d801bb6cbe54b3da1a7067f",
         "type": "github"
       },
       "original": {
@@ -208,11 +208,11 @@
         "nixpkgs-lib": "nixpkgs-lib_2"
       },
       "locked": {
-        "lastModified": 1698579227,
-        "narHash": "sha256-KVWjFZky+gRuWennKsbo6cWyo7c/z/VgCte5pR9pEKg=",
+        "lastModified": 1698882062,
+        "narHash": "sha256-HkhafUayIqxXyHH1X8d9RDl1M2CkFgZLjKD3MzabiEo=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "f76e870d64779109e41370848074ac4eaa1606ec",
+        "rev": "8c9fa2545007b49a5db5f650ae91f227672c3877",
         "type": "github"
       },
       "original": {
@@ -391,11 +391,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1698628585,
-        "narHash": "sha256-LYm82sNbT/jJDhZKabErQ+WvkdqzWYiFcCKDe/d0sYs=",
+        "lastModified": 1699924656,
+        "narHash": "sha256-w1L/6pxu2wWSQD/mB8JNUi/BOwDwmg5C30k7bFK1kt0=",
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "cf1eaf82f209521cd1bfd216d57f8726dc4ded8a",
+        "rev": "218d8a6c07f0cb9fa26cc66f369bbf62ca3a6872",
         "type": "github"
       },
       "original": {
@@ -421,11 +421,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1698849160,
-        "narHash": "sha256-AAI5KqxwXeXfojGWWXjZ6MvOp7PmkqOxusrlh0Wr6WU=",
+        "lastModified": 1699370201,
+        "narHash": "sha256-/bzhRcxkWzKU96p5u/meNDtqBmy3VtZSiSFE6krQqQ4=",
         "owner": "pedorich-n",
         "repo": "nixos-mutable-files-manager",
-        "rev": "97f4c80557a4eabff38a318b14972400c91d0084",
+        "rev": "40fb9e30149c193d645fb6e46809ae907dc70d17",
         "type": "github"
       },
       "original": {
@@ -471,11 +471,11 @@
     "nixpkgs-lib_2": {
       "locked": {
         "dir": "lib",
-        "lastModified": 1696019113,
-        "narHash": "sha256-X3+DKYWJm93DRSdC5M6K5hLqzSya9BjibtBsuARoPco=",
+        "lastModified": 1698611440,
+        "narHash": "sha256-jPjHjrerhYDy3q9+s5EAsuhyhuknNfowY6yt6pjn9pc=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f5892ddac112a1e9b3612c39af1b72987ee5783a",
+        "rev": "0cbe9f69c234a7700596e943bfae7ef27a31b735",
         "type": "github"
       },
       "original": {
@@ -488,11 +488,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1698611440,
-        "narHash": "sha256-jPjHjrerhYDy3q9+s5EAsuhyhuknNfowY6yt6pjn9pc=",
+        "lastModified": 1699781429,
+        "narHash": "sha256-UYefjidASiLORAjIvVsUHG6WBtRhM67kTjEY4XfZOFs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0cbe9f69c234a7700596e943bfae7ef27a31b735",
+        "rev": "e44462d6021bfe23dfb24b775cc7c390844f773d",
         "type": "github"
       },
       "original": {
@@ -504,11 +504,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1698696950,
-        "narHash": "sha256-FHFL58t6lMumvWqwundC8fDDDLOIvc+JJBNIAlPjrDY=",
+        "lastModified": 1699596684,
+        "narHash": "sha256-XSXP8zjBZJBVvpNb2WmY0eW8O2ce+sVyj1T0/iBRIvg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "017ef2132a5bda50bd713aeabce8f918502d4ec1",
+        "rev": "da4024d0ead5d7820f6bd15147d3fe2a0c0cec73",
         "type": "github"
       },
       "original": {
@@ -582,11 +582,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1698834043,
-        "narHash": "sha256-eNDPr9Om6cFlt33gLUhgSIq3Lmuo1DqMBS5B7L630SE=",
+        "lastModified": 1699370305,
+        "narHash": "sha256-NbcZk6VqXwEgsSOg7G1O6qavlnaNlK1urwbBAJhDupk=",
         "owner": "pedorich-n",
         "repo": "playit-nixos-module",
-        "rev": "451abb6b1262267872127e2aa6b5c66bbee8c11b",
+        "rev": "d2419b162337a5e291529b394d97d040bacea33f",
         "type": "github"
       },
       "original": {
@@ -608,8 +608,13 @@
           "airtable-telegram-bot",
           "nixpkgs"
         ],
-        "systems": "systems",
-        "treefmt-nix": "treefmt-nix"
+        "systems": [
+          "airtable-telegram-bot",
+          "systems"
+        ],
+        "treefmt-nix": [
+          "airtable-telegram-bot"
+        ]
       },
       "locked": {
         "lastModified": 1698827751,
@@ -636,8 +641,8 @@
           "nixos-mutable-files-manager",
           "nixpkgs"
         ],
-        "systems": "systems_2",
-        "treefmt-nix": "treefmt-nix_2"
+        "systems": "systems",
+        "treefmt-nix": "treefmt-nix"
       },
       "locked": {
         "lastModified": 1698827751,
@@ -668,11 +673,11 @@
         "treefmt-nix": []
       },
       "locked": {
-        "lastModified": 1698827751,
-        "narHash": "sha256-24zEKQqpgolmJGR9Zvaha/361BIGeMPh5aU5oReLL0k=",
+        "lastModified": 1699840429,
+        "narHash": "sha256-MmnYcEht/ACXT1jVz+52PKFaX3ahz7+utOSjOVVdgGs=",
         "owner": "nix-community",
         "repo": "poetry2nix",
-        "rev": "4099e32cb94b586fd3d213465942111964ff50ff",
+        "rev": "4b235496501eacebc1afe7cc9bd8ce9cf88502e7",
         "type": "github"
       },
       "original": {
@@ -731,7 +736,7 @@
         "poetry2nix": "poetry2nix_3",
         "ragenix": "ragenix",
         "rust-overlay": "rust-overlay",
-        "systems": "systems_3"
+        "systems": "systems_2"
       }
     },
     "rust-overlay": {
@@ -744,11 +749,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1698804896,
-        "narHash": "sha256-vSms7A9bWHC00343qyXuNVm65LZDagDkukpkpwC2VxY=",
+        "lastModified": 1699928012,
+        "narHash": "sha256-7WfRTTBdkRJgjiJRsSShMXlfmOG1X0FqNdHaLATAL+w=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "c5f8326c668b78275eccce90839861a3c8e1d3b2",
+        "rev": "e485313fc485700a9f1f9b8b272ddc0621d08357",
         "type": "github"
       },
       "original": {
@@ -781,48 +786,12 @@
         "type": "github"
       },
       "original": {
-        "id": "systems",
-        "type": "indirect"
-      }
-    },
-    "systems_3": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
       }
     },
     "treefmt-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "airtable-telegram-bot",
-          "poetry2nix",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1697388351,
-        "narHash": "sha256-63N2eBpKaziIy4R44vjpUu8Nz5fCJY7okKrkixvDQmY=",
-        "owner": "numtide",
-        "repo": "treefmt-nix",
-        "rev": "aae39f64f5ecbe89792d05eacea5cb241891292a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "treefmt-nix_2": {
       "inputs": {
         "nixpkgs": [
           "nixos-mutable-files-manager",
