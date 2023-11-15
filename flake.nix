@@ -75,6 +75,7 @@
         flake-parts.follows = "flake-parts";
         systems.follows = "systems";
         flake-utils.follows = "flake-utils";
+        poetry2nix.follows = "poetry2nix";
       };
     };
 
@@ -85,6 +86,7 @@
         flake-parts.follows = "flake-parts";
         systems.follows = "systems";
         flake-utils.follows = "flake-utils";
+        poetry2nix.follows = "poetry2nix";
       };
     };
 
