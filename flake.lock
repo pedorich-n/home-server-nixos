@@ -136,11 +136,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1699949962,
-        "narHash": "sha256-TDDzeBybYBrys6Ohqlaf91V6SoHhSG+imvGwjC6lBVA=",
+        "lastModified": 1700124362,
+        "narHash": "sha256-RVcGUJKbPdZ5CJXQ6vA4r2s9L6SsT9YU6mm1qP7twv8=",
         "owner": "pedorich-n",
         "repo": "FabricModpack",
-        "rev": "06478a22087f4f488d801bb6cbe54b3da1a7067f",
+        "rev": "5f3f26df41276154da0d8ea2e8de85e7419c08c6",
         "type": "github"
       },
       "original": {
