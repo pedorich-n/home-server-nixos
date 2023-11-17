@@ -20,6 +20,7 @@
       enable = true;
       server-service = "minecraft-server-money-guys-2.service";
       tunnel-service = "playit.service";
+      restart-timeout = 90;
     };
   };
 }

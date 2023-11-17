@@ -51,7 +51,7 @@ in
         cfg.server-service
         cfg.tunnel-service
       ];
-      requires = [ cfg.server-service cfg.tunnel-service ];
+      requires = [ cfg.server-service ];
 
       script = builtins.concatStringsSep " " [
         "${getExe pkgs-unstable.minecraft-server-check}"
