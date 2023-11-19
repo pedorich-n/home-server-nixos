@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
   generateIni = filename: content: (pkgs.formats.ini { }).generate filename content;
 
-  config = {
+  mainConfig = {
     # https://learn.netdata.cloud/docs/configuring/daemon-configuration
     ml = {
       "enabled" = "no";
@@ -64,5 +64,19 @@ let
       "mtu for all interfaces" = "no";
     };
   };
+
+  # TODO: figuire out a way to access host from inside the netdata podman container instead of accessing it via local network
+  prometheusConfig = ''
+    jobs:
+      - name: Minecraft
+        url: http://192.168.15.10:${toString config.custom.shared-config.ports.minecraft-money-guys-2.tcp.metrics.port}/metrics
+        selector:
+          deny:
+           - jvm_buffer_pool*
+           - jvm_memory_pool_*{pool!*"CodeHeap*"}
+  '';
 in
-generateIni "netdata.conf" config
+{
+  main = generateIni "netdata.conf" mainConfig;
+  prometheus = pkgs.writeText "netdata-prometheus.conf" prometheusConfig;
+}

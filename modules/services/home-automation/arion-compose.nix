@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
 
@@ -10,11 +10,11 @@ let
     tailscale = "172.32.0.10";
   };
 
-  configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
+  configs = builtins.mapAttrs (_: path: import path { inherit pkgs config lib; }) {
     mosquitto = ./mosquitto/config.nix;
   };
 
-  helpers = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
+  helpers = builtins.mapAttrs (_: path: import path { inherit pkgs config lib; }) {
     dnsmasq = ./dnsmasq/helper.nix;
     tailscaleEntryPoint = ./tailscale/entrypoint.nix;
   };

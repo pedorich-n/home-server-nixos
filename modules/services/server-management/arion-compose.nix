@@ -1,8 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   storeFor = localPath: remotePath: "/mnt/ha-store/${localPath}:${remotePath}";
 
-  configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
+  configs = builtins.mapAttrs (_: path: import path { inherit config pkgs lib; }) {
     netdata = ./netdata/config.nix;
   };
 in
@@ -75,7 +75,8 @@ in
               (storeFor "netdata/cache" "/var/cache/netdata")
               (storeFor "netdata/config" "/etc/netdata")
               (storeFor "netdata/data" "/var/lib/netdata")
-              "${configs.netdata}:/etc/netdata/netdata.conf:ro"
+              "${configs.netdata.main}:/etc/netdata/netdata.conf:ro"
+              "${configs.netdata.prometheus}:/etc/netdata/go.d/prometheus.conf:ro"
               # "/run/podman/podman.sock:/run/podman/podman.sock:ro"
               "/etc/passwd:/host/etc/passwd:ro"
               "/etc/group:/host/etc/group:ro"

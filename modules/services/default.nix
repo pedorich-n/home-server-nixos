@@ -1,7 +1,6 @@
 {
   imports = [
     ./arion.nix
-    ./gui.nix
     ./home-automation
     ./minecraft-servers
     ./openssh.nix

@@ -1,5 +1,6 @@
 {
   imports = [
+    ./modules/custom
     ./modules/hardware
     ./modules/services
 
