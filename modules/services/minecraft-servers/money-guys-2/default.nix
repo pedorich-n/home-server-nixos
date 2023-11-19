@@ -3,15 +3,11 @@ let
   serverName = "money-guys-2";
 in
 {
-  custom.shared-config.ports.minecraft-money-guys-2 = {
-    udp = {
-      game.port = 43000;
-    };
-    tcp = {
-      metrics = { port = 44040; openFirewall = true; };
-      square-map.port = 44080;
-      tracks-map.port = 44081;
-    };
+  custom.shared-config.ports.minecraft-money-guys-2.tcp = {
+    game.port = 43000;
+    metrics = { port = 44040; openFirewall = true; };
+    square-map.port = 44080;
+    tracks-map.port = 44081;
   };
 
   services.minecraft-servers.servers = {
@@ -22,7 +18,7 @@ in
 
       package = pkgs.fabricServers.fabric-1_20_1;
       serverProperties = {
-        server-port = config.custom.shared-config.ports.minecraft-money-guys-2.udp.game.port;
+        server-port = config.custom.shared-config.ports.minecraft-money-guys-2.tcp.game.port;
         difficulty = 2;
         level-name = "the_best_1";
         motd = "NixOS Managed Server. Humans are not allowed.";
