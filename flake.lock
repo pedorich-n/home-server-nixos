@@ -136,11 +136,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1700146961,
-        "narHash": "sha256-V88HAIeaQNyPDPIqmSHBJ2Noo5Y8GlgqQjj+FG59YD0=",
+        "lastModified": 1700372487,
+        "narHash": "sha256-5PIkY5VwY/u5YLDHDUFS1q1pFlBgKdhBWt6otdrvcbY=",
         "owner": "pedorich-n",
         "repo": "FabricModpack",
-        "rev": "18cfbad1b08bfe1dd8aba3650271792ab38c1ddc",
+        "rev": "e9ecb0c472b488f8cc6ef808415aadbd3ec5b2ff",
         "type": "github"
       },
       "original": {
@@ -327,11 +327,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1700027580,
-        "narHash": "sha256-CK6+kE1oZ20SaCVrPKYZiA1Kzi4XWNxZy3BsarC3NwI=",
+        "lastModified": 1700374824,
+        "narHash": "sha256-RZmL6cY7mesj79eB71qjtOXBshhu6FtvH4nzOOOrfqs=",
         "ref": "refs/heads/main",
-        "rev": "aa248cb829881e1b58bfe521dfcf6b2561e53f93",
-        "revCount": 24,
+        "rev": "441f3b79fb4a97a74b8b17676a0211d37cad5918",
+        "revCount": 25,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -525,16 +525,15 @@
     "playit-agent-source": {
       "flake": false,
       "locked": {
-        "lastModified": 1698808677,
-        "narHash": "sha256-KZx4drFJWUF8q8hsEHVxlWJ6Y6qXQe7rjp1rMap2tV4=",
-        "owner": "pedorich-n",
+        "lastModified": 1700274219,
+        "narHash": "sha256-uO2oEQVDX4ZRyMR+YLhmEpuTuBILkyPoj9jPS6Yr2Jk=",
+        "owner": "playit-cloud",
         "repo": "playit-agent",
-        "rev": "66d474ba45879d505743a3e02e0626a1c1733917",
+        "rev": "cf14bba4777cc476d51868f88feedf265c4d2f42",
         "type": "github"
       },
       "original": {
-        "owner": "pedorich-n",
-        "ref": "lookup-add-port-check",
+        "owner": "playit-cloud",
         "repo": "playit-agent",
         "type": "github"
       }
@@ -553,9 +552,7 @@
         "nixpkgs": [
           "nixpkgs-unstable"
         ],
-        "playit-agent-source": [
-          "playit-agent-source"
-        ],
+        "playit-agent-source": "playit-agent-source",
         "rust-overlay": [
           "rust-overlay"
         ],
@@ -650,7 +647,6 @@
         "nixos-mutable-files-manager": "nixos-mutable-files-manager",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "playit-agent-source": "playit-agent-source",
         "playit-nixos-module": "playit-nixos-module",
         "poetry2nix": "poetry2nix",
         "ragenix": "ragenix",
