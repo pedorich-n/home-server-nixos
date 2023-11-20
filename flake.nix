@@ -49,23 +49,18 @@
       };
     };
 
-    ragenix = {
-      url = "github:yaxitech/ragenix";
+    agenix = {
+      url = "github:ryantm/agenix";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
-        flake-utils.follows = "flake-utils";
-        rust-overlay.follows = "rust-overlay";
-        crane.follows = "crane";
-        # agenix.inputs.darwin.follows = ""; # https://github.com/NixOS/nix/issues/5790
+        darwin.follows = "";
+        home-manager.follows = "";
       };
     };
 
     home-server-nixos-secrets = {
       url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-        flake-parts.follows = "flake-parts";
-      };
+      flake = false;
     };
 
     airtable-telegram-bot = {
@@ -121,7 +116,7 @@
     };
 
     homer-theme = {
-      url = "github:walkxcode/homer-theme?dir=assets";
+      url = "github:walkxcode/homer-theme";
       flake = false;
     };
   };
@@ -148,7 +143,7 @@
           system = "x86_64-linux";
           modules = [
             inputs.arion.nixosModules.arion
-            inputs.ragenix.nixosModules.default
+            inputs.agenix.nixosModules.default
             inputs.airtable-telegram-bot.nixosModules.default
             inputs.nixos-mutable-files-manager.nixosModules.default
             inputs.nix-minecraft.nixosModules.minecraft-servers

@@ -4,7 +4,7 @@ let
 in
 {
   custom.shared-config.ports.minecraft-money-guys-2.tcp = {
-    game.port = 43000;
+    game = { port = 43000; openFirewall = true; };
     metrics = { port = 44040; openFirewall = true; };
     square-map.port = 44080;
     tracks-map.port = 44081;

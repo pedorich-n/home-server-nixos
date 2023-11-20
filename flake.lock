@@ -2,18 +2,18 @@
   "nodes": {
     "agenix": {
       "inputs": {
-        "darwin": "darwin",
+        "darwin": [],
+        "home-manager": [],
         "nixpkgs": [
-          "ragenix",
-          "nixpkgs"
+          "nixpkgs-unstable"
         ]
       },
       "locked": {
-        "lastModified": 1682101079,
-        "narHash": "sha256-MdAhtjrLKnk2uiqun1FWABbKpLH090oeqCSiWemtuck=",
+        "lastModified": 1696775529,
+        "narHash": "sha256-TYlE4B0ktPtlJJF9IFxTWrEeq+XKG8Ny0gc2FGEAdj0=",
         "owner": "ryantm",
         "repo": "agenix",
-        "rev": "2994d002dcff5353ca1ac48ec584c7f6589fe447",
+        "rev": "daf42cb35b2dc614d1551e37f96406e4c4a2d3e4",
         "type": "github"
       },
       "original": {
@@ -96,29 +96,6 @@
       "original": {
         "owner": "ipetkov",
         "repo": "crane",
-        "type": "github"
-      }
-    },
-    "darwin": {
-      "inputs": {
-        "nixpkgs": [
-          "ragenix",
-          "agenix",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1673295039,
-        "narHash": "sha256-AsdYgE8/GPwcelGgrntlijMg4t3hLFJFCRF3tL5WVjA=",
-        "owner": "lnl7",
-        "repo": "nix-darwin",
-        "rev": "87b9d090ad39b25b2400029c64825fc2a8868943",
-        "type": "github"
-      },
-      "original": {
-        "owner": "lnl7",
-        "ref": "master",
-        "repo": "nix-darwin",
         "type": "github"
       }
     },
@@ -318,20 +295,13 @@
       }
     },
     "home-server-nixos-secrets": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
+      "flake": false,
       "locked": {
-        "lastModified": 1700374824,
-        "narHash": "sha256-RZmL6cY7mesj79eB71qjtOXBshhu6FtvH4nzOOOrfqs=",
+        "lastModified": 1700445263,
+        "narHash": "sha256-6RrcIgNVww9mvkKFcK9zPp/+BtY7chBzo7scMDXzYGk=",
         "ref": "refs/heads/main",
-        "rev": "441f3b79fb4a97a74b8b17676a0211d37cad5918",
-        "revCount": 25,
+        "rev": "c1108c125b0c0e8dfca47a47c37cf782a128948c",
+        "revCount": 27,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -343,7 +313,6 @@
     "homer-theme": {
       "flake": false,
       "locked": {
-        "dir": "assets",
         "lastModified": 1676025017,
         "narHash": "sha256-Oj0PGa70VxSwxg0AtIla+OHmbDHVXXg0qHebssDyiP8=",
         "owner": "walkxcode",
@@ -352,7 +321,6 @@
         "type": "github"
       },
       "original": {
-        "dir": "assets",
         "owner": "walkxcode",
         "repo": "homer-theme",
         "type": "github"
@@ -602,38 +570,9 @@
         "type": "github"
       }
     },
-    "ragenix": {
-      "inputs": {
-        "agenix": "agenix",
-        "crane": [
-          "crane"
-        ],
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ],
-        "rust-overlay": [
-          "rust-overlay"
-        ]
-      },
-      "locked": {
-        "lastModified": 1682237245,
-        "narHash": "sha256-xbBR7LNK+d5Yi/D6FXQGc1R6u2VV2nwr/Df5iaEbOEQ=",
-        "owner": "yaxitech",
-        "repo": "ragenix",
-        "rev": "281f68c3d477904f79ff1cd5807a8c226cd80a50",
-        "type": "github"
-      },
-      "original": {
-        "owner": "yaxitech",
-        "repo": "ragenix",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
+        "agenix": "agenix",
         "airtable-telegram-bot": "airtable-telegram-bot",
         "arion": "arion",
         "crane": "crane",
@@ -649,7 +588,6 @@
         "nixpkgs-unstable": "nixpkgs-unstable",
         "playit-nixos-module": "playit-nixos-module",
         "poetry2nix": "poetry2nix",
-        "ragenix": "ragenix",
         "rust-overlay": "rust-overlay",
         "systems": "systems"
       }
