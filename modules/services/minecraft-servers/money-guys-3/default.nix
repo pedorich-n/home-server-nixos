@@ -1,19 +1,18 @@
 { minecraftLib, pkgs, inputs, system, config, ... }:
 let
-  serverName = "money-guys-2";
+  serverName = "money-guys-3";
 in
 {
-  custom.shared-config.ports.minecraft-money-guys-2.tcp = {
+  custom.shared-config.ports.minecraft-money-guys-3.tcp = {
     game = { port = 43000; openFirewall = true; };
     metrics = { port = 44040; openFirewall = true; };
-    square-map.port = 44080;
-    tracks-map.port = 44081;
+    square-map = { port = 44080; openFirewall = true; };
   };
 
   services.minecraft-servers.servers = {
     ${serverName} = {
-      enable = false;
-      autoStart = false;
+      enable = true;
+      autoStart = true;
       openFirewall = true;
 
       package = pkgs.fabricServers.fabric-1_20_1;

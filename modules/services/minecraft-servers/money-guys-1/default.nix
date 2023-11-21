@@ -34,7 +34,7 @@ in
       jvmOpts = minecraftLib.aikarFlagsWith "4096M";
 
       symlinks = with pkgs; {
-        "server-icon.png" = ./server-icon.png;
+        "server-icon.png" = ../default-server-icon.png;
       } // (minecraftLib.mkConsoleAccessSymlink serverName)
       // (minecraftLib.mkPluginSymlinks {
         AntiPopup = fetchurl {

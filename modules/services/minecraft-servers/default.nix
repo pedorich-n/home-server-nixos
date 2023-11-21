@@ -6,6 +6,7 @@
     ./playit.nix
     ./money-guys-1
     ./money-guys-2
+    ./money-guys-3
   ];
 
   services = {
@@ -18,7 +19,7 @@
 
     minecraft-server-check = {
       enable = true;
-      server-service = "minecraft-server-money-guys-2.service";
+      server-service = "minecraft-server-money-guys-3.service";
       tunnel-service = "playit.service";
       restart-timeout = 90;
     };
