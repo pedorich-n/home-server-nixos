@@ -10,4 +10,5 @@ pkgs.poetry2nix.mkPoetryApplication {
       preferWheel = true;
     };
   });
+  meta.mainProgram = "minecraft-server-check";
 }
