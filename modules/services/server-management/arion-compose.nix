@@ -55,7 +55,7 @@ in
             pid = "host"; # Not implemented in Arion
           };
           service = {
-            image = "netdata/netdata:v1.43.2";
+            image = "netdata/netdata:v1.44.1";
             container_name = "netdata";
             hostname = "nucbox5";
             networks = [
@@ -97,7 +97,7 @@ in
         };
 
         portainer.service = {
-          image = "portainer/portainer-ce:2.19.1-alpine";
+          image = "portainer/portainer-ce:2.19.4-alpine";
           container_name = "portainer";
           environment = {
             TZ = "${config.time.timeZone}";
