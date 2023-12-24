@@ -114,15 +114,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1700827717,
-        "narHash": "sha256-4218oSm/CFDzUFbUg/+/6nKVjMZ4td+fZY2doEy1OkA=",
+        "lastModified": 1703430084,
+        "narHash": "sha256-2ruQk2EjIJPXZKNx1H/rKocM709fOX7PQsRkld41SV4=",
         "owner": "pedorich-n",
         "repo": "FabricModpack",
-        "rev": "103798cde239cef63c864984e07ef167a4fc81e9",
+        "rev": "4aca7a0f1c9e8d34bc7f50d71fa1663de84363ba",
         "type": "github"
       },
       "original": {
         "owner": "pedorich-n",
+        "ref": "money-guys-reborn",
         "repo": "FabricModpack",
         "type": "github"
       }

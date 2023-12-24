@@ -100,7 +100,7 @@
     };
 
     fabric-modpack = {
-      url = "github:pedorich-n/FabricModpack";
+      url = "github:pedorich-n/FabricModpack?ref=money-guys-reborn";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         systems.follows = "systems";
