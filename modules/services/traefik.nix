@@ -1,5 +1,5 @@
 {
-  networking.firewall.allowedTCPPorts = [ 80 ];
+  networking.firewall.allowedTCPPorts = [ 80 1883 ];
 
   services.traefik = {
     enable = true;
@@ -25,6 +25,7 @@
 
       entryPoints = {
         web.address = ":80";
+        mqtt.address = ":1883";
       };
     };
 

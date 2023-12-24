@@ -164,9 +164,14 @@ in
             (storeFor "mosquitto/data" "/mosquitto/data")
             (storeFor "mosquitto/log" "/mosquitto/log")
           ];
-          networks = [ "default" ];
+          networks = [ "default" "traefik" ];
           user = userSetting;
           labels = {
+            "traefik.enable" = "true";
+            "traefik.tcp.routers.mosquitto.rule" = "HostSNI(`*`)";
+            "traefik.tcp.routers.mosquitto.entrypoints" = "mqtt";
+            "traefik.tcp.routers.mosquitto.service" = "mosquitto";
+            "traefik.tcp.services.mosquitto.loadBalancer.server.port" = "1883";
             "wud.display.icon" = "si:eclipsemosquitto";
           };
         };
