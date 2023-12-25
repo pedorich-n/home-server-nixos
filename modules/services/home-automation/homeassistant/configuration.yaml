@@ -70,3 +70,9 @@ lovelace:
       icon: mdi:view-dashboard-outline
       show_in_sidebar: true
       filename: ui_lovelace_minimalist/dashboard/ui-lovelace-custom.yaml
+    lovelace-minimalist-grid:
+      mode: yaml
+      title: Minimalist Grid
+      icon: mdi:view-dashboard-outline
+      show_in_sidebar: true
+      filename: ui_lovelace_minimalist/dashboard/ui-lovelace-grid.yaml
