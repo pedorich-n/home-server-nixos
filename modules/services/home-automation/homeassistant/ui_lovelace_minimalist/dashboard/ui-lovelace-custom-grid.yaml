@@ -33,14 +33,14 @@ views:
           grid-area: "livingroom"
         layout:
           margin: "0"
-          grid-template-columns: "4fr 1fr 1fr"
+          grid-template-columns: "3fr 1fr 1fr"
           grid-template-rows: "auto"
           grid-template-areas: |
             "title state1 state2"
             "body body body"
           mediaquery:
             "(max-width: 600px)":
-              grid-template-columns: "4fr 1.7fr 1.7fr"
+              grid-template-columns: "3fr 1.75fr 1.75fr"
         cards:
           - type: "custom:button-card"
             template: card_title
@@ -85,14 +85,14 @@ views:
           grid-area: "bedroom"
         layout:
           margin: "0"
-          grid-template-columns: "4fr 1fr 1fr"
+          grid-template-columns: "3fr 1fr 1fr"
           grid-template-rows: "auto"
           grid-template-areas: |
             "title state1 state2"
             "body body body"
           mediaquery:
             "(max-width: 600px)":
-              grid-template-columns: "4fr 1.7fr 1.7fr"
+              grid-template-columns: "3fr 1.75fr 1.75fr"
         cards:
           - type: "custom:button-card"
             template: card_title
