@@ -1,9 +1,9 @@
 { minecraftLib, pkgs, inputs, system, config, ... }:
 let
-  serverName = "money-guys-3";
+  serverName = "money-guys-4";
 in
 {
-  custom.shared-config.ports.minecraft-money-guys-3.tcp = {
+  custom.shared-config.ports."minecraft-${serverName}".tcp = {
     game = { port = 43000; openFirewall = true; };
     metrics = { port = 44040; openFirewall = true; };
     square-map = { port = 44080; openFirewall = true; };
@@ -11,13 +11,13 @@ in
 
   services.minecraft-servers.servers = {
     ${serverName} = {
-      enable = false;
+      enable = true;
       autoStart = true;
       openFirewall = true;
 
       package = pkgs.fabricServers.fabric-1_20_1;
       serverProperties = {
-        server-port = config.custom.shared-config.ports.minecraft-money-guys-3.tcp.game.port;
+        server-port = config.custom.shared-config.ports."minecraft-${serverName}".tcp.game.port;
         difficulty = 2;
         level-name = "the_best_1";
         motd = "NixOS Managed Server. Humans are not allowed.";
@@ -30,7 +30,7 @@ in
       jvmOpts = minecraftLib.aikarFlagsWith "4096M";
 
       symlinks = {
-        "server-icon.png" = ../default-server-icon.png;
+        "server-icon.png" = ./icon.png;
       } // (minecraftLib.mkConsoleAccessSymlink serverName)
       // (minecraftLib.mkPackwizModsSymlinks inputs.fabric-modpack.packages.${system}.packwiz-server);
     };
