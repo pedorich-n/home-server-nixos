@@ -148,7 +148,6 @@ views:
         entity: select.sharp_hv_r75_operating_mode_select
         variables:
           humidifier_name: "Humidifier"
-          humidifier_icon: "mdi:air-humidifier"
           humidifier_on_off_button: "button.sharp_hv_r75_on_off_switch"
           humidifier_water_level_sensor: "sensor.sharp_hv_r75_water_level"
 

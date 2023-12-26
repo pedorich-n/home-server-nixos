@@ -5,7 +5,6 @@ custom_card_humidifier:
     - "icon_more_info_new"
   variables:
     humidifier_name: "[[[ return entity.attributes.friendly_name ]]]"
-    humidifier_icon: "[[[ return 'mdi:air-humidifier' ]]]"
     humidifier_on_off_button:
     humidifier_water_level_sensor:
   show_icon: false
@@ -13,36 +12,16 @@ custom_card_humidifier:
   show_label: false
   styles:
     grid:
-      - grid-template-areas: >
-          [[[
-                var areas = [];
-                areas.push("item1 item4");
-                areas.push("item3 item3");
-
-                return "\"" + areas.join("\" \"") + "\"";
-          ]]]
-      - grid-template-columns: >
-          [[[
-                  return "2fr 1fr";
-          ]]]
-      - grid-template-rows: >
-          [[[
-                var rows = [];
-                rows.push("min-content");
-                rows.push("min-content");
-
-                return rows.join(" ");
-          ]]]
+      - grid-template-areas: |
+          "item1 item4"
+          "item3 item3"
+      - grid-template-columns: "2fr 1fr"
+      - grid-template-rows: "min-content min-content"
       - row-gap: "12px"
     card:
       - border-radius: "var(--border-radius)"
       - box-shadow: "var(--box-shadow)"
       - padding: "12px"
-    custom_fields:
-      item3:
-        - display: '[[[ return "block" ]]]'
-      item4:
-        - display: '[[[ return "block" ]]]'
   custom_fields:
     item1:
       card:
@@ -53,20 +32,16 @@ custom_card_humidifier:
               type: "custom:button-card"
               entity: "[[[ return entity.entity_id ]]]"
               variables: "[[[ return variables ]]]"
-              icon: "[[[ return variables.humidifier_icon ]]]"
+              icon: "mdi:air-humidifier"
               tap_action:
                 action: "call-service"
                 service: "button.press"
                 service_data:
                   entity_id: "[[[ return variables.humidifier_on_off_button ]]]"
-              # state:
-              #   - operator: "template"
-              #     value: "[[[ return entity.state != 'Off' ]]]"
-              #     styles:
-              #       icon:
-              #         - color: "rgba(var(--color-theme),1)"
-              #       img_cell:
-              #         - background-color: "rgba(var(--color-purple),0.2)"
+              state:
+                - operator: "template"
+                  value: "[[[ return entity.state == 'Off' ]]]"
+                  icon: "mdi:air-humidifier-off"
           item2:
             card:
               type: "custom:button-card"
@@ -84,39 +59,21 @@ custom_card_humidifier:
         type: "custom:button-card"
         styles:
           grid:
-            - grid-template-areas: >
-                [[[
-                      var areas = [ "auto", "night", "fan_slow", "fan_fast" ];
-                      return "\"" + areas.join(" ") + "\"";
-                ]]]
-            - grid-template-columns: >
-                [[[
-                      var columns = [ "1fr", "1fr", "1fr", "1fr" ];
-                      return columns.join(" ");
-                ]]]
+            - grid-template-areas: |
+                "auto night fan_slow fan_fast"
+            - grid-template-columns: "1fr 1fr 1fr 1fr"
             - grid-template-rows: "min-content"
             - column-gap: "7px"
           card:
             - box-shadow: "none"
             - padding: "0px"
             - background: "none"
-          custom_fields:
-            auto:
-              - display: '[[[ return "block" ]]]'
-            night:
-              - display: '[[[ return "block" ]]]'
-            fan_slow:
-              - display: '[[[ return "block" ]]]'
-            fan_fast:
-              - display: '[[[ return "block" ]]]'
-            ion:
-              - display: '[[[ return "block" ]]]'
         custom_fields:
           auto:
             card:
               type: "custom:button-card"
               template: "mode_button_widget"
-              icon: "mdi:autorenew"
+              icon: "mdi:creation"
               entity: "[[[ return entity.entity_id ]]]"
               variables:
                 option_value: "Auto"
@@ -194,7 +151,7 @@ water_level_widget:
   label: |-
     [[[
         var level = entity.state;
-        if (level == null || level == "Unavailable" || level == "undefined") {
+        if (level == null || level.toLowerCase() == "unavailable") {
           var level = '-';
         }
         return level + entity.attributes.unit_of_measurement;
