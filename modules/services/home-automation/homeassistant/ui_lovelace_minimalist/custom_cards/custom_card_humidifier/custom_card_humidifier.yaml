@@ -1,58 +1,220 @@
 ---
 custom_card_humidifier:
   template:
-    - "icon_more_info_new"
     - "ulm_translation_engine"
+    - "icon_more_info_new"
+  variables:
+    humidifier_name: "[[[ return entity.attributes.friendly_name ]]]"
+    humidifier_icon: "[[[ return 'mdi:air-humidifier' ]]]"
+    humidifier_on_off_button:
+    humidifier_water_level_sensor:
   show_icon: false
   show_name: false
   show_label: false
-  variables:
-    ulm_card_icon: "[[[ return entity.attributes.icon ]]]"
-    ulm_card_name: "[[[ return entity.attributes.friendly_name ]]]"
-    ulm_card_humidity_sensor:
   styles:
     grid:
-      - grid-template-areas: '"item1 item3"'
-      - grid-template-columns: "2fr 1fr"
+      - grid-template-areas: >
+          [[[
+                var areas = [];
+                areas.push("item1 item4");
+                areas.push("item3 item3");
+
+                return "\"" + areas.join("\" \"") + "\"";
+          ]]]
+      - grid-template-columns: >
+          [[[
+                  return "2fr 1fr";
+          ]]]
+      - grid-template-rows: >
+          [[[
+                var rows = [];
+                rows.push("min-content");
+                rows.push("min-content");
+
+                return rows.join(" ");
+          ]]]
+      - row-gap: "12px"
+    card:
+      - border-radius: "var(--border-radius)"
+      - box-shadow: "var(--box-shadow)"
+      - padding: "12px"
+    custom_fields:
+      item3:
+        - display: '[[[ return "block" ]]]'
+      item4:
+        - display: '[[[ return "block" ]]]'
   custom_fields:
     item1:
       card:
         type: "custom:button-card"
-        template:
-          - "blue"
         custom_fields:
           item1:
             card:
               type: "custom:button-card"
-              template:
-                - "blue"
               entity: "[[[ return entity.entity_id ]]]"
-              icon: "[[[ return variables.ulm_card_icon; ]]]"
               variables: "[[[ return variables ]]]"
+              icon: "[[[ return variables.humidifier_icon ]]]"
+              tap_action:
+                action: "call-service"
+                service: "button.press"
+                service_data:
+                  entity_id: "[[[ return variables.humidifier_on_off_button ]]]"
+              # state:
+              #   - operator: "template"
+              #     value: "[[[ return entity.state != 'Off' ]]]"
+              #     styles:
+              #       icon:
+              #         - color: "rgba(var(--color-theme),1)"
+              #       img_cell:
+              #         - background-color: "rgba(var(--color-purple),0.2)"
           item2:
             card:
               type: "custom:button-card"
-              template:
-                - "blue_no_card"
               entity: "[[[ return entity.entity_id ]]]"
-              name: "[[[ return variables.ulm_card_name; ]]]"
-              label: "[[[ return variables.ulm_translation_state ]]]"
               variables: "[[[ return variables ]]]"
+              name: "[[[ return variables.humidifier_name ]]]"
+              tap_action:
+                action: "call-service"
+                service: "button.press"
+                service_data:
+                  entity_id: "[[[ return variables.humidifier_on_off_button; ]]]"
+              label: "[[[ return variables.ulm_translation_state; ]]]"
     item3:
       card:
         type: "custom:button-card"
-        template: "custom_widget_humidity"
-        entity: "[[[ return variables.ulm_card_humidity_sensor ]]]"
+        styles:
+          grid:
+            - grid-template-areas: >
+                [[[
+                      var areas = [ "auto", "night", "fan_slow", "fan_fast" ];
+                      return "\"" + areas.join(" ") + "\"";
+                ]]]
+            - grid-template-columns: >
+                [[[
+                      var columns = [ "1fr", "1fr", "1fr", "1fr" ];
+                      return columns.join(" ");
+                ]]]
+            - grid-template-rows: "min-content"
+            - column-gap: "7px"
+          card:
+            - box-shadow: "none"
+            - padding: "0px"
+            - background: "none"
+          custom_fields:
+            auto:
+              - display: '[[[ return "block" ]]]'
+            night:
+              - display: '[[[ return "block" ]]]'
+            fan_slow:
+              - display: '[[[ return "block" ]]]'
+            fan_fast:
+              - display: '[[[ return "block" ]]]'
+            ion:
+              - display: '[[[ return "block" ]]]'
+        custom_fields:
+          auto:
+            card:
+              type: "custom:button-card"
+              template: "mode_button_widget"
+              icon: "mdi:autorenew"
+              entity: "[[[ return entity.entity_id ]]]"
+              variables:
+                option_value: "Auto"
+                active_card_background: "rgba(var(--color-blue),0.5)"
+                active_card_icon_color: "rgba(var(--color-blue),1)"
 
-custom_widget_humidity:
+          night:
+            card:
+              type: "custom:button-card"
+              template: "mode_button_widget"
+              icon: "mdi:weather-night"
+              entity: "[[[ return entity.entity_id ]]]"
+              variables:
+                option_value: "Night"
+                active_card_background: "rgba(var(--color-theme),0.4)"
+                active_card_icon_color: "rgba(var(--color-theme),1)"
+
+          fan_slow:
+            card:
+              type: "custom:button-card"
+              template: "mode_button_widget"
+              icon: "mdi:fan-chevron-down"
+              entity: "[[[ return entity.entity_id ]]]"
+              variables:
+                option_value: "Fan Slow"
+                active_card_background: "rgba(var(--color-yellow),0.4)"
+                active_card_icon_color: "rgba(var(--color-yellow),1)"
+
+          fan_fast:
+            card:
+              type: "custom:button-card"
+              template: "mode_button_widget"
+              icon: "mdi:fan-chevron-up"
+              entity: "[[[ return entity.entity_id ]]]"
+              variables:
+                option_value: "Fan Fast"
+                active_card_background: "rgba(var(--color-purple),0.4)"
+                active_card_icon_color: "rgba(var(--color-purple),1)"
+
+    item4:
+      card:
+        type: "custom:button-card"
+        template:
+          - water_level_widget
+        entity: "[[[ return variables.humidifier_water_level_sensor ]]]"
+
+mode_button_widget:
   type: "custom:button-card"
-  template:
-    - "ulm_translation_engine"
-  show_icon: false
+  template: "widget_icon"
+  variables:
+    option_value:
+    active_card_background:
+    active_card_icon_color:
+  tap_action:
+    action: "call-service"
+    service: "select.select_option"
+    service_data:
+      entity_id: "[[[ return entity.entity_id ]]]"
+      option: "[[[ return variables.option_value ]]]"
+  state:
+    - operator: "template"
+      value: "[[[ return entity.state == variables.option_value ]]]"
+      styles:
+        card:
+          - background-color: "[[[ return variables.active_card_background ]]]"
+        icon:
+          - color: "[[[ return variables.active_card_icon_color ]]]"
+
+water_level_widget:
+  type: "custom:button-card"
+  show_icon: true
   show_name: false
   show_label: true
-  label: "[[[ return variables.ulm_translation_state ]]]"
+  icon: "[[[ return entity.icon ]]]"
+  label: |-
+    [[[
+        var level = entity.state;
+        if (level == null || level == "Unavailable" || level == "undefined") {
+          var level = '-';
+        }
+        return level + entity.attributes.unit_of_measurement;
+    ]]]
   styles:
+    grid:
+      - grid-template-areas: "'i l'"
+      - grid-template-columns: "auto auto"
+      - grid-template-rows: "min-content"
+    icon:
+      - margin: "0"
+      - margin-right: "0.1em"
+      - margin-bottom: "0.1em"
+      - width: "80%"
+      - position: relative
+    img_cell:
+      - justify-self: "right"
+      - width: "21px"
+    label:
+      - justify-self: "left"
     card:
       - background: "none"
       - box-shadow: "none"

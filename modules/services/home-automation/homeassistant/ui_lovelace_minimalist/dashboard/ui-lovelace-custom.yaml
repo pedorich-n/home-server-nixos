@@ -11,26 +11,26 @@ views:
     cards:
       - type: "vertical-stack"
         cards:
-          - type: "custom:button-card"
-            template: card_weather
-            entity: weather.openweathermap
-            variables:
-              ulm_card_weather_name: " "
-              ulm_card_weather_primary_info:
-                - precipitation
-                - precipitation_probability
-              ulm_card_weather_secondary_info:
-                - extrema
-              ulm_card_tap_action: "popup"
-              ulm_custom_popup:
-                template: "popup_weather_forecast"
+          #          - type: "custom:button-card"
+          #            template: card_weather
+          #            entity: weather.openweathermap
+          #            variables:
+          #              ulm_card_weather_name: " "
+          #              ulm_card_weather_primary_info:
+          #                - precipitation
+          #                - precipitation_probability
+          #              ulm_card_weather_secondary_info:
+          #                - extrema
+          #              ulm_card_tap_action: "popup"
+          #              ulm_custom_popup:
+          #                template: "popup_weather_forecast"
 
           - type: "custom:button-card"
             template: card_title
             name: "Living Room"
 
           - type: "custom:button-card"
-            template: custom_card_mpse_thermostat
+            template: card_thermostat
             entity: climate.ldk_ac
             variables:
               ulm_card_thermostat_name: Air Conditioner
@@ -42,18 +42,19 @@ views:
 
           - type: "custom:button-card"
             template: custom_card_humidifier
-            entity: switch.humidifier_switch_ldk
+            entity: select.sharp_hv_r75_operating_mode_select
             variables:
-              ulm_card_name: "Humidifier"
-              ulm_card_icon: "mdi:air-humidifier"
-              ulm_card_humidity_sensor: "sensor.tuya_temperature_ldk_1_humidity"
+              humidifier_name: "Humidifier"
+              humidifier_icon: "mdi:air-humidifier"
+              humidifier_on_off_button: "button.sharp_hv_r75_on_off_switch"
+              humidifier_water_level_sensor: "sensor.sharp_hv_r75_water_level"
 
           - type: "custom:button-card"
             template: card_title
             name: "Bedroom"
 
           - type: "custom:button-card"
-            template: custom_card_mpse_thermostat
+            template: card_thermostat
             entity: climate.bedroom_ac
             variables:
               ulm_card_thermostat_name: Air Conditioner
@@ -68,6 +69,6 @@ views:
             name: " "
 
           - type: "custom:scheduler-card"
-            title: false
+            title: "Scheduler"
             include:
               - climate
