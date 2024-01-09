@@ -12,6 +12,9 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_ACTION_KEY }}
       - name: Checkout repository
         uses: actions/checkout@v3.5.3
+        with:
+          submodules: recursive
+          fetch-depth: 0
       - name: Install Nix
         uses: cachix/install-nix-action@v22
       - name: Flake Check Formatting
