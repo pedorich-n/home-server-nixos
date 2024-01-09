@@ -111,3 +111,4 @@ cards:
       grid-area: "others2"
     include:
       - climate
+      - select

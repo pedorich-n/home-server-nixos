@@ -64,12 +64,6 @@ climate:
 lovelace:
   mode: storage
   dashboards:
-    lovelace-minimalist-custom:
-      mode: yaml
-      title: Minimalist
-      icon: mdi:view-dashboard-outline
-      show_in_sidebar: true
-      filename: ui_lovelace_minimalist/dashboard/ui-lovelace-custom.yaml
     lovelace-minimalist-grid:
       mode: yaml
       title: Minimalist Grid
