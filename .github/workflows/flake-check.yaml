@@ -11,11 +11,12 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_ACTION_KEY }}
       - name: Checkout repository
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - name: Install Nix
-        uses: cachix/install-nix-action@v22
+        uses: cachix/install-nix-action@v24
       - name: Flake Check Formatting
-        working-directory: dev
-        run: nix flake check
+        run: nix flake check "./?dir=dev&submodules=1"
       - name: Flake Check
         run: nix flake check

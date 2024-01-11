@@ -1,4 +1,1 @@
-disabled = [
-  "eta_reduction",
-  "manual_inherit_from"
-]
+dev/statix.toml.default
