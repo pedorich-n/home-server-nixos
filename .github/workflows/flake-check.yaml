@@ -14,11 +14,9 @@ jobs:
         uses: actions/checkout@v3.5.3
         with:
           submodules: recursive
-          fetch-depth: 0
       - name: Install Nix
         uses: cachix/install-nix-action@v22
       - name: Flake Check Formatting
-        working-directory: dev
-        run: nix flake check
+        run: nix flake check "./?dir=dev&submodules=1"
       - name: Flake Check
         run: nix flake check
