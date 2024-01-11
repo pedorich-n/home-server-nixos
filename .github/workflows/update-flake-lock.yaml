@@ -1,11 +1,11 @@
-name: update-flake-locks
+name: update-flake-lock
 on:
   workflow_dispatch: # allows manual triggering
   schedule:
     - cron: "0 10 1,14 * *"
 
 jobs:
-  update-flake-locks:
+  update-flake-lock:
     runs-on: ubuntu-latest
     steps:
       - name: Setup SSH agent
@@ -13,9 +13,9 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_ACTION_KEY }}
       - name: Checkout repository
-        uses: actions/checkout@v3.6.0
+        uses: actions/checkout@v4
       - name: Install Nix
-        uses: cachix/install-nix-action@v22
+        uses: cachix/install-nix-action@v24
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@v20
         with:
