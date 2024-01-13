@@ -3,20 +3,6 @@ on: push
 
 jobs:
   nix-flake-check:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Setup SSH agent
-        uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_ACTION_KEY }}
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Install Nix
-        uses: cachix/install-nix-action@v24
-      - name: Flake Check Formatting
-        run: nix flake check "./?dir=dev&submodules=1"
-      - name: Flake Check
-        run: nix flake check
+    uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@main
+    secrets:
+      ssh_key: ${{ secrets.SSH_ACTION_KEY }}
