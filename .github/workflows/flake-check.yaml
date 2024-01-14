@@ -1,4 +1,4 @@
-name: nix-flake-check
+name: Nix Flake Check
 on: push
 
 jobs:
