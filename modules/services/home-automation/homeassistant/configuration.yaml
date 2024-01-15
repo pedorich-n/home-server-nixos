@@ -61,6 +61,7 @@ climate:
     #power_sensor: binary_sensor.ac_power
     #power_sensor_restore_state: true
 
+lovelace_gen:
 lovelace:
   mode: storage
   dashboards:
