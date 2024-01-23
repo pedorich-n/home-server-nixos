@@ -73,7 +73,7 @@ let
         selector:
           deny:
            - jvm_buffer_pool*
-           - jvm_memory_pool_*{pool!*"CodeHeap*"}
+           - jvm_memory_pool_*{pool=*"CodeHeap*"}
   '';
 in
 {
