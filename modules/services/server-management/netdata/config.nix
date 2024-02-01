@@ -69,7 +69,7 @@ let
   prometheusConfig = ''
     jobs:
       - name: Minecraft
-        url: http://192.168.15.10:${toString config.custom.shared-config.ports.minecraft-money-guys-2.tcp.metrics.port}/metrics
+        url: http://192.168.15.10:${toString config.custom.shared-config.ports.minecraft-money-guys-4.tcp.metrics.port}/metrics
         selector:
           deny:
            - jvm_buffer_pool*
