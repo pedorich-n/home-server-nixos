@@ -55,7 +55,7 @@ in
             pid = "host"; # Not implemented in Arion
           };
           service = {
-            image = "netdata/netdata:v1.44.1";
+            image = "netdata/netdata:v1.44.3";
             container_name = "netdata";
             hostname = "nucbox5";
             networks = [
