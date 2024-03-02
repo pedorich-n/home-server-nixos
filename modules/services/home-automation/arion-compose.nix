@@ -105,7 +105,7 @@ in
         };
 
         tailscale.service = {
-          image = "tailscale/tailscale:v1.58.2";
+          image = "tailscale/tailscale:v1.61.11";
           command = [ "/usr/local/bin/custom-entrypoint.sh" ];
           container_name = "tailscale";
           restart = "unless-stopped";
@@ -130,7 +130,7 @@ in
 
         # Home Automation
         mariadb.service = {
-          image = "mariadb:11.2.3";
+          image = "mariadb:11.3.2";
           container_name = "mariadb";
           restart = "unless-stopped";
           environment = {
@@ -177,7 +177,7 @@ in
         };
 
         zigbee2mqtt.service = {
-          image = "koenkk/zigbee2mqtt:1.35.3";
+          image = "koenkk/zigbee2mqtt:1.36.0";
           container_name = "zigbee2mqtt";
           restart = "unless-stopped";
           environment = {
@@ -204,7 +204,7 @@ in
         };
 
         nodered.service = {
-          image = "nodered/node-red:3.1.5";
+          image = "nodered/node-red:3.1.6";
           container_name = "node-red";
           environment = {
             TZ = "${config.time.timeZone}";
@@ -228,7 +228,7 @@ in
         };
 
         homeassistant.service = {
-          image = "homeassistant/home-assistant:2024.2.2";
+          image = "homeassistant/home-assistant:2024.2.5";
           container_name = "homeassistant";
           environment = {
             TZ = "${config.time.timeZone}";
