@@ -42,11 +42,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1706802882,
+        "lastModified": 1709602738,
         "narHash": "sha256-sn4xO44A3PRSIpQq2J2aT09dzY3NMceUGXNSh0acZ+s=",
         "ref": "refs/heads/main",
-        "rev": "de7c69f6d6c1a3c15f19036a16c745cd148aacf5",
-        "revCount": 43,
+        "rev": "3a106bb2cde76ef191b9b114ca73fe6b6c0924fd",
+        "revCount": 44,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
       },
@@ -114,11 +114,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1709710177,
-        "narHash": "sha256-b1n3DZJ7NSfiJgf4syK31IwZOv73ukRqKIe4Rc9nWsI=",
+        "lastModified": 1709711477,
+        "narHash": "sha256-QkqzZr0iZGjkQbn/AkakUN9j5lrZBo7n2V3nO8RROz0=",
         "owner": "pedorich-n",
         "repo": "FabricModpack",
-        "rev": "e0bd7d0417ca7510d8060c519c876641e6967007",
+        "rev": "43f4f30b07b6ee151c5b0bc907364d6a8472f5a4",
         "type": "github"
       },
       "original": {
