@@ -6,6 +6,3 @@
     settingsFile = config.age.secrets.telegram-airtable-bot-config.path;
   };
 }
-
-
-

@@ -11,6 +11,7 @@ in
 {
   age = {
     secrets = {
+      # TODO: write a function to traverse files rather than doing it manually
       root-password = {
         file = pathFor "root_password.txt.age";
       };
@@ -50,6 +51,9 @@ in
       server-check-config = {
         file = pathFor "server_check_config.toml.age";
       };
+      ngrok-config = {
+        file = pathFor "ngrok.yaml.age";
+      } // permissions;
     };
   };
 }
