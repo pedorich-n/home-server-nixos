@@ -42,6 +42,12 @@ in
       telegram-airtable-bot-config = {
         file = pathFor "telegram_airtable_bot_config_main.yaml.age";
       } // permissions;
+      calendar-loader-config-test = {
+        file = pathFor "calendar_loader_config_test.toml.age";
+      } // permissions;
+      calendar-loader-config-main = {
+        file = pathFor "calendar_loader_config_main.toml.age";
+      } // permissions;
       playit-secret = {
         file = pathFor "playit_secret.toml.age";
         mode = "440";
