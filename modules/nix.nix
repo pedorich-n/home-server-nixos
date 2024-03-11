@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   nix = {
     settings.experimental-features = [ "nix-command" "flakes" ];
@@ -6,5 +7,8 @@
       dates = "weekly";
       options = "--delete-older-than 30d";
     };
+    nixPath = [
+      "nixpkgs=${inputs.nixpkgs}"
+    ];
   };
 }
