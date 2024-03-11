@@ -44,8 +44,10 @@ in
       } // permissions;
       calendar-loader-config-test = {
         file = pathFor "calendar_loader_config_test.toml.age";
+        name = "calendar_loader_config_test.toml";
       } // permissions;
       calendar-loader-config-main = {
+        name = "calendar_loader_config_main.toml";
         file = pathFor "calendar_loader_config_main.toml.age";
       } // permissions;
       playit-secret = {

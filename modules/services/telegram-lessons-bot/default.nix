@@ -16,14 +16,17 @@
     };
 
     lessons-calendar-loader-scheduler = {
-      enable = false;
+      enable = true;
       user = "user";
       group = "users";
 
       baseUrl = "http://localhost:9000";
 
       schedules = {
-        "9f05cd56-902e-4915-b4d2-e32f7340f721" = "test";
+        "9f05cd56-902e-4915-b4d2-e32f7340f721" = {
+          dumpEvents = "Sun *-*-* 17:00:00";
+          refreshToken = "Wed *-*-* 15:00:00";
+        };
       };
     };
   };
