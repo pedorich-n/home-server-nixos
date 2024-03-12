@@ -149,7 +149,10 @@
           modules = [
             inputs.arion.nixosModules.arion
             inputs.agenix.nixosModules.default
-            inputs.airtable-telegram-bot.nixosModules.default
+            inputs.airtable-telegram-bot.nixosModules.ngrok
+            inputs.airtable-telegram-bot.nixosModules.calendar-loader
+            inputs.airtable-telegram-bot.nixosModules.calendar-loader-scheduler
+            inputs.airtable-telegram-bot.nixosModules.telegram-lessons-bot
             inputs.nixos-mutable-files-manager.nixosModules.default
             inputs.nix-minecraft.nixosModules.minecraft-servers
             inputs.playit-nixos-module.nixosModules.default

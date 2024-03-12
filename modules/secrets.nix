@@ -11,6 +11,7 @@ in
 {
   age = {
     secrets = {
+      # TODO: write a function to traverse files rather than doing it manually
       root-password = {
         file = pathFor "root_password.txt.age";
       };
@@ -38,8 +39,21 @@ in
       ha-secrets = {
         file = pathFor "ha_secrets.yaml.age";
       } // permissions;
-      telegram-airtable-bot-config = {
-        file = pathFor "telegram_airtable_bot_config_main.yaml.age";
+      telegram-airtable-bot-config-main = {
+        name = "telegram_airtable_bot_config_main.toml";
+        file = pathFor "telegram_airtable_bot_config_main.toml.age";
+      } // permissions;
+      telegram-airtable-bot-config-test = {
+        name = "telegram_airtable_bot_config_test.toml";
+        file = pathFor "telegram_airtable_bot_config_test.toml.age";
+      } // permissions;
+      calendar-loader-config-test = {
+        file = pathFor "calendar_loader_config_test.toml.age";
+        name = "calendar_loader_config_test.toml";
+      } // permissions;
+      calendar-loader-config-main = {
+        name = "calendar_loader_config_main.toml";
+        file = pathFor "calendar_loader_config_main.toml.age";
       } // permissions;
       playit-secret = {
         file = pathFor "playit_secret.toml.age";
@@ -50,6 +64,9 @@ in
       server-check-config = {
         file = pathFor "server_check_config.toml.age";
       };
+      ngrok-config = {
+        file = pathFor "ngrok.yaml.age";
+      } // permissions;
     };
   };
 }

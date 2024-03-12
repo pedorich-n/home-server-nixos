@@ -42,11 +42,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1709602738,
-        "narHash": "sha256-sn4xO44A3PRSIpQq2J2aT09dzY3NMceUGXNSh0acZ+s=",
+        "lastModified": 1710244306,
+        "narHash": "sha256-PizXEsGk4P3hIPUPDWvq+yaD6qsBwujrEyoCG90TOmA=",
         "ref": "refs/heads/main",
-        "rev": "3a106bb2cde76ef191b9b114ca73fe6b6c0924fd",
-        "revCount": 44,
+        "rev": "a7c3c271f5f37b5c08c1f8d9761168543daee4bf",
+        "revCount": 45,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
       },
@@ -243,11 +243,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1709295830,
-        "narHash": "sha256-iXuvXyu+gL+JpcKYCiz0JhiTUw5nay6ywwqD7kuf+Pw=",
+        "lastModified": 1710169343,
+        "narHash": "sha256-V6Co/as+k5+biDNNGoqi76vQz4UMl08qHMgRgxN8OPw=",
         "ref": "refs/heads/main",
-        "rev": "44d0853d0f39943ec2833101ca33bcd5b32b1c13",
-        "revCount": 34,
+        "rev": "ffb4af78f94793fa94906dfc6c6f5df64e055701",
+        "revCount": 40,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
