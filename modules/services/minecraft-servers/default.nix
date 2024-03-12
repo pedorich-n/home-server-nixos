@@ -12,14 +12,14 @@
 
   services = {
     minecraft-servers = {
-      enable = false;
+      enable = true;
       openFirewall = true;
       eula = true;
       dataDir = "/mnt/store/minecraft";
     };
 
     minecraft-server-check = {
-      enable = false;
+      enable = true;
       server-service = "minecraft-server-money-guys-4.service";
       tunnel-service = "playit.service";
       restart-timeout = 90;
