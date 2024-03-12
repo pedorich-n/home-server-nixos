@@ -39,8 +39,13 @@ in
       ha-secrets = {
         file = pathFor "ha_secrets.yaml.age";
       } // permissions;
-      telegram-airtable-bot-config = {
-        file = pathFor "telegram_airtable_bot_config_main.yaml.age";
+      telegram-airtable-bot-config-main = {
+        name = "telegram_airtable_bot_config_main.toml";
+        file = pathFor "telegram_airtable_bot_config_main.toml.age";
+      } // permissions;
+      telegram-airtable-bot-config-test = {
+        name = "telegram_airtable_bot_config_test.toml";
+        file = pathFor "telegram_airtable_bot_config_test.toml.age";
       } // permissions;
       calendar-loader-config-test = {
         file = pathFor "calendar_loader_config_test.toml.age";

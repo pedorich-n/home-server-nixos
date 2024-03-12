@@ -5,7 +5,7 @@
     ./minecraft-servers
     ./openssh.nix
     ./server-management
-    ./telegram-lessons-bot
+    ./telegram-lessons-bot.nix
     ./traefik.nix
   ];
 }
