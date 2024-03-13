@@ -1,72 +1,52 @@
-{ config, inputs, ... }:
+{ config, inputs, lib, ... }:
 let
-  permissions = {
+  inherit (builtins) unsafeDiscardStringContext baseNameOf head match replaceStrings removeAttrs hasAttr getAttr filter listToAttrs map;
+
+  getBaseName = path: unsafeDiscardStringContext (baseNameOf path);
+
+  getAttrName =
+    let
+      removeExtensionFromFilename = filename: head (match "([^.]+).*" filename);
+      replaceUnderscores = str: replaceStrings [ "_" ] [ "-" ] str;
+    in
+    path: lib.pipe path [ getBaseName removeExtensionFromFilename replaceUnderscores ];
+
+
+  mkMapping = path: override: override {
+    file = path;
+    name = lib.removeSuffix ".age" (getBaseName path);
     mode = "440";
     owner = config.users.users.user.name;
     group = config.users.users.user.group;
   };
 
-  pathFor = file: "${inputs.home-server-nixos-secrets}/encrypted/${file}";
+  customMappings =
+    let
+      useDefaultOwner = mapping: removeAttrs mapping [ "mode" "owner" "group" ];
+    in
+    {
+      "root_password.txt.age" = useDefaultOwner;
+      "user_password.txt.age" = useDefaultOwner;
+      "server_check_config.toml.age" = useDefaultOwner;
+      "playit_secret.toml.age" = mapping: mapping // { owner = "playit"; group = "playit"; };
+    };
+
+  mkMappingWithOverride = path:
+    let
+      baseName = getBaseName path;
+      override = if (hasAttr baseName customMappings) then (getAttr baseName customMappings) else lib.id;
+      mapping = mkMapping path override;
+    in
+    mapping;
+
+
+  rootEncrypted = "${inputs.home-server-nixos-secrets}/encrypted";
+  allEncrypted = filter (path: lib.hasSuffix ".age" path) (lib.filesystem.listFilesRecursive rootEncrypted);
+
+  secrets = listToAttrs (map (path: { name = getAttrName path; value = mkMappingWithOverride path; }) allEncrypted);
 in
 {
   age = {
-    secrets = {
-      # TODO: write a function to traverse files rather than doing it manually
-      root-password = {
-        file = pathFor "root_password.txt.age";
-      };
-      user-password = {
-        file = pathFor "user_password.txt.age";
-      };
-      mariadb-password = {
-        file = pathFor "mariadb_password.txt.age";
-      } // permissions;
-      mariadb-root-password = {
-        file = pathFor "mariadb_root_password.txt.age";
-      } // permissions;
-      mariadb-user = {
-        file = pathFor "mariadb_user.txt.age";
-      } // permissions;
-      tailscale-key = {
-        file = pathFor "tailscale_key.txt.age";
-      } // permissions;
-      mosquitto-passwords = {
-        file = pathFor "mosquitto_passwords_hashed.txt.age";
-      } // permissions;
-      zigbee2mqtt-secrets = {
-        file = pathFor "zigbee2mqtt_secrets.yaml.age";
-      } // permissions;
-      ha-secrets = {
-        file = pathFor "ha_secrets.yaml.age";
-      } // permissions;
-      telegram-airtable-bot-config-main = {
-        name = "telegram_airtable_bot_config_main.toml";
-        file = pathFor "telegram_airtable_bot_config_main.toml.age";
-      } // permissions;
-      telegram-airtable-bot-config-test = {
-        name = "telegram_airtable_bot_config_test.toml";
-        file = pathFor "telegram_airtable_bot_config_test.toml.age";
-      } // permissions;
-      calendar-loader-config-test = {
-        file = pathFor "calendar_loader_config_test.toml.age";
-        name = "calendar_loader_config_test.toml";
-      } // permissions;
-      calendar-loader-config-main = {
-        name = "calendar_loader_config_main.toml";
-        file = pathFor "calendar_loader_config_main.toml.age";
-      } // permissions;
-      playit-secret = {
-        file = pathFor "playit_secret.toml.age";
-        mode = "440";
-        owner = "playit";
-        group = "playit";
-      };
-      server-check-config = {
-        file = pathFor "server_check_config.toml.age";
-      };
-      ngrok-config = {
-        file = pathFor "ngrok.yaml.age";
-      } // permissions;
-    };
+    inherit secrets;
   };
 }

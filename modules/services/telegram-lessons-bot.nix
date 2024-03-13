@@ -8,7 +8,7 @@ in
 
     ngrok = {
       enable = true;
-      configFile = config.age.secrets.ngrok-config.path;
+      configFile = config.age.secrets.ngrok.path;
       inherit user group;
     };
 
