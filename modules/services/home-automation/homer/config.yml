@@ -77,3 +77,8 @@ services:
         logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/traefik.png"
         url: "http://traefik.server.local"
         target: "_blank"
+        # TODO: new category?
+      - name: "Trilium"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/trilium.png"
+        url: "http://trilium.server.local"
+        target: "_blank"

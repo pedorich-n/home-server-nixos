@@ -51,6 +51,7 @@ in
     };
   };
 
+  # TODO: check that ports set used only once
   ###### implementation
   config = {
     networking.firewall = {

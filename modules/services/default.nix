@@ -7,5 +7,6 @@
     ./server-management
     ./telegram-lessons-bot.nix
     ./traefik.nix
+    ./trilium-server.nix
   ];
 }
