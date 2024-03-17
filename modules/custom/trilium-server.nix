@@ -1,18 +1,43 @@
 { config, lib, pkgs, ... }:
 
 let
+  name = "trilium";
+
   cfg = config.services.trilium-server;
 
   settingsFormat = pkgs.formats.ini { };
-  finalSettingsFile = if (cfg.settingsFile != null) then cfg.settingsFile else settingsFormat.generate "config.ini" cfg.settings;
+  settingsFile = settingsFormat.generate "config.ini" cfg.settings;
+
+  settingsType = with lib; types.submodule {
+    freeformType = settingsFormat.type;
+
+    options = {
+      Network = mkOption {
+        type = types.submodule {
+          # Copy of `iniSection` from `pkgs.formats.ini`
+          # TODO: come up with a better way?
+          freeformType = with lib.types; attrsOf (nullOr (oneOf [ bool int float str ]));
+
+          options = {
+            port = mkOption {
+              type = types.port;
+              description = mdDoc "Port to bind to";
+              default = 8080;
+            };
+          };
+        };
+      };
+    };
+  };
 in
 {
+  # TODO: upstream to nixpkgs?
   disabledModules = [ "services/web-apps/trilium.nix" ];
 
   options.services.trilium-server = with lib; {
     enable = mkEnableOption (lib.mdDoc "trilium-server");
 
-    package = lib.mkPackageOption pkgs "trilium-server" { };
+    package = mkPackageOption pkgs "trilium-server" { };
 
     settings = mkOption {
       description = lib.mdDoc ''
@@ -22,9 +47,7 @@ in
         for supported values.
       '';
 
-      type = types.submodule {
-        freeformType = settingsFormat.type;
-      };
+      type = settingsType;
 
       default = {
         General = {
@@ -70,15 +93,33 @@ in
       '';
     };
 
+    openFirewall = mkOption {
+      type = types.bool;
+      default = false;
+      description = lib.mdDoc ''
+        Opens the specified TCP port for Trilium
+      '';
+    };
+
     dataDir = mkOption {
       type = types.str;
-      default = "/var/lib/trilium";
+      default = "/var/lib/${name}";
       description = lib.mdDoc ''
         The directory storing the notes database and the configuration.
       '';
     };
 
-    # TODO: expose user and group
+    user = mkOption {
+      type = types.str;
+      default = name;
+      description = lib.mdDoc "User account under which trilium runs.";
+    };
+
+    group = mkOption {
+      type = types.str;
+      default = name;
+      description = lib.mdDoc "Group account under which trilium runs.";
+    };
 
     nginx = mkOption {
       default = { };
@@ -111,31 +152,40 @@ in
     {
       meta.maintainers = with lib.maintainers; [ fliegendewurst ];
 
-      users.groups.trilium = { };
-      users.users.trilium = {
-        description = "Trilium User";
-        group = "trilium";
-        home = cfg.dataDir;
-        isSystemUser = true;
+      networking.firewall = lib.mkIf cfg.openFirewall {
+        allowedTCPPorts = [ cfg.port ];
+      };
+
+      users = {
+        users = lib.optionalAttrs (cfg.user == name) {
+          ${name} = {
+            description = "Trilium User";
+            group = cfg.group;
+            home = cfg.dataDir;
+            isSystemUser = true;
+          };
+        };
+
+        groups = lib.optionalAttrs (cfg.group == name) {
+          ${name} = { };
+        };
       };
 
       systemd.services.trilium-server = {
         wantedBy = [ "multi-user.target" ];
         environment.TRILIUM_DATA_DIR = cfg.dataDir;
         serviceConfig = {
-          ExecStart = lib.getExe' cfg.package "trilium-server";
-          User = "trilium";
-          Group = "trilium";
+          ExecStart = "${lib.getExe cfg.package}";
+          User = cfg.user;
+          Group = cfg.group;
           PrivateTmp = "true";
         };
       };
 
-      # TODO: use cfg.user cfg.group
       systemd.tmpfiles.rules = [
-        "d  ${cfg.dataDir}            0750 trilium trilium - -"
-        "L+ ${cfg.dataDir}/config.ini -    trilium trilium - ${finalSettingsFile}"
+        "d  ${cfg.dataDir}            0750 ${cfg.user} ${cfg.group} - -"
+        "L+ ${cfg.dataDir}/config.ini -    ${cfg.user} ${cfg.group} - ${settingsFile}"
       ];
-
     }
 
     (lib.mkIf cfg.nginx.enable {
@@ -143,7 +193,7 @@ in
         enable = true;
         virtualHosts."${cfg.nginx.hostName}" = {
           locations."/" = {
-            proxyPass = "http://${cfg.host}:${toString cfg.port}/";
+            proxyPass = "http://${cfg.host}:${toString cfg.settings.port}/";
             extraConfig = ''
               proxy_http_version 1.1;
               proxy_set_header Upgrade $http_upgrade;
