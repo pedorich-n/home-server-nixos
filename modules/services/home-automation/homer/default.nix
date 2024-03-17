@@ -19,6 +19,12 @@
       group = config.users.users.user.group;
     };
 
+    "/mnt/ha-store/homer/wallpaper.jpeg" = {
+      source = "${inputs.homer-theme}/assets/wallpaper.jpeg";
+      user = config.users.users.user.name;
+      group = config.users.users.user.group;
+    };
+
     "/mnt/ha-store/homer/config.yml" = {
       source = ./config.yml;
       user = config.users.users.user.name;
