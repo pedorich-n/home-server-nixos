@@ -14,9 +14,8 @@ let
     options = {
       Network = mkOption {
         type = types.submodule {
-          # Copy of `iniSection` from `pkgs.formats.ini`
           # TODO: come up with a better way?
-          freeformType = with lib.types; attrsOf (nullOr (oneOf [ bool int float str ]));
+          freeformType = settingsFormat.type.nestedTypes.elemType;
 
           options = {
             port = mkOption {
