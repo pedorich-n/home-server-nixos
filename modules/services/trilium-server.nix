@@ -3,9 +3,7 @@ let
   port = 52000;
 in
 {
-  custom.shared-config.ports."trilium".tcp = {
-    main = { inherit port; openFirewall = false; };
-  };
+  custom.shared-config.ports.tcp."trilium-main".port = port;
 
   services = {
     trilium-server = {

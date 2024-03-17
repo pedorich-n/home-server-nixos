@@ -1,7 +1,7 @@
 {
   imports = [
+    ./shared-config
     ./gui.nix
-    ./shared-config.nix
     ./trilium-server.nix
   ];
 }
