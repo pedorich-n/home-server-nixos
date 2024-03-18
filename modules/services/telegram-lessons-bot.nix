@@ -25,9 +25,9 @@ in
       baseUrl = "http://localhost:9000";
 
       schedules = {
-        "26fc8d17-216b-4704-891e-023cc32bb068" = {
+        "a7620a98-5378-4749-b73c-350e1dcc72b5" = {
           dumpEvents = "Sun *-*-* 17:00:00";
-          refreshToken = "Wed *-*-* 15:00:00";
+          # refreshToken = "Wed *-*-* 15:00:00";
         };
       };
     };

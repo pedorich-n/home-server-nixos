@@ -70,6 +70,7 @@
 
     airtable-telegram-bot = {
       url = "git+ssh://git@github.com/pedorich-n/airtable-telegram-lessons";
+      # url = "git+file:///home/user/airtable-telegram-lessons";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         flake-parts.follows = "flake-parts";
