@@ -28,6 +28,7 @@ let
       "root_password.txt.age" = useDefaultOwner;
       "user_password.txt.age" = useDefaultOwner;
       "server_check_config.toml.age" = useDefaultOwner;
+      "ngrok.yaml.age" = mapping: mapping // { owner = "ngrok"; group = "ngrok"; };
       "playit_secret.toml.age" = mapping: mapping // { owner = "playit"; group = "playit"; };
     };
 

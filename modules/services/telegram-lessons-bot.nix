@@ -9,8 +9,7 @@ in
     ngrok = {
       enable = true;
       package = pkgs-unstable.ngrok;
-      configFile = config.age.secrets.ngrok.path;
-      inherit user group;
+      settingsFile = config.age.secrets.ngrok.path;
     };
 
     lessons-calendar-loader = {
