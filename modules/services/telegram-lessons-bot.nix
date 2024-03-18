@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs-unstable, ... }:
 let
   user = config.users.users.user.name;
   group = config.users.users.user.group;
@@ -8,6 +8,7 @@ in
 
     ngrok = {
       enable = true;
+      package = pkgs-unstable.ngrok;
       configFile = config.age.secrets.ngrok.path;
       inherit user group;
     };
