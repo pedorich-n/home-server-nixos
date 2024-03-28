@@ -105,7 +105,7 @@ in
         };
 
         tailscale.service = {
-          image = "tailscale/tailscale:v1.61.11";
+          image = "tailscale/tailscale:v1.62.1";
           command = [ "/usr/local/bin/custom-entrypoint.sh" ];
           container_name = "tailscale";
           restart = "unless-stopped";
@@ -204,7 +204,7 @@ in
         };
 
         nodered.service = {
-          image = "nodered/node-red:3.1.6";
+          image = "nodered/node-red:3.1.7";
           container_name = "node-red";
           environment = {
             TZ = "${config.time.timeZone}";
@@ -228,7 +228,7 @@ in
         };
 
         homeassistant.service = {
-          image = "homeassistant/home-assistant:2024.2.5";
+          image = "homeassistant/home-assistant:2024.3.3";
           container_name = "homeassistant";
           environment = {
             TZ = "${config.time.timeZone}";

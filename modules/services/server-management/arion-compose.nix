@@ -55,7 +55,7 @@ in
             pid = "host"; # Not implemented in Arion
           };
           service = {
-            image = "netdata/netdata:v1.44.3";
+            image = "netdata/netdata:v1.45.1";
             container_name = "netdata";
             hostname = "nucbox5";
             networks = [
@@ -68,7 +68,7 @@ in
             };
             environment = {
               PODMAN_HOST = "http://docker-socket-proxy:2375";
-              NETDATA_DISABLE_CLOUD = 1;
+              # NETDATA_DISABLE_CLOUD = 0;
             };
             # user = "root:root";
             volumes = [
@@ -77,11 +77,12 @@ in
               (storeFor "netdata/data" "/var/lib/netdata")
               "${configs.netdata.main}:/etc/netdata/netdata.conf:ro"
               "${configs.netdata.prometheus}:/etc/netdata/go.d/prometheus.conf:ro"
-              # "/run/podman/podman.sock:/run/podman/podman.sock:ro"
               "/etc/passwd:/host/etc/passwd:ro"
               "/etc/group:/host/etc/group:ro"
               "/proc:/host/proc:ro"
+              "/etc/localtime:/etc/localtime:ro"
               "/sys:/host/sys:ro"
+              "/var/log:/host/var/log:ro"
               "/etc/os-release:/host/etc/os-release:ro"
             ];
             depends_on = [ "docker-socket-proxy" ];
@@ -97,7 +98,7 @@ in
         };
 
         portainer.service = {
-          image = "portainer/portainer-ce:2.19.4-alpine";
+          image = "portainer/portainer-ce:2.20.0-alpine";
           container_name = "portainer";
           environment = {
             TZ = "${config.time.timeZone}";
