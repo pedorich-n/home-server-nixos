@@ -6,8 +6,11 @@ in
   services = {
     dnsmasq = {
       enable = true;
+      resolveLocalQueries = false;
+
       settings = {
         interface = config.services.tailscale.interfaceName;
+        except-interface = "lo";
         address = "/server.local/${tailscaleMachineIp}";
         bind-interfaces = true;
       };
