@@ -4,19 +4,8 @@ let
 
   storeFor = localPath: remotePath: "/mnt/ha-store/${localPath}:${remotePath}";
 
-  staticIPs = {
-    dnsmasq = "172.32.0.2";
-    homeassistant = "172.32.0.5";
-    tailscale = "172.32.0.10";
-  };
-
   configs = builtins.mapAttrs (_: path: import path { inherit pkgs config lib; }) {
     mosquitto = ./mosquitto/config.nix;
-  };
-
-  helpers = builtins.mapAttrs (_: path: import path { inherit pkgs config lib; }) {
-    dnsmasq = ./dnsmasq/helper.nix;
-    tailscaleEntryPoint = ./tailscale/entrypoint.nix;
   };
 in
 {
@@ -46,15 +35,6 @@ in
           name = "traefik";
           external = true;
         };
-        tailscale = {
-          name = "tailscale";
-          ipam = {
-            config = [{
-              subnet = "172.32.0.0/24";
-              gateway = "172.32.0.1";
-            }];
-          };
-        };
       };
 
       services = {
@@ -79,52 +59,6 @@ in
             "traefik.http.routers.homer.service" = "homer";
             "traefik.http.services.homer.loadBalancer.server.port" = "8080";
             "wud.tag.exclude" = "^latest.*$";
-          };
-        };
-
-        dnsmasq = {
-          image = {
-            name = "nixpkgs-dnsmasq";
-            command = [
-              "dnsmasq"
-              "--keep-in-foreground"
-              "--log-facility=-"
-              "--address=/homeassistant.server.local/${staticIPs.homeassistant}"
-            ];
-            contents = with pkgs.dockerTools; [ fakeNss helpers.dnsmasq pkgs.dnsmasq ];
-          };
-          service = {
-            container_name = "dnsmasq";
-            stop_signal = "SIGKILL";
-            restart = "unless-stopped";
-            networks.tailscale.ipv4_address = staticIPs.dnsmasq;
-            labels = {
-              "wud.watch" = "false";
-            };
-          };
-        };
-
-        tailscale.service = {
-          image = "tailscale/tailscale:v1.62.1";
-          command = [ "/usr/local/bin/custom-entrypoint.sh" ];
-          container_name = "tailscale";
-          restart = "unless-stopped";
-          environment = {
-            TS_ACCEPT_DNS = "true";
-            TS_STATE_DIR = "/etc/tailscaled_state/";
-            TS_ROUTES = "172.32.0.0/24";
-            TS_EXTRA_ARGS = "--hostname=homeassistant-nixos";
-          };
-          networks.tailscale.ipv4_address = staticIPs.tailscale;
-          user = userSetting;
-          volumes = [
-            (storeFor "tailscale" "/etc/tailscaled_state")
-            "${config.age.secrets.tailscale-key.path}:/var/run/key.txt:ro"
-            "${helpers.tailscaleEntryPoint}:/usr/local/bin/custom-entrypoint.sh:ro"
-          ];
-          depends_on = [ "dnsmasq" ];
-          labels = {
-            "wud.tag.exclude" = "^unstable.*$";
           };
         };
 
@@ -234,11 +168,7 @@ in
             TZ = "${config.time.timeZone}";
           };
           restart = "unless-stopped";
-          networks = {
-            default = { };
-            traefik = { };
-            tailscale.ipv4_address = staticIPs.homeassistant;
-          };
+          networks = [ "default" "traefik" ];
           # user = userSetting;
           capabilities = {
             CAP_NET_RAW = true;
