@@ -1,6 +1,5 @@
 { lib, pkgs, ... }: {
   # https://docs.papermc.io/paper/aikars-flags
-  # TODO: look into https://github.com/etil2jz/etil-minecraft-flags?
   aikarFlagsWith = memory: builtins.concatStringsSep " " [
     "-Xms${memory}"
     "-Xmx${memory}"

@@ -157,7 +157,8 @@
           '');
         };
 
-      # These checks require evaluating the NixOS configuration, which makes nix download and build the system locally. It's not something I want.
+      # These checks require evaluating the NixOS configuration, which makes nix download and build the system locally. 
+      # It's not something I want to have in CI
       # checks = deploy-rs.lib.${system}.deployChecks self.deploy;
     };
 
@@ -186,6 +187,7 @@
           hostname = "nucbox5";
           interactiveSudo = true;
           magicRollback = true;
+          remoteBuild = false;
 
           profiles = {
             system = {

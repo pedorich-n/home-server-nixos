@@ -65,11 +65,10 @@ let
     };
   };
 
-  # TODO: figuire out a way to access host from inside the netdata podman container instead of accessing it via local network
   prometheusConfig = ''
     jobs:
       - name: Minecraft
-        url: http://192.168.15.10:${toString config.custom.shared-config.ports.tcp.minecraft-money-guys-4-metrics.port}/metrics
+        url: http://host.containers.internal:${toString config.custom.shared-config.ports.tcp.minecraft-money-guys-4-metrics.port}/metrics
         selector:
           deny:
            - jvm_buffer_pool*
