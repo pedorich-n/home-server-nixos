@@ -158,14 +158,8 @@
         prefetch-jar = pkgs.callPackage ./pkgs/prefetch-jar { };
       };
 
-      checks =
-        let
-          deploy-checks = deploy-rs.lib.${system}.deployChecks self.deploy;
-
-          # This check requires evaluating the NixOS configuration, which makes nix download and build the system locally. It's not something I want.
-          cleanedUpChecks = builtins.removeAttrs deploy-checks [ "deploy-activate" ];
-        in
-        cleanedUpChecks;
+      # These checks require evaluating the NixOS configuration, which makes nix download and build the system locally. It's not something I want.
+      # checks = deploy-rs.lib.${system}.deployChecks self.deploy;
     };
 
     flake = {
