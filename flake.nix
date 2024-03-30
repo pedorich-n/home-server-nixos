@@ -20,6 +20,15 @@
       flake = false;
     };
 
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        utils.follows = "flake-utils";
+        flake-compat.follows = "flake-compat";
+      };
+    };
+
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs = {
@@ -127,20 +136,30 @@
     };
   };
 
-  outputs = inputs@{ flake-parts, systems, self, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+  outputs = inputs@{ flake-parts, systems, self, deploy-rs, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
     systems = import systems;
 
-    perSystem = { /* config, lib, inputs', self', system, */ pkgs, ... }: {
+    perSystem = { system, pkgs, pkgs-unstable, ... }: {
+      _module.args.pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
+
       apps = {
         vm-nucbox5 = {
           type = "app";
           program = self.nixosConfigurations.nucbox5.config.system.build.vm;
+        };
+
+        deploy-remote = {
+          type = "app";
+          program = pkgs-unstable.deploy-rs;
         };
       };
 
       packages = {
         prefetch-jar = pkgs.callPackage ./pkgs/prefetch-jar { };
       };
+
+      # These checks require evaluating the NixOS configuration, which makes nix download and build the system locally. It's not something I want.
+      # checks = deploy-rs.lib.${system}.deployChecks self.deploy;
     };
 
     flake = {
@@ -160,6 +179,22 @@
             ./configuration.nix
           ];
           specialArgs = { inherit inputs system; };
+        };
+      };
+
+      deploy.nodes = {
+        nucbox5 = {
+          hostname = "nucbox5";
+          interactiveSudo = true;
+          magicRollback = true;
+
+          profiles = {
+            system = {
+              sshUser = "user";
+              user = "root";
+              path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nucbox5;
+            };
+          };
         };
       };
     };
