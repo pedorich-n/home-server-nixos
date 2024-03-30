@@ -160,22 +160,6 @@
         prefetch-jar = pkgs.callPackage ./pkgs/prefetch-jar { };
       };
 
-      deploy.nodes = {
-        nucbox5 = {
-          hostname = "nucbox5";
-          interactiveSudo = true;
-          magicRollback = true;
-
-          profiles = {
-            system = {
-              sshUser = "user";
-              user = "root";
-              path = deploy-rs.lib.${system}.activate.nixos self.nixosConfigurations.nucbox5;
-            };
-          };
-        };
-      };
-
       checks = deploy-rs.lib.${system}.deployChecks self.deploy;
     };
 
@@ -196,6 +180,22 @@
             ./configuration.nix
           ];
           specialArgs = { inherit inputs system; };
+        };
+      };
+
+      deploy.nodes = {
+        nucbox5 = {
+          hostname = "nucbox5";
+          interactiveSudo = true;
+          magicRollback = true;
+
+          profiles = {
+            system = {
+              sshUser = "user";
+              user = "root";
+              path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nucbox5;
+            };
+          };
         };
       };
     };

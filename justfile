@@ -1,4 +1,4 @@
 import "dev/justfile.default"
 
-deploy-remote:
-    nix run "{{ justfile_directory() + '#deploy-remote' }}"
+deploy-remote *args:
+    nix run "{{ justfile_directory() + '#deploy-remote' }}" -- {{args}}
