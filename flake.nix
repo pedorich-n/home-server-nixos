@@ -139,8 +139,6 @@
   outputs = inputs@{ flake-parts, systems, self, deploy-rs, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
     systems = import systems;
 
-    transposition.deploy.adHoc = true; # Allows to have perSystem.deploy
-
     perSystem = { system, pkgs, pkgs-unstable, ... }: {
       _module.args.pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
 
@@ -160,7 +158,14 @@
         prefetch-jar = pkgs.callPackage ./pkgs/prefetch-jar { };
       };
 
-      checks = deploy-rs.lib.${system}.deployChecks self.deploy;
+      checks =
+        let
+          deploy-checks = deploy-rs.lib.${system}.deployChecks self.deploy;
+
+          # This check requires evaluating the NixOS configuration, which makes nix download and build the system locally. It's not something I want.
+          cleanedUpChecks = builtins.removeAttrs deploy-checks [ "deploy-activate" ];
+        in
+        cleanedUpChecks;
     };
 
     flake = {
