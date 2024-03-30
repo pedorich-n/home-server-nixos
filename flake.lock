@@ -100,6 +100,32 @@
         "type": "github"
       }
     },
+    "deploy-rs": {
+      "inputs": {
+        "flake-compat": [
+          "flake-compat"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "utils": [
+          "flake-utils"
+        ]
+      },
+      "locked": {
+        "lastModified": 1711733382,
+        "narHash": "sha256-XuKlYhc9Hk6jMIIwWTP6CTQVUWi0Sq3nJApnUJk6bu8=",
+        "owner": "serokell",
+        "repo": "deploy-rs",
+        "rev": "2bad21828ee2c5d1e42588d5f4c53f5b10300c6a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "serokell",
+        "repo": "deploy-rs",
+        "type": "github"
+      }
+    },
     "fabric-modpack": {
       "inputs": {
         "flake-parts": [
@@ -488,6 +514,7 @@
         "airtable-telegram-bot": "airtable-telegram-bot",
         "arion": "arion",
         "crane": "crane",
+        "deploy-rs": "deploy-rs",
         "fabric-modpack": "fabric-modpack",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts_2",

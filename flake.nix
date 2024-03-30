@@ -20,6 +20,15 @@
       flake = false;
     };
 
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        utils.follows = "flake-utils";
+        flake-compat.follows = "flake-compat";
+      };
+    };
+
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs = {
@@ -127,20 +136,47 @@
     };
   };
 
-  outputs = inputs@{ flake-parts, systems, self, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+  outputs = inputs@{ flake-parts, systems, self, deploy-rs, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
     systems = import systems;
 
-    perSystem = { /* config, lib, inputs', self', system, */ pkgs, ... }: {
+    transposition.deploy.adHoc = true; # Allows to have perSystem.deploy
+
+    perSystem = { system, pkgs, pkgs-unstable, ... }: {
+      _module.args.pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
+
       apps = {
         vm-nucbox5 = {
           type = "app";
           program = self.nixosConfigurations.nucbox5.config.system.build.vm;
+        };
+
+        deploy-remote = {
+          type = "app";
+          program = pkgs-unstable.deploy-rs;
         };
       };
 
       packages = {
         prefetch-jar = pkgs.callPackage ./pkgs/prefetch-jar { };
       };
+
+      deploy.nodes = {
+        nucbox5 = {
+          hostname = "nucbox5";
+          interactiveSudo = true;
+          magicRollback = true;
+
+          profiles = {
+            system = {
+              sshUser = "user";
+              user = "root";
+              path = deploy-rs.lib.${system}.activate.nixos self.nixosConfigurations.nucbox5;
+            };
+          };
+        };
+      };
+
+      checks = deploy-rs.lib.${system}.deployChecks self.deploy;
     };
 
     flake = {
