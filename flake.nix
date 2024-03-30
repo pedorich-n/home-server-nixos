@@ -157,9 +157,7 @@
           '');
         };
 
-      # These checks require evaluating the NixOS configuration, which makes nix download and build the system locally. 
-      # It's not something I want to have in CI
-      # checks = deploy-rs.lib.${system}.deployChecks self.deploy;
+      checks = deploy-rs.lib.${system}.deployChecks self.deploy;
     };
 
     flake = {
