@@ -1,12 +1,14 @@
-{ poetry2nix, systemd, lib }:
+{ poetry2nix, systemd }:
 poetry2nix.mkPoetryApplication {
-  projectDir = ./..;
+  projectDir = ./.;
   meta.mainProgram = "systemd-onfailure-notify";
 
+  checkGroups = [ ];
   propagatedBuildInputs = [ systemd ];
-  preFixup = ''
-    makeWrapperArgs+=(
-      --suffix PATH : ${lib.makeBinPath [ systemd ]} 
-    )
-  '';
+
+  overrides = poetry2nix.overrides.withDefaults (_: prev: {
+    apprise = prev.apprise.overridePythonAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.babel ];
+    });
+  });
 }

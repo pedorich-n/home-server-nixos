@@ -3,7 +3,7 @@ name = "systemd-onfailure-notify"
 version = "0.0.0"
 description = ""
 authors = []
-packages = [{ include = "systemd-onfailure-notify", from = "src" }]
+packages = [{ include = "systemd_onfailure_notify", from = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -17,7 +17,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-systemd-onfailure-notify = "systemd-onfailure-notify.main:main"
+systemd-onfailure-notify = "systemd_onfailure_notify.main:main"
 
 [tool.ruff]
 line-length = 140
