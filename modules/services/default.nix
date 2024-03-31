@@ -1,10 +1,12 @@
 {
   imports = [
-    ./arion.nix
     ./home-automation
     ./minecraft-servers
-    ./openssh.nix
     ./server-management
+
+    ./arion.nix
+    ./systemd-on-failure-notify.nix
+    ./openssh.nix
     ./telegram-lessons-bot.nix
     ./traefik.nix
     ./trilium-server.nix
