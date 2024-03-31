@@ -67,6 +67,7 @@
       url = "github:ryantm/agenix";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
+        systems.follows = "systems";
         darwin.follows = "";
         home-manager.follows = "";
       };
@@ -142,20 +143,13 @@
     perSystem = { system, lib, pkgs-unstable, ... }: {
       _module.args.pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
 
-      apps =
-        let
-          mkApp = program: {
-            type = "app";
-            inherit program;
-          };
-        in
-        {
-          vm-nucbox5 = mkApp self.nixosConfigurations.nucbox5.config.system.build.vm;
+      apps = {
+        vm-nucbox5.program = self.nixosConfigurations.nucbox5.config.system.build.vm;
 
-          deploy-remote = mkApp (pkgs-unstable.writeShellScriptBin "deploy-remote" ''
-            ${lib.getExe pkgs-unstable.deploy-rs} ${self} "$@"
-          '');
-        };
+        deploy-remote.program = pkgs-unstable.writeShellScriptBin "deploy-remote" ''
+          ${lib.getExe pkgs-unstable.deploy-rs} ${self} "$@"
+        '';
+      };
 
       checks = deploy-rs.lib.${system}.deployChecks self.deploy;
     };
