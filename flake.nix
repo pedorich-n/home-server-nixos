@@ -183,13 +183,13 @@
       deploy.nodes = {
         nucbox5 = {
           hostname = "nucbox5";
-          interactiveSudo = true;
+          interactiveSudo = false;
           magicRollback = true;
           remoteBuild = false;
 
           profiles = {
             system = {
-              sshUser = "user";
+              sshUser = "root";
               user = "root";
               path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nucbox5;
             };
