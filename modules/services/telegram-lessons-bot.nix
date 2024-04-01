@@ -14,7 +14,7 @@ in
 
     lessons-calendar-loader = {
       enable = true;
-      configFile = config.age.secrets.calendar-loader-config-main.path;
+      configFile = config.age.secrets.calendar_loader_config_main.path;
       inherit user group;
     };
 
@@ -34,7 +34,7 @@ in
 
     telegram-lessons-bot = {
       enable = true;
-      configFile = config.age.secrets.telegram-airtable-bot-config-main.path;
+      configFile = config.age.secrets.telegram_airtable_bot_config_main.path;
       inherit user group;
     };
   };

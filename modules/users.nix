@@ -15,7 +15,7 @@ in
     mutableUsers = false;
     users = {
       root = {
-        hashedPasswordFile = config.age.secrets.root-password-hashed.path;
+        hashedPasswordFile = config.age.secrets.root_password_hashed.path;
         openssh.authorizedKeys.keys = [
           sshKey
         ];
@@ -25,7 +25,7 @@ in
         uid = 1000;
         isNormalUser = true;
         useDefaultShell = true;
-        hashedPasswordFile = config.age.secrets.user-password-hashed.path;
+        hashedPasswordFile = config.age.secrets.user_password_hashed.path;
         extraGroups = (builtins.attrNames groups) ++ [ "networkmanager" "systemd-journal" "wheel" ];
         openssh.authorizedKeys.keys = [
           sshKey

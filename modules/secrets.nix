@@ -1,50 +1,46 @@
 { config, inputs, lib, ... }:
 let
-  inherit (builtins) unsafeDiscardStringContext baseNameOf head match replaceStrings removeAttrs hasAttr getAttr filter listToAttrs map;
+  inherit (builtins) unsafeDiscardStringContext baseNameOf head match removeAttrs filter listToAttrs map;
+  inherit (lib) removeSuffix;
 
-  getBaseName = path: unsafeDiscardStringContext (baseNameOf path);
-
-  getAttrName =
-    let
-      removeExtensionFromFilename = filename: head (match "([^.]+).*" filename);
-      replaceUnderscores = str: replaceStrings [ "_" ] [ "-" ] str;
-    in
-    path: lib.pipe path [ getBaseName removeExtensionFromFilename replaceUnderscores ];
-
+  getFilename = path: unsafeDiscardStringContext (baseNameOf path);
 
   mkMapping = path: override: override {
     file = path;
-    name = lib.removeSuffix ".age" (getBaseName path);
+    name = removeSuffix ".age" (getFilename path);
     mode = "440";
     owner = config.users.users.user.name;
     group = config.users.users.user.group;
   };
 
-  customMappings =
+  mappingOverrides =
     let
-      useDefaultOwner = mapping: removeAttrs mapping [ "mode" "owner" "group" ];
+      useDefault = mapping: removeAttrs mapping [ "mode" "owner" "group" ];
     in
     {
-      "root_password.txt.age" = useDefaultOwner;
-      "user_password.txt.age" = useDefaultOwner;
-      "server_check_config.toml.age" = useDefaultOwner;
-      "ngrok.yaml.age" = mapping: mapping // { owner = "ngrok"; group = "ngrok"; };
-      "playit_secret.toml.age" = mapping: mapping // { owner = "playit"; group = "playit"; };
+      apprise_config = useDefault;
+      root_password_hashed = useDefault;
+      user_password_hashed = useDefault;
+      server_check_config = useDefault;
+      ngrok = mapping: mapping // { owner = "ngrok"; group = "ngrok"; };
+      playit_secret = mapping: mapping // { owner = "playit"; group = "playit"; };
     };
 
-  mkMappingWithOverride = path:
+  mkSecret = path:
     let
-      baseName = getBaseName path;
-      override = if (hasAttr baseName customMappings) then (getAttr baseName customMappings) else lib.id;
-      mapping = mkMapping path override;
+      removeExtensionFromFilename = filename: head (match "([^.]+).*" filename);
+      name = removeExtensionFromFilename (getFilename path);
+
+      override = mappingOverrides.${name} or lib.id;
     in
-    mapping;
+    {
+      inherit name;
+      value = mkMapping path override;
+    };
 
+  allEncrypted = filter (path: lib.hasSuffix ".age" path) (lib.filesystem.listFilesRecursive "${inputs.home-server-nixos-secrets}/encrypted");
 
-  rootEncrypted = "${inputs.home-server-nixos-secrets}/encrypted";
-  allEncrypted = filter (path: lib.hasSuffix ".age" path) (lib.filesystem.listFilesRecursive rootEncrypted);
-
-  secrets = listToAttrs (map (path: { name = getAttrName path; value = mkMappingWithOverride path; }) allEncrypted);
+  secrets = listToAttrs (map (path: mkSecret path) allEncrypted);
 in
 {
   age = {
