@@ -55,7 +55,7 @@ in
 
       script = builtins.concatStringsSep " " [
         "${getExe pkgs-unstable.minecraft-server-check}"
-        "--config ${config.age.secrets.server-check-config.path}"
+        "--config ${config.age.secrets.server_check_config.path}"
         "--server-service ${cfg.server-service}"
         "--tunnel-service ${cfg.tunnel-service}"
         "--interval ${toString cfg.interval}"

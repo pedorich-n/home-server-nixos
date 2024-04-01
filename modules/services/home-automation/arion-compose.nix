@@ -77,9 +77,9 @@ in
           user = userSetting;
           volumes = [
             (storeFor "mariadb" "/var/lib/mysql")
-            "${config.age.secrets.mariadb-root-password.path}:/var/lib/mysql/root_password:ro"
-            "${config.age.secrets.mariadb-user.path}:/var/lib/mysql/user:ro"
-            "${config.age.secrets.mariadb-password.path}:/var/lib/mysql/password:ro"
+            "${config.age.secrets.mariadb_root_password.path}:/var/lib/mysql/root_password:ro"
+            "${config.age.secrets.mariadb_user.path}:/var/lib/mysql/user:ro"
+            "${config.age.secrets.mariadb_password.path}:/var/lib/mysql/password:ro"
           ];
           networks = [ "default" ];
           labels = {
@@ -94,7 +94,7 @@ in
           restart = "unless-stopped";
           volumes = [
             "${configs.mosquitto}:/mosquitto/config/mosquitto.conf:ro"
-            "${config.age.secrets.mosquitto-passwords-hashed.path}:/mosquitto/config/passwords.txt:ro"
+            "${config.age.secrets.mosquitto_passwords_hashed.path}:/mosquitto/config/passwords.txt:ro"
             (storeFor "mosquitto/data" "/mosquitto/data")
             (storeFor "mosquitto/log" "/mosquitto/log")
           ];
@@ -120,7 +120,7 @@ in
           volumes = [
             # configuration file is managed by environment.mutable-files
             (storeFor "zigbee2mqtt" "/app/data")
-            "${config.age.secrets.zigbee2mqtt-secrets.path}:/app/data/secrets.yaml:ro"
+            "${config.age.secrets.zigbee2mqtt_secrets.path}:/app/data/secrets.yaml:ro"
             "/run/udev:/run/udev:ro"
           ];
           devices = [ "/dev/ttyUSB0:/dev/ttyZigbee" ];
@@ -177,7 +177,7 @@ in
           volumes = [
             (storeFor "homeassistant" "/config")
             (storeFor "homeassistant/local" "/.local")
-            "${config.age.secrets.ha-secrets.path}:/config/secrets.yaml"
+            "${config.age.secrets.ha_secrets.path}:/config/secrets.yaml"
           ];
           labels = {
             "traefik.enable" = "true";
