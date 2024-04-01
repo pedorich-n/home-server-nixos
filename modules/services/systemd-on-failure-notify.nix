@@ -3,14 +3,18 @@ let
   unitName = "on-failure-notify@";
 
   # From https://discourse.nixos.org/t/how-to-use-toplevel-overrides-for-systemd/12501/4
-  systemdOverride = pkgs.writeTextDir "/etc/systemd/system/service.d/10-on-failure-notify.conf" ''
-    [Unit]
-    OnFailure=${unitName}%N.service
-  '';
+  systemdOverrides =
+    let
+      mkOverride = unitType: pkgs.writeTextDir "/etc/systemd/system/${unitType}.d/50-on-failure-notify.conf" ''
+        [Unit]
+        OnFailure=${unitName}%N.service
+      '';
+    in
+    builtins.map mkOverride [ "service" "timer" ];
 in
 {
   systemd = {
-    packages = [ systemdOverride ];
+    packages = systemdOverrides;
 
     services."${unitName}" = {
       description = "Sends a notification on Systemd service failures";
@@ -22,7 +26,7 @@ in
       };
 
       serviceConfig = {
-        ExecStart = "${lib.getExe pkgs.systemd-onfailure-notify} --apprise-config ${config.age.secrets.apprise-config.path} --unit %i";
+        ExecStart = "${lib.getExe pkgs.systemd-onfailure-notify} --apprise-config ${config.age.secrets.apprise_config.path} --unit %i";
         Type = "oneshot";
       };
     };
