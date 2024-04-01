@@ -44,13 +44,13 @@ def get_status(unit_name: str) -> Optional[str]:
     status_regex = re.compile(r"Active:\s(?P<status>.*)")
     process_result = subprocess.run(cmd, stdout=subprocess.PIPE)
     lines = process_result.stdout.decode().split("\n")
-    
+
     for line in lines:
         maybe_match = status_regex.search(line)
         if maybe_match:
             status = maybe_match.group("status")
             return status
-        
+
     return None
 
 
@@ -66,7 +66,7 @@ def send_notification(config_path: Path, unit_name: str, maybe_status: Optional[
     if maybe_status:
         body = f"Service **{unit_name}** failed!\n\n**Status**: {maybe_status}"
     else:
-        body=f"Service **{unit_name}** failed!"
+        body = f"Service **{unit_name}** failed!"
 
     appobj.notify(body=body, body_format=apprise.NotifyFormat.MARKDOWN, attach=attachment)
 
