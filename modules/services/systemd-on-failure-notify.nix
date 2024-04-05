@@ -2,7 +2,8 @@
 let
   unitName = "on-failure-notify@";
 
-  # From https://discourse.nixos.org/t/how-to-use-toplevel-overrides-for-systemd/12501/4
+  # This is called "Top-Level Drop-In Override", see: https://trstringer.com/systemd-top-level-drop-in/
+  # Nix implementation from https://discourse.nixos.org/t/how-to-use-toplevel-overrides-for-systemd/12501/4
   systemdOverrides =
     let
       mkOverride = unitType: pkgs.writeTextDir "/etc/systemd/system/${unitType}.d/50-on-failure-notify.conf" ''
