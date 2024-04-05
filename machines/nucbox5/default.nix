@@ -1,0 +1,7 @@
+{
+  imports = [
+    ./modules
+
+    ./system.nix
+  ];
+}

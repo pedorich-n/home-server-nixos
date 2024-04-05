@@ -5,8 +5,5 @@
     ./environment
     ./nix
     ./os
-    ./services
-
-    ./secrets.nix
   ];
 }

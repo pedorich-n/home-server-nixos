@@ -1,5 +1,5 @@
 {
   imports = [
-    ./diff.nix
+    ./system
   ];
 }

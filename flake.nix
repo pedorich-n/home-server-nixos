@@ -137,59 +137,63 @@
     };
   };
 
-  outputs = inputs@{ flake-parts, systems, self, deploy-rs, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+  outputs = inputs@{ flake-parts, systems, self, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
     systems = import systems;
 
-    perSystem = { system, lib, pkgs-unstable, ... }: {
+    imports = [
+      (flake-parts.lib.importApply ./machines { inherit self inputs; })
+    ];
+
+    perSystem = { system, ... }: {
       _module.args.pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
 
       apps = {
-        vm-nucbox5.program = self.nixosConfigurations.nucbox5.config.system.build.vm;
+        # vm-nucbox5.program = self.nixosConfigurations.nucbox5.config.system.build.vm;
 
-        deploy-remote.program = pkgs-unstable.writeShellScriptBin "deploy-remote" ''
-          ${lib.getExe pkgs-unstable.deploy-rs} ${self} "$@"
-        '';
+        # deploy-remote.program = pkgs-unstable.writeShellScriptBin "deploy-remote" ''
+        #   ${lib.getExe pkgs-unstable.deploy-rs} ${self} "$@"
+        # '';
       };
 
-      checks = deploy-rs.lib.${system}.deployChecks self.deploy;
+      # checks = deploy-rs.lib.${system}.deployChecks self.deploy;
     };
 
-    flake = {
-      nixosConfigurations = {
-        nucbox5 = inputs.nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
-          modules = [
-            inputs.arion.nixosModules.arion
-            inputs.agenix.nixosModules.default
-            inputs.airtable-telegram-bot.nixosModules.ngrok
-            inputs.airtable-telegram-bot.nixosModules.calendar-loader
-            inputs.airtable-telegram-bot.nixosModules.calendar-loader-scheduler
-            inputs.airtable-telegram-bot.nixosModules.telegram-lessons-bot
-            inputs.nixos-mutable-files-manager.nixosModules.default
-            inputs.nix-minecraft.nixosModules.minecraft-servers
-            inputs.playit-nixos-module.nixosModules.default
-            ./configuration.nix
-          ];
-          specialArgs = { inherit inputs system; };
-        };
-      };
+    # flake = {
+    #   nixosConfigurations = {
+    #     nucbox5 = inputs.nixpkgs.lib.nixosSystem rec {
+    #       system = "x86_64-linux";
+    #       modules = [
+    #         inputs.arion.nixosModules.arion
+    #         inputs.agenix.nixosModules.default
+    #         inputs.airtable-telegram-bot.nixosModules.ngrok
+    #         inputs.airtable-telegram-bot.nixosModules.calendar-loader
+    #         inputs.airtable-telegram-bot.nixosModules.calendar-loader-scheduler
+    #         inputs.airtable-telegram-bot.nixosModules.telegram-lessons-bot
+    #         inputs.nixos-mutable-files-manager.nixosModules.default
+    #         inputs.nix-minecraft.nixosModules.minecraft-servers
+    #         inputs.playit-nixos-module.nixosModules.default
+    #         ./configuration.nix
+    #       ];
+    #       specialArgs = { inherit inputs system; };
+    #     };
+    #   };
 
-      deploy.nodes = {
-        nucbox5 = {
-          hostname = "nucbox5";
-          interactiveSudo = false;
-          magicRollback = true;
-          remoteBuild = false;
+    #   deploy.nodes = {
+    #     nucbox5 = {
+    #       hostname = "nucbox5";
+    #       interactiveSudo = false;
+    #       magicRollback = true;
+    #       remoteBuild = false;
 
-          profiles = {
-            system = {
-              sshUser = "root";
-              user = "root";
-              path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nucbox5;
-            };
-          };
-        };
-      };
-    };
+    #       profiles = {
+    #         system = {
+    #           sshUser = "root";
+    #           user = "root";
+    #           path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nucbox5;
+    #         };
+    #       };
+    #     };
+    #   };
+    # };
   };
 }
