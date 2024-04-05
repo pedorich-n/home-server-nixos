@@ -32,10 +32,6 @@
 
   };
 
-  custom = {
-    gui.enable = false;
-  };
-
   time.timeZone = "Asia/Tokyo";
 
 }

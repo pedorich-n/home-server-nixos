@@ -7,7 +7,7 @@ in
   ###### interface
   options = {
     services.minecraft-server-check = {
-      enable = mkEnableOption "GUI";
+      enable = mkEnableOption "Minecraft Server Check";
 
       server-service = mkOption {
         type = utils.systemdUtils.lib.unitNameType;
