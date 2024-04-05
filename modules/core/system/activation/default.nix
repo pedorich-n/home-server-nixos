@@ -1,0 +1,5 @@
+{
+  impports = [
+    ./diff.nix
+  ];
+}
