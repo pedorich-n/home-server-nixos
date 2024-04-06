@@ -11,8 +11,6 @@ let
     customModules
   ];
 
-  customOverlays = import ../overlays inputs;
-
   mkSystem =
     { name
     , system
@@ -28,7 +26,7 @@ let
             "${name}" = inputs.nixpkgs.lib.nixosSystem {
               inherit system;
               modules = sharedModules ++ modules ++ [ ./${name} ];
-              specialArgs = { inherit self inputs system customOverlays; } // specialArgs;
+              specialArgs = { inherit self inputs system; } // specialArgs;
             };
           };
         };

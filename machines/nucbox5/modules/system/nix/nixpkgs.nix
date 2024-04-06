@@ -1,19 +1,13 @@
-{ inputs, system, customOverlays, ... }:
-let
-  settings = {
+{ inputs, self, ... }:
+{
+  nixpkgs = {
     overlays = [
       inputs.nix-minecraft.overlays.default
       inputs.rust-overlay.overlays.default
       inputs.poetry2nix.overlays.default
-      customOverlays
+      (_: prev: {
+        minecraft-server-check = prev.callPackage "${self}/pkgs/minecraft-server-check" { };
+      })
     ];
-    config = {
-      allowUnfree = true;
-    };
   };
-in
-{
-  _module.args.pkgs-unstable = import inputs.nixpkgs-unstable ({ inherit system; } // settings);
-
-  nixpkgs = settings;
 }

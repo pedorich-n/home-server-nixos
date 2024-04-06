@@ -1,13 +1,14 @@
-{ inputs, system, lib, ... }:
-let
-  settings = {
-    config = {
-      allowUnfree = true;
-    };
-  };
-in
+{ self, lib, ... }:
 {
-  _module.args.pkgs-unstable = lib.mkDefault (import inputs.nixpkgs-unstable ({ inherit system; } // settings));
+  nixpkgs = {
+    config = {
+      allowUnfree = lib.mkDefault true;
+    };
 
-  nixpkgs = lib.mkDefault settings;
+    overlays = [
+      (_: prev: {
+        systemd-onfailure-notify = prev.callPackage "${self}/pkgs/systemd-onfailure-notify" { };
+      })
+    ];
+  };
 }
