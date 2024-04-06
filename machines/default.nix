@@ -1,15 +1,10 @@
 { inputs, self, withSystem }:
 { lib, ... }:
 let
-  myModulesPath = ../modules;
+  myModules = import ../modules { inherit self; };
+  sharedModules = lib.lists.flatten (builtins.attrValues myModules);
 
-  coreModules = "${myModulesPath}/core";
-  customModules = "${myModulesPath}/custom";
-
-  sharedModules = [
-    coreModules
-    customModules
-  ];
+  loadMachine = name: self.lib.filesystem.list-modules { src = ./${name}; };
 
   mkSystem =
     { name
@@ -25,7 +20,7 @@ let
           nixosConfigurations = {
             "${name}" = inputs.nixpkgs.lib.nixosSystem {
               inherit system;
-              modules = sharedModules ++ modules ++ [ ./${name} ];
+              modules = sharedModules ++ modules ++ (loadMachine name);
               specialArgs = { inherit self inputs system; } // specialArgs;
             };
           };
@@ -54,6 +49,8 @@ let
               ${lib.getExe deployPkgs.deploy-rs.deploy-rs} ${self} "$@"
             '';
           };
+
+          checks = deployPkgs.deploy-rs.lib.deployChecks self.deploy;
         };
 
         flake = {

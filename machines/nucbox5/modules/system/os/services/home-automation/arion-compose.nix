@@ -5,7 +5,7 @@ let
   storeFor = localPath: remotePath: "/mnt/ha-store/${localPath}:${remotePath}";
 
   configs = builtins.mapAttrs (_: path: import path { inherit pkgs config lib; }) {
-    mosquitto = ./mosquitto/config.nix;
+    mosquitto = ./mosquitto/_config.nix;
   };
 in
 {

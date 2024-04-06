@@ -3,7 +3,7 @@ let
   storeFor = localPath: remotePath: "/mnt/ha-store/${localPath}:${remotePath}";
 
   configs = builtins.mapAttrs (_: path: import path { inherit config pkgs lib; }) {
-    netdata = ./netdata/config.nix;
+    netdata = ./netdata/_config.nix;
   };
 in
 {

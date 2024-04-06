@@ -1,7 +1,0 @@
-{
-  imports = [
-    ./systemd
-
-    ./openssh.nix
-  ];
-}

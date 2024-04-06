@@ -1,15 +1,4 @@
-{ pkgs, ... }: {
-  _module.args.minecraftLib = pkgs.callPackage ./lib.nix { };
-
-  imports = [
-    ./server-check.nix
-    ./playit.nix
-    ./money-guys-1
-    ./money-guys-2
-    ./money-guys-3
-    ./money-guys-4
-  ];
-
+{
   services = {
     minecraft-servers = {
       enable = true;
