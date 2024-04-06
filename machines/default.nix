@@ -1,4 +1,4 @@
-{ inputs, self }:
+{ inputs, self, withSystem }:
 { lib, ... }:
 let
   myModulesPath = ../modules;
@@ -11,6 +11,7 @@ let
     customModules
   ];
 
+  customOverlays = import ../overlays inputs;
 
   mkSystem =
     { name
@@ -18,6 +19,7 @@ let
     , modules ? [ ]
     , specialArgs ? { }
     , enableDeploy ? true
+    , deploySettings ? { }
     , ...
     }: (lib.mkMerge [
       {
@@ -26,22 +28,38 @@ let
             "${name}" = inputs.nixpkgs.lib.nixosSystem {
               inherit system;
               modules = sharedModules ++ modules ++ [ ./${name} ];
-              specialArgs = { inherit inputs system self; } // specialArgs;
+              specialArgs = { inherit self inputs system customOverlays; } // specialArgs;
             };
           };
         };
       }
       (lib.mkIf enableDeploy {
-        perSystem = { lib, pkgs, ... }: {
+        perSystem = { lib, pkgs, deployPkgs, ... }: {
+          _module.args = {
+            # From https://github.com/serokell/deploy-rs/blob/88b3059b020da69cbe16526b8d639bd5e0b51c8b/README.md?plain=1#L89-L114
+            deployPkgs = import inputs.nixpkgs {
+              inherit system;
+              overlays = [
+                inputs.deploy-rs.overlays.default
+                (_: super: {
+                  deploy-rs = {
+                    inherit (pkgs) deploy-rs;
+                    lib = super.deploy-rs.lib;
+                  };
+                })
+              ];
+            };
+          };
+
           apps = {
             "deploy-${name}".program = pkgs.writeShellScriptBin "deploy-${name}" ''
-              ${lib.getExe pkgs.deploy-rs} ${self} "$@"
+              ${lib.getExe deployPkgs.deploy-rs.deploy-rs} ${self} "$@"
             '';
           };
         };
 
         flake = {
-          deploy.nodes = {
+          deploy.nodes = withSystem system ({ deployPkgs, ... }: {
             "${name}" = {
               hostname = name;
               interactiveSudo = false;
@@ -52,11 +70,11 @@ let
                 system = {
                   sshUser = "root";
                   user = "root";
-                  path = inputs.deploy-rs.lib.${system}.activate.nixos self.nixosConfigurations.${name};
-                };
+                  path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.${name};
+                } // deploySettings;
               };
             };
-          };
+          });
         };
       })
     ]);

@@ -1,11 +1,11 @@
-{ inputs, system, self, ... }:
+{ inputs, system, customOverlays, ... }:
 let
   settings = {
     overlays = [
       inputs.nix-minecraft.overlays.default
       inputs.rust-overlay.overlays.default
       inputs.poetry2nix.overlays.default
-      (import "${self}/overlays" inputs)
+      customOverlays
     ];
     config = {
       allowUnfree = true;

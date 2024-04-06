@@ -137,11 +137,11 @@
     };
   };
 
-  outputs = inputs@{ flake-parts, systems, self, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+  outputs = inputs@{ flake-parts, systems, self, ... }: flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, flake-parts-lib, ... }: {
     systems = import systems;
 
     imports = [
-      (flake-parts.lib.importApply ./machines { inherit self inputs; })
+      (flake-parts-lib.importApply ./machines { inherit self inputs withSystem; })
     ];
 
     perSystem = { system, ... }: {
@@ -195,5 +195,5 @@
     #     };
     #   };
     # };
-  };
+  });
 }
