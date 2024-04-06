@@ -20,12 +20,19 @@ let
           nixosConfigurations = {
             "${name}" = inputs.nixpkgs.lib.nixosSystem {
               inherit system;
-              modules = sharedModules ++ modules ++ (loadMachine name);
+              modules =
+                [{
+                  networking.hostName = name;
+                }]
+                ++ sharedModules
+                ++ modules
+                ++ (loadMachine name);
               specialArgs = { inherit self inputs system; } // specialArgs;
             };
           };
         };
       }
+
       (lib.mkIf enableDeploy {
         perSystem = { lib, pkgs, deployPkgs, ... }: {
           _module.args = {
@@ -34,10 +41,10 @@ let
               inherit system;
               overlays = [
                 inputs.deploy-rs.overlays.default
-                (_: super: {
+                (_: prev: {
                   deploy-rs = {
                     inherit (pkgs) deploy-rs;
-                    lib = super.deploy-rs.lib;
+                    lib = prev.deploy-rs.lib;
                   };
                 })
               ];

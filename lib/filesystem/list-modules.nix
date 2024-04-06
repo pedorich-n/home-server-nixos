@@ -1,3 +1,4 @@
+# TODO: better name
 { haumea, lib }:
 let
   foldAttrValuesToListRecursive = attrset:
