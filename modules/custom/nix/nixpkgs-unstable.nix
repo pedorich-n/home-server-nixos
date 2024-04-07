@@ -6,7 +6,7 @@ in
   ###### interface
   options = with lib; {
     custom.nixpkgs-unstable = {
-      enable = mkEnableOption "Nixpkgs Unstable" // { default = true; };
+      enable = mkEnableOption "Nixpkgs Unstable";
 
       settings = mkOption {
         type = types.unspecified;

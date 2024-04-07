@@ -1,6 +1,6 @@
 { lib, config, ... }:
 let
-  cfg = config.custom.shared-config.ports;
+  cfg = config.custom.networking.ports;
 
   portItemSubmodule = with lib; types.submodule {
     options = {
@@ -33,7 +33,7 @@ in
 {
   ###### interface
   options = with lib; {
-    custom.shared-config.ports = {
+    custom.networking.ports = {
       tcp = mkOption {
         type = types.attrsOf portItemSubmodule;
         default = { };
