@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 let
   sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID8hr31myOgDIgehpr5QlnPQMXNj+PmQ2EC/YvjymHiP pedorich.n@gmail.com";
 in
@@ -9,7 +9,7 @@ in
       podman = { };
     };
 
-    mutableUsers = false;
+    mutableUsers = lib.mkDefault false;
     users = {
       root = {
         hashedPasswordFile = config.age.secrets.root_password_hashed.path;
@@ -19,7 +19,7 @@ in
       };
 
       user = {
-        uid = 1000;
+        uid = lib.mkDefault 1000;
         isNormalUser = true;
         useDefaultShell = true;
         hashedPasswordFile = config.age.secrets.user_password_hashed.path;

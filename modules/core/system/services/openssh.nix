@@ -1,6 +1,6 @@
-{
+{ lib, ... }: {
   services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = true;
+    enable = lib.mkDefault true;
+    settings.PasswordAuthentication = lib.mkDefault true;
   };
 }

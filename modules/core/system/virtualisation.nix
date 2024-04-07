@@ -1,20 +1,20 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   virtualisation = {
     vmVariant = {
       virtualisation = {
-        cores = 8;
-        memorySize = 4096;
-        diskSize = 7224;
+        cores = lib.mkDefault 8;
+        memorySize = lib.mkDefault 4096;
+        diskSize = lib.mkDefault 7224;
       };
     };
 
     podman = {
-      enable = true;
+      enable = lib.mkDefault true;
 
-      dockerCompat = true;
-      dockerSocket.enable = true;
+      dockerCompat = lib.mkDefault true;
+      dockerSocket.enable = lib.mkDefault true;
 
-      defaultNetwork.settings.dns_enabled = true;
+      defaultNetwork.settings.dns_enabled = lib.mkDefault true;
     };
   };
 

@@ -1,14 +1,15 @@
-{
+{ lib, ... }: {
   boot = {
     loader = {
       efi.canTouchEfiVariables = true;
-      timeout = 5;
+      timeout = lib.mkDefault 5;
+
       grub = {
         enable = true;
         devices = [ "nodev" ];
         efiSupport = true;
         useOSProber = true;
-        configurationLimit = 5;
+        configurationLimit = lib.mkDefault 5;
       };
     };
   };
