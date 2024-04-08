@@ -3,7 +3,7 @@
 let
   name = "trilium";
 
-  cfg = config.services.trilium-server;
+  cfg = config.custom.services.trilium-server;
 
   settingsFormat = pkgs.formats.ini { };
   settingsFile = settingsFormat.generate "config.ini" cfg.settings;
@@ -33,7 +33,7 @@ in
   # TODO: upstream to nixpkgs?
   disabledModules = [ "services/web-apps/trilium.nix" ];
 
-  options.services.trilium-server = with lib; {
+  options.custom.services.trilium-server = with lib; {
     enable = mkEnableOption (lib.mdDoc "trilium-server");
 
     package = mkPackageOption pkgs "trilium-server" { };

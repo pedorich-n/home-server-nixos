@@ -3,10 +3,10 @@ let
   port = 52000;
 in
 {
-  custom.shared-config.ports.tcp."trilium-main".port = port;
+  custom = {
+    networking.ports.tcp."trilium-main".port = port;
 
-  services = {
-    trilium-server = {
+    services.trilium-server = {
       enable = true;
       package = pkgs-unstable.trilium-server;
       nginx.enable = false;
@@ -29,17 +29,17 @@ in
         };
       };
     };
+  };
 
-    traefik.dynamicConfigOptions = {
-      http = {
-        routers.trilium = {
-          entryPoints = [ "web" ];
-          rule = "Host(`trilium.server.local`)";
-          service = "trilium";
-        };
-
-        services.trilium.loadBalancer.servers = [{ url = "http://localhost:${toString port}"; }];
+  services.traefik.dynamicConfigOptions = {
+    http = {
+      routers.trilium = {
+        entryPoints = [ "web" ];
+        rule = "Host(`trilium.server.local`)";
+        service = "trilium";
       };
+
+      services.trilium.loadBalancer.servers = [{ url = "http://localhost:${toString port}"; }];
     };
   };
 }

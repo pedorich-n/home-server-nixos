@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  portsCfg = config.custom.shared-config.ports;
+  portsCfg = config.custom.networking.ports;
 in
 {
   services.playit = {

@@ -1,8 +1,8 @@
-{ self, lib, ... }:
+{ self, ... }:
 {
   nixpkgs = {
     config = {
-      allowUnfree = lib.mkDefault true;
+      allowUnfree = true;
     };
 
     overlays = [
