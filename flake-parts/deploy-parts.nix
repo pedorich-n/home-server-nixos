@@ -119,7 +119,7 @@ let
     };
   };
 
-  profileSettings = rec {
+  profileSettings = {
     options = {
       path = mkOption {
         default = { };
