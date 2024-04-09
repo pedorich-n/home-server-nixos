@@ -11,8 +11,12 @@ in
 
     mutableUsers = lib.mkDefault false;
     users = {
+      # Need to set the inital password, because in case of a new machine it will have a new identity key, 
+      # and agenix secrets aren't encrypted with it yet
+
       root = {
         hashedPasswordFile = config.age.secrets.root_password_hashed.path;
+        initialPassword = lib.mkDefault "nixos";
         openssh.authorizedKeys.keys = [
           sshKey
         ];
@@ -22,6 +26,7 @@ in
         uid = lib.mkDefault 1000;
         isNormalUser = true;
         useDefaultShell = true;
+        initialPassword = lib.mkDefault "nixos";
         hashedPasswordFile = config.age.secrets.user_password_hashed.path;
         extraGroups = [
           "docker"

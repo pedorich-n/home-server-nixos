@@ -1,3 +1,4 @@
+# WARN: Agenix will just skip a secret if it can't be decrypted or user/group doesn't exist
 { config, inputs, lib, ... }:
 let
   inherit (builtins) unsafeDiscardStringContext baseNameOf head match removeAttrs filter listToAttrs map;
