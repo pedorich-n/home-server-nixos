@@ -17,7 +17,7 @@
     kernelModules = [
       "kvm-amd" # KVM on AMD Cpus
       "k10temp" # Temperature monitoring on AMD CPUs
-      "zenpower" # AMD ZEN Faimily CPUs current, voltage, power monitoring
+      "zenpower" # AMD ZEN Family CPUs current, voltage, power monitoring
     ];
     extraModulePackages = [ config.boot.kernelPackages.zenpower ];
 

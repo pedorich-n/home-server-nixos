@@ -128,6 +128,26 @@
         "type": "github"
       }
     },
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1712612224,
+        "narHash": "sha256-Tv4C8OSPVmm4LbpJGLFSODyvJy6DqrisEGPCQdNVOeY=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "79eab0e82cb126bf4ac170f44af82479f0895ab5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
     "fabric-modpack": {
       "inputs": {
         "flake-parts": [
@@ -291,11 +311,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1711969467,
-        "narHash": "sha256-LrkPByRSpBD+1FzR15em0gRmNGpLsgp+vkegbQnZ2q0=",
+        "lastModified": 1712670281,
+        "narHash": "sha256-n+ggBvqBUJNVGvs6QwBPuU3z+nzPj/eKmHp2CDSTK3o=",
         "ref": "refs/heads/main",
-        "rev": "ebf1b295735c515239c70ad526a263faa94527ce",
-        "revCount": 48,
+        "rev": "5b4c544c02bf5cca8feea934a1c3d145940a546c",
+        "revCount": 49,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -537,6 +557,7 @@
         "arion": "arion",
         "crane": "crane",
         "deploy-rs": "deploy-rs",
+        "disko": "disko",
         "fabric-modpack": "fabric-modpack",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts_2",

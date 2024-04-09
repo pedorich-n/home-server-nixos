@@ -34,6 +34,13 @@
       };
     };
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+      };
+    };
+
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs = {
