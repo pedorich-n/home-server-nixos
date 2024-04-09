@@ -43,6 +43,10 @@ let
   secrets = listToAttrs (map (path: mkSecret path) allEncrypted);
 in
 {
+  imports = [
+    inputs.agenix.nixosModules.default
+  ];
+
   age = {
     inherit secrets;
   };
