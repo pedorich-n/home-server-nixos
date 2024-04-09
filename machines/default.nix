@@ -64,11 +64,6 @@ lib.mkMerge [
     ];
 
     enableDeploy = true;
-    deploySettings = {
-      # sshOpts = [ "-t" ];
-      autoRollback = false;
-      magicRollback = false;
-    };
   })
 
   (builders.mkSystemIso {

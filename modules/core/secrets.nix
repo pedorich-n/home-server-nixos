@@ -1,14 +1,11 @@
 # WARN: Agenix will just skip a secret if it can't be decrypted or user/group doesn't exist
 { config, inputs, lib, ... }:
 let
-  inherit (builtins) unsafeDiscardStringContext baseNameOf head match removeAttrs filter listToAttrs map;
-  inherit (lib) removeSuffix;
-
-  getFilename = path: unsafeDiscardStringContext (baseNameOf path);
+  getFilename = path: builtins.unsafeDiscardStringContext (builtins.baseNameOf path);
 
   mkMapping = path: override: override {
     file = path;
-    name = removeSuffix ".age" (getFilename path);
+    name = lib.removeSuffix ".age" (getFilename path);
     mode = "440";
     owner = config.users.users.user.name;
     group = config.users.users.user.group;
@@ -16,7 +13,7 @@ let
 
   mappingOverrides =
     let
-      useDefault = mapping: removeAttrs mapping [ "mode" "owner" "group" ];
+      useDefault = mapping: builtins.removeAttrs mapping [ "mode" "owner" "group" ];
     in
     {
       apprise_config = useDefault;
@@ -29,19 +26,33 @@ let
 
   mkSecret = path:
     let
-      removeExtensionFromFilename = filename: head (match "([^.]+).*" filename);
+      removeExtensionFromFilename = filename: builtins.head (builtins.match "([^.]+).*" filename);
       name = removeExtensionFromFilename (getFilename path);
 
       override = mappingOverrides.${name} or lib.id;
+      mapping = mkMapping path override;
+
+      # Turns attrset of users into a list [{ name = <username>; uid = nullOr <uid>; }]
+      usersNameUid = lib.mapAttrsToList (name: user: { inherit name; inherit (user) uid; }) config.users.users;
+      isUsernameOrUidExists = usernameOrUid: lib.any ({ name, uid }: name == usernameOrUid || (uid != null && uid == usernameOrUid)) usersNameUid;
+      userCheck = !config.users.mutableUsers &&
+        (if (builtins.hasAttr "owner" mapping) then isUsernameOrUidExists mapping.owner else true);
+
+      # Turns attrset of groups into a list [{ name = <groupname>; gid = nullOr <gid>; }]
+      groupsNameGid = lib.mapAttrsToList (name: group: { inherit name; inherit (group) gid; }) config.users.groups;
+      isGroupnameOrGidExists = groupnameOrGid: lib.any ({ name, gid }: name == groupnameOrGid || (gid != null && gid == groupnameOrGid)) groupsNameGid;
+      groupCheck = !config.users.mutableUsers &&
+        (if (builtins.hasAttr "group" mapping) then isGroupnameOrGidExists mapping.group else true);
+
+      ownerAndGroupExists = userCheck && groupCheck;
     in
-    {
-      inherit name;
-      value = mkMapping path override;
-    };
+    if (!ownerAndGroupExists)
+    then (lib.trace "Secrets: owner and/or group doesn't exist for '${mapping.name}'! Skipping." { })
+    else { ${name} = mapping; };
 
-  allEncrypted = filter (path: lib.hasSuffix ".age" path) (lib.filesystem.listFilesRecursive "${inputs.home-server-nixos-secrets}/encrypted");
+  allEncrypted = builtins.filter (path: lib.hasSuffix ".age" path) (lib.filesystem.listFilesRecursive "${inputs.home-server-nixos-secrets}/encrypted");
 
-  secrets = listToAttrs (map (path: mkSecret path) allEncrypted);
+  secrets = lib.mkMerge (builtins.map (path: mkSecret path) allEncrypted);
 in
 {
   imports = [
