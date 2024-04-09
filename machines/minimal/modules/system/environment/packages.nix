@@ -1,14 +1,20 @@
 { pkgs, ... }: {
   environment.systemPackages = with pkgs; [
+    # Internet
     curl
     gitMinimal
-    htop
-    jq
+    wget
+    rsync
+
+    # Hardware
     lshw
     parted
-    rsync
+    util-linux # cfdisk, fsck, mount, etc.
+
+    # Tools
+    htop
+    jq
     tree
     vim
-    wget
   ];
 }
