@@ -1,4 +1,4 @@
-{ pkgs-unstable, ... }:
+{ config, pkgs-unstable, ... }:
 let
   port = 52000;
 in
@@ -35,7 +35,7 @@ in
     http = {
       routers.trilium = {
         entryPoints = [ "web" ];
-        rule = "Host(`trilium.server.local`)";
+        rule = "Host(`trilium.${config.custom.networking.domain}`)";
         service = "trilium";
       };
 

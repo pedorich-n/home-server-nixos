@@ -88,7 +88,7 @@ in
             depends_on = [ "docker-socket-proxy" ];
             labels = {
               "traefik.enable" = "true";
-              "traefik.http.routers.netdata.rule" = "Host(`netdata.server.local`)";
+              "traefik.http.routers.netdata.rule" = "Host(`netdata.${config.custom.networking.domain}`)";
               "traefik.http.routers.netdata.entrypoints" = "web";
               "traefik.http.routers.netdata.service" = "netdata";
               "traefik.http.services.netdata.loadBalancer.server.port" = "19999";
@@ -113,7 +113,7 @@ in
           restart = "unless-stopped";
           labels = {
             "traefik.enable" = "true";
-            "traefik.http.routers.portainer.rule" = "Host(`portainer.server.local`)";
+            "traefik.http.routers.portainer.rule" = "Host(`portainer.${config.custom.networking.domain}`)";
             "traefik.http.routers.portainer.entrypoints" = "web";
             "traefik.http.routers.portainer.service" = "portainer";
             "traefik.http.services.portainer.loadBalancer.server.port" = "9000";
@@ -136,7 +136,7 @@ in
           ];
           labels = {
             "traefik.enable" = "true";
-            "traefik.http.routers.whatsupdocker.rule" = "Host(`whatsupdocker.server.local`)";
+            "traefik.http.routers.whatsupdocker.rule" = "Host(`whatsupdocker.${config.custom.networking.domain}`)";
             "traefik.http.routers.whatsupdocker.entrypoints" = "web";
             "traefik.http.routers.whatsupdocker.service" = "whatsupdocker";
             "traefik.http.services.whatsupdocker.loadBalancer.server.port" = "3000";

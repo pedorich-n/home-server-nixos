@@ -11,7 +11,7 @@ in
       settings = {
         interface = config.services.tailscale.interfaceName;
         except-interface = "lo";
-        address = "/server.local/${tailscaleMachineIp}";
+        address = "/${config.custom.networking.domain}/${tailscaleMachineIp}";
         bind-interfaces = true;
       };
     };

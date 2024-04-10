@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   networking.firewall.allowedTCPPorts = [ 80 1883 ];
 
@@ -34,7 +35,7 @@
         routers = {
           traefik = {
             entryPoints = [ "web" ];
-            rule = "Host(`traefik.server.local`)";
+            rule = "Host(`traefik.${config.custom.networking.domain}`)";
             service = "traefik";
           };
         };
