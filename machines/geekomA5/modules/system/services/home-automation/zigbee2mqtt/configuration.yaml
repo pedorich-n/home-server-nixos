@@ -1,0 +1,39 @@
+homeassistant: true
+permit_join: false
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://mosquitto
+  keepalive: 60
+  password: "!secrets.yaml mqtt_password"
+  reject_unauthorized: true
+  user: "!secrets.yaml mqtt_user"
+  version: 4
+serial:
+  port: /dev/ttyZigbee
+frontend: true
+advanced:
+  network_key: "!secrets.yaml network_key"
+  homeassistant_legacy_entity_attributes: false
+  legacy_api: false
+  legacy_availability_payload: false
+  log_level: info
+  log_output:
+    - file
+  channel: 25
+  last_seen: ISO_8601
+device_options:
+  legacy: false
+devices:
+  "0xa4c1387f4ac9519d":
+    friendly_name: tuya_temperature_bedroom_1
+    humidity_precision: 1
+    temperature_precision: 2
+  "0xa4c138b417d5433b":
+    friendly_name: tuya_temperature_ldk_1
+    humidity_precision: 1
+    temperature_precision: 2
+  "0xa4c13844697d3aa2":
+    friendly_name: ysrai_led_controller_hallway_1
+  "0x00158d00091214d6":
+    friendly_name: aqara_door_sensor_hallway_1
+groups: {}

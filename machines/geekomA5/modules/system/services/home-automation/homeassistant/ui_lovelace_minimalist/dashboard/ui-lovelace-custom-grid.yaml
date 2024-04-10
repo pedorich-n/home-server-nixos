@@ -1,0 +1,9 @@
+---
+button_card_templates: !include_dir_merge_named "../../custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
+
+title: "Minimalist Grid"
+theme: "minimalist-desktop"
+background: "var(--background-image)"
+views:
+  # Has to be done as !include due to https://github.com/thomasloven/hass-lovelace_gen/blob/19552bc/README.md?plain=1#L40
+  - !include ./views/ui-lovelace-custom-grid-templated.yaml
