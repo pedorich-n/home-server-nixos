@@ -15,21 +15,19 @@ let
     let
       useDefault = mapping: builtins.removeAttrs mapping [ "mode" "owner" "group" ];
     in
-    lib.mkMerge [
-      {
-        apprise_config = useDefault;
-        root_password_hashed = useDefault;
-        user_password_hashed = useDefault;
-        server_check_config = useDefault;
-      }
-      (lib.mkIf (builtins.hasAttr "playit" config.services && config.services.playit.enable) {
-        playit_secret_nucbox = mapping: mapping // { owner = config.services.playit.user; inherit (config.services.playit) group; };
-        playit_secret_geekom = mapping: mapping // { owner = config.services.playit.user; inherit (config.services.playit) group; };
-      })
-      (lib.mkIf (builtins.hasAttr "ngrok" config.services && config.services.ngrok.enable) {
-        ngrok = mapping: mapping // { owner = config.services.ngrok.user; inherit (config.services.ngrok) group; };
-      })
-    ];
+    {
+      apprise_config = useDefault;
+      root_password_hashed = useDefault;
+      user_password_hashed = useDefault;
+      server_check_config = useDefault;
+    } //
+    (lib.optionalAttrs (builtins.hasAttr "playit" config.services && config.services.playit.enable) {
+      playit_secret_nucbox = mapping: mapping // { owner = config.services.playit.user; inherit (config.services.playit) group; };
+      playit_secret_geekom = mapping: mapping // { owner = config.services.playit.user; inherit (config.services.playit) group; };
+    }) //
+    (lib.optionalAttrs (builtins.hasAttr "ngrok" config.services && config.services.ngrok.enable) {
+      ngrok = mapping: mapping // { owner = config.services.ngrok.user; inherit (config.services.ngrok) group; };
+    });
 
   mkSecret = path:
     let

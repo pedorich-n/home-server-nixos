@@ -1,13 +1,20 @@
-{ config, lib, pkgs-unstable, utils, ... }:
-with lib;
+{ config, lib, utils, ... }:
 let
-  cfg = config.services.minecraft-server-check;
+  cfg = config.custom.services.minecraft-server-check;
 in
 {
   ###### interface
-  options = {
-    services.minecraft-server-check = {
+  options = with lib; {
+    custom.services.minecraft-server-check = {
       enable = mkEnableOption "Minecraft Server Check";
+
+      package = mkOption {
+        type = types.package;
+      };
+
+      configPath = mkOption {
+        type = types.path;
+      };
 
       server-service = mkOption {
         type = utils.systemdUtils.lib.unitNameType;
@@ -41,21 +48,20 @@ in
   };
 
   ###### implementation
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     systemd.services.minecraft-server-check = {
       description = "Minecraft Server and Tunnel health-check";
       wantedBy = [ "multi-user.target" ];
       after = [
         "network.target"
-        "systemd-resolved.service"
         cfg.server-service
         cfg.tunnel-service
       ];
       requires = [ cfg.server-service ];
 
       script = builtins.concatStringsSep " " [
-        "${getExe pkgs-unstable.minecraft-server-check}"
-        "--config ${config.age.secrets.server_check_config.path}"
+        "${lib.getExe cfg.package}"
+        "--config ${cfg.configPath}"
         "--server-service ${cfg.server-service}"
         "--tunnel-service ${cfg.tunnel-service}"
         "--interval ${toString cfg.interval}"
