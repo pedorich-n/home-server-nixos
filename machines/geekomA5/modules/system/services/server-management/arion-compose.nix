@@ -56,7 +56,7 @@ in
           service = {
             image = "netdata/netdata:v1.45.1";
             container_name = "netdata";
-            hostname = "nucbox5";
+            hostname = config.networking.hostName;
             networks = [
               "default"
               "traefik"
@@ -75,7 +75,7 @@ in
               (storeFor "netdata/config" "/etc/netdata")
               (storeFor "netdata/data" "/var/lib/netdata")
               "${configs.netdata.main}:/etc/netdata/netdata.conf:ro"
-              # "${configs.netdata.prometheus}:/etc/netdata/go.d/prometheus.conf:ro"
+              "${configs.netdata.prometheus}:/etc/netdata/go.d/prometheus.conf:ro"
               "/etc/passwd:/host/etc/passwd:ro"
               "/etc/group:/host/etc/group:ro"
               "/proc:/host/proc:ro"
