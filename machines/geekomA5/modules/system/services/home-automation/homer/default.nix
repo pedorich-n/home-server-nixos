@@ -1,4 +1,4 @@
-{ config, inputs, ... }:
+{ config, inputs, pkgs, ... }:
 let
   entryFor = source: target: {
     name = "/mnt/store/home-automation/homer/${target}";
@@ -8,6 +8,14 @@ let
       group = config.users.users.user.group;
     };
   };
+
+  renderedConfig = pkgs.render-jinja-template {
+    name = "homer-config-rendered.yml";
+    template = ./config.yml;
+    vars = {
+      inherit (config.custom.networking) domain;
+    };
+  };
 in
 {
   environment.mutable-files = builtins.listToAttrs [
@@ -15,6 +23,6 @@ in
     (entryFor "${inputs.homer-theme}/assets/custom.css" "custom.css")
     (entryFor "${inputs.homer-theme}/assets/wallpaper-light.jpeg" "wallpaper-light.jpeg")
     (entryFor "${inputs.homer-theme}/assets/wallpaper.jpeg" "wallpaper.jpeg")
-    (entryFor ./config.yml "config.yml")
+    (entryFor renderedConfig "config.yml")
   ];
 }
