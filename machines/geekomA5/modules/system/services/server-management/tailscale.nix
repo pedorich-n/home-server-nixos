@@ -1,6 +1,6 @@
 { config, pkgs-unstable, ... }:
 let
-  tailscaleMachineIp = "100.99.63.71";
+  tailscaleMachineIp = "100.109.85.80";
 in
 {
   services = {
@@ -19,7 +19,7 @@ in
     tailscale = {
       enable = true;
       package = pkgs-unstable.tailscale;
-      authKeyFile = config.age.secrets.tailscale_key_nucbox.path;
+      authKeyFile = config.age.secrets.tailscale_key_geekom.path;
 
       extraUpFlags = [ "--accept-dns" ];
     };
