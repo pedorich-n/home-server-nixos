@@ -15,6 +15,7 @@
     };
 
     kernelModules = [
+      "amdgpu" # AMD GPU 
       "kvm-amd" # KVM on AMD Cpus
       "k10temp" # Temperature monitoring on AMD CPUs
       "zenpower" # AMD ZEN Family CPUs current, voltage, power monitoring
