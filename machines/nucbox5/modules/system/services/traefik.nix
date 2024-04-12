@@ -3,7 +3,7 @@
   networking.firewall.allowedTCPPorts = [ 80 1883 ];
 
   services.traefik = {
-    enable = true;
+    enable = false;
     group = "podman";
 
     staticConfigOptions = {

@@ -7,7 +7,7 @@ in
     networking.ports.tcp."trilium-main".port = port;
 
     services.trilium-server = {
-      enable = true;
+      enable = false;
       package = pkgs-unstable.trilium-server;
       nginx.enable = false;
 
