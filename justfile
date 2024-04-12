@@ -12,6 +12,12 @@ deploy-nucbox5 *args:
 dry-deploy-nucbox5 *args:
     just _dry_deploy nucbox5 "{{ args }}"
 
+deploy-geekomA5 *args:
+    just _deploy geekomA5 "{{ args }}"
+
+dry-deploy-geekomA5 *args:
+    just _dry_deploy geekomA5 "{{ args }}"
+
 build-iso *args:
     nix run "{{ justfile_directory() + '#build-iso-minimal' }}"
 

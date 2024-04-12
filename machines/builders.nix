@@ -17,7 +17,7 @@ let
               inherit system;
               modules =
                 [{
-                  networking.hostName = name;
+                  networking.hostName = lib.mkDefault name;
                 }]
                 ++ modules
                 ++ (loadMachine name);
@@ -68,6 +68,7 @@ let
       (mkSystem ({
         inherit name system;
         enableDeploy = false;
+        modules = [{ networking.hostName = lib.mkForce "nixos"; }];
       } // extraArgs))
       {
         perSystem = { pkgs, ... }: {

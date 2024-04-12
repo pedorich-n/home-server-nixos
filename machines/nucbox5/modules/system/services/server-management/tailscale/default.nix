@@ -11,7 +11,7 @@ in
       settings = {
         interface = config.services.tailscale.interfaceName;
         except-interface = "lo";
-        address = "/server.local/${tailscaleMachineIp}";
+        address = "/${config.custom.networking.domain}/${tailscaleMachineIp}";
         bind-interfaces = true;
       };
     };
@@ -19,7 +19,7 @@ in
     tailscale = {
       enable = true;
       package = pkgs-unstable.tailscale;
-      authKeyFile = config.age.secrets.tailscale_key.path;
+      authKeyFile = config.age.secrets.tailscale_key_nucbox.path;
 
       extraUpFlags = [ "--accept-dns" ];
     };

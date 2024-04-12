@@ -44,11 +44,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1711970566,
-        "narHash": "sha256-SdksKMlTOVBPVf52PMPaDGF2y2MaNi9A2HAhc/DgI+s=",
+        "lastModified": 1712925728,
+        "narHash": "sha256-EruHSD3HfQ0xZsP5vNZVaJVQKXbPQjQUGsThxXHR7Dg=",
         "ref": "refs/heads/main",
-        "rev": "cada4180285fbfbab37a4dedd8e9675105c55a94",
-        "revCount": 51,
+        "rev": "92b15cc7864279af6ef836cedb4586f086016e0c",
+        "revCount": 53,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
       },
@@ -125,6 +125,26 @@
       "original": {
         "owner": "serokell",
         "repo": "deploy-rs",
+        "type": "github"
+      }
+    },
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1712612224,
+        "narHash": "sha256-Tv4C8OSPVmm4LbpJGLFSODyvJy6DqrisEGPCQdNVOeY=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "79eab0e82cb126bf4ac170f44af82479f0895ab5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "disko",
         "type": "github"
       }
     },
@@ -291,11 +311,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1711969467,
-        "narHash": "sha256-LrkPByRSpBD+1FzR15em0gRmNGpLsgp+vkegbQnZ2q0=",
+        "lastModified": 1712798439,
+        "narHash": "sha256-b1c9+jw5v44mrtaKYSdu2IyshmzxyBKkgT1nlZYmyEw=",
         "ref": "refs/heads/main",
-        "rev": "ebf1b295735c515239c70ad526a263faa94527ce",
-        "revCount": 48,
+        "rev": "075038f2de4ca4f015b58058c1e377c1a36d723f",
+        "revCount": 50,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -537,6 +557,7 @@
         "arion": "arion",
         "crane": "crane",
         "deploy-rs": "deploy-rs",
+        "disko": "disko",
         "fabric-modpack": "fabric-modpack",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts_2",

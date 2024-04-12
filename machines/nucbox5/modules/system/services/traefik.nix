@@ -1,8 +1,9 @@
+{ config, ... }:
 {
   networking.firewall.allowedTCPPorts = [ 80 1883 ];
 
   services.traefik = {
-    enable = true;
+    enable = false;
     group = "podman";
 
     staticConfigOptions = {
@@ -34,7 +35,7 @@
         routers = {
           traefik = {
             entryPoints = [ "web" ];
-            rule = "Host(`traefik.server.local`)";
+            rule = "Host(`traefik.${config.custom.networking.domain}`)";
             service = "traefik";
           };
         };

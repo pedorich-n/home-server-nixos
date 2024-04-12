@@ -1,16 +1,8 @@
-{ lib, ... }: {
-  boot = {
-    loader = {
-      efi.canTouchEfiVariables = true;
-      timeout = lib.mkDefault 5;
-
-      grub = {
-        enable = true;
-        devices = [ "nodev" ];
-        efiSupport = true;
-        useOSProber = true;
-        configurationLimit = lib.mkDefault 5;
-      };
-    };
+{ lib, config, ... }: {
+  boot.loader.grub = lib.mkIf config.boot.loader.grub.enable {
+    devices = [ "nodev" ];
+    efiSupport = true;
+    useOSProber = true;
+    configurationLimit = lib.mkDefault 5;
   };
 }

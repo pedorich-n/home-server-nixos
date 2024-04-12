@@ -9,5 +9,7 @@
       };
     };
     kernelModules = [ "kvm-intel" ];
+
+    loader.grub.enable = true;
   };
 }

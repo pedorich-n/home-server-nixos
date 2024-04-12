@@ -7,19 +7,19 @@ in
   services = {
 
     ngrok = {
-      enable = true;
+      enable = false;
       package = pkgs-unstable.ngrok;
       settingsFile = config.age.secrets.ngrok.path;
     };
 
     lessons-calendar-loader = {
-      enable = true;
+      enable = false;
       configFile = config.age.secrets.calendar_loader_config_main.path;
       inherit user group;
     };
 
     lessons-calendar-loader-scheduler = {
-      enable = true;
+      enable = false;
       inherit user group;
 
       baseUrl = "http://localhost:9000";
@@ -33,7 +33,7 @@ in
     };
 
     telegram-lessons-bot = {
-      enable = true;
+      enable = false;
       configFile = config.age.secrets.telegram_airtable_bot_config_main.path;
       inherit user group;
     };

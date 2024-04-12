@@ -54,7 +54,7 @@ in
           ];
           labels = {
             "traefik.enable" = "true";
-            "traefik.http.routers.homer.rule" = "Host(`server.local`)";
+            "traefik.http.routers.homer.rule" = "Host(`${config.custom.networking.domain}`)";
             "traefik.http.routers.homer.entrypoints" = "web";
             "traefik.http.routers.homer.service" = "homer";
             "traefik.http.services.homer.loadBalancer.server.port" = "8080";
@@ -129,7 +129,7 @@ in
           # user = userSetting;
           labels = {
             "traefik.enable" = "true";
-            "traefik.http.routers.zigbee2mqtt.rule" = "Host(`zigbee2mqtt.server.local`)";
+            "traefik.http.routers.zigbee2mqtt.rule" = "Host(`zigbee2mqtt.${config.custom.networking.domain}`)";
             "traefik.http.routers.zigbee2mqtt.entrypoints" = "web";
             "traefik.http.routers.zigbee2mqtt.service" = "zigbee2mqtt";
             "traefik.http.services.zigbee2mqtt.loadBalancer.server.port" = "8080";
@@ -152,7 +152,7 @@ in
           ];
           labels = {
             "traefik.enable" = "true";
-            "traefik.http.routers.nodered.rule" = "Host(`nodered.server.local`)";
+            "traefik.http.routers.nodered.rule" = "Host(`nodered.${config.custom.networking.domain}`)";
             "traefik.http.routers.nodered.entrypoints" = "web";
             "traefik.http.routers.nodered.service" = "nodered";
             "traefik.http.services.nodered.loadBalancer.server.port" = "1880";
@@ -181,7 +181,7 @@ in
           ];
           labels = {
             "traefik.enable" = "true";
-            "traefik.http.routers.homeassistant.rule" = "Host(`homeassistant.server.local`)";
+            "traefik.http.routers.homeassistant.rule" = "Host(`homeassistant.${config.custom.networking.domain}`)";
             "traefik.http.routers.homeassistant.entrypoints" = "web";
             "traefik.http.routers.homeassistant.service" = "homeassistant";
             "traefik.http.services.homeassistant.loadBalancer.server.port" = "80";

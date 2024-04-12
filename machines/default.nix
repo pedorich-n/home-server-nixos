@@ -36,10 +36,27 @@ lib.mkMerge [
     system = "x86_64-linux";
     modules = sharedModules ++ [
       inputs.arion.nixosModules.arion
-      inputs.agenix.nixosModules.default
       inputs.airtable-telegram-bot.nixosModules.ngrok
       inputs.airtable-telegram-bot.nixosModules.calendar-loader
       inputs.airtable-telegram-bot.nixosModules.calendar-loader-scheduler
+      inputs.airtable-telegram-bot.nixosModules.telegram-lessons-bot
+      inputs.nixos-mutable-files-manager.nixosModules.default
+      inputs.nix-minecraft.nixosModules.minecraft-servers
+      inputs.playit-nixos-module.nixosModules.default
+    ];
+
+    enableDeploy = true;
+  })
+
+  (builders.mkSystem {
+    name = "geekomA5";
+    system = "x86_64-linux";
+    modules = sharedModules ++ [
+      inputs.arion.nixosModules.arion
+      inputs.disko.nixosModules.disko
+      inputs.airtable-telegram-bot.nixosModules.ngrok
+      inputs.airtable-telegram-bot.nixosModules.calendar-loader
+      inputs.airtable-telegram-bot.nixosModules.calendar-loader-scheduler-cron
       inputs.airtable-telegram-bot.nixosModules.telegram-lessons-bot
       inputs.nixos-mutable-files-manager.nixosModules.default
       inputs.nix-minecraft.nixosModules.minecraft-servers
