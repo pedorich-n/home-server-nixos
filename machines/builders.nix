@@ -1,6 +1,6 @@
 { inputs, self, withSystem, lib }:
 let
-  loadMachine = name: self.lib.filesystem.list-modules { src = ./${name}; };
+  loadMachine = name: self.lib.list-modules { src = ./${name}; };
 
   mkSystem =
     { name

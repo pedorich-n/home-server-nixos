@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, customLib, ... }:
 let
   storeFor = localPath: remotePath: "/mnt/store/server-management/${localPath}:${remotePath}";
 
@@ -53,7 +53,7 @@ in
           out.service = {
             pid = "host"; # Not implemented in Arion
           };
-          service = {
+          service = rec {
             image = "netdata/netdata:v1.45.1";
             container_name = "netdata";
             hostname = config.networking.hostName;
@@ -85,18 +85,13 @@ in
               "/etc/os-release:/host/etc/os-release:ro"
             ];
             depends_on = [ "docker-socket-proxy" ];
-            labels = {
-              "traefik.enable" = "true";
-              "traefik.http.routers.netdata.rule" = "Host(`netdata.${config.custom.networking.domain}`)";
-              "traefik.http.routers.netdata.entrypoints" = "web";
-              "traefik.http.routers.netdata.service" = "netdata";
-              "traefik.http.services.netdata.loadBalancer.server.port" = "19999";
+            labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 19999; } // {
               "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
             };
           };
         };
 
-        portainer.service = {
+        portainer.service = rec {
           image = "portainer/portainer-ce:2.20.0-alpine";
           container_name = "portainer";
           environment = {
@@ -110,17 +105,12 @@ in
           networks = [ "traefik" ];
           # user = userSetting;
           restart = "unless-stopped";
-          labels = {
-            "traefik.enable" = "true";
-            "traefik.http.routers.portainer.rule" = "Host(`portainer.${config.custom.networking.domain}`)";
-            "traefik.http.routers.portainer.entrypoints" = "web";
-            "traefik.http.routers.portainer.service" = "portainer";
-            "traefik.http.services.portainer.loadBalancer.server.port" = "9000";
+          labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 9000; } // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?-alpine$'';
           };
         };
 
-        whatsupdocker.service = {
+        whatsupdocker.service = rec {
           image = "fmartinou/whats-up-docker:6.3.0";
           container_name = "whatsupdocker";
           environment = {
@@ -133,12 +123,7 @@ in
             # "/var/run/docker.sock:/var/run/docker.sock:ro"
             (storeFor "whatsupdocker" "/store")
           ];
-          labels = {
-            "traefik.enable" = "true";
-            "traefik.http.routers.whatsupdocker.rule" = "Host(`whatsupdocker.${config.custom.networking.domain}`)";
-            "traefik.http.routers.whatsupdocker.entrypoints" = "web";
-            "traefik.http.routers.whatsupdocker.service" = "whatsupdocker";
-            "traefik.http.services.whatsupdocker.loadBalancer.server.port" = "3000";
+          labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 3000; } // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
           };
         };

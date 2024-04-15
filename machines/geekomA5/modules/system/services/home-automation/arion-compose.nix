@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, customLib, ... }:
 let
   userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
 
@@ -38,7 +38,7 @@ in
       };
 
       services = {
-        homer.service = {
+        homer.service = rec {
           image = "b4bz/homer:v23.10.1";
           container_name = "homer";
           networks = [ "traefik" ];
@@ -52,12 +52,7 @@ in
             # configuration file is managed by environment.mutable-files
             (storeFor "homer" "/www/assets")
           ];
-          labels = {
-            "traefik.enable" = "true";
-            "traefik.http.routers.homer.rule" = "Host(`${config.custom.networking.domain}`)";
-            "traefik.http.routers.homer.entrypoints" = "web";
-            "traefik.http.routers.homer.service" = "homer";
-            "traefik.http.services.homer.loadBalancer.server.port" = "8080";
+          labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 8080; } // {
             "wud.tag.exclude" = "^latest.*$";
           };
         };
@@ -111,7 +106,7 @@ in
           };
         };
 
-        zigbee2mqtt.service = {
+        zigbee2mqtt.service = rec {
           image = "koenkk/zigbee2mqtt:1.36.0";
           container_name = "zigbee2mqtt";
           restart = "unless-stopped";
@@ -129,19 +124,14 @@ in
           networks = [ "default" "traefik" ];
           # networks = [ "default" ];
           # user = userSetting;
-          labels = {
-            "traefik.enable" = "true";
-            "traefik.http.routers.zigbee2mqtt.rule" = "Host(`zigbee2mqtt.${config.custom.networking.domain}`)";
-            "traefik.http.routers.zigbee2mqtt.entrypoints" = "web";
-            "traefik.http.routers.zigbee2mqtt.service" = "zigbee2mqtt";
-            "traefik.http.services.zigbee2mqtt.loadBalancer.server.port" = "8080";
+          labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 8080; } // {
             "wud.display.icon" = "si:zigbee";
           };
         };
 
-        nodered.service = {
+        nodered.service = rec {
           image = "nodered/node-red:3.1.7";
-          container_name = "node-red";
+          container_name = "nodered";
           environment = {
             TZ = "${config.time.timeZone}";
             NODE_RED_ENABLE_PROJECTS = "true";
@@ -153,18 +143,13 @@ in
           volumes = [
             (storeFor "nodered" "/data")
           ];
-          labels = {
-            "traefik.enable" = "true";
-            "traefik.http.routers.nodered.rule" = "Host(`nodered.${config.custom.networking.domain}`)";
-            "traefik.http.routers.nodered.entrypoints" = "web";
-            "traefik.http.routers.nodered.service" = "nodered";
-            "traefik.http.services.nodered.loadBalancer.server.port" = "1880";
+          labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 1880; } // {
             "wud.tag.exclude" = "^latest.*$";
             "wud.display.icon" = "si:nodered";
           };
         };
 
-        homeassistant.service = {
+        homeassistant.service = rec {
           image = "homeassistant/home-assistant:2024.3.3";
           container_name = "homeassistant";
           environment = {
@@ -183,12 +168,7 @@ in
             (storeFor "homeassistant/local" "/.local")
             "${config.age.secrets.ha_secrets.path}:/config/secrets.yaml"
           ];
-          labels = {
-            "traefik.enable" = "true";
-            "traefik.http.routers.homeassistant.rule" = "Host(`homeassistant.${config.custom.networking.domain}`)";
-            "traefik.http.routers.homeassistant.entrypoints" = "web";
-            "traefik.http.routers.homeassistant.service" = "homeassistant";
-            "traefik.http.services.homeassistant.loadBalancer.server.port" = "80";
+          labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 80; } // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
             "wud.display.icon" = "si:homeassistant";
           };
