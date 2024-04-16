@@ -9,6 +9,9 @@ pkgs.poetry2nix.mkPoetryApplication {
     mcstatus = prev.mcstatus.override {
       preferWheel = true;
     };
+    dnspython = prev.dnspython.overridePythonAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.hatchling ];
+    });
   });
   meta.mainProgram = "minecraft-server-check";
 }
