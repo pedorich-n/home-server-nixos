@@ -34,6 +34,9 @@ http:
     - 172.31.0.0/24 # traefik
     - 172.32.0.0/24 # tailscale
 
+auth_header:
+  username_header: X-authentik-username
+
 input_boolean:
   vacation_mode:
     name: Vacation Mode
