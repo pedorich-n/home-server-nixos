@@ -1,10 +1,10 @@
-{ inputs, self, withSystem }:
+{ inputs, flake, withSystem }:
 { lib, ... }:
 let
-  myModules = import ../modules { inherit self; };
+  myModules = import ../modules { inherit flake; };
   sharedModules = lib.lists.flatten (builtins.attrValues myModules);
 
-  builders = import ./builders.nix { inherit inputs self withSystem lib; };
+  builders = import ./builders.nix { inherit inputs flake withSystem lib; };
 in
 lib.mkMerge [
   {
@@ -27,7 +27,7 @@ lib.mkMerge [
         };
       };
 
-      checks = lib.mkIf (self.deploy or { } != { }) (deployPkgs.deploy-rs.lib.deployChecks self.deploy);
+      checks = lib.mkIf (flake.deploy or { } != { }) (deployPkgs.deploy-rs.lib.deployChecks flake.deploy);
     };
   }
 

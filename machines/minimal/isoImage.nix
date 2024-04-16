@@ -1,4 +1,4 @@
-{ modulesPath, self, ... }: {
+{ modulesPath, flake, ... }: {
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-base.nix"
   ];
@@ -13,7 +13,7 @@
     # Include this flake into the ISO so that it can be used with `nixos-install --flake /config#<machine>`
     contents = [{
       target = "/config";
-      source = self;
+      source = flake;
     }];
   };
 }

@@ -1,4 +1,4 @@
-{ self }: {
-  core = self.lib.list-modules { src = ./core; };
-  custom = self.lib.list-modules { src = ./custom; };
+{ flake }: {
+  core = flake.lib.list-modules { src = ./core; };
+  custom = flake.lib.list-modules { src = ./custom; };
 }

@@ -1,6 +1,6 @@
-{ inputs, self, ... } @args: {
+{ inputs, flake, ... } @args: {
   _module.args.customLib = inputs.haumea.lib.load {
-    src = "${self}/lib/local";
-    inputs = builtins.removeAttrs args [ "self" ];
+    src = "${flake}/lib/local";
+    inputs = args;
   };
 }

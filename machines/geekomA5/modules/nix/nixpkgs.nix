@@ -1,4 +1,4 @@
-{ inputs, self, ... }:
+{ inputs, flake, ... }:
 {
   nixpkgs = {
     overlays = [
@@ -6,8 +6,8 @@
       inputs.rust-overlay.overlays.default
       inputs.poetry2nix.overlays.default
       (_: prev: {
-        minecraft-server-check = prev.callPackage "${self}/pkgs/minecraft-server-check" { };
-        render-jinja-template = prev.callPackage "${self}/pkgs/render-jinja-template" { };
+        minecraft-server-check = prev.callPackage "${flake}/pkgs/minecraft-server-check" { };
+        render-jinja-template = prev.callPackage "${flake}/pkgs/render-jinja-template" { };
       })
     ];
   };
