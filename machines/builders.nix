@@ -1,6 +1,6 @@
-{ inputs, self, withSystem, lib }:
+{ inputs, flake, withSystem, lib }:
 let
-  loadMachine = name: self.lib.filesystem.list-modules { src = ./${name}; };
+  loadMachine = name: flake.lib.list-modules { src = ./${name}; };
 
   mkSystem =
     { name
@@ -21,7 +21,7 @@ let
                 }]
                 ++ modules
                 ++ (loadMachine name);
-              specialArgs = { inherit self inputs system; } // specialArgs;
+              specialArgs = { inherit flake inputs system; } // specialArgs;
             };
           };
         };
@@ -31,7 +31,7 @@ let
         perSystem = { lib, pkgs, deployPkgs, ... }: {
           apps = {
             "deploy-${name}".program = pkgs.writeShellScriptBin "deploy-${name}" ''
-              ${lib.getExe deployPkgs.deploy-rs.deploy-rs} "${self}#${name}" "$@"
+              ${lib.getExe deployPkgs.deploy-rs.deploy-rs} "${flake}#${name}" "$@"
             '';
           };
         };
@@ -49,7 +49,7 @@ let
                   system = {
                     sshUser = "root";
                     user = "root";
-                    path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.${name};
+                    path = deployPkgs.deploy-rs.lib.activate.nixos flake.nixosConfigurations.${name};
                   } // deploySettings;
                 };
               });
@@ -74,7 +74,7 @@ let
         perSystem = { pkgs, ... }: {
           apps = {
             "build-iso-${name}".program = pkgs.writeShellScriptBin "build-iso-${name}" ''
-              ${lib.getExe pkgs.nix} build "${self}#nixosConfigurations.${name}.config.system.build.isoImage" "$@"
+              ${lib.getExe pkgs.nix} build "${flake}#nixosConfigurations.${name}.config.system.build.isoImage" "$@"
             '';
           };
         };

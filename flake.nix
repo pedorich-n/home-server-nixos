@@ -152,6 +152,10 @@
   outputs = inputs@{ flake-parts, systems, self, ... }: flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, flake-parts-lib, ... }: {
     systems = import systems;
 
-    imports = import ./flake-parts { inherit (flake-parts-lib) importApply; inherit withSystem inputs self; };
+    imports = import ./flake-parts {
+      inherit (flake-parts-lib) importApply;
+      inherit withSystem inputs;
+      flake = self;
+    };
   });
 }

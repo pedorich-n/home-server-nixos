@@ -1,2 +1,2 @@
-{ importApply, withSystem, inputs, self }:
-importApply ../machines { inherit withSystem inputs self; }
+{ importApply, withSystem, inputs, flake }:
+importApply ../machines { inherit withSystem inputs flake; }

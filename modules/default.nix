@@ -1,4 +1,4 @@
-{ self }: {
-  core = self.lib.filesystem.list-modules { src = ./core; };
-  custom = self.lib.filesystem.list-modules { src = ./custom; };
+{ flake }: {
+  core = flake.lib.list-modules { src = ./core; };
+  custom = flake.lib.list-modules { src = ./custom; };
 }
