@@ -52,7 +52,11 @@ in
             # configuration file is managed by environment.mutable-files
             (storeFor "homer" "/www/assets")
           ];
-          labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 8080; } // {
+          labels = (customLib.docker.labels.mkTraefikLabels {
+            name = container_name;
+            port = 8080;
+            domain = config.custom.networking.domain;
+          }) // {
             "wud.tag.exclude" = "^latest.*$";
           };
         };
