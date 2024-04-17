@@ -177,9 +177,6 @@ in
             "wud.display.icon" = "si:homeassistant";
 
             "traefik.http.routers.homeassistant.middlewares" = "authentik@docker";
-            # "traefik.http.routers.homeassistant-auth.rule" = "Host(`homeassistant.${config.custom.networking.domain}`) && PathPrefix(`/outpost.goauthentik.io/`)";
-            # "traefik.http.routers.homeassistant-auth.entrypoints" = "web";
-            # "traefik.http.routers.homeassistant-auth.service" = "authentik";
           };
           depends_on = [
             "mariadb"

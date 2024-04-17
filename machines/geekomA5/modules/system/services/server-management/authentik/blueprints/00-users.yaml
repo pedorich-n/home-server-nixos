@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: authentik-users
+  labels:
+    blueprints.goauthentik.io/system-bootstrap: "true"
+    blueprints.goauthentik.io/description: "Setup Default Authentik Users"
+entries:
+  - model: authentik_core.user
+    identifiers:
+      username: !Env AUTHENTIK_USER_NAME
+    state: created
+    attrs:
+      name: !Env AUTHENTIK_USER_NAME
+      email: !Env AUTHENTIK_USER_EMAIL
+      groups:
+        - !Find [authentik_core.group, [name, authentik Admins]]
+      password: !Env AUTHENTIK_USER_PASSWORD

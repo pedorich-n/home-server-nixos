@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: hass-auth-header
+  labels:
+    blueprints.goauthentik.io/description: "Setup HomeAssistant Proxy Provider & Application"
+context:
+  internal_host: http://homeassistant.{{ domain }}
+entries:
+  - model: authentik_providers_proxy.proxyprovider
+    id: provider
+    state: present
+    identifiers:
+      name: HomeAssistant
+    attrs:
+      authentication_flow:
+        !Find [authentik_flows.flow, [slug, default-authentication-flow]]
+      authorization_flow:
+        !Find [
+          authentik_flows.flow,
+          [slug, default-provider-authorization-implicit-consent],
+        ]
+      mode: forward_single
+      external_host: !Context internal_host
+
+  - model: authentik_core.application
+    state: present
+    identifiers:
+      name: HomeAssistant
+      slug: homeassistant
+    attrs:
+      provider: !KeyOf provider
+      open_in_new_tab: true
+      icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/home-assistant.png

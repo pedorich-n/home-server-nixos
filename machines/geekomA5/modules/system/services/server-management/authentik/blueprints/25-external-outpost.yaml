@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: External Outpost
+  labels:
+    blueprints.goauthentik.io/description: "Setup an external Outpost"
+context:
+  authentik_internal: http://authentik-server:9000
+  authentik_external: http://authentik.{{ domain }}
+entries:
+  - model: authentik_blueprints.metaapplyblueprint
+    state: present
+    identifiers:
+      name: apply-hass
+    attrs:
+      identifiers:
+        name: hass-auth-header
+      required: true
+
+  - model: authentik_outposts.outpost
+    state: present
+    identifiers:
+      name: external-outpost
+    attrs:
+      type: proxy
+      name: External Outpost
+      service_connection: null
+      managed: null
+      providers:
+        - !Find [authentik_providers_proxy.proxyprovider, [name, HomeAssistant]]
+      config:
+        authentik_host: !Context authentik_internal
+        authentik_host_browser: !Context authentik_external
+        authentik_host_insecure: false
+        log_level: trace
+        object_naming_template: ak-outpost-%(name)s
