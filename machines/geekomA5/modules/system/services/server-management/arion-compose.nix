@@ -1,4 +1,4 @@
-{ config, pkgs, lib, customLib, ... }:
+{ config, pkgs, lib, dockerLib, ... }:
 let
   storeFor = localPath: remotePath: "/mnt/store/server-management/${localPath}:${remotePath}";
 
@@ -7,31 +7,12 @@ let
   };
 in
 {
-  environment.systemPackages = with pkgs; [ arion podman-compose ];
-
-  systemd.services.arion-server-management = {
-    after = [ "network-online.target" ];
-  };
 
   virtualisation.arion.projects = {
     server-management.settings = {
       enableDefaultNetwork = false;
 
-      networks = {
-        default = {
-          name = "internal-server-management";
-          internal = true;
-        };
-        traefik = {
-          name = "traefik";
-          ipam = {
-            config = [{
-              subnet = "172.31.0.0/24";
-              gateway = "172.31.0.1";
-            }];
-          };
-        };
-      };
+      networks = (dockerLib.mkDefaultNetwork "server-management") // dockerLib.externalTraefikNetwork;
 
       services = {
         docker-socket-proxy = {
@@ -46,6 +27,9 @@ in
             volumes = [
               "/run/podman/podman.sock:/var/run/docker.sock:ro"
             ];
+            labels = {
+              "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
+            };
           };
         };
 
@@ -54,7 +38,7 @@ in
             pid = "host"; # Not implemented in Arion
           };
           service = rec {
-            image = "netdata/netdata:v1.45.1";
+            image = "netdata/netdata:v1.45.3";
             container_name = "netdata";
             hostname = config.networking.hostName;
             networks = [
@@ -85,14 +69,15 @@ in
               "/etc/os-release:/host/etc/os-release:ro"
             ];
             depends_on = [ "docker-socket-proxy" ];
-            labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 19999; } // {
+            labels = dockerLib.mkTraefikLabels { name = container_name; port = 19999; } // {
+              "wud.display.icon" = "si:netdata";
               "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
             };
           };
         };
 
         portainer.service = rec {
-          image = "portainer/portainer-ce:2.20.0-alpine";
+          image = "portainer/portainer-ce:2.20.1-alpine";
           container_name = "portainer";
           environment = {
             TZ = "${config.time.timeZone}";
@@ -105,8 +90,9 @@ in
           networks = [ "traefik" ];
           # user = userSetting;
           restart = "unless-stopped";
-          labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 9000; } // {
+          labels = dockerLib.mkTraefikLabels { name = container_name; port = 9000; } // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?-alpine$'';
+            "wud.display.icon" = "si:portainer";
           };
         };
 
@@ -123,7 +109,7 @@ in
             # "/var/run/docker.sock:/var/run/docker.sock:ro"
             (storeFor "whatsupdocker" "/store")
           ];
-          labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 3000; } // {
+          labels = dockerLib.mkTraefikLabels { name = container_name; port = 3000; } // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
           };
         };
