@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: authentication-flow-content-layout
+  labels:
+    blueprints.goauthentik.io/system-bootstrap: "true"
+    blueprints.goauthentik.io/description: "Edit Default Authentication Flow's Layout to make it work with Android WebView"
+entries:
+  - model: authentik_flows.flow
+    identifiers:
+      slug: default-authentication-flow
+    attrs:
+      layout: "content_left"

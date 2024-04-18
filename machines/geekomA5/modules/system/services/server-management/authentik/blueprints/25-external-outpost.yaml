@@ -9,7 +9,6 @@ context:
   authentik_external: http://authentik.{{ domain }}
 entries:
   - model: authentik_blueprints.metaapplyblueprint
-    state: present
     identifiers:
       name: apply-hass
     attrs:
@@ -18,7 +17,7 @@ entries:
       required: true
 
   - model: authentik_outposts.outpost
-    state: present
+    state: created
     identifiers:
       name: external-outpost
     attrs:

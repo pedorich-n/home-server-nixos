@@ -14,13 +14,7 @@ let
     AUTHENTIK_POSTGRESQL__HOST = "authentik-postgresql";
   };
 
-  blueprints = pkgs.render-jinja-templates {
-    name = "authentik-blueprints";
-    templates = ./blueprints;
-    vars = {
-      inherit (config.custom.networking) domain;
-    };
-  };
+  blueprints = pkgs.callPackage ./_render-blueprints.nix { inherit config; };
 in
 {
   virtualisation.arion.projects = {

@@ -8,7 +8,6 @@
       (_: prev: {
         minecraft-server-check = prev.callPackage "${flake}/pkgs/minecraft-server-check" { };
         render-jinja-template = prev.callPackage "${flake}/pkgs/render-jinja-template" { };
-        render-jinja-templates = prev.callPackage "${flake}/pkgs/render-jinja-templates" { };
       })
     ];
   };
