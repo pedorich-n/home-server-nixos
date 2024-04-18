@@ -89,7 +89,7 @@ in
         };
 
         zigbee2mqtt.service = rec {
-          image = "koenkk/zigbee2mqtt:1.36.0";
+          image = "koenkk/zigbee2mqtt:1.36.1";
           container_name = "zigbee2mqtt";
           restart = "unless-stopped";
           environment = {
@@ -112,7 +112,7 @@ in
         };
 
         nodered.service = rec {
-          image = "nodered/node-red:3.1.7";
+          image = "nodered/node-red:3.1.9";
           container_name = "nodered";
           environment = {
             TZ = "${config.time.timeZone}";
@@ -132,7 +132,7 @@ in
         };
 
         homeassistant.service = rec {
-          image = "homeassistant/home-assistant:2024.3.3";
+          image = "homeassistant/home-assistant:2024.4.3";
           container_name = "homeassistant";
           environment = {
             TZ = "${config.time.timeZone}";

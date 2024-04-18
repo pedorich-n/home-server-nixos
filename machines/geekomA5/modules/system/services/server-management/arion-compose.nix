@@ -27,6 +27,9 @@ in
             volumes = [
               "/run/podman/podman.sock:/var/run/docker.sock:ro"
             ];
+            labels = {
+              "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
+            };
           };
         };
 
@@ -35,7 +38,7 @@ in
             pid = "host"; # Not implemented in Arion
           };
           service = rec {
-            image = "netdata/netdata:v1.45.1";
+            image = "netdata/netdata:v1.45.3";
             container_name = "netdata";
             hostname = config.networking.hostName;
             networks = [
@@ -67,13 +70,14 @@ in
             ];
             depends_on = [ "docker-socket-proxy" ];
             labels = dockerLib.mkTraefikLabels { name = container_name; port = 19999; } // {
+              "wud.display.icon" = "si:netdata";
               "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
             };
           };
         };
 
         portainer.service = rec {
-          image = "portainer/portainer-ce:2.20.0-alpine";
+          image = "portainer/portainer-ce:2.20.1-alpine";
           container_name = "portainer";
           environment = {
             TZ = "${config.time.timeZone}";
@@ -88,6 +92,7 @@ in
           restart = "unless-stopped";
           labels = dockerLib.mkTraefikLabels { name = container_name; port = 9000; } // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?-alpine$'';
+            "wud.display.icon" = "si:portainer";
           };
         };
 

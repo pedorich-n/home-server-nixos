@@ -1,7 +1,5 @@
 { config, pkgs, dockerLib, ... }:
 let
-  version = "2024.2.2";
-
   storeFor = localPath: remotePath: "/mnt/store/server-management/authentik/${localPath}:${remotePath}";
 
   defaultEnvs = {
@@ -15,6 +13,8 @@ let
   };
 
   blueprints = pkgs.callPackage ./_render-blueprints.nix { inherit config; };
+
+  authentikVersion = "2024.2.3";
 in
 {
   virtualisation.arion.projects = {
@@ -25,7 +25,7 @@ in
 
       services = {
         postgresql.service = {
-          image = "docker.io/library/postgres:12-alpine";
+          image = "docker.io/library/postgres:12.18-alpine";
           container_name = "authentik-postgresql";
           networks = [ "default" ];
           environment = defaultEnvs;
@@ -42,10 +42,14 @@ in
             (storeFor "postgres" "/var/lib/postgresql/data")
           ];
           restart = "unless-stopped";
+          labels = {
+            "wud.display.icon" = "si:postgresql";
+            "wud.watch" = "false";
+          };
         };
 
         redis.service = {
-          image = "docker.io/library/redis:alpine";
+          image = "docker.io/library/redis:7.2.4-alpine";
           container_name = "authentik-redis";
           command = "--save 60 1 --loglevel warning";
           networks = [ "default" ];
@@ -61,10 +65,14 @@ in
             (storeFor "redis" "/data")
           ];
           restart = "unless-stopped";
+          labels = {
+            "wud.display.icon" = "si:redis";
+            "wud.tag.include" = ''^\d+\.\d+(\.\d+)?-alpine$'';
+          };
         };
 
         server.service = {
-          image = "ghcr.io/goauthentik/server:${version}";
+          image = "ghcr.io/goauthentik/server:${authentikVersion}";
           container_name = "authentik-server";
           command = "server";
           environment = defaultEnvs;
@@ -82,7 +90,7 @@ in
         };
 
         worker.service = {
-          image = "ghcr.io/goauthentik/server:${version}";
+          image = "ghcr.io/goauthentik/server:${authentikVersion}";
           container_name = "authentik-worker";
           command = "worker";
           user = "root";
@@ -98,7 +106,7 @@ in
         };
 
         outpost.service = rec {
-          image = "ghcr.io/goauthentik/proxy:${version}";
+          image = "ghcr.io/goauthentik/proxy:${authentikVersion}";
           container_name = "authentik-outpost";
           networks = {
             default = { };
