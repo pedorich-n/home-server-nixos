@@ -1,4 +1,4 @@
-{ config, pkgs, lib, customLib, ... }:
+{ config, pkgs, lib, dockerLib, ... }:
 let
   userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
 
@@ -9,33 +9,11 @@ let
   };
 in
 {
-  networking.firewall.interfaces."podman+" = {
-    allowedUDPPorts = [ 53 5353 ];
-    # allowedTCPPorts = [ 80 ];
-  };
-
-  systemd.services.arion-home-automation = {
-    after = [ "network-online.target" "arion-server-management.service" ];
-    # serviceConfig = {
-    #   User = config.users.users.user.name;
-    #   Group = config.users.users.user.group;
-    # };
-  };
-
   virtualisation.arion.projects = {
     home-automation.settings = {
       enableDefaultNetwork = false;
 
-      networks = {
-        default = {
-          name = "internal-home-automation";
-          internal = true;
-        };
-        traefik = {
-          name = "traefik";
-          external = true;
-        };
-      };
+      networks = (dockerLib.mkDefaultNetwork "home-automation") // dockerLib.externalTraefikNetwork;
 
       services = {
         homer.service = rec {
@@ -52,7 +30,7 @@ in
             # configuration file is managed by environment.mutable-files
             (storeFor "homer" "/www/assets")
           ];
-          labels = (customLib.docker.labels.mkTraefikLabels {
+          labels = (dockerLib.mkTraefikLabels {
             name = container_name;
             port = 8080;
             domain = config.custom.networking.domain;
@@ -128,7 +106,7 @@ in
           networks = [ "default" "traefik" ];
           # networks = [ "default" ];
           # user = userSetting;
-          labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 8080; } // {
+          labels = dockerLib.mkTraefikLabels { name = container_name; port = 8080; } // {
             "wud.display.icon" = "si:zigbee";
           };
         };
@@ -147,7 +125,7 @@ in
           volumes = [
             (storeFor "nodered" "/data")
           ];
-          labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 1880; } // {
+          labels = dockerLib.mkTraefikLabels { name = container_name; port = 1880; } // {
             "wud.tag.exclude" = "^latest.*$";
             "wud.display.icon" = "si:nodered";
           };
@@ -172,7 +150,7 @@ in
             (storeFor "homeassistant/local" "/.local")
             "${config.age.secrets.ha_secrets.path}:/config/secrets.yaml"
           ];
-          labels = customLib.docker.labels.mkTraefikLabels { name = container_name; port = 80; } // {
+          labels = dockerLib.mkTraefikLabels { name = container_name; port = 80; } // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
             "wud.display.icon" = "si:homeassistant";
 

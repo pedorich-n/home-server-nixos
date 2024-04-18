@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, dockerLib, ... }:
 let
   version = "2024.2.2";
 
@@ -21,16 +21,7 @@ in
     authentik.settings = {
       enableDefaultNetwork = false;
 
-      networks = {
-        default = {
-          name = "internal-authentik";
-          internal = true;
-        };
-        traefik = {
-          name = "traefik";
-          external = true;
-        };
-      };
+      networks = (dockerLib.mkDefaultNetwork "authentik") // dockerLib.externalTraefikNetwork;
 
       services = {
         postgresql.service = {
@@ -84,13 +75,8 @@ in
           ];
           depends_on = [ "postgresql" "redis" ];
           networks = [ "traefik" "default" ];
-          labels = {
-            "traefik.enable" = "true";
-            "traefik.http.routers.authentik.rule" = "Host(`authentik.${config.custom.networking.domain}`)";
-            "traefik.http.routers.authentik.entrypoints" = "web";
-            "traefik.http.routers.authentik.service" = "authentik";
+          labels = dockerLib.mkTraefikLabels { name = "authentik"; port = 9000; } // {
             "traefik.http.routers.authentik.priority" = "10";
-            "traefik.http.services.authentik.loadBalancer.server.port" = "9000";
           };
           restart = "unless-stopped";
         };
@@ -111,7 +97,7 @@ in
           restart = "unless-stopped";
         };
 
-        outpost.service = {
+        outpost.service = rec {
           image = "ghcr.io/goauthentik/proxy:${version}";
           container_name = "authentik-outpost";
           networks = {
@@ -126,13 +112,9 @@ in
             # AUTHENTIK_DEBUG = "true";
           };
           env_file = [ config.age.secrets.authentik_outpost.path ];
-          labels = {
-            "traefik.enable" = "true";
+          labels = dockerLib.mkTraefikLabels { name = container_name; port = 9000; } // {
             "traefik.http.routers.authentik-outpost.rule" = "HostRegexp(`{subdomain:[a-z0-9-]+}.${config.custom.networking.domain}`) && PathPrefix(`/outpost.goauthentik.io/`)";
             "traefik.http.routers.authentik-outpost.priority" = "15";
-            "traefik.http.routers.authentik-outpost.entrypoints" = "web";
-            "traefik.http.routers.authentik-outpost.service" = "authentik-outpost";
-            "traefik.http.services.authentik-outpost.loadBalancer.server.port" = "9000";
 
             "traefik.http.middlewares.authentik.forwardauth.address" = "http://172.31.0.240:9000/outpost.goauthentik.io/auth/traefik";
             "traefik.http.middlewares.authentik.forwardauth.trustForwardHeader" = "true";
