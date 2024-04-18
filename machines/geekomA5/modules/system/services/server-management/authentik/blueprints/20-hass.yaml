@@ -21,6 +21,8 @@ entries:
           [slug, default-provider-authorization-implicit-consent],
         ]
       mode: forward_single
+      access_token_validity: days=30
+      refresh_token_validity: days=180
       external_host: !Context internal_host
 
   - model: authentik_core.application
