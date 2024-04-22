@@ -1,27 +1,50 @@
-{ config, pkgs-unstable, ... }:
+{ config, lib, pkgs, pkgs-unstable, ... }:
 let
   tailscaleMachineIp = "100.109.85.80";
+
+  dnsmasqConfig = pkgs.writeTextFile {
+    name = "tailscale-dnsmasq.conf";
+    text = ''
+      # resolv-file=/run/systemd/resolve/resolv.conf
+      # no-resolv # Don't read from /etc/resolv.conf
+      bind-dynamic
+      except-interface=lo
+      interface=${config.services.tailscale.interfaceName}
+
+      address=/${config.custom.networking.domain}/${tailscaleMachineIp}
+    '';
+  };
 in
 {
-  services = {
-    dnsmasq = {
-      enable = true;
-      resolveLocalQueries = false;
+  systemd = {
+    # services.dnsmasq is intended to be system-wide and it changes too many things in the config, 
+    # so it's easier to have this "local" server running with a limited scope
+    services.tailscale-dnsmasq = {
+      description = "Tailscale's Dnsmasq";
+      after = [
+        "network.target"
+        "systemd-resolved.service"
+        "tailscaled.service"
+      ];
+      bindsTo = [ "tailscaled.service" ];
+      wantedBy = [ "multi-user.target" ];
 
-      settings = {
-        interface = config.services.tailscale.interfaceName;
-        except-interface = "lo";
-        address = "/${config.custom.networking.domain}/${tailscaleMachineIp}";
-        bind-interfaces = true;
+      serviceConfig = {
+        ExecStart = "${lib.getExe pkgs.dnsmasq} --keep-in-foreground --conf-file=${dnsmasqConfig}";
+        ExecReload = "${lib.getExe' pkgs.coreutils "kill"} -HUP $MAINPID";
+        PrivateTmp = true;
+        ProtectSystem = true;
+        ProtectHome = true;
+        Restart = "on-failure";
       };
     };
+  };
 
-    tailscale = {
-      enable = true;
-      package = pkgs-unstable.tailscale;
-      authKeyFile = config.age.secrets.tailscale_key_geekom.path;
+  services.tailscale = {
+    enable = true;
+    package = pkgs-unstable.tailscale;
+    authKeyFile = config.age.secrets.tailscale_key_geekom.path;
 
-      extraUpFlags = [ "--accept-dns" ];
-    };
+    extraUpFlags = [ "--accept-dns=false" ];
   };
 }
