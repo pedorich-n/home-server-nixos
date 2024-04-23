@@ -1,12 +1,11 @@
 { config, lib, pkgs, ... }:
-let
-  serviceName = "podman-traefik-network";
-in
 {
   systemd = {
-    services.${serviceName} = {
+    services."podman-traefik-network" = {
       description = "Create Traefik Podman network";
       wantedBy = [ "multi-user.target" ];
+      wants = [ "podman.service" ];
+      after = [ "podman.service" ];
 
       serviceConfig = {
         ExecStart = lib.getExe (pkgs.writeShellApplication {
@@ -24,13 +23,5 @@ in
         Type = "oneshot";
       };
     };
-
-    packages = [
-      # Make all arion-* systemd services start only after the traefik network exists
-      (pkgs.writeTextDir "/etc/systemd/system/arion-.service.d/90-wait-for-podman-network.conf" ''
-        [Unit]
-        After=${serviceName}.service
-      '')
-    ];
   };
 }
