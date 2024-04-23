@@ -11,7 +11,7 @@
     mkDefaultNetwork = composeName: {
       default = {
         name = "internal-${composeName}";
-        internal = true;
+        internal = false;
       };
     };
 
