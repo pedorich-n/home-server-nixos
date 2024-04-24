@@ -54,7 +54,7 @@
         datasets = {
           immich = {
             type = "zfs_fs";
-            mountpoint = "/immich-library";
+            mountpoint = "/mnt/external/immich-library";
           };
         };
       };
