@@ -9,7 +9,7 @@ footer: false
 stylesheet:
   - "assets/custom.css"
 
-columns: "2" # You can change this to any number that is a factor of 12: (1, 2, 3, 4, 6, 12)
+columns: "3" # You can change this to any number that is a factor of 12: (1, 2, 3, 4, 6, 12)
 theme: default
 colors:
   light:
@@ -58,6 +58,18 @@ services:
         url: "http://nodered.{{ domain }}"
         target: "_blank"
 
+  - name: "// Services"
+    icon: "fa-solid fa-display"
+    items:
+      - name: "Immich"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/immich.png"
+        url: "http://immich.{{ domain }}"
+        target: "_blank"
+      # - name: "Trilium"
+      #   logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/trilium.png"
+      #   url: "http://trilium.{{ domain }}"
+      #   target: "_blank"
+
   - name: "// Server"
     icon: "fa-solid fa-server"
     items:
@@ -81,8 +93,3 @@ services:
         logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/traefik.png"
         url: "http://traefik.{{ domain }}"
         target: "_blank"
-      # TODO: new category?
-      # - name: "Trilium"
-      #   logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/trilium.png"
-      #   url: "http://trilium.{{ domain }}"
-      #   target: "_blank"
