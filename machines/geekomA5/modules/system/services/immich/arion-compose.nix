@@ -40,16 +40,33 @@ in
         redis.service = {
           image = "registry.hub.docker.com/library/redis:6.2-alpine@sha256:84882e87b54734154586e5f8abd4dce69fe7311315e2fc6d67c29614c8de2672";
           container_name = "immich-redis";
+          healthcheck = {
+            test = [ "CMD-SHELL" "redis-cli ping | grep PONG" ];
+            start_period = "20s";
+            interval = "30s";
+            retries = 5;
+            timeout = "3s";
+          };
           networks = [ "default" ];
           volumes = [
             (storeFor "redis" "/data")
           ];
           restart = "unless-stopped";
+          labels = {
+            "wud.watch" = "false"; # Fetch the version from Immich's docker-compose file
+          };
         };
 
         postgresql.service = {
           image = "registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0";
           container_name = "immich-postgresql";
+          healthcheck = {
+            test = [ "CMD" "pg_isready" ];
+            start_period = "20s";
+            interval = "30s";
+            retries = 5;
+            timeout = "5s";
+          };
           environment = sharedEnvs;
           env_file = [ config.age.secrets.immich_compose_main.path ];
           networks = [ "default" ];
@@ -57,6 +74,9 @@ in
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
           restart = "unless-stopped";
+          labels = {
+            "wud.watch" = "false"; # Fetch the version from Immich's docker-compose file
+          };
         };
 
         server.service = {
@@ -76,7 +96,8 @@ in
           restart = "unless-stopped";
           volumes = immichVolumes;
           labels = dockerLib.mkTraefikLabels { name = "immich"; port = 3001; } // {
-            # "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?''; # TODO: enable WUD
+            "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
+            "wud.display.icon" = "si:immich";
           };
         };
 
@@ -96,6 +117,10 @@ in
             "postgresql"
           ];
           restart = "unless-stopped";
+          labels = {
+            "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
+            "wud.display.icon" = "si:immich";
+          };
         };
 
         machine-learning.service = {
@@ -106,6 +131,10 @@ in
           volumes = [
             (storeFor "cache/machine-learning" "/cache")
           ];
+          labels = {
+            "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
+            "wud.display.icon" = "si:immich";
+          };
         };
       };
     };

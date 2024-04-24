@@ -99,6 +99,14 @@ in
         whatsupdocker.service = rec {
           image = "fmartinou/whats-up-docker:6.3.0";
           container_name = "whatsupdocker";
+          healthcheck = {
+            # From https://fmartinou.github.io/whats-up-docker/#/monitoring/?id=healthcheck
+            test = [ "CMD" "wget" "--no-verbose" "--tries=1" "--no-check-certificate" "--spider" "http://localhost:3000" ];
+            interval = "10s";
+            timeout = "10s";
+            retries = 3;
+            start_period = "10s";
+          };
           environment = {
             TZ = "${config.time.timeZone}";
           };
@@ -106,7 +114,6 @@ in
           restart = "unless-stopped";
           volumes = [
             "/run/podman/podman.sock:/var/run/docker.sock:ro"
-            # "/var/run/docker.sock:/var/run/docker.sock:ro"
             (storeFor "whatsupdocker" "/store")
           ];
           labels = dockerLib.mkTraefikLabels { name = container_name; port = 3000; } // {

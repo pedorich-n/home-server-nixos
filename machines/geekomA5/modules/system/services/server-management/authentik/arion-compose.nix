@@ -32,7 +32,7 @@ in
           user = "root";
           env_file = [ config.age.secrets.authentik_compose_main.path ];
           healthcheck = {
-            test = [ "CMD-SHELL" "pg_isready -d authentik -U authentik" ];
+            test = [ "CMD" "pg_isready" ];
             start_period = "20s";
             interval = "30s";
             retries = 5;
@@ -43,8 +43,7 @@ in
           ];
           restart = "unless-stopped";
           labels = {
-            "wud.display.icon" = "si:postgresql";
-            "wud.watch" = "false";
+            "wud.watch" = "false"; # Fetch the version from authentik's docker-compose file
           };
         };
 
@@ -66,8 +65,7 @@ in
           ];
           restart = "unless-stopped";
           labels = {
-            "wud.display.icon" = "si:redis";
-            "wud.tag.include" = ''^\d+\.\d+(\.\d+)?-alpine$'';
+            "wud.watch" = "false"; # Fetch the version from authentik's docker-compose file
           };
         };
 
