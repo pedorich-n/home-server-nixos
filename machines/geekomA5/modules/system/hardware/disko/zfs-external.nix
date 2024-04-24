@@ -39,6 +39,7 @@
           compression = "zstd"; # ZSTD is based on LZ4 
           atime = "off"; # Disable Access Time 
           xattr = "sa"; # Store Linux attributes in inodes rather than files in hidden folders
+          mountpoint = "legacy"; # Manage mounting with fstab
 
           # "com.sun:auto-snapshot" = "false";
         };
@@ -54,6 +55,7 @@
         datasets = {
           immich = {
             type = "zfs_fs";
+            options.mountpoint = "legacy";
             mountpoint = "/mnt/external/immich-library";
           };
         };

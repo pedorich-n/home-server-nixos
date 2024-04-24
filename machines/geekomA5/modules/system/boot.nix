@@ -30,5 +30,9 @@
     ];
 
     loader.systemd-boot.enable = true;
+
+    zfs = {
+      forceImportRoot = false;
+    };
   };
 }

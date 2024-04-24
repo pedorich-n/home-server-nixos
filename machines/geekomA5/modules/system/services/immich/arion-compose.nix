@@ -1,13 +1,12 @@
-{ dockerLib, ... }:
+{ config, dockerLib, ... }:
 let
   immichVersion = "v1.102.3";
 
-  libraryPath = "/mnt/external/immich-library";
-  cacheStoreFor = localPath: remotePath: "/mnt/store/immich/${localPath}:${remotePath}";
+  storeFor = localPath: remotePath: "/mnt/store/immich/${localPath}:${remotePath}";
 
   cacheVolumes = [
-    (cacheStoreFor "cache/thumbnails" "/usr/src/app/upload/thumbs")
-    (cacheStoreFor "cache/profile" "/usr/src/app/upload/profile")
+    (storeFor "cache/thumbnails" "/usr/src/app/upload/thumbs")
+    (storeFor "cache/profile" "/usr/src/app/upload/profile")
   ];
 
   uploadVolumes = [
@@ -27,19 +26,10 @@ let
     REDIS_HOSTNAME = "immich-redis";
     DB_HOSTNAME = "immich-postgresql";
 
-    DB_USERNAME = "postgres";
-    DB_DATABASE_NAME = "immich";
-
     # IMMICH_METRICS = true; # TODO see https://immich.app/docs/features/monitoring#prometheus
   };
 in
 {
-  systemd.services.arion-immich = {
-    serviceConfig = {
-      ConditionPathIsDirectory = libraryPath;
-    };
-  };
-
   virtualisation.arion.projects = {
     immich.settings = {
       enableDefaultNetwork = false;
@@ -51,25 +41,25 @@ in
           image = "registry.hub.docker.com/library/redis:6.2-alpine@sha256:84882e87b54734154586e5f8abd4dce69fe7311315e2fc6d67c29614c8de2672";
           container_name = "immich-redis";
           networks = [ "default" ];
+          volumes = [
+            (storeFor "redis" "/data")
+          ];
           restart = "unless-stopped";
         };
 
         postgresql.service = {
           image = "registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0";
           container_name = "immich-postgresql";
-          environment = sharedEnvs // {
-            POSTGRES_PASSWORD = "\${DB_PASSWORD}"; # TODO
-            POSTGRES_USER = "\${DB_USERNAME}";
-            POSTGRES_DB = "\${DB_DATABASE_NAME}";
-          };
+          environment = sharedEnvs;
+          env_file = [ config.age.secrets.immich_compose_main.path ];
           networks = [ "default" ];
           volumes = [
-            (cacheStoreFor "postgresql" "/var/lib/postgresql/data")
+            (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
           restart = "unless-stopped";
         };
 
-        server.service = rec{
+        server.service = {
           image = "ghcr.io/immich-app/immich-server:${immichVersion}";
           container_name = "immich-server";
           command = [ "start.sh" "immich" ];
@@ -77,15 +67,15 @@ in
             "default"
             "traefik"
           ];
-          environment = sharedEnvs // { }; # TODO
-          env_file = [ ]; # TODO
+          environment = sharedEnvs;
+          env_file = [ config.age.secrets.immich_compose_main.path ];
           depends_on = [
             "redis"
             "postgresql"
           ];
           restart = "unless-stopped";
           volumes = immichVolumes;
-          labels = dockerLib.mkTraefikLabels { name = container_name; port = 2283; } // {
+          labels = dockerLib.mkTraefikLabels { name = "immich"; port = 3001; } // {
             # "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?''; # TODO: enable WUD
           };
         };
@@ -95,8 +85,8 @@ in
           container_name = "immich-microservices";
           command = [ "start.sh" "microservices" ];
           networks = [ "default" ];
-          environment = sharedEnvs // { }; # TODO
-          env_file = [ ]; # TODO
+          environment = sharedEnvs;
+          env_file = [ config.age.secrets.immich_compose_main.path ];
           volumes = immichVolumes;
           devices = [
             "/dev/dri:/dev/dri" # HW Transcoding acceleration. See https://immich.app/docs/features/hardware-transcoding
@@ -112,11 +102,9 @@ in
           image = "ghcr.io/immich-app/immich-machine-learning:${immichVersion}";
           container_name = "immich-machine-learning";
           networks = [ "default" ];
-          environment = sharedEnvs // { }; # TODO
-          env_file = [ ]; # TODO
           restart = "unless-stopped";
           volumes = [
-            (cacheStoreFor "cache/machine-learning" "/cache")
+            (storeFor "cache/machine-learning" "/cache")
           ];
         };
       };
