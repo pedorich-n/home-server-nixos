@@ -39,6 +39,7 @@ in
             timeout = "5s";
           };
           volumes = [
+            # TODO: rename to `postgresql`
             (storeFor "postgres" "/var/lib/postgresql/data")
           ];
           restart = "unless-stopped";
