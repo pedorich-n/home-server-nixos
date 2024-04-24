@@ -5,7 +5,7 @@
     disk = {
       external_1 = {
         type = "disk";
-        device = "/dev/sdx"; # Maybe /dev/by-partlabel or /dev/by-id or something
+        device = "/dev/disk/by-id/ata-ST4000VN006-3CW104_WW63HA73"; # Bay 1
         content = {
           type = "gpt";
           partitions = {
@@ -20,6 +20,7 @@
         };
       };
     };
+
     zpool = {
       external = {
         type = "zpool";

@@ -1,16 +1,26 @@
 { dockerLib, ... }:
 let
-  storeFor = localPath: remotePath: "/mnt/store/immich/${localPath}:${remotePath}";
+  immichVersion = "v1.102.3";
+
+  libraryPath = "/mnt/external/immich-library";
+  cacheStoreFor = localPath: remotePath: "/mnt/store/immich/${localPath}:${remotePath}";
 
   cacheVolumes = [
-    (storeFor "cache/thumbnails" "/usr/src/app/upload/thumbs")
-    (storeFor "cache/profile" "/usr/src/app/upload/profile")
+    (cacheStoreFor "cache/thumbnails" "/usr/src/app/upload/thumbs")
+    (cacheStoreFor "cache/profile" "/usr/src/app/upload/profile")
   ];
 
-  vars = {
-    immichVersion = "v1.102.3";
-    uploadLocation = ""; # TODO
-  };
+  uploadVolumes = [
+    "/mnt/external/immich-library:/usr/src/app/upload"
+  ];
+
+  immichVolumes =
+    cacheVolumes ++
+    uploadVolumes ++
+    [
+      "/etc/localtime:/etc/localtime:ro"
+    ];
+
 
   sharedEnvs = {
     # https://immich.app/docs/install/environment-variables/
@@ -24,6 +34,12 @@ let
   };
 in
 {
+  systemd.services.arion-immich = {
+    serviceConfig = {
+      ConditionPathIsDirectory = libraryPath;
+    };
+  };
+
   virtualisation.arion.projects = {
     immich.settings = {
       enableDefaultNetwork = false;
@@ -48,13 +64,13 @@ in
           };
           networks = [ "default" ];
           volumes = [
-            (storeFor "postgresql" "/var/lib/postgresql/data")
+            (cacheStoreFor "postgresql" "/var/lib/postgresql/data")
           ];
           restart = "unless-stopped";
         };
 
         server.service = rec{
-          image = "ghcr.io/immich-app/immich-server:${vars.immichVersion}";
+          image = "ghcr.io/immich-app/immich-server:${immichVersion}";
           container_name = "immich-server";
           command = [ "start.sh" "immich" ];
           networks = [
@@ -68,22 +84,20 @@ in
             "postgresql"
           ];
           restart = "unless-stopped";
-          volumes = cacheVolumes ++ [
-            "${vars.uploadLocation}:/user/src/app/upload"
-            "/etc/localtime:/etc/localtime:ro"
-          ];
+          volumes = immichVolumes;
           labels = dockerLib.mkTraefikLabels { name = container_name; port = 2283; } // {
             # "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?''; # TODO: enable WUD
           };
         };
 
         microservices.service = {
-          image = "ghcr.io/immich-app/immich-server:${vars.immichVersion}";
+          image = "ghcr.io/immich-app/immich-server:${immichVersion}";
           container_name = "immich-microservices";
           command = [ "start.sh" "microservices" ];
           networks = [ "default" ];
           environment = sharedEnvs // { }; # TODO
           env_file = [ ]; # TODO
+          volumes = immichVolumes;
           devices = [
             "/dev/dri:/dev/dri" # HW Transcoding acceleration. See https://immich.app/docs/features/hardware-transcoding
           ];
@@ -92,21 +106,17 @@ in
             "postgresql"
           ];
           restart = "unless-stopped";
-          volumes = cacheVolumes ++ [
-            "${vars.uploadLocation}:/user/src/app/upload"
-            "/etc/localtime:/etc/localtime:ro"
-          ];
         };
 
         machine-learning.service = {
-          image = "ghcr.io/immich-app/immich-machine-learning:${vars.immichVersion}";
+          image = "ghcr.io/immich-app/immich-machine-learning:${immichVersion}";
           container_name = "immich-machine-learning";
           networks = [ "default" ];
           environment = sharedEnvs // { }; # TODO
           env_file = [ ]; # TODO
           restart = "unless-stopped";
           volumes = [
-            (storeFor "cache/machine-learning" "/cache")
+            (cacheStoreFor "cache/machine-learning" "/cache")
           ];
         };
       };
