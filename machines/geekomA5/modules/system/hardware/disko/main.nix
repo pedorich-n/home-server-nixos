@@ -1,5 +1,5 @@
 {
-  # FS type are from `sgdisk -L`
+  # FS types are from `sgdisk -L`
   disko.devices = {
     disk = {
       main = {
