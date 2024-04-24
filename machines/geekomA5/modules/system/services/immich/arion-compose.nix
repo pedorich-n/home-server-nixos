@@ -26,7 +26,7 @@ let
     REDIS_HOSTNAME = "immich-redis";
     DB_HOSTNAME = "immich-postgresql";
 
-    # IMMICH_METRICS = true; # TODO see https://immich.app/docs/features/monitoring#prometheus
+    IMMICH_METRICS = "true"; # See https://immich.app/docs/features/monitoring#prometheus
   };
 in
 {
@@ -105,7 +105,10 @@ in
           image = "ghcr.io/immich-app/immich-server:${immichVersion}";
           container_name = "immich-microservices";
           command = [ "start.sh" "microservices" ];
-          networks = [ "default" ];
+          networks = [
+            "default"
+            "traefik" # Only used to allow netdata to access metrics. This service isn't actually exposed via traefik
+          ];
           environment = sharedEnvs;
           env_file = [ config.age.secrets.immich_compose_main.path ];
           volumes = immichVolumes;
