@@ -5,6 +5,8 @@
     useNetworkd = true;
     networkmanager.enable = false;
     wireless.enable = false;
+
+    hostId = "ac7dc50d"; # head -c 8 /etc/machine-id
   };
 
   systemd.network = {
