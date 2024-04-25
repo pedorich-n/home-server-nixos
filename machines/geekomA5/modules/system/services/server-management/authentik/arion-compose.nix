@@ -31,13 +31,6 @@ in
           environment = defaultEnvs;
           user = "root";
           env_file = [ config.age.secrets.authentik_compose_main.path ];
-          healthcheck = {
-            test = [ "CMD" "pg_isready" ];
-            start_period = "20s";
-            interval = "30s";
-            retries = 5;
-            timeout = "5s";
-          };
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
@@ -53,13 +46,6 @@ in
           command = "--save 60 1 --loglevel warning";
           networks = [ "default" ];
           user = "root";
-          healthcheck = {
-            test = [ "CMD-SHELL" "redis-cli ping | grep PONG" ];
-            start_period = "20s";
-            interval = "30s";
-            retries = 5;
-            timeout = "3s";
-          };
           volumes = [
             (storeFor "redis" "/data")
           ];

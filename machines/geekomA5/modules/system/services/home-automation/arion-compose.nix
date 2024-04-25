@@ -21,6 +21,7 @@ in
           container_name = "homer";
           networks = [ "traefik" ];
           restart = "unless-stopped";
+          healthcheck.test = [ "NONE" ];
           user = userSetting;
           environment = {
             INIT_ASSETS = "1";
