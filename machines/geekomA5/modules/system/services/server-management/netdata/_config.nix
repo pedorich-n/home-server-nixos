@@ -88,4 +88,5 @@ in
 {
   main = generateIni "netdata.conf" mainConfig;
   prometheus = pkgs.writeText "netdata-prometheus.conf" prometheusConfig;
+  notifications = config.age.secrets.netdata_telegram_notify.path;
 }

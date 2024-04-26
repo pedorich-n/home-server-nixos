@@ -60,6 +60,7 @@ in
               (storeFor "netdata/data" "/var/lib/netdata")
               "${configs.netdata.main}:/etc/netdata/netdata.conf:ro"
               "${configs.netdata.prometheus}:/etc/netdata/go.d/prometheus.conf:ro"
+              "${configs.netdata.notifications}:/etc/netadata/health_alarm_notify.conf"
               "/etc/passwd:/host/etc/passwd:ro"
               "/etc/group:/host/etc/group:ro"
               "/proc:/host/proc:ro"

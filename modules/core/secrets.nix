@@ -1,4 +1,3 @@
-# WARN: Agenix will just skip a secret if it can't be decrypted or user/group doesn't exist
 { config, inputs, lib, ... }:
 let
   getFilename = path: builtins.unsafeDiscardStringContext (builtins.baseNameOf path);
@@ -22,8 +21,7 @@ let
       server_check_config = useDefault;
     } //
     (lib.optionalAttrs (builtins.hasAttr "playit" config.services && config.services.playit.enable) {
-      playit_secret_nucbox = mapping: mapping // { owner = config.services.playit.user; inherit (config.services.playit) group; };
-      playit_secret_geekom = mapping: mapping // { owner = config.services.playit.user; inherit (config.services.playit) group; };
+      playit_secret = mapping: mapping // { owner = config.services.playit.user; inherit (config.services.playit) group; };
     }) //
     (lib.optionalAttrs (builtins.hasAttr "ngrok" config.services && config.services.ngrok.enable) {
       ngrok = mapping: mapping // { owner = config.services.ngrok.user; inherit (config.services.ngrok) group; };
@@ -36,28 +34,20 @@ let
 
       override = mappingOverrides.${name} or lib.id;
       mapping = mkMapping path override;
-
-      # Turns attrset of users into a list [{ name = <username>; uid = nullOr <uid>; }]
-      usersNameUid = lib.mapAttrsToList (name: user: { inherit name; inherit (user) uid; }) config.users.users;
-      isUsernameOrUidExists = usernameOrUid: lib.any ({ name, uid }: name == usernameOrUid || (uid != null && uid == usernameOrUid)) usersNameUid;
-      userCheck = !config.users.mutableUsers &&
-        (if (builtins.hasAttr "owner" mapping) then isUsernameOrUidExists mapping.owner else true);
-
-      # Turns attrset of groups into a list [{ name = <groupname>; gid = nullOr <gid>; }]
-      groupsNameGid = lib.mapAttrsToList (name: group: { inherit name; inherit (group) gid; }) config.users.groups;
-      isGroupnameOrGidExists = groupnameOrGid: lib.any ({ name, gid }: name == groupnameOrGid || (gid != null && gid == groupnameOrGid)) groupsNameGid;
-      groupCheck = !config.users.mutableUsers &&
-        (if (builtins.hasAttr "group" mapping) then isGroupnameOrGidExists mapping.group else true);
-
-      ownerAndGroupExists = userCheck && groupCheck;
     in
-    if (!ownerAndGroupExists)
-    then (lib.trace "Secrets: owner and/or group doesn't exist for '${mapping.name}'! Skipping." { })
-    else { ${name} = mapping; };
+    { ${name} = mapping; };
 
-  allEncrypted = builtins.filter (path: lib.hasSuffix ".age" path) (lib.filesystem.listFilesRecursive "${inputs.home-server-nixos-secrets}/encrypted");
 
-  secrets = lib.mkMerge (builtins.map (path: mkSecret path) allEncrypted);
+  encryptedFilesToMount =
+    let
+      encryptedRoot = "${inputs.home-server-nixos-secrets}/encrypted";
+      encryptedRootStr = builtins.unsafeDiscardStringContext encryptedRoot;
+      allEncrypted = builtins.filter (path: lib.hasSuffix ".age" path) (lib.filesystem.listFilesRecursive encryptedRoot);
+      filteredEncrypted = builtins.filter (path: (builtins.match "${encryptedRootStr}/(common|${config.networking.hostName})/.*" path) != null) allEncrypted;
+    in
+    filteredEncrypted;
+
+  secrets = lib.mkMerge (builtins.map (path: mkSecret path) encryptedFilesToMount);
 in
 {
   imports = [

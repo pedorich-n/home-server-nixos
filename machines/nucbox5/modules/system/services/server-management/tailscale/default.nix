@@ -19,7 +19,7 @@ in
     tailscale = {
       enable = true;
       package = pkgs-unstable.tailscale;
-      authKeyFile = config.age.secrets.tailscale_key_nucbox.path;
+      authKeyFile = config.age.secrets.tailscale_key.path;
 
       extraUpFlags = [ "--accept-dns" ];
     };
