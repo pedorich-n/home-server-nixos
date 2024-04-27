@@ -34,7 +34,7 @@ in
         "--tag auto"
       ];
 
-      # See: https://immich.app/docs/administration/backup-and-restore/
+      # NOTE: https://immich.app/docs/administration/backup-and-restore/
       backupPrepareCommand = ''
         mkdir -p ${dbBackupFolder}
         set -o allexport; source ${config.age.secrets.immich_compose_main.path}; set +o allexport

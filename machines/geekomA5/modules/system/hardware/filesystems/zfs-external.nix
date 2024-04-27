@@ -1,5 +1,9 @@
+{ config, pkgs, ... }:
+let
+  mkSystemdZfsMountTarget = pkgs.callPackage ./_systemd-zfs-mount-target.nix { inherit config; };
+in
 {
-  # See: https://wiki.archlinux.org/title/ZFS
+  # NOTE: https://wiki.archlinux.org/title/ZFS
 
   disko.devices = {
     disk = {
@@ -26,8 +30,8 @@
         type = "zpool";
         mode = "mirror";
 
-        # See: https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/
-        # See: https://www.high-availability.com/docs/ZFS-Tuning-Guide
+        # NOTE: https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/
+        # NOTE: https://www.high-availability.com/docs/ZFS-Tuning-Guide
 
         # Properties of the zpool (zpool create -o <options>)
         options = {
@@ -35,7 +39,7 @@
         };
 
 
-        # See https://github.com/nix-community/disko/issues/469#issuecomment-1944931386 for difference between `mountpoint` and `options.mountpoint`/`rootFsOptions.mountpoint`
+        # NOTE https://github.com/nix-community/disko/issues/469#issuecomment-1944931386 for difference between `mountpoint` and `options.mountpoint`/`rootFsOptions.mountpoint`
 
         # Properties of the FS on the zpool (zfs set <options>)
         rootFsOptions = {
@@ -58,9 +62,12 @@
     };
   };
 
-  # See https://github.com/nix-community/disko/issues/581
+  # NOTE https://github.com/nix-community/disko/issues/581
   fileSystems = {
     "/mnt/external".options = [ "noauto" ];
     "/mnt/external/immich-library".options = [ "noauto" ];
   };
+
+
+  systemd.services = mkSystemdZfsMountTarget { dataset = "external/immich"; };
 }

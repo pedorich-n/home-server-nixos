@@ -75,7 +75,7 @@ let
            - jvm_buffer_pool*
            - jvm_memory_pool_*{pool=*"CodeHeap*"}
 
-        # See: https://github.com/immich-app/immich/blob/aac789f788c8eb0275201a895926c19625b2b54f/docker/prometheus.yml
+        # NOTE: https://github.com/immich-app/immich/blob/aac789f788c8eb0275201a895926c19625b2b54f/docker/prometheus.yml
       - name: Immich Server
         url: http://immich-server:8081/metrics
         autodetection_retry: 60
