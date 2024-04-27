@@ -34,32 +34,33 @@
           ashift = "12"; # Means 4KiB sector size
         };
 
+
+        # See https://github.com/nix-community/disko/issues/469#issuecomment-1944931386 for difference between `mountpoint` and `options.mountpoint`/`rootFsOptions.mountpoint`
+
         # Properties of the FS on the zpool (zfs set <options>)
         rootFsOptions = {
           compression = "zstd"; # ZSTD is based on LZ4 
           atime = "off"; # Disable Access Time 
           xattr = "sa"; # Store Linux attributes in inodes rather than files in hidden folders
-          mountpoint = "legacy"; # Manage mounting with fstab
-
-          # "com.sun:auto-snapshot" = "false";
+          mountpoint = "/mnt/external"; # ZFS prop: https://openzfs.github.io/openzfs-docs/man/v2.2/7/zfsprops.7.html#mountpoint
         };
 
-        # Options to pass to `mount`
-        mountOptions = [
-          "defaults" # Use the default options: rw, suid, dev, exec, auto, nouser, and async.
-          "nofail" # Allow machine to boot even if device doesn't exist
-        ];
-
-        mountpoint = "/mnt/external";
+        mountpoint = "/mnt/external"; # fstab mountpoint, ideally should be removed, but it's not currently possible with disko
 
         datasets = {
           immich = {
             type = "zfs_fs";
-            options.mountpoint = "legacy";
-            mountpoint = "/mnt/external/immich-library";
+            options.mountpoint = "/mnt/external/immich-library"; # ZFS prop: https://openzfs.github.io/openzfs-docs/man/v2.2/7/zfsprops.7.html#mountpoint
+            mountpoint = "/mnt/external/immich-library"; # fstab mountpoint, ideally should be removed, but it's not currently possible with disko
           };
         };
       };
     };
+  };
+
+  # See https://github.com/nix-community/disko/issues/581
+  fileSystems = {
+    "/mnt/external".options = [ "noauto" ];
+    "/mnt/external/immich-library".options = [ "noauto" ];
   };
 }
