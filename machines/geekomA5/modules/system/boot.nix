@@ -4,7 +4,7 @@
     supportedFilesystems = [ "zfs" ];
 
     initrd = {
-      # See https://gist.github.com/CMCDragonkai/810f78ee29c8fce916d072875f7e1751
+      # NOTE https://gist.github.com/CMCDragonkai/810f78ee29c8fce916d072875f7e1751
       availableKernelModules = [
         "ahci" # SATA devices on modern AHCI controllers
         "sd_mod" # SCSI, SATA, and PATA (IDE) devices
@@ -25,7 +25,8 @@
     extraModulePackages = [ config.boot.kernelPackages.zenpower ];
 
     kernelParams = [
-      # 8GB. See https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/Module%20Parameters.html#zfs-arc-max
+      # 8GB
+      # NOTE https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/Module%20Parameters.html#zfs-arc-max
       "zfs.zfs_arc_max=${builtins.toString (1024 * 1024 * 1024 * 8)}"
     ];
 

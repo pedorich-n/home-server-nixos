@@ -30,6 +30,11 @@ let
   };
 in
 {
+  systemd.services.arion-immich = {
+    #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:72
+    requires = [ "zfs-mounted-external-immich.service" ];
+  };
+
   virtualisation.arion.projects = {
     immich.settings = {
       enableDefaultNetwork = false;
