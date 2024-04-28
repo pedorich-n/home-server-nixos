@@ -86,10 +86,13 @@ in
           ];
           restart = "unless-stopped";
           volumes = immichVolumes;
-          labels = dockerLib.mkTraefikLabels { name = "immich"; port = 3001; } // {
-            "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
-            "wud.display.icon" = "si:immich";
-          };
+          labels =
+            (dockerLib.mkTraefikLabels { name = "immich"; port = 3001; }) //
+            (dockerLib.mkTraefikMetricsLabels { name = "immich"; port = 8081; addPath = "/metrics"; })
+            // {
+              "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
+              "wud.display.icon" = "si:immich";
+            };
         };
 
         microservices.service = {
@@ -111,10 +114,12 @@ in
             "postgresql"
           ];
           restart = "unless-stopped";
-          labels = {
-            "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
-            "wud.display.icon" = "si:immich";
-          };
+          labels =
+            (dockerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8081; addPath = "/metrics"; }) //
+            {
+              "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
+              "wud.display.icon" = "si:immich";
+            };
         };
 
         machine-learning.service = {
