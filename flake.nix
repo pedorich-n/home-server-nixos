@@ -9,6 +9,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     nixpkgs-podman-module.url = "github:hercules-ci/nixpkgs/podman-real-docker-socket";
+    nixpkgs-netdata-45.url = "github:RaitoBezarius/nixpkgs/netdata-45";
 
 
     flake-parts.url = "github:hercules-ci/flake-parts";

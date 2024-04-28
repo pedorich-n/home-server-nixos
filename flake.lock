@@ -432,6 +432,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-netdata-45": {
+      "locked": {
+        "lastModified": 1713247792,
+        "narHash": "sha256-+37Lid7BGJDWGFhcBHzCtXMfCgkUoMk45IJcZ93KLKk=",
+        "owner": "RaitoBezarius",
+        "repo": "nixpkgs",
+        "rev": "f94fc9012a4791afb320e5758d0b8f566d412177",
+        "type": "github"
+      },
+      "original": {
+        "owner": "RaitoBezarius",
+        "ref": "netdata-45",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-podman-module": {
       "locked": {
         "lastModified": 1714146291,
@@ -584,6 +600,7 @@
         "nix-minecraft": "nix-minecraft",
         "nixos-mutable-files-manager": "nixos-mutable-files-manager",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-netdata-45": "nixpkgs-netdata-45",
         "nixpkgs-podman-module": "nixpkgs-podman-module",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "playit-nixos-module": "playit-nixos-module",
