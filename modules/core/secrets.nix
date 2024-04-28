@@ -25,6 +25,9 @@ let
     }) //
     (lib.optionalAttrs (builtins.hasAttr "ngrok" config.services && config.services.ngrok.enable) {
       ngrok = mapping: mapping // { owner = config.services.ngrok.user; inherit (config.services.ngrok) group; };
+    }) //
+    (lib.optionalAttrs config.services.netdata.enable {
+      netdata_telegram_notify = mapping: mapping // { owner = config.services.netdata.user; inherit (config.services.netdata) group; };
     });
 
   mkSecret = path:

@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-unstable, ... }:
+{ config, lib, pkgs, pkgs-unstable, ... }:
 let
   metricsDomain = "http://metrics.${config.custom.networking.domain}:9100";
 
@@ -11,12 +11,6 @@ in
       enable = true;
 
       package = pkgs-unstable.netdata.override { withCloud = true; withCloudUi = true; };
-
-      # TODO: figure out a way to run from a normal user.
-      # Currently netdata fails to fetch some metrics from /proc, like
-      # cgroup-network[72522]: Cannot open proc_pid_fd() file '/proc/25065/ns/net'
-      user = "root";
-      group = "root";
 
       config = {
         # https://learn.netdata.cloud/docs/configuring/daemon-configuration
@@ -126,5 +120,8 @@ in
   # TODO remove once https://github.com/NixOS/nixpkgs/pull/274577 is merged
   systemd.services.netdata.path = [ pkgs.jq config.virtualisation.podman.package ];
 
-  # users.users.netdata.extraGroups = [ "podman" ];
+  users.users.netdata.extraGroups = [ "podman" "docker" ];
+
+  security.wrappers."cgroup-network".group = lib.mkForce "root";
+  security.wrappers."cgroup-network".owner = lib.mkForce "root";
 }
