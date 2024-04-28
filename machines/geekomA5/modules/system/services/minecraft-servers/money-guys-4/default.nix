@@ -48,7 +48,7 @@ in
       };
 
       services.metrics-minecraft = {
-        loadBalancer.servers = [{ url = "http://localhost:${builtins.toString config.custom.networking.ports.tcp.minecraft-money-guys-4-metrics.port}"; }];
+        loadBalancer.servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp.minecraft-money-guys-4-metrics.portStr}"; }];
       };
 
       middlewares.metrics-replacepath-minecraft = {

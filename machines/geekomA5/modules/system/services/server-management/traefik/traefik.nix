@@ -30,9 +30,9 @@
       };
 
       entryPoints = {
-        web.address = ":${builtins.toString config.custom.networking.ports.tcp.traefik-web.port}";
-        mqtt.address = ":${builtins.toString config.custom.networking.ports.tcp.traefik-mqtt.port}";
-        metrics.address = ":${builtins.toString config.custom.networking.ports.tcp.traefik-metrics.port}";
+        web.address = ":${config.custom.networking.ports.tcp.traefik-web.portStr}";
+        mqtt.address = ":${config.custom.networking.ports.tcp.traefik-mqtt.portStr}";
+        metrics.address = ":${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
       };
     };
 
@@ -49,7 +49,7 @@
         services = {
           traefik = {
             loadBalancer = {
-              servers = [{ url = "http://localhost:${builtins.toString config.custom.networking.ports.tcp.traefik-dashboard.port}"; }];
+              servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp.traefik-dashboard.portStr}"; }];
             };
           };
         };

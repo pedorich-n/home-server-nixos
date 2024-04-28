@@ -2,17 +2,25 @@
 let
   cfg = config.custom.networking.ports;
 
-  portItemSubmodule = with lib; types.submodule {
+  portItemSubmodule = with lib; types.submodule ({ config, ... }: {
     options = {
       port = mkOption {
         type = types.port;
+      };
+      portStr = mkOption {
+        type = types.str;
+        readOnly = true;
       };
       openFirewall = mkOption {
         type = types.bool;
         default = false;
       };
     };
-  };
+
+    config = {
+      portStr = builtins.toString config.port;
+    };
+  });
 
   getFirewallPorts = ports: lib.pipe ports [
     builtins.attrValues
