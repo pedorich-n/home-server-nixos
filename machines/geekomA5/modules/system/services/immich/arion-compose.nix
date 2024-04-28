@@ -98,7 +98,7 @@ in
           command = [ "start.sh" "microservices" ];
           networks = [
             "default"
-            "traefik" # Only used to allow netdata to access metrics. This service isn't actually exposed via traefik
+            "traefik" # NOTE Only used to allow netdata to access metrics. This service isn't actually exposed via traefik
           ];
           environment = sharedEnvs;
           env_file = [ config.age.secrets.immich_compose_main.path ];
