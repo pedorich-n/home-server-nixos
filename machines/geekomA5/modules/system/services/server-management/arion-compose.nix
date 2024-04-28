@@ -8,6 +8,12 @@ let
 in
 {
 
+  networking.firewall.interfaces."podman+" = {
+    allowedTCPPorts = [
+      config.custom.networking.ports.tcp.traefik-metrics.port # Metrics
+    ];
+  };
+
   virtualisation.arion.projects = {
     server-management.settings = {
       enableDefaultNetwork = false;

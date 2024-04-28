@@ -65,10 +65,13 @@ let
     };
   };
 
+
+  # TODO: extract into a global config?
+  metricsDomain = "http://metrics.${config.custom.networking.domain}:9100";
   prometheusConfig = ''
     jobs:
       - name: Minecraft
-        url: http://host.containers.internal:${toString config.custom.networking.ports.tcp.minecraft-money-guys-4-metrics.port}/metrics
+        url: ${metricsDomain}/minecraft
         autodetection_retry: 60
         selector:
           deny:
@@ -77,11 +80,11 @@ let
 
         # NOTE: https://github.com/immich-app/immich/blob/aac789f788c8eb0275201a895926c19625b2b54f/docker/prometheus.yml
       - name: Immich Server
-        url: http://immich-server:8081/metrics
+        url: ${metricsDomain}/immich
         autodetection_retry: 60
 
       - name: Immich Microservices
-        url: http://immich-microservices:8081/metrics
+        url: ${metricsDomain}/immich-microservices
         autodetection_retry: 60
   '';
 in
