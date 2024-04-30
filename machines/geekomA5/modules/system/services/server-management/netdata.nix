@@ -1,16 +1,20 @@
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ inputs, config, lib, pkgs, pkgs-netdata-45, ... }:
 let
   metricsDomain = "http://metrics.${config.custom.networking.domain}:9100";
-
 in
 {
+  # TODO: remove once https://github.com/NixOS/nixpkgs/pull/298641 is merged
+  disabledModules = [ "services/monitoring/netdata.nix" ];
+  imports = [ "${inputs.nixpkgs-netdata-45}/nixos/modules/services/monitoring/netdata.nix" ];
+
   custom.networking.ports.tcp.netdata = { port = 19999; openFirewall = false; };
 
   services = {
     netdata = {
       enable = true;
 
-      package = pkgs-unstable.netdata.override { withCloud = true; withCloudUi = true; };
+      package = pkgs-netdata-45.netdata.override { withCloud = true; withCloudUi = true; };
+      # python.recommendedPythonPackages = true;
 
       config = {
         # https://learn.netdata.cloud/docs/configuring/daemon-configuration
@@ -101,6 +105,13 @@ in
               url: ${metricsDomain}/immich-microservices
               autodetection_retry: 60
         '';
+
+        # NOTE not released yet as of v1.45.3
+        "go.d/zfspool.conf" = pkgs.writeText "netdata-zpool.conf" ''
+          jobs:
+            - name: zfspool
+              binary_path: ${lib.getExe' config.boot.zfs.package "zpool"} 
+        '';
       };
     };
 
@@ -117,11 +128,11 @@ in
     };
   };
 
-  # TODO remove once https://github.com/NixOS/nixpkgs/pull/274577 is merged
+  # TODO: remove
   systemd.services.netdata.path = [ pkgs.jq config.virtualisation.podman.package ];
 
   users.users.netdata.extraGroups = [ "podman" "docker" ];
 
-  security.wrappers."cgroup-network".group = lib.mkForce "root";
-  security.wrappers."cgroup-network".owner = lib.mkForce "root";
+  # See https://stackoverflow.com/questions/66632408/what-capabilities-can-open-proc-pid-ns-net
+  security.wrappers."cgroup-network".capabilities = lib.mkForce "cap_sys_admin+ep cap_sys_ptrace+ep cap_setuid+ep cap_sys_chroot+ep";
 }
