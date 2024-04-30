@@ -23,6 +23,7 @@
 
           networkConfig = {
             DHCP = "yes";
+            IgnoreCarrierLoss = "10m";
           };
         };
       };

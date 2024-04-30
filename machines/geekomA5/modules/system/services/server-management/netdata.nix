@@ -133,6 +133,6 @@ in
 
   users.users.netdata.extraGroups = [ "podman" "docker" ];
 
-  # security.wrappers."cgroup-network".group = lib.mkForce "root";
-  # security.wrappers."cgroup-network".owner = lib.mkForce "root";
+  # See https://stackoverflow.com/questions/66632408/what-capabilities-can-open-proc-pid-ns-net
+  security.wrappers."cgroup-network".capabilities = lib.mkForce "cap_sys_admin+ep cap_sys_ptrace+ep cap_setuid+ep cap_sys_chroot+ep";
 }
