@@ -72,6 +72,7 @@ in
           "writeback memory" = "no";
           "slab memory" = "no";
           "hugepages" = "no";
+          "transparent hugepages" = "no";
           "memory reclaiming" = "no";
           "cma memory" = "no";
         };
@@ -81,6 +82,24 @@ in
           "duplex for all interfaces" = "no";
           "mtu for all interfaces" = "no";
         };
+
+        "plugin:proc:/proc/net/sockstat" = {
+          "ipv4 sockets" = "no";
+          "ipv4 TCP sockets" = "no";
+          "ipv4 UDP sockets" = "no";
+          "ipv4 UDPLITE sockets" = "no";
+          "ipv4 RAW sockets" = "no";
+          "ipv4 FRAG sockets" = "no";
+        };
+
+        "plugin:proc:/proc/net/sockstat6" = {
+          "ipv6 TCP sockets" = "no";
+          "ipv6 UDP sockets" = "no";
+          "ipv6 UDPLITE sockets" = "no";
+          "ipv6 RAW sockets" = "no";
+          "ipv6 FRAG sockets" = "no";
+        };
+
       };
 
       configDir = {
@@ -106,9 +125,24 @@ in
               autodetection_retry: 60
         '';
 
-        # NOTE not released yet as of v1.45.3
-        "go.d/zfspool.conf" = pkgs.writeText "netdata-zpool.conf" ''
+        "go.d.conf" = pkgs.writeText "netdata-go.d.conf" ''
+          modules:
+            dnsmasq: no
+            logind: no
+            traefik: no
+
+            nvme: yes
+            smartclt: yes
+        '';
+
+        "go.d/disks.conf" = pkgs.writeText "netdata-nvme.conf" ''
           jobs:
+            - name: nvme
+              update_every: 10
+
+            - name: smartctl
+              devices_poll_interval: 10
+
             - name: zfspool
               binary_path: ${lib.getExe' config.boot.zfs.package "zpool"} 
         '';
@@ -129,7 +163,14 @@ in
   };
 
   # TODO: remove
-  systemd.services.netdata.path = [ pkgs.jq config.virtualisation.podman.package ];
+  systemd.services.netdata.path = [
+    # Required for Podman
+    pkgs.jq
+    config.virtualisation.podman.package
+
+    pkgs.nvme-cli # NVME
+    pkgs.smartmontools # SMART HDD metrics
+  ];
 
   users.users.netdata.extraGroups = [ "podman" "docker" ];
 
