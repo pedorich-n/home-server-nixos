@@ -18,6 +18,7 @@ let
     uploadVolumes ++
     [
       "/etc/localtime:/etc/localtime:ro"
+      "${config.custom.services.immich.configPath}:/usr/src/app/custom-config.json"
     ];
 
 
@@ -25,14 +26,19 @@ let
     # https://immich.app/docs/install/environment-variables/
     REDIS_HOSTNAME = "immich-redis";
     DB_HOSTNAME = "immich-postgresql";
+    IMMICH_CONFIG_FILE = "/usr/src/app/custom-config.json";
 
     IMMICH_METRICS = "true"; # See https://immich.app/docs/features/monitoring#prometheus
   };
 in
 {
   systemd.services.arion-immich = {
-    #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:72
-    requires = [ "zfs-mounted-external-immich.service" ];
+    requires = [
+      #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:72
+      "zfs-mounted-external-immich.service"
+      #LINK - machines/geekomA5/modules/system/services/immich/render-config.nix:20
+      "immich-render-config.service"
+    ];
   };
 
   virtualisation.arion.projects = {

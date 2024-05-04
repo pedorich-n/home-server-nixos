@@ -1,0 +1,142 @@
+{
+  "ffmpeg": {
+    "crf": 23,
+    "threads": 0,
+    "preset": "ultrafast",
+    "targetVideoCodec": "h264",
+    "acceptedVideoCodecs": ["h264"],
+    "targetAudioCodec": "aac",
+    "acceptedAudioCodecs": ["aac", "mp3", "libopus"],
+    "targetResolution": "720",
+    "maxBitrate": "0",
+    "bframes": -1,
+    "refs": 0,
+    "gopSize": 0,
+    "npl": 0,
+    "temporalAQ": false,
+    "cqMode": "auto",
+    "twoPass": false,
+    "preferredHwDevice": "auto",
+    "transcode": "required",
+    "tonemap": "hable",
+    "accel": "disabled"
+  },
+  "job": {
+    "backgroundTask": {
+      "concurrency": 5
+    },
+    "smartSearch": {
+      "concurrency": 5
+    },
+    "metadataExtraction": {
+      "concurrency": 5
+    },
+    "faceDetection": {
+      "concurrency": 5
+    },
+    "search": {
+      "concurrency": 5
+    },
+    "sidecar": {
+      "concurrency": 5
+    },
+    "library": {
+      "concurrency": 5
+    },
+    "migration": {
+      "concurrency": 5
+    },
+    "thumbnailGeneration": {
+      "concurrency": 5
+    },
+    "videoConversion": {
+      "concurrency": 1
+    }
+  },
+  "logging": {
+    "enabled": true,
+    "level": "log"
+  },
+  "machineLearning": {
+    "enabled": true,
+    "url": "http://immich-machine-learning:3003",
+    "clip": {
+      "enabled": true,
+      "modelName": "XLM-Roberta-Large-Vit-B-16Plus"
+    },
+    "facialRecognition": {
+      "enabled": true,
+      "modelName": "buffalo_l",
+      "minScore": 0.7,
+      "maxDistance": 0.5,
+      "minFaces": 3
+    }
+  },
+  "map": {
+    "enabled": true,
+    "lightStyle": "",
+    "darkStyle": ""
+  },
+  "reverseGeocoding": {
+    "enabled": true
+  },
+  "oauth": {
+    "autoLaunch": false,
+    "autoRegister": true,
+    "buttonText": "Login with OAuth",
+    "clientId": "{{ clientId }}",
+    "clientSecret": "{{ clientSecret }}",
+    "defaultStorageQuota": 0,
+    "enabled": true,
+    "issuerUrl": "http://authentik.{{ domain }}/application/o/immich/",
+    "mobileOverrideEnabled": false,
+    "mobileRedirectUri": "",
+    "scope": "openid email profile",
+    "signingAlgorithm": "RS256",
+    "storageLabelClaim": "preferred_username",
+    "storageQuotaClaim": "immich_quota"
+  },
+  "passwordLogin": {
+    "enabled": true
+  },
+  "storageTemplate": {
+    "enabled": false,
+    "hashVerificationEnabled": true,
+    "template": "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
+  },
+  "image": {
+    "thumbnailFormat": "webp",
+    "thumbnailSize": 250,
+    "previewFormat": "jpeg",
+    "previewSize": 1440,
+    "quality": 80,
+    "colorspace": "p3",
+    "extractEmbedded": false
+  },
+  "newVersionCheck": {
+    "enabled": true
+  },
+  "trash": {
+    "enabled": true,
+    "days": 30
+  },
+  "theme": {
+    "customCss": ""
+  },
+  "library": {
+    "scan": {
+      "enabled": true,
+      "cronExpression": "0 0 * * *"
+    },
+    "watch": {
+      "enabled": false
+    }
+  },
+  "server": {
+    "externalDomain": "http://immich.{{ domain }}",
+    "loginPageMessage": ""
+  },
+  "user": {
+    "deleteDelay": 30
+  }
+}
