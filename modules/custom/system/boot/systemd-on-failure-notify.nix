@@ -41,6 +41,8 @@ in
         '';
       };
 
+      package = mkPackageOption pkgs "systemd-onfailure-notify" { };
+
       enableForUnits = mkOption {
         type = types.listOf overrideUnitType;
       };
@@ -66,7 +68,7 @@ in
         };
 
         serviceConfig = {
-          ExecStart = "${lib.getExe pkgs.systemd-onfailure-notify} --apprise-config ${cfg.appriseConfigPath} --unit %i";
+          ExecStart = "${lib.getExe cfg.package} --apprise-config ${cfg.appriseConfigPath} --unit %i";
           Type = "oneshot";
         };
       };
