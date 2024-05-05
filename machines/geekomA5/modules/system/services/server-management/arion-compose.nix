@@ -18,7 +18,7 @@ in
 
       services = {
         portainer.service = rec {
-          image = "portainer/portainer-ce:2.20.1-alpine";
+          image = "portainer/portainer-ce:2.20.2-alpine";
           container_name = "portainer";
           environment = {
             TZ = "${config.time.timeZone}";

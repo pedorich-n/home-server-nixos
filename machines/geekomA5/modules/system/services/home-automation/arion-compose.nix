@@ -17,7 +17,7 @@ in
 
       services = {
         homer.service = rec {
-          image = "b4bz/homer:v23.10.1";
+          image = "b4bz/homer:v24.04.1";
           container_name = "homer";
           networks = [ "traefik" ];
           restart = "unless-stopped";
@@ -90,7 +90,7 @@ in
         };
 
         zigbee2mqtt.service = rec {
-          image = "koenkk/zigbee2mqtt:1.36.1";
+          image = "koenkk/zigbee2mqtt:1.37.0";
           container_name = "zigbee2mqtt";
           restart = "unless-stopped";
           environment = {
@@ -133,7 +133,7 @@ in
         };
 
         homeassistant.service = rec {
-          image = "homeassistant/home-assistant:2024.4.3";
+          image = "homeassistant/home-assistant:2024.5.1";
           container_name = "homeassistant";
           environment = {
             TZ = "${config.time.timeZone}";

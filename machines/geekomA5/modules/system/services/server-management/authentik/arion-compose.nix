@@ -14,7 +14,7 @@ let
 
   blueprints = pkgs.callPackage ./_render-blueprints.nix { inherit config; };
 
-  authentikVersion = "2024.2.3";
+  authentikVersion = "2024.4.1";
 in
 {
   virtualisation.arion.projects = {
