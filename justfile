@@ -23,3 +23,6 @@ build-iso *args:
 
 check:
     nix flake check "{{ justfile_directory() }}"
+
+generate-host-key:
+    nix run "{{ justfile_directory() + '#generate-host-key'}}"
