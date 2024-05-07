@@ -14,10 +14,10 @@
    7. Copy the path to the keys from the `generate-host-key`'s output
 > [!CAUTION]
 > This will erase the disk and create new partitions. DATA WILL BE LOST
-1. Run `nix run github:nix-community/nixos-anywhere -- --extra-files "<path-to-keys>" --flake ".#<machine>" root@nixos`
-2. System should reboot into a newly installed profile
-3. From now on `deploy-rs` can be used to deploy from another machine
-4. Remove the generated secrets from this machine's temporary directory
+5. Run `nix run github:nix-community/nixos-anywhere -- --extra-files "<path-to-keys>" --flake ".#<machine>" root@nixos`
+6. System should reboot into a newly installed profile
+7. From now on `deploy-rs` can be used to deploy from another machine
+8. Remove the generated secrets from this machine's temporary directory
 
 ### Notes:
 
