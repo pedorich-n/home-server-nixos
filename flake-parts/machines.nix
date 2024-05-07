@@ -5,6 +5,8 @@ let
   sharedModules = lib.lists.flatten (builtins.attrValues myModules);
 
   builders = import ../machines/builders.nix { inherit inputs flake withSystem lib; };
+
+  overlays = import ../overlays/custom-packages.nix;
 in
 lib.mkMerge [
   {
@@ -45,6 +47,10 @@ lib.mkMerge [
       inputs.playit-nixos-module.nixosModules.default
     ];
 
+    specialArgs = {
+      inherit overlays;
+    };
+
     enableDeploy = true;
   })
 
@@ -62,6 +68,10 @@ lib.mkMerge [
       inputs.nix-minecraft.nixosModules.minecraft-servers
       inputs.playit-nixos-module.nixosModules.default
     ];
+
+    specialArgs = {
+      inherit overlays;
+    };
 
     enableDeploy = true;
   })
