@@ -1,10 +1,10 @@
-{ inputs, flake, withSystem }:
-{ lib, ... }:
+{ flake, withSystem, ... }:
+{ inputs, lib, ... }:
 let
   myModules = import ../modules { inherit flake; };
   sharedModules = lib.lists.flatten (builtins.attrValues myModules);
 
-  builders = import ./builders.nix { inherit inputs flake withSystem lib; };
+  builders = import ../machines/builders.nix { inherit inputs flake withSystem lib; };
 in
 lib.mkMerge [
   {
