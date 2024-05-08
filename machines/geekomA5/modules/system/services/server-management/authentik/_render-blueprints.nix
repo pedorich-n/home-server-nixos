@@ -1,4 +1,4 @@
-{ lib, pkgs, config }:
+{ config, lib, pkgs }:
 pkgs.stdenvNoCC.mkDerivation {
   name = "authentik-blueprints";
 

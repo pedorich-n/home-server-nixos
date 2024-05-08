@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 let
   entryFor = source: target: {
     name = "/mnt/store/home-automation/homer/${target}";
@@ -9,13 +9,7 @@ let
     };
   };
 
-  renderedConfig = pkgs.render-jinja-template {
-    name = "homer-config-rendered.yml";
-    template = ./config.yml;
-    vars = {
-      inherit (config.custom.networking) domain;
-    };
-  };
+  renderedConfig = import ./_render-config.nix { inherit config lib pkgs; };
 in
 {
   environment.mutable-files = builtins.listToAttrs [

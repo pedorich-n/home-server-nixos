@@ -6,7 +6,6 @@
       inputs.rust-overlay.overlays.default
       inputs.poetry2nix.overlays.default
       overlays.minecraft-server-check
-      overlays.render-jinja-template
     ];
   };
 
