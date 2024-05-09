@@ -27,7 +27,7 @@ in
         "--keep-daily 14"
         "--keep-weekly 4"
         "--keep-monthly 12"
-        "--keep-yearly 2"
+        "--keep-yearly 1"
       ];
 
       extraBackupArgs = [

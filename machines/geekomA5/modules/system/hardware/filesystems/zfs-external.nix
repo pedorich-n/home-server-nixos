@@ -47,6 +47,7 @@ in
           atime = "off"; # Disable Access Time 
           xattr = "sa"; # Store Linux attributes in inodes rather than files in hidden folders
           mountpoint = "/mnt/external"; # ZFS prop: https://openzfs.github.io/openzfs-docs/man/v2.2/7/zfsprops.7.html#mountpoint
+          "com.sun:auto-snapshot" = "false"; # Don't take snapshots of root
         };
 
         mountpoint = "/mnt/external"; # fstab mountpoint, ideally should be removed, but it's not currently possible with disko
@@ -54,7 +55,10 @@ in
         datasets = {
           immich = {
             type = "zfs_fs";
-            options.mountpoint = "/mnt/external/immich-library"; # ZFS prop: https://openzfs.github.io/openzfs-docs/man/v2.2/7/zfsprops.7.html#mountpoint
+            options = {
+              mountpoint = "/mnt/external/immich-library"; # ZFS prop: https://openzfs.github.io/openzfs-docs/man/v2.2/7/zfsprops.7.html#mountpoint
+              "com.sun:auto-snapshot" = "true";
+            };
             mountpoint = "/mnt/external/immich-library"; # fstab mountpoint, ideally should be removed, but it's not currently possible with disko
           };
         };
