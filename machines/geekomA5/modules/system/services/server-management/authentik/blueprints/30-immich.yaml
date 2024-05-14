@@ -11,27 +11,9 @@ entries:
     identifiers:
       name: Immich
     attrs:
-      authentication_flow:
-        !Find [authentik_flows.flow, [slug, default-authentication-flow]]
-      authorization_flow:
-        !Find [
-          authentik_flows.flow,
-          [slug, default-provider-authorization-explicit-consent],
-        ]
-      property_mappings:
-        - !Find [authentik_providers_oauth2.scopemapping, [scope_name, openid]]
-        - !Find [authentik_providers_oauth2.scopemapping, [scope_name, email]]
-        - !Find [authentik_providers_oauth2.scopemapping, [scope_name, profile]]
-      client_type: confidential
+      {{ defaultOauthAttrs | indent(6, False) }}
       client_id: !Env IMMICH_OAUTH_CLIENT_ID
       client_secret: !Env IMMICH_OAUTH_CLIENT_SECRET
-      access_token_validity: days=30
-      refresh_token_validity: days=180
-      signing_key:
-        !Find [
-          authentik_crypto.certificatekeypair,
-          [name, authentik Self-signed Certificate],
-        ]
       redirect_uris: |
         http://immich.{{ domain }}/auth/login
         http://immich.{{ domain }}/user-settings
@@ -45,4 +27,4 @@ entries:
     attrs:
       provider: !KeyOf provider
       open_in_new_tab: true
-      icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/immich.png
+      icon: {{ iconsProvider }}/immich.png
