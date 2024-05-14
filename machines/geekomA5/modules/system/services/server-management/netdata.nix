@@ -13,7 +13,7 @@ in
     netdata = {
       enable = true;
 
-      package = pkgs-netdata-45.netdata.override { withCloud = true; withCloudUi = true; };
+      package = pkgs-netdata-45.netdataCloud;
       # python.recommendedPythonPackages = true;
 
       config = {
