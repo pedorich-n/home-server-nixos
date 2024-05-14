@@ -21,8 +21,8 @@ entries:
           [slug, default-provider-authorization-implicit-consent],
         ]
       mode: forward_single
-      access_token_validity: days=30
-      refresh_token_validity: days=180
+      access_token_validity: {{ accessTokenValidity }}
+      refresh_token_validity: {{ refreshTokenValidity }}
       external_host: !Context internal_host
 
   - model: authentik_core.application
@@ -33,7 +33,7 @@ entries:
     attrs:
       provider: !KeyOf provider
       open_in_new_tab: true
-      icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/home-assistant.png
+      icon: {{ iconsProvider }}/home-assistant.png
 
   - model: authentik_outposts.outpost
     identifiers:

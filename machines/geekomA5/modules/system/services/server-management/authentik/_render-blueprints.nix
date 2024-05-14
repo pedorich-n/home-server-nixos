@@ -5,8 +5,25 @@ pkgs.stdenvNoCC.mkDerivation {
   src = ./blueprints;
 
   passAsFile = [ "varsData" ];
-  varsData = builtins.toJSON {
+  varsData = builtins.toJSON rec {
     inherit (config.custom.networking) domain;
+    iconsProvider = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png";
+
+    accessTokenValidity = "days=30";
+    refreshTokenValidity = "days=180";
+
+    defaultOauthAttrs = ''
+      authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
+      authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-explicit-consent]]
+      property_mappings:
+        - !Find [authentik_providers_oauth2.scopemapping, [scope_name, openid]]
+        - !Find [authentik_providers_oauth2.scopemapping, [scope_name, email]]
+        - !Find [authentik_providers_oauth2.scopemapping, [scope_name, profile]]
+      client_type: confidential
+      access_token_validity: ${accessTokenValidity}
+      refresh_token_validity: ${refreshTokenValidity}
+      signing_key: !Find [authentik_crypto.certificatekeypair, [name, authentik Self-signed Certificate]]
+    '';
   };
 
   nativeBuildInputs = with pkgs; [ jinja2-cli coreutils ];
