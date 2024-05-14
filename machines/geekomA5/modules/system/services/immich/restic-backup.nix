@@ -9,7 +9,6 @@ in
 
   services.restic.backups = {
     immich = {
-
       timerConfig = {
         OnCalendar = "*-*-* 02:00:00"; # Every day at 02:00
         Persistent = true;

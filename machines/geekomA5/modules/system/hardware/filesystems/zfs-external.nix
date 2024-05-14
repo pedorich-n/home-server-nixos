@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   mkSystemdZfsMountTarget = pkgs.callPackage ./_systemd-zfs-mount-target.nix { inherit config; };
 in
@@ -61,6 +61,15 @@ in
             };
             mountpoint = "/mnt/external/immich-library"; # fstab mountpoint, ideally should be removed, but it's not currently possible with disko
           };
+
+          paperless = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/mnt/external/paperless-library";
+              "com.sun:auto-snapshot" = "true";
+            };
+            mountpoint = "/mnt/external/paperless-library";
+          };
         };
       };
     };
@@ -70,8 +79,12 @@ in
   fileSystems = {
     "/mnt/external".options = [ "noauto" ];
     "/mnt/external/immich-library".options = [ "noauto" ];
+    "/mnt/external/paperless-library".options = [ "noauto" ];
   };
 
 
-  systemd.services = mkSystemdZfsMountTarget { dataset = "external/immich"; };
+  systemd.services = lib.mkMerge [
+    (mkSystemdZfsMountTarget { dataset = "external/immich"; })
+    (mkSystemdZfsMountTarget { dataset = "external/paperless"; })
+  ];
 }
