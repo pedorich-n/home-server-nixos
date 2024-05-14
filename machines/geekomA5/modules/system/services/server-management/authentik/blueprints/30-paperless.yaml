@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://version-2024-2.goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: paperless
+  labels:
+    blueprints.goauthentik.io/description: "Setup Paperless-NGX OAuth Provider & Application"
+entries:
+  - model: authentik_providers_oauth2.oauth2provider
+    id: provider
+    state: present
+    identifiers:
+      name: Paperless
+    attrs:
+      {{ defaultOauthAttrs | indent(6, False) }}
+      client_id: !Env PAPERLESS_OAUTH_CLIENT_ID
+      client_secret: !Env PAPERLESS_OAUTH_CLIENT_SECRET
+      redirect_uris: |
+        http://paperless.{{ domain }}/accounts/oidc/authentik/login/callback/
+
+  - model: authentik_core.application
+    state: present
+    identifiers:
+      name: Paperless
+      slug: paperless
+    attrs:
+      provider: !KeyOf provider
+      open_in_new_tab: true
+      icon: {{ iconsProvider }}/paperless-ngx.png
