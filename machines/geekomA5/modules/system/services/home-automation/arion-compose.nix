@@ -90,7 +90,7 @@ in
         };
 
         zigbee2mqtt.service = rec {
-          image = "koenkk/zigbee2mqtt:1.37.0";
+          image = "koenkk/zigbee2mqtt:1.37.1";
           container_name = "zigbee2mqtt";
           restart = "unless-stopped";
           environment = {
@@ -133,7 +133,7 @@ in
         };
 
         homeassistant.service = rec {
-          image = "homeassistant/home-assistant:2024.5.1";
+          image = "homeassistant/home-assistant:2024.5.3";
           container_name = "homeassistant";
           environment = {
             TZ = "${config.time.timeZone}";

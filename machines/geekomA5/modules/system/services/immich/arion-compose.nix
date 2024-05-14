@@ -1,6 +1,6 @@
 { config, dockerLib, ... }:
 let
-  immichVersion = "v1.103.1";
+  immichVersion = "v1.104.0";
 
   storeFor = localPath: remotePath: "/mnt/store/immich/${localPath}:${remotePath}";
 
