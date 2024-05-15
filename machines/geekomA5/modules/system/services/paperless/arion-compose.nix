@@ -59,8 +59,9 @@ in
             PAPERLESS_REDIS = "redis://redis:6379";
 
             PAPERLESS_TRASH_DIR = "/usr/src/paperless/media/trash";
-            PAPERLESS_OCR_LANGUAGES = "eng jpn jpn-vert ukr rus";
-            PAPERLESS_OCR_LANGUAGE = "ukr+rus";
+
+            PAPERLESS_OCR_LANGUAGES = "eng jpn jpn-vert ukr rus"; # Confusingly this only installs the language packs
+            PAPERLESS_OCR_LANGUAGE = "ukr+rus+eng+jpn+jpn_vert"; # And this hints the OCR engine which languages to try to detect
 
             PAPERLESS_SOCIAL_AUTO_SIGNUP = "true";
             PAPERLESS_ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http";
