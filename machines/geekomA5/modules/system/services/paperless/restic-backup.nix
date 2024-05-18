@@ -10,11 +10,10 @@ in
   services.restic.backups = {
     paperless = {
 
-      timerConfig = null;
-      # timerConfig = {
-      #   OnCalendar = "*-*-* 02:30:00"; # Every day at 02:30
-      #   Persistent = true;
-      # };
+      timerConfig = {
+        OnCalendar = "*-*-* 02:30:00"; # Every day at 02:30
+        Persistent = true;
+      };
 
       paths = [
         "/mnt/external/paperless-library/media" # Assets
@@ -37,7 +36,7 @@ in
         set -o allexport; source ${config.age.secrets.paperless_compose.path}; set +o allexport
 
         ${lib.getExe config.virtualisation.podman.package} exec --tty paperless-postgresql \
-        pg_dumpall --username ''${DB_USERNAME} --clean --if-exists > "${dbBackupFolder}/backup.sql"
+        pg_dumpall --username ''${POSTGRES_USER} --clean --if-exists > "${dbBackupFolder}/backup.sql"
       '';
 
       environmentFile = config.age.secrets.paperless_restic_environment.path;
