@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://version-2024-2.goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: grist
+  labels:
+    blueprints.goauthentik.io/description: "Setup Grist OAuth Provider & Application"
+entries:
+  - model: authentik_providers_oauth2.oauth2provider
+    id: provider
+    state: present
+    identifiers:
+      name: Grist
+    attrs:
+      {{ defaultOauthAttrs | indent(6, False) }}
+      client_id: !Env GRIST_OAUTH_CLIENT_ID
+      client_secret: !Env GRIST_OAUTH_CLIENT_SECRET
+      redirect_uris: |
+        http://grist.{{ domain }}/oauth2/callback
+
+  - model: authentik_core.application
+    state: present
+    identifiers:
+      name: Grist
+      slug: grist
+    attrs:
+      provider: !KeyOf provider
+      open_in_new_tab: true
+      icon: {{ iconsProvider }}/grist.png

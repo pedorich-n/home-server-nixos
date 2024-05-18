@@ -88,7 +88,7 @@
     "clientSecret": "{{ clientSecret }}",
     "defaultStorageQuota": 0,
     "enabled": true,
-    "issuerUrl": "http://authentik.{{ domain }}/application/o/immich/",
+    "issuerUrl": "http://authentik.{{ domain }}/application/o/immich/.well-known/openid-configuration",
     "mobileOverrideEnabled": false,
     "mobileRedirectUri": "",
     "scope": "openid email profile",
