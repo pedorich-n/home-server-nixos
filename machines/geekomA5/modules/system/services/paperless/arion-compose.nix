@@ -9,7 +9,7 @@ in
   systemd.services.arion-paperless = {
     requires = [
       #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:72
-      "zfs-mounted-external-paperless.service"
+      # "zfs-mounted-external-paperless.service"
     ];
 
     after = [ "arion-authentik.service" ];
