@@ -16,30 +16,6 @@ in
       networks = (dockerLib.mkDefaultNetwork "home-automation") // dockerLib.externalTraefikNetwork;
 
       services = {
-        homer.service = rec {
-          image = "b4bz/homer:v24.04.1";
-          container_name = "homer";
-          networks = [ "traefik" ];
-          restart = "unless-stopped";
-          healthcheck.test = [ "NONE" ];
-          user = userSetting;
-          environment = {
-            INIT_ASSETS = "1";
-            PORT = "8080";
-          };
-          volumes = [
-            # configuration file is managed by environment.mutable-files
-            (storeFor "homer" "/www/assets")
-          ];
-          labels = (dockerLib.mkTraefikLabels {
-            name = container_name;
-            port = 8080;
-            domain = config.custom.networking.domain;
-          }) // {
-            "wud.tag.exclude" = "^latest.*$";
-          };
-        };
-
         # Home Automation
         mariadb.service = {
           image = "mariadb:11.3.2";
@@ -77,7 +53,6 @@ in
             (storeFor "mosquitto/log" "/mosquitto/log")
           ];
           networks = [ "default" "traefik" ];
-          # networks = [ "default" ];
           user = userSetting;
           labels = {
             "traefik.enable" = "true";
@@ -105,7 +80,6 @@ in
           devices = [ "/dev/ttyUSB0:/dev/ttyZigbee" ];
           depends_on = [ "mosquitto" ];
           networks = [ "default" "traefik" ];
-          # networks = [ "default" ];
           # user = userSetting;
           labels = dockerLib.mkTraefikLabels { name = container_name; port = 8080; } // {
             "wud.display.icon" = "si:zigbee";
@@ -121,7 +95,6 @@ in
           };
           restart = "unless-stopped";
           networks = [ "traefik" "default" ];
-          # networks = [ "default" ];
           user = userSetting;
           volumes = [
             (storeFor "nodered" "/data")
@@ -140,7 +113,6 @@ in
           };
           restart = "unless-stopped";
           networks = [ "default" "traefik" ];
-          # networks = [ "default" ];
           # user = userSetting;
           capabilities = {
             CAP_NET_RAW = true;

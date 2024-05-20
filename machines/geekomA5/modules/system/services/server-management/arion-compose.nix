@@ -1,6 +1,8 @@
 { config, dockerLib, ... }:
 let
   storeFor = localPath: remotePath: "/mnt/store/server-management/${localPath}:${remotePath}";
+
+  userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
 in
 {
 
@@ -17,6 +19,31 @@ in
       networks = (dockerLib.mkDefaultNetwork "server-management") // dockerLib.externalTraefikNetwork;
 
       services = {
+        homer.service = rec {
+          image = "b4bz/homer:v24.04.1";
+          container_name = "homer";
+          networks = [ "traefik" ];
+          restart = "unless-stopped";
+          healthcheck.test = [ "NONE" ];
+          user = userSetting;
+          environment = {
+            INIT_ASSETS = "1";
+            PORT = "8080";
+          };
+          volumes = [
+            # configuration file is managed by environment.mutable-files
+            (storeFor "homer" "/www/assets")
+          ];
+          labels = (dockerLib.mkTraefikLabels {
+            name = container_name;
+            port = 8080;
+            domain = config.custom.networking.domain;
+          }) // {
+            "wud.tag.exclude" = "^latest.*$";
+          };
+        };
+
+
         portainer.service = rec {
           image = "portainer/portainer-ce:2.20.2-alpine";
           container_name = "portainer";
