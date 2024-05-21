@@ -29,10 +29,4 @@ entries:
       icon: {{ iconsProvider }}/portainer.png
       {{ groups.serverManagement | indent(6, False) }}
 
-  - model: "authentik_policies.policybinding"
-    identifiers:
-      target: !KeyOf application
-    attrs:
-      group: !Find [authentik_core.group, [name, Server Admins]]
-      enabled: true
-      order: 0
+  {{ serverAdminsPolicy | indent(2, False) }}

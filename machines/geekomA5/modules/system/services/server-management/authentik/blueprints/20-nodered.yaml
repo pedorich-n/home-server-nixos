@@ -11,11 +11,7 @@ entries:
     identifiers:
       name: NodeRed
     attrs:
-      authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
-      authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
-      mode: forward_single
-      access_token_validity: {{ accessTokenValidity }}
-      refresh_token_validity: {{ refreshTokenValidity }}
+      {{ defaultProxyAttrs | indent(6, False) }}
       external_host: http://nodered.{{ domain }}
 
   - model: authentik_core.application
@@ -30,10 +26,4 @@ entries:
       icon: {{ iconsProvider }}/node-red.png
       {{ groups.homeAutomation | indent(6, False) }}
 
-  - model: "authentik_policies.policybinding"
-    identifiers:
-      target: !KeyOf application
-    attrs:
-      group: !Find [authentik_core.group, [name, Server Admins]]
-      enabled: true
-      order: 0
+  {{ serverAdminsPolicy | indent(2, False) }}
