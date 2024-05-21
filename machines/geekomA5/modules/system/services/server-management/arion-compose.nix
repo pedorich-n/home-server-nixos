@@ -16,7 +16,7 @@ in
     server-management.settings = {
       enableDefaultNetwork = false;
 
-      networks = (dockerLib.mkDefaultNetwork "server-management") // dockerLib.externalTraefikNetwork;
+      networks = dockerLib.externalTraefikNetwork;
 
       services = {
         homer.service = rec {
@@ -69,7 +69,15 @@ in
           container_name = "whatsupdocker";
           environment = {
             TZ = "${config.time.timeZone}";
+            WUD_AUTH_OIDC_AUTHENTIK_DISCOVERY = "http://authentik.${config.custom.networking.domain}/application/o/whatsupdocker/.well-known/openid-configuration";
+            WUD_AUTH_OIDC_AUTHENTIK_REDIRECT = "true";
           };
+          extra_hosts = [
+            #NOTE - there's a bug with musl or C libs or something in this base image. 
+            # `dig` resolves the local domain, but `curl` fails, and the call to OIDC discovery fails too.  Providing hard-coded host seems to help.
+            "authentik.${config.custom.networking.domain}:192.168.15.15"
+          ];
+          env_file = [ config.age.secrets.server_management_compose.path ];
           networks = [ "traefik" ];
           restart = "unless-stopped";
           volumes = [

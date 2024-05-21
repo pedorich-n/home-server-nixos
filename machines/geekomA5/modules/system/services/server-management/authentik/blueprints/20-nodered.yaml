@@ -1,30 +1,39 @@
 # yaml-language-server: $schema=https://version-2024-2.goauthentik.io/blueprints/schema.json
 version: 1
 metadata:
-  name: homeassistant
+  name: nodered
   labels:
-    blueprints.goauthentik.io/description: "Setup HomeAssistant Proxy Provider & Application"
+    blueprints.goauthentik.io/description: "Setup NodeRed Dashboard Proxy Provider & Application"
 entries:
   - model: authentik_providers_proxy.proxyprovider
     id: provider
     state: present
     identifiers:
-      name: HomeAssistant
+      name: NodeRed
     attrs:
       authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
       authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
       mode: forward_single
       access_token_validity: {{ accessTokenValidity }}
       refresh_token_validity: {{ refreshTokenValidity }}
-      external_host: http://homeassistant.{{ domain }}
+      external_host: http://nodered.{{ domain }}
 
   - model: authentik_core.application
+    id: application
     state: present
     identifiers:
-      name: Home Assistant
-      slug: homeassistant
+      name: NodeRed
+      slug: nodered
     attrs:
       provider: !KeyOf provider
       open_in_new_tab: true
-      icon: {{ iconsProvider }}/home-assistant.png
+      icon: {{ iconsProvider }}/node-red.png
       {{ groups.homeAutomation | indent(6, False) }}
+
+  - model: "authentik_policies.policybinding"
+    identifiers:
+      target: !KeyOf application
+    attrs:
+      group: !Find [authentik_core.group, [name, Server Admins]]
+      enabled: true
+      order: 0

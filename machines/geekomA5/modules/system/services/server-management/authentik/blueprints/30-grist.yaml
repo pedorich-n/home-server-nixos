@@ -26,3 +26,4 @@ entries:
       provider: !KeyOf provider
       open_in_new_tab: true
       icon: {{ iconsProvider }}/grist.png
+      {{ groups.services | indent(6, False) }}

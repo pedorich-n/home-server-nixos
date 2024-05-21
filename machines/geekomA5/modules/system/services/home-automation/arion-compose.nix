@@ -83,6 +83,8 @@ in
           # user = userSetting;
           labels = dockerLib.mkTraefikLabels { name = container_name; port = 8080; } // {
             "wud.display.icon" = "si:zigbee";
+
+            "traefik.http.routers.${container_name}.middlewares" = "authentik@docker";
           };
         };
 
@@ -102,6 +104,8 @@ in
           labels = dockerLib.mkTraefikLabels { name = container_name; port = 1880; } // {
             "wud.tag.exclude" = "^latest.*$";
             "wud.display.icon" = "si:nodered";
+
+            "traefik.http.routers.${container_name}.middlewares" = "authentik@docker";
           };
         };
 
@@ -127,7 +131,7 @@ in
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
             "wud.display.icon" = "si:homeassistant";
 
-            "traefik.http.routers.homeassistant.middlewares" = "authentik@docker";
+            "traefik.http.routers.${container_name}.middlewares" = "authentik@docker";
           };
           depends_on = [
             "mariadb"
