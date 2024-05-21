@@ -28,13 +28,7 @@ entries:
       provider: !KeyOf provider
       open_in_new_tab: true
       icon: {{ iconsProvider }}/netdata.png
-
-  - model: authentik_outposts.outpost
-    identifiers:
-      managed: goauthentik.io/outposts/embedded
-    attrs:
-      providers:
-        - !KeyOf provider
+      {{ groups.serverManagement | indent(6, False) }}
 
   - model: "authentik_policies.policybinding"
     identifiers:

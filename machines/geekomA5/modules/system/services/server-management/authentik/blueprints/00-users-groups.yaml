@@ -14,7 +14,7 @@ entries:
     attrs:
       is_superuser: false
       users:
-        - !Find [authentik_core.user, [name, akadmin]]
+        - !Find [authentik_core.user, [username, akadmin]]
     id: server-admins-group
 
   # Users

@@ -13,3 +13,6 @@ entries:
         authentik_host: http://authentik.{{ domain }}
         object_naming_template: ak-outpost-%(name)s
         log_level: info
+        providers:
+          - !Find [authentik_core.application, [slug, netdata]]
+          - !Find [authentik_core.application, [slug, homeassistant]]

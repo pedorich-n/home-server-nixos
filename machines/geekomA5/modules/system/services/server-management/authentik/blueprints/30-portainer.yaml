@@ -27,6 +27,7 @@ entries:
       provider: !KeyOf provider
       open_in_new_tab: true
       icon: {{ iconsProvider }}/portainer.png
+      {{ groups.serverManagement | indent(6, False) }}
 
   - model: "authentik_policies.policybinding"
     identifiers:

@@ -12,6 +12,12 @@ pkgs.stdenvNoCC.mkDerivation {
     accessTokenValidity = "days=30";
     refreshTokenValidity = "days=180";
 
+    groups = {
+      serverManagement = "group: Server Management";
+      homeAutomation = "group: Home Automation";
+      services = "group: Services";
+    };
+
     defaultOauthAttrs = ''
       authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
       authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-explicit-consent]]
