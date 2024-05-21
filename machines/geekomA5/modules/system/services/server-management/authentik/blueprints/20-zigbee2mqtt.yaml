@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://version-2024-2.goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: zigbee2mqtt
+  labels:
+    blueprints.goauthentik.io/description: "Setup zigbee2mqtt Dashboard Proxy Provider & Application"
+entries:
+  - model: authentik_providers_proxy.proxyprovider
+    id: provider
+    state: present
+    identifiers:
+      name: Zigbee2MQTT
+    attrs:
+      {{ defaultProxyAttrs | indent(6, False) }}
+      external_host: http://zigbee2mqtt.{{ domain }}
+
+  - model: authentik_core.application
+    id: application
+    state: present
+    identifiers:
+      name: Zigbee2MQTT
+      slug: zigbee2mqtt
+    attrs:
+      provider: !KeyOf provider
+      open_in_new_tab: true
+      icon: {{ iconsProvider }}/zigbee2mqtt.png
+      {{ groups.homeAutomation | indent(6, False) }}
+
+  {{ serverAdminsPolicy | indent(2, False) }}

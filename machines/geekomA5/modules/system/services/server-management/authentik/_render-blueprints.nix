@@ -12,6 +12,20 @@ pkgs.stdenvNoCC.mkDerivation {
     accessTokenValidity = "days=30";
     refreshTokenValidity = "days=180";
 
+    groups = {
+      serverManagement = "group: Server Management";
+      homeAutomation = "group: Home Automation";
+      services = "group: Services";
+    };
+
+    defaultProxyAttrs = ''
+      authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
+      authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+      mode: forward_single
+      access_token_validity: ${accessTokenValidity}
+      refresh_token_validity: ${refreshTokenValidity}
+    '';
+
     defaultOauthAttrs = ''
       authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
       authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-explicit-consent]]
@@ -23,6 +37,16 @@ pkgs.stdenvNoCC.mkDerivation {
       access_token_validity: ${accessTokenValidity}
       refresh_token_validity: ${refreshTokenValidity}
       signing_key: !Find [authentik_crypto.certificatekeypair, [name, authentik Self-signed Certificate]]
+    '';
+
+    serverAdminsPolicy = ''
+      - model: "authentik_policies.policybinding"
+        identifiers:
+          target: !KeyOf application
+        attrs:
+          group: !Find [authentik_core.group, [name, Server Admins]]
+          enabled: true
+          order: 0
     '';
   };
 

@@ -154,6 +154,7 @@ in
         entryPoints = [ "web" ];
         rule = "Host(`netdata.${config.custom.networking.domain}`)";
         service = "netdata";
+        middlewares = [ "authentik@docker" ];
       };
 
       services.netdata = {

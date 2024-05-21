@@ -1,32 +1,32 @@
 # yaml-language-server: $schema=https://version-2024-2.goauthentik.io/blueprints/schema.json
 version: 1
 metadata:
-  name: portainer
+  name: whatsupdocker
   labels:
-    blueprints.goauthentik.io/description: "Setup Portainer OAuth Provider & Application"
+    blueprints.goauthentik.io/description: "Setup What's Up Docker OAuth Provider & Application"
 entries:
   - model: authentik_providers_oauth2.oauth2provider
     id: provider
     state: present
     identifiers:
-      name: Portainer
+      name: WhatsUpDocker
     attrs:
       {{ defaultOauthAttrs | indent(6, False) }}
-      client_id: !Env PORTAINER_OAUTH_CLIENT_ID
-      client_secret: !Env PORTAINER_OAUTH_CLIENT_SECRET
+      client_id: !Env WHATSUPDOCKER_OAUTH_CLIENT_ID
+      client_secret: !Env WHATSUPDOCKER_OAUTH_CLIENT_SECRET
       redirect_uris: |
-        http://portainer.{{ domain }}
+        http://whatsupdocker.{{ domain }}/auth/oidc/authentik/cb
 
   - model: authentik_core.application
     id: application
     state: present
     identifiers:
-      name: Portainer
-      slug: portainer
+      name: What's Up Docker
+      slug: whatsupdocker
     attrs:
       provider: !KeyOf provider
       open_in_new_tab: true
-      icon: {{ iconsProvider }}/portainer.png
+      icon: {{ iconsProvider }}/whats-up-docker.png
       {{ groups.serverManagement | indent(6, False) }}
 
   {{ serverAdminsPolicy | indent(2, False) }}

@@ -4,12 +4,26 @@ metadata:
   name: embedded-outpost-settings
   labels:
     blueprints.goauthentik.io/description: "Set Embedded Outpost settings"
+context:
+  providers:
+    - HomeAssistant
+    - Netdata
+    - NodeRed
+    - Traefik
+    - Zigbee2MQTT
 entries:
   - model: authentik_outposts.outpost
+    state: present
     identifiers:
       managed: goauthentik.io/outposts/embedded
     attrs:
+      providers: !Enumerate [
+        !Context providers, 
+        SEQ, 
+        !Find [authentik_providers_proxy.proxyprovider, [name, !Value 0]]
+      ]
       config:
         authentik_host: http://authentik.{{ domain }}
         object_naming_template: ak-outpost-%(name)s
         log_level: info
+

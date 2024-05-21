@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://version-2024-2.goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: traefik-dashboard
+  labels:
+    blueprints.goauthentik.io/description: "Setup Traefik Dashboard Proxy Provider & Application"
+entries:
+  - model: authentik_providers_proxy.proxyprovider
+    id: provider
+    state: present
+    identifiers:
+      name: Traefik
+    attrs:
+      {{ defaultProxyAttrs | indent(6, False) }}
+      external_host: http://traefik.{{ domain }}
+
+  - model: authentik_core.application
+    id: application
+    state: present
+    identifiers:
+      name: Traefik
+      slug: traefik
+    attrs:
+      provider: !KeyOf provider
+      open_in_new_tab: true
+      icon: {{ iconsProvider }}/traefik.png
+      {{ groups.serverManagement | indent(6, False) }}
+
+  {{ serverAdminsPolicy | indent(2, False) }}
