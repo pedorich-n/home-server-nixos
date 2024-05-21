@@ -18,6 +18,7 @@ entries:
         http://portainer.{{ domain }}
 
   - model: authentik_core.application
+    id: application
     state: present
     identifiers:
       name: Portainer
@@ -26,3 +27,11 @@ entries:
       provider: !KeyOf provider
       open_in_new_tab: true
       icon: {{ iconsProvider }}/portainer.png
+
+  - model: "authentik_policies.policybinding"
+    identifiers:
+      target: !KeyOf application
+    attrs:
+      group: !Find [authentik_core.group, [name, Server Admins]]
+      enabled: true
+      order: 0
