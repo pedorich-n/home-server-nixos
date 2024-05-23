@@ -81,10 +81,12 @@ in
           depends_on = [ "mosquitto" ];
           networks = [ "default" "traefik" ];
           # user = userSetting;
-          labels = dockerLib.mkTraefikLabels { name = container_name; port = 8080; } // {
+          labels = (dockerLib.mkTraefikLabels {
+            name = container_name;
+            port = 8080;
+            middlewares = [ "authentik@docker" ];
+          }) // {
             "wud.display.icon" = "si:zigbee";
-
-            "traefik.http.routers.${container_name}.middlewares" = "authentik@docker";
           };
         };
 
@@ -101,11 +103,20 @@ in
           volumes = [
             (storeFor "nodered" "/data")
           ];
-          labels = dockerLib.mkTraefikLabels { name = container_name; port = 1880; } // {
+          labels = (dockerLib.mkTraefikLabels {
+            name = container_name;
+            port = 1880;
+            priority = 10;
+            middlewares = [ "authentik@docker" ];
+          }) //
+          (dockerLib.mkTraefikLabels {
+            name = "${container_name}-hooks";
+            rule = "Host(`${container_name}.${config.custom.networking.domain}`) && PathPrefix(`/hooks/`)";
+            service = container_name;
+            priority = 15;
+          }) // {
             "wud.tag.exclude" = "^latest.*$";
             "wud.display.icon" = "si:nodered";
-
-            "traefik.http.routers.${container_name}.middlewares" = "authentik@docker";
           };
         };
 
@@ -127,11 +138,13 @@ in
             (storeFor "homeassistant/local" "/.local")
             "${config.age.secrets.ha_secrets.path}:/config/secrets.yaml"
           ];
-          labels = dockerLib.mkTraefikLabels { name = container_name; port = 80; } // {
+          labels = (dockerLib.mkTraefikLabels {
+            name = container_name;
+            port = 80;
+            middlewares = [ "authentik@docker" ];
+          }) // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
             "wud.display.icon" = "si:homeassistant";
-
-            "traefik.http.routers.${container_name}.middlewares" = "authentik@docker";
           };
           depends_on = [
             "mariadb"

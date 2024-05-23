@@ -1,12 +1,27 @@
-{ config, ... }: {
+{ config, lib, ... }: {
   config._module.args.dockerLib = {
-    mkTraefikLabels = { name, port, domain ? "${name}.${config.custom.networking.domain}" }: {
-      "traefik.enable" = "true";
-      "traefik.http.routers.${name}.rule" = "Host(`${domain}`)";
-      "traefik.http.routers.${name}.entrypoints" = "web";
-      "traefik.http.routers.${name}.service" = "${name}";
-      "traefik.http.services.${name}.loadBalancer.server.port" = "${builtins.toString port}";
-    };
+    mkTraefikLabels =
+      { name
+      , domain ? "${name}.${config.custom.networking.domain}"
+      , rule ? "Host(`${domain}`)"
+      , priority ? 0
+      , middlewares ? [ ]
+      , service ? null
+      , port ? null
+      }: {
+        "traefik.enable" = "true";
+        "traefik.http.routers.${name}.rule" = "${rule}";
+        "traefik.http.routers.${name}.entrypoints" = "web";
+        "traefik.http.routers.${name}.service" = name;
+        "traefik.http.routers.${name}.priority" = "${builtins.toString priority}";
+      } // lib.optionalAttrs (middlewares != [ ]) {
+        "traefik.http.routers.${name}.middlewares" = lib.concatStringsSep ", " middlewares;
+      } // (if (service == null) then {
+        "traefik.http.services.${name}.loadBalancer.server.port" = "${builtins.toString port}";
+        "traefik.http.routers.${name}.service" = name;
+      } else {
+        "traefik.http.routers.${name}.service" = service;
+      });
 
     mkTraefikMetricsLabels = { name, port, addPath ? null, domain ? "metrics.${config.custom.networking.domain}" }:
       let

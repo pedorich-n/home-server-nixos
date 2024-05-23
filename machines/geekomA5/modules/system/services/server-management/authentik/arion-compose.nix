@@ -15,6 +15,10 @@ let
   blueprints = pkgs.callPackage ./_render-blueprints.nix { inherit config; };
 
   authentikVersion = "2024.4.2";
+
+  staticIpAddresses = {
+    server = "172.31.0.240";
+  };
 in
 {
   virtualisation.arion.projects = {
@@ -69,18 +73,20 @@ in
           networks = {
             default = { };
             traefik = {
-              ipv4_address = "172.31.0.240";
+              ipv4_address = staticIpAddresses.server;
             };
           };
-          labels = dockerLib.mkTraefikLabels { name = "authentik"; port = 9000; } // {
-            "traefik.http.routers.authentik.priority" = "10";
-
-            "traefik.http.routers.authentik-outpost.rule" = "HostRegexp(`{subdomain:[a-z0-9-]+}.${config.custom.networking.domain}`) && PathPrefix(`/outpost.goauthentik.io/`)";
-            "traefik.http.routers.authentik-outpost.entrypoints" = "web";
-            "traefik.http.routers.authentik-outpost.service" = "authentik";
-            "traefik.http.routers.authentik-outpost.priority" = "15";
-
-            "traefik.http.middlewares.authentik.forwardauth.address" = "http://172.31.0.240:9000/outpost.goauthentik.io/auth/traefik";
+          labels = (dockerLib.mkTraefikLabels {
+            name = "authentik";
+            port = 9000;
+            priority = 10;
+          }) // (dockerLib.mkTraefikLabels {
+            name = "authentik-outpost";
+            rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.${config.custom.networking.domain}`) && PathPrefix(`/outpost.goauthentik.io/`)";
+            service = "authentik";
+            priority = 15;
+          }) // {
+            "traefik.http.middlewares.authentik.forwardauth.address" = "http://${staticIpAddresses.server}:9000/outpost.goauthentik.io/auth/traefik";
             "traefik.http.middlewares.authentik.forwardauth.trustForwardHeader" = "true";
             "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders" = "X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version";
           };
