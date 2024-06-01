@@ -1,10 +1,4 @@
-{ inputs, config, lib, pkgs, ... }: {
-
-  # TODO - remove this once https://github.com/NixOS/nixpkgs/pull/305803 makes it to stable
-  disabledModules = [ "virtualisation/podman/default.nix" ];
-
-  imports = [ "${inputs.nixpkgs-podman-module}/nixos/modules/virtualisation/podman/default.nix" ];
-
+{ config, lib, pkgs, ... }: {
   config = lib.mkMerge [
     {
       virtualisation.podman = {

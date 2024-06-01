@@ -35,9 +35,8 @@
       builtins.listToAttrs (builtins.map (mod: { name = getNameFor mod; value = mod; }) mods);
 
     mkConsoleAccessSymlink = name: {
-      # TODO: use ${lib.getExe' pkgs.sudo "sudo"} once in stable
       "console-access.sh" = pkgs.writeShellScript "minecraft-console-${name}" ''
-        ${pkgs.sudo}/bin/sudo -u minecraft ${lib.getExe pkgs.tmux} -S /run/minecraft/${name}.sock attach
+        ${lib.getExe pkgs.sudo} -u minecraft ${lib.getExe pkgs.tmux} -S /run/minecraft/${name}.sock attach
       '';
     };
   };
