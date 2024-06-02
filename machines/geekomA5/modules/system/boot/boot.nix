@@ -1,7 +1,9 @@
 { config, ... }:
 {
   boot = {
-    supportedFilesystems = [ "zfs" ];
+    supportedFilesystems = {
+      zfs = true;
+    };
 
     initrd = {
       # NOTE https://gist.github.com/CMCDragonkai/810f78ee29c8fce916d072875f7e1751

@@ -11,16 +11,17 @@ in
         type = "disk";
         device = "/dev/disk/by-id/ata-ST4000VN006-3CW104_WW63HA73"; # Bay 1
         content = {
-          type = "gpt";
-          partitions = {
-            zfs = {
-              size = "100%";
-              content = {
-                type = "zfs";
-                pool = "external";
-              };
-            };
-          };
+          type = "zfs";
+          pool = "external";
+        };
+      };
+
+      external_2 = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-ST4000VN006-3CW104_WW63M8ER"; # Bay 2
+        content = {
+          type = "zfs";
+          pool = "external";
         };
       };
     };
