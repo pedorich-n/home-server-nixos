@@ -85,6 +85,10 @@ in
             name = container_name;
             port = 8080;
             middlewares = [ "authentik@docker" ];
+          }) // (dockerLib.mkHomepageLabels {
+            name = "Zigbee2MQTT";
+            group = "Home Automation";
+            weight = 50;
           }) // {
             "wud.display.icon" = "si:zigbee";
           };
@@ -114,6 +118,11 @@ in
             rule = "Host(`${container_name}.${config.custom.networking.domain}`) && PathPrefix(`/hooks/`)";
             service = container_name;
             priority = 15;
+          }) // (dockerLib.mkHomepageLabels {
+            name = "Node Red";
+            group = "Home Automation";
+            icon-slug = "node-red";
+            weight = 30;
           }) // {
             "wud.tag.exclude" = "^latest.*$";
             "wud.display.icon" = "si:nodered";
@@ -142,6 +151,11 @@ in
             name = container_name;
             port = 80;
             middlewares = [ "authentik@docker" ];
+          }) // (dockerLib.mkHomepageLabels {
+            name = "Home Assistant";
+            group = "Home Automation";
+            icon-slug = "home-assistant";
+            weight = 0;
           }) // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
             "wud.display.icon" = "si:homeassistant";

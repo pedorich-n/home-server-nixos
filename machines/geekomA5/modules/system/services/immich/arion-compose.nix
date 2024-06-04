@@ -94,8 +94,13 @@ in
           volumes = immichVolumes;
           labels =
             (dockerLib.mkTraefikLabels { name = "immich"; port = 3001; }) //
-            (dockerLib.mkTraefikMetricsLabels { name = "immich"; port = 8081; addPath = "/metrics"; })
-            // {
+            (dockerLib.mkTraefikMetricsLabels { name = "immich"; port = 8081; addPath = "/metrics"; }) //
+            (dockerLib.mkHomepageLabels {
+              name = "Immich";
+              group = "Services";
+              icon-slug = "immich";
+              weight = 0;
+            }) // {
               "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
               "wud.display.icon" = "si:immich";
             };

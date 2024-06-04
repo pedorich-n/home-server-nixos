@@ -58,7 +58,12 @@ in
           networks = [ "traefik" ];
           # user = userSetting;
           restart = "unless-stopped";
-          labels = dockerLib.mkTraefikLabels { name = container_name; port = 9000; } // {
+          labels = dockerLib.mkTraefikLabels { name = container_name; port = 9000; } //
+            (dockerLib.mkHomepageLabels {
+              name = "Portainer";
+              group = "Server";
+              weight = 10;
+            }) // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?-alpine$'';
             "wud.display.icon" = "si:portainer";
           };
@@ -84,7 +89,13 @@ in
             "/run/podman/podman.sock:/var/run/docker.sock:ro"
             (storeFor "whatsupdocker" "/store")
           ];
-          labels = dockerLib.mkTraefikLabels { name = container_name; port = 3000; } // {
+          labels = dockerLib.mkTraefikLabels { name = container_name; port = 3000; } //
+            (dockerLib.mkHomepageLabels {
+              name = "WhatsUpDocker";
+              group = "Server";
+              icon-slug = "whats-up-docker";
+              weight = 20;
+            }) // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
           };
         };

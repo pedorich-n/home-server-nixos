@@ -21,7 +21,7 @@ in
       services = {
         "multi-scrobbler".service = rec {
           image = "foxxmd/multi-scrobbler:0.7.1";
-          container_name = "multi-scrobbler";
+          container_name = "multiscrobbler";
           networks = [
             "default"
             "traefik"
@@ -37,7 +37,13 @@ in
             "${config.age.secrets.multi_scrobbler_maloja.path}:/config/maloja.json"
           ];
           restart = "unless-stopped";
-          labels = (dockerLib.mkTraefikLabels { name = container_name; port = 9078; }) // {
+          labels = (dockerLib.mkTraefikLabels { name = container_name; port = 9078; }) //
+            (dockerLib.mkHomepageLabels {
+              name = "Multi Scrobbler";
+              group = "Services";
+              icon-slug = "multi-scrobbler";
+              weight = 40;
+            }) // {
             "wud.tag.include" = ''^\d+\.\d+\.\d+'';
           };
         };
@@ -64,7 +70,12 @@ in
             "${config.age.secrets.maloja_apikeys.path}:/data/apikeys.yml"
           ];
           restart = "unless-stopped";
-          labels = (dockerLib.mkTraefikLabels { name = container_name; port = 42010; }) // {
+          labels = (dockerLib.mkTraefikLabels { name = container_name; port = 42010; }) //
+            (dockerLib.mkHomepageLabels {
+              name = "Maloja";
+              group = "Services";
+              weight = 30;
+            }) // {
             "wud.tag.include" = ''^\d+\.\d+\.\d+'';
           };
         };
