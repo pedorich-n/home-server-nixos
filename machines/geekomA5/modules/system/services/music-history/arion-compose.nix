@@ -60,7 +60,6 @@ in
           volumes = [
             (storeFor "maloja/data" "/data")
             "${config.age.secrets.maloja_apikeys.path}:/data/apikeys.yml"
-            # (storeFor "multi-scrobbler/config" "/config")
           ];
           restart = "unless-stopped";
           labels = (dockerLib.mkTraefikLabels { name = container_name; port = 42010; }) // {

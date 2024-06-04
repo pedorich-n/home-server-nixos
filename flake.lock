@@ -311,16 +311,15 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1717499726,
+        "lastModified": 1717511920,
         "narHash": "sha256-TXRnXUCPH323skE9LhxehKTXtxgbSey8luZHg4B+Rxc=",
-        "ref": "music-history",
-        "rev": "39f430fb1b4a2fe51dcef7fb8dded0b89639809e",
-        "revCount": 71,
+        "ref": "refs/heads/main",
+        "rev": "f7676efdbda17bd3353130efec3f241758cc4421",
+        "revCount": 68,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
       "original": {
-        "ref": "music-history",
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }
