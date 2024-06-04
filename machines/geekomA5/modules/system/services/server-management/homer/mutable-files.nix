@@ -1,7 +1,7 @@
 { inputs, config, lib, pkgs, ... }:
 let
   entryFor = source: target: {
-    name = "/mnt/store/home-automation/homer/${target}";
+    name = "/mnt/store/server-management/homer/${target}";
     value = {
       inherit source;
       user = config.users.users.user.name;
