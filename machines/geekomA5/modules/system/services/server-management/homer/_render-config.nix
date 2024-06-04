@@ -11,6 +11,7 @@ pkgs.stdenvNoCC.mkDerivation {
   passAsFile = [ "varsData" ];
   varsData = builtins.toJSON {
     inherit (config.custom.networking) domain;
+    logo_base = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png";
   };
 
   nativeBuildInputs = with pkgs; [ jinja2-cli ];
