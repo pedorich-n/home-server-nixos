@@ -59,6 +59,7 @@
         "homepage.href" = href;
         "homepage.icon" = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/${icon-slug}.png";
         "homepage.weight" = "${builtins.toString weight}";
+        "homepage.id" = "service";
       };
 
     mkDefaultNetwork = composeName: {
