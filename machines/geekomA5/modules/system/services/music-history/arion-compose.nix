@@ -55,10 +55,12 @@ in
             MALOJA_SCROBBLE_LASTFM = "false";
 
             MALOJA_DATA_DIRECTORY = "/data";
+            MALOJA_TIMEZONE = "9";
           };
           env_file = [ config.age.secrets.music_history_compose.path ];
           volumes = [
             (storeFor "maloja/data" "/data")
+            "${./maloja/rules}:/data/rules"
             "${config.age.secrets.maloja_apikeys.path}:/data/apikeys.yml"
           ];
           restart = "unless-stopped";
