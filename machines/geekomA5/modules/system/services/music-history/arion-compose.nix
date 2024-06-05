@@ -19,8 +19,8 @@ in
       networks = (dockerLib.mkDefaultNetwork "music-history") // dockerLib.externalTraefikNetwork;
 
       services = {
-        "multi-scrobbler".service = rec {
-          image = "foxxmd/multi-scrobbler:0.7.1";
+        multiscrobbler.service = rec {
+          image = "foxxmd/multi-scrobbler@sha256:e52865983c3c105984dd588361bf3a1009eb0fc87cd53b60b7f6fc7b9857e092";
           container_name = "multiscrobbler";
           networks = [
             "default"
@@ -29,7 +29,7 @@ in
           environment = {
             TZ = config.time.timeZone;
 
-            BASE_URL = "http://multi-scrobbler.${config.custom.networking.domain}:80";
+            BASE_URL = "http://${container_name}.${config.custom.networking.domain}:80";
           };
           volumes = [
             (storeFor "multi-scrobbler/config" "/config")
