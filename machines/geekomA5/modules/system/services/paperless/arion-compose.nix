@@ -81,7 +81,11 @@ in
           ];
           labels =
             (dockerLib.mkTraefikLabels { name = "paperless"; port = 8000; }) //
-            {
+            (dockerLib.mkHomepageLabels {
+              name = "Paperless";
+              group = "Services";
+              weight = 10;
+            }) // {
               "wud.tag.include" = ''^\d+\.\d+\.\d+'';
               "wud.display.icon" = "si:paperlessngx";
             };

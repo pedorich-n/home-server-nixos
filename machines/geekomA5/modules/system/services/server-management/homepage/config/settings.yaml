@@ -1,0 +1,27 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/settings
+
+headerStyle: clean
+
+title: Home-Server
+background:
+  image: "/images/wallpaper.jpeg"
+  blur: sm
+
+target: _blank
+hideVersion: true
+
+iconStyle: theme
+theme: dark
+
+layout:
+  Home Automation:
+    icon: mdi-home-automation
+    style: column
+  Services:
+    icon: mdi-monitor-cellphone
+    style: column
+  Server:
+    icon: mdi-server
+    style: column

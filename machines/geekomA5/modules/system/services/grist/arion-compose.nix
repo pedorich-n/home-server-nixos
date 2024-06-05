@@ -35,7 +35,11 @@ in
           ];
           labels =
             (dockerLib.mkTraefikLabels { name = container_name; port = 8484; }) //
-            {
+            (dockerLib.mkHomepageLabels {
+              name = "Grist";
+              group = "Services";
+              weight = 20;
+            }) // {
               "wud.tag.include" = ''^\d+\.\d+\.\d+'';
             };
         };

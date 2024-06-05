@@ -1,0 +1,13 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+
+- Server:
+    - Netdata:
+        icon: "{{ logo_base }}/netdata.png"
+        href: "http://netdata.{{ domain }}/"
+        weight: 0
+    - Traefik:
+        icon: "{{ logo_base }}/traefik.png"
+        href: "http://traefik.{{ domain }}/"
+        weight: 100

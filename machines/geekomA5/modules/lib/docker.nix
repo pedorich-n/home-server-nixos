@@ -44,6 +44,24 @@
         "traefik.http.routers.${entityName}.middlewares" = "${stripPrefixMiddlewareName}";
       });
 
+    mkHomepageLabels =
+      { name
+      , group
+      , slug ? lib.toLower name
+      , url-slug ? lib.replaceStrings [ "-" " " ] [ "" "" ] slug
+      , href ? "http://${url-slug}.${config.custom.networking.domain}"
+      , icon-slug ? slug
+      , weight ? 0
+      }:
+      {
+        "homepage.name" = name;
+        "homepage.group" = group;
+        "homepage.href" = href;
+        "homepage.icon" = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/${icon-slug}.png";
+        "homepage.weight" = "${builtins.toString weight}";
+        "homepage.id" = "service";
+      };
+
     mkDefaultNetwork = composeName: {
       default = {
         name = "internal-${composeName}";

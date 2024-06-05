@@ -2,7 +2,7 @@
 let
   storeFor = localPath: remotePath: "/mnt/store/server-management/${localPath}:${remotePath}";
 
-  userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
+  # userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
 in
 {
 
@@ -19,24 +19,46 @@ in
       networks = dockerLib.externalTraefikNetwork;
 
       services = {
-        homer.service = rec {
-          image = "b4bz/homer:v24.04.1";
-          container_name = "homer";
+        # homer.service = rec {
+        #   image = "b4bz/homer:v24.04.1";
+        #   container_name = "homer";
+        #   networks = [ "traefik" ];
+        #   restart = "unless-stopped";
+        #   healthcheck.test = [ "NONE" ];
+        #   user = userSetting;
+        #   environment = {
+        #     INIT_ASSETS = "1";
+        #     PORT = "8080";
+        #   };
+        #   volumes = [
+        #     # configuration file is managed by environment.mutable-files
+        #     (storeFor "homer" "/www/assets")
+        #   ];
+        #   labels = (dockerLib.mkTraefikLabels {
+        #     name = container_name;
+        #     port = 8080;
+        #     domain = config.custom.networking.domain;
+        #   }) // {
+        #     "wud.tag.exclude" = "^latest.*$";
+        #   };
+        # };
+
+        homepage.service = rec {
+          image = "ghcr.io/gethomepage/homepage:v0.9.1";
+          container_name = "homepage";
           networks = [ "traefik" ];
           restart = "unless-stopped";
-          healthcheck.test = [ "NONE" ];
-          user = userSetting;
-          environment = {
-            INIT_ASSETS = "1";
-            PORT = "8080";
-          };
+          # user = userSetting;
           volumes = [
-            # configuration file is managed by environment.mutable-files
-            (storeFor "homer" "/www/assets")
+            # Managed by environment.mutable-files
+            (storeFor "homepage/config" "/app/config")
+            (storeFor "homepage/images" "/app/public/images")
+
+            "/run/podman/podman.sock:/var/run/docker.sock:ro"
           ];
           labels = (dockerLib.mkTraefikLabels {
             name = container_name;
-            port = 8080;
+            port = 3000;
             domain = config.custom.networking.domain;
           }) // {
             "wud.tag.exclude" = "^latest.*$";
@@ -58,7 +80,12 @@ in
           networks = [ "traefik" ];
           # user = userSetting;
           restart = "unless-stopped";
-          labels = dockerLib.mkTraefikLabels { name = container_name; port = 9000; } // {
+          labels = dockerLib.mkTraefikLabels { name = container_name; port = 9000; } //
+            (dockerLib.mkHomepageLabels {
+              name = "Portainer";
+              group = "Server";
+              weight = 10;
+            }) // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?-alpine$'';
             "wud.display.icon" = "si:portainer";
           };
@@ -84,7 +111,13 @@ in
             "/run/podman/podman.sock:/var/run/docker.sock:ro"
             (storeFor "whatsupdocker" "/store")
           ];
-          labels = dockerLib.mkTraefikLabels { name = container_name; port = 3000; } // {
+          labels = dockerLib.mkTraefikLabels { name = container_name; port = 3000; } //
+            (dockerLib.mkHomepageLabels {
+              name = "WhatsUpDocker";
+              group = "Server";
+              icon-slug = "whats-up-docker";
+              weight = 20;
+            }) // {
             "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
           };
         };
