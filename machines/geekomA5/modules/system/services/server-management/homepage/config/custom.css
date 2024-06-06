@@ -1,12 +1,19 @@
+/* Basically I tried to recreate https://github.com/walkxcode/homer-theme/ */
+
 .service-name {
   font-size: 1.4rem !important;
   margin: 0.5rem !important;
-  font-weight: bold !important;
+  font-weight: 700 !important;
 }
 
 .service-group-name {
   font-size: 1.75rem !important;
-  font-weight: bold !important;
+  font-weight: 800 !important;
+}
+
+.theme-slate {
+  --color-200: 250 250 250 !important;
+  --color-300: 255 250 250 !important;
 }
 
 .service-group-icon {
@@ -21,6 +28,7 @@
 
 .service-card {
   padding: 1.2rem !important;
+  /* top, bottom | left, right */
   margin: 0.5rem 0.3rem !important;
   border-radius: 1rem !important;
   /* prettier-ignore */
@@ -34,4 +42,9 @@
   transform: translateY(-3px); /* Move the card up on hover */
   /* prettier-ignore */
   background-color: rgba(18, 21, 43, 0.9) !important;
+}
+
+/* Hide refresh button */
+#footer #revalidate {
+  display: none !important;
 }

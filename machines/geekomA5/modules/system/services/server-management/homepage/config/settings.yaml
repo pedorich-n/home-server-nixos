@@ -12,6 +12,7 @@ background:
 target: _blank
 hideVersion: true
 
+color: slate
 iconStyle: theme
 theme: dark
 
