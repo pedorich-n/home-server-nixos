@@ -442,22 +442,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-podman-module": {
-      "locked": {
-        "lastModified": 1714146291,
-        "narHash": "sha256-jVsJcwiKtjDqrqaOfm/qkA7GOO0UcPyeDWKD37y/oYk=",
-        "owner": "hercules-ci",
-        "repo": "nixpkgs",
-        "rev": "151d8edbf3b89caeea4a70cf4193ce5dcf493e81",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "ref": "podman-real-docker-socket",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1716948383,
@@ -595,7 +579,6 @@
         "nixos-mutable-files-manager": "nixos-mutable-files-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-netdata-45": "nixpkgs-netdata-45",
-        "nixpkgs-podman-module": "nixpkgs-podman-module",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "playit-nixos-module": "playit-nixos-module",
         "poetry2nix": "poetry2nix",

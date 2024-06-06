@@ -13,7 +13,7 @@ let
 in
 {
   environment.mutable-files = builtins.listToAttrs [
-    (entryFor "${inputs.homer-theme}/assets/wallpaper.jpeg" "images/wallpaper.jpeg")
+    (entryFor "${inputs.homer-theme}/assets/wallpaper-light.jpeg" "images/wallpaper.jpeg")
     (entryFor renderedConfig "config")
   ];
 }
