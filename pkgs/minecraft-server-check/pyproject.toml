@@ -7,11 +7,11 @@ packages = [{ include = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-pystemd = "^0.13.2"
-mcstatus = "^11.1.1"
-dacite = "^1.8.1"
-tenacity = "^8.2.3"
-schedule = "^1.2.1"
+pystemd = "^0.13"
+mcstatus = "^11.1"
+dacite = "^1.8"
+tenacity = "^8.3"
+schedule = "^1.2"
 
 [tool.poetry.scripts]
 minecraft-server-check = "src.main:main"

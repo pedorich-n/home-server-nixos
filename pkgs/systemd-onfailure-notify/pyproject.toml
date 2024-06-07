@@ -7,7 +7,7 @@ packages = [{ include = "systemd_onfailure_notify", from = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-apprise = "^1.7.4"
+apprise = "^1.8"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.4"
