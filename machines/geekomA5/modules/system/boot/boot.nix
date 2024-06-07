@@ -21,7 +21,7 @@
       "amdgpu" # AMD GPU 
       "kvm-amd" # KVM on AMD Cpus
       "zenpower" # AMD ZEN Family CPUs current, voltage, power monitoring
-      "amd-pstate" # AMD CPU performance scaling driver
+      # "amd-pstate" # AMD CPU performance scaling driver
       "zfs" # ZFS support
     ];
 
@@ -34,7 +34,8 @@
       # 8GB
       # NOTE https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/Module%20Parameters.html#zfs-arc-max
       "zfs.zfs_arc_max=${builtins.toString (1024 * 1024 * 1024 * 8)}"
-      "amd_pstate=active"
+      # The new AMD power manager yields higher idle power consumption for me, so I'm going to disable it
+      "amd_pstate=passive"
     ];
 
     loader.systemd-boot.enable = true;
