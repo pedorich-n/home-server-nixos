@@ -1,4 +1,4 @@
-{ config, dockerLib, ... }:
+{ config, dockerLib, authentikLib, ... }:
 let
   storeFor = localPath: remotePath: "/mnt/store/grist/${localPath}:${remotePath}";
 
@@ -25,8 +25,8 @@ in
             GRIST_SUPPORT_ANON = "false";
 
             GRIST_OIDC_SP_HOST = "${APP_HOME_URL}";
-            GRIST_OIDC_IDP_ISSUER = "http://authentik.${config.custom.networking.domain}/application/o/grist/.well-known/openid-configuration";
-            GRIST_OIDC_IDP_SCOPES = "openid profile email";
+            GRIST_OIDC_IDP_ISSUER = authentikLib.mkIssuerUrl "grist";
+            GRIST_OIDC_IDP_SCOPES = authentikLib.openIdScopes;
           };
           env_file = [ config.age.secrets.grist_compose.path ];
           restart = "unless-stopped";
