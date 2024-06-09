@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, authentikLib, ... }:
 let
   cfg = config.custom.services.immich;
 in
@@ -35,7 +35,7 @@ in
           name = "immich-render-config";
           runtimeInputs = [ pkgs.jinja2-cli ];
           text = ''
-            jinja2 -D domain="${config.custom.networking.domain}" \
+            jinja2 -D issuer="${authentikLib.mkIssuerUrl "immich"}" \
               --format=json \
               "${./config.json}" \
               "${config.age.secrets.immich_secrets.path}" \

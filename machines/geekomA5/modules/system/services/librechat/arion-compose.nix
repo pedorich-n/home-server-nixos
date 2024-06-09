@@ -1,4 +1,4 @@
-{ config, dockerLib, ... }:
+{ config, dockerLib, authentikLib, ... }:
 let
   storeFor = localPath: remotePath: "/mnt/store/librechat/${localPath}:${remotePath}";
   userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
@@ -6,6 +6,8 @@ let
   envs = {
     POSTGRES_DB = "rag";
     POSTGRES_USER = "rag";
+
+    RAG_PORT = "8080";
   };
 in
 {
@@ -36,7 +38,6 @@ in
           environment = {
             VECTOR_DB_TYPE = "pgvector";
             DB_HOST = "vectordb";
-            RAG_PORT = "8000";
             COLLECTION_NAME = "librechat";
             EMBEDDINGS_PROVIDER = "openai";
           } // envs;
@@ -68,28 +69,23 @@ in
           user = userSetting;
           environment = rec {
             MONGO_URI = "mongodb://mongodb:27017/LibreChat";
-            RAG_PORT = "8000";
-            RAG_API_URL = "http://rag:${RAG_PORT}";
+            RAG_API_URL = "http://rag:${envs.RAG_PORT}";
 
             # DEBUG_LOGGING = "true";
             SEARCH = "false";
 
-            ALLOW_EMAIL_LOGIN = "true";
-            ALLOW_REGISTRATION = "true";
+            ALLOW_EMAIL_LOGIN = "false";
+            ALLOW_REGISTRATION = "false";
+
             ALLOW_SOCIAL_LOGIN = "true";
             ALLOW_SOCIAL_REGISTRATION = "true";
-            OPENID_ISSUER = "http://authentik.${config.custom.networking.domain}/application/o/librechat/.well-known/openid-configuration";
-            OPENID_SCOPE = "openid profile email";
+            OPENID_ISSUER = authentikLib.mkIssuerUrl "librechat";
+            OPENID_SCOPE = authentikLib.openIdScopes;
             OPENID_CALLBACK_URL = "/oauth/openid/callback";
             DOMAIN_SERVER = "http://chat.${config.custom.networking.domain}";
             DOMAIN_CLIENT = DOMAIN_SERVER;
-          };
+          } // envs;
           env_file = [ config.age.secrets.librechat_compose.path ];
-          extra_hosts = [
-            #NOTE - there's a bug with musl or C libs or something in this base image. 
-            # `dig` resolves the local domain, but `curl` fails, and the call to OIDC discovery fails too.  Providing hard-coded host seems to help.
-            "authentik.${config.custom.networking.domain}:192.168.15.15"
-          ];
           volumes = [
             (storeFor "chat/images" "/app/client/public/images")
             (storeFor "chat/logs" "/app/api/logs")
@@ -109,7 +105,7 @@ in
             icon = "https://raw.githubusercontent.com/danny-avila/LibreChat/92232afacab63a76d1b11d56921f77723a2cf90d/client/public/assets/logo.svg";
             weight = 30;
           });
-        };
+        } // dockerLib.alpineHostsFix;
       };
     };
   };
