@@ -51,13 +51,14 @@
       , url-slug ? lib.replaceStrings [ "-" " " ] [ "" "" ] slug
       , href ? "http://${url-slug}.${config.custom.networking.domain}"
       , icon-slug ? slug
+      , icon ? "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/${icon-slug}.png"
       , weight ? 0
       }:
       {
         "homepage.name" = name;
         "homepage.group" = group;
         "homepage.href" = href;
-        "homepage.icon" = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/${icon-slug}.png";
+        "homepage.icon" = icon;
         "homepage.weight" = "${builtins.toString weight}";
         "homepage.id" = "service";
       };

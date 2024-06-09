@@ -42,7 +42,7 @@ in
               name = "Multi Scrobbler";
               group = "Services";
               icon-slug = "multi-scrobbler";
-              weight = 40;
+              weight = 90;
             }) // {
             "wud.tag.include" = ''^\d+\.\d+\.\d+'';
           };
@@ -74,7 +74,7 @@ in
             (dockerLib.mkHomepageLabels {
               name = "Maloja";
               group = "Services";
-              weight = 30;
+              weight = 100;
             }) // {
             "wud.tag.include" = ''^\d+\.\d+\.\d+'';
           };

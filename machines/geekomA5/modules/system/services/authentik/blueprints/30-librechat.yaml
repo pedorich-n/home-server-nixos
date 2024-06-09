@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://version-2024-2.goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: librechat
+  labels:
+    blueprints.goauthentik.io/description: "Setup LibreChat OAuth Provider & Application"
+entries:
+  - model: authentik_providers_oauth2.oauth2provider
+    id: provider
+    state: present
+    identifiers:
+      name: LibreChat
+    attrs:
+      {{ defaultOauthAttrs | indent(6, False) }}
+      client_id: !Env LIBRECHAT_OAUTH_CLIENT_ID
+      client_secret: !Env LIBRECHAT_OAUTH_CLIENT_SECRET
+      redirect_uris: |
+        http://chat.{{ domain }}/oauth/openid/callback
+
+  - model: authentik_core.application
+    state: present
+    identifiers:
+      name: LibreChat
+      slug: librechat
+    attrs:
+      provider: !KeyOf provider
+      open_in_new_tab: true
+      icon: https://raw.githubusercontent.com/danny-avila/LibreChat/92232afacab63a76d1b11d56921f77723a2cf90d/client/public/assets/logo.svg
+      {{ groups.services | indent(6, False) }}
