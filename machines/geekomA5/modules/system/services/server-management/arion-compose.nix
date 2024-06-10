@@ -19,30 +19,6 @@ in
       networks = dockerLib.externalTraefikNetwork;
 
       services = {
-        # homer.service = rec {
-        #   image = "b4bz/homer:v24.04.1";
-        #   container_name = "homer";
-        #   networks = [ "traefik" ];
-        #   restart = "unless-stopped";
-        #   healthcheck.test = [ "NONE" ];
-        #   user = userSetting;
-        #   environment = {
-        #     INIT_ASSETS = "1";
-        #     PORT = "8080";
-        #   };
-        #   volumes = [
-        #     # configuration file is managed by environment.mutable-files
-        #     (storeFor "homer" "/www/assets")
-        #   ];
-        #   labels = (dockerLib.mkTraefikLabels {
-        #     name = container_name;
-        #     port = 8080;
-        #     domain = config.custom.networking.domain;
-        #   }) // {
-        #     "wud.tag.exclude" = "^latest.*$";
-        #   };
-        # };
-
         homepage.service = rec {
           image = "ghcr.io/gethomepage/homepage:v0.9.1";
           container_name = "homepage";
