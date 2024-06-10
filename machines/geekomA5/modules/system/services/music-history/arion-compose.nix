@@ -37,13 +37,17 @@ in
             "${config.age.secrets.multi_scrobbler_maloja.path}:/config/maloja.json"
           ];
           restart = "unless-stopped";
-          labels = (dockerLib.mkTraefikLabels { name = container_name; port = 9078; }) //
-            (dockerLib.mkHomepageLabels {
-              name = "Multi Scrobbler";
-              group = "Services";
-              icon-slug = "multi-scrobbler";
-              weight = 90;
-            }) // {
+          labels = (dockerLib.mkTraefikLabels {
+            name = container_name;
+            port = 9078;
+            middlewares = [ "authentik@docker" ];
+          }) //
+          (dockerLib.mkHomepageLabels {
+            name = "Multi Scrobbler";
+            group = "Services";
+            icon-slug = "multi-scrobbler";
+            weight = 90;
+          }) // {
             "wud.tag.include" = ''^\d+\.\d+\.\d+'';
           };
         };
@@ -70,12 +74,16 @@ in
             "${config.age.secrets.maloja_apikeys.path}:/data/apikeys.yml"
           ];
           restart = "unless-stopped";
-          labels = (dockerLib.mkTraefikLabels { name = container_name; port = 42010; }) //
-            (dockerLib.mkHomepageLabels {
-              name = "Maloja";
-              group = "Services";
-              weight = 100;
-            }) // {
+          labels = (dockerLib.mkTraefikLabels {
+            name = container_name;
+            port = 42010;
+            middlewares = [ "authentik@docker" ];
+          }) //
+          (dockerLib.mkHomepageLabels {
+            name = "Maloja";
+            group = "Services";
+            weight = 100;
+          }) // {
             "wud.tag.include" = ''^\d+\.\d+\.\d+'';
           };
         };

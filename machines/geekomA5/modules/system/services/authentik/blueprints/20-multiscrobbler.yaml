@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://version-2024-2.goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: multiscrobbler
+  labels:
+    blueprints.goauthentik.io/description: "Setup MultiScrobbler Proxy Provider & Application"
+entries:
+  - model: authentik_providers_proxy.proxyprovider
+    id: provider
+    state: present
+    identifiers:
+      name: MultiScrobbler
+    attrs:
+      {{ defaultProxyAttrs | indent(6, False) }}
+      external_host: http://multiscrobbler.{{ domain }}
+
+  - model: authentik_core.application
+    id: application
+    state: present
+    identifiers:
+      name: MultiScrobbler
+      slug: multiscrobbler
+    attrs:
+      provider: !KeyOf provider
+      open_in_new_tab: true
+      icon: {{ iconsProvider }}/multi-scrobbler.png
+      {{ groups.services | indent(6, False) }}

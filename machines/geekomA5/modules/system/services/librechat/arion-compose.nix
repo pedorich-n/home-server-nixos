@@ -29,6 +29,9 @@ in
           environment = envs;
           env_file = [ config.age.secrets.librechat_compose.path ];
           restart = "unless-stopped";
+          labels = {
+            "wud.tag.include" = ''^v\d+\.\d+\.\d+'';
+          };
         };
 
         rag.service = {
@@ -54,6 +57,9 @@ in
             (storeFor "mongodb" "/data/db")
           ];
           restart = "unless-stopped";
+          labels = {
+            "wud.tag.include" = ''^\d+\.\d+\.\d+'';
+          };
         };
 
         librechat.service = {
