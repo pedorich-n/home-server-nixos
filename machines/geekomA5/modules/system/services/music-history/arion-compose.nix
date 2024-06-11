@@ -30,6 +30,8 @@ in
             TZ = config.time.timeZone;
 
             BASE_URL = "http://${container_name}.${config.custom.networking.domain}:80";
+
+            LOG_LEVEL = "debug";
           };
           volumes = [
             (storeFor "multi-scrobbler/config" "/config")
