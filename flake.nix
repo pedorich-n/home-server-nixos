@@ -124,7 +124,8 @@
     };
 
     fabric-modpack = {
-      url = "github:pedorich-n/FabricModpack";
+      # url = "github:pedorich-n/FabricModpack";
+      url = "git+file:///home/pedorich_n/Projects/FabricModpack?ref=MoneyGuys5-Revival";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         systems.follows = "systems";

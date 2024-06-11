@@ -27,10 +27,12 @@
 
     mkPluginSymlinks = with lib.attrsets; attrs: mapAttrs' (name: value: nameValuePair "plugins/${name}.jar" value) attrs;
 
-    mkPackwizSymlinks = pkg:
+    mkPackwizSymlinks = { pkg, folder ? "" }:
       let
+        predicate = path: path != null && (lib.hasPrefix folder path);
+
         manifest = lib.importJSON "${pkg}/packwiz.json";
-        cachedLocations = builtins.filter (relPath: relPath != null) (builtins.map (entry: entry.cachedLocation or null) (builtins.attrValues manifest.cachedFiles));
+        cachedLocations = builtins.filter predicate (builtins.map (entry: entry.cachedLocation or null) (builtins.attrValues manifest.cachedFiles));
         files = lib.genAttrs cachedLocations (relPath: "${pkg}/${relPath}");
       in
       files;

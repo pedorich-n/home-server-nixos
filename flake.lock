@@ -162,17 +162,18 @@
         ]
       },
       "locked": {
-        "lastModified": 1717240405,
-        "narHash": "sha256-RPkgfiwRuRcU3Qc2Cah7WTEjiGJU/IG6cIi/HaEZla8=",
-        "owner": "pedorich-n",
-        "repo": "FabricModpack",
-        "rev": "adccc2c209899671c86dd36aa46df6088523b2ed",
-        "type": "github"
+        "lastModified": 1718119693,
+        "narHash": "sha256-SsZ3QcVr8VmUpj+P3qbZOsAVr8qwWOER0+nIPL8dkbg=",
+        "ref": "MoneyGuys5-Revival",
+        "rev": "1094f89773f0e439a357bf6d0ce1f6cd738f49e6",
+        "revCount": 60,
+        "type": "git",
+        "url": "file:///home/pedorich_n/Projects/FabricModpack"
       },
       "original": {
-        "owner": "pedorich-n",
-        "repo": "FabricModpack",
-        "type": "github"
+        "ref": "MoneyGuys5-Revival",
+        "type": "git",
+        "url": "file:///home/pedorich_n/Projects/FabricModpack"
       }
     },
     "flake-compat": {
