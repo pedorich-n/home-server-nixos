@@ -1,7 +1,7 @@
 { lib, pkgs, ... }: {
   _module.args.minecraftLib = {
     # https://docs.papermc.io/paper/aikars-flags
-    aikarFlagsWith = memory: builtins.concatStringsSep " " [
+    aikarFlagsWith = { memory }: builtins.concatStringsSep " " [
       "-Xms${memory}"
       "-Xmx${memory}"
       "-XX:+UseG1GC"
@@ -27,12 +27,13 @@
 
     mkPluginSymlinks = with lib.attrsets; attrs: mapAttrs' (name: value: nameValuePair "plugins/${name}.jar" value) attrs;
 
-    mkPackwizModsSymlinks = pkg:
+    mkPackwizSymlinks = pkg:
       let
-        getNameFor = path: with lib.strings; unsafeDiscardStringContext (removePrefix "${pkg}/" path);
-        mods = lib.filesystem.listFilesRecursive "${pkg}/mods";
+        manifest = lib.importJSON "${pkg}/packwiz.json";
+        cachedLocations = builtins.filter (relPath: relPath != null) (builtins.map (entry: entry.cachedLocation or null) (builtins.attrValues manifest.cachedFiles));
+        files = lib.genAttrs cachedLocations (relPath: "${pkg}/${relPath}");
       in
-      builtins.listToAttrs (builtins.map (mod: { name = getNameFor mod; value = mod; }) mods);
+      files;
 
     mkConsoleAccessSymlink = name: {
       "console-access.sh" = pkgs.writeShellScript "minecraft-console-${name}" ''

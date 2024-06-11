@@ -12,13 +12,13 @@ in
   services = {
     minecraft-servers.servers = {
       ${serverName} = {
-        enable = true;
+        enable = false;
         autoStart = true;
         openFirewall = true;
 
         package = pkgs.fabricServers.fabric-1_20_1;
         serverProperties = {
-          server-port = config.custom.networking.ports.tcp."minecraft-${serverName}-game".port;
+          # server-port = config.custom.networking.ports.tcp."minecraft-${serverName}-game".port;
           difficulty = 2;
           level-name = "the_best_1";
           motd = "NixOS Managed Server. Humans are not allowed.";
@@ -28,18 +28,18 @@ in
           max-world-size = 8000; # Value is a radius, so the world size is 16000x16000
           spawn-protection = 0;
         };
-        jvmOpts = minecraftLib.aikarFlagsWith "5120M";
+        jvmOpts = minecraftLib.aikarFlagsWith { memory = "5120M"; };
 
         symlinks = {
           "server-icon.png" = ./icon.png;
         } // (minecraftLib.mkConsoleAccessSymlink serverName)
-        // (minecraftLib.mkPackwizModsSymlinks inputs.fabric-modpack.packages.${system}.packwiz-server);
+        // (minecraftLib.mkPackwizSymlinks inputs.fabric-modpack.packages.${system}.packwiz-server);
       };
     };
 
     # NOTE Should be the same as labels produced by
     # LINK machines/geekomA5/modules/lib/docker.nix:11
-    traefik.dynamicConfigOptions.http = {
+    traefik.dynamicConfigOptions.http = lib.mkIf config.services.minecraft-servers.servers.${serverName}.enable {
       routers.metrics-minecraft = {
         entryPoints = [ "metrics" ];
         rule = "Host(`metrics.${config.custom.networking.domain}`) && Path(`/minecraft`)";
