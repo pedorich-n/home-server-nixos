@@ -1,4 +1,4 @@
-{ pkgs, forge, ... }:
+{ lib, pkgs, forge, ... }:
 pkgs.stdenvNoCC.mkDerivation {
   pname = "minecraft-server";
   version = "forge-${forge.version}";
@@ -6,24 +6,24 @@ pkgs.stdenvNoCC.mkDerivation {
 
   dontUnpack = true;
   dontConfigure = true;
+  dontBuild = true;
 
-  # TODO: don't place the file in /bin
-  buildPhase = ''
-    mkdir -p $out/bin
-
-    cp "${forge}/libraries/net/minecraftforge/forge/${forge.version}/unix_args.txt" "$out/bin/unix_args.txt"
-  '';
+  buildInputs = [ forge ];
 
   installPhase = ''
-    cat <<\EOF >>$out/bin/server
-    ${pkgs.jre_headless}/bin/java "$@" "@${builtins.placeholder "out"}/bin/unix_args.txt" nogui
-    EOF
+    runHook preInstall
 
+    mkdir -p $out/bin
+
+    args=$(cat ${forge}/libraries/net/minecraftforge/forge/${forge.version}/unix_args.txt | tr '\n' ' ')
+    echo "${lib.getExe' pkgs.jre_headless "java"} \"\$@\" ''${args} nogui" >>$out/bin/server
     chmod +x $out/bin/server
+
+    runHook postInstall
   '';
 
   fixupPhase = ''
-    substituteInPlace $out/bin/unix_args.txt \
+    substituteInPlace $out/bin/server \
       --replace-fail "libraries" "${forge}/libraries"
   '';
 }

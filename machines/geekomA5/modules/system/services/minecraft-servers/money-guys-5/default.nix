@@ -35,31 +35,31 @@ in
         symlinks = {
           "server-icon.png" = ./icon.png;
         } // (minecraftLib.mkConsoleAccessSymlink serverName)
-        // (minecraftLib.mkPackwizSymlinks { pkg = inputs.fabric-modpack.packages.${system}.packwiz-server; folder = "mods"; });
+        // (minecraftLib.mkPackwizSymlinks { pkg = inputs.minecraft-modpack.packages.${system}.packwiz-server; folder = "mods"; });
 
-        files = minecraftLib.mkPackwizSymlinks { pkg = inputs.fabric-modpack.packages.${system}.packwiz-server; folder = "config"; };
+        files = minecraftLib.mkPackwizSymlinks { pkg = inputs.minecraft-modpack.packages.${system}.packwiz-server; folder = "config"; };
       };
     };
 
     # NOTE Should be the same as labels produced by
     # LINK machines/geekomA5/modules/lib/docker.nix:11
-    # traefik.dynamicConfigOptions.http = lib.mkIf config.services.minecraft-servers.servers.${serverName}.enable {
-    #   routers.metrics-minecraft = {
-    #     entryPoints = [ "metrics" ];
-    #     rule = "Host(`metrics.${config.custom.networking.domain}`) && Path(`/minecraft`)";
-    #     service = "metrics-minecraft";
-    #     middlewares = [ "metrics-replacepath-minecraft" ];
-    #   };
+    traefik.dynamicConfigOptions.http = lib.mkIf config.services.minecraft-servers.servers.${serverName}.enable {
+      routers.metrics-minecraft = {
+        entryPoints = [ "metrics" ];
+        rule = "Host(`metrics.${config.custom.networking.domain}`) && Path(`/minecraft`)";
+        service = "metrics-minecraft";
+        middlewares = [ "metrics-replacepath-minecraft" ];
+      };
 
-    #   services.metrics-minecraft = {
-    #     loadBalancer.servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp.minecraft-money-guys-4-metrics.portStr}"; }];
-    #   };
+      services.metrics-minecraft = {
+        loadBalancer.servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp."minecraft-${serverName}-metrics".portStr}"; }];
+      };
 
-    #   middlewares.metrics-replacepath-minecraft = {
-    #     replacePath = {
-    #       path = "/metrics";
-    #     };
-    #   };
-    # };
+      middlewares.metrics-replacepath-minecraft = {
+        replacePath = {
+          path = "/metrics";
+        };
+      };
+    };
   };
 }

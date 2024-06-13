@@ -148,34 +148,6 @@
         "type": "github"
       }
     },
-    "fabric-modpack": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ],
-        "packwiz2nix": "packwiz2nix",
-        "systems": [
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1718119693,
-        "narHash": "sha256-SsZ3QcVr8VmUpj+P3qbZOsAVr8qwWOER0+nIPL8dkbg=",
-        "ref": "MoneyGuys5-Revival",
-        "rev": "1094f89773f0e439a357bf6d0ce1f6cd738f49e6",
-        "revCount": 60,
-        "type": "git",
-        "url": "file:///home/pedorich_n/Projects/FabricModpack"
-      },
-      "original": {
-        "ref": "MoneyGuys5-Revival",
-        "type": "git",
-        "url": "file:///home/pedorich_n/Projects/FabricModpack"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -341,6 +313,33 @@
         "type": "github"
       }
     },
+    "minecraft-modpack": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "packwiz2nix": "packwiz2nix",
+        "systems": [
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1718288780,
+        "narHash": "sha256-1R3HFe/+43caHe5y3Hl+/dUxD735lKsNUnbuCByIi3Y=",
+        "owner": "pedorich-n",
+        "repo": "MinecraftModpack",
+        "rev": "07f2593cbb04ef88ddbe64ed3dc8335b25f94cda",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pedorich-n",
+        "repo": "MinecraftModpack",
+        "type": "github"
+      }
+    },
     "nix-minecraft": {
       "inputs": {
         "flake-compat": [
@@ -462,7 +461,7 @@
     "packwiz2nix": {
       "inputs": {
         "nixpkgs": [
-          "fabric-modpack",
+          "minecraft-modpack",
           "nixpkgs"
         ]
       },
@@ -569,13 +568,13 @@
         "crane": "crane",
         "deploy-rs": "deploy-rs",
         "disko": "disko",
-        "fabric-modpack": "fabric-modpack",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts_2",
         "flake-utils": "flake-utils",
         "haumea": "haumea",
         "home-server-nixos-secrets": "home-server-nixos-secrets",
         "homer-theme": "homer-theme",
+        "minecraft-modpack": "minecraft-modpack",
         "nix-minecraft": "nix-minecraft",
         "nixos-mutable-files-manager": "nixos-mutable-files-manager",
         "nixpkgs": "nixpkgs",
