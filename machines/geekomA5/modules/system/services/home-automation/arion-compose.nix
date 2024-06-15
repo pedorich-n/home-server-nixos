@@ -18,7 +18,7 @@ in
       services = {
         # Home Automation
         mariadb.service = {
-          image = "mariadb:11.3.2";
+          image = "mariadb:11.4.2";
           container_name = "mariadb";
           restart = "unless-stopped";
           environment = {
@@ -65,7 +65,7 @@ in
         };
 
         zigbee2mqtt.service = rec {
-          image = "koenkk/zigbee2mqtt:1.37.1";
+          image = "koenkk/zigbee2mqtt:1.38.0";
           container_name = "zigbee2mqtt";
           restart = "unless-stopped";
           environment = {
@@ -95,7 +95,7 @@ in
         };
 
         nodered.service = rec {
-          image = "nodered/node-red:3.1.9";
+          image = "nodered/node-red:3.1.10";
           container_name = "nodered";
           environment = {
             TZ = "${config.time.timeZone}";
@@ -130,7 +130,7 @@ in
         };
 
         homeassistant.service = rec {
-          image = "homeassistant/home-assistant:2024.5.3";
+          image = "homeassistant/home-assistant:2024.6.2";
           container_name = "homeassistant";
           environment = {
             TZ = "${config.time.timeZone}";

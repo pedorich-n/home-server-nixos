@@ -20,7 +20,7 @@ in
 
       services = {
         homepage.service = rec {
-          image = "ghcr.io/gethomepage/homepage:v0.9.1";
+          image = "ghcr.io/gethomepage/homepage:v0.9.2";
           container_name = "homepage";
           networks = [ "traefik" ];
           restart = "unless-stopped";
@@ -43,7 +43,7 @@ in
 
 
         portainer.service = rec {
-          image = "portainer/portainer-ce:2.20.2-alpine";
+          image = "portainer/portainer-ce:2.20.3-alpine";
           container_name = "portainer";
           environment = {
             TZ = "${config.time.timeZone}";
@@ -68,7 +68,7 @@ in
         };
 
         whatsupdocker.service = rec {
-          image = "fmartinou/whats-up-docker:6.3.0";
+          image = "fmartinou/whats-up-docker:6.4.1";
           container_name = "whatsupdocker";
           environment = {
             TZ = "${config.time.timeZone}";

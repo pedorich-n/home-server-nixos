@@ -47,7 +47,7 @@ in
         };
 
         server.service = {
-          image = "ghcr.io/paperless-ngx/paperless-ngx:2.8.4";
+          image = "ghcr.io/paperless-ngx/paperless-ngx:2.9.0";
           container_name = "paperless-server";
           networks = [
             "default"
