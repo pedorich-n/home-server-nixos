@@ -1,24 +1,26 @@
 { minecraftLib, lib, config, pkgs, inputs, system, ... }:
 let
-  serverName = "money-guys-4";
+  serverName = "money-guys-5";
+
+  forge = pkgs.callPackage ./_forge.nix { };
+  forgeRunnable = pkgs.callPackage ./_forge-runnable.nix { inherit forge; };
 in
 {
   custom.networking.ports.tcp = lib.mkIf config.services.minecraft-servers.servers.${serverName}.enable {
     "minecraft-${serverName}-game" = { port = 43000; openFirewall = true; };
     "minecraft-${serverName}-metrics" = { port = 44040; openFirewall = true; };
-    "minecraft-${serverName}-square-map" = { port = 44080; openFirewall = true; };
   };
 
   services = {
     minecraft-servers.servers = {
       ${serverName} = {
-        enable = false;
+        enable = true;
         autoStart = true;
         openFirewall = true;
 
-        package = pkgs.fabricServers.fabric-1_20_1;
+        package = forgeRunnable;
         serverProperties = {
-          # server-port = config.custom.networking.ports.tcp."minecraft-${serverName}-game".port;
+          server-port = config.custom.networking.ports.tcp."minecraft-${serverName}-game".port;
           difficulty = 2;
           level-name = "the_best_1";
           motd = "NixOS Managed Server. Humans are not allowed.";
@@ -33,7 +35,9 @@ in
         symlinks = {
           "server-icon.png" = ./icon.png;
         } // (minecraftLib.mkConsoleAccessSymlink serverName)
-        // (minecraftLib.mkPackwizSymlinks inputs.fabric-modpack.packages.${system}.packwiz-server);
+        // (minecraftLib.mkPackwizSymlinks { pkg = inputs.minecraft-modpack.packages.${system}.packwiz-server; folder = "mods"; });
+
+        files = minecraftLib.mkPackwizSymlinks { pkg = inputs.minecraft-modpack.packages.${system}.packwiz-server; folder = "config"; };
       };
     };
 
@@ -48,7 +52,7 @@ in
       };
 
       services.metrics-minecraft = {
-        loadBalancer.servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp.minecraft-money-guys-4-metrics.portStr}"; }];
+        loadBalancer.servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp."minecraft-${serverName}-metrics".portStr}"; }];
       };
 
       middlewares.metrics-replacepath-minecraft = {

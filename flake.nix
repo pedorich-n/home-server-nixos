@@ -123,8 +123,8 @@
       };
     };
 
-    fabric-modpack = {
-      url = "github:pedorich-n/FabricModpack";
+    minecraft-modpack = {
+      url = "github:pedorich-n/MinecraftModpack";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         systems.follows = "systems";
