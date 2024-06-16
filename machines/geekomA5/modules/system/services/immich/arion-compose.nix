@@ -1,6 +1,6 @@
 { config, dockerLib, ... }:
 let
-  immichVersion = "v1.104.0";
+  immichVersion = "v1.106.4";
 
   storeFor = localPath: remotePath: "/mnt/store/immich/${localPath}:${remotePath}";
 
@@ -79,7 +79,6 @@ in
         server.service = {
           image = "ghcr.io/immich-app/immich-server:${immichVersion}";
           container_name = "immich-server";
-          command = [ "start.sh" "immich" ];
           networks = [
             "default"
             "traefik"
@@ -90,44 +89,21 @@ in
             "redis"
             "postgresql"
           ];
+          devices = [
+            "/dev/dri:/dev/dri" # HW Transcoding acceleration. See https://immich.app/docs/features/hardware-transcoding
+          ];
           restart = "unless-stopped";
           volumes = immichVolumes;
           labels =
             (dockerLib.mkTraefikLabels { name = "immich"; port = 3001; }) //
             (dockerLib.mkTraefikMetricsLabels { name = "immich"; port = 8081; addPath = "/metrics"; }) //
+            (dockerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8082; addPath = "/metrics"; }) //
             (dockerLib.mkHomepageLabels {
               name = "Immich";
               group = "Services";
               icon-slug = "immich";
               weight = 0;
             }) // {
-              "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
-              "wud.display.icon" = "si:immich";
-            };
-        };
-
-        microservices.service = {
-          image = "ghcr.io/immich-app/immich-server:${immichVersion}";
-          container_name = "immich-microservices";
-          command = [ "start.sh" "microservices" ];
-          networks = [
-            "default"
-            "traefik" # NOTE Only used to allow netdata to access metrics. This service isn't actually exposed via traefik
-          ];
-          environment = sharedEnvs;
-          env_file = [ config.age.secrets.immich_compose_main.path ];
-          volumes = immichVolumes;
-          devices = [
-            "/dev/dri:/dev/dri" # HW Transcoding acceleration. See https://immich.app/docs/features/hardware-transcoding
-          ];
-          depends_on = [
-            "redis"
-            "postgresql"
-          ];
-          restart = "unless-stopped";
-          labels =
-            (dockerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8081; addPath = "/metrics"; }) //
-            {
               "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
               "wud.display.icon" = "si:immich";
             };

@@ -12,7 +12,7 @@ in
 
       services = {
         grist.service = rec {
-          image = "gristlabs/grist:1.1.14";
+          image = "gristlabs/grist:1.1.15";
           container_name = "grist";
           networks = [
             "traefik"

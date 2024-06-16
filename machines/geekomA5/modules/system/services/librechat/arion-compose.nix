@@ -46,10 +46,13 @@ in
           } // envs;
           env_file = [ config.age.secrets.librechat_compose.path ];
           depends_on = [ "vectordb" ];
+          labels = {
+            "wud.watch" = "false"; # There are no proper releases, so better to update manually
+          };
         };
 
         mongodb.service = {
-          image = "mongo:5.0.27";
+          image = "mongo:7.0.11";
           container_name = "mongodb";
           command = "mongod --noauth";
           networks = [ "default" ];
@@ -58,7 +61,7 @@ in
           ];
           restart = "unless-stopped";
           labels = {
-            "wud.tag.include" = ''^\d+\.\d+\.\d+'';
+            "wud.tag.include" = ''^\d+\.\d+\.\d+$'';
           };
         };
 
@@ -110,7 +113,9 @@ in
             slug = "chat";
             icon = "https://raw.githubusercontent.com/danny-avila/LibreChat/92232afacab63a76d1b11d56921f77723a2cf90d/client/public/assets/logo.svg";
             weight = 30;
-          });
+          }) // {
+            "wud.watch" = "false"; # There are no proper releases, so better to update manually
+          };
         } // dockerLib.alpineHostsFix;
       };
     };
