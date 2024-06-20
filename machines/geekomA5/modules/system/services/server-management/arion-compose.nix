@@ -1,4 +1,4 @@
-{ config, dockerLib, authentikLib, ... }:
+{ config, dockerLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -68,32 +68,6 @@ in
             "wud.display.icon" = "si:portainer";
           };
         };
-
-        whatsupdocker.service = rec {
-          image = "fmartinou/whats-up-docker:6.4.1";
-          container_name = "whatsupdocker";
-          environment = {
-            TZ = "${config.time.timeZone}";
-            WUD_AUTH_OIDC_AUTHENTIK_DISCOVERY = authentikLib.mkIssuerUrl "whatsupdocker";
-            WUD_AUTH_OIDC_AUTHENTIK_REDIRECT = "true";
-          };
-          env_file = [ config.age.secrets.server_management_compose.path ];
-          networks = [ "traefik" ];
-          restart = "unless-stopped";
-          volumes = [
-            "/run/podman/podman.sock:/var/run/docker.sock:ro"
-            (storeFor "whatsupdocker" "/store")
-          ];
-          labels = dockerLib.mkTraefikLabels { name = container_name; port = 3000; } //
-            (dockerLib.mkHomepageLabels {
-              name = "WhatsUpDocker";
-              group = "Server";
-              icon-slug = "whats-up-docker";
-              weight = 20;
-            }) // {
-            "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
-          };
-        } // dockerLib.alpineHostsFix;
       };
     };
   };
