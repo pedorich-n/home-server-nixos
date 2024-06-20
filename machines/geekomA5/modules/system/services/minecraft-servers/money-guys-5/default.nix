@@ -20,6 +20,7 @@ in
 
         package = forgeRunnable;
         serverProperties = {
+          allow-flight = true;
           server-port = config.custom.networking.ports.tcp."minecraft-${serverName}-game".port;
           difficulty = 2;
           level-name = "the_best_1";
