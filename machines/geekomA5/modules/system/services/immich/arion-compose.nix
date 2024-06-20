@@ -1,6 +1,6 @@
 { config, dockerLib, ... }:
 let
-  immichVersion = "v1.106.4";
+  containerVersions = config.custom.containers.versions;
 
   storeFor = localPath: remotePath: "/mnt/store/immich/${localPath}:${remotePath}";
 
@@ -77,7 +77,7 @@ in
         };
 
         server.service = {
-          image = "ghcr.io/immich-app/immich-server:${immichVersion}";
+          image = "ghcr.io/immich-app/immich-server:${containerVersions.immich-server}";
           container_name = "immich-server";
           networks = [
             "default"
@@ -110,7 +110,7 @@ in
         };
 
         machine-learning.service = {
-          image = "ghcr.io/immich-app/immich-machine-learning:${immichVersion}";
+          image = "ghcr.io/immich-app/immich-machine-learning:${containerVersions.immich-machine-learning}";
           container_name = "immich-machine-learning";
           networks = [ "default" ];
           restart = "unless-stopped";

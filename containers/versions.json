@@ -1,0 +1,56 @@
+{
+  "version": 2,
+  "data": {
+    "authentik": {
+      "version": "2024.4.2"
+    },
+    "grist": {
+      "version": "1.1.15"
+    },
+    "homeassistant": {
+      "version": "2024.6.3"
+    },
+    "homeassistant-mariadb": {
+      "version": "11.4.2"
+    },
+    "homepage": {
+      "version": "v0.9.2"
+    },
+    "immich-machine-learning": {
+      "version": "v1.106.4"
+    },
+    "immich-server": {
+      "version": "v1.106.4"
+    },
+    "librechat-mongodb": {
+      "version": "7.0.11"
+    },
+    "librechat-rag": {
+      "version": "v0.2.0"
+    },
+    "librechat-vector": {
+      "version": "v0.5.1"
+    },
+    "maloja": {
+      "version": "3.2.2"
+    },
+    "mosquitto": {
+      "version": "2.0.18"
+    },
+    "multi-scrobbler": {
+      "version": "0.7.1"
+    },
+    "nodered": {
+      "version": "3.1.11"
+    },
+    "paperless": {
+      "version": "2.10.1"
+    },
+    "portainer": {
+      "version": "2.20.3-alpine"
+    },
+    "zigbee2mqtt": {
+      "version": "1.38.0"
+    }
+  }
+}

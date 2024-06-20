@@ -1,5 +1,7 @@
 { config, pkgs, dockerLib, ... }:
 let
+  containerVersions = config.custom.containers.versions;
+
   storeFor = localPath: remotePath: "/mnt/store/server-management/authentik/${localPath}:${remotePath}";
 
   defaultEnvs = {
@@ -13,8 +15,6 @@ let
   };
 
   blueprints = pkgs.callPackage ./_render-blueprints.nix { inherit config; };
-
-  authentikVersion = "2024.4.2";
 
   staticIpAddresses = {
     server = "172.31.0.240";
@@ -60,7 +60,7 @@ in
         };
 
         server.service = {
-          image = "ghcr.io/goauthentik/server:${authentikVersion}";
+          image = "ghcr.io/goauthentik/server:${containerVersions.authentik}";
           container_name = "authentik-server";
           command = "server";
           environment = defaultEnvs;
@@ -98,7 +98,7 @@ in
         };
 
         worker.service = {
-          image = "ghcr.io/goauthentik/server:${authentikVersion}";
+          image = "ghcr.io/goauthentik/server:${containerVersions.authentik}";
           container_name = "authentik-worker";
           command = "worker";
           user = "root";

@@ -1,5 +1,7 @@
 { config, dockerLib, authentikLib, ... }:
 let
+  containerVersions = config.custom.containers.versions;
+
   storeFor = localPath: remotePath: "/mnt/store/server-management/${localPath}:${remotePath}";
 
   # userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
@@ -20,7 +22,7 @@ in
 
       services = {
         homepage.service = rec {
-          image = "ghcr.io/gethomepage/homepage:v0.9.2";
+          image = "ghcr.io/gethomepage/homepage:${containerVersions.homepage}";
           container_name = "homepage";
           networks = [ "traefik" ];
           restart = "unless-stopped";
@@ -43,7 +45,7 @@ in
 
 
         portainer.service = rec {
-          image = "portainer/portainer-ce:2.20.3-alpine";
+          image = "portainer/portainer-ce:${containerVersions.portainer}";
           container_name = "portainer";
           environment = {
             TZ = "${config.time.timeZone}";

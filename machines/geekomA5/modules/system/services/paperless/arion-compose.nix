@@ -1,5 +1,6 @@
 { config, dockerLib, ... }:
 let
+  containerVersions = config.custom.containers.versions;
 
   storeFor = localPath: remotePath: "/mnt/store/paperless/${localPath}:${remotePath}";
   externalStoreFor = localPath: remotePath: "/mnt/external/paperless-library/${localPath}:${remotePath}";
@@ -47,7 +48,7 @@ in
         };
 
         server.service = {
-          image = "ghcr.io/paperless-ngx/paperless-ngx:2.9.0";
+          image = "ghcr.io/paperless-ngx/paperless-ngx:${containerVersions.paperless}";
           container_name = "paperless-server";
           networks = [
             "default"
