@@ -1,21 +1,26 @@
-name: Monthly Update Check
+name: Containers Update Check
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 10 1 * *"
-  workflow_dispatch:
 
 jobs:
-  update-check:
+  containers-update-check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install Nix
+        uses: nixbuild/nix-quick-install-action@v28
+        with:
+          load_nixConfig: false
+
       - name: Set up depedencies
         uses: nicknovitski/nix-develop@v1
         with:
-          arguments: ".#version-updater"
+          arguments: "./#version-updater"
 
       - name: Run nvchecker
         run: nvchecker -c ./containers/nvchecker.toml
@@ -29,6 +34,7 @@ jobs:
         if: steps.git-check.outputs.changes_detected
         uses: peter-evans/create-pull-request@v6
         with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
           commit-message: "Update containers"
           title: "Update containers"
           branch: "update-containers-${{ github.run_id }}"
