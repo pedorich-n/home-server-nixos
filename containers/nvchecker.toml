@@ -1,0 +1,104 @@
+[__config__]
+# This file doesn't have to exist, but the key must be defined
+oldver = "oldver.json"
+newver = "versions.json"
+
+
+[authentik]
+source = "container"
+registry = "ghcr.io"
+container = "goauthentik/server"
+exclude_regex = ".*rc.*"
+
+[grist]
+source = "container"
+registry = "docker.io"
+container = "gristlabs/grist"
+
+[mosquitto]
+source = "container"
+registry = "docker.io"
+container = "library/eclipse-mosquitto"
+
+[zigbee2mqtt]
+source = "container"
+registry = "docker.io"
+container = "koenkk/zigbee2mqtt"
+
+[nodered]
+source = "container"
+registry = "docker.io"
+container = "nodered/node-red"
+include_regex = "\\d+\\.\\d+\\.\\d+"
+
+[homeassistant-mariadb]
+source = "container"
+registry = "docker.io"
+container = "library/mariadb"
+exclude_regex = ".*rc.*"
+
+[homeassistant]
+source = "container"
+registry = "docker.io"
+container = "homeassistant/home-assistant"
+include_regex = "\\d+\\.\\d+\\.\\d+"
+
+[immich-server]
+source = "container"
+registry = "ghcr.io"
+container = "immich-app/immich-server"
+include_regex = "v\\d+\\.\\d+\\.\\d+"
+
+[immich-machine-learning]
+source = "container"
+registry = "ghcr.io"
+container = "immich-app/immich-machine-learning"
+include_regex = "v\\d+\\.\\d+\\.\\d+"
+
+[multi-scrobbler]
+source = "container"
+registry = "docker.io"
+container = "foxxmd/multi-scrobbler"
+
+[maloja]
+source = "container"
+registry = "docker.io"
+container = "krateng/maloja"
+
+[librechat-mongodb]
+source = "container"
+registry = "docker.io"
+container = "library/mongo"
+exclude_regex = ".*rc.*"
+
+# Doesn't work properly, as docker images are not tagged and nvchecker just sorts hashes as strings 😕
+# [librechat]
+# source = "container"
+# registry = "ghcr.io"
+# container = "danny-avila/librechat-dev"
+
+[librechat-rag]
+source = "container"
+registry = "ghcr.io"
+container = "danny-avila/librechat-rag-api-dev-lite"
+
+[librechat-vector]
+source = "container"
+registry = "docker.io"
+container = "ankane/pgvector"
+
+[paperless]
+source = "container"
+registry = "ghcr.io"
+container = "paperless-ngx/paperless-ngx"
+
+[portainer]
+source = "container"
+registry = "docker.io"
+container = "portainer/portainer-ce"
+include_regex = "\\d+\\.\\d+\\.\\d+-alpine"
+
+[homepage]
+source = "container"
+registry = "ghcr.io"
+container = "gethomepage/homepage"

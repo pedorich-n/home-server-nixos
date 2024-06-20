@@ -1,5 +1,7 @@
 { config, dockerLib, authentikLib, ... }:
 let
+  containerVersions = config.custom.containers.versions;
+
   storeFor = localPath: remotePath: "/mnt/store/grist/${localPath}:${remotePath}";
 
 in
@@ -12,7 +14,7 @@ in
 
       services = {
         grist.service = rec {
-          image = "gristlabs/grist:1.1.15";
+          image = "gristlabs/grist:${containerVersions.grist}";
           container_name = "grist";
           networks = [
             "traefik"

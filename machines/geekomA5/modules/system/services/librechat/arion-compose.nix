@@ -1,5 +1,7 @@
 { config, dockerLib, authentikLib, ... }:
 let
+  containerVersions = config.custom.containers.versions;
+
   storeFor = localPath: remotePath: "/mnt/store/librechat/${localPath}:${remotePath}";
   userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
 
@@ -20,7 +22,7 @@ in
 
       services = {
         vectordb.service = {
-          image = "ankane/pgvector:v0.5.1";
+          image = "ankane/pgvector:${containerVersions.librechat-vector}";
           container_name = "vectordb";
           networks = [ "default" ];
           volumes = [
@@ -35,7 +37,7 @@ in
         };
 
         rag.service = {
-          image = "ghcr.io/danny-avila/librechat-rag-api-dev-lite:12427916d74d61ca02751c6358fbd21014a5757f";
+          image = "ghcr.io/danny-avila/librechat-rag-api-dev-lite:${containerVersions.librechat-rag}";
           container_name = "rag";
           networks = [ "default" ];
           environment = {
@@ -52,7 +54,7 @@ in
         };
 
         mongodb.service = {
-          image = "mongo:7.0.11";
+          image = "mongo:${containerVersions.librechat-mongodb}";
           container_name = "mongodb";
           command = "mongod --noauth";
           networks = [ "default" ];
@@ -66,6 +68,7 @@ in
         };
 
         librechat.service = {
+          # No proper tags on that image :(
           image = "ghcr.io/danny-avila/librechat-dev:92232afacab63a76d1b11d56921f77723a2cf90d";
           container_name = "librechat";
           # See https://github.com/danny-avila/LibreChat/discussions/572#discussioncomment-7352331

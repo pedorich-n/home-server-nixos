@@ -1,5 +1,6 @@
 { config, dockerLib, ... }:
 let
+  containerVersions = config.custom.containers.versions;
 
   storeFor = localPath: remotePath: "/mnt/store/music-history/${localPath}:${remotePath}";
   # externalStoreFor = localPath: remotePath: "/mnt/external/music-history/${localPath}:${remotePath}";
@@ -20,6 +21,7 @@ in
 
       services = {
         multiscrobbler.service = rec {
+          # Not yet deployed in any version, so keeping it to a specific tag
           image = "foxxmd/multi-scrobbler@sha256:e52865983c3c105984dd588361bf3a1009eb0fc87cd53b60b7f6fc7b9857e092";
           container_name = "multiscrobbler";
           networks = [
@@ -55,7 +57,7 @@ in
         };
 
         maloja.service = rec {
-          image = "krateng/maloja:3.2.2";
+          image = "krateng/maloja:${containerVersions.maloja}";
           container_name = "maloja";
           networks = [
             "default"

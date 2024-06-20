@@ -1,5 +1,7 @@
-{ config, dockerLib, authentikLib, ... }:
+{ config, dockerLib, ... }:
 let
+  containerVersions = config.custom.containers.versions;
+
   storeFor = localPath: remotePath: "/mnt/store/server-management/${localPath}:${remotePath}";
 
   # userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
@@ -20,7 +22,7 @@ in
 
       services = {
         homepage.service = rec {
-          image = "ghcr.io/gethomepage/homepage:v0.9.2";
+          image = "ghcr.io/gethomepage/homepage:${containerVersions.homepage}";
           container_name = "homepage";
           networks = [ "traefik" ];
           restart = "unless-stopped";
@@ -43,7 +45,7 @@ in
 
 
         portainer.service = rec {
-          image = "portainer/portainer-ce:2.20.3-alpine";
+          image = "portainer/portainer-ce:${containerVersions.portainer}";
           container_name = "portainer";
           environment = {
             TZ = "${config.time.timeZone}";
@@ -66,32 +68,6 @@ in
             "wud.display.icon" = "si:portainer";
           };
         };
-
-        whatsupdocker.service = rec {
-          image = "fmartinou/whats-up-docker:6.4.1";
-          container_name = "whatsupdocker";
-          environment = {
-            TZ = "${config.time.timeZone}";
-            WUD_AUTH_OIDC_AUTHENTIK_DISCOVERY = authentikLib.mkIssuerUrl "whatsupdocker";
-            WUD_AUTH_OIDC_AUTHENTIK_REDIRECT = "true";
-          };
-          env_file = [ config.age.secrets.server_management_compose.path ];
-          networks = [ "traefik" ];
-          restart = "unless-stopped";
-          volumes = [
-            "/run/podman/podman.sock:/var/run/docker.sock:ro"
-            (storeFor "whatsupdocker" "/store")
-          ];
-          labels = dockerLib.mkTraefikLabels { name = container_name; port = 3000; } //
-            (dockerLib.mkHomepageLabels {
-              name = "WhatsUpDocker";
-              group = "Server";
-              icon-slug = "whats-up-docker";
-              weight = 20;
-            }) // {
-            "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
-          };
-        } // dockerLib.alpineHostsFix;
       };
     };
   };

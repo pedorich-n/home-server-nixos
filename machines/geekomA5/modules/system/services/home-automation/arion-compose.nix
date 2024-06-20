@@ -1,5 +1,7 @@
 { config, pkgs, lib, dockerLib, ... }:
 let
+  containerVersions = config.custom.containers.versions;
+
   userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
 
   storeFor = localPath: remotePath: "/mnt/store/home-automation/${localPath}:${remotePath}";
@@ -18,7 +20,7 @@ in
       services = {
         # Home Automation
         mariadb.service = {
-          image = "mariadb:11.4.2";
+          image = "mariadb:${containerVersions.homeassistant-mariadb}";
           container_name = "mariadb";
           restart = "unless-stopped";
           environment = {
@@ -43,7 +45,7 @@ in
         };
 
         mosquitto.service = {
-          image = "eclipse-mosquitto:2.0.18";
+          image = "eclipse-mosquitto:${containerVersions.mosquitto}";
           container_name = "mosquitto";
           restart = "unless-stopped";
           volumes = [
@@ -65,7 +67,7 @@ in
         };
 
         zigbee2mqtt.service = rec {
-          image = "koenkk/zigbee2mqtt:1.38.0";
+          image = "koenkk/zigbee2mqtt:${containerVersions.zigbee2mqtt}";
           container_name = "zigbee2mqtt";
           restart = "unless-stopped";
           environment = {
@@ -95,7 +97,7 @@ in
         };
 
         nodered.service = rec {
-          image = "nodered/node-red:3.1.10";
+          image = "nodered/node-red:${containerVersions.nodered}";
           container_name = "nodered";
           environment = {
             TZ = "${config.time.timeZone}";
@@ -130,7 +132,7 @@ in
         };
 
         homeassistant.service = rec {
-          image = "homeassistant/home-assistant:2024.6.2";
+          image = "homeassistant/home-assistant:${containerVersions.homeassistant}";
           container_name = "homeassistant";
           environment = {
             TZ = "${config.time.timeZone}";
