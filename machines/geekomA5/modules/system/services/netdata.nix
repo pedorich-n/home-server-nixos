@@ -1,11 +1,11 @@
-{ inputs, config, lib, pkgs, pkgs-netdata-45, ... }:
+{ inputs, config, lib, pkgs, pkgs-netdata-146, ... }:
 let
   metricsDomain = "http://metrics.${config.custom.networking.domain}:9100";
 in
 {
-  # TODO: remove once https://github.com/NixOS/nixpkgs/pull/298641 is merged
+  # TODO: remove once https://github.com/NixOS/nixpkgs/pull/321644 is merged
   disabledModules = [ "services/monitoring/netdata.nix" ];
-  imports = [ "${inputs.nixpkgs-netdata-45}/nixos/modules/services/monitoring/netdata.nix" ];
+  imports = [ "${inputs.nixpkgs-netdata-146}/nixos/modules/services/monitoring/netdata.nix" ];
 
   custom.networking.ports.tcp.netdata = { port = 19999; openFirewall = false; };
 
@@ -13,7 +13,7 @@ in
     netdata = {
       enable = true;
 
-      package = pkgs-netdata-45.netdataCloud;
+      package = pkgs-netdata-146.netdataCloud;
       # python.recommendedPythonPackages = true;
 
       config = {
@@ -130,22 +130,30 @@ in
             dnsmasq: no
             logind: no
             traefik: no
+            nvme: no
+            smartctl: no
 
-            nvme: yes
-            smartclt: yes
+            zfspool: yes
         '';
 
-        "go.d/disks.conf" = pkgs.writeText "netdata-nvme.conf" ''
+        "go.d/zfspool.conf" = pkgs.writeText "netdata-zfspool.conf" ''
           jobs:
-            - name: nvme
-              update_every: 10
-
-            - name: smartctl
-              devices_poll_interval: 10
-
             - name: zfspool
-              binary_path: ${lib.getExe' config.boot.zfs.package "zpool"} 
+              binary_path: zpool
         '';
+
+        # Doesn't work because nvme requires basically root previliges to run get the health info :(
+        # "go.d/smartclt.conf" = pkgs.writeText "netdata-smartctl.conf" ''
+        #   jobs:
+        #     - name: smartctl
+        #       device_selector: /dev/sd*
+        # '';
+        # "go.d/nvme.conf" = pkgs.writeText "netdata-nvme.conf" ''
+        #   jobs:
+        #     - name: nvme
+        #       autodetection_retry: 30
+        #       update_every: 10
+        # '';
       };
     };
 
@@ -163,17 +171,16 @@ in
     };
   };
 
-  # TODO: remove
+  # NOTE: doesn't work. NVME requires root priviliges to get the info out of the disk
+  # TODO: investigate if anything can be done
   systemd.services.netdata.path = [
-    # Required for Podman
-    pkgs.jq
-    config.virtualisation.podman.package
-
     pkgs.nvme-cli # NVME
     pkgs.smartmontools # SMART HDD metrics
   ];
 
-  users.users.netdata.extraGroups = [ "podman" "docker" ];
+  users.users.netdata.extraGroups = [
+    "disk" # smartctl, nvme
+  ];
 
   # See https://stackoverflow.com/questions/66632408/what-capabilities-can-open-proc-pid-ns-net
   security.wrappers."cgroup-network".capabilities = lib.mkForce "cap_sys_admin+ep cap_sys_ptrace+ep cap_setuid+ep cap_sys_chroot+ep";

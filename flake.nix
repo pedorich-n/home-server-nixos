@@ -8,8 +8,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    nixpkgs-netdata-45.url = "github:RaitoBezarius/nixpkgs/netdata-45";
-
+    nixpkgs-netdata-146.url = "github:pedorich-n/nixpkgs/netdata-146";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     systems.url = "github:nix-systems/default-linux";

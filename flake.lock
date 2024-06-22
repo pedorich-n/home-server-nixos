@@ -426,18 +426,18 @@
         "url": "https://github.com/NixOS/nixpkgs/archive/eb9ceca17df2ea50a250b6b27f7bf6ab0186f198.tar.gz"
       }
     },
-    "nixpkgs-netdata-45": {
+    "nixpkgs-netdata-146": {
       "locked": {
-        "lastModified": 1718830879,
-        "narHash": "sha256-xq9Wt2MyWhc68Jb2XMS2ZLr2LtdFFw3Tlk4oZUw7YZs=",
-        "owner": "RaitoBezarius",
+        "lastModified": 1719019670,
+        "narHash": "sha256-y3gi2PR6/+P2NnFaMp+uja4yfbXFqjbtApFv470KpVI=",
+        "owner": "pedorich-n",
         "repo": "nixpkgs",
-        "rev": "a3beb09a7044cfb45bf5593aa7b6f4f22d491205",
+        "rev": "53a03f272c8af6c9fc8b799cb536ee2549466d72",
         "type": "github"
       },
       "original": {
-        "owner": "RaitoBezarius",
-        "ref": "netdata-45",
+        "owner": "pedorich-n",
+        "ref": "netdata-146",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -578,7 +578,7 @@
         "nix-minecraft": "nix-minecraft",
         "nixos-mutable-files-manager": "nixos-mutable-files-manager",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-netdata-45": "nixpkgs-netdata-45",
+        "nixpkgs-netdata-146": "nixpkgs-netdata-146",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "playit-nixos-module": "playit-nixos-module",
         "poetry2nix": "poetry2nix",
