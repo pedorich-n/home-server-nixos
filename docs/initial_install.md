@@ -4,20 +4,20 @@
 
 1. Generate custom bootable ISO: `nix run .#build-iso-minimal` or `just build-iso`
 2. Burn the ISO onto USB using [Rufus](https://rufus.ie/en/)
-3. Generate & use new SSH host key
+3. Boot from the USB
+4. Generate & use new SSH host key
    1. `just generate-host-key` or `nix run .#generate-host-key`
    2. The output should contain the public key in plain text and path to keys in the temporary folder
-   4. Add the newly generated public key to `recipients.txt` file in `home-server-nixos-secrets` repo
-   5. Encrypt secrets & push the changes
-   6. Fetch new secrets in this repo `nix flake lock --update-input home-server-nixos-secrets`
-   7. Copy the path to the keys from the `generate-host-key`'s output
-4. Boot from the USB
+   3. Add the newly generated public key to `recipients.txt` file in `home-server-nixos-secrets` repo
+   4. Encrypt secrets & push the changes
+   5. Fetch new secrets in this repo `nix flake lock --update-input home-server-nixos-secrets`
+   6. Copy the path to the keys from the `generate-host-key`'s output
 > [!CAUTION]
 > This will erase the disk and create new partitions. DATA WILL BE LOST
-5. Run `nix run github:nix-community/nixos-anywhere -- --extra-files "<path-to-keys>" --flake ".#<machine>" root@nixos`
-6. System should reboot into a newly installed profile
-7. From now on `deploy-rs` can be used to deploy from another machine
-8. Remove the generated secrets from this machine's temporary directory
+4. Run `nix run github:nix-community/nixos-anywhere -- --extra-files "<path-to-keys>" --flake ".#<machine>" root@nixos`
+5. System should reboot into a newly installed profile
+6. From now on `deploy-rs` can be used to deploy from another machine
+7. Remove the generated secrets from this machine's temporary directory
 
 ### Notes:
 
