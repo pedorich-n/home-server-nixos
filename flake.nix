@@ -9,6 +9,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     nixpkgs-netdata-146.url = "github:pedorich-n/nixpkgs/netdata-146";
+    # nixpkgs-netdata-146.url = "git+file:///home/pedorich_n/Projects/nixpkgs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     systems.url = "github:nix-systems/default-linux";
