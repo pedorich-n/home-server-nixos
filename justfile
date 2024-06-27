@@ -6,12 +6,6 @@ _deploy hostname *args:
 _dry_deploy hostname *args:
     just _deploy "{{ hostname }}" "--dry-activate {{ args }}"
 
-deploy-nucbox5 *args:
-    just _deploy nucbox5 "{{ args }}"
-
-dry-deploy-nucbox5 *args:
-    just _dry_deploy nucbox5 "{{ args }}"
-
 deploy-geekomA5 *args:
     just _deploy geekomA5 "{{ args }}"
 
