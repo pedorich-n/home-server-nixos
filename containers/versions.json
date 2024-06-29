@@ -4,6 +4,12 @@
     "authentik": {
       "version": "2024.6"
     },
+    "authentik-postgres": {
+      "version": "16.3-alpine"
+    },
+    "authentik-redis": {
+      "version": "7.2.5-alpine"
+    },
     "grist": {
       "version": "1.1.15"
     },
