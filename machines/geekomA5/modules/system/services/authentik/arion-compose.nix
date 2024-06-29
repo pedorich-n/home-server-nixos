@@ -29,7 +29,7 @@ in
 
       services = {
         postgresql.service = {
-          image = "docker.io/library/postgres:12.18-alpine";
+          image = "docker.io/library/postgres:${containerVersions.authentik-postgres}";
           container_name = "authentik-postgresql";
           networks = [ "default" ];
           environment = defaultEnvs;
@@ -39,13 +39,10 @@ in
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
           restart = "unless-stopped";
-          labels = {
-            "wud.watch" = "false"; # Fetch the version from authentik's docker-compose file
-          };
         };
 
         redis.service = {
-          image = "docker.io/library/redis:7.2.4-alpine";
+          image = "docker.io/library/redis:${containerVersions.authentik-redis}";
           container_name = "authentik-redis";
           command = "--save 60 1 --loglevel warning";
           networks = [ "default" ];
@@ -54,9 +51,6 @@ in
             (storeFor "redis" "/data")
           ];
           restart = "unless-stopped";
-          labels = {
-            "wud.watch" = "false"; # Fetch the version from authentik's docker-compose file
-          };
         };
 
         server.service = {

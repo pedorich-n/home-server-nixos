@@ -22,7 +22,7 @@ in
       services = {
         multiscrobbler.service = rec {
           # Not yet deployed in any version, so keeping it to a specific tag
-          image = "foxxmd/multi-scrobbler@sha256:e52865983c3c105984dd588361bf3a1009eb0fc87cd53b60b7f6fc7b9857e092";
+          image = "ghcr.io/foxxmd/multi-scrobbler:develop@sha256:578cf485b108deae544f7c63247340b77b1384eab074e1b14cd62768593c1cf6";
           container_name = "multiscrobbler";
           networks = [
             "default"
@@ -51,9 +51,7 @@ in
             group = "Services";
             icon-slug = "multi-scrobbler";
             weight = 90;
-          }) // {
-            "wud.tag.include" = ''^\d+\.\d+\.\d+'';
-          };
+          });
         };
 
         maloja.service = rec {
@@ -87,9 +85,7 @@ in
             name = "Maloja";
             group = "Services";
             weight = 100;
-          }) // {
-            "wud.tag.include" = ''^\d+\.\d+\.\d+'';
-          };
+          });
         };
       };
     };

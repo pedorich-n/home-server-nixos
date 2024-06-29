@@ -34,12 +34,10 @@ in
 
             "/run/podman/podman.sock:/var/run/docker.sock:ro"
           ];
-          labels = (dockerLib.mkTraefikLabels {
+          labels = dockerLib.mkTraefikLabels {
             name = container_name;
             port = 3000;
             domain = config.custom.networking.domain;
-          }) // {
-            "wud.tag.exclude" = "^latest.*$";
           };
         };
 
@@ -63,10 +61,7 @@ in
               name = "Portainer";
               group = "Server";
               weight = 10;
-            }) // {
-            "wud.tag.include" = ''^\d+\.\d+(\.\d+)?-alpine$'';
-            "wud.display.icon" = "si:portainer";
-          };
+            });
         };
       };
     };

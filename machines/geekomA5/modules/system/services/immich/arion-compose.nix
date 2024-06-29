@@ -56,9 +56,6 @@ in
             (storeFor "redis" "/data")
           ];
           restart = "unless-stopped";
-          labels = {
-            "wud.watch" = "false"; # Fetch the version from Immich's docker-compose file
-          };
         };
 
         postgresql.service = {
@@ -71,9 +68,6 @@ in
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
           restart = "unless-stopped";
-          labels = {
-            "wud.watch" = "false"; # Fetch the version from Immich's docker-compose file
-          };
         };
 
         server.service = {
@@ -103,10 +97,7 @@ in
               group = "Services";
               icon-slug = "immich";
               weight = 0;
-            }) // {
-              "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
-              "wud.display.icon" = "si:immich";
-            };
+            });
         };
 
         machine-learning.service = {
@@ -117,10 +108,6 @@ in
           volumes = [
             (storeFor "cache/machine-learning" "/cache")
           ];
-          labels = {
-            "wud.tag.include" = ''^v\d+\.\d+(\.\d+)?'';
-            "wud.display.icon" = "si:immich";
-          };
         };
       };
     };
