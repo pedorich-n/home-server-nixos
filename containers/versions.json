@@ -2,13 +2,13 @@
   "version": 2,
   "data": {
     "authentik": {
-      "version": "2024.4.2"
+      "version": "2024.6"
     },
     "grist": {
       "version": "1.1.15"
     },
     "homeassistant": {
-      "version": "2024.6.3"
+      "version": "2024.6.4"
     },
     "homeassistant-mariadb": {
       "version": "11.4.2"
@@ -23,7 +23,7 @@
       "version": "v1.106.4"
     },
     "librechat-mongodb": {
-      "version": "7.0.11"
+      "version": "7.0.12"
     },
     "librechat-rag": {
       "version": "v0.2.0"
@@ -41,10 +41,10 @@
       "version": "0.7.1"
     },
     "nodered": {
-      "version": "3.1.11"
+      "version": "4.0.1"
     },
     "paperless": {
-      "version": "2.10.1"
+      "version": "2.10.2"
     },
     "portainer": {
       "version": "2.20.3-alpine"
