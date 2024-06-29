@@ -51,9 +51,7 @@ in
             group = "Services";
             icon-slug = "multi-scrobbler";
             weight = 90;
-          }) // {
-            "wud.tag.include" = ''^\d+\.\d+\.\d+'';
-          };
+          });
         };
 
         maloja.service = rec {
@@ -87,9 +85,7 @@ in
             name = "Maloja";
             group = "Services";
             weight = 100;
-          }) // {
-            "wud.tag.include" = ''^\d+\.\d+\.\d+'';
-          };
+          });
         };
       };
     };

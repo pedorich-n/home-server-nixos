@@ -28,9 +28,6 @@ in
             (storeFor "redis" "/data")
           ];
           restart = "unless-stopped";
-          labels = {
-            "wud.watch" = "false"; # Fetch the version from Paperless' docker-compose file
-          };
         };
 
         postgresql.service = {
@@ -42,9 +39,6 @@ in
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
           restart = "unless-stopped";
-          labels = {
-            "wud.watch" = "false"; # Fetch the version from Paperless' docker-compose file
-          };
         };
 
         server.service = {
@@ -86,10 +80,7 @@ in
               name = "Paperless";
               group = "Services";
               weight = 10;
-            }) // {
-              "wud.tag.include" = ''^\d+\.\d+\.\d+'';
-              "wud.display.icon" = "si:paperlessngx";
-            };
+            });
         };
       };
     };

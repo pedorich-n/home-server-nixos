@@ -41,9 +41,7 @@ in
               name = "Grist";
               group = "Services";
               weight = 20;
-            }) // {
-              "wud.tag.include" = ''^\d+\.\d+\.\d+'';
-            };
+            });
         };
       };
     };

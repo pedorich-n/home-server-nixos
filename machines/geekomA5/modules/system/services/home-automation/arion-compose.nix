@@ -38,10 +38,6 @@ in
             "${config.age.secrets.mariadb_password.path}:/var/lib/mysql/password:ro"
           ];
           networks = [ "default" ];
-          labels = {
-            "wud.display.icon" = "si:mariadb";
-            "wud.tag.exclude" = ".*rc.*";
-          };
         };
 
         mosquitto.service = {
@@ -62,7 +58,6 @@ in
             "traefik.tcp.routers.mosquitto.entrypoints" = "mqtt";
             "traefik.tcp.routers.mosquitto.service" = "mosquitto";
             "traefik.tcp.services.mosquitto.loadBalancer.server.port" = "1883";
-            "wud.display.icon" = "si:eclipsemosquitto";
           };
         };
 
@@ -91,9 +86,7 @@ in
             name = "Zigbee2MQTT";
             group = "Home Automation";
             weight = 50;
-          }) // {
-            "wud.display.icon" = "si:zigbee";
-          };
+          });
         };
 
         nodered.service = rec {
@@ -125,10 +118,7 @@ in
             group = "Home Automation";
             icon-slug = "node-red";
             weight = 30;
-          }) // {
-            "wud.tag.exclude" = "^latest.*$";
-            "wud.display.icon" = "si:nodered";
-          };
+          });
         };
 
         homeassistant.service = rec {
@@ -158,10 +148,7 @@ in
             group = "Home Automation";
             icon-slug = "home-assistant";
             weight = 0;
-          }) // {
-            "wud.tag.include" = ''^\d+\.\d+(\.\d+)?$'';
-            "wud.display.icon" = "si:homeassistant";
-          };
+          });
           depends_on = [
             "mariadb"
             "mosquitto"
