@@ -428,16 +428,16 @@
     },
     "nixpkgs-netdata-146": {
       "locked": {
-        "lastModified": 1719019670,
-        "narHash": "sha256-y3gi2PR6/+P2NnFaMp+uja4yfbXFqjbtApFv470KpVI=",
+        "lastModified": 1719582151,
+        "narHash": "sha256-gMdPQLv+/K9UFExTKIQoxITHirYn8HRWt/fLfw884c4=",
         "owner": "pedorich-n",
         "repo": "nixpkgs",
-        "rev": "53a03f272c8af6c9fc8b799cb536ee2549466d72",
+        "rev": "e05aaea5534a52d1427bb0a8bcf9f9f17631ff39",
         "type": "github"
       },
       "original": {
         "owner": "pedorich-n",
-        "ref": "netdata-146",
+        "ref": "netdata-improvements",
         "repo": "nixpkgs",
         "type": "github"
       }

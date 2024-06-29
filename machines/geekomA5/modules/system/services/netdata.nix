@@ -16,6 +16,11 @@ in
       package = pkgs-netdata-146.netdataCloud;
       # python.recommendedPythonPackages = true;
 
+      extraNdsudoPackages = [
+        pkgs.nvme-cli # NVME
+        pkgs.smartmontools # SMART HDD metrics
+      ];
+
       config = {
         # https://learn.netdata.cloud/docs/configuring/daemon-configuration
         web = {
@@ -130,9 +135,9 @@ in
             dnsmasq: no
             logind: no
             traefik: no
-            nvme: no
-            smartctl: no
 
+            nvme: yes
+            smartctl: yes
             zfspool: yes
         '';
 
@@ -140,6 +145,12 @@ in
           jobs:
             - name: zfspool
               binary_path: zpool
+        '';
+
+        "go.d/sensors.conf" = pkgs.writeText "netdata-sensors.conf" ''
+          jobs:
+            - name: sensors
+              binary_path: ${lib.getExe' pkgs.lm_sensors "sensors"}
         '';
 
         # Doesn't work because nvme requires basically root previliges to run get the health info :(
@@ -174,8 +185,6 @@ in
   # NOTE: doesn't work. NVME requires root priviliges to get the info out of the disk
   # TODO: investigate if anything can be done
   systemd.services.netdata.path = [
-    pkgs.nvme-cli # NVME
-    pkgs.smartmontools # SMART HDD metrics
   ];
 
   users.users.netdata.extraGroups = [
