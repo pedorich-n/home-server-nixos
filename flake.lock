@@ -44,11 +44,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1721007052,
-        "narHash": "sha256-qxtT4okTh8Jzg+RTw2e1XdaT8qKDwefSmFbOJO0jOtw=",
+        "lastModified": 1721747190,
+        "narHash": "sha256-aRH+zaBXHAJ7bf0fSDZzzDYFZ1M37IYa5N+qCFHX2TM=",
         "ref": "refs/heads/main",
-        "rev": "88d94045d16a64e9c1d711794d11f6ba2773284b",
-        "revCount": 67,
+        "rev": "c4da0fdded0cbf936c2dc700a087d3e80f5fd7d3",
+        "revCount": 70,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
       },
