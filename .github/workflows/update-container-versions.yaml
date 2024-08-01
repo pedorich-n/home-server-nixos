@@ -37,5 +37,5 @@ jobs:
           token: ${{ secrets.GH_ACCESS_TOKEN }}
           commit-message: "Update containers"
           title: "Update containers"
-          branch: "update-containers-${{ github.run_id }}"
+          branch: "update_containers"
           labels: "automated"
