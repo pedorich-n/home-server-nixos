@@ -1,4 +1,4 @@
-{ config, pkgs, dockerLib, ... }:
+{ config, lib, pkgs, dockerLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -21,6 +21,54 @@ let
   };
 in
 {
+  systemd.services."arion-authentik".serviceConfig = {
+    Type = "notify";
+    NotifyAccess = "all";
+    ExecStart = lib.mkForce (lib.getExe (pkgs.writeShellApplication {
+      name = "authentik-healthcheck";
+      runtimeInputs = [
+        config.systemd.package
+        pkgs.curl
+      ];
+      text = ''
+        function watchdog() {
+          URL="http://authentik.${config.custom.networking.domain}/-/health/ready/"
+          REQUEST_MAX_TIME="30"
+          RETRY_DELAY="15"
+          MAX_RETRIES="7"
+
+          status_code=-1
+          attempt=0
+
+          echo "Healthchecking..."
+          while [ ''${attempt} -lt ''${MAX_RETRIES} ]; do
+            status_code=$(curl --write-out "%{http_code}" --silent --output /dev/null --max-time "''${REQUEST_MAX_TIME}" "''${URL}")
+
+            if [[ "''${status_code}" =~ ^2 ]]; then
+              echo "Health check passed with status code ''${status_code}"
+              systemd-notify --ready --status="Service is up and running"
+              exit 0
+            else
+              echo "Attempt $((attempt + 1)) failed with status code ''${status_code}"
+              attempt=$((attempt + 1))
+
+              sleep "''${RETRY_DELAY}s"
+            fi
+          done
+
+          systemd-notify --status="Service is not responding..."
+          exit 1
+        }
+
+        watchdog &
+
+        echo 1>&2 "docker compose file: $ARION_PREBUILT"
+        arion --prebuilt-file "$ARION_PREBUILT" up
+      '';
+      #NOTE - `arion` command copied from https://github.com/hercules-ci/arion/blob/90bc85532767c785245f5c1e29ebfecb941cf8c9/nixos-module.nix#L45-L48
+    }));
+  };
+
   virtualisation.arion.projects = {
     authentik.settings = {
       enableDefaultNetwork = false;
