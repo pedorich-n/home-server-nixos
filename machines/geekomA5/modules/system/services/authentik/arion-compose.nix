@@ -65,6 +65,7 @@ in
         echo 1>&2 "docker compose file: $ARION_PREBUILT"
         arion --prebuilt-file "$ARION_PREBUILT" up
       '';
+      #NOTE - `arion` command copied from https://github.com/hercules-ci/arion/blob/90bc85532767c785245f5c1e29ebfecb941cf8c9/nixos-module.nix#L45-L48
     }));
   };
 
