@@ -6,6 +6,10 @@ let
 
 in
 {
+  systemd.services."arion-grist" = {
+    after = [ "arion-authentik.service" ];
+  };
+
   virtualisation.arion.projects = {
     grist.settings = {
       enableDefaultNetwork = false;

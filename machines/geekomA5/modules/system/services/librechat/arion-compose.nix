@@ -13,6 +13,9 @@ let
   };
 in
 {
+  systemd.services."arion-librechat" = {
+    after = [ "arion-authentik.service" ];
+  };
 
   virtualisation.arion.projects = {
     librechat.settings = {
