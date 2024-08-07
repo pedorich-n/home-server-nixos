@@ -27,29 +27,32 @@ in
     ExecStart = lib.mkForce (lib.getExe (pkgs.writeShellApplication {
       name = "authentik-healthcheck";
       runtimeInputs = [
+        config.virtualisation.podman.package
         config.systemd.package
-        pkgs.curl
+        pkgs.coreutils
       ];
       text = ''
         function watchdog() {
-          URL="http://authentik.${config.custom.networking.domain}/-/health/ready/"
-          REQUEST_MAX_TIME="30"
-          RETRY_DELAY="15"
-          MAX_RETRIES="7"
+          MAX_RETRIES="6"
+          RETRY_DELAY="10"
+          TIMEOUT="10"
 
-          status_code=-1
-          attempt=0
+          exit_code=-1
+          attempt=1
 
+          sleep 2s
           echo "Healthchecking..."
           while [ ''${attempt} -lt ''${MAX_RETRIES} ]; do
-            status_code=$(curl --write-out "%{http_code}" --silent --output /dev/null --max-time "''${REQUEST_MAX_TIME}" "''${URL}")
+            set +e  # Disable exit on error for this function
+            output=$(timeout ''${TIMEOUT} podman exec --tty authentik-server ak healthcheck 2>&1)
+            exit_code=$?
 
-            if [[ "''${status_code}" =~ ^2 ]]; then
-              echo "Health check passed with status code ''${status_code}"
+            if [ $exit_code -eq 0 ]; then
+              echo "Health check passed"
               systemd-notify --ready --status="Service is up and running"
               exit 0
             else
-              echo "Attempt $((attempt + 1)) failed with status code ''${status_code}"
+              echo "Attempt $((attempt)) failed with exit code ''${exit_code}"
               attempt=$((attempt + 1))
 
               sleep "''${RETRY_DELAY}s"
@@ -57,6 +60,7 @@ in
           done
 
           systemd-notify --status="Service is not responding..."
+          printf "Last output is:\n%s" "''${output}"
           exit 1
         }
 
