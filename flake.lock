@@ -85,7 +85,8 @@
     "crane": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-unstable"
+          "playit-nixos-module",
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -327,11 +328,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1722520005,
-        "narHash": "sha256-64TRbKwh1Aq+pCnLUp6Sqiy73t3GSJF9lvbakMNtJ4Y=",
+        "lastModified": 1723035607,
+        "narHash": "sha256-DINOMcu18ZAiH5OAQ3mXCOkrgiPwNrDH2wFsS0zEhG4=",
         "owner": "pedorich-n",
         "repo": "MinecraftModpack",
-        "rev": "916a11534f5fda7ebfaf9b7ca5bdf44833cd8995",
+        "rev": "7760555507286f49576ab4b2de12e02d1926d274",
         "type": "github"
       },
       "original": {
@@ -483,11 +484,11 @@
     "playit-agent-source": {
       "flake": false,
       "locked": {
-        "lastModified": 1709245332,
-        "narHash": "sha256-RRN0KAgFVXQGU6LdNWClBFlqO+Nl4SMNXDWfV0lOhAE=",
+        "lastModified": 1722990414,
+        "narHash": "sha256-QLWXO64lodLbxJ4J8i6qfup+SVtw1yLjPOzraUpZlCU=",
         "owner": "playit-cloud",
         "repo": "playit-agent",
-        "rev": "ccac738805be49e657f55bd78cd7021a6fc0e9f6",
+        "rev": "c1b54d27ad82b398759a016cfc44e33378e81872",
         "type": "github"
       },
       "original": {
@@ -498,32 +499,25 @@
     },
     "playit-nixos-module": {
       "inputs": {
-        "crane": [
-          "crane"
-        ],
+        "crane": "crane",
         "flake-parts": [
           "flake-parts"
-        ],
-        "flake-utils": [
-          "flake-utils"
         ],
         "nixpkgs": [
           "nixpkgs-unstable"
         ],
         "playit-agent-source": "playit-agent-source",
-        "rust-overlay": [
-          "rust-overlay"
-        ],
+        "rust-overlay": "rust-overlay",
         "systems": [
           "systems"
         ]
       },
       "locked": {
-        "lastModified": 1722907698,
-        "narHash": "sha256-RNmcJSyFSStkzsscH1pcGWL3q8CV4dFpPrgPeUXclrY=",
+        "lastModified": 1723035310,
+        "narHash": "sha256-2AEBsi5oo4rGaAlpwaoZ0kJGRVKReGK68fNk8oySHNU=",
         "owner": "pedorich-n",
         "repo": "playit-nixos-module",
-        "rev": "c0471298f510e971d976dead4d4a280e2d689b06",
+        "rev": "2bc389e7bd7fc191c47d7f0bb067af894911c17f",
         "type": "github"
       },
       "original": {
@@ -565,7 +559,6 @@
         "agenix": "agenix",
         "airtable-telegram-bot": "airtable-telegram-bot",
         "arion": "arion",
-        "crane": "crane",
         "deploy-rs": "deploy-rs",
         "disko": "disko",
         "flake-compat": "flake-compat",
@@ -582,13 +575,13 @@
         "nixpkgs-unstable": "nixpkgs-unstable",
         "playit-nixos-module": "playit-nixos-module",
         "poetry2nix": "poetry2nix",
-        "rust-overlay": "rust-overlay",
         "systems": "systems"
       }
     },
     "rust-overlay": {
       "inputs": {
         "nixpkgs": [
+          "playit-nixos-module",
           "nixpkgs"
         ]
       },
