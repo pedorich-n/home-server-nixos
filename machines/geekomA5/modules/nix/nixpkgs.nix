@@ -3,7 +3,6 @@
   nixpkgs = {
     overlays = [
       inputs.nix-minecraft.overlays.default
-      inputs.rust-overlay.overlays.default
       inputs.poetry2nix.overlays.default
       overlays.minecraft-server-check
     ];
