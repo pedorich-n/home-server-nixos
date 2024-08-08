@@ -3,13 +3,10 @@ let
   dbBackupFolder = "/mnt/store/immich/db-backup";
 in
 {
+  #NOTE - See also global config at
+  #LINK - machines/geekomA5/modules/system/services/restic.nix
   services.restic.backups = {
     immich = {
-      timerConfig = {
-        OnCalendar = "*-*-* 02:00:00"; # Every day at 02:00
-        Persistent = true;
-      };
-
       paths = [
         "/mnt/external/immich-library/upload" # Original assets
         "/mnt/external/immich-library/library" # Organized assets
@@ -25,10 +22,6 @@ in
         "--keep-yearly 1"
       ];
 
-      extraBackupArgs = [
-        "--tag auto"
-      ];
-
       # NOTE: https://immich.app/docs/administration/backup-and-restore/
       backupPrepareCommand = ''
         mkdir -p ${dbBackupFolder}
@@ -37,10 +30,6 @@ in
         ${lib.getExe config.virtualisation.podman.package} exec --tty immich-postgresql \
         pg_dumpall --username ''${DB_USERNAME} --clean --if-exists > "${dbBackupFolder}/backup.sql"
       '';
-
-      environmentFile = config.age.secrets.immich_restic_environment.path;
-      repositoryFile = config.age.secrets.immich_restic_repository.path;
-      passwordFile = config.age.secrets.immich_restic_password.path;
     };
   };
 }

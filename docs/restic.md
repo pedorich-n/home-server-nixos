@@ -6,8 +6,9 @@ Restic backups are exposed as a service in nix under [`services.restic.backups`]
 
 ## Initializing new repository with Backblaze
 
-1. Go to [Backblaze](https://secure.backblaze.com/b2_buckets.htm) and create new Bucket.
+1. Go to [Backblaze](https://secure.backblaze.com/b2_buckets.htm) and create new private Bucket.
    1. The bucket name has to be unique across all backblaze buckets of all users. So use naming scheme like `<something>-backup-<random>`. Random can be obtained from `pwgen`, for example `nix run nixpkgs#pwgen -- --secure 10 1`
+   2. Change "Lifecycle Settings" to "Keep only the last version of the file" (restic will take care of versioning)
 2. Generate an app key for the bucket in [Backblaze](https://secure.backblaze.com/app_keys.htm)
 3. `home-server-nixos-secrets` create new files, fill the information and encrypt new secrets:
    1. `<something>_restic_password.txt`
