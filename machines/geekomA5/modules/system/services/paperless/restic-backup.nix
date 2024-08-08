@@ -1,20 +1,12 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 let
   dbBackupFolder = "/mnt/store/paperless/db-backup";
-
-  package = pkgs.restic;
 in
 {
-  environment.systemPackages = [ package ];
-
+  #NOTE - See also global config at
+  #LINK - machines/geekomA5/modules/system/services/restic.nix
   services.restic.backups = {
     paperless = {
-
-      timerConfig = {
-        OnCalendar = "*-*-* 02:30:00"; # Every day at 02:30
-        Persistent = true;
-      };
-
       paths = [
         "/mnt/external/paperless-library/media" # Assets
         dbBackupFolder # DB backup
@@ -27,10 +19,6 @@ in
         "--keep-yearly 1"
       ];
 
-      extraBackupArgs = [
-        "--tag auto"
-      ];
-
       backupPrepareCommand = ''
         mkdir -p ${dbBackupFolder}
         set -o allexport; source ${config.age.secrets.paperless_compose.path}; set +o allexport
@@ -38,12 +26,6 @@ in
         ${lib.getExe config.virtualisation.podman.package} exec --tty paperless-postgresql \
         pg_dumpall --username ''${POSTGRES_USER} --clean --if-exists > "${dbBackupFolder}/backup.sql"
       '';
-
-      environmentFile = config.age.secrets.paperless_restic_environment.path;
-      repositoryFile = config.age.secrets.paperless_restic_repository.path;
-      passwordFile = config.age.secrets.paperless_restic_password.path;
-
-      inherit package;
     };
   };
 }
