@@ -73,7 +73,7 @@
     };
 
     home-server-nixos-secrets = {
-      url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets";
+      url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets?ref=more-backup";
       flake = false;
     };
 
