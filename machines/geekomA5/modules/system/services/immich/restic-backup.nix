@@ -1,12 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 let
   dbBackupFolder = "/mnt/store/immich/db-backup";
-
-  package = pkgs.restic;
 in
 {
-  environment.systemPackages = [ package ];
-
   services.restic.backups = {
     immich = {
       timerConfig = {
@@ -45,8 +41,6 @@ in
       environmentFile = config.age.secrets.immich_restic_environment.path;
       repositoryFile = config.age.secrets.immich_restic_repository.path;
       passwordFile = config.age.secrets.immich_restic_password.path;
-
-      inherit package;
     };
   };
 }

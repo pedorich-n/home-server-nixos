@@ -1,12 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 let
   dbBackupFolder = "/mnt/store/paperless/db-backup";
-
-  package = pkgs.restic;
 in
 {
-  environment.systemPackages = [ package ];
-
   services.restic.backups = {
     paperless = {
 
@@ -42,8 +38,6 @@ in
       environmentFile = config.age.secrets.paperless_restic_environment.path;
       repositoryFile = config.age.secrets.paperless_restic_repository.path;
       passwordFile = config.age.secrets.paperless_restic_password.path;
-
-      inherit package;
     };
   };
 }
