@@ -41,9 +41,10 @@ entries:
 
   - model: authentik_core.application
     state: present
+    id: application
     identifiers:
-      name: Grist
-      slug: grist
+      name: {{ name }}
+      slug: {{ slug }}
     attrs:
       provider: !KeyOf provider
       open_in_new_tab: true

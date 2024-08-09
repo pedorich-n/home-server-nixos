@@ -52,7 +52,7 @@ def render_templates(templates_root: Path, includes: List[Path], output_root: Pa
 def main():
     parser = argparse.ArgumentParser(formatter_class=lambda prog: argparse.ArgumentDefaultsHelpFormatter(prog, max_help_position=60))
     parser.add_argument("--templates", type=Path, required=True, help="Path to templates to render")
-    parser.add_argument("--include", type=Path, required=False, nargs='+', help="Extra folder(s) to include", default=[])
+    parser.add_argument("--include", type=Path, required=False, nargs="+", help="Extra folder(s) to include", default=[])
     parser.add_argument("--output", type=Path, required=True, help="Path to output folder")
     parser.add_argument("--variables", type=Path, required=False, help="Path to JSON variables to use for substitution")
     parser.add_argument("--strict", action="store_true", required=False, help="If set, no undefined variables are allowed", default=False)

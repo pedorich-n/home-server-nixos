@@ -1,6 +1,6 @@
 { pkgs
 , lib
-, renderer 
+, jinja-renderer
 , ...
 }:
 { templates
@@ -28,7 +28,7 @@ pkgs.stdenvNoCC.mkDerivation {
   variables = builtins.toJSON variables;
   inherit outputPrefix;
 
-  nativeBuildInputs = [ renderer ];
+  nativeBuildInputs = [ jinja-renderer ];
 
   buildPhase =
     let

@@ -18,7 +18,7 @@ http://{{ slug }}.{{ domain }}
 
 
 {% macro generate_admin_policy() -%}
-- model: "authentik_policies.policybinding"
+- model: authentik_policies.policybinding
   identifiers:
     target: !KeyOf application
   attrs:
