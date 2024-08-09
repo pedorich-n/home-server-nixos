@@ -3,3 +3,4 @@ result
 **/*.pyc
 **/__pycache__
 /pkgs/minecraft-server-check/config.toml
+**/.ruff_cache

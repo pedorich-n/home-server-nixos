@@ -1,0 +1,4 @@
+{% from "macros/oidc_entry.j2" import oidc_entry with context %}
+{% import "macros/utils.j2" as utils with context %}
+
+{{ oidc_entry(name="Portainer", slug="portainer", group=groups.serverManagement, redirect_uris=utils.generate_url("portainer"), is_admin_only=true) }}
