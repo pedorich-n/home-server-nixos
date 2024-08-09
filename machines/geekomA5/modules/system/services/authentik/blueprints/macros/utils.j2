@@ -1,0 +1,28 @@
+{% macro generate_url(slug, domain_name) -%}
+{% if domain_name is not defined %}
+  {% set domain = server_domain %}
+{% else %}
+  {% set domain = domain_name %}
+{% endif %}
+http://{{ slug }}.{{ domain }}
+{%- endmacro %}
+
+{% macro generate_icon(slug, base_url) -%}
+{% if base_url is not defined %}
+  {% set url = icons_base_url %}
+{% else %}
+  {% set url = base_url %}
+{% endif %}
+{{ url }}/{{ slug }}.png
+{%- endmacro %}
+
+
+{% macro generate_admin_policy() -%}
+- model: "authentik_policies.policybinding"
+  identifiers:
+    target: !KeyOf application
+  attrs:
+    group: !Find [authentik_core.group, [name, Server Admins]]
+    enabled: true
+    order: 0
+{% endmacro %}

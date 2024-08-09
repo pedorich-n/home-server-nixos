@@ -1,3 +1,4 @@
+{% import "macros/utils.j2" as utils with context %}
 # yaml-language-server: $schema=https://version-2024-2.goauthentik.io/blueprints/schema.json
 version: 1
 metadata:
@@ -19,13 +20,9 @@ entries:
     identifiers:
       managed: goauthentik.io/outposts/embedded
     attrs:
-      providers: !Enumerate [
-        !Context providers, 
-        SEQ, 
-        !Find [authentik_providers_proxy.proxyprovider, [name, !Value 0]]
-      ]
+      providers: !Enumerate [!Context providers, SEQ, !Find [authentik_providers_proxy.proxyprovider, [name, !Value 0]]]
       config:
-        authentik_host: http://authentik.{{ domain }}
+        authentik_host: {{ utils.generate_url("authentik") }}
         object_naming_template: ak-outpost-%(name)s
         log_level: info
 

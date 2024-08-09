@@ -1,0 +1,48 @@
+{% import "macros/utils.j2" as utils with context %}
+
+{% macro proxy_entry(name, slug, group, url, icon, is_admin_only=false, access_token_validity="days=30", refresh_token_validity="days=180") -%}
+# yaml-language-server: $schema=https://version-2024-2.goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: {{ slug }}
+  labels:
+    blueprints.goauthentik.io/description: "Setup {{ name }} Proxy Provider & Application"
+entries:
+  - model: authentik_providers_proxy.proxyprovider
+    id: provider
+    state: present
+    identifiers:
+      name: {{ name }}
+    attrs:
+      authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
+      authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+      mode: forward_single
+      access_token_validity: {{ access_token_validity }}
+      refresh_token_validity: {{ refresh_token_validity }}
+      {% if url is defined %}
+      external_host: {{ url }}
+      {% else %}
+      external_host: {{ utils.generate_url(slug) }}
+      {% endif %}
+
+  - model: authentik_core.application
+    state: present
+    identifiers:
+      name: {{ name }}
+      slug: {{ slug }}
+    attrs:
+      provider: !KeyOf provider
+      open_in_new_tab: true
+      {% if icon is defined %}
+      icon: {{ icon }}
+      {% else %}
+      icon: {{ utils.generate_icon(slug) }}
+      {% endif %}
+      {% if group is defined %}
+      group: {{ group }}
+      {% endif %}
+
+  {% if is_admin_only -%}
+  {{ utils.generate_admin_policy() | indent(2, True) }}
+  {% endif %}
+{% endmacro %}
