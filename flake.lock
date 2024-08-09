@@ -314,6 +314,38 @@
         "type": "github"
       }
     },
+    "jinja2-renderer": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "poetry2nix": [
+          "poetry2nix"
+        ],
+        "systems": [
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1723217299,
+        "narHash": "sha256-DEyG72s7BelsqfseAPov7LFcCXVskl0ODuncmzVcKRU=",
+        "owner": "pedorich-n",
+        "repo": "jinja2-renderer",
+        "rev": "018bc2aa5fe63926bfe8af39f796df32956fcdad",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pedorich-n",
+        "repo": "jinja2-renderer",
+        "type": "github"
+      }
+    },
     "minecraft-modpack": {
       "inputs": {
         "flake-parts": [
@@ -567,6 +599,7 @@
         "haumea": "haumea",
         "home-server-nixos-secrets": "home-server-nixos-secrets",
         "homer-theme": "homer-theme",
+        "jinja2-renderer": "jinja2-renderer",
         "minecraft-modpack": "minecraft-modpack",
         "nix-minecraft": "nix-minecraft",
         "nixos-mutable-files-manager": "nixos-mutable-files-manager",

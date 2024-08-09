@@ -11,7 +11,7 @@ let
     };
   };
 in
-pkgs.jinja-render {
+pkgs.render-templates {
   templates = ./blueprints;
   name = "authentik-blueprints";
   inherit variables;

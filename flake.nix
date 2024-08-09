@@ -99,6 +99,17 @@
       };
     };
 
+    jinja2-renderer = {
+      url = "github:pedorich-n/jinja2-renderer";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        flake-parts.follows = "flake-parts";
+        systems.follows = "systems";
+        flake-utils.follows = "flake-utils";
+        poetry2nix.follows = "poetry2nix";
+      };
+    };
+
     nix-minecraft = {
       url = "github:Infinidoge/nix-minecraft";
       inputs = {

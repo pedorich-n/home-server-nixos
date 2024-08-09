@@ -4,9 +4,8 @@
     overlays = [
       inputs.nix-minecraft.overlays.default
       inputs.poetry2nix.overlays.default
+      inputs.jinja2-renderer.overlays.default
       overlays.minecraft-server-check
-      overlays.jinja-renderer
-      overlays.jinja-render
     ];
   };
 
