@@ -122,7 +122,7 @@ in
         };
 
         homeassistant.service = rec {
-          image = "homeassistant/home-assistant:${containerVersions.homeassistant}";
+          image = "homeassistant/home-assistant:2024.7.4"; # Not all integrations are ready for the 2024.8.X :(
           container_name = "homeassistant";
           environment = {
             TZ = "${config.time.timeZone}";
