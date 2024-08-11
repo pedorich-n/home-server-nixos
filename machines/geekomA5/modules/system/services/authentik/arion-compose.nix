@@ -24,6 +24,7 @@ in
   systemd.services."arion-authentik".serviceConfig = {
     Type = "notify";
     NotifyAccess = "all";
+    TimeoutStartSec = "180";
     ExecStart = lib.mkForce (lib.getExe (pkgs.writeShellApplication {
       name = "authentik-healthcheck";
       runtimeInputs = [
@@ -33,8 +34,8 @@ in
       ];
       text = ''
         function watchdog() {
-          MAX_RETRIES="6"
-          RETRY_DELAY="10"
+          MAX_RETRIES="11"
+          RETRY_DELAY="15"
           TIMEOUT="10"
 
           exit_code=-1

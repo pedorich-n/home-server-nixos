@@ -83,11 +83,10 @@ registry = "docker.io"
 container = "library/mongo"
 exclude_regex = ".*rc.*"
 
-# Doesn't work properly, as docker images are not tagged and nvchecker just sorts hashes as strings 😕
-# [librechat]
-# source = "container"
-# registry = "ghcr.io"
-# container = "danny-avila/librechat-dev"
+[librechat-server]
+source = "container"
+registry = "ghcr.io"
+container = "danny-avila/librechat"
 
 [librechat-rag]
 source = "container"

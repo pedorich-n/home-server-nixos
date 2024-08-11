@@ -26,7 +26,7 @@ in
       services = {
         vectordb.service = {
           image = "ankane/pgvector:${containerVersions.librechat-vector}";
-          container_name = "vectordb";
+          container_name = "librechat-vectordb";
           networks = [ "default" ];
           volumes = [
             (storeFor "vectordb" "/var/lib/postgresql/data")
@@ -38,7 +38,7 @@ in
 
         rag.service = {
           image = "ghcr.io/danny-avila/librechat-rag-api-dev-lite:${containerVersions.librechat-rag}";
-          container_name = "rag";
+          container_name = "librechat-rag";
           networks = [ "default" ];
           environment = {
             VECTOR_DB_TYPE = "pgvector";
@@ -52,7 +52,7 @@ in
 
         mongodb.service = {
           image = "mongo:${containerVersions.librechat-mongodb}";
-          container_name = "mongodb";
+          container_name = "librechat-mongodb";
           command = "mongod --noauth";
           networks = [ "default" ];
           volumes = [
@@ -61,10 +61,9 @@ in
           restart = "unless-stopped";
         };
 
-        librechat.service = {
-          # No proper tags on that image :(
-          image = "ghcr.io/danny-avila/librechat-dev:92232afacab63a76d1b11d56921f77723a2cf90d";
-          container_name = "librechat";
+        server.service = {
+          image = "ghcr.io/danny-avila/librechat:${containerVersions.librechat-server}";
+          container_name = "librechat-server";
           # See https://github.com/danny-avila/LibreChat/discussions/572#discussioncomment-7352331
           command = "npm run backend:dev";
           networks = [
