@@ -14,7 +14,7 @@ let
     AUTHENTIK_POSTGRESQL__HOST = "authentik-postgresql";
   };
 
-  blueprints = import ./_render-blueprints.nix { inherit config jinja2RendererLib; };
+  blueprints = import ./_render-blueprints.nix { inherit jinja2RendererLib; };
 
   staticIpAddresses = {
     server = "172.31.0.240";

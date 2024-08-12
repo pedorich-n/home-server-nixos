@@ -1,7 +1,7 @@
 {% from "macros/oidc_entry.j2" import oidc_entry with context %}
-{% import "macros/utils.j2" as utils with context %}
+{% import "global_utils.j2" as global_utils with context %}
 
-{% set redirect_uris = [ utils.generate_url('immich') + "/auth/login",
-                         utils.generate_url('immich') + "/user-settings",
+{% set redirect_uris = [ global_utils.generate_url('immich') + "/auth/login",
+                         global_utils.generate_url('immich') + "/user-settings",
                          "app.immich:/" ] | join("\n") %}
 {{ oidc_entry(name="Immich", slug="immich", group=groups.services, redirect_uris=redirect_uris) }}

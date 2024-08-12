@@ -1,9 +1,6 @@
-{ config, jinja2RendererLib }:
+{ jinja2RendererLib }:
 let
   variables = {
-    server_domain = config.custom.networking.domain;
-    icons_base_url = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png";
-
     groups = {
       serverManagement = "Server Management";
       homeAutomation = "Home Automation";
@@ -11,7 +8,7 @@ let
     };
   };
 in
-jinja2RendererLib.render-templates {
+jinja2RendererLib.render-templates-with-global-macros {
   templates = ./blueprints/sources;
   includes = [
     ./blueprints/macros
