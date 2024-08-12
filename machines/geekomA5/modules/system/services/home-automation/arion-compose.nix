@@ -69,7 +69,7 @@ in
             TZ = "${config.time.timeZone}";
           };
           volumes = [
-            # configuration file is managed by environment.mutable-files
+            # configuration file is managed by systemd.tmpfiles
             (storeFor "zigbee2mqtt" "/app/data")
             "${config.age.secrets.zigbee2mqtt_secrets.path}:/app/data/secrets.yaml:ro"
             "/run/udev:/run/udev:ro"
