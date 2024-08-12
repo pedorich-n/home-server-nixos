@@ -88,17 +88,6 @@
       };
     };
 
-    nixos-mutable-files-manager = {
-      url = "github:pedorich-n/nixos-mutable-files-manager";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-        flake-parts.follows = "flake-parts";
-        systems.follows = "systems";
-        flake-utils.follows = "flake-utils";
-        poetry2nix.follows = "poetry2nix";
-      };
-    };
-
     jinja2-renderer = {
       url = "github:pedorich-n/jinja2-renderer";
       # url = "git+file:///home/pedorich_n/Projects/jinja2-renderer";
