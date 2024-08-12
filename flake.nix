@@ -101,6 +101,7 @@
 
     jinja2-renderer = {
       url = "github:pedorich-n/jinja2-renderer";
+      # url = "git+file:///home/pedorich_n/Projects/jinja2-renderer";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         flake-parts.follows = "flake-parts";

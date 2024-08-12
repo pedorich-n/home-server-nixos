@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, jinja2RendererLib }:
 let
   variables = {
     server_domain = config.custom.networking.domain;
@@ -11,7 +11,7 @@ let
     };
   };
 in
-pkgs.render-templates {
+jinja2RendererLib.render-templates {
   templates = ./blueprints;
   name = "authentik-blueprints";
   inherit variables;

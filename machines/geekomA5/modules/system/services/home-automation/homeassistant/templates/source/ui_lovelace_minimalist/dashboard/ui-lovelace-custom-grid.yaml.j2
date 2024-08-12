@@ -1,0 +1,58 @@
+{% from "macros/custom_room_grid.j2" import custom_room_grid %}
+---
+button_card_templates: !include_dir_merge_named "../../custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
+
+title: "Minimalist Grid"
+theme: "minimalist-desktop"
+background: "var(--background-image)"
+path: 0
+icon: "mdi:flower"
+type: "custom:grid-layout"
+layout:
+  grid-template-columns: "14.5% 35% auto 35% 14.5%"
+  grid-template-rows: auto
+  grid-template-areas: |
+    ". livingroom . bedroom ."
+    ". others_title others_title others_title ."
+    ". others1 . others2 ."
+  mediaquery:
+    "(max-width: 600px)":
+      grid-template-columns: "auto 98% auto"
+      grid-template-areas: |
+        ". livingroom ."
+        ". bedroom ."
+        ". others_title ."
+        ". others1 ."
+        ". others2 ."
+cards:
+  {{ custom_room_grid("Living Room", "livingroom", "sensor.tuya_temperature_ldk_1_temperature", "sensor.tuya_temperature_ldk_1_humidity", "climate.ldk_ac") | indent(2, False) }}
+
+  {{ custom_room_grid("Bedroom", "bedroom", "sensor.tuya_temperature_bedroom_1_temperature", "sensor.tuya_temperature_bedroom_1_humidity", "climate.bedroom_ac") | indent(2, False) }}
+
+  - type: "custom:button-card"
+    template: card_title
+    name: "Others"
+    styles:
+      card:
+        - margin-left: "0"
+    view_layout:
+      grid-area: "others_title"
+      place-self: "center center"
+
+  - type: "custom:button-card"
+    view_layout:
+      grid-area: "others1"
+    template: custom_card_humidifier
+    entity: select.sharp_hv_r75_operating_mode_select
+    variables:
+      humidifier_name: "Humidifier"
+      humidifier_on_off_button: "button.sharp_hv_r75_on_off_switch"
+      humidifier_water_level_sensor: "sensor.sharp_hv_r75_water_level"
+
+  - type: "custom:scheduler-card"
+    title: "Scheduler"
+    view_layout:
+      grid-area: "others2"
+    include:
+      - climate
+      - select

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, dockerLib, ... }:
+{ config, lib, pkgs, dockerLib, jinja2RendererLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -14,7 +14,7 @@ let
     AUTHENTIK_POSTGRESQL__HOST = "authentik-postgresql";
   };
 
-  blueprints = pkgs.callPackage ./_render-blueprints.nix { inherit config; };
+  blueprints = import ./_render-blueprints.nix { inherit config jinja2RendererLib; };
 
   staticIpAddresses = {
     server = "172.31.0.240";
