@@ -1,0 +1,4 @@
+{% from "macros/proxy_entry.j2" import proxy_entry with context %}
+{% import "global_utils.j2" as global_utils with context %}
+
+{{ proxy_entry(name="MultiScrobbler", slug="multiscrobbler", group=groups.services, icon=global_utils.generate_icon("multi-scrobbler")) }}

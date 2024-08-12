@@ -28,7 +28,7 @@ in
           restart = "unless-stopped";
           # user = userSetting;
           volumes = [
-            # Managed by environment.mutable-files
+            # Managed by systemd.tmpfiles
             (storeFor "homepage/config" "/app/config")
             (storeFor "homepage/images" "/app/public/images")
 

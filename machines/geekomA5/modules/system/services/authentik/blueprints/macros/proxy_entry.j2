@@ -1,4 +1,5 @@
 {% import "macros/utils.j2" as utils with context %}
+{% import "global_utils.j2" as global_utils with context %}
 
 {% macro proxy_entry(name, slug, group, url, icon, is_admin_only=false, access_token_validity="days=30", refresh_token_validity="days=180") -%}
 # yaml-language-server: $schema=https://version-2024-2.goauthentik.io/blueprints/schema.json
@@ -22,7 +23,7 @@ entries:
       {% if url is defined %}
       external_host: {{ url }}
       {% else %}
-      external_host: {{ utils.generate_url(slug) }}
+      external_host: {{ global_utils.generate_url(slug) }}
       {% endif %}
 
   - model: authentik_core.application
@@ -37,7 +38,7 @@ entries:
       {% if icon is defined %}
       icon: {{ icon }}
       {% else %}
-      icon: {{ utils.generate_icon(slug) }}
+      icon: {{ global_utils.generate_icon(slug) }}
       {% endif %}
       {% if group is defined %}
       group: {{ group }}

@@ -333,11 +333,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1723217299,
-        "narHash": "sha256-DEyG72s7BelsqfseAPov7LFcCXVskl0ODuncmzVcKRU=",
+        "lastModified": 1723442526,
+        "narHash": "sha256-zrY9Fctl8WpNnvOJFdlr9q6NDTTPHyHbXyBSWAIsjjY=",
         "owner": "pedorich-n",
         "repo": "jinja2-renderer",
-        "rev": "018bc2aa5fe63926bfe8af39f796df32956fcdad",
+        "rev": "2679e184b797e67b621cf2c19e046deb428e389d",
         "type": "github"
       },
       "original": {
@@ -396,38 +396,6 @@
       "original": {
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "type": "github"
-      }
-    },
-    "nixos-mutable-files-manager": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ],
-        "poetry2nix": [
-          "poetry2nix"
-        ],
-        "systems": [
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1722870490,
-        "narHash": "sha256-0PGEfAzDnyW94j8yb1deIOs8V4Meg4eyhWpR5sunLoE=",
-        "owner": "pedorich-n",
-        "repo": "nixos-mutable-files-manager",
-        "rev": "8e4139087dc32632eb80494aa0a4ad0d71609148",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pedorich-n",
-        "repo": "nixos-mutable-files-manager",
         "type": "github"
       }
     },
@@ -602,7 +570,6 @@
         "jinja2-renderer": "jinja2-renderer",
         "minecraft-modpack": "minecraft-modpack",
         "nix-minecraft": "nix-minecraft",
-        "nixos-mutable-files-manager": "nixos-mutable-files-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-netdata-146": "nixpkgs-netdata-146",
         "nixpkgs-unstable": "nixpkgs-unstable",

@@ -31,8 +31,7 @@ http:
   server_port: 80
   use_x_forwarded_for: true
   trusted_proxies:
-    - 172.31.0.0/24 # traefik
-    - 172.32.0.0/24 # tailscale
+    - 172.31.0.0/24 #LINK - machines/geekomA5/modules/system/services/traefik/podman-traefik-network.nix
 
 auth_header:
   username_header: X-authentik-username

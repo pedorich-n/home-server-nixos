@@ -1,4 +1,5 @@
 {% import "macros/utils.j2" as utils with context %}
+{% import "global_utils.j2" as global_utils with context %}
 
 {% macro oidc_entry(name, slug, group, client_id_env, client_secret_env, redirect_uris, icon, is_admin_only=false, access_token_validity="days=30", refresh_token_validity="days=180") -%}
 {% if client_id_env is not defined %}
@@ -51,7 +52,7 @@ entries:
       {% if icon is defined %}
       icon: {{ icon }}
       {% else %}
-      icon: {{ utils.generate_icon(slug) }}
+      icon: {{ global_utils.generate_icon(slug) }}
       {% endif %}
       {% if group is defined %}
       group: {{ group }}
