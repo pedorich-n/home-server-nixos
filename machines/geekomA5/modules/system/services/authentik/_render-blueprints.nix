@@ -12,7 +12,10 @@ let
   };
 in
 jinja2RendererLib.render-templates {
-  templates = ./blueprints;
+  templates = ./blueprints/sources;
+  includes = [
+    ./blueprints/macros
+  ];
   name = "authentik-blueprints";
   inherit variables;
 }

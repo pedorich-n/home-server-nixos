@@ -17,7 +17,6 @@ in
     (entryFor ./static/configuration.yaml "configuration.yaml")
     (entryFor ./static/ui_lovelace_minimalist/custom_cards/custom_card_humidifier/custom_card_humidifier.yaml "ui_lovelace_minimalist/custom_cards/custom_card_humidifier/custom_card_humidifier.yaml")
     (entryFor ./static/custom_components/smartir/codes/climate/17000.json "custom_components/smartir/codes/climate/17000.json")
-    # (entryFor ./static/ui_lovelace_minimalist/dashboard/views/ui-lovelace-custom-grid-templated.yaml "ui_lovelace_minimalist/dashboard/views/ui-lovelace-custom-grid-templated.yaml")
     (entryFor "${rendered-templates}/ui_lovelace_minimalist/dashboard/ui-lovelace-custom-grid.yaml" "ui_lovelace_minimalist/dashboard/ui-lovelace-custom-grid.yaml")
   ];
 }

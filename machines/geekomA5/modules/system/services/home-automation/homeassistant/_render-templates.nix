@@ -1,6 +1,6 @@
 { jinja2RendererLib }:
 jinja2RendererLib.render-templates {
-  templates = ./templates/source;
+  templates = ./templates/sources;
   includes = [
     ./templates/macros
   ];
