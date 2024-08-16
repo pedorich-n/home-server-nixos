@@ -49,7 +49,7 @@
           "org.openzfs.systemd:nofail" = "on"; # Don't halt boot if fails to mount the FS
         };
 
-        mountpoint = "/mnt/external"; # fstab mountpoint, ideally should be removed, but it's not currently possible with disko
+        # mountpoint = "/mnt/external"; # fstab mountpoint, ideally should be removed, but it's not currently possible with disko
 
         datasets = {
           immich = {
@@ -59,7 +59,7 @@
               "com.sun:auto-snapshot" = "true";
               "org.openzfs.systemd:nofail" = "on"; # Don't halt boot if fails to mount the FS
             };
-            mountpoint = "/mnt/external/immich-library"; # fstab mountpoint, ideally should be removed, but it's not currently possible with disko
+            # mountpoint = "/mnt/external/immich-library"; # fstab mountpoint, ideally should be removed, but it's not currently possible with disko
           };
 
           paperless = {
@@ -69,19 +69,21 @@
               "com.sun:auto-snapshot" = "true";
               "org.openzfs.systemd:nofail" = "on"; # Don't halt boot if fails to mount the FS
             };
-            mountpoint = "/mnt/external/paperless-library";
+            # mountpoint = "/mnt/external/paperless-library";
           };
         };
       };
     };
   };
 
+  # See: https://github.com/nix-community/disko/issues/581#issuecomment-2260602290
+
   # NOTE https://github.com/nix-community/disko/issues/581
-  fileSystems = {
-    "/mnt/external".options = [ "noauto" ];
-    "/mnt/external/immich-library".options = [ "noauto" ];
-    "/mnt/external/paperless-library".options = [ "noauto" ];
-  };
+  # fileSystems = {
+  #   "/mnt/external".options = [ "noauto" ];
+  #   "/mnt/external/immich-library".options = [ "noauto" ];
+  #   "/mnt/external/paperless-library".options = [ "noauto" ];
+  # };
 
   # systemd.services = lib.mkMerge [
   #   (mkSystemdZfsMountTarget { dataset = "external/immich"; })
@@ -103,10 +105,17 @@
 
   environment.etc."zfs/zed.d/history_event-zfs-list-cacher.sh".source = "${config.boot.zfs.package}/etc/zfs/zed.d/history_event-zfs-list-cacher.sh";
 
-  systemd.tmpfiles.rules = [
-    #Type Path                    pool-name    Mode User Group Age Argument
-    "f    /etc/zfs/zfs-list.cache/external     0644 root root  -   -"
-  ];
+  systemd.tmpfiles.settings = {
+    "10-zfs-cache" = {
+      "/etc/zfs/zfs-list.cache/external" = {
+        "f" = {
+          mode = "0644";
+          user = "root";
+          group = "root";
+        };
+      };
+    };
+  };
 
   # zfs-mount-generator needs a diffutils, but because `services.zfs.zed.settings.PATH` is a string, we need to completly override it,
   # copying everything from the original list plus the diffutils
