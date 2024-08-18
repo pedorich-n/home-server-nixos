@@ -1,5 +1,6 @@
 { config, lib, pkgs, pkgs-unstable, ... }:
 let
+  #LINK - docs/tailscale_setup.md
   tailscaleMachineIp = "100.109.85.80";
 
   dnsmasqConfig = pkgs.writeTextFile {
