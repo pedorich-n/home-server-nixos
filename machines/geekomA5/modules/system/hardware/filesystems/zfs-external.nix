@@ -78,9 +78,9 @@ in
 
   # NOTE https://github.com/nix-community/disko/issues/581
   fileSystems = {
-    "/mnt/external".options = [ "noauto" ];
-    "/mnt/external/immich-library".options = [ "noauto" ];
-    "/mnt/external/paperless-library".options = [ "noauto" ];
+    "/mnt/external".options = [ "noauto" "nofail" ];
+    "/mnt/external/immich-library".options = [ "noauto" "nofail" ];
+    "/mnt/external/paperless-library".options = [ "noauto" "nofail" ];
   };
 
 
