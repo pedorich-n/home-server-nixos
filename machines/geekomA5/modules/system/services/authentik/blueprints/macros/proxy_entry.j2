@@ -20,11 +20,11 @@ entries:
       mode: forward_single
       access_token_validity: {{ access_token_validity }}
       refresh_token_validity: {{ refresh_token_validity }}
-      {% if url is defined %}
+  {% if url is defined %}
       external_host: {{ url }}
-      {% else %}
+  {% else %}
       external_host: {{ global_utils.generate_url(slug) }}
-      {% endif %}
+  {% endif %}
 
   - model: authentik_core.application
     state: present
@@ -35,14 +35,14 @@ entries:
     attrs:
       provider: !KeyOf provider
       open_in_new_tab: true
-      {% if icon is defined %}
+  {% if icon is defined %}
       icon: {{ icon }}
-      {% else %}
+  {% else %}
       icon: {{ global_utils.generate_icon(slug) }}
-      {% endif %}
-      {% if group is defined %}
+  {% endif %}
+  {% if group is defined %}
       group: {{ group }}
-      {% endif %}
+  {% endif %}
 
   {% if is_admin_only -%}
   {{ utils.generate_admin_policy() | indent(2, True) }}

@@ -2,4 +2,4 @@
 {% import "global_utils.j2" as global_utils with context %}
 
 {% set redirect_uris = global_utils.generate_url("paperless") + "/accounts/oidc/authentik/login/callback/" %}
-{{ oidc_entry(name="Paperless", slug="paperless", group=groups.services, redirect_uris=redirect_uris,  icon=global_utils.generate_icon("paperless-ngx")) }}
+{{ oidc_entry(name="Paperless", slug="paperless", group=groups.services, redirect_uris=redirect_uris,  icon=global_utils.generate_icon("paperless-ngx") ) }}

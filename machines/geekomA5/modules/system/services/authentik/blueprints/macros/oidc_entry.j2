@@ -2,22 +2,22 @@
 {% import "global_utils.j2" as global_utils with context %}
 
 {% macro oidc_entry(name, slug, group, client_id_env, client_secret_env, redirect_uris, icon, is_admin_only=false, access_token_validity="days=30", refresh_token_validity="days=180") -%}
-{% if client_id_env is not defined %}
-  {% set client_id = name | upper + "_OAUTH_CLIENT_ID" %}
-{% else%}
-  {% set client_id = client_id_env %}
-{% endif %}
-{% if client_secret_env is not defined %}
-  {% set client_secret = name | upper + "_OAUTH_CLIENT_SECRET" %}
-{% else %}
-  {% set client_secret = client_secret_env %}
-{% endif %}
+  {% if client_id_env is not defined %}
+{% set client_id = name | upper + "_OAUTH_CLIENT_ID" %}
+  {% else %}
+{% set client_id = client_id_env %}
+  {% endif %}
+  {% if client_secret_env is not defined %}
+{% set client_secret = name | upper + "_OAUTH_CLIENT_SECRET" %}
+  {% else %}
+{% set client_secret = client_secret_env %}
+  {% endif %}
 # yaml-language-server: $schema=https://version-2024-2.goauthentik.io/blueprints/schema.json
 version: 1
 metadata:
   name: {{ slug }}
   labels:
-    blueprints.goauthentik.io/description: "Setup {{name}} OAuth Provider & Application"
+    blueprints.goauthentik.io/description: "Setup {{ name }} OAuth Provider & Application"
 entries:
   - model: authentik_providers_oauth2.oauth2provider
     id: provider
@@ -49,14 +49,14 @@ entries:
     attrs:
       provider: !KeyOf provider
       open_in_new_tab: true
-      {% if icon is defined %}
+  {% if icon is defined %}
       icon: {{ icon }}
-      {% else %}
+  {% else %}
       icon: {{ global_utils.generate_icon(slug) }}
-      {% endif %}
-      {% if group is defined %}
+  {% endif %}
+  {% if group is defined %}
       group: {{ group }}
-      {% endif %}
+  {% endif %}
 
   {% if is_admin_only -%}
   {{ utils.generate_admin_policy() | indent(2, True) }}
