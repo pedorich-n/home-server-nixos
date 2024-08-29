@@ -27,6 +27,26 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    personal-home-manager = {
+      url = "git+ssh://git@github.com/pedorich-n/config.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        systems.follows = "systems";
+        flake-parts.follows = "flake-parts";
+        flake-utils.follows = "flake-utils";
+        haumea.follows = "haumea";
+        home-manager.follows = "home-manager";
+        home-manager-diff.follows = "";
+        cqlsh-source.follows = "";
+        nix-vscode-extensions.follows = "";
+      };
+    };
+
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs = {

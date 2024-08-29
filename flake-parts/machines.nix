@@ -37,6 +37,8 @@ lib.mkMerge [
     name = "geekomA5";
     system = "x86_64-linux";
     modules = sharedModules ++ [
+      inputs.home-manager.nixosModules.default
+      ../homes
       inputs.arion.nixosModules.arion
       inputs.disko.nixosModules.disko
       inputs.airtable-telegram-bot.nixosModules.ngrok
