@@ -23,10 +23,9 @@ in
 
   custom.services = {
     minecraft-server-check = {
-      enable = false;
+      enable = true;
       package = pkgs-unstable.minecraft-server-check;
       configPath = config.age.secrets.server_check_config.path;
-      server-service = "minecraft-server-money-guys-5.service";
       tunnel-service = "playit.service";
       restart-timeout = 90;
     };

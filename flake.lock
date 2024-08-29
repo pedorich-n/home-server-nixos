@@ -333,11 +333,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1723442526,
-        "narHash": "sha256-zrY9Fctl8WpNnvOJFdlr9q6NDTTPHyHbXyBSWAIsjjY=",
+        "lastModified": 1724769853,
+        "narHash": "sha256-AlMy/NtSgvgQyJT5idRzocLY7bmxB/rA3d4WUwnOOcw=",
         "owner": "pedorich-n",
         "repo": "jinja2-renderer",
-        "rev": "2679e184b797e67b621cf2c19e046deb428e389d",
+        "rev": "f8ec81d0e37c5b110332f249aaf6a767b2fd31e5",
         "type": "github"
       },
       "original": {

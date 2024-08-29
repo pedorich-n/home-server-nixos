@@ -30,8 +30,7 @@ let
 
   assertUniquePorts = ports:
     let
-      strPort = item: "${builtins.toString item.port}";
-      groupedByPort = lib.foldlAttrs (acc: name: item: acc // { ${strPort item} = (acc.${strPort item} or [ ]) ++ [ name ]; }) { } ports;
+      groupedByPort = lib.foldlAttrs (acc: name: item: acc // { ${item.portStr} = (acc.${item.portStr} or [ ]) ++ [ name ]; }) { } ports;
 
       mkErrorMsg = port: names: ''Multiple definitions are trying to bind to port ${port}: ${builtins.concatStringsSep ", " names}'';
       assertions = lib.mapAttrsToList (port: names: { assertion = (builtins.length names) == 1; message = mkErrorMsg port names; }) groupedByPort;

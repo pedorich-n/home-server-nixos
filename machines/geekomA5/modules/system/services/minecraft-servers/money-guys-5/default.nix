@@ -6,14 +6,9 @@ let
   forgeRunnable = pkgs.callPackage ./_forge-runnable.nix { inherit forge; };
 in
 {
-  custom.networking.ports.tcp = lib.mkIf config.services.minecraft-servers.servers.${serverName}.enable {
-    "minecraft-${serverName}-game" = { port = 43000; openFirewall = true; };
-    "minecraft-${serverName}-metrics" = { port = 44040; openFirewall = true; };
-  };
-
-  services = {
-    minecraft-servers.servers = {
-      ${serverName} = {
+  config = lib.mkMerge [
+    {
+      services.minecraft-servers.servers.${serverName} = {
         enable = true;
         autoStart = true;
         openFirewall = true;
@@ -40,27 +35,39 @@ in
 
         files = minecraftLib.mkPackwizSymlinks { pkg = inputs.minecraft-modpack.packages.${system}.packwiz-server; folder = "config"; };
       };
-    };
+    }
+    (lib.mkIf config.services.minecraft-servers.servers.${serverName}.enable {
+      custom = {
+        networking.ports.tcp = {
+          "minecraft-${serverName}-game" = { port = 43000; openFirewall = true; };
+          "minecraft-${serverName}-metrics" = { port = 44040; openFirewall = true; };
+        };
 
-    # NOTE Should be the same as labels produced by
-    # LINK machines/geekomA5/modules/lib/docker.nix:11
-    traefik.dynamicConfigOptions.http = lib.mkIf config.services.minecraft-servers.servers.${serverName}.enable {
-      routers.metrics-minecraft = {
-        entryPoints = [ "metrics" ];
-        rule = "Host(`metrics.${config.custom.networking.domain}`) && Path(`/minecraft`)";
-        service = "metrics-minecraft";
-        middlewares = [ "metrics-replacepath-minecraft" ];
-      };
-
-      services.metrics-minecraft = {
-        loadBalancer.servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp."minecraft-${serverName}-metrics".portStr}"; }];
-      };
-
-      middlewares.metrics-replacepath-minecraft = {
-        replacePath = {
-          path = "/metrics";
+        services.minecraft-server-check = {
+          server-service = "minecraft-server-${serverName}.service";
         };
       };
-    };
-  };
+
+      # NOTE Should be the same as labels produced by
+      # LINK machines/geekomA5/modules/lib/docker.nix:11
+      services.traefik.dynamicConfigOptions.http = {
+        routers.metrics-minecraft = {
+          entryPoints = [ "metrics" ];
+          rule = "Host(`metrics.${config.custom.networking.domain}`) && Path(`/minecraft`)";
+          service = "metrics-minecraft";
+          middlewares = [ "metrics-replacepath-minecraft" ];
+        };
+
+        services.metrics-minecraft = {
+          loadBalancer.servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp."minecraft-${serverName}-metrics".portStr}"; }];
+        };
+
+        middlewares.metrics-replacepath-minecraft = {
+          replacePath = {
+            path = "/metrics";
+          };
+        };
+      };
+    })
+  ];
 }
