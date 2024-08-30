@@ -503,7 +503,6 @@
     },
     "personal-home-manager": {
       "inputs": {
-        "cqlsh-source": [],
         "flake-parts": [
           "flake-parts"
         ],
@@ -528,11 +527,11 @@
         "tomorrow-theme-source": "tomorrow-theme-source"
       },
       "locked": {
-        "lastModified": 1724936997,
-        "narHash": "sha256-e/kECs6Ui5QWej6g0XVL/TerLq3prULQhydYkRbnny8=",
+        "lastModified": 1725019863,
+        "narHash": "sha256-Cx5Rfrm4PUR0q5QZZQeE8pUR/w+TeUtiF9LhKXCJ0Lk=",
         "ref": "refs/heads/main",
-        "rev": "282f2173b77a4fbb3871dbfdac880fc8ae2882d6",
-        "revCount": 372,
+        "rev": "8a1fada49a309a401b785767258a13578cb3a31c",
+        "revCount": 378,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/config.nix"
       },

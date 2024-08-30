@@ -42,7 +42,6 @@
         haumea.follows = "haumea";
         home-manager.follows = "home-manager";
         home-manager-diff.follows = "";
-        cqlsh-source.follows = "";
         nix-vscode-extensions.follows = "";
       };
     };
