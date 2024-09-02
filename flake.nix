@@ -43,6 +43,7 @@
         home-manager.follows = "home-manager";
         home-manager-diff.follows = "";
         nix-vscode-extensions.follows = "";
+        rust-overlay.follows = "";
       };
     };
 

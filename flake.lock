@@ -520,7 +520,7 @@
         "nixpkgs": [
           "nixpkgs-unstable"
         ],
-        "rust-overlay": "rust-overlay",
+        "rust-overlay": [],
         "systems": [
           "systems"
         ],
@@ -566,7 +566,7 @@
           "nixpkgs-unstable"
         ],
         "playit-agent-source": "playit-agent-source",
-        "rust-overlay": "rust-overlay_2",
+        "rust-overlay": "rust-overlay",
         "systems": [
           "systems"
         ]
@@ -640,27 +640,6 @@
       }
     },
     "rust-overlay": {
-      "inputs": {
-        "nixpkgs": [
-          "personal-home-manager",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1723602049,
-        "narHash": "sha256-Z/noCSn9WPkv7O77dWKLcBxe4Ub4bWyNzsL5JhjaQfw=",
-        "owner": "oxalica",
-        "repo": "rust-overlay",
-        "rev": "ea0bf33a11a26a62c60123c49d96011da396602c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "oxalica",
-        "repo": "rust-overlay",
-        "type": "github"
-      }
-    },
-    "rust-overlay_2": {
       "inputs": {
         "nixpkgs": [
           "playit-nixos-module",
