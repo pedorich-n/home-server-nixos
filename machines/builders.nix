@@ -1,6 +1,6 @@
 { inputs, flake, withSystem, lib }:
 let
-  loadMachine = name: flake.lib.list-modules { src = ./${name}; };
+  loadMachine = name: flake.lib.loaders.listModules { src = ./${name}; };
 
   mkSystem =
     { name

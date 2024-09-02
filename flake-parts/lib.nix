@@ -3,7 +3,7 @@ _:
 {
   flake = {
     lib = inputs.haumea.lib.load {
-      src = ../lib/global;
+      src = ../lib;
       inputs = {
         inherit (inputs) haumea;
         inherit lib;
