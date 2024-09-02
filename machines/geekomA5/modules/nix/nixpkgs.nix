@@ -5,6 +5,7 @@
       inputs.nix-minecraft.overlays.default
       inputs.poetry2nix.overlays.default
       inputs.jinja2-renderer.overlays.default
+      inputs.personal-home-manager.overlays.default
       overlays.minecraft-server-check
     ];
   };

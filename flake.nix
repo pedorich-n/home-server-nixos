@@ -27,6 +27,26 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
+    personal-home-manager = {
+      url = "git+ssh://git@github.com/pedorich-n/config.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        systems.follows = "systems";
+        flake-parts.follows = "flake-parts";
+        flake-utils.follows = "flake-utils";
+        haumea.follows = "haumea";
+        home-manager.follows = "home-manager";
+        home-manager-diff.follows = "";
+        nix-vscode-extensions.follows = "";
+        rust-overlay.follows = "";
+      };
+    };
+
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs = {
@@ -134,18 +154,14 @@
 
   };
 
-  outputs = inputs@{ flake-parts, systems, self, ... }: flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, flake-parts-lib, ... }: {
+  outputs = inputs@{ flake-parts, systems, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
     systems = import systems;
 
     debug = true;
 
     imports = builtins.attrValues (inputs.haumea.lib.load {
       src = ./flake-parts;
-      loader = args: path: flake-parts-lib.importApply path args;
-      inputs = {
-        inherit withSystem;
-        flake = self;
-      };
+      loader = inputs.haumea.lib.loaders.path;
     });
-  });
+  };
 }

@@ -3,7 +3,6 @@
 # https://github.com/serokell/deploy-rs/pull/269/files#diff-a29363f3de3f608cf01080e1c73bea2ac93897a5ae57c01bf3be916eb15f423e
 
 # Hopefully https://github.com/serokell/deploy-rs/pull/269 gets merged soon, and I won't need this module
-_:
 { lib, ... }:
 with lib;
 let
