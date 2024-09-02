@@ -1,21 +1,13 @@
-{ flake, withSystem, ... }:
-{ inputs, lib, ... }:
+{ flake, withSystem, inputs, lib, ... }:
 let
-  sharedNixosModules = flake.lib.loaders.listModules { src = ../modules; };
-  homeManagerNixosModules = [
-    inputs.home-manager.nixosModules.default
-    ../homes/default.nix
-  ];
-
-  builders = import ../machines/builders.nix { inherit inputs flake withSystem lib; };
-
-  overlays = import ../overlays/custom-packages.nix;
+  builders = import ../lib/builders.nix { inherit inputs flake lib withSystem; };
 in
 lib.mkMerge [
   (builders.mkSystem {
     name = "geekomA5";
     system = "x86_64-linux";
-    modules = sharedNixosModules ++ homeManagerNixosModules ++ [
+    withHmModules = true;
+    modules = [
       inputs.arion.nixosModules.arion
       inputs.disko.nixosModules.disko
       inputs.airtable-telegram-bot.nixosModules.ngrok
@@ -25,10 +17,6 @@ lib.mkMerge [
       inputs.nix-minecraft.nixosModules.minecraft-servers
       inputs.playit-nixos-module.nixosModules.default
     ];
-
-    specialArgs = {
-      inherit overlays;
-    };
 
     enableDeploy = true;
   })

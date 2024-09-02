@@ -33,10 +33,10 @@ in
     environment.systemPackages = [ package ];
 
     services.restic.backups = {
-      immich.timerConfig.OnCalendar = mkEveryDayAt "02:00:00"; # Every day at 02:00
-      grist.timerConfig.OnCalendar = mkEveryDayAt "02:30:00"; # Every day at 02:30
-      maloja.timerConfig.OnCalendar = mkEveryDayAt "02:35:00"; # Every day at 02:35
-      paperless.timerConfig.OnCalendar = mkEveryDayAt "02:40:00"; # Every day at 02:40
+      immich.timerConfig.OnCalendar = mkEveryDayAt "02:00:00";
+      grist.timerConfig.OnCalendar = mkEveryDayAt "02:30:00";
+      maloja.timerConfig.OnCalendar = mkEveryDayAt "02:35:00";
+      paperless.timerConfig.OnCalendar = mkEveryDayAt "02:40:00";
     };
   };
 }

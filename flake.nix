@@ -153,18 +153,14 @@
 
   };
 
-  outputs = inputs@{ flake-parts, systems, self, ... }: flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, flake-parts-lib, ... }: {
+  outputs = inputs@{ flake-parts, systems, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
     systems = import systems;
 
     debug = true;
 
     imports = builtins.attrValues (inputs.haumea.lib.load {
       src = ./flake-parts;
-      loader = args: path: flake-parts-lib.importApply path args;
-      inputs = {
-        inherit withSystem;
-        flake = self;
-      };
+      loader = inputs.haumea.lib.loaders.path;
     });
-  });
+  };
 }

@@ -1,4 +1,3 @@
-_:
 { inputs, ... }: {
   imports = [
     ./_modules/deploy.nix
