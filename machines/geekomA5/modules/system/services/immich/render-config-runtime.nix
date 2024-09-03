@@ -1,6 +1,11 @@
 { config, lib, pkgs, authentikLib, ... }:
 let
   cfg = config.custom.services.immich;
+
+  variables = pkgs.writers.writeJSON "variables.json" {
+    issuer = authentikLib.mkIssuerUrl "immich";
+    domain = config.custom.networking.domain;
+  };
 in
 {
   ###### interface
@@ -22,10 +27,6 @@ in
       after = [ "run-agenix.d.mount" ];
       wantedBy = [ "multi-user.target" ];
 
-      environment = {
-        HOME = cfg.configPath;
-      };
-
       serviceConfig = {
         Type = "oneshot";
         RuntimeDirectory = "immich-config";
@@ -33,14 +34,12 @@ in
 
         ExecStart = lib.getExe (pkgs.writeShellApplication {
           name = "immich-render-config";
-          runtimeInputs = [ pkgs.jinja2-cli ];
+          runtimeInputs = [ pkgs.jinja2-renderer ];
           text = ''
-            jinja2 -D issuer="${authentikLib.mkIssuerUrl "immich"}" \
-              -D domain="${config.custom.networking.domain}" \
-              --format=json \
-              "${./config.json}" \
-              "${config.age.secrets.immich_secrets.path}" \
-              --outfile "${cfg.configPath}"
+            jinja2-renderer --variables "${variables}" \
+              --variables "${config.age.secrets.immich_secrets.path}" \
+              --templates "${./templates}" \
+              --output "${lib.removeSuffix (builtins.baseNameOf cfg.configPath) cfg.configPath}"
           '';
         });
       };
