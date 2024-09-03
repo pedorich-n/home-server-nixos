@@ -2,7 +2,7 @@
   "version": 2,
   "data": {
     "authentik": {
-      "version": "2024.6.4"
+      "version": "2024.8"
     },
     "authentik-postgres": {
       "version": "16.4-alpine"
@@ -23,10 +23,10 @@
       "version": "v0.9.6"
     },
     "immich-machine-learning": {
-      "version": "v1.113.0"
+      "version": "v1.113.1"
     },
     "immich-server": {
-      "version": "v1.113.0"
+      "version": "v1.113.1"
     },
     "librechat-mongodb": {
       "version": "7.0.14"
@@ -59,7 +59,7 @@
       "version": "2.21.0-alpine"
     },
     "zigbee2mqtt": {
-      "version": "1.39.1"
+      "version": "1.40.0"
     }
   }
 }
