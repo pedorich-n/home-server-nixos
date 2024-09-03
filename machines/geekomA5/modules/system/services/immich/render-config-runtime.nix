@@ -36,6 +36,7 @@ in
           runtimeInputs = [ pkgs.jinja2-cli ];
           text = ''
             jinja2 -D issuer="${authentikLib.mkIssuerUrl "immich"}" \
+              -D domain="${config.custom.networking.domain}" \
               --format=json \
               "${./config.json}" \
               "${config.age.secrets.immich_secrets.path}" \
