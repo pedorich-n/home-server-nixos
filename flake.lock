@@ -447,18 +447,18 @@
         "url": "https://github.com/NixOS/nixpkgs/archive/a5d394176e64ab29c852d03346c1fc9b0b7d33eb.tar.gz"
       }
     },
-    "nixpkgs-netdata-146": {
+    "nixpkgs-netdata": {
       "locked": {
-        "lastModified": 1722046340,
-        "narHash": "sha256-DT1EWCUKgZtdCpCAdSreeNUz8/tVWicyoeqBYc/mluU=",
-        "owner": "pedorich-n",
+        "lastModified": 1724891667,
+        "narHash": "sha256-UGeyocc9EfaLeSwHbRZoMZ73+ioNKD6WsJBI4uXs6DI=",
+        "owner": "rhoriguchi",
         "repo": "nixpkgs",
-        "rev": "a6d39b7bb991fa0bcf2ab128d3cc6d146eec2d0a",
+        "rev": "ffb1e9ce980ff6acf971aca1e3cdd71a490ff7c8",
         "type": "github"
       },
       "original": {
-        "owner": "pedorich-n",
-        "ref": "netdata-improvements",
+        "owner": "rhoriguchi",
+        "ref": "netdata-newer",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -631,7 +631,7 @@
         "minecraft-modpack": "minecraft-modpack",
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-netdata-146": "nixpkgs-netdata-146",
+        "nixpkgs-netdata": "nixpkgs-netdata",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "personal-home-manager": "personal-home-manager",
         "playit-nixos-module": "playit-nixos-module",

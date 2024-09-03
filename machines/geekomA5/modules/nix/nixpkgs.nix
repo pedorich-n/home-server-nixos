@@ -10,7 +10,7 @@
     ];
   };
 
-  _module.args.pkgs-netdata-146 = import inputs.nixpkgs-netdata-146 {
+  _module.args.pkgs-netdata = import inputs.nixpkgs-netdata {
     inherit (config.nixpkgs) system config;
   };
 }

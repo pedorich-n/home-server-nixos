@@ -1,11 +1,11 @@
-{ inputs, config, lib, pkgs, pkgs-netdata-146, ... }:
+{ inputs, config, lib, pkgs, pkgs-netdata, ... }:
 let
   metricsDomain = "http://metrics.${config.custom.networking.domain}:9100";
 in
 {
   # TODO: remove once https://github.com/NixOS/nixpkgs/pull/321644 is merged
   disabledModules = [ "services/monitoring/netdata.nix" ];
-  imports = [ "${inputs.nixpkgs-netdata-146}/nixos/modules/services/monitoring/netdata.nix" ];
+  imports = [ "${inputs.nixpkgs-netdata}/nixos/modules/services/monitoring/netdata.nix" ];
 
   custom.networking.ports.tcp.netdata = { port = 19999; openFirewall = false; };
 
@@ -13,13 +13,7 @@ in
     netdata = {
       enable = true;
 
-      package = pkgs-netdata-146.netdataCloud;
-      # python.recommendedPythonPackages = true;
-
-      extraNdsudoPackages = [
-        pkgs.nvme-cli # NVME
-        pkgs.smartmontools # SMART HDD metrics
-      ];
+      package = pkgs-netdata.netdataCloud;
 
       config = {
         # https://learn.netdata.cloud/docs/configuring/daemon-configuration
@@ -184,8 +178,8 @@ in
 
   # NOTE: doesn't work. NVME requires root priviliges to get the info out of the disk
   # TODO: investigate if anything can be done
-  systemd.services.netdata.path = [
-  ];
+  # systemd.services.netdata.path = [
+  # ];
 
   users.users.netdata.extraGroups = [
     "disk" # smartctl, nvme
