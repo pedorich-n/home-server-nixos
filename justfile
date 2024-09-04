@@ -6,7 +6,7 @@ _build target *args:
     nix build "{{ justfile_directory() + '#' + target }}" {{ if args != "" { '-- ' + args } else { '' } }} 
 
 _deploy hostname *args:
-    nix run "{{ justfile_directory() + '#deploy-' + hostname }}" {{ if args != "" { '-- ' + args } else { '' } }} 
+    nix run "{{ justfile_directory() + '#deploy' }}" -- {{ hostname }} {{ args }}
 
 _dry_deploy hostname *args:
     just _deploy "{{ hostname }}" "--dry-activate {{ args }}"
@@ -21,7 +21,7 @@ dry-deploy-geekomA5 *args:
     just _dry_deploy geekomA5 "{{ args }}"
 
 build-iso *args:
-    nix run "{{ justfile_directory() + '#build-iso-minimal' }}"
+    nix run "{{ justfile_directory() + '#build-iso' }}" -- "minimal"
 
 check:
     nix flake check "{{ justfile_directory() }}"

@@ -19,59 +19,28 @@ let
     , specialArgs ? { }
     , enableDeploy ? true
     , deploySettings ? { }
-    }: (lib.mkMerge [
-      {
-        flake = {
-          nixosConfigurations = {
-            "${name}" = inputs.nixpkgs.lib.nixosSystem {
-              inherit system;
-              modules =
-                [{ networking.hostName = lib.mkDefault name; }]
-                ++ lib.optionals withSharedModules sharedNixosModules
-                ++ lib.optionals withHmModules homeManagerNixosModules
-                ++ modules
-                ++ (loadMachine name);
-              specialArgs = {
-                inherit flake inputs system overlays;
-              } // specialArgs;
-            };
-          };
-        };
-      }
-
-      (lib.mkIf enableDeploy {
-        perSystem = { lib, pkgs, deployPkgs, ... }: {
-          apps = {
-            "deploy-${name}".program = pkgs.writeShellScriptBin "deploy-${name}" ''
-              ${lib.getExe deployPkgs.deploy-rs.deploy-rs} "${flake}#${name}" "$@"
-            '';
-          };
-        };
-
-        flake = {
+    }:
+    {
+      "${name}" = (inputs.nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules =
+          [{ networking.hostName = lib.mkDefault name; }]
+            ++ lib.optionals withSharedModules sharedNixosModules
+            ++ lib.optionals withHmModules homeManagerNixosModules
+            ++ modules
+            ++ (loadMachine name);
+        specialArgs = {
+          inherit flake inputs system overlays;
+        } // specialArgs;
+      }) // {
+        meta = {
           deploy = {
-            nodes = {
-              #TODO: figure out whether `system` is supposed to be the target system or the host
-              "${name}" = withSystem system ({ deployPkgs, ... }: {
-                hostname = name;
-                interactiveSudo = false;
-                magicRollback = true;
-                remoteBuild = false;
-
-                profiles = {
-                  system = {
-                    sshUser = "root";
-                    user = "root";
-                    path = deployPkgs.deploy-rs.lib.activate.nixos flake.nixosConfigurations.${name};
-                  } // deploySettings;
-                };
-              });
-            };
+            enable = enableDeploy;
+            settings = deploySettings;
           };
         };
-      })
-    ]);
-
+      };
+    };
 
   mkSystemIso =
     { name
@@ -81,32 +50,38 @@ let
     , specialArgs ? { }
     }:
     {
-      flake = {
-        nixosConfigurations = {
-          "${name}" = inputs.nixpkgs.lib.nixosSystem {
-            inherit system;
-            modules =
-              [{ networking.hostName = lib.mkForce "nixos"; }]
-              ++ lib.optionals withSharedModules sharedNixosModules
-              ++ modules
-              ++ (loadMachine name);
-            specialArgs = {
-              inherit flake inputs system;
-            } // specialArgs;
-          };
-        };
-      };
-
-      perSystem = { pkgs, ... }: {
-        apps = {
-          "build-iso-${name}".program = pkgs.writeShellScriptBin "build-iso-${name}" ''
-            nix build "${flake}#nixosConfigurations.${name}.config.system.build.isoImage" "$@"
-          '';
-        };
+      "${name}" = inputs.nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules =
+          [{ networking.hostName = lib.mkForce "nixos"; }]
+          ++ lib.optionals withSharedModules sharedNixosModules
+          ++ modules
+          ++ (loadMachine name);
+        specialArgs = {
+          inherit flake inputs system;
+        } // specialArgs;
       };
     };
 
+  mkDeployNode = { name, nixosConfig }:
+    {
+      #TODO: figure out whether `system` is supposed to be the target system or the host
+      "${name}" = withSystem nixosConfig.pkgs.system ({ deployPkgs, ... }: {
+        hostname = name;
+        interactiveSudo = false;
+        magicRollback = true;
+        remoteBuild = false;
+
+        profiles = {
+          system = {
+            sshUser = "root";
+            user = "root";
+            path = deployPkgs.deploy-rs.lib.activate.nixos nixosConfig;
+          } // nixosConfig.meta.deploy.settings;
+        };
+      });
+    };
 in
 {
-  inherit mkSystem mkSystemIso;
+  inherit mkSystem mkSystemIso mkDeployNode;
 }

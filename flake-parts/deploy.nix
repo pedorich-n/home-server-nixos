@@ -1,4 +1,4 @@
-{ inputs, ... }: {
+{ inputs, flake, lib, ... }: {
   imports = [
     ./_modules/deploy.nix
   ];
@@ -22,4 +22,11 @@
 
     # checks = lib.mkIf (flake.deploy or { } != { }) (deployPkgs.deploy-rs.lib.deployChecks flake.deploy);
   };
+
+  flake.deploy.nodes =
+    let
+      isDeployable = config: (lib.hasAttrByPath [ "meta" "deploy" ] config) && config.meta.deploy.enable or false;
+      deployableConfigurations = lib.filterAttrs (_: config: isDeployable config) flake.nixosConfigurations;
+    in
+    lib.mkMerge (lib.mapAttrsToList (name: nixosConfig: flake.lib.builders.mkDeployNode { inherit name nixosConfig; }) deployableConfigurations);
 }
