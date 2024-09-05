@@ -1,9 +1,5 @@
 { inputs, flake, lib, ... }: {
-  imports = [
-    ./_modules/deploy.nix
-  ];
-
-  perSystem = { system, pkgs, deployPkgs, ... }: {
+  perSystem = { system, pkgs, /* deployPkgs, */ ... }: {
     _module.args = {
       # From https://github.com/serokell/deploy-rs/blob/88b3059b020da69cbe16526b8d639bd5e0b51c8b/README.md?plain=1#L89-L114
       deployPkgs = import inputs.nixpkgs {

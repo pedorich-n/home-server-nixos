@@ -23,11 +23,6 @@
       flake = false;
     };
 
-    haumea = {
-      url = "github:nix-community/haumea";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -40,7 +35,6 @@
         systems.follows = "systems";
         flake-parts.follows = "flake-parts";
         flake-utils.follows = "flake-utils";
-        haumea.follows = "haumea";
         home-manager.follows = "home-manager";
         home-manager-diff.follows = "";
         nix-vscode-extensions.follows = "";
@@ -155,14 +149,11 @@
 
   };
 
-  outputs = inputs@{ flake-parts, systems, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+  outputs = inputs@{ flake-parts, systems, ... }: flake-parts.lib.mkFlake { inherit inputs; } ({ lib, ... }: {
     systems = import systems;
 
     debug = true;
 
-    imports = builtins.attrValues (inputs.haumea.lib.load {
-      src = ./flake-parts;
-      loader = inputs.haumea.lib.loaders.path;
-    });
-  };
+    imports = lib.filesystem.listFilesRecursive ./flake-parts;
+  });
 }

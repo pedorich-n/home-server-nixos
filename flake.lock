@@ -243,6 +243,7 @@
     "haumea": {
       "inputs": {
         "nixpkgs": [
+          "personal-home-manager",
           "nixpkgs"
         ]
       },
@@ -509,9 +510,7 @@
         "flake-utils": [
           "flake-utils"
         ],
-        "haumea": [
-          "haumea"
-        ],
+        "haumea": "haumea",
         "home-manager": [
           "home-manager"
         ],
@@ -623,7 +622,6 @@
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts_2",
         "flake-utils": "flake-utils",
-        "haumea": "haumea",
         "home-manager": "home-manager",
         "home-server-nixos-secrets": "home-server-nixos-secrets",
         "homer-theme": "homer-theme",
