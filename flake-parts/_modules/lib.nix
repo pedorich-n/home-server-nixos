@@ -3,7 +3,7 @@
   options = {
     flake = flake-parts-lib.mkSubmoduleOptions {
       lib = lib.mkOption {
-        type = lib.types.raw;
+        type = with lib.types; lazyAttrsOf raw;
         default = { };
         description = ''
           Global lib functions

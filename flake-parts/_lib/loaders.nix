@@ -22,5 +22,7 @@ let
 
 in
 {
-  inherit listFilesRecursivelly;
+  flake.lib.loaders = {
+    inherit listFilesRecursivelly;
+  };
 }

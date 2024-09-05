@@ -1,14 +1,14 @@
-{ inputs, flake, withSystem, lib }:
+{ inputs, flake, withSystem, lib, ... }:
 let
-  sharedNixosModules = flake.lib.loaders.listFilesRecursivelly { src = ../modules; };
+  sharedNixosModules = flake.lib.loaders.listFilesRecursivelly { src = "${flake}/modules"; };
   homeManagerNixosModules = [
     inputs.home-manager.nixosModules.default
-    ../homes/default.nix
+    "${flake}/homes/default.nix"
   ];
 
-  loadMachine = name: flake.lib.loaders.listFilesRecursivelly { src = ../machines/${name}; };
+  loadMachine = name: flake.lib.loaders.listFilesRecursivelly { src = "${flake}/machines/${name}"; };
 
-  overlays = import ../overlays/custom-packages.nix;
+  overlays = import "${flake}/overlays/custom-packages.nix";
 
   mkSystem =
     { name
@@ -83,5 +83,7 @@ let
     };
 in
 {
-  inherit mkSystem mkSystemIso mkDeployNode;
+  flake.lib.builders = {
+    inherit mkSystem mkSystemIso mkDeployNode;
+  };
 }
