@@ -7,5 +7,6 @@ jobs:
     with:
       cache: false
       timeout-minutes: 10
+      check_dev: false
     secrets:
       ssh_key: ${{ secrets.SSH_ACTION_KEY }}
