@@ -6,6 +6,6 @@ jobs:
     uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@main
     with:
       cache: false
-      timeout-minutes: 20
+      timeout-minutes: 10
     secrets:
       ssh_key: ${{ secrets.SSH_ACTION_KEY }}

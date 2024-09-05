@@ -1,7 +1,3 @@
-import "dev/justfile.default"
-
-extra_dev_config := justfile_directory() / 'dev-extra-config.nix'
-
 _build target *args:
     nix build "{{ justfile_directory() + '#' + target }}" {{ if args != "" { '-- ' + args } else { '' } }} 
 
@@ -25,6 +21,9 @@ build-iso *args:
 
 check:
     nix flake check "{{ justfile_directory() }}"
+
+fmt:
+    nix fmt
 
 generate-host-key:
     nix run "{{ justfile_directory() + '#generate-host-key' }}"
