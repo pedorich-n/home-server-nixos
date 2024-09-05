@@ -1,12 +1,12 @@
 { inputs, flake, withSystem, lib }:
 let
-  sharedNixosModules = flake.lib.loaders.listModules { src = ../modules; };
+  sharedNixosModules = flake.lib.loaders.listFilesRecursivelly { src = ../modules; };
   homeManagerNixosModules = [
     inputs.home-manager.nixosModules.default
     ../homes/default.nix
   ];
 
-  loadMachine = name: flake.lib.loaders.listModules { src = ../machines/${name}; };
+  loadMachine = name: flake.lib.loaders.listFilesRecursivelly { src = ../machines/${name}; };
 
   overlays = import ../overlays/custom-packages.nix;
 

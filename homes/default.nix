@@ -1,11 +1,14 @@
 { flake, inputs, config, lib, ... }:
 let
-  sharedHomeManagerModules = flake.lib.loaders.listModules { src = ./modules; };
+  sharedHomeManagerModules = flake.lib.loaders.listFilesRecursivelly { src = ./modules; };
 
-  hmUserProfiles = flake.lib.loaders.listNamedSubmodules { src = ./users; };
+  loadUser = username: {
+    imports = flake.lib.loaders.listFilesRecursivelly { src = ./users/${username}; };
+  };
+  hmUsers = lib.mapAttrs (username: _: loadUser username) (lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./users));
+
   hmForUser = username:
-    if hmUserProfiles ? ${username} then { imports = hmUserProfiles.${username}; }
-    else (builtins.abort "User '${username}' doesn't have a HomeManager config defined!");
+    hmUsers.${username} or (builtins.abort "User '${username}' doesn't have a HomeManager config defined!");
 
   #LINK - modules/custom/system/users.nix
   enabledHmUsers = lib.foldl' (acc: user: acc // { ${user} = hmForUser user; }) { } config.custom.users.homeManagerUsers;
