@@ -25,7 +25,7 @@ in
 
     extraSpecialArgs = { inherit flake inputs; };
 
-    sharedModules = inputs.personal-home-manager.homeModules.sharedModules ++ sharedHomeManagerModules;
+    sharedModules = [ inputs.personal-home-manager.homeModules.sharedModules ] ++ sharedHomeManagerModules;
 
     users = enabledHmUsers;
   };
