@@ -3,11 +3,10 @@ let
   cfg = config.custom.activation.diff;
 in
 {
-
   ###### interface
-  options = with lib; {
+  options = {
     custom.activation.diff = {
-      enable = mkEnableOption "Show Diff between generations on activation";
+      enable = lib.mkEnableOption "Show Diff between generations on activation";
     };
   };
 
