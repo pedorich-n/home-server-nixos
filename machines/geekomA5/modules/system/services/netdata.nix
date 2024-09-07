@@ -1,9 +1,8 @@
 { inputs, config, lib, pkgs, pkgs-netdata, ... }:
 let
-  metricsDomain = "http://metrics.${config.custom.networking.domain}:9100";
+  metricsDomain = "http://metrics.${config.custom.networking.domain}:${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
 in
 {
-  # TODO: remove once https://github.com/NixOS/nixpkgs/pull/321644 is merged
   disabledModules = [ "services/monitoring/netdata.nix" ];
   imports = [ "${inputs.nixpkgs-netdata}/nixos/modules/services/monitoring/netdata.nix" ];
 
@@ -13,7 +12,18 @@ in
     netdata = {
       enable = true;
 
-      package = pkgs-netdata.netdataCloud;
+      package = pkgs-netdata.netdataCloud.override { withNdsudo = true; };
+
+      extraNdsudoPackages = with pkgs; [
+        nvme-cli
+        smartmontools
+      ];
+
+      python.extraPackages = ps: [
+        ps.requests
+        ps.pandas
+        ps.numpy
+      ];
 
       config = {
         # https://learn.netdata.cloud/docs/configuring/daemon-configuration
@@ -147,18 +157,13 @@ in
               binary_path: ${lib.getExe' pkgs.lm_sensors "sensors"}
         '';
 
-        # Doesn't work because nvme requires basically root previliges to run get the health info :(
-        # "go.d/smartclt.conf" = pkgs.writeText "netdata-smartctl.conf" ''
-        #   jobs:
-        #     - name: smartctl
-        #       device_selector: /dev/sd*
-        # '';
-        # "go.d/nvme.conf" = pkgs.writeText "netdata-nvme.conf" ''
-        #   jobs:
-        #     - name: nvme
-        #       autodetection_retry: 30
-        #       update_every: 10
-        # '';
+        #SECTION - Requires ndsudo
+        "go.d/nvme.conf" = pkgs.writeText "netdata-nvme.conf" ''
+          jobs:
+            - name: nvme
+              autodetection_retry: 30
+        '';
+        #!SECTION
       };
     };
 
@@ -176,15 +181,6 @@ in
     };
   };
 
-  # NOTE: doesn't work. NVME requires root priviliges to get the info out of the disk
-  # TODO: investigate if anything can be done
-  # systemd.services.netdata.path = [
-  # ];
-
-  users.users.netdata.extraGroups = [
-    "disk" # smartctl, nvme
-  ];
-
   # See https://stackoverflow.com/questions/66632408/what-capabilities-can-open-proc-pid-ns-net
-  security.wrappers."cgroup-network".capabilities = lib.mkForce "cap_sys_admin+ep cap_sys_ptrace+ep cap_setuid+ep cap_sys_chroot+ep";
+  # security.wrappers."cgroup-network".capabilities = lib.mkForce "cap_sys_admin+ep cap_sys_ptrace+ep cap_setuid+ep cap_sys_chroot+ep";
 }
