@@ -1,9 +1,11 @@
-{ config, dockerLib, ... }:
+{ config, dockerLib, pkgs, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
   storeFor = localPath: remotePath: "/mnt/store/music-history/${localPath}:${remotePath}";
   # externalStoreFor = localPath: remotePath: "/mnt/external/music-history/${localPath}:${remotePath}";
+
+  malojaArtistRules = pkgs.callPackage ./maloja/_artist-rules.nix { };
 in
 {
   # systemd.services.arion-music-history = {
@@ -72,7 +74,7 @@ in
           env_file = [ config.age.secrets.music_history_compose.path ];
           volumes = [
             (storeFor "maloja/data" "/data")
-            "${./maloja/rules}:/data/rules"
+            "${malojaArtistRules}:/data/rules/custom_rules.tsv"
             "${config.age.secrets.maloja_apikeys.path}:/data/apikeys.yml"
           ];
           restart = "unless-stopped";

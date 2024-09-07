@@ -1,4 +1,4 @@
-{ config, pkgs, lib, dockerLib, ... }:
+{ config, pkgs, dockerLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -6,7 +6,7 @@ let
 
   storeFor = localPath: remotePath: "/mnt/store/home-automation/${localPath}:${remotePath}";
 
-  configs = builtins.mapAttrs (_: path: import path { inherit pkgs config lib; }) {
+  configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
     mosquitto = ./mosquitto/_config.nix;
   };
 in
