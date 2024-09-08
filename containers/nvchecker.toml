@@ -108,8 +108,3 @@ source = "container"
 registry = "docker.io"
 container = "portainer/portainer-ce"
 include_regex = "\\d+\\.\\d+\\.\\d+-alpine"
-
-[homepage]
-source = "container"
-registry = "ghcr.io"
-container = "gethomepage/homepage"
