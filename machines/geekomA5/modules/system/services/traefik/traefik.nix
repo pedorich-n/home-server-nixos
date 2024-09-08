@@ -38,7 +38,24 @@
 
     dynamicConfigOptions = {
       http = {
+        middlewares = {
+          authentik-homepage = {
+            redirectRegex = {
+              regex = "^http://${config.custom.networking.domain}(.*)";
+              replacement = ''http://authentik.${config.custom.networking.domain}''${1}'';
+              permanent = true;
+            };
+          };
+        };
+
         routers = {
+          top-level = {
+            entrypoints = [ "web" ];
+            rule = "Host(`${config.custom.networking.domain}`)";
+            service = "noop@internal";
+            middlewares = [ "authentik-homepage@file" ];
+          };
+
           traefik = {
             entryPoints = [ "web" ];
             rule = "Host(`traefik.${config.custom.networking.domain}`)";

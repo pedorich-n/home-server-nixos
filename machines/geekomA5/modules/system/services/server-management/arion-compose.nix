@@ -21,25 +21,25 @@ in
       networks = dockerLib.externalTraefikNetwork;
 
       services = {
-        homepage.service = rec {
-          image = "ghcr.io/gethomepage/homepage:${containerVersions.homepage}";
-          container_name = "homepage";
-          networks = [ "traefik" ];
-          restart = "unless-stopped";
-          # user = userSetting;
-          volumes = [
-            # Managed by systemd.tmpfiles
-            (storeFor "homepage/config" "/app/config")
-            (storeFor "homepage/images" "/app/public/images")
+        # homepage.service = rec {
+        #   image = "ghcr.io/gethomepage/homepage:${containerVersions.homepage}";
+        #   container_name = "homepage";
+        #   networks = [ "traefik" ];
+        #   restart = "unless-stopped";
+        #   # user = userSetting;
+        #   volumes = [
+        #     # Managed by systemd.tmpfiles
+        #     (storeFor "homepage/config" "/app/config")
+        #     (storeFor "homepage/images" "/app/public/images")
 
-            "/run/podman/podman.sock:/var/run/docker.sock:ro"
-          ];
-          labels = dockerLib.mkTraefikLabels {
-            name = container_name;
-            port = 3000;
-            domain = config.custom.networking.domain;
-          };
-        };
+        #     "/run/podman/podman.sock:/var/run/docker.sock:ro"
+        #   ];
+        #   labels = dockerLib.mkTraefikLabels {
+        #     name = container_name;
+        #     port = 3000;
+        #     domain = config.custom.networking.domain;
+        #   };
+        # };
 
 
         portainer.service = rec {
