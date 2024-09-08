@@ -2,6 +2,11 @@
 {% import "global_utils.j2" as global_utils with context %}
 
 {% macro proxy_entry(name, slug, group, url, icon, is_admin_only=false, access_token_validity="days=30", refresh_token_validity="days=180") -%}
+  {% if url is defined %}
+{% set final_url = url %}
+  {% else %}
+{% set final_url = global_utils.generate_url(slug) %}
+  {% endif %}
 # yaml-language-server: $schema=https://version-2024-8.goauthentik.io/blueprints/schema.json
 version: 1
 metadata:
@@ -20,11 +25,7 @@ entries:
       mode: forward_single
       access_token_validity: {{ access_token_validity }}
       refresh_token_validity: {{ refresh_token_validity }}
-  {% if url is defined %}
-      external_host: {{ url }}
-  {% else %}
-      external_host: {{ global_utils.generate_url(slug) }}
-  {% endif %}
+      external_host: {{ final_url }}
 
   - model: authentik_core.application
     state: present
@@ -35,6 +36,7 @@ entries:
     attrs:
       provider: !KeyOf provider
       open_in_new_tab: true
+      meta_launch_url: {{ final_url }}
   {% if icon is defined %}
       icon: {{ icon }}
   {% else %}
