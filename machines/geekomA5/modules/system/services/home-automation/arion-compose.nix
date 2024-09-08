@@ -78,15 +78,11 @@ in
           depends_on = [ "mosquitto" ];
           networks = [ "default" "traefik" ];
           # user = userSetting;
-          labels = (dockerLib.mkTraefikLabels {
+          labels = dockerLib.mkTraefikLabels {
             name = container_name;
             port = 8080;
             middlewares = [ "authentik@docker" ];
-          }) // (dockerLib.mkHomepageLabels {
-            name = "Zigbee2MQTT";
-            group = "Home Automation";
-            weight = 50;
-          });
+          };
         };
 
         nodered.service = rec {
@@ -113,11 +109,6 @@ in
             rule = "Host(`${container_name}.${config.custom.networking.domain}`) && PathPrefix(`/hooks/`)";
             service = container_name;
             priority = 15;
-          }) // (dockerLib.mkHomepageLabels {
-            name = "Node Red";
-            group = "Home Automation";
-            icon-slug = "node-red";
-            weight = 30;
           });
         };
 
@@ -139,16 +130,11 @@ in
             (storeFor "homeassistant/local" "/.local")
             "${config.age.secrets.ha_secrets.path}:/config/secrets.yaml"
           ];
-          labels = (dockerLib.mkTraefikLabels {
+          labels = dockerLib.mkTraefikLabels {
             name = container_name;
             port = 80;
             middlewares = [ "authentik@docker" ];
-          }) // (dockerLib.mkHomepageLabels {
-            name = "Home Assistant";
-            group = "Home Automation";
-            icon-slug = "home-assistant";
-            weight = 0;
-          });
+          };
           depends_on = [
             "mariadb"
             "mosquitto"

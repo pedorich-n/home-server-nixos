@@ -39,13 +39,7 @@ in
           volumes = [
             (storeFor "persist" "/persist")
           ];
-          labels =
-            (dockerLib.mkTraefikLabels { name = container_name; port = 8484; }) //
-            (dockerLib.mkHomepageLabels {
-              name = "Grist";
-              group = "Services";
-              weight = 20;
-            });
+          labels = dockerLib.mkTraefikLabels { name = container_name; port = 8484; };
         };
       };
     };

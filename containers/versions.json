@@ -19,9 +19,6 @@
     "homeassistant-mariadb": {
       "version": "11.5.2"
     },
-    "homepage": {
-      "version": "v0.9.6"
-    },
     "immich-machine-learning": {
       "version": "v1.113.1"
     },

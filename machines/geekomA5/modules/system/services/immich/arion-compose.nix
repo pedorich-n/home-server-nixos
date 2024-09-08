@@ -91,13 +91,7 @@ in
           labels =
             (dockerLib.mkTraefikLabels { name = "immich"; port = 3001; }) //
             (dockerLib.mkTraefikMetricsLabels { name = "immich"; port = 8081; addPath = "/metrics"; }) //
-            (dockerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8082; addPath = "/metrics"; }) //
-            (dockerLib.mkHomepageLabels {
-              name = "Immich";
-              group = "Services";
-              icon-slug = "immich";
-              weight = 0;
-            });
+            (dockerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8082; addPath = "/metrics"; });
         };
 
         machine-learning.service = {

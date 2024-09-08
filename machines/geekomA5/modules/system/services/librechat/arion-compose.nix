@@ -100,16 +100,10 @@ in
             "mongodb"
             "rag"
           ];
-          labels = (dockerLib.mkTraefikLabels {
+          labels = dockerLib.mkTraefikLabels {
             name = "chat";
             port = 3080;
-          }) // (dockerLib.mkHomepageLabels {
-            name = "Libre Chat";
-            group = "Services";
-            slug = "chat";
-            icon = "https://raw.githubusercontent.com/danny-avila/LibreChat/92232afacab63a76d1b11d56921f77723a2cf90d/client/public/assets/logo.svg";
-            weight = 30;
-          });
+          };
         } // dockerLib.alpineHostsFix;
       };
     };
