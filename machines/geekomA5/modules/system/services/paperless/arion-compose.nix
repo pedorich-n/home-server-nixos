@@ -76,13 +76,7 @@ in
             (externalStoreFor "media" "/usr/src/paperless/media")
             (externalStoreFor "media/trash" "/usr/src/paperless/media/trash")
           ];
-          labels =
-            (dockerLib.mkTraefikLabels { name = "paperless"; port = 8000; }) //
-            (dockerLib.mkHomepageLabels {
-              name = "Paperless";
-              group = "Services";
-              weight = 10;
-            });
+          labels = dockerLib.mkTraefikLabels { name = "paperless"; port = 8000; };
         };
       };
     };

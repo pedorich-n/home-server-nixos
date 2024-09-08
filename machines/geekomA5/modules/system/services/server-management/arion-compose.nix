@@ -56,12 +56,7 @@ in
           networks = [ "traefik" ];
           # user = userSetting;
           restart = "unless-stopped";
-          labels = dockerLib.mkTraefikLabels { name = container_name; port = 9000; } //
-            (dockerLib.mkHomepageLabels {
-              name = "Portainer";
-              group = "Server";
-              weight = 10;
-            });
+          labels = dockerLib.mkTraefikLabels { name = container_name; port = 9000; };
         };
       };
     };

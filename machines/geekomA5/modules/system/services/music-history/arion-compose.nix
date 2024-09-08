@@ -43,17 +43,11 @@ in
             "${config.age.secrets.multi_scrobbler_maloja.path}:/config/maloja.json"
           ];
           restart = "unless-stopped";
-          labels = (dockerLib.mkTraefikLabels {
+          labels = dockerLib.mkTraefikLabels {
             name = container_name;
             port = 9078;
             middlewares = [ "authentik@docker" ];
-          }) //
-          (dockerLib.mkHomepageLabels {
-            name = "Multi Scrobbler";
-            group = "Services";
-            icon-slug = "multi-scrobbler";
-            weight = 90;
-          });
+          };
         };
 
         maloja.service = rec {
@@ -78,16 +72,11 @@ in
             "${config.age.secrets.maloja_apikeys.path}:/data/apikeys.yml"
           ];
           restart = "unless-stopped";
-          labels = (dockerLib.mkTraefikLabels {
+          labels = dockerLib.mkTraefikLabels {
             name = container_name;
             port = 42010;
             middlewares = [ "authentik@docker" ];
-          }) //
-          (dockerLib.mkHomepageLabels {
-            name = "Maloja";
-            group = "Services";
-            weight = 100;
-          });
+          };
         };
       };
     };

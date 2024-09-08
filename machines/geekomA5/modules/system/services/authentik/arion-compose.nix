@@ -136,11 +136,7 @@ in
             "traefik.http.middlewares.authentik.forwardauth.address" = "http://${staticIpAddresses.server}:9000/outpost.goauthentik.io/auth/traefik";
             "traefik.http.middlewares.authentik.forwardauth.trustForwardHeader" = "true";
             "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders" = "X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version";
-          } // (dockerLib.mkHomepageLabels {
-            name = "Authentik";
-            group = "Server";
-            weight = 70;
-          });
+          };
           restart = "unless-stopped";
         };
 
