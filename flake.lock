@@ -444,11 +444,11 @@
     },
     "nixpkgs-netdata": {
       "locked": {
-        "lastModified": 1725674130,
-        "narHash": "sha256-fp9F4yFE7UjOQODo+jMH9Kog+NzgRHp1ChL2jhwXDAY=",
+        "lastModified": 1725877722,
+        "narHash": "sha256-NSHjkRgJ20Kr0uanksQ1RpGXzi+u4OcHKcxa1eKCctA=",
         "owner": "pedorich-n",
         "repo": "nixpkgs",
-        "rev": "621247bb9cb7bf4cb06ab3ae528445f78eedda37",
+        "rev": "c7b89e5069fa2f34634059ae00ddf14dc6dd5eb4",
         "type": "github"
       },
       "original": {
