@@ -2,37 +2,37 @@
   "version": 2,
   "data": {
     "authentik": {
-      "version": "2024.8"
+      "version": "2024.8.3"
     },
     "authentik-postgres": {
-      "version": "16.4-alpine"
+      "version": "17.0-alpine"
     },
     "authentik-redis": {
       "version": "7.4.0-alpine"
     },
     "grist": {
-      "version": "1.1.17"
+      "version": "1.2.0"
     },
     "homeassistant": {
-      "version": "2024.8.3"
+      "version": "2024.9.3"
     },
     "homeassistant-mariadb": {
       "version": "11.5.2"
     },
     "immich-machine-learning": {
-      "version": "v1.113.1"
+      "version": "v1.116.2"
     },
     "immich-server": {
-      "version": "v1.113.1"
+      "version": "v1.116.2"
     },
     "librechat-mongodb": {
-      "version": "7.0.14"
+      "version": "8.0.0"
     },
     "librechat-rag": {
-      "version": "v0.2.0"
+      "version": "v0.3.0"
     },
     "librechat-server": {
-      "version": "v0.7.5-rc1"
+      "version": "v0.7.5-rc2"
     },
     "librechat-vector": {
       "version": "v0.5.1"
@@ -44,19 +44,19 @@
       "version": "2.0.18"
     },
     "multi-scrobbler": {
-      "version": "0.8.3"
+      "version": "0.8.5"
     },
     "nodered": {
-      "version": "4.0.2"
+      "version": "4.0.3"
     },
     "paperless": {
-      "version": "2.11.6"
+      "version": "2.12.1"
     },
     "portainer": {
-      "version": "2.21.0-alpine"
+      "version": "2.21.2-alpine"
     },
     "zigbee2mqtt": {
-      "version": "1.40.0"
+      "version": "1.40.1"
     }
   }
 }
