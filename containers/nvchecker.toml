@@ -14,7 +14,7 @@ exclude_regex = ".*rc.*"
 source = "container"
 registry = "docker.io"
 container = "library/postgres"
-include_regex = "^\\d+\\.\\d+-alpine$"
+include_regex = "^16\\.\\d+-alpine$"
 
 [authentik-redis]
 source = "container"
