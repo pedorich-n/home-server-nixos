@@ -1,5 +1,5 @@
-- id: "1671356667944"
-  alias: Set theme on startup
+- id: "set_theme_on_startup"
+  alias: "Set theme on startup"
   description: ""
   trigger:
     - platform: homeassistant

@@ -1,0 +1,31 @@
+- platform: statistics
+  unique_id: "mean_bedroom_temperature"
+  name: "Mean bedroom temperature"
+  entity_id: "sensor.tuya_temperature_bedroom_1_temperature"
+  state_characteristic: mean
+  max_age:
+    minutes: 30
+
+- platform: statistics
+  unique_id: "mean_bedroom_humidity"
+  name: "Mean bedroom humidity"
+  entity_id: "sensor.tuya_temperature_bedroom_1_humidity"
+  state_characteristic: mean
+  max_age:
+    minutes: 30
+
+- platform: statistics
+  unique_id: "mean_ldk_temperature"
+  name: "Mean LDK temperature"
+  entity_id: "sensor.tuya_temperature_ldk_1_temperature"
+  state_characteristic: mean
+  max_age:
+    minutes: 30
+
+- platform: statistics
+  unique_id: "mean_ldk_humidity"
+  name: "Mean LDK humidity"
+  entity_id: "sensor.tuya_temperature_ldk_1_humidity"
+  state_characteristic: mean
+  max_age:
+    minutes: 30

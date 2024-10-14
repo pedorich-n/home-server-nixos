@@ -1,3 +1,4 @@
+#SECTION - Core
 # Loads default set of integrations. Do not remove.
 default_config:
 
@@ -7,20 +8,16 @@ homeassistant:
   longitude: !secret longitude
   elevation: 10
   unit_system: metric
+  customize: !include_dir_merge_named configuration/customize/
 
 # Load frontend themes from the themes folder
 frontend:
   themes: !include_dir_merge_named themes
 
+# Enable integrations
 api:
-
-# Text to speech
-tts:
-  - platform: google_translate
-
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
+auth_header:
+smartir:
 
 recorder:
   purge_keep_days: 60
@@ -33,37 +30,6 @@ http:
   trusted_proxies:
     - 172.31.0.0/24 #LINK - machines/geekomA5/modules/system/services/traefik/podman-traefik-network.nix
 
-auth_header:
-  username_header: X-authentik-username
-
-input_boolean:
-  vacation_mode:
-    name: Vacation Mode
-    icon: mdi:palm-tree
-
-smartir:
-
-climate:
-  - platform: smartir
-    name: LDK AC
-    unique_id: ldk_ac
-    device_code: 17000
-    controller_data: remote.broadlink_rm4c_mini_ldk_1
-    temperature_sensor: sensor.tuya_temperature_ldk_1_temperature
-    humidity_sensor: sensor.tuya_temperature_ldk_1_humidity
-    #power_sensor: binary_sensor.ac_power
-    #power_sensor_restore_state: true
-  - platform: smartir
-    name: Bedroom AC
-    unique_id: bedroom_ac
-    device_code: 17000
-    controller_data: remote.broadlink_rm4_pro_bedroom_1
-    temperature_sensor: sensor.tuya_temperature_bedroom_1_temperature
-    humidity_sensor: sensor.tuya_temperature_bedroom_1_humidity
-    #power_sensor: binary_sensor.ac_power
-    #power_sensor_restore_state: true
-
-lovelace_gen:
 lovelace:
   mode: storage
   dashboards:
@@ -73,3 +39,12 @@ lovelace:
       icon: mdi:view-dashboard-outline
       show_in_sidebar: true
       filename: ui_lovelace_minimalist/dashboard/ui-lovelace-custom-grid.yaml
+
+#!SECTION - Core
+
+# Includes
+automation manual: !include_dir_merge_list automations/
+automation ui: !include automations.yaml
+input_boolean: !include_dir_merge_named configuration/input_boolean/
+climate: !include_dir_merge_list configuration/climate/
+sensor: !include_dir_merge_list configuration/sensors/
