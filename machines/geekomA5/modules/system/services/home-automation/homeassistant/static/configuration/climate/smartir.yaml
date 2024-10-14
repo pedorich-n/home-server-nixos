@@ -1,0 +1,19 @@
+- platform: smartir
+  name: LDK AC
+  unique_id: ldk_ac
+  device_code: 17000
+  controller_data: remote.broadlink_rm4c_mini_ldk_1
+  temperature_sensor: sensor.tuya_temperature_ldk_1_temperature
+  humidity_sensor: sensor.tuya_temperature_ldk_1_humidity
+  #power_sensor: binary_sensor.ac_power
+  #power_sensor_restore_state: true
+
+- platform: smartir
+  name: Bedroom AC
+  unique_id: bedroom_ac
+  device_code: 17000
+  controller_data: remote.broadlink_rm4_pro_bedroom_1
+  temperature_sensor: sensor.tuya_temperature_bedroom_1_temperature
+  humidity_sensor: sensor.tuya_temperature_bedroom_1_humidity
+  #power_sensor: binary_sensor.ac_power
+  #power_sensor_restore_state: true

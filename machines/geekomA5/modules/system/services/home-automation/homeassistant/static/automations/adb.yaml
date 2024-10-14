@@ -1,0 +1,38 @@
+- id: "androidtv_adb_ok_button"
+  alias: "AndroidTV ADB Ok Button"
+  description: ""
+  triggers:
+    - trigger: webhook
+      allowed_methods:
+        - PUT
+      local_only: true
+      webhook_id: androidtv-ok
+  conditions: []
+  actions:
+    - action: androidtv.adb_command
+      metadata: {}
+      data:
+        command: input keyevent 23
+      target:
+        entity_id: media_player.android_tv_192_168_15_90
+  mode: single
+
+- id: "androidtv_adb_show_inputs"
+  alias: AndroidTV Show Inputs
+  description: ""
+  triggers:
+    - trigger: webhook
+      allowed_methods:
+        - PUT
+      local_only: true
+      webhook_id: androidtv-inputs
+  conditions: []
+  actions:
+    - action: androidtv.adb_command
+      metadata: {}
+      data:
+        command: >-
+          am start -a com.android.tv.action.VIEW_INPUTS -n com.google.android.tvlauncher/.inputs.InputsPanelActivity -f 0x10000000
+      target:
+        entity_id: media_player.android_tv_192_168_15_90
+  mode: single

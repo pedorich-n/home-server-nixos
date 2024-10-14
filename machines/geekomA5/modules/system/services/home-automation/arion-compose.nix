@@ -98,22 +98,15 @@ in
           volumes = [
             (storeFor "nodered" "/data")
           ];
-          labels = (dockerLib.mkTraefikLabels {
+          labels = dockerLib.mkTraefikLabels {
             name = container_name;
             port = 1880;
-            priority = 10;
             middlewares = [ "authentik@docker" ];
-          }) //
-          (dockerLib.mkTraefikLabels {
-            name = "${container_name}-hooks";
-            rule = "Host(`${container_name}.${config.custom.networking.domain}`) && PathPrefix(`/hooks/`)";
-            service = container_name;
-            priority = 15;
-          });
+          };
         };
 
         homeassistant.service = rec {
-          image = "homeassistant/home-assistant:2024.7.4"; # Not all integrations are ready for the 2024.8.X :(
+          image = "homeassistant/home-assistant:${containerVersions.homeassistant}";
           container_name = "homeassistant";
           environment = {
             TZ = "${config.time.timeZone}";
@@ -130,11 +123,18 @@ in
             (storeFor "homeassistant/local" "/.local")
             "${config.age.secrets.ha_secrets.path}:/config/secrets.yaml"
           ];
-          labels = dockerLib.mkTraefikLabels {
+          labels = (dockerLib.mkTraefikLabels {
             name = container_name;
             port = 80;
+            priority = 10;
             middlewares = [ "authentik@docker" ];
-          };
+          }) //
+          (dockerLib.mkTraefikLabels {
+            name = "${container_name}-hooks";
+            rule = "Host(`${container_name}.${config.custom.networking.domain}`) && PathPrefix(`/api/webhook/`)";
+            service = container_name;
+            priority = 15;
+          });
           depends_on = [
             "mariadb"
             "mosquitto"
