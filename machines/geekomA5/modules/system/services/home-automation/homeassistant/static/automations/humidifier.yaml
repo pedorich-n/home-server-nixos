@@ -21,6 +21,9 @@
     - trigger: time
       at: 07:00:00
   conditions:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: "off"
     - condition: not
       conditions:
         - condition: state
