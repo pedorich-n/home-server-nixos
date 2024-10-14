@@ -8,7 +8,7 @@
 
 - platform: statistics
   unique_id: "mean_bedroom_humidity"
-  name: "Mean bedroom himidity"
+  name: "Mean bedroom humidity"
   entity_id: "sensor.tuya_temperature_bedroom_1_humidity"
   state_characteristic: mean
   max_age:
@@ -24,7 +24,7 @@
 
 - platform: statistics
   unique_id: "mean_ldk_humidity"
-  name: "Mean LDK himidity"
+  name: "Mean LDK humidity"
   entity_id: "sensor.tuya_temperature_ldk_1_humidity"
   state_characteristic: mean
   max_age:

@@ -18,7 +18,7 @@
   mode: single
 
 - id: "androidtv_adb_show_inputs"
-  alias: AndroidTV Show Inputs
+  alias: AndroidTV ADB Show Inputs
   description: ""
   triggers:
     - trigger: webhook

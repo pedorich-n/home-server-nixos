@@ -1,0 +1,14 @@
+automation.humidifier_no_water:
+  icon: mdi:bell-badge-outline
+
+automation.humidifier_morning:
+  icon: mdi:air-humidifier
+
+automation.androidtv_adb_ok_button:
+  icon: mdi:remote-tv
+
+automation.androidtv_adb_show_inputs:
+  icon: mdi:list-box
+
+automation.set_theme_on_startup:
+  icon: mdi:palette

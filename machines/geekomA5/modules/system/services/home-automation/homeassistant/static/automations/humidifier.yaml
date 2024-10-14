@@ -1,0 +1,40 @@
+- id: "humidifier_no_water"
+  alias: Humidifier No water
+  description: ""
+  triggers:
+    - trigger: numeric_state
+      entity_id:
+        - sensor.sharp_hv_r75_water_level
+      below: 25
+  conditions: []
+  actions:
+    - action: notify.notify
+      metadata: {}
+      data:
+        message: No water in Humidifier
+  mode: single
+
+- id: "humidifier_morning"
+  alias: Humidifier Morning
+  description: ""
+  triggers:
+    - trigger: time
+      at: 07:00:00
+  conditions:
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: light.sharp_hv_r75_status
+          state: unavailable
+      alias: Humidifier is online
+    - condition: numeric_state
+      entity_id: sensor.mean_ldk_humidity
+      below: 45
+  actions:
+    - action: select.select_option
+      metadata: {}
+      data:
+        option: Auto
+      target:
+        entity_id: select.sharp_hv_r75_operating_mode_select
+  mode: single
