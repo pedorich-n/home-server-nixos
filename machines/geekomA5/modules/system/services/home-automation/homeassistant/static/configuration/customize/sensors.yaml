@@ -1,11 +1,11 @@
-sensor.mean_bedroom_temperature:
+sensor.avg_bedroom_temperature:
   icon: mdi:home-thermometer-outline
 
-sensor.mean_bedroom_humidity:
+sensor.avg_bedroom_humidity:
   icon: mdi:cloud-percent-outline
 
-sensor.mean_ldk_temperature:
+sensor.avg_ldk_temperature:
   icon: mdi:home-thermometer-outline
 
-sensor.mean_ldk_humidity:
+sensor.avg_ldk_humidity:
   icon: mdi:cloud-percent-outline
