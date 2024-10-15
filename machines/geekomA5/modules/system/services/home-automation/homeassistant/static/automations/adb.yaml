@@ -14,7 +14,7 @@
       data:
         command: input keyevent 23
       target:
-        entity_id: media_player.android_tv_192_168_15_90
+        entity_id: media_player.regza_tv
   mode: single
 
 - id: "androidtv_adb_show_inputs"
@@ -34,5 +34,5 @@
         command: >-
           am start -a com.android.tv.action.VIEW_INPUTS -n com.google.android.tvlauncher/.inputs.InputsPanelActivity -f 0x10000000
       target:
-        entity_id: media_player.android_tv_192_168_15_90
+        entity_id: media_player.regza_tv
   mode: single

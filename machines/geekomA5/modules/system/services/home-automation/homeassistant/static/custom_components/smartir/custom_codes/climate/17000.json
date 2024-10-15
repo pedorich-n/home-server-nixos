@@ -1,6 +1,6 @@
 {
   "manufacturer": "Daikin",
-  "supportedModels": [ "F28YTES-W" ],
+  "supportedModels": ["F28YTES-W"],
   "commandsEncoding": "Base64",
   "supportedController": "Broadlink",
   "minTemperature": 20,
