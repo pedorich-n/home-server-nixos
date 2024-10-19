@@ -17,7 +17,6 @@ frontend:
 # Enable integrations
 api:
 auth_header:
-smartir:
 
 recorder:
   purge_keep_days: 60

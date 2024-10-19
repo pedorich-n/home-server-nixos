@@ -1,14 +1,15 @@
 {
   "manufacturer": "Daikin",
-  "supportedModels": [],
+  "supportedModels": ["F28YTES-W"],
   "commandsEncoding": "Base64",
   "supportedController": "Broadlink",
   "minTemperature": 20,
   "maxTemperature": 30,
-  "precision": 1,
+  "precision": 1.0,
+  "temperatureUnit": "C",
   "operationModes": ["cool", "heat", "dry", "fan_only"],
-  "fanModes": ["auto", "quiet", "high", "midHigh", "mid", "midLow", "low"],
-  "swingModes": ["auto", "high", "midHigh", "mid", "midLow", "low"],
+  "fanModes": ["auto", "quiet", "high", "midHigh", "mid", "lowMid", "low"],
+  "swingModes": ["auto", "high", "midHigh", "mid", "lowMid", "low"],
   "commands": {
     "off": "JgCKAg4ODg4ODg4ODg4OAAMyczkOKw4ODg4ODg4rDg4ODg4ODg4OKw4ODisOKw4ODisOKw4rDisOKw4ODg4OKw4ODg4ODg4ODg4ODg4ODg4ODg4ODg4OKw4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4rDg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODisODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4OKw4rDg4OKw4ODg4OKw4ABHpzOQ4rDg4ODg4ODisODg4ODg4ODg4rDg4OKw4rDg4OKw4rDisOKw4rDg4ODg4rDg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODisOKw4rDg4ODg4rDisOKw4rDisOKw4rDisOKw4rDisOKw4rDisOKw4rDisOKw4rDisODg4rDg4OKw4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4OKw4rDg4ODg4ODg4ODg4ODg4ODg4ODg4OKw4rDg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4rDisODg4ODg4ODg4rDisODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODg4OKw4ODg4OAA0FAAAAAAAAAAAAAAAAAAA=",
     "cool": {

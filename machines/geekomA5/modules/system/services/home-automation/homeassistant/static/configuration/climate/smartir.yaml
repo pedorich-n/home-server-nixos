@@ -2,7 +2,11 @@
   name: LDK AC
   unique_id: ldk_ac
   device_code: 17000
-  controller_data: remote.broadlink_rm4c_mini_ldk_1
+  controller_data:
+    controller_type: Broadlink
+    remote_entity: remote.broadlink_rm4c_mini_ldk_1
+    delay_secs: 0.5
+    num_repeats: 1
   temperature_sensor: sensor.tuya_temperature_ldk_1_temperature
   humidity_sensor: sensor.tuya_temperature_ldk_1_humidity
   #power_sensor: binary_sensor.ac_power
@@ -12,7 +16,11 @@
   name: Bedroom AC
   unique_id: bedroom_ac
   device_code: 17000
-  controller_data: remote.broadlink_rm4_pro_bedroom_1
+  controller_data:
+    controller_type: Broadlink
+    remote_entity: remote.broadlink_rm4_pro_bedroom_1
+    delay_secs: 0.5
+    num_repeats: 1
   temperature_sensor: sensor.tuya_temperature_bedroom_1_temperature
   humidity_sensor: sensor.tuya_temperature_bedroom_1_humidity
   #power_sensor: binary_sensor.ac_power

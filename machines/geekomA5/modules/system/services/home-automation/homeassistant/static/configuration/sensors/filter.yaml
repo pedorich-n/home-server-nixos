@@ -1,0 +1,43 @@
+- platform: filter
+  name: AVG Bedroom temperature
+  unique_id: avg_bedroom_temperature
+  entity_id: sensor.tuya_temperature_bedroom_1_temperature
+  filters:
+    - filter: outlier
+      window_size: 10
+    - filter: time_simple_moving_average
+      window_size: "00:30"
+      precision: 2
+
+- platform: filter
+  name: AVG Bedroom humidity
+  unique_id: avg_bedroom_humidity
+  entity_id: sensor.tuya_temperature_bedroom_1_humidity
+  filters:
+    - filter: outlier
+      window_size: 10
+    - filter: time_simple_moving_average
+      window_size: "00:30"
+      precision: 2
+
+- platform: filter
+  name: AVG LDK temperature
+  unique_id: avg_ldk_temperature
+  entity_id: sensor.tuya_temperature_ldk_1_temperature
+  filters:
+    - filter: outlier
+      window_size: 10
+    - filter: time_simple_moving_average
+      window_size: "00:30"
+      precision: 2
+
+- platform: filter
+  name: AVG LDK humidity
+  unique_id: avg_ldk_humidity
+  entity_id: sensor.tuya_temperature_ldk_1_humidity
+  filters:
+    - filter: outlier
+      window_size: 10
+    - filter: time_simple_moving_average
+      window_size: "00:30"
+      precision: 2
