@@ -52,6 +52,12 @@
     "paperless": {
       "version": "2.12.1"
     },
+    "paperless-postgres": {
+      "version": "16.4-alpine"
+    },
+    "paperless-redis": {
+      "version": "7.4.1-alpine"
+    },
     "portainer": {
       "version": "2.23.0-alpine"
     },

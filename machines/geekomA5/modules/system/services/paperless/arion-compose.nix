@@ -23,7 +23,7 @@ in
 
       services = {
         redis.service = {
-          image = "redis:7.2.4";
+          image = "docker.io/library/redis:${containerVersions.paperless-redis}";
           container_name = "paperless-redis";
           networks = [ "default" ];
           volumes = [
@@ -33,7 +33,7 @@ in
         };
 
         postgresql.service = {
-          image = "postgres:16.3-alpine3.18";
+          image = "docker.io/library/postgres:${containerVersions.paperless-postgres}";
           container_name = "paperless-postgresql";
           env_file = [ config.age.secrets.paperless_compose.path ];
           networks = [ "default" ];

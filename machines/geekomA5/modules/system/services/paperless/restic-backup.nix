@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  dbBackupFolder = "/mnt/store/paperless/db-backup";
+  backupFolder = "/mnt/store/paperless/export";
 in
 {
   #NOTE - See also global config at
@@ -8,8 +8,7 @@ in
   services.restic.backups = {
     paperless = {
       paths = [
-        "/mnt/external/paperless-library/media" # Assets
-        dbBackupFolder # DB backup
+        backupFolder
       ];
 
       pruneOpts = [
@@ -20,11 +19,12 @@ in
       ];
 
       backupPrepareCommand = ''
-        mkdir -p ${dbBackupFolder}
-        set -o allexport; source ${config.age.secrets.paperless_compose.path}; set +o allexport
+        ${lib.getExe config.virtualisation.podman.package} exec --tty paperless-server \
+        document_exporter /usr/src/paperless/export --delete
+      '';
 
-        ${lib.getExe config.virtualisation.podman.package} exec --tty paperless-postgresql \
-        pg_dumpall --username ''${POSTGRES_USER} --clean --if-exists > "${dbBackupFolder}/backup.sql"
+      backupCleanupCommand = ''
+        find "${backupFolder}" -mindepth 1 -delete
       '';
     };
   };

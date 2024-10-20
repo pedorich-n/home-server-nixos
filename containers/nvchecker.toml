@@ -103,6 +103,18 @@ source = "container"
 registry = "ghcr.io"
 container = "paperless-ngx/paperless-ngx"
 
+[paperless-postgres]
+source = "container"
+registry = "docker.io"
+container = "library/postgres"
+include_regex = "^16\\.\\d+-alpine$"
+
+[paperless-redis]
+source = "container"
+registry = "docker.io"
+container = "library/redis"
+include_regex = "^7.\\d+\\.\\d+-alpine"
+
 [portainer]
 source = "container"
 registry = "docker.io"
