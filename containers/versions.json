@@ -14,25 +14,25 @@
       "version": "1.2.0"
     },
     "homeassistant": {
-      "version": "2024.10.3"
+      "version": "2024.10.4"
     },
     "homeassistant-mariadb": {
       "version": "11.5.2"
     },
     "immich-machine-learning": {
-      "version": "v1.118.2"
+      "version": "v1.119.1"
     },
     "immich-server": {
-      "version": "v1.118.2"
+      "version": "v1.119.1"
     },
     "librechat-mongodb": {
-      "version": "8.0.1"
+      "version": "8.0.3"
     },
     "librechat-rag": {
       "version": "v0.3.0"
     },
     "librechat-server": {
-      "version": "v0.7.5-rc2"
+      "version": "v0.7.5"
     },
     "librechat-vector": {
       "version": "v0.5.1"
@@ -44,13 +44,13 @@
       "version": "2.0.20"
     },
     "multi-scrobbler": {
-      "version": "0.8.6"
+      "version": "0.8.7"
     },
     "nodered": {
       "version": "4.0.5"
     },
     "paperless": {
-      "version": "2.12.1"
+      "version": "2.13.2"
     },
     "paperless-postgres": {
       "version": "16.4-alpine"

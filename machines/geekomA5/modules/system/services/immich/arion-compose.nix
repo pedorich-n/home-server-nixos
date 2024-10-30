@@ -28,7 +28,7 @@ let
     DB_HOSTNAME = "immich-postgresql";
     IMMICH_CONFIG_FILE = "/usr/src/app/custom-config.json";
 
-    IMMICH_METRICS = "true"; # See https://immich.app/docs/features/monitoring#prometheus
+    IMMICH_TELEMETRY_INCLUDE = "all"; # See https://immich.app/docs/features/monitoring#prometheus
   };
 in
 {
