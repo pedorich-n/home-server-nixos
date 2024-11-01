@@ -42,6 +42,13 @@
       };
     };
 
+    auto-cpufreq = {
+      url = "github:AdnanHodzic/auto-cpufreq";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+      };
+    };
+
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs = {

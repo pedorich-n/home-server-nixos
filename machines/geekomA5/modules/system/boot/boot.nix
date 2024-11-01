@@ -6,7 +6,7 @@
     };
 
     initrd = {
-      # NOTE https://gist.github.com/CMCDragonkai/810f78ee29c8fce916d072875f7e1751
+      # https://gist.github.com/CMCDragonkai/810f78ee29c8fce916d072875f7e1751
       availableKernelModules = [
         "ahci" # SATA devices on modern AHCI controllers
         "sd_mod" # SCSI, SATA, and PATA (IDE) devices
@@ -21,7 +21,7 @@
       "amdgpu" # AMD GPU 
       "kvm-amd" # KVM on AMD Cpus
       "zenpower" # AMD ZEN Family CPUs current, voltage, power monitoring
-      # "amd-pstate" # AMD CPU performance scaling driver
+      "amd-pstate" # AMD CPU performance scaling driver
       "zfs" # ZFS support
     ];
 
@@ -32,10 +32,10 @@
 
     kernelParams = [
       # 8GB
-      # NOTE https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/Module%20Parameters.html#zfs-arc-max
+      # https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/Module%20Parameters.html#zfs-arc-max
       "zfs.zfs_arc_max=${builtins.toString (1024 * 1024 * 1024 * 8)}"
-      # The new AMD power manager yields higher idle power consumption for me, so I'm going to disable it
-      "amd_pstate=passive"
+      # https://wiki.archlinux.org/title/CPU_frequency_scaling#amd_pstate
+      "amd_pstate=active"
     ];
 
     loader.systemd-boot.enable = true;
