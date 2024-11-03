@@ -24,6 +24,7 @@ let
 
   sharedEnvs = {
     # https://immich.app/docs/install/environment-variables/
+    TZ = "${config.time.timeZone}";
     REDIS_HOSTNAME = "immich-redis";
     DB_HOSTNAME = "immich-postgresql";
     IMMICH_CONFIG_FILE = "/usr/src/app/custom-config.json";
