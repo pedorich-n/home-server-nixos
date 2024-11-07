@@ -102,21 +102,6 @@
         "type": "github"
       }
     },
-    "crane": {
-      "locked": {
-        "lastModified": 1727316705,
-        "narHash": "sha256-/mumx8AQ5xFuCJqxCIOFCHTVlxHkMT21idpbgbm/TIE=",
-        "owner": "ipetkov",
-        "repo": "crane",
-        "rev": "5b03654ce046b5167e7b0bccbd8244cb56c16f0e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ipetkov",
-        "repo": "crane",
-        "type": "github"
-      }
-    },
     "deploy-rs": {
       "inputs": {
         "flake-compat": [
@@ -299,11 +284,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1730946274,
-        "narHash": "sha256-7KOaxxVd1JyHxQw0LWMZI38E/SOAiqEuk4uDUjSiIYY=",
+        "lastModified": 1730985636,
+        "narHash": "sha256-wOQ2WwUHn8TPhwNRCGQrg1yxCkalRmB5iwuP71nTMYg=",
         "ref": "refs/heads/main",
-        "rev": "21099c63e49b68927d5d7e585766b7dd4fc47005",
-        "revCount": 84,
+        "rev": "fad5b54d819a0fd161bc9315dc40f5c0b78832bc",
+        "revCount": 85,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -549,7 +534,6 @@
     },
     "playit-nixos-module": {
       "inputs": {
-        "crane": "crane",
         "flake-parts": [
           "flake-parts"
         ],
@@ -557,17 +541,16 @@
           "nixpkgs-unstable"
         ],
         "playit-agent-source": "playit-agent-source",
-        "rust-overlay": "rust-overlay",
         "systems": [
           "systems"
         ]
       },
       "locked": {
-        "lastModified": 1729468953,
-        "narHash": "sha256-6/oR7t7btfpNYq+T+514X14lLysneShUgyJXNqkZHLU=",
+        "lastModified": 1730987279,
+        "narHash": "sha256-1bH84QiSirR7P+DkF+3/1fX95FemGPo2iv2iUv1q3WI=",
         "owner": "pedorich-n",
         "repo": "playit-nixos-module",
-        "rev": "8974bb67c0f220b1f628f19fcf89c202add87033",
+        "rev": "a6fcdf7c407fd837bbef1e8ec26d8b636ed5aa0b",
         "type": "github"
       },
       "original": {
@@ -628,27 +611,6 @@
         "playit-nixos-module": "playit-nixos-module",
         "poetry2nix": "poetry2nix",
         "systems": "systems"
-      }
-    },
-    "rust-overlay": {
-      "inputs": {
-        "nixpkgs": [
-          "playit-nixos-module",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1727749966,
-        "narHash": "sha256-DUS8ehzqB1DQzfZ4bRXVSollJhu+y7cvh1DJ9mbWebE=",
-        "owner": "oxalica",
-        "repo": "rust-overlay",
-        "rev": "00decf1b4f9886d25030b9ee4aed7bfddccb5f66",
-        "type": "github"
-      },
-      "original": {
-        "owner": "oxalica",
-        "repo": "rust-overlay",
-        "type": "github"
       }
     },
     "systems": {
