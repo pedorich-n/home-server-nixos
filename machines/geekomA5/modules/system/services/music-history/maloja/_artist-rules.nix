@@ -16,6 +16,16 @@ let
       "Морэ & Рэльсы"
       "AC/DC"
       "4.А.Й.К.А"
+      "A.K.A.C.O.D."
+      "Echo & the Bunnymen"
+      "Joey Valence & Brae"
+      "Crosby, Stills, Nash & Young"
+      "Coco & Clair Clair"
+      "Trummor & Orgel"
+      "SelloRekt / LA Dreams"
+      "Harold Melvin & the Blue Notes"
+      "Daryl Hall & John Oates"
+      "Amadou & Mariam"
     ];
 
     # Aliases / translations / transliteration
