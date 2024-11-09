@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://version-2024-10.goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: authentication-login-session-duration
+  labels:
+    blueprints.goauthentik.io/system-bootstrap: "true"
+    blueprints.goauthentik.io/description: "Edit Default Authentication Login Stage to increase the session duration"
+entries:
+  - model: authentik_stages_user_login.userloginstage
+    identifiers:
+      name: default-authentication-login
+    attrs:
+      session_duration: "days=180"

@@ -17,6 +17,13 @@ frontend:
 # Enable integrations
 api:
 auth_header:
+  debug: true
+  username_header: X-Authentik-Username
+
+logger:
+  default: info
+  logs:
+    custom_components.auth_header: debug
 
 recorder:
   purge_keep_days: 60
