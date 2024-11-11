@@ -41,6 +41,7 @@ in
             (storeFor "multi-scrobbler/config" "/config")
             "${config.age.secrets.multi_scrobbler_spotify.path}:/config/spotify.json"
             "${config.age.secrets.multi_scrobbler_maloja.path}:/config/maloja.json"
+            "${./multi-scrobbler/webscrobbler.json}:/config/webscrobbler.json"
           ];
           restart = "unless-stopped";
           labels = dockerLib.mkTraefikLabels {
