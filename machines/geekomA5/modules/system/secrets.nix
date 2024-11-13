@@ -41,14 +41,7 @@ let
     { ${name} = mapping; };
 
 
-  encryptedFilesToMount =
-    let
-      encryptedRoot = "${inputs.home-server-nixos-secrets}/encrypted";
-      encryptedRootStr = builtins.unsafeDiscardStringContext encryptedRoot;
-      allEncrypted = builtins.filter (path: lib.hasSuffix ".age" path) (lib.filesystem.listFilesRecursive encryptedRoot);
-      filteredEncrypted = builtins.filter (path: (builtins.match "${encryptedRootStr}/(common|${config.networking.hostName})/.*" path) != null) allEncrypted;
-    in
-    filteredEncrypted;
+  encryptedFilesToMount = builtins.filter (path: lib.hasSuffix ".age" path) (lib.filesystem.listFilesRecursive "${inputs.home-server-nixos-secrets}/encrypted");
 
   secrets = lib.mkMerge (builtins.map (path: mkSecret path) encryptedFilesToMount);
 in

@@ -46,7 +46,7 @@ in
           restart = "unless-stopped";
           volumes = [
             "${configs.mosquitto}:/mosquitto/config/mosquitto.conf:ro"
-            "${config.age.secrets.mosquitto_passwords_hashed.path}:/mosquitto/config/passwords.txt:ro"
+            "${config.age.secrets.mosquitto_passwords.path}:/mosquitto/config/passwords.txt:ro"
             (storeFor "mosquitto/data" "/mosquitto/data")
             (storeFor "mosquitto/log" "/mosquitto/log")
           ];

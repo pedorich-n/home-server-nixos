@@ -15,7 +15,7 @@ in
       # and agenix secrets aren't encrypted with it yet
 
       root = {
-        hashedPasswordFile = config.age.secrets.root_password_hashed.path;
+        hashedPasswordFile = config.age.secrets.os_root_password.path;
         openssh.authorizedKeys.keys = [
           sshKey
         ];
@@ -25,7 +25,7 @@ in
         uid = lib.mkDefault 1000;
         isNormalUser = true;
         useDefaultShell = true;
-        hashedPasswordFile = config.age.secrets.user_password_hashed.path;
+        hashedPasswordFile = config.age.secrets.os_user_password.path;
         extraGroups = [
           "docker"
           "podman"
