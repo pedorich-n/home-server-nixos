@@ -112,8 +112,6 @@ in
       };
 
       configDir = {
-        "health_alarm_notify.conf" = config.age.secrets.netdata_telegram_notify.path;
-
         "go.d/prometheus.conf" = pkgs.writeText "netdata-prometheus.conf" ''
           jobs:
             - name: Minecraft

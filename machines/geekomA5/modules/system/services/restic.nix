@@ -21,9 +21,9 @@ in
             "--tag auto"
           ];
 
-          environmentFile = lib.mkDefault config.age.secrets."${name}_restic_environment".path;
-          repositoryFile = lib.mkDefault config.age.secrets."${name}_restic_repository".path;
-          passwordFile = lib.mkDefault config.age.secrets."${name}_restic_password".path;
+          environmentFile = lib.mkDefault config.age.secrets."restic_${name}_environment".path;
+          repositoryFile = lib.mkDefault config.age.secrets."restic_${name}_repository".path;
+          passwordFile = lib.mkDefault config.age.secrets."restic_${name}_password".path;
         };
       }));
     };
