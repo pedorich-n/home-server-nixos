@@ -105,6 +105,20 @@ in
           };
         };
 
+        postgresql.service = {
+          image = "docker.io/library/postgres:${containerVersions.homeassistant-postgres}";
+          container_name = "homeassistant-postgresql";
+          # env_file = [ config.age.secrets.paperless_compose.path ];
+          environment = {
+
+          };
+          networks = [ "default" ];
+          volumes = [
+            (storeFor "postgresql" "/var/lib/postgresql/data")
+          ];
+          restart = "unless-stopped";
+        };
+
         homeassistant.service = rec {
           image = "homeassistant/home-assistant:${containerVersions.homeassistant}";
           container_name = "homeassistant";

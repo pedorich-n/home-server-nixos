@@ -55,6 +55,12 @@ registry = "docker.io"
 container = "homeassistant/home-assistant"
 include_regex = "\\d+\\.\\d+\\.\\d+"
 
+[homeassistant-postgres]
+source = "container"
+registry = "docker.io"
+container = "library/postgres"
+include_regex = "^16\\.\\d+-alpine$"
+
 [immich-server]
 source = "container"
 registry = "ghcr.io"
