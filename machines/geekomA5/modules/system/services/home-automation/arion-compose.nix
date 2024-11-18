@@ -19,26 +19,26 @@ in
 
       services = {
         # Home Automation
-        mariadb.service = {
-          image = "mariadb:${containerVersions.homeassistant-mariadb}";
-          container_name = "mariadb";
-          restart = "unless-stopped";
-          environment = {
-            MARIADB_ROOT_PASSWORD_FILE = "/var/lib/mysql/root_password";
-            MARIADB_DATABASE = "ha_database";
-            MARIADB_USER_FILE = "/var/lib/mysql/user";
-            MARIAD_PASSWORD_FILE = "/var/lib/mysql/password";
-            TZ = "${config.time.timeZone}";
-          };
-          user = userSetting;
-          volumes = [
-            (storeFor "mariadb" "/var/lib/mysql")
-            "${config.age.secrets.mariadb_root_password.path}:/var/lib/mysql/root_password:ro"
-            "${config.age.secrets.mariadb_user.path}:/var/lib/mysql/user:ro"
-            "${config.age.secrets.mariadb_password.path}:/var/lib/mysql/password:ro"
-          ];
-          networks = [ "default" ];
-        };
+        # mariadb.service = {
+        #   image = "mariadb:${containerVersions.homeassistant-mariadb}";
+        #   container_name = "mariadb";
+        #   restart = "unless-stopped";
+        #   environment = {
+        #     MARIADB_ROOT_PASSWORD_FILE = "/var/lib/mysql/root_password";
+        #     MARIADB_DATABASE = "ha_database";
+        #     MARIADB_USER_FILE = "/var/lib/mysql/user";
+        #     MARIAD_PASSWORD_FILE = "/var/lib/mysql/password";
+        #     TZ = "${config.time.timeZone}";
+        #   };
+        #   user = userSetting;
+        #   volumes = [
+        #     (storeFor "mariadb" "/var/lib/mysql")
+        #     "${config.age.secrets.mariadb_root_password.path}:/var/lib/mysql/root_password:ro"
+        #     "${config.age.secrets.mariadb_user.path}:/var/lib/mysql/user:ro"
+        #     "${config.age.secrets.mariadb_password.path}:/var/lib/mysql/password:ro"
+        #   ];
+        #   networks = [ "default" ];
+        # };
 
         mosquitto.service = {
           image = "eclipse-mosquitto:${containerVersions.mosquitto}";
@@ -105,6 +105,17 @@ in
           };
         };
 
+        postgresql.service = {
+          image = "docker.io/library/postgres:${containerVersions.homeassistant-postgres}";
+          container_name = "homeassistant-postgresql";
+          env_file = [ config.age.secrets.ha_postgres.path ];
+          networks = [ "default" ];
+          volumes = [
+            (storeFor "postgresql" "/var/lib/postgresql/data")
+          ];
+          restart = "unless-stopped";
+        };
+
         homeassistant.service = rec {
           image = "homeassistant/home-assistant:${containerVersions.homeassistant}";
           container_name = "homeassistant";
@@ -136,7 +147,7 @@ in
             priority = 15;
           });
           depends_on = [
-            "mariadb"
+            "postgresql"
             "mosquitto"
           ];
         };

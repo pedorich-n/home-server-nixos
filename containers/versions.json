@@ -19,6 +19,9 @@
     "homeassistant-mariadb": {
       "version": "11.5.2"
     },
+    "homeassistant-postgres": {
+      "version": "16.4-alpine"
+    },
     "immich-machine-learning": {
       "version": "v1.119.1"
     },
