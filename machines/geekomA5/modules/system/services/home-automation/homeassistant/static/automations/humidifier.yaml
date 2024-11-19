@@ -31,7 +31,7 @@
           state: unavailable
       alias: Humidifier is online
     - condition: numeric_state
-      entity_id: sensor.mean_ldk_humidity
+      entity_id: sensor.avg_ldk_humidity
       below: 45
   actions:
     - action: select.select_option
