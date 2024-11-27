@@ -62,7 +62,7 @@
       extra_hosts = [
         #NOTE - there's a bug with musl or C libs or something in alpine-based images with resolving .lan domains; 
         # dig & nslookup resolves the domain, but curl fails, and the call to OIDC discovery fails too. Providing hard-coded host seems to help.
-        "authentik.${config.custom.networking.domain}:192.168.15.15"
+        "authentik.${config.custom.networking.domain}:192.168.10.15"
       ];
     };
   };
