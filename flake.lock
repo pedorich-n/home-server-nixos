@@ -418,11 +418,11 @@
     },
     "nixpkgs-netdata": {
       "locked": {
-        "lastModified": 1726412657,
-        "narHash": "sha256-k2SX0TeUm6tDZp3aKhaUXupoLr2iBIHqP/lUPNmKelo=",
+        "lastModified": 1732945374,
+        "narHash": "sha256-jG2WecCP9XybFeInP/hXdXuTAqNpmbL0ODpCsD+pzK4=",
         "owner": "pedorich-n",
         "repo": "nixpkgs",
-        "rev": "4e7df2caa4c1979a656a325fc08ab8a4694ea6ba",
+        "rev": "8e70d0c874a239de38435ad7cc8ff149fd1bba66",
         "type": "github"
       },
       "original": {
