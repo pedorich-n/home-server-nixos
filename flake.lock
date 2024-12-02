@@ -577,6 +577,26 @@
         "type": "github"
       }
     },
+    "quadlet-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1732834062,
+        "narHash": "sha256-unZzFb+pvaMoTcAGRuAdYYdJ8W+Q9WiHvWtav7prsB0=",
+        "owner": "SEIAROTg",
+        "repo": "quadlet-nix",
+        "rev": "885195b20078d0b1e56eddf381c578815359f3b4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SEIAROTg",
+        "repo": "quadlet-nix",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -600,6 +620,7 @@
         "personal-home-manager": "personal-home-manager",
         "playit-nixos-module": "playit-nixos-module",
         "poetry2nix": "poetry2nix",
+        "quadlet-nix": "quadlet-nix",
         "systems": "systems"
       }
     },

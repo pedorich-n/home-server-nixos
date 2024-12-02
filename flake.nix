@@ -87,6 +87,13 @@
       };
     };
 
+    quadlet-nix = {
+      url = "github:SEIAROTg/quadlet-nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+      };
+    };
+
     agenix = {
       url = "github:ryantm/agenix";
       inputs = {
