@@ -7,7 +7,11 @@ let
 in
 {
   systemd.targets.paperless = {
-    wants = [ "paperless-redis.service" "paperless-postgresql.service" "paperless.service" ];
+    wants = [
+      "paperless-redis.service"
+      "paperless-postgresql.service"
+      "paperless.service"
+    ];
   };
 
 
