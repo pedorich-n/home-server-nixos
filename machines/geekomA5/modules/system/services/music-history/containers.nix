@@ -51,8 +51,9 @@ in
         };
 
         unitConfig = {
-          # TODO: fix service name
-          # After = [ "arion-authentik.service" ];
+          After = [
+            "authentik.target"
+          ];
         };
       };
 
@@ -92,8 +93,9 @@ in
         };
 
         unitConfig = {
-          # TODO: fix service name
-          # After = [ "arion-authentik.service" ];
+          After = [
+            "authentik.target"
+          ];
         };
       };
     };

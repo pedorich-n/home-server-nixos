@@ -12,10 +12,6 @@ let
   };
 in
 {
-  systemd.services."arion-librechat" = {
-    after = [ "arion-authentik.service" ];
-  };
-
   virtualisation.quadlet = {
     networks = {
       librechat-internal.networkConfig.name = "librechat-internal";
@@ -130,6 +126,9 @@ in
           Requires = [
             "librechat-mongodb.service"
             "librechat-rag.service"
+          ];
+          After = [
+            "authentik.target"
           ];
         };
       };

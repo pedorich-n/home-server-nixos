@@ -6,7 +6,6 @@
       system = "x86_64-linux";
       withHmModules = true;
       modules = [
-        inputs.arion.nixosModules.arion
         inputs.disko.nixosModules.disko
         inputs.airtable-telegram-bot.nixosModules.ngrok
         inputs.airtable-telegram-bot.nixosModules.calendar-loader

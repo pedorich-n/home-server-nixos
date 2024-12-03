@@ -96,8 +96,9 @@ in
             #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:72
             "zfs-mounted-external-paperless.service"
           ];
-          # TODO: fix service name
-          # After = [ "arion-authentik.service" ];
+          After = [
+            "authentik.target"
+          ];
         };
       };
     };

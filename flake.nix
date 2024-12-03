@@ -79,14 +79,6 @@
       };
     };
 
-    arion = {
-      url = "github:hercules-ci/arion";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-        flake-parts.follows = "flake-parts";
-      };
-    };
-
     quadlet-nix = {
       url = "github:SEIAROTg/quadlet-nix";
       inputs = {
