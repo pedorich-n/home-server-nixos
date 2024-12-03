@@ -123,6 +123,10 @@ in
           );
         };
 
+        serviceConfig = {
+          Restart = "unless-stopped";
+        };
+
         unitConfig = {
           Requires = [
             "immich-redis.service"
