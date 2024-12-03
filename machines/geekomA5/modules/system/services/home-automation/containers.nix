@@ -153,6 +153,9 @@ in
             "homeassistant-postgresql.service"
             "mosquitto.service"
           ];
+          After = [
+            "authentik.target"
+          ];
         };
       };
 
@@ -177,6 +180,16 @@ in
             port = 1880;
             middlewares = [ "authentik@docker" ];
           });
+        };
+
+        serviceConfig = {
+          Restart = "unless-stopped";
+        };
+
+        unitConfig = {
+          After = [
+            "authentik.target"
+          ];
         };
       };
 
