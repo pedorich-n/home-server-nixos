@@ -82,7 +82,7 @@ in
 
       services = {
         postgresql.service = {
-          image = "docker.io/library/postgres:${containerVersions.authentik-postgres}";
+          image = "docker.io/library/postgres:${containerVersions.authentik-postgresql}";
           container_name = "authentik-postgresql";
           networks = [ "default" ];
           environment = defaultEnvs;

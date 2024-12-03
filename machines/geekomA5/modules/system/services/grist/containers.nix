@@ -21,7 +21,7 @@ in
         GRIST_OIDC_IDP_ISSUER = authentikLib.mkIssuerUrl "grist";
         GRIST_OIDC_IDP_SCOPES = authentikLib.openIdScopes;
       };
-      environmentFiles = [ config.age.secrets.grist_compose.path ];
+      environmentFiles = [ config.age.secrets.grist.path ];
       volumes = [
         (storeFor "persist" "/persist")
       ];
@@ -30,8 +30,12 @@ in
     };
 
     serviceConfig = {
-      After = [ "arion-authentik.service" ];
       Restart = "unless-stopped";
+    };
+
+    unitConfig = {
+      # TODO: fix service name
+      # After = [ "arion-authentik.service" ];
     };
   };
 

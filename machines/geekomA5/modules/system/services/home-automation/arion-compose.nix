@@ -106,7 +106,7 @@ in
         };
 
         postgresql.service = {
-          image = "docker.io/library/postgres:${containerVersions.homeassistant-postgres}";
+          image = "docker.io/library/postgres:${containerVersions.homeassistant-postgresql}";
           container_name = "homeassistant-postgresql";
           env_file = [ config.age.secrets.ha_postgres.path ];
           networks = [ "default" ];
