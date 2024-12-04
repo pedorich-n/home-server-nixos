@@ -13,6 +13,7 @@ in
 {
   systemd.targets.home-automation = {
     wants = [
+      "home-automation-internal-network.service"
       "homeassistant.service"
       "homeassistant-postgresql.service"
       "zigbeemqtt.service"
@@ -54,6 +55,12 @@ in
         serviceConfig = {
           Restart = "unless-stopped";
         };
+
+        unitConfig = {
+          Requires = [
+            "home-automation-internal-network.service"
+          ];
+        };
       };
 
       zigbee2mqtt = {
@@ -88,6 +95,7 @@ in
 
         unitConfig = {
           Requires = [
+            "home-automation-internal-network.service"
             "mosquitto.service"
           ];
         };
@@ -106,6 +114,12 @@ in
 
         serviceConfig = {
           Restart = "unless-stopped";
+        };
+
+        unitConfig = {
+          Requires = [
+            "home-automation-internal-network.service"
+          ];
         };
       };
 
@@ -150,11 +164,13 @@ in
 
         unitConfig = {
           Requires = [
+            "home-automation-internal-network.service"
             "homeassistant-postgresql.service"
             "mosquitto.service"
           ];
           After = [
             "authentik.target"
+            "traefik-network.service"
           ];
         };
       };

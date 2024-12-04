@@ -35,5 +35,12 @@ in
     serviceConfig = {
       Restart = "unless-stopped";
     };
+
+    unitConfig = {
+      After = [
+        "authentik.target"
+        "traefik-network.service"
+      ];
+    };
   };
 }

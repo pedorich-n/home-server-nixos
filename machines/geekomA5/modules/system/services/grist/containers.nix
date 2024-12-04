@@ -36,6 +36,7 @@ in
     unitConfig = {
       After = [
         "authentik.target"
+        "traefik-network.service"
       ];
     };
   };

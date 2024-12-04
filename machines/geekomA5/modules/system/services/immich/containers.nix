@@ -35,6 +35,7 @@ in
 {
   systemd.targets.immich = {
     wants = [
+      "immich-internal-network.service"
       "immich-redis.service"
       "immich-vectordb.service"
       "immich-machine-learning.service"
@@ -63,6 +64,12 @@ in
         serviceConfig = {
           Restart = "unless-stopped";
         };
+
+        unitConfig = {
+          Requires = [
+            "immich-internal-network.service"
+          ];
+        };
       };
 
       immich-redis = {
@@ -77,6 +84,12 @@ in
 
         serviceConfig = {
           Restart = "unless-stopped";
+        };
+
+        unitConfig = {
+          Requires = [
+            "immich-internal-network.service"
+          ];
         };
       };
 
@@ -96,6 +109,7 @@ in
 
         unitConfig = {
           Requires = [
+            "immich-internal-network.service"
             "immich-redis.service"
             "immich-vectordb.service"
           ];
@@ -129,12 +143,16 @@ in
 
         unitConfig = {
           Requires = [
+            "immich-internal-network.service"
             "immich-redis.service"
             "immich-vectordb.service"
             #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:62
             "zfs-mounted-external-immich.service"
             #LINK - machines/geekomA5/modules/system/services/immich/render-config.nix:20
             "immich-render-config.service"
+          ];
+          After = [
+            "traefik-network.service"
           ];
         };
       };

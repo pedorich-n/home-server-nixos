@@ -8,6 +8,7 @@ in
 {
   systemd.targets.paperless = {
     wants = [
+      "paperless-internal-network.service"
       "paperless-redis.service"
       "paperless-postgresql.service"
       "paperless.service"
@@ -34,6 +35,12 @@ in
         serviceConfig = {
           Restart = "unless-stopped";
         };
+
+        unitConfig = {
+          Requires = [
+            "paperless-internal-network.service"
+          ];
+        };
       };
 
       paperless-postgresql = {
@@ -49,6 +56,12 @@ in
 
         serviceConfig = {
           Restart = "unless-stopped";
+        };
+
+        unitConfig = {
+          Requires = [
+            "paperless-internal-network.service"
+          ];
         };
       };
 
@@ -91,6 +104,7 @@ in
 
         unitConfig = {
           Requires = [
+            "paperless-internal-network.service"
             "paperless-redis.service"
             "paperless-postgresql.service"
             #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:72
@@ -98,6 +112,7 @@ in
           ];
           After = [
             "authentik.target"
+            "traefik-network.service"
           ];
         };
       };

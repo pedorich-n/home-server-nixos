@@ -12,6 +12,16 @@ let
   };
 in
 {
+  systemd.targets.librechat = {
+    wants = [
+      "librechat-internal-network.service"
+      "librechat-vectordb.service"
+      "librecaht-mongodb.service"
+      "librechat-rag.service"
+      "librechat.service"
+    ];
+  };
+
   virtualisation.quadlet = {
     networks = {
       librechat-internal.networkConfig.name = "librechat-internal";
@@ -33,6 +43,12 @@ in
         serviceConfig = {
           Restart = "unless-stopped";
         };
+
+        unitConfig = {
+          Requires = [
+            "librechat-internal-network.service"
+          ];
+        };
       };
 
       librechat-mongodb = {
@@ -48,6 +64,12 @@ in
 
         serviceConfig = {
           Restart = "unless-stopped";
+        };
+
+        unitConfig = {
+          Requires = [
+            "librechat-internal-network.service"
+          ];
         };
       };
 
@@ -70,16 +92,20 @@ in
         };
 
         unitConfig = {
-          Requires = [ "librechat-vectordb.service" ];
+          Requires = [
+            "librechat-internal-network.service"
+            "librechat-vectordb.service"
+          ];
         };
       };
 
       librechat = {
         containerConfig = {
           image = "ghcr.io/danny-avila/librechat:${containerVersions.librechat-server}";
-          name = "librechat-server";
+          name = "librechat";
           # See https://github.com/danny-avila/LibreChat/discussions/572#discussioncomment-7352331
           exec = "npm run backend:dev";
+          addHosts = [ "authentik.${config.custom.networking.domain}:192.168.10.15" ];
           networks = [
             "librechat-internal"
             "traefik"
@@ -115,7 +141,6 @@ in
             port = 3080;
           });
 
-          podmanArgs = [ "--add-host authentik.${config.custom.networking.domain}:192.168.10.15" ];
         };
 
         serviceConfig = {
@@ -124,11 +149,13 @@ in
 
         unitConfig = {
           Requires = [
+            "librechat-internal-network.service"
             "librechat-mongodb.service"
             "librechat-rag.service"
           ];
           After = [
             "authentik.target"
+            "traefik-network.service"
           ];
         };
       };

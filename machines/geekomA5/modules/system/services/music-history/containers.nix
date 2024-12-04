@@ -8,7 +8,11 @@ let
 in
 {
   systemd.targets.music-history = {
-    wants = [ "multiscrobbler.service" "maloja.service" ];
+    wants = [
+      "music-history-internal-network.service"
+      "multiscrobbler.service"
+      "maloja.service"
+    ];
   };
 
   virtualisation.quadlet = {
@@ -51,7 +55,12 @@ in
         };
 
         unitConfig = {
+          Requires = [
+            "music-history-internal-network.service"
+          ];
+
           After = [
+            "traefik-network.service"
             "authentik.target"
           ];
         };
@@ -93,7 +102,12 @@ in
         };
 
         unitConfig = {
+          Requires = [
+            "music-history-internal-network.service"
+          ];
+
           After = [
+            "traefik-network.service"
             "authentik.target"
           ];
         };

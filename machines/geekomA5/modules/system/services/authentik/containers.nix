@@ -74,6 +74,7 @@ in
 
   systemd.targets.authentik = {
     wants = [
+      "authentik-internal-network.service"
       "authentik-redis.service"
       "authentik-postgresql.service"
       "authentik-worker.service"
@@ -104,6 +105,12 @@ in
         serviceConfig = {
           Restart = "unless-stopped";
         };
+
+        unitConfig = {
+          Requires = [
+            "authentik-internal-network.service"
+          ];
+        };
       };
 
       authentik-redis = {
@@ -120,6 +127,12 @@ in
 
         serviceConfig = {
           Restart = "unless-stopped";
+        };
+
+        unitConfig = {
+          Requires = [
+            "authentik-internal-network.service"
+          ];
         };
       };
 
@@ -144,6 +157,7 @@ in
 
         unitConfig = {
           Requires = [
+            "authentik-internal-network.service"
             "authentik-redis.service"
             "authentik-postgresql.service"
           ];
@@ -187,8 +201,12 @@ in
 
         unitConfig = {
           Requires = [
+            "authentik-internal-network.service"
             "authentik-redis.service"
             "authentik-postgresql.service"
+          ];
+          After = [
+            "traefik-network.service"
           ];
         };
       };
