@@ -500,17 +500,16 @@
         ]
       },
       "locked": {
+        "dirtyRev": "1083667969b92f2bc4984e1e1a202a968d3caca2-dirty",
+        "dirtyShortRev": "1083667-dirty",
         "lastModified": 1733266376,
-        "narHash": "sha256-mI61ValB9P6nclG1yZggF9gEpxM85Qalvxe+hap+Svc=",
-        "owner": "SEIAROTg",
-        "repo": "quadlet-nix",
-        "rev": "1083667969b92f2bc4984e1e1a202a968d3caca2",
-        "type": "github"
+        "narHash": "sha256-eG9hWIGIJ9B2ifH1njEyMdZwQSo9tAsy2OXFmqG4LRo=",
+        "type": "git",
+        "url": "file:///home/pedorich_n/Projects/quadlet-nix"
       },
       "original": {
-        "owner": "SEIAROTg",
-        "repo": "quadlet-nix",
-        "type": "github"
+        "type": "git",
+        "url": "file:///home/pedorich_n/Projects/quadlet-nix"
       }
     },
     "root": {
