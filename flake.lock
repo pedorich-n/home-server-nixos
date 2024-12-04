@@ -500,16 +500,18 @@
         ]
       },
       "locked": {
-        "dirtyRev": "1083667969b92f2bc4984e1e1a202a968d3caca2-dirty",
-        "dirtyShortRev": "1083667-dirty",
-        "lastModified": 1733266376,
+        "lastModified": 1733316717,
         "narHash": "sha256-eG9hWIGIJ9B2ifH1njEyMdZwQSo9tAsy2OXFmqG4LRo=",
-        "type": "git",
-        "url": "file:///home/pedorich_n/Projects/quadlet-nix"
+        "owner": "pedorich-n",
+        "repo": "quadlet-nix",
+        "rev": "b89229cba5176097566c56b486c5254d995786a9",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/pedorich_n/Projects/quadlet-nix"
+        "owner": "pedorich-n",
+        "ref": "fix-package",
+        "repo": "quadlet-nix",
+        "type": "github"
       }
     },
     "root": {
