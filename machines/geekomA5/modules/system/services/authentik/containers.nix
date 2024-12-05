@@ -179,6 +179,11 @@ in
             "authentik-internal"
             "traefik:ip=${serverIp}"
           ];
+          healthCmd = "ak healthcheck";
+          healthStartPeriod = "20s";
+          healthTimeout = "5s";
+          healthRetries = 5;
+          podmanArgs = [ "--sdnotify=healthy" ];
           labels = lib.mapAttrsToList (name: value: "${name}=${value}") ((dockerLib.mkTraefikLabels {
             name = "authentik";
             port = 9000;
@@ -197,6 +202,9 @@ in
 
         serviceConfig = {
           Restart = "unless-stopped";
+          Environment = [
+            ''PATH=${lib.makeBinPath [ "/run/wrappers" config.systemd.package ]}''
+          ];
         };
 
         unitConfig = {
