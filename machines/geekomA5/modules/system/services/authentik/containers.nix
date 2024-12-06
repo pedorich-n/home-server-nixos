@@ -143,6 +143,11 @@ in
           exec = "worker";
           user = "root";
           networks = [ "authentik-internal" ];
+          healthCmd = "ak healthcheck";
+          healthStartPeriod = "20s";
+          healthTimeout = "5s";
+          healthRetries = 5;
+          podmanArgs = [ "--sdnotify=healthy" ];
           environments = defaultEnvs;
           environmentFiles = [ config.age.secrets.authentik.path ];
           volumes = [
@@ -153,6 +158,9 @@ in
 
         serviceConfig = {
           Restart = "unless-stopped";
+          Environment = [
+            ''PATH=${lib.makeBinPath [ "/run/wrappers" config.systemd.package ]}''
+          ];
         };
 
         unitConfig = {
