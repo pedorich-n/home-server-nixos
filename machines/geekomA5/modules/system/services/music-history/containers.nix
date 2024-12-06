@@ -47,10 +47,6 @@ in
           };
         };
 
-        serviceConfig = {
-          Restart = "unless-stopped";
-        };
-
         unitConfig = {
           Requires = [
             "music-history-internal-network.service"
@@ -91,10 +87,6 @@ in
             port = 42010;
             middlewares = [ "authentik@docker" ];
           };
-        };
-
-        serviceConfig = {
-          Restart = "unless-stopped";
         };
 
         unitConfig = {

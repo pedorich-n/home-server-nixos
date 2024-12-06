@@ -31,10 +31,6 @@ in
       labels = containerLib.mkTraefikLabels { inherit name; port = 9000; };
     };
 
-    serviceConfig = {
-      Restart = "unless-stopped";
-    };
-
     unitConfig = {
       After = [
         "authentik.target"

@@ -38,10 +38,6 @@ in
           environmentFiles = [ config.age.secrets.librechat.path ];
         };
 
-        serviceConfig = {
-          Restart = "unless-stopped";
-        };
-
         unitConfig = {
           Requires = [
             "librechat-internal-network.service"
@@ -58,10 +54,6 @@ in
           volumes = [
             (storeFor "mongodb" "/data/db")
           ];
-        };
-
-        serviceConfig = {
-          Restart = "unless-stopped";
         };
 
         unitConfig = {
@@ -83,10 +75,6 @@ in
             EMBEDDINGS_PROVIDER = "openai";
           } // envs;
           environmentFiles = [ config.age.secrets.librechat.path ];
-        };
-
-        serviceConfig = {
-          Restart = "unless-stopped";
         };
 
         unitConfig = {
@@ -137,10 +125,6 @@ in
             port = 3080;
           };
 
-        };
-
-        serviceConfig = {
-          Restart = "unless-stopped";
         };
 
         unitConfig = {

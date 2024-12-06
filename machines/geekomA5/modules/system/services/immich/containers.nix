@@ -59,10 +59,6 @@ in
           ];
         };
 
-        serviceConfig = {
-          Restart = "unless-stopped";
-        };
-
         unitConfig = {
           Requires = [
             "immich-internal-network.service"
@@ -80,10 +76,6 @@ in
           ];
         };
 
-        serviceConfig = {
-          Restart = "unless-stopped";
-        };
-
         unitConfig = {
           Requires = [
             "immich-internal-network.service"
@@ -99,10 +91,6 @@ in
           volumes = [
             (storeFor "cache/machine-learning" "/cache")
           ];
-        };
-
-        serviceConfig = {
-          Restart = "unless-stopped";
         };
 
         unitConfig = {
@@ -132,10 +120,6 @@ in
             (containerLib.mkTraefikLabels { name = "immich"; port = 2283; }) ++
             (containerLib.mkTraefikMetricsLabels { name = "immich"; port = 8081; addPath = "/metrics"; }) ++
             (containerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8082; addPath = "/metrics"; });
-        };
-
-        serviceConfig = {
-          Restart = "unless-stopped";
         };
 
         unitConfig = {

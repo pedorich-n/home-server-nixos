@@ -50,10 +50,6 @@ in
           ];
         };
 
-        serviceConfig = {
-          Restart = "unless-stopped";
-        };
-
         unitConfig = {
           Requires = [
             "home-automation-internal-network.service"
@@ -87,10 +83,6 @@ in
           };
         };
 
-        serviceConfig = {
-          Restart = "unless-stopped";
-        };
-
         unitConfig = {
           Requires = [
             "home-automation-internal-network.service"
@@ -108,10 +100,6 @@ in
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
-        };
-
-        serviceConfig = {
-          Restart = "unless-stopped";
         };
 
         unitConfig = {
@@ -156,10 +144,6 @@ in
           });
         };
 
-        serviceConfig = {
-          Restart = "unless-stopped";
-        };
-
         unitConfig = {
           Requires = [
             "home-automation-internal-network.service"
@@ -194,10 +178,6 @@ in
             port = 1880;
             middlewares = [ "authentik@docker" ];
           };
-        };
-
-        serviceConfig = {
-          Restart = "unless-stopped";
         };
 
         unitConfig = {

@@ -30,10 +30,6 @@ in
           ];
         };
 
-        serviceConfig = {
-          Restart = "unless-stopped";
-        };
-
         unitConfig = {
           Requires = [
             "paperless-internal-network.service"
@@ -50,10 +46,6 @@ in
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
-        };
-
-        serviceConfig = {
-          Restart = "unless-stopped";
         };
 
         unitConfig = {
@@ -93,10 +85,6 @@ in
             (externalStoreFor "media/trash" "/usr/src/paperless/media/trash")
           ];
           labels = containerLib.mkTraefikLabels { name = "paperless"; port = 8000; };
-        };
-
-        serviceConfig = {
-          Restart = "unless-stopped";
         };
 
         unitConfig = {

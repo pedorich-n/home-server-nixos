@@ -100,10 +100,6 @@ in
           ];
         };
 
-        serviceConfig = {
-          Restart = "unless-stopped";
-        };
-
         unitConfig = {
           Requires = [
             "authentik-internal-network.service"
@@ -121,10 +117,6 @@ in
           volumes = [
             (storeFor "redis" "/data")
           ];
-        };
-
-        serviceConfig = {
-          Restart = "unless-stopped";
         };
 
         unitConfig = {
@@ -155,7 +147,6 @@ in
         };
 
         serviceConfig = {
-          Restart = "unless-stopped";
           Environment = [
             ''PATH=${lib.makeBinPath [ "/run/wrappers" config.systemd.package ]}''
           ];
@@ -207,7 +198,6 @@ in
         };
 
         serviceConfig = {
-          Restart = "unless-stopped";
           Environment = [
             ''PATH=${lib.makeBinPath [ "/run/wrappers" config.systemd.package ]}''
           ];
