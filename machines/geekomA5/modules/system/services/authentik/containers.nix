@@ -147,7 +147,7 @@ in
           healthStartPeriod = "20s";
           healthTimeout = "5s";
           healthRetries = 5;
-          podmanArgs = [ "--sdnotify=healthy" ];
+          notify = "healthy";
           environments = defaultEnvs;
           environmentFiles = [ config.age.secrets.authentik.path ];
           volumes = [
@@ -191,7 +191,7 @@ in
           healthStartPeriod = "20s";
           healthTimeout = "5s";
           healthRetries = 5;
-          podmanArgs = [ "--sdnotify=healthy" ];
+          notify = "healthy";
           labels = lib.mapAttrsToList (name: value: "${name}=${value}") ((dockerLib.mkTraefikLabels {
             name = "authentik";
             port = 9000;

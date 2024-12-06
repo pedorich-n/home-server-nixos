@@ -500,16 +500,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1733316717,
-        "narHash": "sha256-eG9hWIGIJ9B2ifH1njEyMdZwQSo9tAsy2OXFmqG4LRo=",
+        "lastModified": 1733485673,
+        "narHash": "sha256-HUIi6tFTkW7BlDVW8xIY39n9LWxKT3NQ2MRluETN/tY=",
         "owner": "pedorich-n",
         "repo": "quadlet-nix",
-        "rev": "b89229cba5176097566c56b486c5254d995786a9",
+        "rev": "84ab9e484d95d8c2dfce7abf100adb981d010aa2",
         "type": "github"
       },
       "original": {
         "owner": "pedorich-n",
-        "ref": "fix-package",
+        "ref": "fix-container-notify",
         "repo": "quadlet-nix",
         "type": "github"
       }
