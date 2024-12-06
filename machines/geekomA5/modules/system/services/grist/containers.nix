@@ -1,4 +1,4 @@
-{ config, dockerLib, authentikLib, lib, ... }:
+{ config, containerLib, authentikLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -25,8 +25,7 @@ in
       volumes = [
         (storeFor "persist" "/persist")
       ];
-      #TODO: make mkTraefikLabels return a list
-      labels = lib.mapAttrsToList (name: value: "${name}=${value}") (dockerLib.mkTraefikLabels { inherit name; port = 8484; });
+      labels = containerLib.mkTraefikLabels { inherit name; port = 8484; };
     };
 
     serviceConfig = {

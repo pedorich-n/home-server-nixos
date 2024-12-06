@@ -1,4 +1,4 @@
-{ config, dockerLib, lib, ... }:
+{ config, containerLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -28,8 +28,7 @@ in
         (storeFor "portainer" "/data")
       ];
       # user = userSetting;
-      #TODO: make mkTraefikLabels return a list
-      labels = lib.mapAttrsToList (name: value: "${name}=${value}") (dockerLib.mkTraefikLabels { inherit name; port = 9000; });
+      labels = containerLib.mkTraefikLabels { inherit name; port = 9000; };
     };
 
     serviceConfig = {

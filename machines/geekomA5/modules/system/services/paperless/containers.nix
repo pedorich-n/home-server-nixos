@@ -1,4 +1,4 @@
-{ config, dockerLib, lib, ... }:
+{ config, containerLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -17,9 +17,7 @@ in
 
 
   virtualisation.quadlet = {
-    networks = {
-      paperless-internal.networkConfig.name = "paperless-internal";
-    };
+    networks = containerLib.mkDefaultNetwork "paperless";
 
     containers = {
       paperless-redis = {
@@ -94,8 +92,7 @@ in
             (externalStoreFor "media" "/usr/src/paperless/media")
             (externalStoreFor "media/trash" "/usr/src/paperless/media/trash")
           ];
-          #TODO: make mkTraefikLabels return a list
-          labels = lib.mapAttrsToList (name: value: "${name}=${value}") (dockerLib.mkTraefikLabels { name = "paperless"; port = 8000; });
+          labels = containerLib.mkTraefikLabels { name = "paperless"; port = 8000; };
         };
 
         serviceConfig = {

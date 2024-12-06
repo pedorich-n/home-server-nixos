@@ -1,4 +1,4 @@
-{ config, lib, dockerLib, jinja2RendererLib, ... }:
+{ config, lib, containerLib, jinja2RendererLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -84,9 +84,7 @@ in
 
 
   virtualisation.quadlet = {
-    networks = {
-      authentik-internal.networkConfig.name = "authentik-internal";
-    };
+    networks = containerLib.mkDefaultNetwork "authentik";
 
     containers = {
       authentik-postgresql = {
@@ -192,20 +190,20 @@ in
           healthTimeout = "5s";
           healthRetries = 5;
           notify = "healthy";
-          labels = lib.mapAttrsToList (name: value: "${name}=${value}") ((dockerLib.mkTraefikLabels {
+          labels = (containerLib.mkTraefikLabels {
             name = "authentik";
             port = 9000;
             priority = 10;
-          }) // (dockerLib.mkTraefikLabels {
+          }) ++ (containerLib.mkTraefikLabels {
             name = "authentik-outpost";
             rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.${config.custom.networking.domain}`) && PathPrefix(`/outpost.goauthentik.io/`)";
             service = "authentik";
             priority = 15;
-          }) // {
-            "traefik.http.middlewares.authentik.forwardauth.address" = "http://${serverIp}:9000/outpost.goauthentik.io/auth/traefik";
-            "traefik.http.middlewares.authentik.forwardauth.trustForwardHeader" = "true";
-            "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders" = "X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version";
-          });
+          }) ++ [
+            "traefik.http.middlewares.authentik.forwardauth.address=http://${serverIp}:9000/outpost.goauthentik.io/auth/traefik"
+            "traefik.http.middlewares.authentik.forwardauth.trustForwardHeader=true"
+            "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
+          ];
         };
 
         serviceConfig = {

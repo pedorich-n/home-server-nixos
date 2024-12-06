@@ -1,4 +1,4 @@
-{ config, pkgs, dockerLib, lib, ... }:
+{ config, pkgs, containerLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -23,9 +23,7 @@ in
   };
 
   virtualisation.quadlet = {
-    networks = {
-      home-automation-internal.networkConfig.name = "home-automation-internal";
-    };
+    networks = containerLib.mkDefaultNetwork "home-automation";
 
     containers = {
       mosquitto = {
@@ -82,11 +80,11 @@ in
           ];
           devices = [ "/dev/ttyUSB0:/dev/ttyZigbee" ];
           # user = userSetting;
-          labels = lib.mapAttrsToList (name: value: "${name}=${value}") (dockerLib.mkTraefikLabels {
+          labels = containerLib.mkTraefikLabels {
             inherit name;
             port = 8080;
             middlewares = [ "authentik@docker" ];
-          });
+          };
         };
 
         serviceConfig = {
@@ -144,18 +142,18 @@ in
             (storeFor "homeassistant/local" "/.local")
             "${config.age.secrets.ha_secrets.path}:/config/secrets.yaml"
           ];
-          labels = lib.mapAttrsToList (name: value: "${name}=${value}") ((dockerLib.mkTraefikLabels {
+          labels = (containerLib.mkTraefikLabels {
             inherit name;
             port = 80;
             priority = 10;
             middlewares = [ "authentik@docker" ];
-          }) //
-          (dockerLib.mkTraefikLabels {
+          }) ++
+          (containerLib.mkTraefikLabels {
             name = "${name}-hooks";
             rule = "Host(`${name}.${config.custom.networking.domain}`) && PathPrefix(`/api/webhook/`)";
             service = name;
             priority = 15;
-          }));
+          });
         };
 
         serviceConfig = {
@@ -191,11 +189,11 @@ in
           volumes = [
             (storeFor "nodered" "/data")
           ];
-          labels = lib.mapAttrsToList (name: value: "${name}=${value}") (dockerLib.mkTraefikLabels {
+          labels = containerLib.mkTraefikLabels {
             inherit name;
             port = 1880;
             middlewares = [ "authentik@docker" ];
-          });
+          };
         };
 
         serviceConfig = {

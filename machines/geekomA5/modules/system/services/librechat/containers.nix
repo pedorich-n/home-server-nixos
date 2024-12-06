@@ -1,4 +1,4 @@
-{ config, dockerLib, authentikLib, lib, ... }:
+{ config, containerLib, authentikLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -23,9 +23,7 @@ in
   };
 
   virtualisation.quadlet = {
-    networks = {
-      librechat-internal.networkConfig.name = "librechat-internal";
-    };
+    networks = containerLib.mkDefaultNetwork "librechat";
 
     containers = {
       librechat-vectordb = {
@@ -100,12 +98,11 @@ in
       };
 
       librechat = {
-        containerConfig = {
+        containerConfig = containerLib.withAlpineHostsFix {
           image = "ghcr.io/danny-avila/librechat:${containerVersions.librechat-server}";
           name = "librechat";
           # See https://github.com/danny-avila/LibreChat/discussions/572#discussioncomment-7352331
           exec = "npm run backend:dev";
-          addHosts = [ "authentik.${config.custom.networking.domain}:192.168.10.15" ];
           networks = [
             "librechat-internal"
             "traefik"
@@ -135,11 +132,10 @@ in
             (storeFor "chat/logs" "/app/api/logs")
             "${./config/librechat.yaml}:/app/librechat.yaml"
           ];
-          #TODO: make mkTraefikLabels return a list
-          labels = lib.mapAttrsToList (name: value: "${name}=${value}") (dockerLib.mkTraefikLabels {
+          labels = containerLib.mkTraefikLabels {
             name = "chat";
             port = 3080;
-          });
+          };
 
         };
 

@@ -1,4 +1,4 @@
-{ config, dockerLib, lib, ... }:
+{ config, containerLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -44,9 +44,7 @@ in
   };
 
   virtualisation.quadlet = {
-    networks = {
-      immich-internal.networkConfig.name = "immich-internal";
-    };
+    networks = containerLib.mkDefaultNetwork "immich";
 
     containers = {
       immich-vectordb = {
@@ -130,11 +128,10 @@ in
             "/dev/dri:/dev/dri" # HW Transcoding acceleration. See https://immich.app/docs/features/hardware-transcoding
           ];
           volumes = immichVolumes;
-          labels = lib.mapAttrsToList (name: value: "${name}=${value}") (
-            (dockerLib.mkTraefikLabels { name = "immich"; port = 2283; }) //
-            (dockerLib.mkTraefikMetricsLabels { name = "immich"; port = 8081; addPath = "/metrics"; }) //
-            (dockerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8082; addPath = "/metrics"; })
-          );
+          labels =
+            (containerLib.mkTraefikLabels { name = "immich"; port = 2283; }) ++
+            (containerLib.mkTraefikMetricsLabels { name = "immich"; port = 8081; addPath = "/metrics"; }) ++
+            (containerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8082; addPath = "/metrics"; });
         };
 
         serviceConfig = {

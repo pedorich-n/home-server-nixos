@@ -1,4 +1,4 @@
-{ config, dockerLib, lib, pkgs, ... }:
+{ config, containerLib, pkgs, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -16,9 +16,7 @@ in
   };
 
   virtualisation.quadlet = {
-    networks = {
-      music-history-internal.networkConfig.name = "music-history-internal";
-    };
+    networks = containerLib.mkDefaultNetwork "music-history";
 
     containers = {
       multiscrobbler = {
@@ -42,12 +40,11 @@ in
             "${config.age.secrets.multi_scrobbler_maloja.path}:/config/maloja.json"
             "${./multi-scrobbler/webscrobbler.json}:/config/webscrobbler.json"
           ];
-          #TODO: make mkTraefikLabels return a list
-          labels = lib.mapAttrsToList (name: value: "${name}=${value}") (dockerLib.mkTraefikLabels {
+          labels = containerLib.mkTraefikLabels {
             inherit name;
             port = 9078;
             middlewares = [ "authentik@docker" ];
-          });
+          };
         };
 
         serviceConfig = {
@@ -89,12 +86,11 @@ in
             "${malojaArtistRules}:/data/rules/custom_rules.tsv"
             "${config.age.secrets.maloja_apikeys.path}:/data/apikeys.yml"
           ];
-          #TODO: make mkTraefikLabels return a list
-          labels = lib.mapAttrsToList (name: value: "${name}=${value}") (dockerLib.mkTraefikLabels {
+          labels = containerLib.mkTraefikLabels {
             inherit name;
             port = 42010;
             middlewares = [ "authentik@docker" ];
-          });
+          };
         };
 
         serviceConfig = {
