@@ -56,13 +56,13 @@ in
       };
 
       paperless = {
+        requiresTraefikNetwork = true;
+        wantsAuthentik = true;
+
         containerConfig = {
           image = "ghcr.io/paperless-ngx/paperless-ngx:${containerVersions.paperless}";
           name = "paperless";
-          networks = [
-            "paperless-internal"
-            "traefik"
-          ];
+          networks = [ "paperless-internal" ];
           environments = {
             PAPERLESS_DBHOST = "paperless-postgresql";
             PAPERLESS_DBENGINE = "postgres";
@@ -94,10 +94,6 @@ in
             "paperless-postgresql.service"
             #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:72
             "zfs-mounted-external-paperless.service"
-          ];
-          After = [
-            "authentik.target"
-            "traefik-network.service"
           ];
         };
       };

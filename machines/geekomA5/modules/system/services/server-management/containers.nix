@@ -15,10 +15,12 @@ in
   };
 
   virtualisation.quadlet.containers.portainer = {
+    requiresTraefikNetwork = true;
+    wantsAuthentik = true;
+
     containerConfig = rec {
       image = "portainer/portainer-ce:${containerVersions.portainer}";
       name = "portainer";
-      networks = [ "traefik" ];
       environments = {
         TZ = "${config.time.timeZone}";
       };
@@ -29,13 +31,6 @@ in
       ];
       # user = userSetting;
       labels = containerLib.mkTraefikLabels { inherit name; port = 9000; };
-    };
-
-    unitConfig = {
-      After = [
-        "authentik.target"
-        "traefik-network.service"
-      ];
     };
   };
 }

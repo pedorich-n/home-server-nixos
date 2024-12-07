@@ -20,6 +20,9 @@ in
 
     containers = {
       multiscrobbler = {
+        requiresTraefikNetwork = true;
+        wantsAuthentik = true;
+
         containerConfig = rec {
           image = "ghcr.io/foxxmd/multi-scrobbler:${containerVersions.multi-scrobbler}";
           name = "multiscrobbler";
@@ -51,17 +54,14 @@ in
           Requires = [
             "music-history-internal-network.service"
           ];
-
-          After = [
-            "traefik-network.service"
-            "authentik.target"
-          ];
         };
       };
 
       maloja = {
-        containerConfig = rec {
+        requiresTraefikNetwork = true;
+        wantsAuthentik = true;
 
+        containerConfig = rec {
           image = "krateng/maloja:${containerVersions.maloja}";
           name = "maloja";
           networks = [
@@ -92,11 +92,6 @@ in
         unitConfig = {
           Requires = [
             "music-history-internal-network.service"
-          ];
-
-          After = [
-            "traefik-network.service"
-            "authentik.target"
           ];
         };
       };

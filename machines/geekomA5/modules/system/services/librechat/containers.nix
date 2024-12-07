@@ -86,6 +86,9 @@ in
       };
 
       librechat = {
+        requiresTraefikNetwork = true;
+        wantsAuthentik = true;
+
         containerConfig = containerLib.withAlpineHostsFix {
           image = "ghcr.io/danny-avila/librechat:${containerVersions.librechat-server}";
           name = "librechat";
@@ -93,7 +96,6 @@ in
           exec = "npm run backend:dev";
           networks = [
             "librechat-internal"
-            "traefik"
           ];
           # user = userSetting;
           environments = rec {
@@ -132,10 +134,6 @@ in
             "librechat-internal-network.service"
             "librechat-mongodb.service"
             "librechat-rag.service"
-          ];
-          After = [
-            "authentik.target"
-            "traefik-network.service"
           ];
         };
       };

@@ -103,12 +103,14 @@ in
       };
 
       immich-server = {
+        requiresTraefikNetwork = true;
+        wantsAuthentik = true;
+
         containerConfig = {
           image = "ghcr.io/immich-app/immich-server:${containerVersions.immich-server}";
           name = "immich-server";
           networks = [
             "immich-internal"
-            "traefik"
           ];
           environments = sharedEnvs;
           environmentFiles = [ config.age.secrets.immich.path ];
@@ -131,9 +133,6 @@ in
             "zfs-mounted-external-immich.service"
             #LINK - machines/geekomA5/modules/system/services/immich/render-config.nix:20
             "immich-render-config.service"
-          ];
-          After = [
-            "traefik-network.service"
           ];
         };
       };

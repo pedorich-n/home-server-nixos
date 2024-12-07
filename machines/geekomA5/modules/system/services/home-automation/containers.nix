@@ -27,6 +27,7 @@ in
 
     containers = {
       mosquitto = {
+        requiresTraefikNetwork = true;
         containerConfig = {
           image = "eclipse-mosquitto:${containerVersions.mosquitto}";
           name = "mosquitto";
@@ -38,7 +39,6 @@ in
           ];
           networks = [
             "home-automation-internal"
-            "traefik"
           ];
           user = userSetting;
           labels = [
@@ -58,12 +58,12 @@ in
       };
 
       zigbee2mqtt = {
+        requiresTraefikNetwork = true;
         containerConfig = rec {
           image = "koenkk/zigbee2mqtt:${containerVersions.zigbee2mqtt}";
           name = "zigbee2mqtt";
           networks = [
             "home-automation-internal"
-            "traefik"
           ];
           environments = {
             TZ = "${config.time.timeZone}";
@@ -110,6 +110,9 @@ in
       };
 
       homeassistant = {
+        requiresTraefikNetwork = true;
+        wantsAuthentik = true;
+
         containerConfig = rec {
           image = "homeassistant/home-assistant:${containerVersions.homeassistant}";
           name = "homeassistant";
@@ -118,7 +121,6 @@ in
           };
           networks = [
             "home-automation-internal"
-            "traefik"
           ];
           # user = userSetting;
           # capabilities = {
@@ -150,14 +152,13 @@ in
             "homeassistant-postgresql.service"
             "mosquitto.service"
           ];
-          After = [
-            "authentik.target"
-            "traefik-network.service"
-          ];
         };
       };
 
       nodered = {
+        requiresTraefikNetwork = true;
+        wantsAuthentik = true;
+
         containerConfig = rec {
           image = "nodered/node-red:${containerVersions.nodered}";
           name = "nodered";
@@ -167,7 +168,6 @@ in
           };
           networks = [
             "home-automation-internal"
-            "traefik"
           ];
           user = userSetting;
           volumes = [
@@ -178,12 +178,6 @@ in
             port = 1880;
             middlewares = [ "authentik@docker" ];
           };
-        };
-
-        unitConfig = {
-          After = [
-            "authentik.target"
-          ];
         };
       };
 

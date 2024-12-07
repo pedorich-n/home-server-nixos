@@ -6,10 +6,12 @@ let
 in
 {
   virtualisation.quadlet.containers.grist = {
+    requiresTraefikNetwork = true;
+    wantsAuthentik = true;
+
     containerConfig = rec {
       image = "gristlabs/grist:${containerVersions.grist}";
       name = "grist";
-      networks = [ "traefik" ];
       environments = rec {
         GRIST_DOMAIN = "grist.${config.custom.networking.domain}";
         APP_HOME_URL = "http://${GRIST_DOMAIN}";
@@ -26,13 +28,6 @@ in
         (storeFor "persist" "/persist")
       ];
       labels = containerLib.mkTraefikLabels { inherit name; port = 8484; };
-    };
-
-    unitConfig = {
-      After = [
-        "authentik.target"
-        "traefik-network.service"
-      ];
     };
   };
 

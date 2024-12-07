@@ -82,8 +82,8 @@
     };
 
     quadlet-nix = {
-      # url = "github:SEIAROTg/quadlet-nix";
-      url = "github:pedorich-n/quadlet-nix/fix-container-notify";
+      url = "github:SEIAROTg/quadlet-nix";
+      # url = "github:pedorich-n/quadlet-nix/fix-container-notify";
       # url = "git+file:///home/pedorich_n/Projects/quadlet-nix";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";

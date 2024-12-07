@@ -1,5 +1,5 @@
 { config, lib, ... }: {
-  config._module.args.containerLib = {
+  _module.args.containerLib = {
     mkTraefikLabels =
       { name
       , domain ? "${name}.${config.custom.networking.domain}"
