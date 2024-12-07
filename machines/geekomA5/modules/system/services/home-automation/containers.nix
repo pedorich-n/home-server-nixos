@@ -9,6 +9,8 @@ let
   configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
     mosquitto = ./mosquitto/_config.nix;
   };
+
+  withInternalNetwork = containerLib.mkWithNetwork "home-automation-internal";
 in
 {
   systemd.targets.home-automation = {
@@ -26,8 +28,9 @@ in
     networks = containerLib.mkDefaultNetwork "home-automation";
 
     containers = {
-      mosquitto = {
+      mosquitto = withInternalNetwork {
         requiresTraefikNetwork = true;
+
         containerConfig = {
           image = "eclipse-mosquitto:${containerVersions.mosquitto}";
           name = "mosquitto";
@@ -36,9 +39,6 @@ in
             "${config.age.secrets.mosquitto_passwords.path}:/mosquitto/config/passwords.txt:ro"
             (storeFor "mosquitto/data" "/mosquitto/data")
             (storeFor "mosquitto/log" "/mosquitto/log")
-          ];
-          networks = [
-            "home-automation-internal"
           ];
           user = userSetting;
           labels = [
@@ -49,22 +49,14 @@ in
             "traefik.tcp.services.mosquitto.loadBalancer.server.port=1883"
           ];
         };
-
-        unitConfig = {
-          Requires = [
-            "home-automation-internal-network.service"
-          ];
-        };
       };
 
-      zigbee2mqtt = {
+      zigbee2mqtt = withInternalNetwork {
         requiresTraefikNetwork = true;
+
         containerConfig = rec {
           image = "koenkk/zigbee2mqtt:${containerVersions.zigbee2mqtt}";
           name = "zigbee2mqtt";
-          networks = [
-            "home-automation-internal"
-          ];
           environments = {
             TZ = "${config.time.timeZone}";
           };
@@ -85,31 +77,26 @@ in
 
         unitConfig = {
           Requires = [
-            "home-automation-internal-network.service"
+            "mosquitto.service"
+          ];
+          After = [
             "mosquitto.service"
           ];
         };
       };
 
-      homeassistant-postgresql = {
+      homeassistant-postgresql = withInternalNetwork {
         containerConfig = {
           image = "docker.io/library/postgres:${containerVersions.homeassistant-postgresql}";
           name = "homeassistant-postgresql";
           environmentFiles = [ config.age.secrets.ha_postgres.path ];
-          networks = [ "home-automation-internal" ];
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
         };
-
-        unitConfig = {
-          Requires = [
-            "home-automation-internal-network.service"
-          ];
-        };
       };
 
-      homeassistant = {
+      homeassistant = withInternalNetwork {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
@@ -119,9 +106,6 @@ in
           environments = {
             TZ = "${config.time.timeZone}";
           };
-          networks = [
-            "home-automation-internal"
-          ];
           # user = userSetting;
           # capabilities = {
           #   CAP_NET_RAW = true;
@@ -148,14 +132,17 @@ in
 
         unitConfig = {
           Requires = [
-            "home-automation-internal-network.service"
+            "homeassistant-postgresql.service"
+            "mosquitto.service"
+          ];
+          After = [
             "homeassistant-postgresql.service"
             "mosquitto.service"
           ];
         };
       };
 
-      nodered = {
+      nodered = withInternalNetwork {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
@@ -166,9 +153,6 @@ in
             TZ = "${config.time.timeZone}";
             NODE_RED_ENABLE_PROJECTS = "true";
           };
-          networks = [
-            "home-automation-internal"
-          ];
           user = userSetting;
           volumes = [
             (storeFor "nodered" "/data")

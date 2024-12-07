@@ -23,22 +23,25 @@
             };
 
             serviceConfig = {
-              Restart = "on-failure";
-              TimeoutStopSec = 30;
-              TimeoutStartSec = 900;
+              Restart = lib.mkDefault "on-failure";
+              TimeoutStopSec = lib.mkDefault 30;
+              TimeoutStartSec = lib.mkDefault 900;
+              SuccessExitStatus = [
+                143 # container shut down gracefully after receiving a SIGTERM
+              ];
             };
           }
           (lib.mkIf config.requiresTraefikNetwork {
-            containerConfig.networks = [ "traefik" ];
+            containerConfig.networks = lib.mkAfter [ "traefik" ];
             unitConfig = {
-              Requires = [ "traefik-network.service" ];
-              After = [ "traefik-network.service" ];
+              Requires = lib.mkAfter [ "traefik-network.service" ];
+              After = lib.mkAfter [ "traefik-network.service" ];
             };
           })
           (lib.mkIf config.wantsAuthentik {
             unitConfig = {
-              Wants = [ "authentik-server.service" ];
-              After = [ "authentik-server.service" ];
+              Wants = lib.mkAfter [ "authentik-server.service" ];
+              After = lib.mkAfter [ "authentik-server.service" ];
             };
           })
         ];

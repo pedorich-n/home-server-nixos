@@ -10,6 +10,8 @@ let
 
     RAG_PORT = "8080";
   };
+
+  withInternalNetwork = containerLib.mkWithNetwork "librechat-internal";
 in
 {
   systemd.targets.librechat = {
@@ -26,48 +28,33 @@ in
     networks = containerLib.mkDefaultNetwork "librechat";
 
     containers = {
-      librechat-vectordb = {
+      librechat-vectordb = withInternalNetwork {
         containerConfig = {
           image = "ankane/pgvector:${containerVersions.librechat-vector}";
           name = "librechat-vectordb";
-          networks = [ "librechat-internal" ];
           volumes = [
             (storeFor "vectordb" "/var/lib/postgresql/data")
           ];
           environments = envs;
           environmentFiles = [ config.age.secrets.librechat.path ];
         };
-
-        unitConfig = {
-          Requires = [
-            "librechat-internal-network.service"
-          ];
-        };
       };
 
-      librechat-mongodb = {
+      librechat-mongodb = withInternalNetwork {
         containerConfig = {
           image = "mongo:${containerVersions.librechat-mongodb}";
           name = "librechat-mongodb";
           exec = "mongod --noauth";
-          networks = [ "librechat-internal" ];
           volumes = [
             (storeFor "mongodb" "/data/db")
           ];
         };
-
-        unitConfig = {
-          Requires = [
-            "librechat-internal-network.service"
-          ];
-        };
       };
 
-      librechat-rag = {
+      librechat-rag = withInternalNetwork {
         containerConfig = {
           image = "ghcr.io/danny-avila/librechat-rag-api-dev-lite:${containerVersions.librechat-rag}";
           name = "librechat-rag";
-          networks = [ "librechat-internal" ];
           environments = {
             VECTOR_DB_TYPE = "pgvector";
             DB_HOST = "librechat-vectordb";
@@ -79,13 +66,15 @@ in
 
         unitConfig = {
           Requires = [
-            "librechat-internal-network.service"
+            "librechat-vectordb.service"
+          ];
+          After = [
             "librechat-vectordb.service"
           ];
         };
       };
 
-      librechat = {
+      librechat = withInternalNetwork {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
@@ -94,9 +83,6 @@ in
           name = "librechat";
           # See https://github.com/danny-avila/LibreChat/discussions/572#discussioncomment-7352331
           exec = "npm run backend:dev";
-          networks = [
-            "librechat-internal"
-          ];
           # user = userSetting;
           environments = rec {
             MONGO_URI = "mongodb://librechat-mongodb:27017/LibreChat";
@@ -131,7 +117,10 @@ in
 
         unitConfig = {
           Requires = [
-            "librechat-internal-network.service"
+            "librechat-mongodb.service"
+            "librechat-rag.service"
+          ];
+          After = [
             "librechat-mongodb.service"
             "librechat-rag.service"
           ];

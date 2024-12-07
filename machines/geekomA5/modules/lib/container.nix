@@ -50,6 +50,17 @@
       };
     };
 
+    mkWithNetwork = name: cfg: cfg // {
+      containerConfig = cfg.containerConfig // {
+        networks = [ name ] ++ (cfg.containerConfig.networks or [ ]);
+      };
+
+      unitConfig = (cfg.unitConfig or { }) // {
+        Requires = [ "${name}-network.service" ] ++ (cfg.unitConfig.Requires or [ ]);
+        After = [ "${name}-network.service" ] ++ (cfg.unitConfig.After or [ ]);
+      };
+    };
+
     withAlpineHostsFix = cfg: cfg // {
       #NOTE - there's a bug with musl or C libs or something in alpine-based images with resolving .lan domains; 
       # dig & nslookup resolves the domain, but curl fails, and the call to OIDC discovery fails too. Providing hard-coded host seems to help.

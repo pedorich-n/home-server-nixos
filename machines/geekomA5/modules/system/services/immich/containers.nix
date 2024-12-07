@@ -31,6 +31,8 @@ let
 
     IMMICH_TELEMETRY_INCLUDE = "all"; # See https://immich.app/docs/features/monitoring#prometheus
   };
+
+  withInternalNetwork = containerLib.mkWithNetwork "immich-internal";
 in
 {
   systemd.targets.immich = {
@@ -47,47 +49,32 @@ in
     networks = containerLib.mkDefaultNetwork "immich";
 
     containers = {
-      immich-vectordb = {
+      immich-vectordb = withInternalNetwork {
         containerConfig = {
           image = "registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0";
           name = "immich-vectordb";
           environments = sharedEnvs;
           environmentFiles = [ config.age.secrets.immich.path ];
-          networks = [ "immich-internal" ];
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
         };
-
-        unitConfig = {
-          Requires = [
-            "immich-internal-network.service"
-          ];
-        };
       };
 
-      immich-redis = {
+      immich-redis = withInternalNetwork {
         containerConfig = {
           image = "registry.hub.docker.com/library/redis:6.2-alpine@sha256:84882e87b54734154586e5f8abd4dce69fe7311315e2fc6d67c29614c8de2672";
           name = "immich-redis";
-          networks = [ "immich-internal" ];
           volumes = [
             (storeFor "redis" "/data")
           ];
         };
-
-        unitConfig = {
-          Requires = [
-            "immich-internal-network.service"
-          ];
-        };
       };
 
-      immich-machine-learning = {
+      immich-machine-learning = withInternalNetwork {
         containerConfig = {
           image = "ghcr.io/immich-app/immich-machine-learning:${containerVersions.immich-machine-learning}";
           name = "immich-machine-learning";
-          networks = [ "immich-internal" ];
           volumes = [
             (storeFor "cache/machine-learning" "/cache")
           ];
@@ -95,23 +82,23 @@ in
 
         unitConfig = {
           Requires = [
-            "immich-internal-network.service"
+            "immich-redis.service"
+            "immich-vectordb.service"
+          ];
+          After = [
             "immich-redis.service"
             "immich-vectordb.service"
           ];
         };
       };
 
-      immich-server = {
+      immich-server = withInternalNetwork {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
         containerConfig = {
           image = "ghcr.io/immich-app/immich-server:${containerVersions.immich-server}";
           name = "immich-server";
-          networks = [
-            "immich-internal"
-          ];
           environments = sharedEnvs;
           environmentFiles = [ config.age.secrets.immich.path ];
           devices = [
@@ -126,7 +113,14 @@ in
 
         unitConfig = {
           Requires = [
-            "immich-internal-network.service"
+            "immich-redis.service"
+            "immich-vectordb.service"
+            #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:62
+            "zfs-mounted-external-immich.service"
+            #LINK - machines/geekomA5/modules/system/services/immich/render-config.nix:20
+            "immich-render-config.service"
+          ];
+          After = [
             "immich-redis.service"
             "immich-vectordb.service"
             #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:62

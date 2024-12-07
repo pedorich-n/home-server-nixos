@@ -17,61 +17,10 @@ let
   blueprints = import ./_render-blueprints.nix { inherit jinja2RendererLib; };
 
   serverIp = "172.31.0.240";
+
+  withInternalNetwork = containerLib.mkWithNetwork "authentik-internal";
 in
 {
-  # systemd.services."arion-authentik".serviceConfig = {
-  #   Type = "notify";
-  #   NotifyAccess = "all";
-  #   TimeoutStartSec = "180";
-  #   ExecStart = lib.mkForce (lib.getExe (pkgs.writeShellApplication {
-  #     name = "authentik-healthcheck";
-  #     runtimeInputs = [
-  #       config.virtualisation.podman.package
-  #       config.systemd.package
-  #       pkgs.coreutils
-  #     ];
-  #     text = ''
-  #       function watchdog() {
-  #         MAX_RETRIES="11"
-  #         RETRY_DELAY="15"
-  #         TIMEOUT="10"
-
-  #         exit_code=-1
-  #         attempt=1
-
-  #         sleep 2s
-  #         echo "Healthchecking..."
-  #         while [ ''${attempt} -lt ''${MAX_RETRIES} ]; do
-  #           set +e  # Disable exit on error for this function
-  #           output=$(timeout ''${TIMEOUT} podman exec --tty authentik-server ak healthcheck 2>&1)
-  #           exit_code=$?
-
-  #           if [ $exit_code -eq 0 ]; then
-  #             echo "Health check passed"
-  #             systemd-notify --ready --status="Service is up and running"
-  #             exit 0
-  #           else
-  #             echo "Attempt $((attempt)) failed with exit code ''${exit_code}"
-  #             attempt=$((attempt + 1))
-
-  #             sleep "''${RETRY_DELAY}s"
-  #           fi
-  #         done
-
-  #         systemd-notify --status="Service is not responding..."
-  #         printf "Last output is:\n%s" "''${output}"
-  #         exit 1
-  #       }
-
-  #       watchdog &
-
-  #       echo 1>&2 "docker compose file: $ARION_PREBUILT"
-  #       arion --prebuilt-file "$ARION_PREBUILT" up
-  #     '';
-  #     #NOTE - `arion` command copied from https://github.com/hercules-ci/arion/blob/90bc85532767c785245f5c1e29ebfecb941cf8c9/nixos-module.nix#L45-L48
-  #   }));
-  # };
-
   systemd.targets.authentik = {
     wants = [
       "authentik-internal-network.service"
@@ -87,11 +36,10 @@ in
     networks = containerLib.mkDefaultNetwork "authentik";
 
     containers = {
-      authentik-postgresql = {
+      authentik-postgresql = withInternalNetwork {
         containerConfig = {
           image = "docker.io/library/postgres:${containerVersions.authentik-postgresql}";
           name = "authentik-postgresql";
-          networks = [ "authentik-internal" ];
           environments = defaultEnvs;
           user = "root";
           environmentFiles = [ config.age.secrets.authentik.path ];
@@ -99,40 +47,26 @@ in
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
         };
-
-        unitConfig = {
-          Requires = [
-            "authentik-internal-network.service"
-          ];
-        };
       };
 
-      authentik-redis = {
+      authentik-redis = withInternalNetwork {
         containerConfig = {
           image = "docker.io/library/redis:${containerVersions.authentik-redis}";
           name = "authentik-redis";
           exec = "--save 60 1 --loglevel warning";
-          networks = [ "authentik-internal" ];
           user = "root";
           volumes = [
             (storeFor "redis" "/data")
           ];
         };
-
-        unitConfig = {
-          Requires = [
-            "authentik-internal-network.service"
-          ];
-        };
       };
 
-      authentik-worker = {
+      authentik-worker = withInternalNetwork {
         containerConfig = {
           image = "ghcr.io/goauthentik/server:${containerVersions.authentik}";
           name = "authentik-worker";
           exec = "worker";
           user = "root";
-          networks = [ "authentik-internal" ];
           healthCmd = "ak healthcheck";
           healthStartPeriod = "20s";
           healthTimeout = "5s";
@@ -154,14 +88,17 @@ in
 
         unitConfig = {
           Requires = [
-            "authentik-internal-network.service"
+            "authentik-redis.service"
+            "authentik-postgresql.service"
+          ];
+          After = [
             "authentik-redis.service"
             "authentik-postgresql.service"
           ];
         };
       };
 
-      authentik-server = {
+      authentik-server = withInternalNetwork {
         containerConfig = {
           image = "ghcr.io/goauthentik/server:${containerVersions.authentik}";
           name = "authentik-server";
@@ -173,7 +110,6 @@ in
             (storeFor "media" "/media")
           ];
           networks = [
-            "authentik-internal"
             "traefik:ip=${serverIp}"
           ];
           healthCmd = "ak healthcheck";
@@ -205,7 +141,6 @@ in
 
         unitConfig = {
           Requires = [
-            "authentik-internal-network.service"
             "authentik-redis.service"
             "authentik-postgresql.service"
           ];

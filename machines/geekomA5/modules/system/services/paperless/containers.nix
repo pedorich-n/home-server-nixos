@@ -4,6 +4,8 @@ let
 
   storeFor = localPath: remotePath: "/mnt/store/paperless/${localPath}:${remotePath}";
   externalStoreFor = localPath: remotePath: "/mnt/external/paperless-library/${localPath}:${remotePath}";
+
+  withInternalNetwork = containerLib.mkWithNetwork "paperless-internal";
 in
 {
   systemd.targets.paperless = {
@@ -20,49 +22,34 @@ in
     networks = containerLib.mkDefaultNetwork "paperless";
 
     containers = {
-      paperless-redis = {
+      paperless-redis = withInternalNetwork {
         containerConfig = {
           image = "docker.io/library/redis:${containerVersions.paperless-redis}";
           name = "paperless-redis";
-          networks = [ "paperless-internal" ];
           volumes = [
             (storeFor "redis" "/data")
           ];
         };
-
-        unitConfig = {
-          Requires = [
-            "paperless-internal-network.service"
-          ];
-        };
       };
 
-      paperless-postgresql = {
+      paperless-postgresql = withInternalNetwork {
         containerConfig = {
           image = "docker.io/library/postgres:${containerVersions.paperless-postgresql}";
           name = "paperless-postgresql";
           environmentFiles = [ config.age.secrets.paperless.path ];
-          networks = [ "paperless-internal" ];
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
         };
-
-        unitConfig = {
-          Requires = [
-            "paperless-internal-network.service"
-          ];
-        };
       };
 
-      paperless = {
+      paperless = withInternalNetwork {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
         containerConfig = {
           image = "ghcr.io/paperless-ngx/paperless-ngx:${containerVersions.paperless}";
           name = "paperless";
-          networks = [ "paperless-internal" ];
           environments = {
             PAPERLESS_DBHOST = "paperless-postgresql";
             PAPERLESS_DBENGINE = "postgres";
@@ -89,7 +76,12 @@ in
 
         unitConfig = {
           Requires = [
-            "paperless-internal-network.service"
+            "paperless-redis.service"
+            "paperless-postgresql.service"
+            #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:72
+            "zfs-mounted-external-paperless.service"
+          ];
+          After = [
             "paperless-redis.service"
             "paperless-postgresql.service"
             #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:72

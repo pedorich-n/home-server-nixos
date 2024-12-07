@@ -5,6 +5,8 @@ let
   storeFor = localPath: remotePath: "/mnt/store/music-history/${localPath}:${remotePath}";
 
   malojaArtistRules = pkgs.callPackage ./maloja/_artist-rules.nix { };
+
+  withInternalNetwork = containerLib.mkWithNetwork "music-history-internal";
 in
 {
   systemd.targets.music-history = {
@@ -19,17 +21,13 @@ in
     networks = containerLib.mkDefaultNetwork "music-history";
 
     containers = {
-      multiscrobbler = {
+      multiscrobbler = withInternalNetwork {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
         containerConfig = rec {
           image = "ghcr.io/foxxmd/multi-scrobbler:${containerVersions.multi-scrobbler}";
           name = "multiscrobbler";
-          networks = [
-            "music-history-internal"
-            "traefik"
-          ];
           environments = {
             TZ = config.time.timeZone;
 
@@ -49,25 +47,15 @@ in
             middlewares = [ "authentik@docker" ];
           };
         };
-
-        unitConfig = {
-          Requires = [
-            "music-history-internal-network.service"
-          ];
-        };
       };
 
-      maloja = {
+      maloja = withInternalNetwork {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
         containerConfig = rec {
           image = "krateng/maloja:${containerVersions.maloja}";
           name = "maloja";
-          networks = [
-            "music-history-internal"
-            "traefik"
-          ];
           environments = {
             MALOJA_SKIP_SETUP = "true";
             MALOJA_SEND_STATS = "false";
@@ -87,12 +75,6 @@ in
             port = 42010;
             middlewares = [ "authentik@docker" ];
           };
-        };
-
-        unitConfig = {
-          Requires = [
-            "music-history-internal-network.service"
-          ];
         };
       };
     };
