@@ -4,7 +4,7 @@
     "authentik": {
       "version": "2024.10.4"
     },
-    "authentik-postgres": {
+    "authentik-postgresql": {
       "version": "16.6-alpine"
     },
     "authentik-redis": {
@@ -19,7 +19,7 @@
     "homeassistant-mariadb": {
       "version": "11.6.2"
     },
-    "homeassistant-postgres": {
+    "homeassistant-postgresql": {
       "version": "16.6-alpine"
     },
     "immich-machine-learning": {
@@ -55,7 +55,7 @@
     "paperless": {
       "version": "2.13.5"
     },
-    "paperless-postgres": {
+    "paperless-postgresql": {
       "version": "16.6-alpine"
     },
     "paperless-redis": {

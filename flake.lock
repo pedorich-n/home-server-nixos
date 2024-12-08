@@ -57,31 +57,6 @@
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
       }
     },
-    "arion": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "haskell-flake": "haskell-flake",
-        "hercules-ci-effects": "hercules-ci-effects",
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1730775052,
-        "narHash": "sha256-YXbgfHYJaAXCxrAQzjd03GkSMGd3iGeTmhkMwpFhTPk=",
-        "owner": "hercules-ci",
-        "repo": "arion",
-        "rev": "38ea1d87421f1695743d5eca90b0c37ef3123fbb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "arion",
-        "type": "github"
-      }
-    },
     "auto-cpufreq": {
       "inputs": {
         "nixpkgs": [
@@ -167,27 +142,6 @@
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
-          "arion",
-          "hercules-ci-effects",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1712014858,
-        "narHash": "sha256-sB4SWl2lX95bExY2gMFG5HIzvva5AVMJd4Igm+GpZNw=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "9126214d0a59633752a136528f5f3b9aa8565b7d",
-        "type": "github"
-      },
-      "original": {
-        "id": "flake-parts",
-        "type": "indirect"
-      }
-    },
-    "flake-parts_2": {
-      "inputs": {
-        "nixpkgs-lib": [
           "nixpkgs-unstable"
         ]
       },
@@ -225,44 +179,6 @@
         "type": "github"
       }
     },
-    "haskell-flake": {
-      "locked": {
-        "lastModified": 1675296942,
-        "narHash": "sha256-u1X1sblozi5qYEcLp1hxcyo8FfDHnRUVX3dJ/tW19jY=",
-        "owner": "srid",
-        "repo": "haskell-flake",
-        "rev": "c2cafce9d57bfca41794dc3b99c593155006c71e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "srid",
-        "ref": "0.1.0",
-        "repo": "haskell-flake",
-        "type": "github"
-      }
-    },
-    "hercules-ci-effects": {
-      "inputs": {
-        "flake-parts": "flake-parts",
-        "nixpkgs": [
-          "arion",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1730229744,
-        "narHash": "sha256-2W//PmgocN9lplDJ7WoiP9EcrfUxqvtxplCAqlwvquY=",
-        "owner": "hercules-ci",
-        "repo": "hercules-ci-effects",
-        "rev": "d70658494391994c7b32e8fe5610dae76737e4df",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "hercules-ci-effects",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -286,11 +202,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1732722336,
-        "narHash": "sha256-ZkIyoEm03t0LCNzbgOKL2l+O3kWUVO+PxFu5N4u68mg=",
+        "lastModified": 1733317032,
+        "narHash": "sha256-tRyJocbYmnHplxs6VHdY8r9GmbUu+Ti7XcCTXvs6S3E=",
         "ref": "refs/heads/main",
-        "rev": "aa228f40ba7124710af0748f140ffc3772f108e0",
-        "revCount": 90,
+        "rev": "6b07d7e0d743649ffcb364c04888c5c777d6b186",
+        "revCount": 92,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -577,16 +493,35 @@
         "type": "github"
       }
     },
+    "quadlet-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1733582904,
+        "narHash": "sha256-t1kmh7X88H9KOjV8Lou9afa3Uhv0vv/ifcLSX874XMA=",
+        "owner": "SEIAROTg",
+        "repo": "quadlet-nix",
+        "rev": "20ded8824c2269895500cc1090296ca385495d05",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SEIAROTg",
+        "repo": "quadlet-nix",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
         "airtable-telegram-bot": "airtable-telegram-bot",
-        "arion": "arion",
         "auto-cpufreq": "auto-cpufreq",
         "deploy-rs": "deploy-rs",
         "disko": "disko",
         "flake-compat": "flake-compat",
-        "flake-parts": "flake-parts_2",
+        "flake-parts": "flake-parts",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "home-server-nixos-secrets": "home-server-nixos-secrets",
@@ -600,6 +535,7 @@
         "personal-home-manager": "personal-home-manager",
         "playit-nixos-module": "playit-nixos-module",
         "poetry2nix": "poetry2nix",
+        "quadlet-nix": "quadlet-nix",
         "systems": "systems"
       }
     },

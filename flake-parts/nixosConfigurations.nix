@@ -6,7 +6,6 @@
       system = "x86_64-linux";
       withHmModules = true;
       modules = [
-        inputs.arion.nixosModules.arion
         inputs.disko.nixosModules.disko
         inputs.airtable-telegram-bot.nixosModules.ngrok
         inputs.airtable-telegram-bot.nixosModules.calendar-loader
@@ -14,6 +13,7 @@
         inputs.airtable-telegram-bot.nixosModules.telegram-lessons-bot
         inputs.nix-minecraft.nixosModules.minecraft-servers
         inputs.playit-nixos-module.nixosModules.default
+        inputs.quadlet-nix.nixosModules.quadlet
       ];
     })
 

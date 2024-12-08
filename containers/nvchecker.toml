@@ -10,7 +10,7 @@ registry = "ghcr.io"
 container = "goauthentik/server"
 exclude_regex = ".*rc.*"
 
-[authentik-postgres]
+[authentik-postgresql]
 source = "container"
 registry = "docker.io"
 container = "library/postgres"
@@ -55,7 +55,7 @@ registry = "docker.io"
 container = "homeassistant/home-assistant"
 include_regex = "\\d+\\.\\d+\\.\\d+"
 
-[homeassistant-postgres]
+[homeassistant-postgresql]
 source = "container"
 registry = "docker.io"
 container = "library/postgres"
@@ -109,7 +109,7 @@ source = "container"
 registry = "ghcr.io"
 container = "paperless-ngx/paperless-ngx"
 
-[paperless-postgres]
+[paperless-postgresql]
 source = "container"
 registry = "docker.io"
 container = "library/postgres"

@@ -12,6 +12,8 @@
     nixpkgs-netdata.url = "github:pedorich-n/nixpkgs/netdata-ndsudo?shallow=true";
     # nixpkgs-netdata.url = "git+file:///home/pedorich_n/Projects/nixpkgs?shallow=true";
 
+    # nixpkgs-podman.url = "git+file:///home/pedorich_n/Projects/nixpkgs?shallow=true";
+
     systems.url = "github:nix-systems/default-linux";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
@@ -79,11 +81,12 @@
       };
     };
 
-    arion = {
-      url = "github:hercules-ci/arion";
+    quadlet-nix = {
+      url = "github:SEIAROTg/quadlet-nix";
+      # url = "github:pedorich-n/quadlet-nix/fix-container-notify";
+      # url = "git+file:///home/pedorich_n/Projects/quadlet-nix";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
-        flake-parts.follows = "flake-parts";
       };
     };
 
@@ -99,6 +102,7 @@
 
     home-server-nixos-secrets = {
       url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets";
+      # url = "git+file:///home/pedorich_n/Projects/home-server-nixos-secrets";
       flake = false;
     };
 

@@ -1,9 +1,9 @@
 [
-    {
-        "name": "WebScrobbler",
-        "data": {
-            "whitelist": [],
-            "blacklist": []
-        }
+  {
+    "name": "WebScrobbler",
+    "data": {
+      "whitelist": [],
+      "blacklist": []
     }
+  }
 ]
