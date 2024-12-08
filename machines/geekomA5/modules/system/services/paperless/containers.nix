@@ -5,34 +5,30 @@ let
   storeFor = localPath: remotePath: "/mnt/store/paperless/${localPath}:${remotePath}";
   externalStoreFor = localPath: remotePath: "/mnt/external/paperless-library/${localPath}:${remotePath}";
 
-  withInternalNetwork = containerLib.mkWithNetwork "paperless-internal";
+  pod = "paperless.pod";
+  networks = [ "paperless-internal.network" ];
 in
 {
-  systemd.targets.paperless = {
-    wants = [
-      "paperless-internal-network.service"
-      "paperless-redis.service"
-      "paperless-postgresql.service"
-      "paperless.service"
-    ];
-  };
-
-
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "paperless";
 
+    pods.paperless = {
+      podConfig = { inherit networks; };
+    };
+
     containers = {
-      paperless-redis = withInternalNetwork {
+      paperless-redis = {
         containerConfig = {
           image = "docker.io/library/redis:${containerVersions.paperless-redis}";
           name = "paperless-redis";
           volumes = [
             (storeFor "redis" "/data")
           ];
+          inherit networks pod;
         };
       };
 
-      paperless-postgresql = withInternalNetwork {
+      paperless-postgresql = {
         containerConfig = {
           image = "docker.io/library/postgres:${containerVersions.paperless-postgresql}";
           name = "paperless-postgresql";
@@ -40,16 +36,17 @@ in
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
+          inherit networks pod;
         };
       };
 
-      paperless = withInternalNetwork {
+      paperless-server = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
         containerConfig = {
           image = "ghcr.io/paperless-ngx/paperless-ngx:${containerVersions.paperless}";
-          name = "paperless";
+          name = "paperless-server";
           environments = {
             PAPERLESS_DBHOST = "paperless-postgresql";
             PAPERLESS_DBENGINE = "postgres";
@@ -72,6 +69,7 @@ in
             (externalStoreFor "media/trash" "/usr/src/paperless/media/trash")
           ];
           labels = containerLib.mkTraefikLabels { name = "paperless"; port = 8000; };
+          inherit networks pod;
         };
 
         unitConfig = systemdLib.requiresAfter

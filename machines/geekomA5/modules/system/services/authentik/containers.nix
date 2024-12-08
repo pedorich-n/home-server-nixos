@@ -18,25 +18,19 @@ let
 
   serverIp = "172.31.0.240";
 
-  withInternalNetwork = containerLib.mkWithNetwork "authentik-internal";
+  pod = "authentik.pod";
+  networks = [ "authentik-internal.network" ];
 in
 {
-  systemd.targets.authentik = {
-    wants = [
-      "authentik-internal-network.service"
-      "authentik-redis.service"
-      "authentik-postgresql.service"
-      "authentik-worker.service"
-      "authentik-server.service"
-    ];
-  };
-
-
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "authentik";
 
+    pods.authentik = {
+      podConfig = { inherit networks; };
+    };
+
     containers = {
-      authentik-postgresql = withInternalNetwork {
+      authentik-postgresql = {
         containerConfig = {
           image = "docker.io/library/postgres:${containerVersions.authentik-postgresql}";
           name = "authentik-postgresql";
@@ -46,10 +40,11 @@ in
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
+          inherit networks pod;
         };
       };
 
-      authentik-redis = withInternalNetwork {
+      authentik-redis = {
         containerConfig = {
           image = "docker.io/library/redis:${containerVersions.authentik-redis}";
           name = "authentik-redis";
@@ -58,10 +53,11 @@ in
           volumes = [
             (storeFor "redis" "/data")
           ];
+          inherit networks pod;
         };
       };
 
-      authentik-worker = withInternalNetwork {
+      authentik-worker = {
         containerConfig = {
           image = "ghcr.io/goauthentik/server:${containerVersions.authentik}";
           name = "authentik-worker";
@@ -78,6 +74,7 @@ in
             (storeFor "media" "/media")
             "${blueprints}:/blueprints/custom"
           ];
+          inherit networks pod;
         };
 
         serviceConfig = {
@@ -94,7 +91,7 @@ in
           { };
       };
 
-      authentik-server = withInternalNetwork {
+      authentik-server = {
         containerConfig = {
           image = "ghcr.io/goauthentik/server:${containerVersions.authentik}";
           name = "authentik-server";
@@ -105,8 +102,8 @@ in
           volumes = [
             (storeFor "media" "/media")
           ];
-          networks = [
-            "traefik:ip=${serverIp}"
+          networks = networks ++ [
+            "traefik.network:ip=${serverIp}"
           ];
           healthCmd = "ak healthcheck";
           healthStartPeriod = "20s";
@@ -127,6 +124,7 @@ in
             "traefik.http.middlewares.authentik.forwardauth.trustForwardHeader=true"
             "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
           ];
+          inherit pod;
         };
 
         serviceConfig = {
@@ -137,7 +135,6 @@ in
 
         unitConfig = systemdLib.requiresAfter
           [
-            "traefik-network.service"
             "authentik-redis.service"
             "authentik-postgresql.service"
           ]

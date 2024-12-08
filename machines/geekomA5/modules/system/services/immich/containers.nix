@@ -32,24 +32,19 @@ let
     IMMICH_TELEMETRY_INCLUDE = "all"; # See https://immich.app/docs/features/monitoring#prometheus
   };
 
-  withInternalNetwork = containerLib.mkWithNetwork "immich-internal";
+  pod = "immich.pod";
+  networks = [ "immich-internal.network" ];
 in
 {
-  systemd.targets.immich = {
-    wants = [
-      "immich-internal-network.service"
-      "immich-redis.service"
-      "immich-vectordb.service"
-      "immich-machine-learning.service"
-      "immich-server.service"
-    ];
-  };
-
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "immich";
 
+    pods.immich = {
+      podConfig = { inherit networks; };
+    };
+
     containers = {
-      immich-vectordb = withInternalNetwork {
+      immich-vectordb = {
         containerConfig = {
           image = "registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0";
           name = "immich-vectordb";
@@ -58,26 +53,29 @@ in
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
+          inherit networks pod;
         };
       };
 
-      immich-redis = withInternalNetwork {
+      immich-redis = {
         containerConfig = {
           image = "registry.hub.docker.com/library/redis:6.2-alpine@sha256:84882e87b54734154586e5f8abd4dce69fe7311315e2fc6d67c29614c8de2672";
           name = "immich-redis";
           volumes = [
             (storeFor "redis" "/data")
           ];
+          inherit networks pod;
         };
       };
 
-      immich-machine-learning = withInternalNetwork {
+      immich-machine-learning = {
         containerConfig = {
           image = "ghcr.io/immich-app/immich-machine-learning:${containerVersions.immich-machine-learning}";
           name = "immich-machine-learning";
           volumes = [
             (storeFor "cache/machine-learning" "/cache")
           ];
+          inherit networks pod;
         };
 
         unitConfig = systemdLib.requiresAfter
@@ -88,7 +86,7 @@ in
           { };
       };
 
-      immich-server = withInternalNetwork {
+      immich-server = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
@@ -105,6 +103,7 @@ in
             (containerLib.mkTraefikLabels { name = "immich"; port = 2283; }) ++
             (containerLib.mkTraefikMetricsLabels { name = "immich"; port = 8081; addPath = "/metrics"; }) ++
             (containerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8082; addPath = "/metrics"; });
+          inherit networks pod;
         };
 
         unitConfig = systemdLib.requiresAfter

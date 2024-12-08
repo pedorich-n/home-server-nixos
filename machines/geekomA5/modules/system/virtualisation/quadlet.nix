@@ -32,11 +32,7 @@
             };
           }
           (lib.mkIf config.requiresTraefikNetwork {
-            containerConfig.networks = lib.mkAfter [ "traefik" ];
-            unitConfig = {
-              Requires = lib.mkAfter [ "traefik-network.service" ];
-              After = lib.mkAfter [ "traefik-network.service" ];
-            };
+            containerConfig.networks = lib.mkAfter [ "traefik.network" ];
           })
           (lib.mkIf config.wantsAuthentik {
             unitConfig = {

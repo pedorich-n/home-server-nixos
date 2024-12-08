@@ -6,22 +6,19 @@ let
 
   malojaArtistRules = pkgs.callPackage ./maloja/_artist-rules.nix { };
 
-  withInternalNetwork = containerLib.mkWithNetwork "music-history-internal";
+  pod = "music-history.pod";
+  networks = [ "music-history-internal.network" ];
 in
 {
-  systemd.targets.music-history = {
-    wants = [
-      "music-history-internal-network.service"
-      "multiscrobbler.service"
-      "maloja.service"
-    ];
-  };
-
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "music-history";
 
+    pods.music-history = {
+      podConfig = { inherit networks; };
+    };
+
     containers = {
-      multiscrobbler = withInternalNetwork {
+      multiscrobbler = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
@@ -46,10 +43,11 @@ in
             port = 9078;
             middlewares = [ "authentik@docker" ];
           };
+          inherit networks pod;
         };
       };
 
-      maloja = withInternalNetwork {
+      maloja = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
@@ -75,6 +73,7 @@ in
             port = 42010;
             middlewares = [ "authentik@docker" ];
           };
+          inherit networks pod;
         };
       };
     };

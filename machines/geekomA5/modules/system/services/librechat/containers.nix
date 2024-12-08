@@ -11,24 +11,19 @@ let
     RAG_PORT = "8080";
   };
 
-  withInternalNetwork = containerLib.mkWithNetwork "librechat-internal";
+  pod = "librechat.pod";
+  networks = [ "librechat-internal.network" ];
 in
 {
-  systemd.targets.librechat = {
-    wants = [
-      "librechat-internal-network.service"
-      "librechat-vectordb.service"
-      "librecaht-mongodb.service"
-      "librechat-rag.service"
-      "librechat.service"
-    ];
-  };
-
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "librechat";
 
+    pods.librechat = {
+      podConfig = { inherit networks; };
+    };
+
     containers = {
-      librechat-vectordb = withInternalNetwork {
+      librechat-vectordb = {
         containerConfig = {
           image = "ankane/pgvector:${containerVersions.librechat-vector}";
           name = "librechat-vectordb";
@@ -37,10 +32,11 @@ in
           ];
           environments = envs;
           environmentFiles = [ config.age.secrets.librechat.path ];
+          inherit networks pod;
         };
       };
 
-      librechat-mongodb = withInternalNetwork {
+      librechat-mongodb = {
         containerConfig = {
           image = "mongo:${containerVersions.librechat-mongodb}";
           name = "librechat-mongodb";
@@ -48,10 +44,11 @@ in
           volumes = [
             (storeFor "mongodb" "/data/db")
           ];
+          inherit networks pod;
         };
       };
 
-      librechat-rag = withInternalNetwork {
+      librechat-rag = {
         containerConfig = {
           image = "ghcr.io/danny-avila/librechat-rag-api-dev-lite:${containerVersions.librechat-rag}";
           name = "librechat-rag";
@@ -62,18 +59,19 @@ in
             EMBEDDINGS_PROVIDER = "openai";
           } // envs;
           environmentFiles = [ config.age.secrets.librechat.path ];
+          inherit networks pod;
         };
 
         unitConfig = systemdLib.requiresAfter [ "librechat-vectordb.service" ] { };
       };
 
-      librechat = withInternalNetwork {
+      librechat-server = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
         containerConfig = containerLib.withAlpineHostsFix {
           image = "ghcr.io/danny-avila/librechat:${containerVersions.librechat-server}";
-          name = "librechat";
+          name = "librechat-server";
           # See https://github.com/danny-avila/LibreChat/discussions/572#discussioncomment-7352331
           exec = "npm run backend:dev";
           # user = userSetting;
@@ -105,6 +103,7 @@ in
             name = "chat";
             port = 3080;
           };
+          inherit networks pod;
 
         };
 

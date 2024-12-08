@@ -10,25 +10,19 @@ let
     mosquitto = ./mosquitto/_config.nix;
   };
 
-  withInternalNetwork = containerLib.mkWithNetwork "home-automation-internal";
+  pod = "home-automation.pod";
+  networks = [ "home-automation-internal.network" ];
 in
 {
-  systemd.targets.home-automation = {
-    wants = [
-      "home-automation-internal-network.service"
-      "homeassistant.service"
-      "homeassistant-postgresql.service"
-      "zigbeemqtt.service"
-      "nodered.service"
-      "mosquitto.service"
-    ];
-  };
-
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "home-automation";
 
+    pods.home-automation = {
+      podConfig = { inherit networks; };
+    };
+
     containers = {
-      mosquitto = withInternalNetwork {
+      mosquitto = {
         requiresTraefikNetwork = true;
 
         containerConfig = {
@@ -48,10 +42,11 @@ in
             "traefik.tcp.routers.mosquitto.service=mosquitto"
             "traefik.tcp.services.mosquitto.loadBalancer.server.port=1883"
           ];
+          inherit networks pod;
         };
       };
 
-      zigbee2mqtt = withInternalNetwork {
+      zigbee2mqtt = {
         requiresTraefikNetwork = true;
 
         containerConfig = rec {
@@ -73,12 +68,13 @@ in
             port = 8080;
             middlewares = [ "authentik@docker" ];
           };
+          inherit networks pod;
         };
 
         unitConfig = systemdLib.requiresAfter [ "mosquitto.service" ] { };
       };
 
-      homeassistant-postgresql = withInternalNetwork {
+      homeassistant-postgresql = {
         containerConfig = {
           image = "docker.io/library/postgres:${containerVersions.homeassistant-postgresql}";
           name = "homeassistant-postgresql";
@@ -86,10 +82,11 @@ in
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
+          inherit networks pod;
         };
       };
 
-      homeassistant = withInternalNetwork {
+      homeassistant = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
@@ -121,6 +118,7 @@ in
             service = name;
             priority = 15;
           });
+          inherit networks pod;
         };
 
         unitConfig = systemdLib.requiresAfter
@@ -131,7 +129,7 @@ in
           { };
       };
 
-      nodered = withInternalNetwork {
+      nodered = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
@@ -151,6 +149,7 @@ in
             port = 1880;
             middlewares = [ "authentik@docker" ];
           };
+          inherit networks pod;
         };
       };
 
