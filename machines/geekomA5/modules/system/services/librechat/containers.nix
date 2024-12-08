@@ -1,4 +1,4 @@
-{ config, containerLib, authentikLib, ... }:
+{ config, containerLib, authentikLib, systemdLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -64,14 +64,7 @@ in
           environmentFiles = [ config.age.secrets.librechat.path ];
         };
 
-        unitConfig = {
-          Requires = [
-            "librechat-vectordb.service"
-          ];
-          After = [
-            "librechat-vectordb.service"
-          ];
-        };
+        unitConfig = systemdLib.requiresAfter [ "librechat-vectordb.service" ] { };
       };
 
       librechat = withInternalNetwork {
@@ -115,16 +108,12 @@ in
 
         };
 
-        unitConfig = {
-          Requires = [
+        unitConfig = systemdLib.requiresAfter
+          [
             "librechat-mongodb.service"
             "librechat-rag.service"
-          ];
-          After = [
-            "librechat-mongodb.service"
-            "librechat-rag.service"
-          ];
-        };
+          ]
+          { };
       };
     };
   };

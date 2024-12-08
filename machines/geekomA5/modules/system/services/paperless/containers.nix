@@ -1,4 +1,4 @@
-{ config, containerLib, ... }:
+{ config, containerLib, systemdLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -74,20 +74,14 @@ in
           labels = containerLib.mkTraefikLabels { name = "paperless"; port = 8000; };
         };
 
-        unitConfig = {
-          Requires = [
+        unitConfig = systemdLib.requiresAfter
+          [
             "paperless-redis.service"
             "paperless-postgresql.service"
             #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:72
             "zfs-mounted-external-paperless.service"
-          ];
-          After = [
-            "paperless-redis.service"
-            "paperless-postgresql.service"
-            #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:72
-            "zfs-mounted-external-paperless.service"
-          ];
-        };
+          ]
+          { };
       };
     };
   };

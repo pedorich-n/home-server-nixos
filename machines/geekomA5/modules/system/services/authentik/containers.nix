@@ -1,4 +1,4 @@
-{ config, lib, containerLib, jinja2RendererLib, ... }:
+{ config, lib, containerLib, systemdLib, jinja2RendererLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -86,16 +86,12 @@ in
           ];
         };
 
-        unitConfig = {
-          Requires = [
+        unitConfig = systemdLib.requiresAfter
+          [
             "authentik-redis.service"
             "authentik-postgresql.service"
-          ];
-          After = [
-            "authentik-redis.service"
-            "authentik-postgresql.service"
-          ];
-        };
+          ]
+          { };
       };
 
       authentik-server = withInternalNetwork {
@@ -139,15 +135,13 @@ in
           ];
         };
 
-        unitConfig = {
-          Requires = [
+        unitConfig = systemdLib.requiresAfter
+          [
+            "traefik-network.service"
             "authentik-redis.service"
             "authentik-postgresql.service"
-          ];
-          After = [
-            "traefik-network.service"
-          ];
-        };
+          ]
+          { };
       };
     };
   };

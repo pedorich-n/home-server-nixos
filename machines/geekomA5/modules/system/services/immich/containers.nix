@@ -1,4 +1,4 @@
-{ config, containerLib, ... }:
+{ config, containerLib, systemdLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -80,16 +80,12 @@ in
           ];
         };
 
-        unitConfig = {
-          Requires = [
+        unitConfig = systemdLib.requiresAfter
+          [
             "immich-redis.service"
             "immich-vectordb.service"
-          ];
-          After = [
-            "immich-redis.service"
-            "immich-vectordb.service"
-          ];
-        };
+          ]
+          { };
       };
 
       immich-server = withInternalNetwork {
@@ -111,24 +107,16 @@ in
             (containerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8082; addPath = "/metrics"; });
         };
 
-        unitConfig = {
-          Requires = [
+        unitConfig = systemdLib.requiresAfter
+          [
             "immich-redis.service"
             "immich-vectordb.service"
             #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:62
             "zfs-mounted-external-immich.service"
             #LINK - machines/geekomA5/modules/system/services/immich/render-config.nix:20
             "immich-render-config.service"
-          ];
-          After = [
-            "immich-redis.service"
-            "immich-vectordb.service"
-            #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:62
-            "zfs-mounted-external-immich.service"
-            #LINK - machines/geekomA5/modules/system/services/immich/render-config.nix:20
-            "immich-render-config.service"
-          ];
-        };
+          ]
+          { };
       };
     };
 

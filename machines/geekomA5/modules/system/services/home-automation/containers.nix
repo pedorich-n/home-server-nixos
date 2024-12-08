@@ -1,4 +1,4 @@
-{ config, pkgs, containerLib, ... }:
+{ config, pkgs, containerLib, systemdLib, ... }:
 let
   containerVersions = config.custom.containers.versions;
 
@@ -75,14 +75,7 @@ in
           };
         };
 
-        unitConfig = {
-          Requires = [
-            "mosquitto.service"
-          ];
-          After = [
-            "mosquitto.service"
-          ];
-        };
+        unitConfig = systemdLib.requiresAfter [ "mosquitto.service" ] { };
       };
 
       homeassistant-postgresql = withInternalNetwork {
@@ -130,16 +123,12 @@ in
           });
         };
 
-        unitConfig = {
-          Requires = [
+        unitConfig = systemdLib.requiresAfter
+          [
             "homeassistant-postgresql.service"
             "mosquitto.service"
-          ];
-          After = [
-            "homeassistant-postgresql.service"
-            "mosquitto.service"
-          ];
-        };
+          ]
+          { };
       };
 
       nodered = withInternalNetwork {
