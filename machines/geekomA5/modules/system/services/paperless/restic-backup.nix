@@ -19,7 +19,7 @@ in
       ];
 
       backupPrepareCommand = ''
-        ${lib.getExe config.virtualisation.podman.package} exec --tty paperless \
+        ${lib.getExe config.virtualisation.podman.package} exec --tty paperless-server \
         document_exporter /usr/src/paperless/export --delete
       '';
 
