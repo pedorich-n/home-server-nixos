@@ -1,4 +1,4 @@
-{ poetry2nix, systemd }:
+{ poetry2nix, systemd, pkgs, ... }:
 poetry2nix.mkPoetryApplication {
   projectDir = ./.;
   meta.mainProgram = "systemd-onfailure-notify";
@@ -6,9 +6,7 @@ poetry2nix.mkPoetryApplication {
   checkGroups = [ ];
   propagatedBuildInputs = [ systemd ];
 
-  overrides = poetry2nix.overrides.withDefaults (_: prev: {
-    apprise = prev.apprise.overridePythonAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.babel ];
-    });
+  overrides = poetry2nix.overrides.withDefaults (_: _prev: {
+    apprise = pkgs.python3Packages.apprise;
   });
 }

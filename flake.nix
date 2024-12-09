@@ -156,11 +156,6 @@
       };
     };
 
-    homer-theme = {
-      url = "github:walkxcode/homer-theme";
-      flake = false;
-    };
-
   };
 
   outputs = inputs@{ flake-parts, systems, ... }: flake-parts.lib.mkFlake { inherit inputs; } ({ lib, ... }: {
