@@ -1,20 +1,20 @@
 { flake, inputs, config, lib, ... }:
 let
-  sharedHomeManagerModules = flake.lib.loaders.listFilesRecursivelly { src = ./modules; };
-
-  loadUser = username: {
-    imports = flake.lib.loaders.listFilesRecursivelly { src = ./users/${username}; };
-  };
-  hmUsers = lib.mapAttrs (username: _: loadUser username) (lib.filterAttrs (_: type: type == "directory") (builtins.readDir ./users));
+  sharedHomeManagerModules = flake.lib.loaders.listFilesRecursivelly { src = "${flake}/shared-modules/home-manager"; };
 
   hmForUser = username:
-    hmUsers.${username} or (builtins.abort "User '${username}' doesn't have a HomeManager config defined!");
+    let
+      path = "${flake}/homes/${username}";
+    in
+    lib.throwIfNot (builtins.pathExists path) "User '${username}' doesn't have a HomeManager config defined!" {
+      imports = flake.lib.loaders.listFilesRecursivelly { src = path; };
+    };
 
-  #LINK - modules/custom/system/users.nix
+  #LINK - shared-modules/nixos/custom/system/users.nix
   enabledHmUsers = lib.foldl' (acc: user: acc // { ${user} = hmForUser user; }) { } config.custom.users.homeManagerUsers;
 in
 {
-  home-manager = {
+  home-manager = lib.mkIf (enabledHmUsers != { }) {
     # Install HM into `/etc/profiles` rather than `$HOME/.nix-profile`. 
     # Not sure if this needed, but HM docs say that it might be enabled by default in the future, so I assume it's better to enable it.
     useUserPackages = true;
