@@ -52,6 +52,9 @@
     "nodered": {
       "version": "4.0.5"
     },
+    "nzbget": {
+      "version": "v24.5"
+    },
     "paperless": {
       "version": "2.13.5"
     },
@@ -63,6 +66,9 @@
     },
     "portainer": {
       "version": "2.24.0-alpine"
+    },
+    "prowlarr": {
+      "version": "release-1.27.0.4852"
     },
     "zigbee2mqtt": {
       "version": "1.41.0"
