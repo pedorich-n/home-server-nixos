@@ -71,6 +71,15 @@ in
             };
             mountpoint = "/mnt/external/paperless-library";
           };
+
+          data = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/mnt/external/data-library";
+              "com.sun:auto-snapshot" = "false";
+            };
+            mountpoint = "/mnt/external/data-library";
+          };
         };
       };
     };
@@ -81,11 +90,13 @@ in
     "/mnt/external".options = [ "noauto" "nofail" ];
     "/mnt/external/immich-library".options = [ "noauto" "nofail" ];
     "/mnt/external/paperless-library".options = [ "noauto" "nofail" ];
+    "/mnt/external/data-library".options = [ "noauto" "nofail" ];
   };
 
 
   systemd.services = lib.mkMerge [
     (mkSystemdZfsMountTarget { dataset = "external/immich"; })
     (mkSystemdZfsMountTarget { dataset = "external/paperless"; })
+    (mkSystemdZfsMountTarget { dataset = "external/data"; })
   ];
 }
