@@ -1,6 +1,6 @@
 { inputs, flake, withSystem, lib, ... }:
 let
-  sharedNixosModules = flake.lib.loaders.listFilesRecursivelly { src = "${flake}/modules"; };
+  sharedNixosModules = flake.lib.loaders.listFilesRecursivelly { src = "${flake}/shared-modules/nixos"; };
   homeManagerNixosModules = [
     inputs.home-manager.nixosModules.default
     "${flake}/homes/default.nix"
