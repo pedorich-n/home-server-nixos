@@ -1,7 +1,7 @@
 { inputs, flake, withSystem, lib, ... }:
 let
-  sharedNixosModules = flake.lib.loaders.listFilesRecursivelly { src = "${flake}/shared-modules/nixos"; };
-  loadMachine = name: flake.lib.loaders.listFilesRecursivelly { src = "${flake}/machines/${name}"; };
+  sharedNixosModules = flake.lib.loaders.listFilesRecursively { src = "${flake}/shared-modules/nixos"; };
+  loadMachine = name: flake.lib.loaders.listFilesRecursively { src = "${flake}/machines/${name}"; };
 
   overlays = import "${flake}/overlays/custom-packages.nix";
 

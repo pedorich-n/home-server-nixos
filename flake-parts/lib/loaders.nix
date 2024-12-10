@@ -17,12 +17,12 @@ let
     default = { path, root }: (nix { inherit path; }) && (notIgnored { inherit root path; });
   };
 
-  listFilesRecursivelly = { src, matcher ? matchers.default }:
+  listFilesRecursively = { src, matcher ? matchers.default }:
     lib.filter (path: matcher { inherit path; root = src; }) (lib.filesystem.listFilesRecursive src);
 
 in
 {
   flake.lib.loaders = {
-    inherit listFilesRecursivelly;
+    inherit listFilesRecursively;
   };
 }
