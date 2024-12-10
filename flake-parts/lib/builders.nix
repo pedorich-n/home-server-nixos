@@ -1,12 +1,7 @@
 { inputs, flake, withSystem, lib, ... }:
 let
-  sharedNixosModules = flake.lib.loaders.listFilesRecursivelly { src = "${flake}/modules"; };
-  homeManagerNixosModules = [
-    inputs.home-manager.nixosModules.default
-    "${flake}/homes/default.nix"
-  ];
-
-  loadMachine = name: flake.lib.loaders.listFilesRecursivelly { src = "${flake}/machines/${name}"; };
+  sharedNixosModules = flake.lib.loaders.listFilesRecursively { src = "${flake}/shared-modules/nixos"; };
+  loadMachine = name: flake.lib.loaders.listFilesRecursively { src = "${flake}/machines/${name}"; };
 
   overlays = import "${flake}/overlays/custom-packages.nix";
 
@@ -15,7 +10,6 @@ let
     , system
     , modules ? [ ]
     , withSharedModules ? true
-    , withHmModules ? false
     , specialArgs ? { }
     , enableDeploy ? true
     , deploySettings ? { }
@@ -26,7 +20,6 @@ let
         modules =
           [{ networking.hostName = lib.mkDefault name; }]
             ++ lib.optionals withSharedModules sharedNixosModules
-            ++ lib.optionals withHmModules homeManagerNixosModules
             ++ modules
             ++ (loadMachine name);
         specialArgs = {
