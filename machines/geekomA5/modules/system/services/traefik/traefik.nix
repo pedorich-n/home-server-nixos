@@ -12,6 +12,10 @@
     group = "podman";
 
     staticConfigOptions = {
+      log = {
+        level = "INFO";
+      };
+
       global = {
         sendAnonymousUsage = false;
       };

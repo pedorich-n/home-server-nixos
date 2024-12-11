@@ -28,6 +28,9 @@
     "immich-server": {
       "version": "v1.121.0"
     },
+    "jellyfin": {
+      "version": "10.10.3"
+    },
     "librechat-mongodb": {
       "version": "8.0.3"
     },
@@ -69,6 +72,12 @@
     },
     "prowlarr": {
       "version": "release-1.27.0.4852"
+    },
+    "radarr": {
+      "version": "release-5.15.1.9463"
+    },
+    "sonarr": {
+      "version": "release-4.0.11.2680"
     },
     "zigbee2mqtt": {
       "version": "1.41.0"
