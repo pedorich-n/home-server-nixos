@@ -1,4 +1,4 @@
 {% from "macros/proxy_entry.j2" import proxy_entry with context %}
 {% import "global_utils.j2" as global_utils with context %}
 
-{{ proxy_entry(name="HomeAssistant", slug="homeassistant", group=groups.homeAutomation, icon=global_utils.generate_icon("home-assistant") , access_token_validity="days=180", refresh_token_validity="days=365") }}
+{{ proxy_entry(name="HomeAssistant", slug="homeassistant", application_group=applicationGroups.homeAutomation, icon=global_utils.generate_icon("home-assistant") , access_token_validity="days=180", refresh_token_validity="days=365") }}

@@ -1,6 +1,6 @@
 {% from "macros/oidc_entry.j2" import oidc_entry with context %}
 {% import "global_utils.j2" as global_utils with context %}
 
-{% set redirect_uris = global_utils.generate_url("chat") + "/oauth/openid/callback" %}
+{% set redirect_uris = [ global_utils.generate_url("chat") + "/oauth/openid/callback" ] %}
 {% set icon_url = "https://raw.githubusercontent.com/danny-avila/LibreChat/92232afacab63a76d1b11d56921f77723a2cf90d/client/public/assets/logo.svg" %}
-{{ oidc_entry(name="LibreChat", slug="librechat", group=groups.services, redirect_uris=redirect_uris, icon=icon_url) }}
+{{ oidc_entry(name="LibreChat", slug="librechat", application_group=applicationGroups.services, redirect_uris=redirect_uris, icon=icon_url) }}

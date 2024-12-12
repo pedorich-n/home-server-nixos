@@ -3,5 +3,5 @@
 
 {% set redirect_uris = [ global_utils.generate_url('immich') + "/auth/login",
                          global_utils.generate_url('immich') + "/user-settings",
-                         "app.immich:///oauth-callback" ] | join("\n") %}
-{{ oidc_entry(name="Immich", slug="immich", group=groups.services, redirect_uris=redirect_uris) }}
+                         "app.immich:///oauth-callback" ] %}
+{{ oidc_entry(name="Immich", slug="immich", application_group=applicationGroups.media, redirect_uris=redirect_uris) }}

@@ -1,7 +1,7 @@
 {% import "macros/utils.j2" as utils with context %}
 {% import "global_utils.j2" as global_utils with context %}
 
-{% macro proxy_entry(name, slug, group, url, icon, is_admin_only=false, access_token_validity="days=30", refresh_token_validity="days=180") -%}
+{% macro proxy_entry(name, slug, application_group, url, icon, access_group, access_token_validity="days=30", refresh_token_validity="days=180") -%}
   {% if url is defined %}
 {% set final_url = url %}
   {% else %}
@@ -44,11 +44,11 @@ entries:
       open_in_new_tab: true
       meta_launch_url: {{ final_url }}
       icon: {{ final_icon }}
-  {% if group is defined %}
-      group: {{ group }}
+  {% if application_group is defined %}
+      group: {{ application_group }}
   {% endif %}
 
-  {% if is_admin_only -%}
-  {{ utils.generate_group_policy("Server Admins") | indent(2, True) }}
+  {% if access_group is defined -%}
+  {{ utils.generate_group_policy(access_group) | indent(2, True) }}
   {% endif %}
 {% endmacro %}

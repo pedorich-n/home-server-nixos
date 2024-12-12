@@ -1,4 +1,4 @@
 {% from "macros/ldap_entry.j2" import ldap_entry with context %}
 {% import "global_utils.j2" as global_utils with context %}
 
-{{ ldap_entry(name="Jellyfin", slug="jellyfin", group=groups.media, url=global_utils.generate_url("jellyfin") , access_group="Media") }}
+{{ ldap_entry(name="Jellyfin", slug="jellyfin", application_group=applicationGroups.media, access_group=accessGroups.media) }}

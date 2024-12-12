@@ -1,5 +1,17 @@
 {% import "global_utils.j2" as global_utils with context %}
-{% set providers = ["HomeAssistant", "Maloja", "MultiScrobbler", "Netdata", "NodeRed", "Traefik", "Zigbee2MQTT"] %}
+{% set providers = [
+  "HomeAssistant",
+  "Maloja",
+  "MultiScrobbler",
+  "Netdata",
+  "NodeRed",
+  "NZBGet",
+  "Prowlarr",
+  "Radarr",
+  "Sonarr",
+  "Traefik",
+  "Zigbee2MQTT"
+] %}
 version: 1
 metadata:
   name: embedded-outpost-settings
@@ -13,7 +25,7 @@ entries:
     attrs:
       providers:
 {% for provider in providers %}
-        - !Find [authentik_providers_ldap.ldapprovider, [name, {{ provider }}]]
+        - !Find [authentik_providers_proxy.proxyprovider, [name, {{ provider }}]]
 {% endfor %}
       config:
         authentik_host: {{ global_utils.generate_url("authentik") }}

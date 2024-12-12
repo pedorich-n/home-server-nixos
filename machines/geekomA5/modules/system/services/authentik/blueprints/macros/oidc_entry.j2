@@ -1,7 +1,7 @@
 {% import "macros/utils.j2" as utils with context %}
 {% import "global_utils.j2" as global_utils with context %}
 
-{% macro oidc_entry(name, slug, group, client_id_env, client_secret_env, redirect_uris, icon, is_admin_only=false, access_token_validity="days=30", refresh_token_validity="days=180") -%}
+{% macro oidc_entry(name, slug, application_group, client_id_env, client_secret_env, redirect_uris, icon, access_group, access_token_validity="days=30", refresh_token_validity="days=180") -%}
   {% if client_id_env is not defined %}
 {% set client_id = name | upper + "_OAUTH_CLIENT_ID" %}
   {% else %}
@@ -43,8 +43,11 @@ entries:
       signing_key: !Find [authentik_crypto.certificatekeypair, [name, authentik Self-signed Certificate]]
       client_id: !Env {{ client_id }}
       client_secret: !Env {{ client_secret }}
-      redirect_uris: |
-        {{ redirect_uris | indent(8, False) }}
+      redirect_uris:
+  {% for redirect_uri in redirect_uris %}
+        - url: {{ redirect_uri }}
+          matching_mode: strict
+  {% endfor %}
 
   - model: authentik_core.application
     state: present
@@ -56,12 +59,12 @@ entries:
       provider: !KeyOf provider
       open_in_new_tab: true
       icon: {{ final_icon }}
-  {% if group is defined %}
-      group: {{ group }}
+  {% if application_group is defined %}
+      group: {{ application_group }}
   {% endif %}
 
-  {% if is_admin_only -%}
-  {{ utils.generate_group_policy("Server Admins") | indent(2, True) }}
+  {% if access_group is defined -%}
+  {{ utils.generate_group_policy(access_group) | indent(2, True) }}
   {% endif %}
 
 {% endmacro %}
