@@ -12,6 +12,11 @@
   {% else %}
 {% set client_secret = client_secret_env %}
   {% endif %}
+  {% if icon is defined %}
+{% set final_icon = icon %}
+  {% else %}
+{% set final_icon = global_utils.generate_icon(slug) %}
+  {% endif %}
 # yaml-language-server: $schema=https://version-2024-8.goauthentik.io/blueprints/schema.json
 version: 1
 metadata:
@@ -27,6 +32,7 @@ entries:
     attrs:
       authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
       authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+      invalidation_flow: !Find [authentik_flows.flow, [slug, default-invalidation-flow]]
       property_mappings:
         - !Find [authentik_providers_oauth2.scopemapping, [scope_name, openid]]
         - !Find [authentik_providers_oauth2.scopemapping, [scope_name, email]]
@@ -49,17 +55,13 @@ entries:
     attrs:
       provider: !KeyOf provider
       open_in_new_tab: true
-  {% if icon is defined %}
-      icon: {{ icon }}
-  {% else %}
-      icon: {{ global_utils.generate_icon(slug) }}
-  {% endif %}
+      icon: {{ final_icon }}
   {% if group is defined %}
       group: {{ group }}
   {% endif %}
 
   {% if is_admin_only -%}
-  {{ utils.generate_admin_policy() | indent(2, True) }}
+  {{ utils.generate_group_policy("Server Admins") | indent(2, True) }}
   {% endif %}
 
 {% endmacro %}

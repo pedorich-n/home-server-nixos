@@ -120,6 +120,9 @@ in
             # See https://jellyfin.org/docs/general/administration/hardware-acceleration/amd#linux-setups
             "/dev/dri:/dev/dri"
           ];
+          environments = {
+            JELLYFIN_PublishedServerUrl = "http://jellyfin.${config.custom.networking.domain}";
+          };
           volumes = [
             (storeFor "jellyfin/config" "/config")
             (storeFor "jellyfin/cache" "/cache")

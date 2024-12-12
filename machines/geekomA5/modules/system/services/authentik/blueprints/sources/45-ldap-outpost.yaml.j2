@@ -1,16 +1,19 @@
 {% import "global_utils.j2" as global_utils with context %}
-{% set providers = ["HomeAssistant", "Maloja", "MultiScrobbler", "Netdata", "NodeRed", "Traefik", "Zigbee2MQTT"] %}
+{% set providers = ["Jellyfin"] %}
 version: 1
 metadata:
-  name: embedded-outpost-settings
+  name: ldap-outpost-settings
   labels:
-    blueprints.goauthentik.io/description: "Set Embedded Outpost settings"
+    blueprints.goauthentik.io/description: "Create LDAP Outpost"
 entries:
   - model: authentik_outposts.outpost
     state: present
     identifiers:
-      managed: goauthentik.io/outposts/embedded
+      name: ldap-outpost
     attrs:
+      name: "LDAP Outpost"
+      managed: null
+      type: ldap
       providers:
 {% for provider in providers %}
         - !Find [authentik_providers_ldap.ldapprovider, [name, {{ provider }}]]

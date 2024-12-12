@@ -2,7 +2,7 @@
   "version": 2,
   "data": {
     "authentik": {
-      "version": "2024.10.4"
+      "version": "2024.10.5"
     },
     "authentik-postgresql": {
       "version": "16.6-alpine"

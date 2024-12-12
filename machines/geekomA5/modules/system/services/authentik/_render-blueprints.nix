@@ -5,6 +5,7 @@ let
       serverManagement = "Server Management";
       homeAutomation = "Home Automation";
       services = "Services";
+      media = "Media";
     };
   };
 in
