@@ -6,8 +6,10 @@ metadata:
     blueprints.goauthentik.io/system-bootstrap: "true"
     blueprints.goauthentik.io/description: "Setup Default Authentik Users & Groups"
 entries:
+  # Keeping these as created to not re-create the users on every deployment as this requires re-connect accounts in existing integrations
   # Groups
   - model: authentik_core.group
+    id: server-admins-group
     identifiers:
       name: "Server Admins"
     state: created
@@ -15,7 +17,26 @@ entries:
       is_superuser: false
       users:
         - !Find [authentik_core.user, [username, akadmin]]
-    id: server-admins-group
+
+  - model: authentik_core.group
+    id: media-group
+    identifiers:
+      name: "Media"
+    state: created
+    attrs:
+      is_superuser: false
+      users:
+        - !Find [authentik_core.user, [username, akadmin]]
+
+  - model: authentik_core.group
+    id: media-admins-group
+    identifiers:
+      name: "Media Admins"
+    state: created
+    attrs:
+      is_superuser: false
+      users:
+        - !Find [authentik_core.user, [username, akadmin]]
 
   # Users
   - model: authentik_core.user
@@ -28,4 +49,17 @@ entries:
       groups:
         - !Find [authentik_core.group, [name, authentik Admins]]
         - !KeyOf server-admins-group
+        - !KeyOf media-admins-group
+        - !KeyOf media-group
       password: !Env AUTHENTIK_USER_PASSWORD
+
+  - model: authentik_core.user
+    identifiers:
+      username: !Env AUTHENTIK_LDAP_USER_NAME
+    state: present
+    attrs:
+      name: "LDAP service"
+      type: service_account
+      password: !Env AUTHENTIK_LDAP_USER_PASSWORD
+      groups:
+        - !KeyOf media-group

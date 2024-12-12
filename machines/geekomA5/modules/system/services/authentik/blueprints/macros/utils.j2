@@ -1,9 +1,9 @@
-{% macro generate_admin_policy() -%}
+{% macro generate_group_policy(group) -%}
 - model: authentik_policies.policybinding
   identifiers:
     target: !KeyOf application
   attrs:
-    group: !Find [authentik_core.group, [name, Server Admins]]
+    group: !Find [authentik_core.group, [name, {{ group }}]]
     enabled: true
     order: 0
 {% endmacro %}

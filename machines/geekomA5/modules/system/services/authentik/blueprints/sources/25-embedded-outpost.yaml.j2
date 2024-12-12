@@ -1,25 +1,32 @@
 {% import "global_utils.j2" as global_utils with context %}
+{% set providers = [
+  "HomeAssistant",
+  "Maloja",
+  "MultiScrobbler",
+  "Netdata",
+  "NodeRed",
+  "Prowlarr",
+  "Radarr",
+  "SABnzbd",
+  "Sonarr",
+  "Traefik",
+  "Zigbee2MQTT"
+] %}
 version: 1
 metadata:
   name: embedded-outpost-settings
   labels:
     blueprints.goauthentik.io/description: "Set Embedded Outpost settings"
-context:
-  providers:
-    - HomeAssistant
-    - Maloja
-    - MultiScrobbler
-    - Netdata
-    - NodeRed
-    - Traefik
-    - Zigbee2MQTT
 entries:
   - model: authentik_outposts.outpost
     state: present
     identifiers:
       managed: goauthentik.io/outposts/embedded
     attrs:
-      providers: !Enumerate [!Context providers, SEQ, !Find [authentik_providers_proxy.proxyprovider, [name, !Value 0]]]
+      providers:
+{% for provider in providers %}
+        - !Find [authentik_providers_proxy.proxyprovider, [name, {{ provider }}]]
+{% endfor %}
       config:
         authentik_host: {{ global_utils.generate_url("authentik") }}
         object_naming_template: ak-outpost-%(name)s

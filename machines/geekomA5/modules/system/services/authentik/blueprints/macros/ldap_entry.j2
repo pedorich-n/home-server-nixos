@@ -1,7 +1,7 @@
 {% import "macros/utils.j2" as utils with context %}
 {% import "global_utils.j2" as global_utils with context %}
 
-{% macro proxy_entry(name, slug, application_group, url, icon, access_group, access_token_validity="days=30", refresh_token_validity="days=180") -%}
+{% macro ldap_entry(name, slug, application_group, url, icon, access_group) -%}
   {% if url is defined %}
 {% set final_url = url %}
   {% else %}
@@ -12,28 +12,32 @@
   {% else %}
 {% set final_icon = global_utils.generate_icon(slug) %}
   {% endif %}
-# yaml-language-server: $schema=https://version-2024-8.goauthentik.io/blueprints/schema.json
+# yaml-language-server: $schema=https://version-2024-10.goauthentik.io/blueprints/schema.json
 version: 1
 metadata:
   name: {{ slug }}
   labels:
-    blueprints.goauthentik.io/description: "Setup {{ name }} Proxy Provider & Application"
+    blueprints.goauthentik.io/description: "Setup {{ name }} LDAP Provider & Application"
 entries:
-  - model: authentik_providers_proxy.proxyprovider
+  - model: authentik_providers_ldap.ldapprovider
     id: provider
     state: present
     identifiers:
       name: {{ name }}
+    permissions:
+      - permission: search_full_directory
+        user: !Find [authentik_core.user, [username, ldap]]
     attrs:
-      authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
-      authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+      authorization_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
       invalidation_flow: !Find [authentik_flows.flow, [slug, default-invalidation-flow]]
-      mode: forward_single
-      access_token_validity: {{ access_token_validity }}
-      refresh_token_validity: {{ refresh_token_validity }}
-      external_host: {{ final_url }}
+      base_dn: "OU={{ slug }},DC=ldap,DC=goauthentik,DC=io"
+      bind_mode: direct
+      search_mode: direct
+      uid_start_number: 2000
+      gid_start_number: 4000
 
   - model: authentik_core.application
+    id: application
     state: present
     id: application
     identifiers:
@@ -41,13 +45,13 @@ entries:
       slug: {{ slug }}
     attrs:
       provider: !KeyOf provider
+      policy_engine_mode: any
       open_in_new_tab: true
-      meta_launch_url: {{ final_url }}
       icon: {{ final_icon }}
+      meta_launch_url: {{ final_url }}
   {% if application_group is defined %}
       group: {{ application_group }}
   {% endif %}
-
   {% if access_group is defined -%}
   {{ utils.generate_group_policy(access_group) | indent(2, True) }}
   {% endif %}

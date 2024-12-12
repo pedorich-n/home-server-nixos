@@ -91,6 +91,25 @@ in
           { };
       };
 
+      authentik-ldap-outpost = {
+        containerConfig = {
+          image = "ghcr.io/goauthentik/ldap:${containerVersions.authentik}";
+          name = "authentik-ldap-outpost";
+          environments = defaultEnvs // {
+            AUTHENTIK_HOST = "http://authentik.${config.custom.networking.domain}";
+          };
+          environmentFiles = [ config.age.secrets.authentik_ldap_outpost.path ];
+          labels = [
+            "traefik.enable=true"
+            "traefik.tcp.services.authentik-ldap-outpost.loadBalancer.server.port=3389"
+            "traefik.tcp.routers.authentik-ldap-outpost.rule=HostSNI(`*`)"
+            "traefik.tcp.routers.authentik-ldap-outpost.entrypoints=ldap"
+            "traefik.tcp.routers.authentik-ldap-outpost.service=authentik-ldap-outpost"
+          ];
+          inherit networks pod;
+        };
+      };
+
       authentik-server = {
         containerConfig = {
           image = "ghcr.io/goauthentik/server:${containerVersions.authentik}";

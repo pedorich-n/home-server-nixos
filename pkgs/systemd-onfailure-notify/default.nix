@@ -3,41 +3,35 @@ pkgs.writeShellApplication {
   name = "systemd-onfailure-notify";
   runtimeInputs = [
     pkgs.apprise
+    pkgs.getopt
     pkgs.ripgrep
     pkgs.systemd
   ];
   text = ''
-    while [[ "$#" -gt 0 ]]; do
+    TEMP=$(getopt -o "" -l apprise-config:,unit:,lines: -- "$@") || exit 1
+    eval set -- "$TEMP"
+
+    APPRISE_CONFIG=""
+    UNIT_NAME=""
+    LINES_COUNT=500
+
+    while [[ "$1" != "--" ]]; do
         case "$1" in
-            --apprise-config)
-                APPRISE_CONFIG="''${2}"
-                shift 2
-                ;;
-            --unit)
-                UNIT_NAME="''${2}"
-                shift 2
-                ;;
-            --lines)
-                LINES_COUNT="''${2:}"
-                shift 2
-                ;;
-            *)
-                echo "Unknown argument: $1"
-                exit 1
-                ;;
+            --apprise-config) APPRISE_CONFIG="$2"; shift 2 ;;
+            --unit) UNIT_NAME="$2"; shift 2 ;;
+            --lines) LINES_COUNT="$2"; shift 2 ;;
         esac
     done
+    shift # Skip the "--"
 
-    if [[ -z "''${APPRISE_CONFIG}" || -z "''${UNIT_NAME}" ]]; then
-        echo "--apprise-config and --unit are required"
+    [[ -z "$APPRISE_CONFIG" || -z "$UNIT_NAME" ]] && {
+        echo "--apprise-config and --unit are required" >&2
         exit 1
-    fi
-
-    LINES_COUNT="''${LINES_COUNT:-500}"
+    }
 
     BASE_PATH_LOGS="/tmp/systemd_notifications"
 
-    STATUS=$(systemctl status "''${UNIT_NAME}" --no-pager | rg --only-matching "Active:\s(?P<status>.+)" --replace '$status')
+    STATUS=$(systemctl status "''${UNIT_NAME}" --no-pager 2>&1 | rg --only-matching "Active:\s(?P<status>.+)" --replace '$status') || echo "''${STATUS}"
 
     mkdir -p "''${BASE_PATH_LOGS}"
 

@@ -5,7 +5,7 @@ This happens when Authentik is redeployed and blueprints ran. The data in DB get
 ### Immich
 
 1. Go to [Portainer](http://portainer.server.lan/)
-2. Go to `immich-posgtres` container, open console
+2. Go to `immich-vectordb` container, open console
 3. `psql -U immich`
 4. `update users set "oauthId" = '' where email = '<email>';`
 5. Re-login to Immich using Authentik
@@ -17,5 +17,5 @@ This happens when Authentik is redeployed and blueprints ran. The data in DB get
 3. Find account of a `<user>`, and delete it
 4. Log out
 5. Log in as a `<user>` using password
-6. Go to [Social Connections](http://paperless.server.lan/accounts/social/connections/)
+6. Go to [Social Connections](http://paperless.server.lan/accounts/oidc/authentik/login/?process=connect)
 7. Connect account with Authentik

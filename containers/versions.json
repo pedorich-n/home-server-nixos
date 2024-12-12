@@ -2,7 +2,7 @@
   "version": 2,
   "data": {
     "authentik": {
-      "version": "2024.10.4"
+      "version": "2024.10.5"
     },
     "authentik-postgresql": {
       "version": "16.6-alpine"
@@ -27,6 +27,9 @@
     },
     "immich-server": {
       "version": "v1.121.0"
+    },
+    "jellyfin": {
+      "version": "10.10.3"
     },
     "librechat-mongodb": {
       "version": "8.0.3"
@@ -63,6 +66,18 @@
     },
     "portainer": {
       "version": "2.24.0-alpine"
+    },
+    "prowlarr": {
+      "version": "release-1.27.0.4852"
+    },
+    "radarr": {
+      "version": "release-5.15.1.9463"
+    },
+    "sabnzbd": {
+      "version": "4.4.0"
+    },
+    "sonarr": {
+      "version": "release-4.0.11.2680"
     },
     "zigbee2mqtt": {
       "version": "1.41.0"

@@ -126,3 +126,33 @@ source = "container"
 registry = "docker.io"
 container = "portainer/portainer-ce"
 include_regex = "\\d+\\.\\d+\\.\\d+-alpine"
+
+[sabnzbd]
+source = "container"
+registry = "lscr.io"
+container = "linuxserver/sabnzbd"
+include_regex = "\\d+\\.\\d+\\.\\d+"
+
+[prowlarr]
+source = "container"
+registry = "ghcr.io"
+container = "hotio/prowlarr"
+include_regex = "^release-\\d+(.+)?"
+
+[sonarr]
+source = "container"
+registry = "ghcr.io"
+container = "hotio/sonarr"
+include_regex = "^release-\\d+(.+)?"
+
+[radarr]
+source = "container"
+registry = "ghcr.io"
+container = "hotio/radarr"
+include_regex = "^release-\\d+(.+)?"
+
+[jellyfin]
+source = "container"
+registry = "docker.io"
+container = "jellyfin/jellyfin"
+include_regex = "\\d+\\.\\d+\\.\\d+"

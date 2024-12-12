@@ -10,7 +10,7 @@
       };
 
       user = {
-        extraGroups = [ "zigbee" ];
+        extraGroups = [ "zigbee" "render" ];
         shell = pkgs.zsh;
       };
     };

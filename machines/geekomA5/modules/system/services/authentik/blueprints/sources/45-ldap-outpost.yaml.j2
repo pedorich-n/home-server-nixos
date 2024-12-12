@@ -1,0 +1,24 @@
+{% import "global_utils.j2" as global_utils with context %}
+{% set providers = ["Jellyfin"] %}
+version: 1
+metadata:
+  name: ldap-outpost-settings
+  labels:
+    blueprints.goauthentik.io/description: "Create LDAP Outpost"
+entries:
+  - model: authentik_outposts.outpost
+    state: present
+    identifiers:
+      name: ldap-outpost
+    attrs:
+      name: "LDAP Outpost"
+      managed: null
+      type: ldap
+      providers:
+{% for provider in providers %}
+        - !Find [authentik_providers_ldap.ldapprovider, [name, {{ provider }}]]
+{% endfor %}
+      config:
+        authentik_host: {{ global_utils.generate_url("authentik") }}
+        object_naming_template: ak-outpost-%(name)s
+        log_level: info
