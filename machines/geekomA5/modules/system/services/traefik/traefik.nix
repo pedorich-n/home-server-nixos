@@ -1,11 +1,17 @@
 { config, ... }:
 {
-  custom.networking.ports.tcp = {
-    traefik-dashboard = { port = 8080; openFirewall = false; };
-    traefik-ldap = { port = 389; openFirewall = true; };
-    traefik-mqtt = { port = 1883; openFirewall = true; };
-    traefik-web = { port = 80; openFirewall = true; };
-    traefik-metrics = { port = 9100; openFirewall = false; };
+  custom.networking.ports = {
+    tcp = {
+      traefik-dashboard = { port = 8080; openFirewall = false; };
+      traefik-ldap = { port = 389; openFirewall = true; };
+      traefik-mqtt = { port = 1883; openFirewall = true; };
+      traefik-web = { port = 80; openFirewall = true; };
+      traefik-metrics = { port = 9100; openFirewall = false; };
+    };
+    udp = {
+      traefik-jellyfin-service-discovery = { port = 1900; openFirewall = true; };
+      traefik-jellyfin-client-discovery = { port = 7359; openFirewall = true; };
+    };
   };
 
   services.traefik = {
@@ -40,6 +46,9 @@
 
         metrics.address = ":${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
         web.address = ":${config.custom.networking.ports.tcp.traefik-web.portStr}";
+
+        jellyfin-service-discovery.address = ":${config.custom.networking.ports.udp.traefik-jellyfin-service-discovery.portStr}/udp";
+        jellyfin-client-discovery.address = ":${config.custom.networking.ports.udp.traefik-jellyfin-client-discovery.portStr}/udp";
       };
     };
 

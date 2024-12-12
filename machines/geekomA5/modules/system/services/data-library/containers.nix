@@ -128,7 +128,15 @@ in
             (storeFor "jellyfin/cache" "/cache")
             (externalStoreFor "media" "/media")
           ];
-          labels = containerLib.mkTraefikLabels { name = "jellyfin"; port = 8096; };
+          labels = (containerLib.mkTraefikLabels { name = "jellyfin"; port = 8096; }) ++ [
+            "traefik.udp.services.jellyfin-service-discovery.loadBalancer.server.port=1900"
+            "traefik.udp.routers.jellyfin-service-discovery.entrypoints=jellyfin-service-discovery"
+            "traefik.udp.routers.jellyfin-service-discovery.service=jellyfin-service-discovery"
+
+            "traefik.udp.services.jellyfin-client-discovery.loadBalancer.server.port=7359"
+            "traefik.udp.routers.jellyfin-client-discovery.entrypoints=jellyfin-client-discovery"
+            "traefik.udp.routers.jellyfin-client-discovery.service=jellyfin-client-discovery"
+          ];
           inherit networks pod;
         };
 
