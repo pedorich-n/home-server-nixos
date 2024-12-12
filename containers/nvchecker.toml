@@ -127,12 +127,11 @@ registry = "docker.io"
 container = "portainer/portainer-ce"
 include_regex = "\\d+\\.\\d+\\.\\d+-alpine"
 
-
-[nzbget]
+[sabnzbd]
 source = "container"
-registry = "ghcr.io"
-container = "nzbgetcom/nzbget"
-include_regex = "^v\\d+\\.\\d+(\\.\\d+)?"
+registry = "lscr.io"
+container = "linuxserver/sabnzbd"
+include_regex = "\\d+\\.\\d+\\.\\d+"
 
 [prowlarr]
 source = "container"

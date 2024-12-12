@@ -55,9 +55,6 @@
     "nodered": {
       "version": "4.0.5"
     },
-    "nzbget": {
-      "version": "v24.5"
-    },
     "paperless": {
       "version": "2.13.5"
     },
@@ -75,6 +72,9 @@
     },
     "radarr": {
       "version": "release-5.15.1.9463"
+    },
+    "sabnzbd": {
+      "version": "4.4.0"
     },
     "sonarr": {
       "version": "release-4.0.11.2680"

@@ -1,0 +1,4 @@
+{% from "macros/proxy_entry.j2" import proxy_entry with context %}
+{% import "global_utils.j2" as global_utils with context %}
+
+{{ proxy_entry(name="SABnzbd", slug="sabnzbd", application_group=applicationGroups.media, access_group=accessGroups.mediaAdmins) }}

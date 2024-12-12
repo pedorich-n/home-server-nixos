@@ -16,29 +16,31 @@ in
       podConfig = { inherit networks; };
     };
 
-    # TODO: auth
     containers = {
-      nzbget = {
+      sabnzbd = {
         requiresTraefikNetwork = true;
 
         containerConfig = {
-          image = "ghcr.io/nzbgetcom/nzbget:${containerVersions.nzbget}";
-          name = "nzbget";
+          image = "lscr.io/linuxserver/sabnzbd:${containerVersions.sabnzbd}";
+          name = "sabnzbd";
           environments = {
             TZ = "${config.time.timeZone}";
-            PIUD = "1000";
+            PUID = "1000";
             PGID = "1000";
           };
           volumes = [
-            (storeFor "nzbget/config" "/config")
+            (storeFor "sabnzbd/config" "/config")
             (externalStoreFor "downloads/usenet" "/data/downloads/usenet")
           ];
-          labels = containerLib.mkTraefikLabels { name = "nzbget"; port = 6789; };
+          labels = containerLib.mkTraefikLabels {
+            name = "sabnzbd";
+            port = 8080;
+            middlewares = [ "authentik@docker" ];
+          };
           inherit networks pod;
         };
       };
 
-      # TODO: auth
       prowlarr = {
         requiresTraefikNetwork = true;
 
@@ -53,12 +55,15 @@ in
           volumes = [
             (storeFor "prowlarr/config" "/config")
           ];
-          labels = containerLib.mkTraefikLabels { name = "prowlarr"; port = 9696; };
+          labels = containerLib.mkTraefikLabels {
+            name = "prowlarr";
+            port = 9696;
+            middlewares = [ "authentik@docker" ];
+          };
           inherit networks pod;
         };
       };
 
-      # TODO: auth
       sonarr = {
         requiresTraefikNetwork = true;
 
@@ -74,12 +79,15 @@ in
             (storeFor "sonarr/config" "/config")
             (externalStoreFor "" "/data")
           ];
-          labels = containerLib.mkTraefikLabels { name = "sonarr"; port = 8989; };
+          labels = containerLib.mkTraefikLabels {
+            name = "sonarr";
+            port = 8989;
+            middlewares = [ "authentik@docker" ];
+          };
           inherit networks pod;
         };
       };
 
-      # TODO: auth
       radarr = {
         requiresTraefikNetwork = true;
 
@@ -95,7 +103,11 @@ in
             (storeFor "radarr/config" "/config")
             (externalStoreFor "" "/data")
           ];
-          labels = containerLib.mkTraefikLabels { name = "radarr"; port = 7878; };
+          labels = containerLib.mkTraefikLabels {
+            name = "radarr";
+            port = 7878;
+            middlewares = [ "authentik@docker" ];
+          };
           inherit networks pod;
         };
       };
@@ -109,10 +121,7 @@ in
           environments = {
             TZ = "${config.time.timeZone}";
           };
-          healthStartPeriod = "20s";
-          healthTimeout = "5s";
-          healthRetries = 5;
-          notify = "healthy";
+          notify = "healthy"; # This image has working healthcheck already, so I just need to connect it to systemd
           user = "1000:1000";
           devices = [
             # HW Transcoding acceleration. 
