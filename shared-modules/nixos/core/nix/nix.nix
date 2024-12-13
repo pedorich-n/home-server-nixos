@@ -14,7 +14,7 @@ in
 
     gc = {
       automatic = true;
-      dates = lib.mkDefault "*-*-01,15 04:00"; # Two times a month at 04:00
+      dates = lib.mkDefault "*-*-01,15 04:00:00"; # Two times a month at 04:00
       options = lib.mkDefault "--delete-older-than 30d";
     };
 
