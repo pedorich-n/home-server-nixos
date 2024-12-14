@@ -1,4 +1,4 @@
-{ inputs, flake, lib, ... }: {
+{ inputs, flake, ... }: {
   imports = [ inputs.terranix.flakeModule ];
 
   perSystem = { pkgs, ... }:
