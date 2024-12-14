@@ -7,6 +7,13 @@ let
 
   pod = "data-library.pod";
   networks = [ "data-library-internal.network" ];
+
+  mkArrApiTraefikLabels = name: containerLib.mkTraefikLabels {
+    name = "${name}-api";
+    rule = "'Host(`${name}.${config.custom.networking.domain}`) && PathPrefix(`/api/`)'";
+    service = name;
+    priority = 15;
+  };
 in
 {
   virtualisation.quadlet = {
@@ -44,7 +51,7 @@ in
       prowlarr = {
         requiresTraefikNetwork = true;
 
-        containerConfig = {
+        containerConfig = rec {
           image = "ghcr.io/hotio/prowlarr:${containerVersions.prowlarr}";
           name = "prowlarr";
           environments = {
@@ -55,11 +62,12 @@ in
           volumes = [
             (storeFor "prowlarr/config" "/config")
           ];
-          labels = containerLib.mkTraefikLabels {
-            name = "prowlarr";
+          labels = (containerLib.mkTraefikLabels {
+            inherit name;
             port = 9696;
+            priority = 10;
             middlewares = [ "authentik@docker" ];
-          };
+          }) ++ (mkArrApiTraefikLabels name);
           inherit networks pod;
         };
       };
@@ -67,7 +75,7 @@ in
       sonarr = {
         requiresTraefikNetwork = true;
 
-        containerConfig = {
+        containerConfig = rec {
           image = "ghcr.io/hotio/sonarr:${containerVersions.sonarr}";
           name = "sonarr";
           environments = {
@@ -79,11 +87,12 @@ in
             (storeFor "sonarr/config" "/config")
             (externalStoreFor "" "/data")
           ];
-          labels = containerLib.mkTraefikLabels {
-            name = "sonarr";
+          labels = (containerLib.mkTraefikLabels {
+            inherit name;
             port = 8989;
+            priority = 10;
             middlewares = [ "authentik@docker" ];
-          };
+          }) ++ (mkArrApiTraefikLabels name);
           inherit networks pod;
         };
       };
@@ -91,7 +100,7 @@ in
       radarr = {
         requiresTraefikNetwork = true;
 
-        containerConfig = {
+        containerConfig = rec {
           image = "ghcr.io/hotio/radarr:${containerVersions.radarr}";
           name = "radarr";
           environments = {
@@ -103,11 +112,12 @@ in
             (storeFor "radarr/config" "/config")
             (externalStoreFor "" "/data")
           ];
-          labels = containerLib.mkTraefikLabels {
-            name = "radarr";
+          labels = (containerLib.mkTraefikLabels {
+            inherit name;
             port = 7878;
+            priority = 10;
             middlewares = [ "authentik@docker" ];
-          };
+          }) ++ (mkArrApiTraefikLabels name);
           inherit networks pod;
         };
       };
