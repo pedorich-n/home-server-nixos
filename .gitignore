@@ -4,3 +4,6 @@ result
 **/__pycache__
 /pkgs/minecraft-server-check/config.toml
 **/.ruff_cache
+*.env
+**/.terraform
+*.tfstate

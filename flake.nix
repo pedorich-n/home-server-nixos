@@ -70,6 +70,18 @@
       };
     };
 
+    terranix = {
+      url = "github:terranix/terranix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        flake-parts.follows = "flake-parts";
+        systems.follows = "systems";
+        terranix-examples.follows = "";
+        bats-assert.follows = "";
+        bats-support.follows = "";
+      };
+    };
+
     poetry2nix = {
       url = "github:nix-community/poetry2nix";
       inputs = {
