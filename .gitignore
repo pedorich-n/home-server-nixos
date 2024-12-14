@@ -7,3 +7,4 @@ result
 *.env
 **/.terraform
 *.tfstate
+terranix/**/state

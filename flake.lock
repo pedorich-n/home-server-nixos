@@ -554,17 +554,16 @@
         "terranix-examples": []
       },
       "locked": {
+        "dirtyRev": "7734e2ee6a1472807a33ce1e7da794bed2aaf91c-dirty",
+        "dirtyShortRev": "7734e2e-dirty",
         "lastModified": 1728959489,
-        "narHash": "sha256-1Pu2j5xsBTuoyga08ZVf+rKp3FOMmJh/0fXen/idOrA=",
-        "owner": "terranix",
-        "repo": "terranix",
-        "rev": "7734e2ee6a1472807a33ce1e7da794bed2aaf91c",
-        "type": "github"
+        "narHash": "sha256-bGmcAXVDiTWIAlwH1/VptUu6ysiiFihQYhMX0Q3noH0=",
+        "type": "git",
+        "url": "file:///home/pedorich_n/Projects/terranix"
       },
       "original": {
-        "owner": "terranix",
-        "repo": "terranix",
-        "type": "github"
+        "type": "git",
+        "url": "file:///home/pedorich_n/Projects/terranix"
       }
     },
     "tomorrow-theme-source": {

@@ -71,7 +71,8 @@
     };
 
     terranix = {
-      url = "github:terranix/terranix";
+      # url = "github:terranix/terranix";
+      url = "git+file:///home/pedorich_n/Projects/terranix";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         flake-parts.follows = "flake-parts";
