@@ -3,8 +3,8 @@ let
 in
 {
   resource = {
-    "prowlarr_indexer" = {
-      "nzbgeek" = rec {
+    prowlarr_indexer = {
+      nzbgeek = rec {
         app_profile_id = 1; # No idea what this means, but it's `1` for all the indexers I have
         enable = true;
         name = "NZBGeek";
@@ -22,20 +22,20 @@ in
       };
     };
 
-    "prowlarr_application_radarr"."radarr" = {
+    prowlarr_application_radarr.radarr = {
       name = "Radarr";
       sync_level = "fullSync";
       base_url = "http://radarr:7878";
       prowlarr_url = prowlarInternalUrl;
-      api_key = "\${var.radarr_api_key}";
+      api_key = "\${var.arrs[\"radarr\"]}";
     };
 
-    "prowlarr_application_sonarr"."sonarr" = {
+    prowlarr_application_sonarr.sonarr = {
       name = "Sonarr";
       sync_level = "fullSync";
       base_url = "http://sonarr:8989";
       prowlarr_url = prowlarInternalUrl;
-      api_key = "\${var.sonarr_api_key}";
+      api_key = "\${var.arrs[\"sonarr\"]}";
     };
   };
 }
