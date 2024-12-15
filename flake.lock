@@ -520,7 +520,8 @@
         "poetry2nix": "poetry2nix",
         "quadlet-nix": "quadlet-nix",
         "systems": "systems",
-        "terranix": "terranix"
+        "terranix": "terranix",
+        "trash-guides": "trash-guides"
       }
     },
     "systems": {
@@ -554,10 +555,10 @@
         "terranix-examples": []
       },
       "locked": {
-        "dirtyRev": "7734e2ee6a1472807a33ce1e7da794bed2aaf91c-dirty",
-        "dirtyShortRev": "7734e2e-dirty",
-        "lastModified": 1728959489,
-        "narHash": "sha256-bGmcAXVDiTWIAlwH1/VptUu6ysiiFihQYhMX0Q3noH0=",
+        "dirtyRev": "dc7df97e3bcab74ed256d144a85003bb415f2751-dirty",
+        "dirtyShortRev": "dc7df97-dirty",
+        "lastModified": 1734156993,
+        "narHash": "sha256-WEYvaHIIaABhB61k6a8c8wXfw2SLPp8vU6oBoDhps7E=",
         "type": "git",
         "url": "file:///home/pedorich_n/Projects/terranix"
       },
@@ -579,6 +580,22 @@
       "original": {
         "owner": "chriskempson",
         "repo": "tomorrow-theme",
+        "type": "github"
+      }
+    },
+    "trash-guides": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1733918147,
+        "narHash": "sha256-ZX6h3TJmGPq9r1LOHpZjpTeC+N9AIdpYCjuHP54lnMw=",
+        "owner": "TRaSH-Guides",
+        "repo": "Guides",
+        "rev": "d8f501a08bc0621be1d01937ac6ed43e17630bc3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "TRaSH-Guides",
+        "repo": "Guides",
         "type": "github"
       }
     }

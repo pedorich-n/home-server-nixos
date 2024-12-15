@@ -33,7 +33,12 @@
             workdir = "./terranix/arr-stack/state";
 
             modules = [
-              { _module.args.flake = flake; }
+              {
+                _module.args = {
+                  inherit flake;
+                  inherit (inputs) trash-guides;
+                };
+              }
             ] ++ flake.lib.loaders.listFilesRecursively { src = ../terranix/arr-stack; };
           };
         };

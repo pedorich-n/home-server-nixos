@@ -1,5 +1,9 @@
+{ trash-guides, lib, ... }:
 let
   common = import ./_common.nix;
+
+  # https://github.com/TRaSH-Guides/Guides/blob/master/docs/json/radarr/naming/radarr-naming.json
+  naming = lib.importJSON "${trash-guides}/docs/json/radarr/naming/radarr-naming.json";
 in
 {
   resource = {
@@ -15,8 +19,8 @@ in
       rename_movies = true;
       replace_illegal_characters = true;
       colon_replacement_format = "smart";
-      standard_movie_format = "{Movie CleanTitle} {(Release Year)} [tmdbid-{TmdbId}] - {Edition Tags }{[Custom Formats]}{[Quality Full]}{[MediaInfo 3D]}{[MediaInfo VideoDynamicRangeType]}{[Mediainfo AudioCodec}{ Mediainfo AudioChannels]}{[Mediainfo VideoCodec]}{-Release Group}";
-      movie_folder_format = "{Movie CleanTitle} ({Release Year}) [tmdbid-{TmdbId}]";
+      standard_movie_format = naming.file."jellyfin-tmdb";
+      movie_folder_format = naming.folder."jellyfin-tmdb";
     };
 
     # Schema https://registry.terraform.io/providers/devopsarr/radarr/2.3.1/docs/resources/download_client_sabnzbd
