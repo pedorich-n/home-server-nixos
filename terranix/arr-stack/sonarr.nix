@@ -10,19 +10,20 @@ let
 in
 {
   locals = {
-    trash_quality_definitions = qualityDefinitions.qualities;
+    sonarr_qd_trash = qualityDefinitions.qualities;
 
-    existing_definitions_map = "\${{for item in data.sonarr_quality_definitions.main.quality_definitions : item.title => item }}";
+    sonarr_qd_existing = "\${{for item in data.sonarr_quality_definitions.main.quality_definitions : item.title => item }}";
 
-    mapped_definitions = ''''${
-      [ 
-        for quality in local.trash_quality_definitions: {
+    sonarr_qd_trash_mapped = ''''${
+      {
+        for quality in local.sonarr_qd_trash: quality.quality => {
           title = quality.quality
           min_size = quality.min
           max_size = quality.max
-          id = local.existing_definitions_map[quality.quality].id
-        } if contains(keys(local.existing_definitions_map), quality.quality) 
-      ]
+          preferred_size = quality.preferred
+          id = local.sonarr_qd_existing[quality.quality].id
+        } if contains(keys(local.sonarr_qd_existing), quality.quality) 
+      }
     }'';
   };
 
@@ -56,6 +57,17 @@ in
     # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.3.0/docs/resources/download_client_sabnzbd
     sonarr_download_client_sabnzbd .sabnzbd = common.sabnzbdDownloadClient // {
       tv_category = "tv";
+    };
+
+    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.3.0/docs/resources/quality_definition
+    sonarr_quality_definition.trash = {
+      for_each = "\${local.sonarr_qd_trash_mapped}";
+      title = "\${each.value.title}";
+      id = "\${each.value.id}";
+      min_size = "\${each.value.min_size}";
+      max_size = "\${each.value.max_size}";
+      # Not available. See https://github.com/devopsarr/terraform-provider-sonarr/issues/341
+      # preferred_size = "\${each.value.preferred_size}";
     };
   };
 }
