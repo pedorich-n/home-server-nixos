@@ -1,27 +1,47 @@
 let
   prowlarInternalUrl = "http://prowlarr:9696";
+
+  nzbIndexer = args: {
+    enable = true;
+    implementation = "Newznab";
+    config_contract = "NewznabSettings";
+    protocol = "usenet";
+    fields = [
+      { name = "apiPath"; text_value = "/api"; }
+      { name = "apiKey"; sensitive_value = "\${var.indexers[\"${args.name}\"]}"; }
+    ] ++ (args.fields or [ ]);
+  } // (builtins.removeAttrs args [ "fields" ]);
 in
 {
   resource = {
+    # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/indexer
     prowlarr_indexer = {
-      nzbgeek = rec {
-        app_profile_id = 1; # No idea what this means, but it's `1` for all the indexers I have
-        enable = true;
+      nzbgeek = nzbIndexer {
+        app_profile_id = "\${resource.prowlarr_sync_profile.automatic.id}";
         name = "NZBGeek";
-        implementation = "Newznab";
-        config_contract = "NewznabSettings";
-        protocol = "usenet";
         priority = 20;
         fields = [
           { name = "baseUrl"; text_value = "https://api.nzbgeek.info"; }
-          { name = "apiPath"; text_value = "/api"; }
-          { name = "apiKey"; sensitive_value = "\${var.indexers[\"${name}\"]}"; }
           { name = "vipExpiration"; text_value = "2025-06-13"; }
-          { name = "baseSettings.limitsUnit"; number_value = 0; }
+          { name = "baseSettings.limitsUnit"; number_value = 0; } # 0 means Day, 1 means Hour
+        ];
+      };
+
+      nzbfinder = nzbIndexer {
+        app_profile_id = "\${resource.prowlarr_sync_profile.interactive.id}";
+        name = "NZBFinder";
+        priority = 35;
+        fields = [
+          { name = "baseUrl"; text_value = "https://nzbfinder.ws"; }
+          { name = "vipExpiration"; text_value = ""; }
+          { name = "baseSettings.queryLimit"; number_value = 15; }
+          { name = "baseSettings.grabLimit"; number_value = 3; }
+          { name = "baseSettings.limitsUnit"; number_value = 0; } # 0 means Day, 1 means Hour
         ];
       };
     };
 
+    # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/application_radarr
     prowlarr_application_radarr.radarr = {
       name = "Radarr";
       sync_level = "fullSync";
@@ -30,12 +50,33 @@ in
       api_key = "\${var.arrs[\"radarr\"]}";
     };
 
+    # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/application_sonarr
     prowlarr_application_sonarr.sonarr = {
       name = "Sonarr";
       sync_level = "fullSync";
       base_url = "http://sonarr:8989";
       prowlarr_url = prowlarInternalUrl;
       api_key = "\${var.arrs[\"sonarr\"]}";
+    };
+
+    # Schema https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/sync_profile
+    prowlarr_sync_profile = {
+      # As recommended by https://trash-guides.info/Prowlarr/prowlarr-setup-limited-api/
+      automatic = {
+        name = "Automatic";
+        enable_rss = false;
+        enable_automatic_search = true;
+        enable_interactive_search = true;
+        minimum_seeders = 20;
+      };
+
+      interactive = {
+        name = "Interactive";
+        enable_rss = false;
+        enable_automatic_search = false;
+        enable_interactive_search = true;
+        minimum_seeders = 20;
+      };
     };
   };
 }
