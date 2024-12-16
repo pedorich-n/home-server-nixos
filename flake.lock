@@ -555,10 +555,10 @@
         "terranix-examples": []
       },
       "locked": {
-        "dirtyRev": "dc7df97e3bcab74ed256d144a85003bb415f2751-dirty",
-        "dirtyShortRev": "dc7df97-dirty",
-        "lastModified": 1734156993,
-        "narHash": "sha256-WEYvaHIIaABhB61k6a8c8wXfw2SLPp8vU6oBoDhps7E=",
+        "dirtyRev": "7144dea80589c08e944c9c654244d16af5cc947c-dirty",
+        "dirtyShortRev": "7144dea-dirty",
+        "lastModified": 1734346921,
+        "narHash": "sha256-8XTKUEcZmJX6SBqTomXCIzmQqBgPEx6OnTsucYUQFrk=",
         "type": "git",
         "url": "file:///home/pedorich_n/Projects/terranix"
       },
