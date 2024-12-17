@@ -17,13 +17,8 @@ jobs:
         with:
           load_nixConfig: false
 
-      - name: Set up depedencies
-        uses: nicknovitski/nix-develop@v1
-        with:
-          arguments: "./#version-updater"
-
-      - name: Run nvchecker
-        run: nvchecker -c ./containers/nvchecker.toml
+      - name: Update containers
+        run: nix run .#update-containers
 
       - name: Check for changes
         id: git-check
