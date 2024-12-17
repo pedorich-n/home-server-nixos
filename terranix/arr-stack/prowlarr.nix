@@ -1,4 +1,7 @@
+{ lib, ... }:
 let
+  inherit (lib) tfRef;
+
   prowlarInternalUrl = "http://prowlarr:9696";
 
   nzbIndexer = args: {
@@ -8,7 +11,7 @@ let
     protocol = "usenet";
     fields = [
       { name = "apiPath"; text_value = "/api"; }
-      { name = "apiKey"; sensitive_value = "\${var.indexers[\"${args.name}\"]}"; }
+      { name = "apiKey"; sensitive_value = tfRef ''var.indexers["${args.name}"]''; }
     ] ++ (args.fields or [ ]);
   } // (builtins.removeAttrs args [ "fields" ]);
 in
@@ -17,7 +20,7 @@ in
     # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/indexer
     prowlarr_indexer = {
       nzbgeek = nzbIndexer {
-        app_profile_id = "\${resource.prowlarr_sync_profile.automatic.id}";
+        app_profile_id = tfRef "resource.prowlarr_sync_profile.automatic.id";
         name = "NZBGeek";
         priority = 20;
         fields = [
@@ -28,7 +31,7 @@ in
       };
 
       nzbfinder = nzbIndexer {
-        app_profile_id = "\${resource.prowlarr_sync_profile.interactive.id}";
+        app_profile_id = tfRef "resource.prowlarr_sync_profile.interactive.id";
         name = "NZBFinder";
         priority = 35;
         fields = [
@@ -47,7 +50,7 @@ in
       sync_level = "fullSync";
       base_url = "http://radarr:7878";
       prowlarr_url = prowlarInternalUrl;
-      api_key = "\${var.arrs[\"radarr\"]}";
+      api_key = tfRef ''var.arrs["radarr"]'';
     };
 
     # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/application_sonarr
@@ -56,7 +59,7 @@ in
       sync_level = "fullSync";
       base_url = "http://sonarr:8989";
       prowlarr_url = prowlarInternalUrl;
-      api_key = "\${var.arrs[\"sonarr\"]}";
+      api_key = tfRef ''var.arrs["sonarr"]'';
     };
 
     # Schema https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/sync_profile

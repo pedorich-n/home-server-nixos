@@ -1,6 +1,8 @@
 { trash-guides, lib, ... }:
 let
-  common = import ./_common.nix;
+  inherit (lib) tfRef;
+
+  common = import ./_common.nix { inherit lib; };
 
   # https://github.com/TRaSH-Guides/Guides/blob/master/docs/json/sonarr/naming/sonarr-naming.json
   naming = lib.importJSON "${trash-guides}/docs/json/sonarr/naming/sonarr-naming.json";
@@ -12,18 +14,16 @@ in
   locals = {
     sonarr_qd_trash = qualityDefinitions.qualities;
 
-    sonarr_qd_existing = "\${{for item in data.sonarr_quality_definitions.main.quality_definitions : item.title => item }}";
+    sonarr_qd_existing = tfRef "{ for item in data.sonarr_quality_definitions.main.quality_definitions : item.title => item }";
 
-    sonarr_qd_trash_mapped = ''''${
-      {
-        for quality in local.sonarr_qd_trash: quality.quality => {
-          title = quality.quality
-          min_size = quality.min
-          max_size = quality.max
-          preferred_size = quality.preferred
-          id = local.sonarr_qd_existing[quality.quality].id
-        } if contains(keys(local.sonarr_qd_existing), quality.quality) 
-      }
+    sonarr_qd_trash_mapped = tfRef ''{
+      for quality in local.sonarr_qd_trash: quality.quality => {
+        title = quality.quality
+        min_size = quality.min
+        max_size = quality.max
+        preferred_size = quality.preferred
+        id = local.sonarr_qd_existing[quality.quality].id
+      } if contains(keys(local.sonarr_qd_existing), quality.quality) 
     }'';
   };
 
@@ -61,13 +61,13 @@ in
 
     # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.3.0/docs/resources/quality_definition
     sonarr_quality_definition.trash = {
-      for_each = "\${local.sonarr_qd_trash_mapped}";
-      title = "\${each.value.title}";
-      id = "\${each.value.id}";
-      min_size = "\${each.value.min_size}";
-      max_size = "\${each.value.max_size}";
+      for_each = tfRef "local.sonarr_qd_trash_mapped";
+      title = tfRef "each.value.title";
+      id = tfRef "each.value.id";
+      min_size = tfRef "each.value.min_size";
+      max_size = tfRef "each.value.max_size";
       # Not available. See https://github.com/devopsarr/terraform-provider-sonarr/issues/341
-      # preferred_size = "\${each.value.preferred_size}";
+      # preferred_size = tfRef "each.value.preferred_size";
     };
   };
 }

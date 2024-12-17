@@ -1,13 +1,11 @@
-{ flake, lib, ... }:
+{ serverConfig, lib, ... }:
 let
-  serverCfg = flake.nixosConfigurations.geekomA5.config;
-
-  domain = serverCfg.custom.networking.domain;
+  domain = serverConfig.custom.networking.domain;
 
   mkArrProvider = name: {
     ${name} = {
       url = "http://${name}.${domain}";
-      api_key = "\${var.arrs[\"${name}\"]}";
+      api_key = lib.tfRef ''var.arrs["${name}"]'';
     };
   };
 in

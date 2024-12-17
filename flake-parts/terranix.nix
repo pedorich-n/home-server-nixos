@@ -39,7 +39,11 @@
               workdir = "./terranix/tailscale/state";
 
               modules = [
-                { _module.args.flake = flake; }
+                {
+                  _module.args = {
+                    serverConfig = flake.nixosConfigurations.geekomA5.config;
+                  };
+                }
               ] ++ flake.lib.loaders.listFilesRecursively { src = ../terranix/tailscale; };
             };
 
@@ -49,8 +53,8 @@
               modules = [
                 {
                   _module.args = {
-                    inherit flake;
                     inherit (inputs) trash-guides;
+                    serverConfig = flake.nixosConfigurations.geekomA5.config;
                   };
                 }
               ] ++ flake.lib.loaders.listFilesRecursively { src = ../terranix/arr-stack; };

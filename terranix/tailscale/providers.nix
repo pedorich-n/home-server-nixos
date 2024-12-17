@@ -1,5 +1,6 @@
+{ lib, ... }:
 {
   provider."tailscale" = {
-    api_key = "\${var.tailscale_api_key}";
+    api_key = lib.tfRef "var.tailscale_api_key";
   };
 }

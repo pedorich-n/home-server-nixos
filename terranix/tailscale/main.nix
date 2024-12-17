@@ -1,9 +1,9 @@
-{ flake, ... }:
+{ serverConfig, lib, ... }:
 let
-  serverCfg = flake.nixosConfigurations.geekomA5.config;
+  inherit (lib) tfRef;
 
-  hostname = serverCfg.networking.hostName;
-  domain = serverCfg.custom.networking.domain;
+  hostname = serverConfig.networking.hostName;
+  domain = serverConfig.custom.networking.domain;
 in
 {
   data = {
@@ -25,12 +25,12 @@ in
     # Schema https://registry.terraform.io/providers/tailscale/tailscale/0.17.2/docs/resources/dns_split_nameservers
     "tailscale_dns_split_nameservers"."server" = {
       inherit domain;
-      nameservers = "\${data.tailscale_device.server.addresses}";
+      nameservers = tfRef "data.tailscale_device.server.addresses";
     };
 
     # Schema https://registry.terraform.io/providers/tailscale/tailscale/0.17.2/docs/resources/device_key
     "tailscale_device_key"."server" = {
-      device_id = "\${data.tailscale_device.server.id}";
+      device_id = tfRef "data.tailscale_device.server.id";
       key_expiry_disabled = true;
     };
 
