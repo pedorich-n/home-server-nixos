@@ -114,7 +114,7 @@ in
           }) ++
           (containerLib.mkTraefikLabels {
             name = "${name}-hooks";
-            rule = "Host(`${name}.${config.custom.networking.domain}`) && PathPrefix(`/api/webhook/`)";
+            rule = "'Host(`${name}.${config.custom.networking.domain}`) && PathPrefix(`/api/webhook/`)'";
             service = name;
             priority = 15;
           });

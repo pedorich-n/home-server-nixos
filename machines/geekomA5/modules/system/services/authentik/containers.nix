@@ -135,7 +135,7 @@ in
             priority = 10;
           }) ++ (containerLib.mkTraefikLabels {
             name = "authentik-outpost";
-            rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.${config.custom.networking.domain}`) && PathPrefix(`/outpost.goauthentik.io/`)";
+            rule = "'HostRegexp(`{subdomain:[a-z0-9-]+}.${config.custom.networking.domain}`) && PathPrefix(`/outpost.goauthentik.io/`)'";
             service = "authentik";
             priority = 15;
           }) ++ [

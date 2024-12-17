@@ -519,7 +519,9 @@
         "playit-nixos-module": "playit-nixos-module",
         "poetry2nix": "poetry2nix",
         "quadlet-nix": "quadlet-nix",
-        "systems": "systems"
+        "systems": "systems",
+        "terranix": "terranix",
+        "trash-guides": "trash-guides"
       }
     },
     "systems": {
@@ -537,6 +539,36 @@
         "type": "github"
       }
     },
+    "terranix": {
+      "inputs": {
+        "bats-assert": [],
+        "bats-support": [],
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "systems": [
+          "systems"
+        ],
+        "terranix-examples": []
+      },
+      "locked": {
+        "lastModified": 1734441080,
+        "narHash": "sha256-8XTKUEcZmJX6SBqTomXCIzmQqBgPEx6OnTsucYUQFrk=",
+        "owner": "pedorich-n",
+        "repo": "terranix",
+        "rev": "eda482813dce03b711a49de3bde5aee12461eee5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pedorich-n",
+        "ref": "local-merged",
+        "repo": "terranix",
+        "type": "github"
+      }
+    },
     "tomorrow-theme-source": {
       "flake": false,
       "locked": {
@@ -550,6 +582,22 @@
       "original": {
         "owner": "chriskempson",
         "repo": "tomorrow-theme",
+        "type": "github"
+      }
+    },
+    "trash-guides": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1733918147,
+        "narHash": "sha256-ZX6h3TJmGPq9r1LOHpZjpTeC+N9AIdpYCjuHP54lnMw=",
+        "owner": "TRaSH-Guides",
+        "repo": "Guides",
+        "rev": "d8f501a08bc0621be1d01937ac6ed43e17630bc3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "TRaSH-Guides",
+        "repo": "Guides",
         "type": "github"
       }
     }

@@ -70,6 +70,20 @@
       };
     };
 
+    terranix = {
+      # url = "github:terranix/terranix";
+      url = "github:pedorich-n/terranix/local-merged";
+      # url = "git+file:///home/pedorich_n/Projects/terranix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        flake-parts.follows = "flake-parts";
+        systems.follows = "systems";
+        terranix-examples.follows = "";
+        bats-assert.follows = "";
+        bats-support.follows = "";
+      };
+    };
+
     poetry2nix = {
       url = "github:nix-community/poetry2nix";
       inputs = {
@@ -156,6 +170,11 @@
       };
     };
 
+
+    trash-guides = {
+      url = "github:TRaSH-Guides/Guides";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ flake-parts, systems, ... }: flake-parts.lib.mkFlake { inherit inputs; } ({ lib, ... }: {
