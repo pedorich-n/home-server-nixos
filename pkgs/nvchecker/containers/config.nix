@@ -170,8 +170,15 @@ let
       oldver = "oldver.json";
 
       # nvchecker resolves env variables: https://github.com/lilydjwg/nvchecker/blob/d44a50c/nvchecker/core.py#L207-L208 
-      newver = "\${TARGET}/versions.json";
+      newver = "\${TARGET}/output.json";
     };
   } // containers;
+
+
+  cleanedContainers = lib.mapAttrs (_: container: lib.filterAttrs (name: _: builtins.elem name [ "registry" "container" ]) container) containers;
 in
-pkgs.writers.writeTOML "nvchecker-containers.toml" config
+{
+  nvcheckerToml = pkgs.writers.writeTOML "nvchecker-containers.toml" config;
+  containersJson = pkgs.writers.writeJSON "containers.json" cleanedContainers;
+}
+

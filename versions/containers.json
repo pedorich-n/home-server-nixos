@@ -1,0 +1,137 @@
+{
+  "authentik": {
+    "container": "goauthentik/server",
+    "registry": "ghcr.io",
+    "version": "2024.10.5"
+  },
+  "authentik-postgresql": {
+    "container": "library/postgres",
+    "registry": "docker.io",
+    "version": "16.6-alpine"
+  },
+  "authentik-redis": {
+    "container": "library/redis",
+    "registry": "docker.io",
+    "version": "7.4.1-alpine"
+  },
+  "grist": {
+    "container": "gristlabs/grist",
+    "registry": "docker.io",
+    "version": "1.3.2"
+  },
+  "homeassistant": {
+    "container": "homeassistant/home-assistant",
+    "registry": "docker.io",
+    "version": "2024.12.4"
+  },
+  "homeassistant-mariadb": {
+    "container": "library/mariadb",
+    "registry": "docker.io",
+    "version": "11.6.2"
+  },
+  "homeassistant-postgresql": {
+    "container": "library/postgres",
+    "registry": "docker.io",
+    "version": "16.6-alpine"
+  },
+  "immich-machine-learning": {
+    "container": "immich-app/immich-machine-learning",
+    "registry": "ghcr.io",
+    "version": "v1.123.0"
+  },
+  "immich-server": {
+    "container": "immich-app/immich-server",
+    "registry": "ghcr.io",
+    "version": "v1.123.0"
+  },
+  "jellyfin": {
+    "container": "jellyfin/jellyfin",
+    "registry": "docker.io",
+    "version": "10.10.3"
+  },
+  "librechat-mongodb": {
+    "container": "library/mongo",
+    "registry": "docker.io",
+    "version": "8.0.4"
+  },
+  "librechat-rag": {
+    "container": "danny-avila/librechat-rag-api-dev-lite",
+    "registry": "ghcr.io",
+    "version": "v0.3.0"
+  },
+  "librechat-server": {
+    "container": "danny-avila/librechat",
+    "registry": "ghcr.io",
+    "version": "v0.7.5"
+  },
+  "librechat-vector": {
+    "container": "ankane/pgvector",
+    "registry": "docker.io",
+    "version": "v0.5.1"
+  },
+  "maloja": {
+    "container": "krateng/maloja",
+    "registry": "docker.io",
+    "version": "3.2.2"
+  },
+  "mosquitto": {
+    "container": "library/eclipse-mosquitto",
+    "registry": "docker.io",
+    "version": "2.0.20"
+  },
+  "multi-scrobbler": {
+    "container": "foxxmd/multi-scrobbler",
+    "registry": "docker.io",
+    "version": "0.8.8"
+  },
+  "nodered": {
+    "container": "nodered/node-red",
+    "registry": "docker.io",
+    "version": "4.0.6"
+  },
+  "paperless": {
+    "container": "paperless-ngx/paperless-ngx",
+    "registry": "ghcr.io",
+    "version": "2.13.5"
+  },
+  "paperless-postgresql": {
+    "container": "library/postgres",
+    "registry": "docker.io",
+    "version": "16.6-alpine"
+  },
+  "paperless-redis": {
+    "container": "library/redis",
+    "registry": "docker.io",
+    "version": "7.4.1-alpine"
+  },
+  "portainer": {
+    "container": "portainer/portainer-ce",
+    "registry": "docker.io",
+    "version": "2.25.0"
+  },
+  "prowlarr": {
+    "container": "hotio/prowlarr",
+    "registry": "ghcr.io",
+    "version": "release-1.28.2.4885"
+  },
+  "radarr": {
+    "container": "hotio/radarr",
+    "registry": "ghcr.io",
+    "version": "release-5.16.3.9541"
+  },
+  "sabnzbd": {
+    "container": "linuxserver/sabnzbd",
+    "registry": "lscr.io",
+    "version": "4.4.0"
+  },
+  "sonarr": {
+    "container": "hotio/sonarr",
+    "registry": "ghcr.io",
+    "version": "release-4.0.11.2680"
+  },
+  "zigbee2mqtt": {
+    "container": "koenkk/zigbee2mqtt",
+    "registry": "docker.io",
+    "version": "1.42.0"
+  }
+}
