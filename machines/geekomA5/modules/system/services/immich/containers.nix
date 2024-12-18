@@ -1,7 +1,5 @@
 { config, containerLib, systemdLib, ... }:
 let
-  containerVersions = config.custom.containers.versions;
-
   storeFor = localPath: remotePath: "/mnt/store/immich/${localPath}:${remotePath}";
 
   cacheVolumes = [
@@ -69,9 +67,8 @@ in
       };
 
       immich-machine-learning = {
+        useGlobalContainers = true;
         containerConfig = {
-          image = "ghcr.io/immich-app/immich-machine-learning:${containerVersions.immich-machine-learning}";
-          name = "immich-machine-learning";
           volumes = [
             (storeFor "cache/machine-learning" "/cache")
           ];
@@ -89,10 +86,9 @@ in
       immich-server = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
+        useGlobalContainers = true;
 
         containerConfig = {
-          image = "ghcr.io/immich-app/immich-server:${containerVersions.immich-server}";
-          name = "immich-server";
           environments = sharedEnvs;
           environmentFiles = [ config.age.secrets.immich.path ];
           devices = [

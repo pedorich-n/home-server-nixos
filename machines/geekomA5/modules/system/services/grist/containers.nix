@@ -1,17 +1,14 @@
 { config, containerLib, authentikLib, ... }:
 let
-  containerVersions = config.custom.containers.versions;
-
   storeFor = localPath: remotePath: "/mnt/store/grist/${localPath}:${remotePath}";
 in
 {
   virtualisation.quadlet.containers.grist = {
     requiresTraefikNetwork = true;
     wantsAuthentik = true;
+    useGlobalContainers = true;
 
-    containerConfig = rec {
-      image = "gristlabs/grist:${containerVersions.grist}";
-      name = "grist";
+    containerConfig = {
       environments = rec {
         GRIST_DOMAIN = "grist.${config.custom.networking.domain}";
         APP_HOME_URL = "http://${GRIST_DOMAIN}";
@@ -27,7 +24,7 @@ in
       volumes = [
         (storeFor "persist" "/persist")
       ];
-      labels = containerLib.mkTraefikLabels { inherit name; port = 8484; };
+      labels = containerLib.mkTraefikLabels { name = "grist"; port = 8484; };
     };
   };
 

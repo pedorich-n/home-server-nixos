@@ -1,7 +1,5 @@
 { config, containerLib, authentikLib, systemdLib, ... }:
 let
-  containerVersions = config.custom.containers.versions;
-
   storeFor = localPath: remotePath: "/mnt/store/librechat/${localPath}:${remotePath}";
 
   envs = {
@@ -24,9 +22,8 @@ in
 
     containers = {
       librechat-vectordb = {
+        useGlobalContainers = true;
         containerConfig = {
-          image = "ankane/pgvector:${containerVersions.librechat-vector}";
-          name = "librechat-vectordb";
           volumes = [
             (storeFor "vectordb" "/var/lib/postgresql/data")
           ];
@@ -37,9 +34,8 @@ in
       };
 
       librechat-mongodb = {
+        useGlobalContainers = true;
         containerConfig = {
-          image = "mongo:${containerVersions.librechat-mongodb}";
-          name = "librechat-mongodb";
           exec = "mongod --noauth";
           volumes = [
             (storeFor "mongodb" "/data/db")
@@ -49,9 +45,8 @@ in
       };
 
       librechat-rag = {
+        useGlobalContainers = true;
         containerConfig = {
-          image = "ghcr.io/danny-avila/librechat-rag-api-dev-lite:${containerVersions.librechat-rag}";
-          name = "librechat-rag";
           environments = {
             VECTOR_DB_TYPE = "pgvector";
             DB_HOST = "librechat-vectordb";
@@ -68,10 +63,9 @@ in
       librechat-server = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
+        useGlobalContainers = true;
 
         containerConfig = containerLib.withAlpineHostsFix {
-          image = "ghcr.io/danny-avila/librechat:${containerVersions.librechat-server}";
-          name = "librechat-server";
           # See https://github.com/danny-avila/LibreChat/discussions/572#discussioncomment-7352331
           exec = "npm run backend:dev";
           # user = userSetting;

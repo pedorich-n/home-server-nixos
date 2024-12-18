@@ -1,7 +1,5 @@
 { config, containerLib, systemdLib, ... }:
 let
-  containerVersions = config.custom.containers.versions;
-
   storeFor = localPath: remotePath: "/mnt/store/paperless/${localPath}:${remotePath}";
   externalStoreFor = localPath: remotePath: "/mnt/external/paperless-library/${localPath}:${remotePath}";
 
@@ -18,9 +16,9 @@ in
 
     containers = {
       paperless-redis = {
+        useGlobalContainers = true;
+
         containerConfig = {
-          image = "docker.io/library/redis:${containerVersions.paperless-redis}";
-          name = "paperless-redis";
           volumes = [
             (storeFor "redis" "/data")
           ];
@@ -29,9 +27,8 @@ in
       };
 
       paperless-postgresql = {
+        useGlobalContainers = true;
         containerConfig = {
-          image = "docker.io/library/postgres:${containerVersions.paperless-postgresql}";
-          name = "paperless-postgresql";
           environmentFiles = [ config.age.secrets.paperless.path ];
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
@@ -43,10 +40,9 @@ in
       paperless-server = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
+        useGlobalContainers = true;
 
         containerConfig = {
-          image = "ghcr.io/paperless-ngx/paperless-ngx:${containerVersions.paperless}";
-          name = "paperless-server";
           environments = {
             PAPERLESS_DBHOST = "paperless-postgresql";
             PAPERLESS_DBENGINE = "postgres";
