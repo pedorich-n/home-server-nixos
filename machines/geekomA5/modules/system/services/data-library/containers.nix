@@ -1,7 +1,5 @@
 { config, lib, containerLib, ... }:
 let
-  containerVersions = config.custom.containers.versions;
-
   storeFor = localPath: remotePath: "/mnt/store/data-library/${localPath}:${remotePath}";
   externalStoreFor = localPath: remotePath: ''/mnt/external/data-library${if (localPath != "") then "/${localPath}" else ""}:${remotePath}'';
 
@@ -26,10 +24,9 @@ in
     containers = {
       sabnzbd = {
         requiresTraefikNetwork = true;
+        useGlobalContainers = true;
 
         containerConfig = {
-          image = "lscr.io/linuxserver/sabnzbd:${containerVersions.sabnzbd}";
-          name = "sabnzbd";
           environments = {
             TZ = "${config.time.timeZone}";
             PUID = "1000";
@@ -50,10 +47,9 @@ in
 
       prowlarr = {
         requiresTraefikNetwork = true;
+        useGlobalContainers = true;
 
-        containerConfig = rec {
-          image = "ghcr.io/hotio/prowlarr:${containerVersions.prowlarr}";
-          name = "prowlarr";
+        containerConfig = {
           environments = {
             TZ = "${config.time.timeZone}";
             PIUD = "1000";
@@ -63,21 +59,20 @@ in
             (storeFor "prowlarr/config" "/config")
           ];
           labels = (containerLib.mkTraefikLabels {
-            inherit name;
+            name = "prowlarr";
             port = 9696;
             priority = 10;
             middlewares = [ "authentik@docker" ];
-          }) ++ (mkArrApiTraefikLabels name);
+          }) ++ (mkArrApiTraefikLabels "prowlarr");
           inherit networks pod;
         };
       };
 
       sonarr = {
         requiresTraefikNetwork = true;
+        useGlobalContainers = true;
 
-        containerConfig = rec {
-          image = "ghcr.io/hotio/sonarr:${containerVersions.sonarr}";
-          name = "sonarr";
+        containerConfig = {
           environments = {
             TZ = "${config.time.timeZone}";
             PIUD = "1000";
@@ -88,21 +83,20 @@ in
             (externalStoreFor "" "/data")
           ];
           labels = (containerLib.mkTraefikLabels {
-            inherit name;
+            name = "sonarr";
             port = 8989;
             priority = 10;
             middlewares = [ "authentik@docker" ];
-          }) ++ (mkArrApiTraefikLabels name);
+          }) ++ (mkArrApiTraefikLabels "sonarr");
           inherit networks pod;
         };
       };
 
       radarr = {
         requiresTraefikNetwork = true;
+        useGlobalContainers = true;
 
-        containerConfig = rec {
-          image = "ghcr.io/hotio/radarr:${containerVersions.radarr}";
-          name = "radarr";
+        containerConfig = {
           environments = {
             TZ = "${config.time.timeZone}";
             PIUD = "1000";
@@ -113,21 +107,20 @@ in
             (externalStoreFor "" "/data")
           ];
           labels = (containerLib.mkTraefikLabels {
-            inherit name;
+            name = "radarr";
             port = 7878;
             priority = 10;
             middlewares = [ "authentik@docker" ];
-          }) ++ (mkArrApiTraefikLabels name);
+          }) ++ (mkArrApiTraefikLabels "radarr");
           inherit networks pod;
         };
       };
 
       jellyfin = {
         requiresTraefikNetwork = true;
+        useGlobalContainers = true;
 
         containerConfig = {
-          image = "docker.io/jellyfin/jellyfin:${containerVersions.jellyfin}";
-          name = "jellyfin";
           environments = {
             TZ = "${config.time.timeZone}";
           };

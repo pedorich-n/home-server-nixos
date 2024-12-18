@@ -115,7 +115,7 @@ let
       container = "danny-avila/librechat-rag-api-dev-lite";
     };
 
-    librechat-vector = registries.docker {
+    librechat-vectordb = registries.docker {
       container = "ankane/pgvector";
     };
 

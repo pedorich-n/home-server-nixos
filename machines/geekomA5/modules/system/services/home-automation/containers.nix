@@ -1,7 +1,5 @@
 { config, pkgs, containerLib, systemdLib, ... }:
 let
-  containerVersions = config.custom.containers.versions;
-
   userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
 
   storeFor = localPath: remotePath: "/mnt/store/home-automation/${localPath}:${remotePath}";
@@ -24,10 +22,9 @@ in
     containers = {
       mosquitto = {
         requiresTraefikNetwork = true;
+        useGlobalContainers = true;
 
         containerConfig = {
-          image = "eclipse-mosquitto:${containerVersions.mosquitto}";
-          name = "mosquitto";
           volumes = [
             "${configs.mosquitto}:/mosquitto/config/mosquitto.conf:ro"
             "${config.age.secrets.mosquitto_passwords.path}:/mosquitto/config/passwords.txt:ro"
@@ -48,10 +45,9 @@ in
 
       zigbee2mqtt = {
         requiresTraefikNetwork = true;
+        useGlobalContainers = true;
 
-        containerConfig = rec {
-          image = "koenkk/zigbee2mqtt:${containerVersions.zigbee2mqtt}";
-          name = "zigbee2mqtt";
+        containerConfig = {
           environments = {
             TZ = "${config.time.timeZone}";
           };
@@ -64,7 +60,7 @@ in
           devices = [ "/dev/ttyUSB0:/dev/ttyZigbee" ];
           # user = userSetting;
           labels = containerLib.mkTraefikLabels {
-            inherit name;
+            name = "mosquitto";
             port = 8080;
             middlewares = [ "authentik@docker" ];
           };
@@ -75,9 +71,8 @@ in
       };
 
       homeassistant-postgresql = {
+        useGlobalContainers = true;
         containerConfig = {
-          image = "docker.io/library/postgres:${containerVersions.homeassistant-postgresql}";
-          name = "homeassistant-postgresql";
           environmentFiles = [ config.age.secrets.ha_postgres.path ];
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
@@ -87,12 +82,11 @@ in
       };
 
       homeassistant = {
+        useGlobalContainers = true;
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
-        containerConfig = rec {
-          image = "homeassistant/home-assistant:${containerVersions.homeassistant}";
-          name = "homeassistant";
+        containerConfig = {
           environments = {
             TZ = "${config.time.timeZone}";
           };
@@ -107,15 +101,15 @@ in
             "${config.age.secrets.ha_secrets.path}:/config/secrets.yaml"
           ];
           labels = (containerLib.mkTraefikLabels {
-            inherit name;
+            name = "homeassistant";
             port = 80;
             priority = 10;
             middlewares = [ "authentik@docker" ];
           }) ++
           (containerLib.mkTraefikLabels {
-            name = "${name}-hooks";
-            rule = "'Host(`${name}.${config.custom.networking.domain}`) && PathPrefix(`/api/webhook/`)'";
-            service = name;
+            name = "homeassistant-hooks";
+            rule = "'Host(`homeassistant.${config.custom.networking.domain}`) && PathPrefix(`/api/webhook/`)'";
+            service = "homeassistant";
             priority = 15;
           });
           inherit networks pod;
@@ -132,10 +126,9 @@ in
       nodered = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
+        useGlobalContainers = true;
 
-        containerConfig = rec {
-          image = "nodered/node-red:${containerVersions.nodered}";
-          name = "nodered";
+        containerConfig = {
           environments = {
             TZ = "${config.time.timeZone}";
             NODE_RED_ENABLE_PROJECTS = "true";
@@ -145,7 +138,7 @@ in
             (storeFor "nodered" "/data")
           ];
           labels = containerLib.mkTraefikLabels {
-            inherit name;
+            name = "nodered";
             port = 1880;
             middlewares = [ "authentik@docker" ];
           };

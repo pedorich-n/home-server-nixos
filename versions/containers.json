@@ -74,7 +74,7 @@
     "registry": "ghcr.io",
     "version": "v0.7.5"
   },
-  "librechat-vector": {
+  "librechat-vectordb": {
     "container": "ankane/pgvector",
     "registry": "docker.io",
     "version": "v0.5.1"
