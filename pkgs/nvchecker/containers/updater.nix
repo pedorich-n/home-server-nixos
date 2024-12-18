@@ -29,7 +29,7 @@ pkgs.writeShellApplication {
     jq '.data' "''${TARGET}/output.json" > "''${VERSIONS}"
 
     ROOT="$(git rev-parse --show-toplevel)"
-    RESULT="''${ROOT}/containers/containers.json"
+    RESULT="''${ROOT}/versions/containers.json"
 
     jq --slurp 'reduce .[] as $item ({}; . * $item)' "${config.containersJson}" "''${VERSIONS}" > "''${RESULT}"
     echo "Stored result in ''${RESULT}"

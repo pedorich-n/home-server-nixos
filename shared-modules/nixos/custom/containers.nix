@@ -20,7 +20,7 @@ in
 
   ###### interface
   options = with lib; {
-    custom.new-containers = mkOption {
+    custom.containers = mkOption {
       type = with types; attrsOf containerSubmodule;
       readOnly = true;
     };
@@ -28,6 +28,6 @@ in
 
   ###### implementation
   config = {
-    custom.new-containers = lib.importJSON "${flake}/versions/containers.json";
+    custom.containers = lib.importJSON "${flake}/versions/containers.json";
   };
 }

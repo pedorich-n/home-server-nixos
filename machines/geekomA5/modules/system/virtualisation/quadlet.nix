@@ -2,7 +2,7 @@
 let
   mkImage = name:
     let
-      container = config.custom.new-containers.${name} or (builtins.throw "Can't find container info for '${name}'");
+      container = config.custom.containers.${name} or (builtins.throw "Can't find container info for '${name}'");
     in
     "${container.registry}/${container.container}:${container.version}";
 in
