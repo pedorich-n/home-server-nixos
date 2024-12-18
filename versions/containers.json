@@ -1,6 +1,6 @@
 {
-  "authentik": {
-    "container": "goauthentik/server",
+  "authentik-ldap": {
+    "container": "goauthentik/ldap",
     "registry": "ghcr.io",
     "version": "2024.10.5"
   },
@@ -13,6 +13,16 @@
     "container": "library/redis",
     "registry": "docker.io",
     "version": "7.4.1-alpine"
+  },
+  "authentik-server": {
+    "container": "goauthentik/server",
+    "registry": "ghcr.io",
+    "version": "2024.10.5"
+  },
+  "authentik-worker": {
+    "container": "goauthentik/server",
+    "registry": "ghcr.io",
+    "version": "2024.10.5"
   },
   "grist": {
     "container": "gristlabs/grist",
@@ -79,7 +89,7 @@
     "registry": "docker.io",
     "version": "2.0.20"
   },
-  "multi-scrobbler": {
+  "multiscrobbler": {
     "container": "foxxmd/multi-scrobbler",
     "registry": "docker.io",
     "version": "0.8.8"
@@ -89,7 +99,7 @@
     "registry": "docker.io",
     "version": "4.0.6"
   },
-  "paperless": {
+  "paperless-server": {
     "container": "paperless-ngx/paperless-ngx",
     "registry": "ghcr.io",
     "version": "2.13.5"

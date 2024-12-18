@@ -1,7 +1,5 @@
 { config, containerLib, pkgs, ... }:
 let
-  containerVersions = config.custom.containers.versions;
-
   storeFor = localPath: remotePath: "/mnt/store/music-history/${localPath}:${remotePath}";
 
   malojaArtistRules = pkgs.callPackage ./maloja/_artist-rules.nix { };
@@ -21,14 +19,13 @@ in
       multiscrobbler = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
+        useGlobalContainers = true;
 
-        containerConfig = rec {
-          image = "ghcr.io/foxxmd/multi-scrobbler:${containerVersions.multi-scrobbler}";
-          name = "multiscrobbler";
+        containerConfig = {
           environments = {
             TZ = config.time.timeZone;
 
-            BASE_URL = "http://${name}.${config.custom.networking.domain}:80";
+            BASE_URL = "http://multiscrobbler.${config.custom.networking.domain}:80";
 
             LOG_LEVEL = "debug";
           };
@@ -39,7 +36,7 @@ in
             "${./multi-scrobbler/webscrobbler.json}:/config/webscrobbler.json"
           ];
           labels = containerLib.mkTraefikLabels {
-            inherit name;
+            name = "multiscrobbler";
             port = 9078;
             middlewares = [ "authentik@docker" ];
           };
@@ -50,10 +47,9 @@ in
       maloja = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
+        useGlobalContainers = true;
 
-        containerConfig = rec {
-          image = "krateng/maloja:${containerVersions.maloja}";
-          name = "maloja";
+        containerConfig = {
           environments = {
             MALOJA_SKIP_SETUP = "true";
             MALOJA_SEND_STATS = "false";
@@ -69,7 +65,7 @@ in
             "${config.age.secrets.maloja_apikeys.path}:/data/apikeys.yml"
           ];
           labels = containerLib.mkTraefikLabels {
-            inherit name;
+            name = "maloja";
             port = 42010;
             middlewares = [ "authentik@docker" ];
           };

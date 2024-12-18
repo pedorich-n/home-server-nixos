@@ -1,124 +1,125 @@
 { pkgs, lib, ... }:
 let
   regexes = {
-    include = {
-      # Matches 1.2.3, v1.2.3, 2024.1.1, etc.
-      semverLike = "^v?\\d+\\.\\d+\\.\\d+";
-      # Matches release-1.2.3.4
-      arrStack = "^release-\\d+\\.\\d+\\.\\d+\\.\\d+$";
-    };
+    # Matches 1.2.3, v1.2.3, 2024.1.1, etc.
+    semverLike = "^v?\\d+\\.\\d+\\.\\d+";
 
-    exclude = {
-      rc = ".*rc.*";
-    };
+    rc = ".*rc.*";
   };
 
+
+  registries =
+    let
+      mkWithRegistry = registry: config: { inherit registry; } // config;
+    in
+    {
+      ghcr = mkWithRegistry "ghcr.io";
+      docker = mkWithRegistry "docker.io";
+      lscr = mkWithRegistry "lscr.io";
+    };
+
   reusedContainers = {
-    postgres16 = {
-      registry = "docker.io";
+    postgres16 = registries.docker {
       container = "library/postgres";
       include_regex = "^16\\.\\d+-alpine$";
     };
 
-    redis7 = {
-      registry = "docker.io";
+    redis7 = registries.docker {
       container = "library/redis";
       include_regex = "^7\\.\\d+\\.\\d+-alpine";
     };
   };
 
-  containers = lib.mapAttrs (_: cfg: { source = "container"; } // cfg) {
-    authentik = {
-      registry = "ghcr.io";
-      container = "goauthentik/server";
-      exclude_regex = regexes.exclude.rc;
+  makers = {
+    mkAuthentik = name: registries.ghcr {
+      container = "goauthentik/${name}";
+      exclude_regex = regexes.rc;
     };
+
+    mkArr = name: registries.ghcr {
+      container = "hotio/${name}";
+      # Matches release-1.2.3.4
+      include_regex = "^release-\\d+\\.\\d+\\.\\d+\\.\\d+$";
+    };
+  };
+
+  containers = {
+    authentik-server = makers.mkAuthentik "server";
+
+    authentik-worker = makers.mkAuthentik "server";
+
+    authentik-ldap = makers.mkAuthentik "ldap";
 
     authentik-postgresql = reusedContainers.postgres16;
 
     authentik-redis = reusedContainers.redis7;
 
-    grist = {
-      registry = "docker.io";
+    grist = registries.docker {
       container = "gristlabs/grist";
     };
 
-    mosquitto = {
-      registry = "docker.io";
+    mosquitto = registries.docker {
       container = "library/eclipse-mosquitto";
     };
 
-    zigbee2mqtt = {
-      registry = "docker.io";
+    zigbee2mqtt = registries.docker {
       container = "koenkk/zigbee2mqtt";
     };
 
-    nodered = {
-      registry = "docker.io";
+    nodered = registries.docker {
       container = "nodered/node-red";
-      include_regex = regexes.include.semverLike;
+      include_regex = regexes.semverLike;
     };
 
-    homeassistant-mariadb = {
-      registry = "docker.io";
+    homeassistant-mariadb = registries.docker {
       container = "library/mariadb";
-      exclude_regex = regexes.exclude.rc;
+      exclude_regex = regexes.rc;
     };
 
-    homeassistant = {
-      registry = "docker.io";
+    homeassistant = registries.docker {
       container = "homeassistant/home-assistant";
-      include_regex = regexes.include.semverLike;
+      include_regex = regexes.semverLike;
     };
 
     homeassistant-postgresql = reusedContainers.postgres16;
 
-    immich-server = {
-      registry = "ghcr.io";
+    immich-server = registries.ghcr {
       container = "immich-app/immich-server";
-      include_regex = regexes.include.semverLike;
+      include_regex = regexes.semverLike;
     };
 
-    immich-machine-learning = {
-      registry = "ghcr.io";
+    immich-machine-learning = registries.ghcr {
       container = "immich-app/immich-machine-learning";
-      include_regex = regexes.include.semverLike;
+      include_regex = regexes.semverLike;
     };
 
-    multi-scrobbler = {
-      registry = "docker.io";
+    multiscrobbler = registries.docker {
       container = "foxxmd/multi-scrobbler";
     };
 
-    maloja = {
-      registry = "docker.io";
+    maloja = registries.docker {
       container = "krateng/maloja";
     };
 
-    librechat-mongodb = {
-      registry = "docker.io";
+    librechat-mongodb = registries.docker {
       container = "library/mongo";
-      exclude_regex = regexes.exclude.rc;
+      exclude_regex = regexes.rc;
     };
 
-    librechat-server = {
-      registry = "ghcr.io";
+    librechat-server = registries.ghcr {
       container = "danny-avila/librechat";
-      exclude_regex = regexes.exclude.rc;
+      exclude_regex = regexes.rc;
     };
 
-    librechat-rag = {
-      registry = "ghcr.io";
+    librechat-rag = registries.ghcr {
       container = "danny-avila/librechat-rag-api-dev-lite";
     };
 
-    librechat-vector = {
-      registry = "docker.io";
+    librechat-vector = registries.docker {
       container = "ankane/pgvector";
     };
 
-    paperless = {
-      registry = "ghcr.io";
+    paperless-server = registries.ghcr {
       container = "paperless-ngx/paperless-ngx";
     };
 
@@ -126,40 +127,25 @@ let
 
     paperless-redis = reusedContainers.redis7;
 
-    portainer = {
-      registry = "docker.io";
+    portainer = registries.docker {
       container = "portainer/portainer-ce";
-      include_regex = regexes.include.semverLike;
+      include_regex = regexes.semverLike;
     };
 
-    sabnzbd = {
-      registry = "lscr.io";
+    sabnzbd = registries.lscr {
       container = "linuxserver/sabnzbd";
-      include_regex = regexes.include.semverLike;
+      include_regex = regexes.semverLike;
     };
 
-    prowlarr = {
-      registry = "ghcr.io";
-      container = "hotio/prowlarr";
-      include_regex = regexes.include.arrStack;
-    };
+    prowlarr = makers.mkArr "prowlarr";
 
-    sonarr = {
-      registry = "ghcr.io";
-      container = "hotio/sonarr";
-      include_regex = regexes.include.arrStack;
-    };
+    sonarr = makers.mkArr "sonarr";
 
-    radarr = {
-      registry = "ghcr.io";
-      container = "hotio/radarr";
-      include_regex = regexes.include.arrStack;
-    };
+    radarr = makers.mkArr "radarr";
 
-    jellyfin = {
-      registry = "docker.io";
+    jellyfin = registries.docker {
       container = "jellyfin/jellyfin";
-      include_regex = regexes.include.semverLike;
+      include_regex = regexes.semverLike;
     };
   };
 
@@ -172,7 +158,7 @@ let
       # nvchecker resolves env variables: https://github.com/lilydjwg/nvchecker/blob/d44a50c/nvchecker/core.py#L207-L208 
       newver = "\${TARGET}/output.json";
     };
-  } // containers;
+  } // (lib.mapAttrs (_: cfg: { source = "container"; } // cfg) containers);
 
 
   cleanedContainers = lib.mapAttrs (_: container: lib.filterAttrs (name: _: builtins.elem name [ "registry" "container" ]) container) containers;

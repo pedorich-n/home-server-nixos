@@ -1,7 +1,5 @@
 { config, containerLib, ... }:
 let
-  containerVersions = config.custom.containers.versions;
-
   storeFor = localPath: remotePath: "/mnt/store/server-management/${localPath}:${remotePath}";
 
   # userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
@@ -17,10 +15,9 @@ in
   virtualisation.quadlet.containers.portainer = {
     requiresTraefikNetwork = true;
     wantsAuthentik = true;
+    useGlobalContainers = true;
 
-    containerConfig = rec {
-      image = "portainer/portainer-ce:${containerVersions.portainer}";
-      name = "portainer";
+    containerConfig = {
       environments = {
         TZ = "${config.time.timeZone}";
       };
@@ -30,7 +27,7 @@ in
         (storeFor "portainer" "/data")
       ];
       # user = userSetting;
-      labels = containerLib.mkTraefikLabels { inherit name; port = 9000; };
+      labels = containerLib.mkTraefikLabels { name = "portainer"; port = 9000; };
     };
   };
 }

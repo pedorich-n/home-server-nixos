@@ -1,7 +1,5 @@
 { config, lib, containerLib, systemdLib, jinja2RendererLib, ... }:
 let
-  containerVersions = config.custom.containers.versions;
-
   storeFor = localPath: remotePath: "/mnt/store/server-management/authentik/${localPath}:${remotePath}";
 
   defaultEnvs = {
@@ -31,9 +29,8 @@ in
 
     containers = {
       authentik-postgresql = {
+        useGlobalContainers = true;
         containerConfig = {
-          image = "docker.io/library/postgres:${containerVersions.authentik-postgresql}";
-          name = "authentik-postgresql";
           environments = defaultEnvs;
           user = "root";
           environmentFiles = [ config.age.secrets.authentik.path ];
@@ -45,9 +42,8 @@ in
       };
 
       authentik-redis = {
+        useGlobalContainers = true;
         containerConfig = {
-          image = "docker.io/library/redis:${containerVersions.authentik-redis}";
-          name = "authentik-redis";
           exec = "--save 60 1 --loglevel warning";
           user = "root";
           volumes = [
@@ -58,9 +54,8 @@ in
       };
 
       authentik-worker = {
+        useGlobalContainers = true;
         containerConfig = {
-          image = "ghcr.io/goauthentik/server:${containerVersions.authentik}";
-          name = "authentik-worker";
           exec = "worker";
           user = "root";
           healthCmd = "ak healthcheck";
@@ -91,10 +86,9 @@ in
           { };
       };
 
-      authentik-ldap-outpost = {
+      authentik-ldap = {
+        useGlobalContainers = true;
         containerConfig = {
-          image = "ghcr.io/goauthentik/ldap:${containerVersions.authentik}";
-          name = "authentik-ldap-outpost";
           environments = defaultEnvs // {
             AUTHENTIK_HOST = "http://authentik.${config.custom.networking.domain}";
           };
@@ -111,9 +105,8 @@ in
       };
 
       authentik-server = {
+        useGlobalContainers = true;
         containerConfig = {
-          image = "ghcr.io/goauthentik/server:${containerVersions.authentik}";
-          name = "authentik-server";
           exec = "server";
           user = "root";
           environments = defaultEnvs;
