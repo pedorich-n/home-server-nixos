@@ -1,0 +1,44 @@
+name: Terraform Provider Update Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 10 1 * *"
+
+jobs:
+  containers-update-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: nixbuild/nix-quick-install-action@v29
+        with:
+          load_nixConfig: false
+
+      - name: Update containers
+        run: nix run .#update-terraform-providers
+
+      - name: Update terraform lock
+        shell: bash
+        run: |
+          modules=("arr-stack" "backblaze" "tailscale")
+          for module in "${modules[@]}"; do
+            nix develop .#${module} --command terraform init -upgrade
+          done
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --quiet || echo "changes_detected=true" >> "$GITHUB_OUTPUT"
+
+      - name: Create Pull Request
+        if: steps.git-check.outputs.changes_detected
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          commit-message: "Update Terraform providers"
+          title: "Update Terraform providers"
+          branch: "update_terraform_providers"
+          labels: "automated"

@@ -1,10 +1,18 @@
+# General
 .pre-commit-config.yaml
+/pkgs/minecraft-server-check/config.toml
+*.env
+
+# Nix
 result
+
+# Python
 **/*.pyc
 **/__pycache__
-/pkgs/minecraft-server-check/config.toml
 **/.ruff_cache
-*.env
+
+# Terraform
 **/.terraform
 *.tfstate
-terranix/**/state
+*.tfstate.*
+**/config.tf.json

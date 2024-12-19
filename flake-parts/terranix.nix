@@ -20,6 +20,15 @@
                 };
               };
             };
+            config = {
+              modules = lib.mkBefore ([
+                {
+                  _module.args = {
+                    inherit flake;
+                  };
+                }
+              ] ++ (flake.lib.loaders.listFilesRecursively { src = "${flake}/shared-modules/terranix"; }));
+            };
           }));
 
         };
@@ -36,7 +45,7 @@
 
           terranixConfigurations = {
             tailscale = {
-              workdir = "./terranix/tailscale/state";
+              workdir = "./terranix/tailscale/workdir";
 
               modules = [
                 {
@@ -48,7 +57,7 @@
             };
 
             arr-stack = {
-              workdir = "./terranix/arr-stack/state";
+              workdir = "./terranix/arr-stack/workdir";
 
               modules = [
                 {
@@ -74,7 +83,7 @@
                 '';
               };
 
-              workdir = "./terranix/backblaze/state";
+              workdir = "./terranix/backblaze/workdir";
 
               modules = flake.lib.loaders.listFilesRecursively { src = ../terranix/backblaze; };
             };
