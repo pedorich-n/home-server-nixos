@@ -3,7 +3,7 @@
 
 provider "registry.terraform.io/devopsarr/prowlarr" {
   version     = "2.4.3"
-  constraints = "~> 2.4"
+  constraints = "2.4.3"
   hashes = [
     "h1:XvDCwaz8jmrdQ+bucLmxV7qwhyXhS42ss2iW969Etu0=",
     "zh:0e1b67ed07a25d5a0edbe2b791a2837bcb5192e726cd2c131e9ca7a3d1e4ca59",
@@ -26,7 +26,7 @@ provider "registry.terraform.io/devopsarr/prowlarr" {
 
 provider "registry.terraform.io/devopsarr/radarr" {
   version     = "2.3.1"
-  constraints = "~> 2.3"
+  constraints = "2.3.1"
   hashes = [
     "h1:XIjl2zlDVVEP+BimkTHwH7hi757o2gh0KHQ4mWmnF2M=",
     "zh:01f68bde0f9bdd9a8fe136fc95ac909e56eba750ff9550975a0ae6b68f774acc",
@@ -49,7 +49,7 @@ provider "registry.terraform.io/devopsarr/radarr" {
 
 provider "registry.terraform.io/devopsarr/sonarr" {
   version     = "3.3.0"
-  constraints = "~> 3.3"
+  constraints = "3.3.0"
   hashes = [
     "h1:nbtDwzDv9dybkd8X0fqurPRXJyVSyVMAOVT3bHi9LuU=",
     "zh:2315bb73c49285133d5091c0cb89c34daf30f73ec4966126be4756ed7f2dd703",
