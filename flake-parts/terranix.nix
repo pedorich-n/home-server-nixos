@@ -12,9 +12,12 @@
                   config = {
                     extraRuntimeInputs = [ pkgs.gitMinimal ];
                     prefixText = lib.mkBefore ''
-                      ROOT="$(git rev-parse --show-toplevel)"
-                      # shellcheck disable=SC1090,SC1091
-                      source "$ROOT/$(dirname ${config.workdir})/.env"
+                      if [ "''${CI:-false}" = "false" ]; then
+                        ROOT="$(git rev-parse --show-toplevel)"
+                        WORKDIR="${lib.escapeShellArg config.workdir}"
+                        # shellcheck disable=SC1090,SC1091
+                        source "$ROOT/$(dirname $WORKDIR)/.env"
+                      fi
                     '';
                   };
                 };
@@ -76,10 +79,12 @@
                 ];
 
                 prefixText = ''
-                  op_path="op://Server/Backblaze_Terranix"
-                  B2_APPLICATION_KEY=$(op read "''${op_path}/application_key")
-                  B2_APPLICATION_KEY_ID=$(op read "''${op_path}/application_key_id")
-                  export B2_APPLICATION_KEY B2_APPLICATION_KEY_ID
+                  if [ "''${CI:-false}" = "false" ]; then
+                    op_path="op://Server/Backblaze_Terranix"
+                    B2_APPLICATION_KEY=$(op read "''${op_path}/application_key")
+                    B2_APPLICATION_KEY_ID=$(op read "''${op_path}/application_key_id")
+                    export B2_APPLICATION_KEY B2_APPLICATION_KEY_ID
+                  fi
                 '';
               };
 

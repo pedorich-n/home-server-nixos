@@ -22,7 +22,7 @@ jobs:
         with:
           load_nixConfig: false
 
-      - name: Update containers
+      - name: Update Terraform providers
         run: nix run .#update-terraform-providers
 
       - name: Update terraform lock
