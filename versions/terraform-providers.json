@@ -1,0 +1,30 @@
+{
+  "b2": {
+    "source": "Backblaze/b2",
+    "version": "0.9.0"
+  },
+  "netparse": {
+    "source": "gmeligio/netparse",
+    "version": "0.0.3"
+  },
+  "onepassword": {
+    "source": "1Password/onepassword",
+    "version": "2.1.2"
+  },
+  "prowlarr": {
+    "source": "devopsarr/prowlarr",
+    "version": "2.4.3"
+  },
+  "radarr": {
+    "source": "devopsarr/radarr",
+    "version": "2.3.1"
+  },
+  "sonarr": {
+    "source": "devopsarr/sonarr",
+    "version": "3.3.0"
+  },
+  "tailscale": {
+    "source": "tailscale/tailscale",
+    "version": "0.17.2"
+  }
+}

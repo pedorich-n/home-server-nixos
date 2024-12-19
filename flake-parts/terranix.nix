@@ -20,6 +20,15 @@
                 };
               };
             };
+            config = {
+              modules = lib.mkBefore ([
+                {
+                  _module.args = {
+                    inherit flake;
+                  };
+                }
+              ] ++ (flake.lib.loaders.listFilesRecursively { src = "${flake}/shared-modules/terranix"; }));
+            };
           }));
 
         };
