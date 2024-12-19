@@ -16,6 +16,6 @@
     };
   };
 
-  #LINK - shared-modules/nixos/custom/system/users.nix
+  #LINK - shared-modules/nixos/custom/system/home-manager.nix
   custom.users.homeManagerUsers = [ "root" "user" ];
 }

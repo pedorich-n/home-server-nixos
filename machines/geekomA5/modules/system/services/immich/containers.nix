@@ -108,7 +108,7 @@ in
             "immich-vectordb.service"
             #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix:62
             "zfs-mounted-external-immich.service"
-            #LINK - machines/geekomA5/modules/system/services/immich/render-config.nix:20
+            #LINK - machines/geekomA5/modules/system/services/immich/render-config-runtime.nix:20
             "immich-render-config.service"
           ]
           { };
