@@ -6,9 +6,14 @@ on:
     - cron: "0 10 1 * *"
 
 jobs:
-  containers-update-check:
+  update-terraform-providers:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_ACTION_KEY }}
+
       - name: Checkout repository
         uses: actions/checkout@v4
 

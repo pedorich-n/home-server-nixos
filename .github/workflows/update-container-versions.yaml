@@ -6,7 +6,7 @@ on:
     - cron: "0 10 1 * *"
 
 jobs:
-  containers-update-check:
+  update-containers:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
