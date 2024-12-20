@@ -9,18 +9,10 @@ jobs:
   update-terraform-providers:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup SSH agent
-        uses: webfactory/ssh-agent@v0.9.0
+      - name: Setup job
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
         with:
-          ssh-private-key: ${{ secrets.SSH_ACTION_KEY }}
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install Nix
-        uses: nixbuild/nix-quick-install-action@v29
-        with:
-          load_nixConfig: false
+          ssh_key: ${{ secrets.ssh_key }}
 
       - name: Update Terraform providers
         run: nix run .#update-terraform-providers
@@ -33,17 +25,9 @@ jobs:
             nix develop .#${module} --command terraform init -upgrade
           done
 
-      - name: Check for changes
-        id: git-check
-        run: |
-          git diff --quiet || echo "changes_detected=true" >> "$GITHUB_OUTPUT"
-
-      - name: Create Pull Request
-        if: steps.git-check.outputs.changes_detected
-        uses: peter-evans/create-pull-request@v7
+      - name: Create PR if changes detected
+        uses: ./.github/actions/pr-on-changes
         with:
-          token: ${{ secrets.GH_ACCESS_TOKEN }}
-          commit-message: "Update Terraform providers"
           title: "Update Terraform providers"
           branch: "update_terraform_providers"
-          labels: "automated"
+          token: ${{ secrets.GH_ACCESS_TOKEN }}

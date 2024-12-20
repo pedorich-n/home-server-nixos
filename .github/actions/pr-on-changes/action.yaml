@@ -1,0 +1,31 @@
+name: Open PR if changes detected
+description: Checks for git diff and creates a PR if it's not empty
+inputs:
+  title:
+    required: true
+    description: Commit & PR title
+  branch:
+    required: true
+    description: Name of the branch to use
+  token:
+    required: true
+    description: Github Access token
+
+runs:
+  using: composite
+  steps:
+    - name: Check for changes
+      id: git-check
+      shell: bash
+      run: |
+        git diff --quiet || echo "changes_detected=true" >> "$GITHUB_OUTPUT"
+
+    - name: Create Pull Request
+      if: steps.git-check.outputs.changes_detected
+      uses: peter-evans/create-pull-request@v7
+      with:
+        token: ${{ inputs.token }}
+        commit-message: ${{ inputs.title }}
+        title: ${{ inputs.title }}
+        branch: ${{ inputs.branch }}
+        labels: "automated"
