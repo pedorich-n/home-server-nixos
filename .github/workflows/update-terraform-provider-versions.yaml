@@ -12,7 +12,7 @@ jobs:
       - name: Setup job
         uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
         with:
-          ssh_key: ${{ secrets.ssh_key }}
+          ssh_key: ${{ secrets.SSH_ACTION_KEY }}
 
       - name: Update Terraform providers
         run: nix run .#update-terraform-providers
