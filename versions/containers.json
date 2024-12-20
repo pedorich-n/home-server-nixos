@@ -2,7 +2,7 @@
   "authentik-ldap": {
     "container": "goauthentik/ldap",
     "registry": "ghcr.io",
-    "version": "2024.10.5"
+    "version": "2024.12"
   },
   "authentik-postgresql": {
     "container": "library/postgres",
@@ -17,12 +17,12 @@
   "authentik-server": {
     "container": "goauthentik/server",
     "registry": "ghcr.io",
-    "version": "2024.10.5"
+    "version": "2024.12"
   },
   "authentik-worker": {
     "container": "goauthentik/server",
     "registry": "ghcr.io",
-    "version": "2024.10.5"
+    "version": "2024.12"
   },
   "grist": {
     "container": "gristlabs/grist",
@@ -32,7 +32,7 @@
   "homeassistant": {
     "container": "homeassistant/home-assistant",
     "registry": "docker.io",
-    "version": "2024.12.4"
+    "version": "2024.12.5"
   },
   "homeassistant-mariadb": {
     "container": "library/mariadb",
@@ -97,12 +97,7 @@
   "nodered": {
     "container": "nodered/node-red",
     "registry": "docker.io",
-    "version": "4.0.6"
-  },
-  "paperless-server": {
-    "container": "paperless-ngx/paperless-ngx",
-    "registry": "ghcr.io",
-    "version": "2.13.5"
+    "version": "4.0.8"
   },
   "paperless-postgresql": {
     "container": "library/postgres",
@@ -114,10 +109,15 @@
     "registry": "docker.io",
     "version": "7.4.1-alpine"
   },
+  "paperless-server": {
+    "container": "paperless-ngx/paperless-ngx",
+    "registry": "ghcr.io",
+    "version": "2.13.5"
+  },
   "portainer": {
     "container": "portainer/portainer-ce",
     "registry": "docker.io",
-    "version": "2.25.0"
+    "version": "2.25.1"
   },
   "prowlarr": {
     "container": "hotio/prowlarr",
@@ -132,7 +132,7 @@
   "sabnzbd": {
     "container": "linuxserver/sabnzbd",
     "registry": "lscr.io",
-    "version": "4.4.0"
+    "version": "4.4.1"
   },
   "sonarr": {
     "container": "hotio/sonarr",
