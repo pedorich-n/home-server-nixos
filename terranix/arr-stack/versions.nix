@@ -2,7 +2,7 @@
 {
   terraform = {
     required_version = ">= 1.5";
-    backend."local" = { };
+    backend.local = { };
 
     required_providers = {
       inherit (config.custom.providers) prowlarr sonarr radarr;

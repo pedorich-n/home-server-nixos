@@ -2,7 +2,7 @@
 {
   terraform = {
     required_version = ">= 1.8";
-    backend."local" = { };
+    backend.local = { };
 
     required_providers = {
       # B2 configured using ENV variables, see https://registry.terraform.io/providers/Backblaze/b2/0.9.0/docs#optional

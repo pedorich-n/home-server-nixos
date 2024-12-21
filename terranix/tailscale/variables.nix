@@ -1,5 +1,5 @@
 {
-  variable."tailscale_api_key" = {
+  variable.tailscale_api_key = {
     type = "string";
     sensitive = true;
   };
