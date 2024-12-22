@@ -1,4 +1,4 @@
-{ flake, inputs, config, lib, ... }:
+{ flake, inputs, config, lib, pkgs, ... }:
 let
   uniqueListOf = elemType:
     let
@@ -40,7 +40,11 @@ in
       # File extension to add to backuped files
       backupFileExtension = ".bak";
 
-      extraSpecialArgs = { inherit flake inputs; };
+      extraSpecialArgs = {
+        inherit flake inputs;
+        # TODO: remove once https://github.com/NixOS/nix/issues/11181 is resolved
+        pkgs-nix = pkgs;
+      };
 
       sharedModules = [ inputs.personal-home-manager.homeModules.sharedModules ] ++ sharedHomeManagerModules;
 
