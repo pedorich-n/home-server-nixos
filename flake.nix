@@ -37,6 +37,7 @@
       url = "git+ssh://git@github.com/pedorich-n/config.nix";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
+        nixpkgs-nix.follows = "";
         systems.follows = "systems";
         flake-parts.follows = "flake-parts";
         flake-utils.follows = "flake-utils";
