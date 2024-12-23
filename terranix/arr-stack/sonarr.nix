@@ -32,12 +32,12 @@ in
   };
 
   resource = {
-    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/latest/docs/data-sources/root_folder
+    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/data-sources/root_folder
     sonarr_root_folder.root = {
       path = "/data/media/tv";
     };
 
-    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.3.0/docs/data-sources/naming
+    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/data-sources/naming
     # See https://trash-guides.info/Sonarr/Sonarr-recommended-naming-scheme/
     # Using Jellyfin TVDB recommendation
     sonarr_naming.naming = {
@@ -54,20 +54,19 @@ in
       specials_folder_format = "Specials";
     };
 
-    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.3.0/docs/resources/download_client_sabnzbd
+    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/resources/download_client_sabnzbd
     sonarr_download_client_sabnzbd .sabnzbd = common.sabnzbdDownloadClient // {
       tv_category = "tv";
     };
 
-    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.3.0/docs/resources/quality_definition
+    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/resources/quality_definition
     sonarr_quality_definition.trash = {
       for_each = tfRef "local.sonarr_qd_trash_mapped";
       title = tfRef "each.value.title";
       id = tfRef "each.value.id";
       min_size = tfRef "each.value.min_size";
       max_size = tfRef "each.value.max_size";
-      # Not available. See https://github.com/devopsarr/terraform-provider-sonarr/issues/341
-      # preferred_size = tfRef "each.value.preferred_size";
+      preferred_size = tfRef "each.value.preferred_size";
     };
   };
 }
