@@ -2,6 +2,8 @@
 let
   inherit (lib) tfRef;
 
+  common = import ./_common.nix { inherit lib; };
+
   prowlarInternalUrl = "http://prowlarr:9696";
 
   nzbIndexer = args: {
@@ -42,6 +44,16 @@ in
           { name = "baseSettings.limitsUnit"; number_value = 0; } # 0 means Day, 1 means Hour
         ];
       };
+    };
+
+    # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/download_client_sabnzbd
+    prowlarr_download_client_sabnzbd.sabnzbd = common.sabnzbdDownloadClient // {
+      category = "prowlarr";
+    };
+
+    # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/download_client_qbittorrent
+    prowlarr_download_client_qbittorrent.qbittorrent = common.qBittorrentDownloadClient // {
+      category = "prowlarr";
     };
 
     # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/application_radarr

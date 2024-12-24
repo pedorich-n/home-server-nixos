@@ -31,12 +31,12 @@ in
   };
 
   resource = {
-    # Schema https://registry.terraform.io/providers/devopsarr/radarr/2.3.1/docs/resources/root_folder
+    # https://registry.terraform.io/providers/devopsarr/radarr/2.3.1/docs/resources/root_folder
     radarr_root_folder.root = {
       path = "/data/media/movies";
     };
 
-    # Schema https://registry.terraform.io/providers/devopsarr/radarr/2.3.1/docs/resources/naming
+    # https://registry.terraform.io/providers/devopsarr/radarr/2.3.1/docs/resources/naming
     # See https://trash-guides.info/Radarr/Radarr-recommended-naming-scheme/#jellyfin
     # Using Jellyfin TMDB recommendation
     radarr_naming.naming = {
@@ -47,12 +47,17 @@ in
       movie_folder_format = naming.folder."jellyfin-tmdb";
     };
 
-    # Schema https://registry.terraform.io/providers/devopsarr/radarr/2.3.1/docs/resources/download_client_sabnzbd
+    # https://registry.terraform.io/providers/devopsarr/radarr/2.3.1/docs/resources/download_client_sabnzbd
     radarr_download_client_sabnzbd.sabnzbd = common.sabnzbdDownloadClient // {
       movie_category = "movies";
     };
 
-    # Schema https://registry.terraform.io/providers/devopsarr/radarr/2.3.1/docs/resources/quality_definition
+    # https://registry.terraform.io/providers/devopsarr/radarr/2.3.1/docs/resources/download_client_qbittorrent
+    radarr_download_client_qbittorrent.qbittorrent = common.qBittorrentDownloadClient // {
+      movie_category = "movies";
+    };
+
+    # https://registry.terraform.io/providers/devopsarr/radarr/2.3.1/docs/resources/quality_definition
     radarr_quality_definition.trash = {
       for_each = tfRef "local.radarr_qd_trash_mapped";
       title = tfRef "each.value.title";

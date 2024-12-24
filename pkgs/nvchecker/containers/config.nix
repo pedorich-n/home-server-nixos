@@ -132,6 +132,16 @@ let
       include_regex = regexes.semverLike;
     };
 
+    gluetun = registries.docker {
+      container = "qmcgaw/gluetun";
+      include_regex = regexes.semverLike;
+    };
+
+    qbittorrent = registries.docker {
+      container = "linuxserver/qbittorrent";
+      include_regex = regexes.semverLike;
+    };
+
     sabnzbd = registries.lscr {
       container = "linuxserver/sabnzbd";
       include_regex = regexes.semverLike;
