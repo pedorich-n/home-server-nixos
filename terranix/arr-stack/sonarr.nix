@@ -32,12 +32,12 @@ in
   };
 
   resource = {
-    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/data-sources/root_folder
+    # https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/data-sources/root_folder
     sonarr_root_folder.root = {
       path = "/data/media/tv";
     };
 
-    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/data-sources/naming
+    # https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/data-sources/naming
     # See https://trash-guides.info/Sonarr/Sonarr-recommended-naming-scheme/
     # Using Jellyfin TVDB recommendation
     sonarr_naming.naming = {
@@ -54,12 +54,17 @@ in
       specials_folder_format = "Specials";
     };
 
-    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/resources/download_client_sabnzbd
+    # https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/resources/download_client_sabnzbd
     sonarr_download_client_sabnzbd .sabnzbd = common.sabnzbdDownloadClient // {
       tv_category = "tv";
     };
 
-    # Schema https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/resources/quality_definition
+    # https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/resources/download_client_qbittorrent
+    sonarr_download_client_qbittorrent.qbittorrent = common.qBittorrentDownloadClient // {
+      tv_category = "tv";
+    };
+
+    # https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/resources/quality_definition
     sonarr_quality_definition.trash = {
       for_each = tfRef "local.sonarr_qd_trash_mapped";
       title = tfRef "each.value.title";

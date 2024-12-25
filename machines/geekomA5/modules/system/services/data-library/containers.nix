@@ -1,4 +1,4 @@
-{ config, lib, containerLib, ... }:
+{ config, lib, containerLib, systemdLib, ... }:
 let
   storeFor = localPath: remotePath: "/mnt/store/data-library/${localPath}:${remotePath}";
   externalStoreFor = localPath: remotePath: ''/mnt/external/data-library${if (localPath != "") then "/${localPath}" else ""}:${remotePath}'';
@@ -22,6 +22,62 @@ in
     };
 
     containers = {
+      gluetun = {
+        requiresTraefikNetwork = true;
+        useGlobalContainers = true;
+
+        containerConfig = {
+          addCapabilities = [ "NET_ADMIN" ];
+          devices = [ "/dev/net/tun:/dev/net/tun" ];
+          environments = {
+            VPN_SERVICE_PROVIDER = "nordvpn";
+            SERVER_COUNTRIES = "Japan";
+          };
+          environmentFiles = [ config.age.secrets.gluetun.path ];
+          # https://github.com/qdm12/gluetun/blob/ddd9f4d0210c35d062896ffa2c7dc6e585deddfb/Dockerfile#L226
+          healthCmd = "/gluetun-entrypoint healthcheck";
+          healthStartPeriod = "10s";
+          healthTimeout = "5s";
+          healthInterval = "5s";
+          healthRetries = 5;
+          notify = "healthy";
+          labels = containerLib.mkTraefikLabels {
+            name = "qbittorrent"; # Proxied
+            port = 8080;
+            middlewares = [ "authentik@docker" ];
+          };
+          inherit networks pod;
+        };
+
+        serviceConfig = {
+          Environment = [
+            ''PATH=${lib.makeBinPath [ "/run/wrappers" config.systemd.package ]}''
+          ];
+        };
+      };
+
+      qbittorrent = {
+        useGlobalContainers = true;
+
+        containerConfig = {
+          environments = {
+            TZ = "${config.time.timeZone}";
+            PUID = "1000";
+            PGID = "1000";
+          };
+          volumes = [
+            (storeFor "qbittorrent/config" "/config")
+            (externalStoreFor "downloads/torrent" "/downloads")
+          ];
+          # Broken until https://github.com/containers/podman/pull/24794 is released
+          # networks = [ "gluetun.container" ];
+          networks = [ "container:gluetun" ];
+          inherit pod;
+        };
+
+        unitConfig = systemdLib.requiresAfter [ "gluetun.service" ] { };
+      };
+
       sabnzbd = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;

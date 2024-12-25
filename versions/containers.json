@@ -24,6 +24,11 @@
     "registry": "ghcr.io",
     "version": "2024.10.5"
   },
+  "gluetun": {
+    "container": "qmcgaw/gluetun",
+    "registry": "docker.io",
+    "version": "v3.39.1"
+  },
   "grist": {
     "container": "gristlabs/grist",
     "registry": "docker.io",
@@ -138,6 +143,11 @@
     "container": "hotio/sonarr",
     "registry": "ghcr.io",
     "version": "release-4.0.11.2680"
+  },
+  "qbittorrent": {
+    "container": "linuxserver/qbittorrent",
+    "registry": "docker.io",
+    "version": "5.0.3"
   },
   "zigbee2mqtt": {
     "container": "koenkk/zigbee2mqtt",
