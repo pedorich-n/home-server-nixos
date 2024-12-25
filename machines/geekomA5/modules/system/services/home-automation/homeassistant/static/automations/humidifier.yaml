@@ -4,7 +4,7 @@
   triggers:
     - trigger: numeric_state
       entity_id:
-        - sensor.sharp_hv_r75_water_level
+        - sensor.ldk_humidifier_water_level
       below: 25
   conditions: []
   actions:
@@ -27,7 +27,7 @@
     - condition: not
       conditions:
         - condition: state
-          entity_id: light.sharp_hv_r75_status
+          entity_id: light.ldk_humidifier_status
           state: unavailable
       alias: Humidifier is online
     - condition: numeric_state
@@ -39,5 +39,5 @@
       data:
         option: Auto
       target:
-        entity_id: select.sharp_hv_r75_operating_mode_select
+        entity_id: select.ldk_humidifier_operating_mode_select
   mode: single
