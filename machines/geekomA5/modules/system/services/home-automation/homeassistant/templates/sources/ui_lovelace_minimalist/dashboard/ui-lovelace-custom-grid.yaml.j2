@@ -27,9 +27,9 @@ views:
             ". others1 ."
             ". others2 ."
     cards:
-      {{ custom_room_grid('Living Room', 'livingroom', 'sensor.tuya_temperature_ldk_1_temperature', 'sensor.tuya_temperature_ldk_1_humidity', 'climate.ldk_ac') | indent(6, False) }}
+      {{ custom_room_grid('Living Room', 'livingroom', 'sensor.ldk_temperature_humidity_1_temperature', 'sensor.ldk_temperature_humidity_1_humidity', 'climate.ldk_ac') | indent(6, False) }}
 
-      {{ custom_room_grid('Bedroom', 'bedroom', 'sensor.tuya_temperature_bedroom_1_temperature', 'sensor.tuya_temperature_bedroom_1_humidity', 'climate.bedroom_ac') | indent(6, False) }}
+      {{ custom_room_grid('Bedroom', 'bedroom', 'sensor.bedroom_temperature_humidity_1_temperature', 'sensor.bedroom_temperature_humidity_1_humidity', 'climate.bedroom_ac') | indent(6, False) }}
 
       - type: "custom:button-card"
         template: card_title

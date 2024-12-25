@@ -14,6 +14,7 @@ frontend: true
 advanced:
   network_key: "!secrets.yaml network_key"
   homeassistant_legacy_entity_attributes: false
+  homeassistant_legacy_triggers: false
   legacy_api: false
   legacy_availability_payload: false
   log_level: info
@@ -33,7 +34,19 @@ devices:
     humidity_precision: 1
     temperature_precision: 2
   "0xa4c13844697d3aa2":
-    friendly_name: ysrai_led_controller_hallway_1
+    friendly_name: hallway_wardrobe_led_controller_1
+    homeassistant:
+      name: Hallway Wardrobe LED Controller 1
   "0x00158d00091214d6":
-    friendly_name: aqara_door_sensor_hallway_1
+    friendly_name: hallway_wardrobe_door_sensor_1
+    homeassistant:
+      name: Hallway Wardrobe Door Sensor 1
+  "0x08ddebfffeace118":
+    friendly_name: ldk_temperature_humidity_1
+    homeassistant:
+      name: LDK Temperature Humidity 1
+  "0x08ddebfffeac702b":
+    friendly_name: bedroom_temperature_humidity_1
+    homeassistant:
+      name: Bedroom Temperature Humidity 1
 groups: {}
