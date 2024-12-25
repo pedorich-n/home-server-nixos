@@ -60,7 +60,7 @@ in
           devices = [ "/dev/ttyUSB0:/dev/ttyZigbee" ];
           # user = userSetting;
           labels = containerLib.mkTraefikLabels {
-            name = "mosquitto";
+            name = "zigbee2mqtt";
             port = 8080;
             middlewares = [ "authentik@docker" ];
           };

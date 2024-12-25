@@ -27,9 +27,9 @@ views:
             ". others1 ."
             ". others2 ."
     cards:
-      {{ custom_room_grid('Living Room', 'livingroom', 'sensor.tuya_temperature_ldk_1_temperature', 'sensor.tuya_temperature_ldk_1_humidity', 'climate.ldk_ac') | indent(6, False) }}
+      {{ custom_room_grid('Living Room', 'livingroom', 'sensor.ldk_temperature_humidity_1_temperature', 'sensor.ldk_temperature_humidity_1_humidity', 'climate.ldk_ac') | indent(6, False) }}
 
-      {{ custom_room_grid('Bedroom', 'bedroom', 'sensor.tuya_temperature_bedroom_1_temperature', 'sensor.tuya_temperature_bedroom_1_humidity', 'climate.bedroom_ac') | indent(6, False) }}
+      {{ custom_room_grid('Bedroom', 'bedroom', 'sensor.bedroom_temperature_humidity_1_temperature', 'sensor.bedroom_temperature_humidity_1_humidity', 'climate.bedroom_ac') | indent(6, False) }}
 
       - type: "custom:button-card"
         template: card_title
@@ -45,11 +45,11 @@ views:
         view_layout:
           grid-area: "others1"
         template: custom_card_humidifier
-        entity: select.sharp_hv_r75_operating_mode_select
+        entity: select.ldk_humidifier_operating_mode_select
         variables:
           humidifier_name: "Humidifier"
-          humidifier_on_off_button: "button.sharp_hv_r75_on_off_switch"
-          humidifier_water_level_sensor: "sensor.sharp_hv_r75_water_level"
+          humidifier_on_off_button: "button.ldk_humidifier_on_off_switch"
+          humidifier_water_level_sensor: "sensor.ldk_humidifier_water_level"
 
       - type: "custom:scheduler-card"
         title: "Scheduler"
