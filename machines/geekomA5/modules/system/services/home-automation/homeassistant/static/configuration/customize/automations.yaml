@@ -8,7 +8,10 @@ automation.androidtv_adb_ok_button:
   icon: mdi:remote-tv
 
 automation.androidtv_adb_show_inputs:
-  icon: mdi:list-box
+  icon: mdi:list-box-outline
 
 automation.set_theme_on_startup:
   icon: mdi:palette
+
+automation.hallway_wardrobe_light:
+  icon: mdi:lightbulb-auto-outline

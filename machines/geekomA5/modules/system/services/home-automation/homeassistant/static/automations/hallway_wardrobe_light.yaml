@@ -1,0 +1,72 @@
+- id: "hallway_wardrobe_light"
+  alias: Hallway Wardrobe Light
+  description: ""
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.hallway_wardrobe_door_sensor_1_contact
+      to: "on"
+    - trigger: state
+      entity_id: binary_sensor.hallway_wardrobe_door_sensor_1_contact
+      to: "off"
+  conditions: []
+  actions:
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: |
+                {{ trigger.to_state.state == "on" }}
+            - condition: state
+              entity_id: light.hallway_wardrobe_led_controller_1
+              state: "off"
+          sequence:
+            - action: light.turn_on
+              metadata: {}
+              data:
+                brightness_pct: 100
+              target:
+                entity_id: light.hallway_wardrobe_led_controller_1
+            - alias: Wait for door to close or timeout
+              wait_for_trigger:
+                - trigger: state
+                  entity_id: binary_sensor.hallway_wardrobe_door_sensor_1_contact
+                  to: "off"
+              timeout:
+                hours: 0
+                minutes: 10
+                seconds: 0
+                milliseconds: 0
+              continue_on_timeout: true
+            - if:
+                - condition: state
+                  entity_id: light.hallway_wardrobe_led_controller_1
+                  state: "on"
+                - condition: state
+                  entity_id: binary_sensor.hallway_wardrobe_door_sensor_1_contact
+                  state: "on"
+              then:
+                - action: light.turn_on
+                  metadata: {}
+                  data:
+                    brightness_pct: 30
+                  target:
+                    entity_id: light.hallway_wardrobe_led_controller_1
+                  alias: Drop brightness
+              alias: If door is still open and the light is on
+          alias: If door is open
+
+        - conditions:
+            - condition: template
+              value_template: |
+                {{ trigger.to_state.state == "off" }}
+            - condition: state
+              entity_id: light.hallway_wardrobe_led_controller_1
+              state: "on"
+          sequence:
+            - action: light.turn_off
+              metadata: {}
+              data: {}
+              target:
+                entity_id: light.hallway_wardrobe_led_controller_1
+          alias: If door is closed
+  mode: parallel
+  max: 5
