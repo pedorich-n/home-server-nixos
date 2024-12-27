@@ -67,7 +67,7 @@ in
           };
           volumes = [
             (storeFor "qbittorrent/config" "/config")
-            (externalStoreFor "downloads/torrent" "/downloads")
+            (externalStoreFor "downloads/torrent" "/data/downloads/torrent")
           ];
           # Broken until https://github.com/containers/podman/pull/24794 is released
           # networks = [ "gluetun.container" ];

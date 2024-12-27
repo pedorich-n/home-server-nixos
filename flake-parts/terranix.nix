@@ -80,7 +80,7 @@
 
                 prefixText = ''
                   if [ "''${CI:-false}" = "false" ]; then
-                    op_path="op://Server/Backblaze_Terranix"
+                    op_path="op://HomeLab/Backblaze_Terranix"
                     B2_APPLICATION_KEY=$(op read "''${op_path}/application_key")
                     B2_APPLICATION_KEY_ID=$(op read "''${op_path}/application_key_id")
                     export B2_APPLICATION_KEY B2_APPLICATION_KEY_ID

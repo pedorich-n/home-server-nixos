@@ -12,18 +12,19 @@ let
 in
 {
   locals = {
-    sonarr_qd_trash = qualityDefinitions.qualities;
+    sonarr_quality_definitions_trash = qualityDefinitions.qualities;
 
-    sonarr_qd_existing = tfRef "{ for item in data.sonarr_quality_definitions.main.quality_definitions : item.title => item }";
+    # A map where key is the Quality Definition name, and value is the Quality Definition
+    sonarr_quality_definition_existing = tfRef "{ for item in data.sonarr_quality_definitions.main.quality_definitions : item.title => item }";
 
-    sonarr_qd_trash_mapped = tfRef ''{
-      for quality in local.sonarr_qd_trash: quality.quality => {
+    sonarr_quality_definition_trash_mapped = tfRef ''{
+      for quality in local.sonarr_quality_definitions_trash: quality.quality => {
         title = quality.quality
         min_size = quality.min
         max_size = quality.max
         preferred_size = quality.preferred
-        id = local.sonarr_qd_existing[quality.quality].id
-      } if contains(keys(local.sonarr_qd_existing), quality.quality) 
+        id = local.sonarr_quality_definition_existing[quality.quality].id
+      } if contains(keys(local.sonarr_quality_definition_existing), quality.quality) 
     }'';
   };
 
@@ -66,7 +67,7 @@ in
 
     # https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/resources/quality_definition
     sonarr_quality_definition.trash = {
-      for_each = tfRef "local.sonarr_qd_trash_mapped";
+      for_each = tfRef "local.sonarr_quality_definition_trash_mapped";
       title = tfRef "each.value.title";
       id = tfRef "each.value.id";
       min_size = tfRef "each.value.min_size";

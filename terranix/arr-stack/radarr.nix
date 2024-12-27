@@ -1,6 +1,7 @@
 { trash-guides, lib, ... }:
 let
   inherit (lib) tfRef;
+
   common = import ./_common.nix { inherit lib; };
 
   # https://github.com/TRaSH-Guides/Guides/blob/master/docs/json/radarr/naming/radarr-naming.json
@@ -11,18 +12,19 @@ let
 in
 {
   locals = {
-    radarr_qd_trash = qualityDefinitions.qualities;
+    radarr_quality_definitions_trash = qualityDefinitions.qualities;
 
-    radarr_qd_existing = tfRef "{ for item in data.radarr_quality_definitions.main.quality_definitions : item.title => item }";
+    # A map where key is the Quality Definition name, and value is the Quality Definition
+    radarr_quality_definitions_existing = tfRef "{ for item in data.radarr_quality_definitions.main.quality_definitions : item.title => item }";
 
-    radarr_qd_trash_mapped = tfRef ''{
-      for quality in local.radarr_qd_trash: quality.quality => {
+    radarr_quality_definitions_trash_mapped = tfRef ''{
+      for quality in local.radarr_quality_definitions_trash: quality.quality => {
         title = quality.quality
         min_size = quality.min
         max_size = quality.max
         preferred_size = quality.preferred
-        id = local.radarr_qd_existing[quality.quality].id
-      } if contains(keys(local.radarr_qd_existing), quality.quality) 
+        id = local.radarr_quality_definitions_existing[quality.quality].id
+      } if contains(keys(local.radarr_quality_definitions_existing), quality.quality) 
     }'';
   };
 
@@ -59,7 +61,7 @@ in
 
     # https://registry.terraform.io/providers/devopsarr/radarr/2.3.1/docs/resources/quality_definition
     radarr_quality_definition.trash = {
-      for_each = tfRef "local.radarr_qd_trash_mapped";
+      for_each = tfRef "local.radarr_quality_definitions_trash_mapped";
       title = tfRef "each.value.title";
       id = tfRef "each.value.id";
       min_size = tfRef "each.value.min_size";
