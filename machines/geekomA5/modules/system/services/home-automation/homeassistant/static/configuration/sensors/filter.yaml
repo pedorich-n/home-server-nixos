@@ -1,6 +1,6 @@
 - platform: filter
-  name: AVG Bedroom temperature
-  unique_id: avg_bedroom_temperature
+  name: Bedroom temperature AVG
+  unique_id: bedroom_temperature_avg
   entity_id: sensor.bedroom_temperature_humidity_1_temperature
   filters:
     - filter: outlier
@@ -10,8 +10,8 @@
       precision: 2
 
 - platform: filter
-  name: AVG Bedroom humidity
-  unique_id: avg_bedroom_humidity
+  name: Bedroom humidity AVG
+  unique_id: bedroom_humidity_avg
   entity_id: sensor.bedroom_temperature_humidity_1_humidity
   filters:
     - filter: outlier
@@ -21,8 +21,8 @@
       precision: 2
 
 - platform: filter
-  name: AVG LDK temperature
-  unique_id: avg_ldk_temperature
+  name: LDK temperature AVG
+  unique_id: ldk_temperature_avg
   entity_id: sensor.ldk_temperature_humidity_1_temperature
   filters:
     - filter: outlier
@@ -32,8 +32,8 @@
       precision: 2
 
 - platform: filter
-  name: AVG LDK humidity
-  unique_id: avg_ldk_humidity
+  name: LDK humidity AVG
+  unique_id: ldk_humidity_avg
   entity_id: sensor.ldk_temperature_humidity_1_humidity
   filters:
     - filter: outlier
