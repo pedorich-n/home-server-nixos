@@ -1,4 +1,4 @@
-{ config, lib, containerLib, systemdLib, ... }:
+{ config, containerLib, systemdLib, ... }:
 let
   storeFor = localPath: remotePath: "/mnt/store/data-library/${localPath}:${remotePath}";
   externalStoreFor = localPath: remotePath: ''/mnt/external/data-library${if (localPath != "") then "/${localPath}" else ""}:${remotePath}'';
@@ -55,12 +55,6 @@ in
             middlewares = [ "authentik@docker" ];
           };
           inherit networks pod;
-        };
-
-        serviceConfig = {
-          Environment = [
-            ''PATH=${lib.makeBinPath [ "/run/wrappers" config.systemd.package ]}''
-          ];
         };
       };
 
@@ -196,12 +190,6 @@ in
           ];
           inherit networks pod user;
         };
-
-        serviceConfig = {
-          Environment = [
-            ''PATH=${lib.makeBinPath [ "/run/wrappers" config.systemd.package ]}''
-          ];
-        };
       };
 
       audiobookshelf = {
@@ -226,12 +214,6 @@ in
           ];
           labels = containerLib.mkTraefikLabels { name = "audiobookshelf"; port = 8080; };
           inherit networks pod user;
-        };
-
-        serviceConfig = {
-          Environment = [
-            ''PATH=${lib.makeBinPath [ "/run/wrappers" config.systemd.package ]}''
-          ];
         };
       };
     };

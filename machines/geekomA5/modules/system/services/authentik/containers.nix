@@ -1,4 +1,4 @@
-{ config, lib, containerLib, systemdLib, jinja2RendererLib, ... }:
+{ config, containerLib, systemdLib, jinja2RendererLib, ... }:
 let
   storeFor = localPath: remotePath: "/mnt/store/server-management/authentik/${localPath}:${remotePath}";
 
@@ -72,12 +72,6 @@ in
           inherit networks pod;
         };
 
-        serviceConfig = {
-          Environment = [
-            ''PATH=${lib.makeBinPath [ "/run/wrappers" config.systemd.package ]}''
-          ];
-        };
-
         unitConfig = systemdLib.requiresAfter
           [
             "authentik-redis.service"
@@ -137,12 +131,6 @@ in
             "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
           ];
           inherit pod;
-        };
-
-        serviceConfig = {
-          Environment = [
-            ''PATH=${lib.makeBinPath [ "/run/wrappers" config.systemd.package ]}''
-          ];
         };
 
         unitConfig = systemdLib.requiresAfter

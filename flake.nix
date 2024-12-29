@@ -12,8 +12,6 @@
     nixpkgs-netdata.url = "github:pedorich-n/nixpkgs/netdata-ndsudo?shallow=true";
     # nixpkgs-netdata.url = "git+file:///home/pedorich_n/Projects/nixpkgs?shallow=true";
 
-    # nixpkgs-podman.url = "git+file:///home/pedorich_n/Projects/nixpkgs?shallow=true";
-
     systems.url = "github:nix-systems/default-linux";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
