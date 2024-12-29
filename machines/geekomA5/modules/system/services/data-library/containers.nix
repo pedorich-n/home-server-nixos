@@ -214,6 +214,25 @@ in
           ];
         };
       };
+
+      audiobookshelf = {
+        requiresTraefikNetwork = true;
+        useGlobalContainers = true;
+
+        containerConfig = containerLib.withAlpineHostsFix {
+          environments = {
+            TZ = "${config.time.timeZone}";
+            PORT = "8080";
+          };
+          user = "1000:1000";
+          volumes = [
+            (storeFor "audiobookshelf/config" "/config")
+            (storeFor "audiobookshelf/metadata" "/metadata")
+            (externalStoreFor "media/audiobooks" "/audiobooks")
+          ];
+          labels = containerLib.mkTraefikLabels { name = "audiobookshelf"; port = 8080; };
+        };
+      };
     };
   };
 }

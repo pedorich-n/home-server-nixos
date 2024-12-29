@@ -11,7 +11,13 @@ let
     "z" = defaultRules; # Set mode/permissions to a directory, in case it already exists
   };
 
-  folders = lib.map (folder: "/mnt/external/data-library/${folder}") [
+  storeFolders = lib.map (folder: "/mnt/store/data-library/${folder}") [
+    "audiobookshelf"
+    "audiobookshelf/config"
+    "audiobookshelf/metadata"
+  ];
+
+  externalFolders = lib.map (folder: "/mnt/external/data-library/${folder}") [
     "downloads/usenet"
     "downloads/usenet/incomplete"
     "downloads/usenet/complete"
@@ -35,5 +41,5 @@ let
   ];
 in
 {
-  systemd.tmpfiles.settings."90-data-library" = lib.foldl' (acc: folder: acc // { ${folder} = mkDirectoryRules; }) { } folders;
+  systemd.tmpfiles.settings."90-data-library" = lib.foldl' (acc: folder: acc // { ${folder} = mkDirectoryRules; }) { } (storeFolders ++ externalFolders);
 }
