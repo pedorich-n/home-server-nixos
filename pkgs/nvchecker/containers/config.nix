@@ -157,6 +157,11 @@ let
       container = "jellyfin/jellyfin";
       include_regex = regexes.semverLike;
     };
+
+    audiobookshelf = registries.ghcr {
+      container = "advplyr/audiobookshelf";
+      include_regex = regexes.semverLike;
+    };
   };
 
   config = {

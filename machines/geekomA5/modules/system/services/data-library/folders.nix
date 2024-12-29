@@ -17,7 +17,7 @@ let
     "downloads/usenet/complete"
     "downloads/usenet/complete/tv"
     "downloads/usenet/complete/movies"
-    "downloads/usenet/complete/books"
+    "downloads/usenet/complete/audiobooks"
     "downloads/usenet/complete/prowlarr"
 
     "downloads/torrent"
@@ -25,12 +25,13 @@ let
     "downloads/torrent/complete"
     "downloads/torrent/complete/tv"
     "downloads/torrent/complete/movies"
-    "downloads/torrent/complete/books"
+    "downloads/torrent/complete/audiobooks"
     "downloads/torrent/complete/prowlarr"
 
     "media"
     "media/tv"
     "media/movies"
+    "media/audiobooks"
   ];
 in
 {

@@ -1,4 +1,9 @@
 {
+  "audiobookshelf": {
+    "container": "advplyr/audiobookshelf",
+    "registry": "ghcr.io",
+    "version": "2.17.5"
+  },
   "authentik-ldap": {
     "container": "goauthentik/ldap",
     "registry": "ghcr.io",
