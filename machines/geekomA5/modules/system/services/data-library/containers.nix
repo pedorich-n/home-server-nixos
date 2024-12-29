@@ -12,6 +12,14 @@ let
     service = name;
     priority = 15;
   };
+
+  defaultEnvs = {
+    TZ = "${config.time.timeZone}";
+    PUID = builtins.toString config.users.users.user.uid;
+    PGID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
+  };
+
+  user = "${defaultEnvs.PUID}:${defaultEnvs.PGID}";
 in
 {
   virtualisation.quadlet = {
@@ -60,11 +68,7 @@ in
         useGlobalContainers = true;
 
         containerConfig = {
-          environments = {
-            TZ = "${config.time.timeZone}";
-            PUID = "1000";
-            PGID = "1000";
-          };
+          environments = defaultEnvs;
           volumes = [
             (storeFor "qbittorrent/config" "/config")
             (externalStoreFor "downloads/torrent" "/data/downloads/torrent")
@@ -82,11 +86,9 @@ in
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
 
-        containerConfig = {
-          environments = {
-            TZ = "${config.time.timeZone}";
-            PUID = "1000";
-            PGID = "1000";
+        containerConfig = rec {
+          environments = defaultEnvs // {
+            PORT = "8080";
           };
           volumes = [
             (storeFor "sabnzbd/config" "/config")
@@ -94,7 +96,7 @@ in
           ];
           labels = containerLib.mkTraefikLabels {
             name = "sabnzbd";
-            port = 8080;
+            port = environments.PORT;
             middlewares = [ "authentik@docker" ];
           };
           inherit networks pod;
@@ -106,11 +108,7 @@ in
         useGlobalContainers = true;
 
         containerConfig = {
-          environments = {
-            TZ = "${config.time.timeZone}";
-            PIUD = "1000";
-            PGID = "1000";
-          };
+          environments = defaultEnvs;
           volumes = [
             (storeFor "prowlarr/config" "/config")
           ];
@@ -129,11 +127,7 @@ in
         useGlobalContainers = true;
 
         containerConfig = {
-          environments = {
-            TZ = "${config.time.timeZone}";
-            PIUD = "1000";
-            PGID = "1000";
-          };
+          environments = defaultEnvs;
           volumes = [
             (storeFor "sonarr/config" "/config")
             (externalStoreFor "" "/data")
@@ -153,11 +147,7 @@ in
         useGlobalContainers = true;
 
         containerConfig = {
-          environments = {
-            TZ = "${config.time.timeZone}";
-            PIUD = "1000";
-            PGID = "1000";
-          };
+          environments = defaultEnvs;
           volumes = [
             (storeFor "radarr/config" "/config")
             (externalStoreFor "" "/data")
@@ -181,7 +171,6 @@ in
             TZ = "${config.time.timeZone}";
           };
           notify = "healthy"; # This image has working healthcheck already, so I just need to connect it to systemd
-          user = "1000:1000";
           devices = [
             # HW Transcoding acceleration. 
             # See https://jellyfin.org/docs/general/installation/container#with-hardware-acceleration
@@ -205,7 +194,38 @@ in
             "traefik.udp.routers.jellyfin-client-discovery.entrypoints=jellyfin-client-discovery"
             "traefik.udp.routers.jellyfin-client-discovery.service=jellyfin-client-discovery"
           ];
-          inherit networks pod;
+          inherit networks pod user;
+        };
+
+        serviceConfig = {
+          Environment = [
+            ''PATH=${lib.makeBinPath [ "/run/wrappers" config.systemd.package ]}''
+          ];
+        };
+      };
+
+      audiobookshelf = {
+        requiresTraefikNetwork = true;
+        useGlobalContainers = true;
+
+        containerConfig = containerLib.withAlpineHostsFix rec {
+          environments = {
+            TZ = "${config.time.timeZone}";
+            PORT = "8080";
+          };
+          healthCmd = "curl http://localhost:${environments.PORT}/healthcheck";
+          healthStartPeriod = "5s";
+          healthTimeout = "5s";
+          healthInterval = "5s";
+          healthRetries = 5;
+          notify = "healthy";
+          volumes = [
+            (storeFor "audiobookshelf/config" "/config")
+            (storeFor "audiobookshelf/metadata" "/metadata")
+            (externalStoreFor "media/audiobooks" "/audiobooks")
+          ];
+          labels = containerLib.mkTraefikLabels { name = "audiobookshelf"; port = 8080; };
+          inherit networks pod user;
         };
 
         serviceConfig = {

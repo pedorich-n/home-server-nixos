@@ -1,38 +1,77 @@
 { config, lib, ... }:
 let
+  storeRoot = "/mnt/store/data-library";
+  externalRoot = "/mnt/external/data-library";
+
   defaultRules = {
     user = config.users.users.user.name;
     group = config.users.users.user.group;
     mode = "0755";
   };
 
-  mkDirectoryRules = {
+  mkCreateDirectoryRule = {
     "d" = defaultRules; # Create a directory
-    "z" = defaultRules; # Set mode/permissions to a directory, in case it already exists
   };
 
-  folders = lib.map (folder: "/mnt/external/data-library/${folder}") [
-    "downloads/usenet"
-    "downloads/usenet/incomplete"
-    "downloads/usenet/complete"
-    "downloads/usenet/complete/tv"
-    "downloads/usenet/complete/movies"
-    "downloads/usenet/complete/books"
-    "downloads/usenet/complete/prowlarr"
+  mkSetPermissionsRule = {
+    "Z" = defaultRules; # Set mode/permissions recursively to a directory, in case it already exists
+  };
 
-    "downloads/torrent"
-    "downloads/torrent/incomplete"
-    "downloads/torrent/complete"
-    "downloads/torrent/complete/tv"
-    "downloads/torrent/complete/movies"
-    "downloads/torrent/complete/books"
-    "downloads/torrent/complete/prowlarr"
+  foldersToCreate =
+    (lib.map (folder: "${storeRoot}/${folder}") [
+      "audiobookshelf"
+      "audiobookshelf/config"
+      "audiobookshelf/metadata"
 
-    "media"
-    "media/tv"
-    "media/movies"
+      "jellyfin"
+      "jellyfin/cache"
+      "jellyfin/config"
+
+      "prowlarr"
+      "prowlarr/config"
+
+      "qbittorrent"
+      "qbittorrent/config"
+
+      "radarr"
+      "radarr/config"
+
+      "sabnzbd"
+      "sabnzbd/config"
+
+      "sonarr"
+      "sonarr/config"
+    ]) ++ (lib.map (folder: "${externalRoot}/${folder}") [
+      "downloads/usenet"
+      "downloads/usenet/incomplete"
+      "downloads/usenet/complete"
+      "downloads/usenet/complete/tv"
+      "downloads/usenet/complete/movies"
+      "downloads/usenet/complete/audiobooks"
+      "downloads/usenet/complete/prowlarr"
+
+      "downloads/torrent"
+      "downloads/torrent/incomplete"
+      "downloads/torrent/complete"
+      "downloads/torrent/complete/tv"
+      "downloads/torrent/complete/movies"
+      "downloads/torrent/complete/audiobooks"
+      "downloads/torrent/complete/prowlarr"
+
+      "media"
+      "media/tv"
+      "media/movies"
+      "media/audiobooks"
+    ]);
+
+  foldersToSetPermissions = [
+    storeRoot
+    externalRoot
   ];
 in
 {
-  systemd.tmpfiles.settings."90-data-library" = lib.foldl' (acc: folder: acc // { ${folder} = mkDirectoryRules; }) { } folders;
+  systemd.tmpfiles.settings = {
+    "90-data-library-create" = lib.foldl' (acc: folder: acc // { ${folder} = mkCreateDirectoryRule; }) { } foldersToCreate;
+    "91-data-library-set" = lib.foldl' (acc: folder: acc // { ${folder} = mkSetPermissionsRule; }) { } foldersToSetPermissions;
+  };
 }
