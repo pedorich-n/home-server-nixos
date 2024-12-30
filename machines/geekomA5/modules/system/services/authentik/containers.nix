@@ -78,6 +78,12 @@ in
             "authentik-postgresql.service"
           ]
           { };
+
+        serviceConfig = {
+          # Quite often the worker's healthcheck gets stuck for some reason. 
+          # With this systemd will restart the worker if it's been "activating" for 5 minutes.
+          TimeoutStartSec = 300;
+        };
       };
 
       authentik-ldap = {
@@ -139,6 +145,12 @@ in
             "authentik-postgresql.service"
           ]
           { };
+
+        serviceConfig = {
+          # Sometimes server's healthcheck gets stuck for some reason as well. 
+          # With this systemd will restart the service if it's been "activating" for 5 minutes.
+          TimeoutStartSec = 300;
+        };
       };
     };
   };

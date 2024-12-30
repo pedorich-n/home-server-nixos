@@ -1,7 +1,3 @@
-{ config, lib, pkgs, ... }:
-let
-  mkSystemdZfsMountTarget = pkgs.callPackage ./_systemd-zfs-mount-target.nix { inherit config; };
-in
 {
   # NOTE: https://wiki.archlinux.org/title/ZFS
 
@@ -87,16 +83,9 @@ in
 
   # NOTE https://github.com/nix-community/disko/issues/581
   fileSystems = {
-    "/mnt/external".options = [ "noauto" "nofail" ];
-    "/mnt/external/immich-library".options = [ "noauto" "nofail" ];
-    "/mnt/external/paperless-library".options = [ "noauto" "nofail" ];
-    "/mnt/external/data-library".options = [ "noauto" "nofail" ];
+    "/mnt/external".options = [ "nofail" "x-systemd.requires=zfs.target" ];
+    "/mnt/external/immich-library".options = [ "nofail" "x-systemd.requires=zfs.target" ];
+    "/mnt/external/paperless-library".options = [ "nofail" "x-systemd.requires=zfs.target" ];
+    "/mnt/external/data-library".options = [ "nofail" "x-systemd.requires=zfs.target" ];
   };
-
-
-  systemd.services = lib.mkMerge [
-    (mkSystemdZfsMountTarget { dataset = "external/immich"; })
-    (mkSystemdZfsMountTarget { dataset = "external/paperless"; })
-    (mkSystemdZfsMountTarget { dataset = "external/data"; })
-  ];
 }
