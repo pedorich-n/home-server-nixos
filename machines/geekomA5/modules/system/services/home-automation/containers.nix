@@ -127,6 +127,7 @@ in
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
         useGlobalContainers = true;
+        autoStart = false;
 
         containerConfig = {
           environments = {
