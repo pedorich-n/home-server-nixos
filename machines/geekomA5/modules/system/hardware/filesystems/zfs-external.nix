@@ -63,6 +63,7 @@
             type = "zfs_fs";
             options = {
               mountpoint = "/mnt/external/paperless-library";
+              quota = "10G";
               "com.sun:auto-snapshot" = "true";
             };
             mountpoint = "/mnt/external/paperless-library";
@@ -72,6 +73,7 @@
             type = "zfs_fs";
             options = {
               mountpoint = "/mnt/external/data-library";
+              quota = "1T";
               "com.sun:auto-snapshot" = "false";
             };
             mountpoint = "/mnt/external/data-library";
