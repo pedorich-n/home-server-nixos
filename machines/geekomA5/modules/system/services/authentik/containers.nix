@@ -30,6 +30,8 @@ in
     containers = {
       authentik-postgresql = {
         useGlobalContainers = true;
+        useProvidedHealthcheck = true;
+
         containerConfig = {
           environments = defaultEnvs;
           user = "root";
@@ -43,6 +45,8 @@ in
 
       authentik-redis = {
         useGlobalContainers = true;
+        useProvidedHealthcheck = true;
+
         containerConfig = {
           exec = "--save 60 1 --loglevel warning";
           user = "root";
@@ -77,7 +81,9 @@ in
             "authentik-redis.service"
             "authentik-postgresql.service"
           ]
-          { };
+          {
+            After = [ "authentik-server.service" ];
+          };
 
         serviceConfig = {
           # Quite often the worker's healthcheck gets stuck for some reason. 

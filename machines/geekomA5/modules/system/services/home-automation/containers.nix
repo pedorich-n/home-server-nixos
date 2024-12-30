@@ -72,6 +72,8 @@ in
 
       homeassistant-postgresql = {
         useGlobalContainers = true;
+        useProvidedHealthcheck = true;
+
         containerConfig = {
           environmentFiles = [ config.age.secrets.ha_postgres.path ];
           volumes = [

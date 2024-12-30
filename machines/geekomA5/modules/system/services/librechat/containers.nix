@@ -23,6 +23,8 @@ in
     containers = {
       librechat-vectordb = {
         useGlobalContainers = true;
+        useProvidedHealthcheck = true;
+
         containerConfig = {
           volumes = [
             (storeFor "vectordb" "/var/lib/postgresql/data")

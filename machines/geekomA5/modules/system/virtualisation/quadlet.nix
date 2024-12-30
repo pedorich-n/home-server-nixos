@@ -25,6 +25,10 @@ in
             type = lib.types.bool;
             default = false;
           };
+          useProvidedHealthcheck = lib.mkOption {
+            type = lib.types.bool;
+            default = false;
+          };
         };
 
         config = lib.mkMerge [
@@ -52,6 +56,19 @@ in
             unitConfig = {
               Wants = lib.mkAfter [ "authentik-server.service" ];
               After = lib.mkAfter [ "authentik-server.service" ];
+            };
+          })
+          (lib.mkIf config.useProvidedHealthcheck {
+            containerConfig = {
+              healthCmd =
+                if (lib.match ".*(pgvecto|postgres).*" config.containerConfig.image != null) then ''pg_isready --dbname="''${POSTGRES_DB}" --username="''${POSTGRES_USER}" || exit 1''
+                else if (lib.match ".*(redis).*" config.containerConfig.image != null) then ''[ "$(redis-cli ping)" = "PONG" ]''
+                else builtins.throw "Provided healthcheck only available for Postgres and Redis images! ${config.containerConfig.image} is not supported!";
+              healthStartPeriod = "10s";
+              healthTimeout = "5s";
+              healthInterval = "5s";
+              healthRetries = 5;
+              notify = "healthy";
             };
           })
         ];
