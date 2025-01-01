@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   custom.networking.ports = {
     tcp = {
@@ -7,6 +8,7 @@
     };
 
     udp = {
+      avahi-mdns = { port = 5353; openFirewall = true; };
       samba-name-service = { port = 138; openFirewall = true; };
       samba-datagram-service = { port = 139; openFirewall = true; };
       samba-wsdd = { port = 3702; openFirewall = true; };
@@ -16,6 +18,7 @@
   services = {
     samba = {
       enable = true;
+      package = pkgs.samba4Full;
       settings = {
         global = {
           "workgroup" = "WORKGROUP";
@@ -39,6 +42,16 @@
     samba-wsdd = {
       # This enables autodiscovery on Windows
       enable = true;
+    };
+
+    avahi = {
+      # This _should_ enable auto-discovery via mDNS. In reality it depends on the devices in the network :(
+      enable = true;
+      nssmdns4 = true;
+      publish = {
+        enable = true;
+        userServices = true;
+      };
     };
   };
 }
