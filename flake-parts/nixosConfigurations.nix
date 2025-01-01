@@ -15,6 +15,9 @@
         inputs.playit-nixos-module.nixosModules.default
         inputs.quadlet-nix.nixosModules.quadlet
       ];
+      deploySettings = {
+        activationTimeout = 600;
+      };
     })
 
     (flake.lib.builders.mkSystemIso {

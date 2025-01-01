@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   boot = {
     supportedFilesystems = {
@@ -16,6 +16,8 @@
         "usbcore" # USB modules (USB 2.0, USB 3.0, USB HID, etc)
       ];
     };
+
+    kernelPackages = pkgs.linuxPackages_latest;
 
     kernelModules = [
       "amdgpu" # AMD GPU 
