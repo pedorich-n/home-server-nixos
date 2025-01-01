@@ -1,6 +1,6 @@
 { config, pkgs, containerLib, systemdLib, ... }:
 let
-  userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.docker.gid}";
+  userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.${config.users.users.user.group}.gid}";
 
   storeFor = localPath: remotePath: "/mnt/store/home-automation/${localPath}:${remotePath}";
 

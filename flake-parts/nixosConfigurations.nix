@@ -4,7 +4,8 @@
     (flake.lib.builders.mkSystem {
       name = "geekomA5";
       system = "x86_64-linux";
-      modules = [
+      roles = [ "server" ];
+      extraModules = [
         inputs.disko.nixosModules.disko
         inputs.home-manager.nixosModules.default
         inputs.airtable-telegram-bot.nixosModules.ngrok

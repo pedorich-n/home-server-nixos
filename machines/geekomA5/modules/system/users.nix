@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, ... }: {
   users = {
     groups = {
       zigbee = { };
@@ -6,12 +6,11 @@
 
     users = {
       root = {
-        shell = pkgs.zsh;
+        hashedPasswordFile = config.age.secrets.os_root_password.path;
       };
-
       user = {
         extraGroups = [ "zigbee" "render" ];
-        shell = pkgs.zsh;
+        hashedPasswordFile = config.age.secrets.os_user_password.path;
       };
     };
   };
