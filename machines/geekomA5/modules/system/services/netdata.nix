@@ -1,6 +1,31 @@
 { inputs, config, lib, pkgs, pkgs-netdata, ... }:
 let
   metricsDomain = "http://metrics.${config.custom.networking.domain}:${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
+
+  # https://learn.netdata.cloud/docs/collecting-metrics/generic-collecting-metrics/prometheus-endpoint#options
+  prometheusEndpoints = [
+    {
+      # https://github.com/immich-app/immich/blob/aac789f788c8eb0275201a895926c19625b2b54f/docker/prometheus.yml
+      name = "Immich Server";
+      url = "${metricsDomain}/immich";
+      autodetection_retry = 60;
+    }
+    {
+      name = "Immich Microservices";
+      url = "${metricsDomain}/immich-microservices";
+      autodetection_retry = 60;
+
+    }
+  ] ++
+  (lib.optional (config.services.minecraft-servers.enable && (lib.any (server: server.enable) (lib.attrValues config.services.minecraft-servers.servers))) {
+    name = "Minecraft";
+    url = "${metricsDomain}/minecraft";
+    autodetection_retry = 60;
+    selector.deny = [
+      "jvm_buffer_pool*"
+      ''jvm_memory_pool_*{pool=*"CodeHeap*"}''
+    ];
+  });
 in
 {
   disabledModules = [ "services/monitoring/netdata.nix" ];
@@ -112,25 +137,9 @@ in
       };
 
       configDir = {
-        "go.d/prometheus.conf" = pkgs.writeText "netdata-prometheus.conf" ''
-          jobs:
-            - name: Minecraft
-              url: ${metricsDomain}/minecraft
-              autodetection_retry: 60
-              selector:
-                deny:
-                - jvm_buffer_pool*
-                - jvm_memory_pool_*{pool=*"CodeHeap*"}
-
-              # NOTE: https://github.com/immich-app/immich/blob/aac789f788c8eb0275201a895926c19625b2b54f/docker/prometheus.yml
-            - name: Immich Server
-              url: ${metricsDomain}/immich
-              autodetection_retry: 60
-
-            - name: Immich Microservices
-              url: ${metricsDomain}/immich-microservices
-              autodetection_retry: 60
-        '';
+        "go.d/prometheus.conf" = pkgs.writers.writeYAML "netdata-prometheus.conf" {
+          jobs = prometheusEndpoints;
+        };
 
         "go.d.conf" = pkgs.writeText "netdata-go.d.conf" ''
           modules:

@@ -9,7 +9,7 @@ in
   config = lib.mkMerge [
     {
       services.minecraft-servers.servers.${serverName} = {
-        enable = true;
+        enable = false;
         autoStart = true;
         openFirewall = true;
 
@@ -36,7 +36,7 @@ in
         files = minecraftLib.mkPackwizSymlinks { pkg = inputs.minecraft-modpack.packages.${system}.packwiz-server; folder = "config"; };
       };
     }
-    (lib.mkIf config.services.minecraft-servers.servers.${serverName}.enable {
+    (lib.mkIf (config.services.minecraft-servers.enable && config.services.minecraft-servers.servers.${serverName}.enable) {
       custom = {
         networking.ports.tcp = {
           "minecraft-${serverName}-game" = { port = 43000; openFirewall = true; };
