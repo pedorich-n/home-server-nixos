@@ -43,7 +43,6 @@ in
 
     containers = {
       immich-vectordb = {
-        useProvidedHealthcheck = true;
 
         containerConfig = {
           image = "registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0";
@@ -58,7 +57,6 @@ in
       };
 
       immich-redis = {
-        useProvidedHealthcheck = true;
 
         containerConfig = {
           image = "registry.hub.docker.com/library/redis:6.2-alpine@sha256:84882e87b54734154586e5f8abd4dce69fe7311315e2fc6d67c29614c8de2672";

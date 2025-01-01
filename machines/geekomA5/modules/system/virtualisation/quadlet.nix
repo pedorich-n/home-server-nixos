@@ -60,13 +60,14 @@ in
           })
           (lib.mkIf config.useProvidedHealthcheck {
             containerConfig = {
+              #NOTE - it seems like those actually consumer CPU and/or RAM in a noticeable way. Not sure if it's a leak or expected behavior.
               healthCmd =
                 if (lib.match ".*(pgvecto|postgres).*" config.containerConfig.image != null) then ''pg_isready --dbname="''${POSTGRES_DB}" --username="''${POSTGRES_USER}" || exit 1''
                 else if (lib.match ".*(redis).*" config.containerConfig.image != null) then ''[ "$(redis-cli ping)" = "PONG" ]''
                 else builtins.throw "Provided healthcheck only available for Postgres and Redis images! ${config.containerConfig.image} is not supported!";
               healthStartPeriod = "10s";
               healthTimeout = "5s";
-              healthInterval = "5s";
+              healthInterval = "30s";
               healthRetries = 5;
               notify = "healthy";
             };

@@ -17,7 +17,6 @@ in
     containers = {
       paperless-redis = {
         useGlobalContainers = true;
-        useProvidedHealthcheck = true;
 
         containerConfig = {
           volumes = [
@@ -29,7 +28,6 @@ in
 
       paperless-postgresql = {
         useGlobalContainers = true;
-        useProvidedHealthcheck = true;
 
         containerConfig = {
           environmentFiles = [ config.age.secrets.paperless.path ];

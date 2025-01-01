@@ -46,7 +46,7 @@ in
           healthCmd = "/gluetun-entrypoint healthcheck";
           healthStartPeriod = "10s";
           healthTimeout = "5s";
-          healthInterval = "5s";
+          healthInterval = "30s";
           healthRetries = 5;
           notify = "healthy";
           labels = containerLib.mkTraefikLabels {
@@ -204,7 +204,7 @@ in
           healthCmd = "curl http://localhost:${environments.PORT}/healthcheck";
           healthStartPeriod = "5s";
           healthTimeout = "5s";
-          healthInterval = "5s";
+          healthInterval = "30s";
           healthRetries = 5;
           notify = "healthy";
           volumes = [

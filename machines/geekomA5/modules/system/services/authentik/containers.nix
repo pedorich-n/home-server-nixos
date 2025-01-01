@@ -30,7 +30,6 @@ in
     containers = {
       authentik-postgresql = {
         useGlobalContainers = true;
-        useProvidedHealthcheck = true;
 
         containerConfig = {
           environments = defaultEnvs;
@@ -45,7 +44,6 @@ in
 
       authentik-redis = {
         useGlobalContainers = true;
-        useProvidedHealthcheck = true;
 
         containerConfig = {
           exec = "--save 60 1 --loglevel warning";
@@ -65,6 +63,7 @@ in
           healthCmd = "ak healthcheck";
           healthStartPeriod = "20s";
           healthTimeout = "5s";
+          healthInterval = "30s";
           healthRetries = 5;
           notify = "healthy";
           environments = defaultEnvs;
@@ -126,6 +125,7 @@ in
           healthCmd = "ak healthcheck";
           healthStartPeriod = "20s";
           healthTimeout = "5s";
+          healthInterval = "30s";
           healthRetries = 5;
           notify = "healthy";
           labels = (containerLib.mkTraefikLabels {
