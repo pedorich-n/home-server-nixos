@@ -1,9 +1,15 @@
 { inputs, flake, withSystem, lib, ... }:
 let
-  nixosSharedModules = flake.lib.loaders.listFilesRecursively { src = "${flake}/shared-modules/nixos/common"; };
-  nixosRoles = {
-    server = flake.lib.loaders.listFilesRecursively { src = "${flake}/shared-modules/nixos/roles/server"; };
-  };
+  nixosCommonModules = flake.lib.loaders.listFilesRecursively { src = "${flake}/shared-modules/nixos/common"; };
+
+  nixosRoleModules =
+    let
+      rolesRoot = "${flake}/shared-modules/nixos/roles";
+      availableModules = lib.attrNames (lib.filterAttrs (_: type: type == "directory") (builtins.readDir rolesRoot));
+      mkRoleModules = role: { ${role} = flake.lib.loaders.listFilesRecursively { src = "${rolesRoot}/${role}"; }; };
+    in
+    lib.foldl' (acc: role: acc // (mkRoleModules role)) { } availableModules;
+
   loadMachine = name: flake.lib.loaders.listFilesRecursively { src = "${flake}/machines/${name}"; };
 
   overlays = import "${flake}/overlays/custom-packages.nix";
@@ -14,8 +20,8 @@ let
     , roles ? [ ]
     , extraModules ? [ ]
     }: (loadMachine name)
-      ++ lib.optionals withSharedModules nixosSharedModules
-      ++ lib.optionals (roles != [ ]) lib.flatten (lib.map (role: nixosRoles.${role}) roles)
+      ++ lib.optionals withSharedModules nixosCommonModules
+      ++ lib.optionals (roles != [ ]) (lib.flatten (lib.map (role: nixosRoleModules.${role}) roles))
       ++ extraModules;
 
   mkSystem =
@@ -50,7 +56,7 @@ let
   mkSystemIso =
     { name
     , system
-    , withSharedModules ? false
+    , withSharedModules ? true
     , roles ? [ ]
     , extraModules ? [ ]
     , specialArgs ? { }
@@ -58,9 +64,7 @@ let
     {
       "${name}" = inputs.nixpkgs.lib.nixosSystem {
         inherit system;
-        modules =
-          [{ networking.hostName = lib.mkForce "nixos"; }]
-          ++ (mkModules { inherit name withSharedModules roles extraModules; });
+        modules = mkModules { inherit name withSharedModules roles extraModules; };
         specialArgs = {
           inherit flake inputs system;
         } // specialArgs;

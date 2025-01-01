@@ -10,7 +10,7 @@ in
       # and agenix secrets aren't encrypted with it yet
 
       root = {
-        initialPassword = "nixos";
+        initialPassword = lib.mkDefault "nixos";
         inherit shell;
       };
 
@@ -18,7 +18,7 @@ in
         inherit shell;
         uid = lib.mkDefault 1000;
         isNormalUser = true;
-        initialPassword = "nixos";
+        initialPassword = lib.mkDefault "nixos";
         extraGroups = [
           "wheel"
           "systemd-journal"
