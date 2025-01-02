@@ -32,5 +32,17 @@
       ];
       enableDeploy = false;
     };
+
+    wsl = {
+      withPresets = presets: with presets; [
+        home-manager
+      ];
+      extraModules = [
+        inputs.nixos-wsl.nixosModules.default
+        inputs.home-manager.nixosModules.default
+        inputs.agenix.nixosModules.default
+      ];
+      enableDeploy = false;
+    };
   };
 }

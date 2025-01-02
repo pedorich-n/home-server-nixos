@@ -17,6 +17,13 @@
 
         nix build "${flake}#nixosConfigurations.''${system}.config.system.build.isoImage" "$@"
       '';
+
+      build-tarball.program = pkgs.writeShellScriptBin "build-tarball" ''
+        system=$1
+        shift 1
+
+        nix run "${flake}#nixosConfigurations.''${system}.config.system.build.tarballBuilder" "$@"
+      '';
     };
   };
 }

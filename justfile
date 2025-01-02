@@ -23,6 +23,9 @@ dry-deploy-geekomA5 *args:
 build-iso *args:
     nix run "{{ justfile_directory() + '#build-iso' }}" -- "minimal"
 
+build-tarball *args:
+    nix run "{{ justfile_directory() + '#build-tarball' }}" -- "wsl"
+
 check:
     nix flake check "{{ justfile_directory() }}"
 
