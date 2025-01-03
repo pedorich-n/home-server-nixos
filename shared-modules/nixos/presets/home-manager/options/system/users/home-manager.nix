@@ -22,8 +22,6 @@ let
   enabledHmUsers = lib.foldl' (acc: user: acc // { ${user} = hmForUser user; }) { } config.custom.users.homeManagerUsers;
 in
 {
-  imports = [ inputs.home-manager.nixosModules.default ];
-
   options = {
     custom.users.homeManagerUsers = lib.mkOption {
       type = uniqueListOf lib.types.str;

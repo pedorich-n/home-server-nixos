@@ -46,10 +46,6 @@ let
   secrets = lib.mkMerge (builtins.map (path: mkSecret path) encryptedFilesToMount);
 in
 {
-  imports = [
-    inputs.agenix.nixosModules.default
-  ];
-
   age = {
     inherit secrets;
   };

@@ -4,9 +4,16 @@
     (flake.lib.builders.mkSystem {
       name = "geekomA5";
       system = "x86_64-linux";
-      roles = [ "server" ];
+      presets = [
+        "headless"
+        "home-manager"
+        "ssh"
+        "systemd-notifications"
+      ];
       extraModules = [
         inputs.disko.nixosModules.disko
+        inputs.agenix.nixosModules.default
+        inputs.home-manager.nixosModules.default
         inputs.airtable-telegram-bot.nixosModules.ngrok
         inputs.airtable-telegram-bot.nixosModules.calendar-loader
         inputs.airtable-telegram-bot.nixosModules.calendar-loader-scheduler-cron

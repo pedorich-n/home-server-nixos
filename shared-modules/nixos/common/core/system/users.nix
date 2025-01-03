@@ -1,7 +1,4 @@
-{ config, lib, pkgs, ... }:
-let
-  shell = pkgs.zsh;
-in
+{ lib, pkgs, ... }:
 {
   users = {
     mutableUsers = lib.mkDefault false;
@@ -11,20 +8,7 @@ in
 
       root = {
         initialPassword = lib.mkDefault "nixos";
-        inherit shell;
-      };
-
-      user = {
-        inherit shell;
-        uid = lib.mkDefault 1000;
-        isNormalUser = true;
-        initialPassword = lib.mkDefault "nixos";
-        extraGroups = [
-          "wheel"
-          "systemd-journal"
-        ]
-        ++ lib.optional config.virtualisation.docker.enable "docker"
-        ++ lib.optional config.virtualisation.podman.enable "podman";
+        shell = pkgs.zsh;
       };
     };
   };

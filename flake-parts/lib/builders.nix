@@ -2,13 +2,13 @@
 let
   nixosCommonModules = flake.lib.loaders.listFilesRecursively { src = "${flake}/shared-modules/nixos/common"; };
 
-  nixosRoleModules =
+  nixosPresetModules =
     let
-      rolesRoot = "${flake}/shared-modules/nixos/roles";
-      availableModules = lib.attrNames (lib.filterAttrs (_: type: type == "directory") (builtins.readDir rolesRoot));
-      mkRoleModules = role: { ${role} = flake.lib.loaders.listFilesRecursively { src = "${rolesRoot}/${role}"; }; };
+      rolesRoot = "${flake}/shared-modules/nixos/presets";
+      availablePresets = lib.attrNames (lib.filterAttrs (_: type: type == "directory") (builtins.readDir rolesRoot));
+      mkPresetModules = role: { ${role} = flake.lib.loaders.listFilesRecursively { src = "${rolesRoot}/${role}"; }; };
     in
-    lib.foldl' (acc: role: acc // (mkRoleModules role)) { } availableModules;
+    lib.foldl' (acc: role: acc // (mkPresetModules role)) { } availablePresets;
 
   loadMachine = name: flake.lib.loaders.listFilesRecursively { src = "${flake}/machines/${name}"; };
 
@@ -17,17 +17,17 @@ let
   mkModules =
     { name
     , withSharedModules ? true
-    , roles ? [ ]
+    , presets ? [ ]
     , extraModules ? [ ]
     }: (loadMachine name)
       ++ lib.optionals withSharedModules nixosCommonModules
-      ++ lib.optionals (roles != [ ]) (lib.flatten (lib.map (role: nixosRoleModules.${role}) roles))
+      ++ lib.optionals (presets != [ ]) (lib.flatten (lib.map (role: nixosPresetModules.${role}) presets))
       ++ extraModules;
 
   mkSystem =
     { name
     , system
-    , roles ? [ ]
+    , presets ? [ ]
     , extraModules ? [ ]
     , withSharedModules ? true
     , specialArgs ? { }
@@ -39,7 +39,7 @@ let
         inherit system;
         modules =
           [{ networking.hostName = lib.mkDefault name; }]
-            ++ (mkModules { inherit name withSharedModules roles extraModules; });
+            ++ (mkModules { inherit name withSharedModules presets extraModules; });
         specialArgs = {
           inherit flake inputs system overlays;
         } // specialArgs;
@@ -57,14 +57,14 @@ let
     { name
     , system
     , withSharedModules ? true
-    , roles ? [ ]
+    , presets ? [ ]
     , extraModules ? [ ]
     , specialArgs ? { }
     }:
     {
       "${name}" = inputs.nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = mkModules { inherit name withSharedModules roles extraModules; };
+        modules = mkModules { inherit name withSharedModules presets extraModules; };
         specialArgs = {
           inherit flake inputs system;
         } // specialArgs;
