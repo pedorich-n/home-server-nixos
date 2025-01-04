@@ -1,13 +1,12 @@
-{ flake, inputs, lib, ... }:
+{ inputs, ... }:
 {
-  flake.nixosConfigurations = lib.mkMerge [
-    (flake.lib.builders.mkSystem {
-      name = "geekomA5";
-      presets = [
-        "headless"
-        "home-manager"
-        "ssh"
-        "systemd-notifications"
+  flake.builders.nixosConfigurations = {
+    geekomA5 = {
+      withPresets = presets: with presets; [
+        headless
+        home-manager
+        ssh
+        systemd-notifications
       ];
       extraModules = [
         inputs.disko.nixosModules.disko
@@ -24,10 +23,14 @@
       deploySettings = {
         activationTimeout = 600;
       };
-    })
+    };
 
-    (flake.lib.builders.mkSystemIso {
-      name = "minimal";
-    })
-  ];
+    minimal = {
+      withPresets = presets: with presets; [
+        ssh
+        headless
+      ];
+      enableDeploy = false;
+    };
+  };
 }
