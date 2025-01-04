@@ -1,4 +1,4 @@
-{ config, lib, inputs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 let
   cfg = config.custom.nixpkgs-unstable;
 in
@@ -10,7 +10,10 @@ in
 
       settings = mkOption {
         type = types.unspecified;
-        default = { inherit (config.nixpkgs) system config overlays; };
+        default = {
+          inherit (pkgs) config overlays;
+          inherit (pkgs.stdenv.hostPlatform) system;
+        };
       };
     };
   };

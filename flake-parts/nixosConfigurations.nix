@@ -3,7 +3,6 @@
   flake.nixosConfigurations = lib.mkMerge [
     (flake.lib.builders.mkSystem {
       name = "geekomA5";
-      system = "x86_64-linux";
       presets = [
         "headless"
         "home-manager"
@@ -29,7 +28,6 @@
 
     (flake.lib.builders.mkSystemIso {
       name = "minimal";
-      system = "x86_64-linux";
     })
   ];
 }

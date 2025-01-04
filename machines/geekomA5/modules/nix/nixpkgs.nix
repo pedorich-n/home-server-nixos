@@ -1,4 +1,4 @@
-{ inputs, config, overlays, ... }:
+{ inputs, pkgs, overlays, ... }:
 {
   nixpkgs = {
     overlays = [
@@ -10,6 +10,7 @@
   };
 
   _module.args.pkgs-netdata = import inputs.nixpkgs-netdata {
-    inherit (config.nixpkgs) system config;
+    inherit (pkgs) config overlays;
+    inherit (pkgs.stdenv.hostPlatform) system;
   };
 }

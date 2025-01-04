@@ -26,7 +26,6 @@ let
 
   mkSystem =
     { name
-    , system
     , presets ? [ ]
     , extraModules ? [ ]
     , withSharedModules ? true
@@ -36,12 +35,11 @@ let
     }:
     {
       "${name}" = (inputs.nixpkgs.lib.nixosSystem {
-        inherit system;
         modules =
           [{ networking.hostName = lib.mkDefault name; }]
             ++ (mkModules { inherit name withSharedModules presets extraModules; });
         specialArgs = {
-          inherit flake inputs system overlays;
+          inherit flake inputs overlays;
         } // specialArgs;
       }) // {
         meta = {
@@ -55,7 +53,6 @@ let
 
   mkSystemIso =
     { name
-    , system
     , withSharedModules ? true
     , presets ? [ ]
     , extraModules ? [ ]
@@ -63,10 +60,9 @@ let
     }:
     {
       "${name}" = inputs.nixpkgs.lib.nixosSystem {
-        inherit system;
         modules = mkModules { inherit name withSharedModules presets extraModules; };
         specialArgs = {
-          inherit flake inputs system;
+          inherit flake inputs;
         } // specialArgs;
       };
     };
