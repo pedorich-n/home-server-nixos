@@ -1,7 +1,9 @@
 { config, lib, pkgs, ... }: {
   users = {
     groups = {
-      zigbee = { };
+      zigbee = {
+        gid = 992; # Was set by the activation script before I needed to know it in build-time
+      };
     };
 
     users = {

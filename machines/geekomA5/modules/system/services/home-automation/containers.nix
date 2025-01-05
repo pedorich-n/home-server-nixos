@@ -52,13 +52,17 @@ in
             TZ = "${config.time.timeZone}";
           };
           volumes = [
-            # configuration file is managed by systemd.tmpfiles
             (storeFor "zigbee2mqtt" "/app/data")
             "${config.age.secrets.zigbee2mqtt_secrets.path}:/app/data/secrets.yaml:ro"
             "/run/udev:/run/udev:ro"
           ];
-          devices = [ "/dev/ttyUSB0:/dev/ttyZigbee" ];
-          # user = userSetting;
+          addGroups = [
+            (builtins.toString config.users.groups.zigbee.gid)
+          ];
+          devices = [
+            "/dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0:/dev/ttyZigbee"
+          ];
+          user = userSetting;
           labels = containerLib.mkTraefikLabels {
             name = "zigbee2mqtt";
             port = 8080;
@@ -78,10 +82,14 @@ in
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
+          user = userSetting;
           inherit networks pod;
         };
       };
 
+      # TODO: figure out rootless container.
+      # See https://github.com/tribut/homeassistant-docker-venv
+      # See https://community.home-assistant.io/t/improving-docker-security-non-root-configuration/399971/9
       homeassistant = {
         useGlobalContainers = true;
         requiresTraefikNetwork = true;
