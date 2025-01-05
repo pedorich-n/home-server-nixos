@@ -1,5 +1,6 @@
-homeassistant: true
 permit_join: false
+homeassistant:
+  enabled: true
 mqtt:
   base_topic: zigbee2mqtt
   server: mqtt://mosquitto
@@ -10,20 +11,16 @@ mqtt:
   version: 4
 serial:
   port: /dev/ttyZigbee
-frontend: true
+  adapter: zstack
+frontend:
+  enabled: true
 advanced:
   network_key: "!secrets.yaml network_key"
-  homeassistant_legacy_entity_attributes: false
-  homeassistant_legacy_triggers: false
-  legacy_api: false
-  legacy_availability_payload: false
   log_level: info
   log_output:
-    - file
+    - console
   channel: 25
   last_seen: ISO_8601
-device_options:
-  legacy: false
 devices:
   "0xa4c1387f4ac9519d":
     friendly_name: tuya_temperature_bedroom_1
@@ -50,3 +47,4 @@ devices:
     homeassistant:
       name: Bedroom Temperature Humidity 1
 groups: {}
+version: 4
