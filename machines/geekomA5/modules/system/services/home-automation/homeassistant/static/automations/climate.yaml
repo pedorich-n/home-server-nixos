@@ -1,0 +1,96 @@
+- id: "climate"
+  alias: Climate
+  description: ""
+  triggers:
+    - trigger: calendar
+      entity_id: calendar.climate
+      event: start
+  conditions:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: "off"
+  actions:
+    - variables:
+        duration: >
+          {% set start = trigger.calendar_event.start | as_datetime %}
+          {% set next_midnight = (start + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0) %}
+          {% set end = trigger.calendar_event.end | as_datetime %}
+
+
+          {% if end == next_midnight %}
+            {{ None }}
+          {% else %}
+            {{ end - start }}
+          {% endif %}
+        summary: |
+          {{ trigger.calendar_event.summary.split(" ") }}
+        entities: |
+          {% set room = summary[0] | lower %}
+          {{ 
+            { 
+              "climate": "climate.{{ room }}_ac",
+              "temperature": "sensor.{{ room }}_temperature_avg"
+            } 
+          }}
+        mode: |
+          {{ summary[1] | lower }}
+        temp: |
+          {% if mode == "heat" %}
+            {{ 
+              {
+                "target": 24,
+                "cmp": "lte",
+                "cmp_target": 20
+              } 
+            }}
+          {% elif mode == "cool" %}
+            {{ 
+              {
+                "target": 27,
+                "cmp": "gte",
+                "cmp_target": 26
+              } 
+            }}
+          {% endif %}
+    - alias: If temperature condition matches
+      if:
+        - condition: template
+          value_template: |-
+            {% if temp.cmp == "lte" %}
+              {{ float(states(entities.temperature)) <= temp.cmp_target }}
+            {% elif temp.cmp == "gte" %}
+              {{ float(states(entities.temperature)) >= temp.cmp_target }}
+            {% endif %}
+      then:
+        - action: climate.set_temperature
+          metadata: {}
+          data:
+            hvac_mode: "{{ mode }}"
+            temperature: "{{ temp.target }}"
+          target:
+            entity_id: "{{ entities.climate }}"
+          alias: Enable climate
+        - alias: Maybe wait to turn off
+          if:
+            - condition: template
+              value_template: "{{ duration != None }}"
+              alias: If duration is not empty
+          then:
+            - alias: Wait for climate to turn off
+              wait_template: |
+                {{ is_state(entities.climate, "off") }}
+              timeout: "{{ duration }}"
+              continue_on_timeout: true
+            - alias: Turn off if timed out
+              if:
+                - condition: template
+                  value_template: "{{ not wait.completed }}"
+                  alias: If timed out
+              then:
+                - action: climate.turn_off
+                  metadata: {}
+                  data: {}
+                  target:
+                    entity_id: "{{ entities.climate }}"
+  mode: parallel
+  max: 10

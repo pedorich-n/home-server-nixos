@@ -15,3 +15,6 @@ automation.set_theme_on_startup:
 
 automation.hallway_wardrobe_light:
   icon: mdi:lightbulb-auto-outline
+
+automation.climate:
+  icon: mdi:home-thermometer-outline
