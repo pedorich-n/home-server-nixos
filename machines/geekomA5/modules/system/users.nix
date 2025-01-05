@@ -15,6 +15,7 @@
         isNormalUser = true;
         shell = pkgs.zsh;
         hashedPasswordFile = config.age.secrets.os_user_password.path;
+        openssh.authorizedKeys.keys = config.custom.ssh.keys;
         extraGroups = [
           "zigbee"
           "render"

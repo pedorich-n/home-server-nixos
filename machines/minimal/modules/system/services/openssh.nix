@@ -1,9 +1,5 @@
 {
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = true;
-      PermitRootLogin = "yes";
-    };
+  services.openssh.settings = {
+    PermitRootLogin = "yes"; # Allow root login with password
   };
 }

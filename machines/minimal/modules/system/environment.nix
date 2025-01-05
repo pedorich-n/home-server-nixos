@@ -3,7 +3,6 @@
     # Hardware
     lshw
     parted
-    util-linux # cfdisk, fsck, mount, etc.
 
     # Utils
     rsync
