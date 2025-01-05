@@ -1,5 +1,7 @@
 { config, containerLib, systemdLib, ... }:
 let
+  userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.${config.users.users.user.group}.gid}";
+
   storeFor = localPath: remotePath: "/mnt/store/paperless/${localPath}:${remotePath}";
   externalStoreFor = localPath: remotePath: "/mnt/external/paperless-library/${localPath}:${remotePath}";
 
@@ -19,6 +21,7 @@ in
         useGlobalContainers = true;
 
         containerConfig = {
+          user = userSetting;
           volumes = [
             (storeFor "redis" "/data")
           ];
@@ -31,6 +34,7 @@ in
 
         containerConfig = {
           environmentFiles = [ config.age.secrets.paperless.path ];
+          user = userSetting;
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
@@ -45,6 +49,9 @@ in
 
         containerConfig = {
           environments = {
+            USERMAP_UID = builtins.toString config.users.users.user.uid;
+            USERMAP_GID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
+
             PAPERLESS_DBHOST = "paperless-postgresql";
             PAPERLESS_DBENGINE = "postgres";
             PAPERLESS_REDIS = "redis://paperless-redis:6379";
