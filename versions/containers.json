@@ -2,12 +2,12 @@
   "audiobookshelf": {
     "container": "advplyr/audiobookshelf",
     "registry": "ghcr.io",
-    "version": "2.17.5"
+    "version": "2.17.7"
   },
   "authentik-ldap": {
     "container": "goauthentik/ldap",
     "registry": "ghcr.io",
-    "version": "2024.10.5"
+    "version": "2024.12.1"
   },
   "authentik-postgresql": {
     "container": "library/postgres",
@@ -22,17 +22,17 @@
   "authentik-server": {
     "container": "goauthentik/server",
     "registry": "ghcr.io",
-    "version": "2024.10.5"
+    "version": "2024.12.1"
   },
   "authentik-worker": {
     "container": "goauthentik/server",
     "registry": "ghcr.io",
-    "version": "2024.10.5"
+    "version": "2024.12.1"
   },
   "gluetun": {
     "container": "qmcgaw/gluetun",
     "registry": "docker.io",
-    "version": "v3.39.1"
+    "version": "v3.40.0"
   },
   "grist": {
     "container": "gristlabs/grist",
@@ -42,7 +42,7 @@
   "homeassistant": {
     "container": "homeassistant/home-assistant",
     "registry": "docker.io",
-    "version": "2024.12.4"
+    "version": "2025.1.0"
   },
   "homeassistant-mariadb": {
     "container": "library/mariadb",
@@ -82,7 +82,7 @@
   "librechat-server": {
     "container": "danny-avila/librechat",
     "registry": "ghcr.io",
-    "version": "v0.7.5"
+    "version": "v0.7.6"
   },
   "librechat-vectordb": {
     "container": "ankane/pgvector",
@@ -107,12 +107,7 @@
   "nodered": {
     "container": "nodered/node-red",
     "registry": "docker.io",
-    "version": "4.0.6"
-  },
-  "paperless-server": {
-    "container": "paperless-ngx/paperless-ngx",
-    "registry": "ghcr.io",
-    "version": "2.13.5"
+    "version": "4.0.8"
   },
   "paperless-postgresql": {
     "container": "library/postgres",
@@ -124,15 +119,25 @@
     "registry": "docker.io",
     "version": "7.4.1-alpine"
   },
+  "paperless-server": {
+    "container": "paperless-ngx/paperless-ngx",
+    "registry": "ghcr.io",
+    "version": "2.13.5"
+  },
   "portainer": {
     "container": "portainer/portainer-ce",
     "registry": "docker.io",
-    "version": "2.25.0"
+    "version": "2.25.1"
   },
   "prowlarr": {
     "container": "hotio/prowlarr",
     "registry": "ghcr.io",
     "version": "release-1.28.2.4885"
+  },
+  "qbittorrent": {
+    "container": "linuxserver/qbittorrent",
+    "registry": "docker.io",
+    "version": "20.04.1"
   },
   "radarr": {
     "container": "hotio/radarr",
@@ -142,21 +147,16 @@
   "sabnzbd": {
     "container": "linuxserver/sabnzbd",
     "registry": "lscr.io",
-    "version": "4.4.0"
+    "version": "4.4.1"
   },
   "sonarr": {
     "container": "hotio/sonarr",
     "registry": "ghcr.io",
     "version": "release-4.0.11.2680"
   },
-  "qbittorrent": {
-    "container": "linuxserver/qbittorrent",
-    "registry": "docker.io",
-    "version": "5.0.3"
-  },
   "zigbee2mqtt": {
     "container": "koenkk/zigbee2mqtt",
     "registry": "docker.io",
-    "version": "1.42.0"
+    "version": "2.0.0"
   }
 }
