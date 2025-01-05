@@ -5,13 +5,13 @@ in
 {
   data = {
     # https://registry.terraform.io/providers/1Password/onepassword/2.1.2/docs/data-sources/vault
-    onepassword_vault.server = {
-      name = "Server";
+    onepassword_vault.homelab = {
+      name = "HomeLab";
     };
 
     # https://registry.terraform.io/providers/1Password/onepassword/2.1.2/docs/data-sources/item
     onepassword_item.bucket_names = {
-      vault = tfRef "data.onepassword_vault.server.uuid";
+      vault = tfRef "data.onepassword_vault.homelab.uuid";
       title = "Backblaze_Bucket_Names";
     };
 
@@ -66,7 +66,7 @@ in
 
     # https://registry.terraform.io/providers/1Password/onepassword/2.1.2/docs/resources/item
     onepassword_item.buckets_with_backblaze_info = {
-      vault = tfRef "data.onepassword_vault.server.uuid";
+      vault = tfRef "data.onepassword_vault.homelab.uuid";
       title = "Backblaze_Buckets";
       category = "secure_note";
       dynamic.section = {

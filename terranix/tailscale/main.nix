@@ -1,9 +1,6 @@
-{ serverConfig, lib, ... }:
+{ hostname, domain, lib, ... }:
 let
   inherit (lib) tfRef;
-
-  hostname = serverConfig.networking.hostName;
-  domain = serverConfig.custom.networking.domain;
 in
 {
   data = {

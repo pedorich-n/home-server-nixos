@@ -28,6 +28,8 @@
                 {
                   _module.args = {
                     inherit flake;
+                    hostname = flake.nixosConfigurations.geekomA5.config.networking.hostName;
+                    domain = flake.nixosConfigurations.geekomA5.config.custom.networking.domain;
                   };
                 }
               ] ++ (flake.lib.loaders.listFilesRecursively { src = "${flake}/shared-modules/terranix"; }));
@@ -50,13 +52,7 @@
             tailscale = {
               workdir = "./terranix/tailscale/workdir";
 
-              modules = [
-                {
-                  _module.args = {
-                    serverConfig = flake.nixosConfigurations.geekomA5.config;
-                  };
-                }
-              ] ++ flake.lib.loaders.listFilesRecursively { src = ../terranix/tailscale; };
+              modules = flake.lib.loaders.listFilesRecursively { src = ../terranix/tailscale; };
             };
 
             arr-stack = {
@@ -66,7 +62,6 @@
                 {
                   _module.args = {
                     inherit (inputs) trash-guides;
-                    serverConfig = flake.nixosConfigurations.geekomA5.config;
                   };
                 }
               ] ++ flake.lib.loaders.listFilesRecursively { src = ../terranix/arr-stack; };
