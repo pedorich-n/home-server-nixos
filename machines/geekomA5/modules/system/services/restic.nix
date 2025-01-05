@@ -37,6 +37,7 @@ in
       grist.timerConfig.OnCalendar = mkEveryDayAt "02:30:00";
       maloja.timerConfig.OnCalendar = mkEveryDayAt "02:35:00";
       paperless.timerConfig.OnCalendar = mkEveryDayAt "02:40:00";
+      homeassistant.timerConfig.OnCalendar = mkEveryDayAt "02:45:00";
     };
   };
 }

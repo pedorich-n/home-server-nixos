@@ -1,0 +1,43 @@
+- platform: statistics
+  name: Bedroom temperature AVG
+  unique_id: bedroom_temperature_avg
+  entity_id: sensor.bedroom_temperature_humidity_1_temperature
+  state_characteristic: average_step
+  keep_last_sample: true
+  percentile: 50
+  precision: 2
+  max_age:
+    hours: 1
+
+- platform: statistics
+  name: Bedroom humidity AVG
+  unique_id: bedroom_humidity_avg
+  entity_id: sensor.bedroom_temperature_humidity_1_humidity
+  state_characteristic: average_step
+  keep_last_sample: true
+  percentile: 50
+  precision: 2
+  max_age:
+    hours: 1
+
+- platform: statistics
+  name: LDK temperature AVG
+  unique_id: ldk_temperature_avg
+  entity_id: sensor.ldk_temperature_humidity_1_temperature
+  state_characteristic: average_step
+  keep_last_sample: true
+  percentile: 50
+  precision: 2
+  max_age:
+    hours: 1
+
+- platform: statistics
+  name: LDK humidity AVG
+  unique_id: ldk_humidity_avg
+  entity_id: sensor.ldk_temperature_humidity_1_humidity
+  state_characteristic: average_step
+  keep_last_sample: true
+  percentile: 50
+  precision: 2
+  max_age:
+    hours: 1
