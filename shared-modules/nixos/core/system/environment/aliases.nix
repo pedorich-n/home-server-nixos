@@ -1,5 +1,0 @@
-{
-  environment.shellAliases = {
-    bm = "bashmount";
-  };
-}

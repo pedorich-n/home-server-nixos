@@ -1,7 +1,5 @@
-{ serverConfig, lib, ... }:
+{ domain, lib, ... }:
 let
-  domain = serverConfig.custom.networking.domain;
-
   mkArrProvider = name: {
     ${name} = {
       url = "http://${name}.${domain}";

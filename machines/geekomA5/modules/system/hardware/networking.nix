@@ -1,36 +1,45 @@
-{
-  custom.networking.domain = "server.lan";
-
-  networking = {
-    useNetworkd = true;
-    networkmanager.enable = false;
-    wireless.enable = false;
-
-    hostId = "ac7dc50d"; # head -c 8 /etc/machine-id
+{ lib, ... }: {
+  options = {
+    custom.networking.domain = lib.mkOption {
+      type = lib.types.str;
+      readOnly = true;
+    };
   };
 
-  systemd = {
-    services."systemd-networkd".environment = {
-      SYSTEMD_LOG_LEVEL = "debug";
+  config = {
+    custom.networking.domain = "server.lan";
+
+    networking = {
+      useNetworkd = true;
+      networkmanager.enable = false;
+      wireless.enable = false;
+
+      hostId = "ac7dc50d"; # head -c 8 /etc/machine-id
     };
 
-    network = {
-      enable = true;
+    systemd = {
+      services."systemd-networkd".environment = {
+        SYSTEMD_LOG_LEVEL = "debug";
+      };
 
-      networks = {
-        "10-eth" = {
-          name = "enp2s0";
+      network = {
+        enable = true;
 
-          networkConfig = {
-            DHCP = "yes";
-            IgnoreCarrierLoss = "10m";
+        networks = {
+          "10-eth" = {
+            name = "enp2s0";
+
+            networkConfig = {
+              DHCP = "yes";
+              IgnoreCarrierLoss = "10m";
+            };
           };
         };
       };
     };
-  };
 
-  services.resolved = {
-    enable = true;
+    services.resolved = {
+      enable = true;
+    };
   };
 }
