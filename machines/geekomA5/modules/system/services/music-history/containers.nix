@@ -1,5 +1,11 @@
 { config, containerLib, pkgs, ... }:
 let
+  # Those images are built on linuxserver.io images so they need PUID/PGID instead of `--user uid:gid` :(
+  defaultEnvs = {
+    PUID = builtins.toString config.users.users.user.uid;
+    PGID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
+  };
+
   storeFor = localPath: remotePath: "/mnt/store/music-history/${localPath}:${remotePath}";
 
   malojaArtistRules = pkgs.callPackage ./maloja/_artist-rules.nix { };
@@ -22,7 +28,7 @@ in
         useGlobalContainers = true;
 
         containerConfig = {
-          environments = {
+          environments = defaultEnvs // {
             TZ = config.time.timeZone;
 
             BASE_URL = "http://multiscrobbler.${config.custom.networking.domain}:80";
@@ -50,7 +56,7 @@ in
         useGlobalContainers = true;
 
         containerConfig = {
-          environments = {
+          environments = defaultEnvs // {
             MALOJA_SKIP_SETUP = "true";
             MALOJA_SEND_STATS = "false";
             MALOJA_SCROBBLE_LASTFM = "false";
