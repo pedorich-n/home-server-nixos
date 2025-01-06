@@ -1,6 +1,6 @@
 { config, pkgs, containerLib, systemdLib, ... }:
 let
-  userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.${config.users.users.user.group}.gid}";
+  user = "${toString config.users.users.user.uid}:${toString config.users.groups.${config.users.users.user.group}.gid}";
 
   storeFor = localPath: remotePath: "/mnt/store/home-automation/${localPath}:${remotePath}";
 
@@ -31,7 +31,6 @@ in
             (storeFor "mosquitto/data" "/mosquitto/data")
             (storeFor "mosquitto/log" "/mosquitto/log")
           ];
-          user = userSetting;
           labels = [
             "traefik.enable=true"
             "traefik.tcp.routers.mosquitto.rule=HostSNI(`*`)"
@@ -39,7 +38,7 @@ in
             "traefik.tcp.routers.mosquitto.service=mosquitto"
             "traefik.tcp.services.mosquitto.loadBalancer.server.port=1883"
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -62,13 +61,12 @@ in
           devices = [
             "/dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0:/dev/ttyZigbee"
           ];
-          user = userSetting;
           labels = containerLib.mkTraefikLabels {
             name = "zigbee2mqtt";
             port = 8080;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks pod;
+          inherit networks pod user;
         };
 
         unitConfig = systemdLib.requiresAfter [ "mosquitto.service" ] { };
@@ -82,8 +80,7 @@ in
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
-          user = userSetting;
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -143,7 +140,6 @@ in
             TZ = "${config.time.timeZone}";
             NODE_RED_ENABLE_PROJECTS = "true";
           };
-          user = userSetting;
           volumes = [
             (storeFor "nodered" "/data")
           ];
@@ -152,7 +148,7 @@ in
             port = 1880;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 

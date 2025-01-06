@@ -1,6 +1,6 @@
 { config, containerLib, systemdLib, ... }:
 let
-  userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.${config.users.users.user.group}.gid}";
+  user = "${toString config.users.users.user.uid}:${toString config.users.groups.${config.users.users.user.group}.gid}";
 
   storeFor = localPath: remotePath: "/mnt/store/immich/${localPath}:${remotePath}";
 
@@ -49,34 +49,31 @@ in
         containerConfig = {
           image = "registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0";
           environments = sharedEnvs;
-          user = userSetting;
           environmentFiles = [ config.age.secrets.immich.path ];
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
       immich-redis = {
         containerConfig = {
           image = "registry.hub.docker.com/library/redis:6.2-alpine@sha256:84882e87b54734154586e5f8abd4dce69fe7311315e2fc6d67c29614c8de2672";
-          user = userSetting;
           volumes = [
             (storeFor "redis" "/data")
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
       immich-machine-learning = {
         useGlobalContainers = true;
         containerConfig = {
-          user = userSetting;
           volumes = [
             (storeFor "cache/machine-learning" "/cache")
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
 
         unitConfig = systemdLib.requiresAfter
@@ -95,7 +92,6 @@ in
         containerConfig = {
           environments = sharedEnvs;
           environmentFiles = [ config.age.secrets.immich.path ];
-          user = userSetting;
           addGroups = [
             (builtins.toString config.users.groups.render.gid) # For HW Transcoding
           ];
@@ -107,7 +103,7 @@ in
             (containerLib.mkTraefikLabels { name = "immich"; port = 2283; }) ++
             (containerLib.mkTraefikMetricsLabels { name = "immich"; port = 8081; addPath = "/metrics"; }) ++
             (containerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8082; addPath = "/metrics"; });
-          inherit networks pod;
+          inherit networks pod user;
         };
 
         unitConfig = systemdLib.requiresAfter

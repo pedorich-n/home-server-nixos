@@ -1,6 +1,6 @@
 { config, containerLib, systemdLib, ... }:
 let
-  userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.${config.users.users.user.group}.gid}";
+  user = "${toString config.users.users.user.uid}:${toString config.users.groups.${config.users.users.user.group}.gid}";
 
   storeFor = localPath: remotePath: "/mnt/store/paperless/${localPath}:${remotePath}";
   externalStoreFor = localPath: remotePath: "/mnt/external/paperless-library/${localPath}:${remotePath}";
@@ -21,11 +21,10 @@ in
         useGlobalContainers = true;
 
         containerConfig = {
-          user = userSetting;
           volumes = [
             (storeFor "redis" "/data")
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -34,11 +33,10 @@ in
 
         containerConfig = {
           environmentFiles = [ config.age.secrets.paperless.path ];
-          user = userSetting;
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
