@@ -1,6 +1,11 @@
-{ config, pkgs, containerLib, systemdLib, ... }:
+{ inputs, config, pkgs, containerLib, systemdLib, ... }:
 let
   user = "${toString config.users.users.user.uid}:${toString config.users.groups.${config.users.users.user.group}.gid}";
+  PUID_GUID = {
+    PUID = builtins.toString config.users.users.user.uid;
+    PGID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
+    UMASK = "007";
+  };
 
   storeFor = localPath: remotePath: "/mnt/store/home-automation/${localPath}:${remotePath}";
 
@@ -84,19 +89,15 @@ in
         };
       };
 
-      # TODO: figure out rootless container.
-      # See https://github.com/tribut/homeassistant-docker-venv
-      # See https://community.home-assistant.io/t/improving-docker-security-non-root-configuration/399971/9
       homeassistant = {
         useGlobalContainers = true;
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
 
         containerConfig = {
-          environments = {
+          environments = PUID_GUID // {
             TZ = "${config.time.timeZone}";
           };
-          # user = userSetting;
           # capabilities = {
           #   CAP_NET_RAW = true;
           #   CAP_NET_BIND_SERVICE = true;
@@ -105,10 +106,12 @@ in
             (storeFor "homeassistant" "/config")
             (storeFor "homeassistant/local" "/.local")
             "${config.age.secrets.ha_secrets.path}:/config/secrets.yaml"
+            # See https://github.com/tribut/homeassistant-docker-venv
+            "${inputs.homeassistant-docker-venv}/run:/etc/services.d/home-assistant/run"
           ];
           labels = (containerLib.mkTraefikLabels {
             name = "homeassistant";
-            port = 80;
+            port = 8123;
             priority = 10;
             middlewares = [ "authentik@docker" ];
           }) ++

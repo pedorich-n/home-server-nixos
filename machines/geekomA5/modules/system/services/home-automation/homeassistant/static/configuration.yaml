@@ -31,7 +31,6 @@ recorder:
   db_url: !secret db_url
 
 http:
-  server_port: 80
   use_x_forwarded_for: true
   trusted_proxies:
     - 172.31.0.0/24 #LINK - machines/geekomA5/modules/system/services/traefik/podman-traefik-network.nix

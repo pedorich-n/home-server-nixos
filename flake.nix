@@ -169,9 +169,13 @@
       };
     };
 
-
     trash-guides = {
       url = "github:TRaSH-Guides/Guides";
+      flake = false;
+    };
+
+    homeassistant-docker-venv = {
+      url = "github:tribut/homeassistant-docker-venv";
       flake = false;
     };
   };
