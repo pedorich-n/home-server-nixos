@@ -1,6 +1,6 @@
 { config, containerLib, systemdLib, jinja2RendererLib, ... }:
 let
-  user = "${toString config.users.users.user.uid}:${toString config.users.groups.${config.users.users.user.group}.gid}";
+  user = "${builtins.toString config.users.users.user.uid}:${builtins.toString config.users.groups.${config.users.users.user.group}.gid}";
 
   storeFor = localPath: remotePath: "/mnt/store/server-management/authentik/${localPath}:${remotePath}";
 
