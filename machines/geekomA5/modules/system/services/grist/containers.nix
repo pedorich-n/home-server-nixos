@@ -1,5 +1,6 @@
 { config, containerLib, authentikLib, ... }:
 let
+  user = "${toString config.users.users.user.uid}:${toString config.users.groups.${config.users.users.user.group}.gid}";
   storeFor = localPath: remotePath: "/mnt/store/grist/${localPath}:${remotePath}";
 in
 {
@@ -25,6 +26,7 @@ in
         (storeFor "persist" "/persist")
       ];
       labels = containerLib.mkTraefikLabels { name = "grist"; port = 8484; };
+      inherit user;
     };
   };
 
