@@ -13,13 +13,17 @@ let
     priority = 15;
   };
 
+  user = "${builtins.toString config.users.users.user.uid}:${builtins.toString config.users.groups.${config.users.users.user.group}.gid}";
+
   defaultEnvs = {
     TZ = "${config.time.timeZone}";
+  };
+
+  PUID_GUID = {
     PUID = builtins.toString config.users.users.user.uid;
     PGID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
   };
 
-  user = "${defaultEnvs.PUID}:${defaultEnvs.PGID}";
 in
 {
   virtualisation.quadlet = {
@@ -70,7 +74,7 @@ in
           # Broken until https://github.com/containers/podman/pull/24794 is released
           # networks = [ "gluetun.container" ];
           networks = [ "container:gluetun" ];
-          inherit pod;
+          inherit pod user;
         };
 
         unitConfig = systemdLib.requiresAfter [ "gluetun.service" ] { };
@@ -93,7 +97,7 @@ in
             port = environments.PORT;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -112,7 +116,7 @@ in
             priority = 10;
             middlewares = [ "authentik@docker" ];
           }) ++ (mkArrApiTraefikLabels "prowlarr");
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -120,8 +124,9 @@ in
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
 
+        # TODO: get rid of PUID/GUID with the next release as it should support `user` now. 
         containerConfig = {
-          environments = defaultEnvs;
+          environments = defaultEnvs // PUID_GUID;
           volumes = [
             (storeFor "sonarr/config" "/config")
             (externalStoreFor "" "/data")
@@ -152,7 +157,7 @@ in
             priority = 10;
             middlewares = [ "authentik@docker" ];
           }) ++ (mkArrApiTraefikLabels "radarr");
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -161,17 +166,17 @@ in
         useGlobalContainers = true;
 
         containerConfig = {
-          environments = {
-            TZ = "${config.time.timeZone}";
-          };
           notify = "healthy"; # This image has working healthcheck already, so I just need to connect it to systemd
+          addGroups = [
+            (builtins.toString config.users.groups.render.gid) # For HW Transcoding
+          ];
           devices = [
             # HW Transcoding acceleration. 
             # See https://jellyfin.org/docs/general/installation/container#with-hardware-acceleration
             # See https://jellyfin.org/docs/general/administration/hardware-acceleration/amd#linux-setups
             "/dev/dri:/dev/dri"
           ];
-          environments = {
+          environments = defaultEnvs // {
             JELLYFIN_PublishedServerUrl = "http://jellyfin.${config.custom.networking.domain}";
           };
           volumes = [
@@ -197,8 +202,7 @@ in
         useGlobalContainers = true;
 
         containerConfig = containerLib.withAlpineHostsFix rec {
-          environments = {
-            TZ = "${config.time.timeZone}";
+          environments = defaultEnvs // {
             PORT = "8080";
           };
           healthCmd = "curl http://localhost:${environments.PORT}/healthcheck";

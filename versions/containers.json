@@ -130,29 +130,29 @@
     "version": "2.25.1"
   },
   "prowlarr": {
-    "container": "hotio/prowlarr",
-    "registry": "ghcr.io",
-    "version": "release-1.28.2.4885"
+    "container": "linuxserver/prowlarr",
+    "registry": "docker.io",
+    "version": "1.29.2"
   },
   "qbittorrent": {
     "container": "linuxserver/qbittorrent",
     "registry": "docker.io",
-    "version": "20.04.1"
+    "version": "5.0.3"
   },
   "radarr": {
-    "container": "hotio/radarr",
-    "registry": "ghcr.io",
-    "version": "release-5.16.3.9541"
+    "container": "linuxserver/radarr",
+    "registry": "docker.io",
+    "version": "5.17.2"
   },
   "sabnzbd": {
     "container": "linuxserver/sabnzbd",
-    "registry": "lscr.io",
+    "registry": "docker.io",
     "version": "4.4.1"
   },
   "sonarr": {
-    "container": "hotio/sonarr",
-    "registry": "ghcr.io",
-    "version": "release-4.0.11.2680"
+    "container": "linuxserver/sonarr",
+    "registry": "docker.io",
+    "version": "4.0.12"
   },
   "zigbee2mqtt": {
     "container": "koenkk/zigbee2mqtt",

@@ -1,8 +1,8 @@
 { pkgs, lib, ... }:
 let
   regexes = {
-    # Matches 1.2.3, v1.2.3, 2024.1.1, etc.
-    semverLike = "^v?\\d+\\.\\d+\\.\\d+";
+    # Matches 1.2.3, v1.2.3, 1.2.3.4, 2024.1.1, etc.
+    semverLike = "^v?\\d+\\.\\d+\\.\\d+(\\.\\d+)?";
 
     rc = ".*rc.*";
   };
@@ -15,7 +15,6 @@ let
     {
       ghcr = mkWithRegistry "ghcr.io";
       docker = mkWithRegistry "docker.io";
-      lscr = mkWithRegistry "lscr.io";
     };
 
   reusedContainers = {
@@ -36,11 +35,11 @@ let
       exclude_regex = regexes.rc;
     };
 
-    mkArr = name: registries.ghcr {
-      container = "hotio/${name}";
-      # Matches release-1.2.3.4
-      include_regex = "^release-\\d+\\.\\d+\\.\\d+\\.\\d+$";
-    };
+    mkLSIO = name: args: registries.docker
+      {
+        container = "linuxserver/${name}";
+        include_regex = regexes.semverLike;
+      } // args;
   };
 
   containers = {
@@ -137,21 +136,17 @@ let
       include_regex = regexes.semverLike;
     };
 
-    qbittorrent = registries.docker {
-      container = "linuxserver/qbittorrent";
-      include_regex = regexes.semverLike;
+    qbittorrent = makers.mkLSIO "qbittorrent" {
+      include_regex = "^\\d\\.\\d+\\.\\d+"; # Matches X.x+.x+
     };
 
-    sabnzbd = registries.lscr {
-      container = "linuxserver/sabnzbd";
-      include_regex = regexes.semverLike;
-    };
+    sabnzbd = makers.mkLSIO "sabnzbd" { };
 
-    prowlarr = makers.mkArr "prowlarr";
+    prowlarr = makers.mkLSIO "prowlarr" { };
 
-    sonarr = makers.mkArr "sonarr";
+    sonarr = makers.mkLSIO "sonarr" { };
 
-    radarr = makers.mkArr "radarr";
+    radarr = makers.mkLSIO "radarr" { };
 
     jellyfin = registries.docker {
       container = "jellyfin/jellyfin";

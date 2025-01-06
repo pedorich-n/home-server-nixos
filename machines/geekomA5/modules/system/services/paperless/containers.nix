@@ -1,5 +1,7 @@
 { config, containerLib, systemdLib, ... }:
 let
+  user = "${builtins.toString config.users.users.user.uid}:${builtins.toString config.users.groups.${config.users.users.user.group}.gid}";
+
   storeFor = localPath: remotePath: "/mnt/store/paperless/${localPath}:${remotePath}";
   externalStoreFor = localPath: remotePath: "/mnt/external/paperless-library/${localPath}:${remotePath}";
 
@@ -22,7 +24,7 @@ in
           volumes = [
             (storeFor "redis" "/data")
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -34,7 +36,7 @@ in
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -45,6 +47,9 @@ in
 
         containerConfig = {
           environments = {
+            USERMAP_UID = builtins.toString config.users.users.user.uid;
+            USERMAP_GID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
+
             PAPERLESS_DBHOST = "paperless-postgresql";
             PAPERLESS_DBENGINE = "postgres";
             PAPERLESS_REDIS = "redis://paperless-redis:6379";

@@ -1,5 +1,7 @@
 { config, containerLib, systemdLib, jinja2RendererLib, ... }:
 let
+  user = "${builtins.toString config.users.users.user.uid}:${builtins.toString config.users.groups.${config.users.users.user.group}.gid}";
+
   storeFor = localPath: remotePath: "/mnt/store/server-management/authentik/${localPath}:${remotePath}";
 
   defaultEnvs = {
@@ -33,12 +35,11 @@ in
 
         containerConfig = {
           environments = defaultEnvs;
-          user = "root";
           environmentFiles = [ config.age.secrets.authentik.path ];
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -47,11 +48,10 @@ in
 
         containerConfig = {
           exec = "--save 60 1 --loglevel warning";
-          user = "root";
           volumes = [
             (storeFor "redis" "/data")
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -59,7 +59,6 @@ in
         useGlobalContainers = true;
         containerConfig = {
           exec = "worker";
-          user = "root";
           healthCmd = "ak healthcheck";
           healthStartPeriod = "20s";
           healthTimeout = "5s";
@@ -72,7 +71,7 @@ in
             (storeFor "media" "/media")
             "${blueprints}:/blueprints/custom"
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
 
         unitConfig = systemdLib.requiresAfter
@@ -105,7 +104,7 @@ in
             "traefik.tcp.routers.authentik-ldap-outpost.entrypoints=ldap"
             "traefik.tcp.routers.authentik-ldap-outpost.service=authentik-ldap-outpost"
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -113,7 +112,6 @@ in
         useGlobalContainers = true;
         containerConfig = {
           exec = "server";
-          user = "root";
           environments = defaultEnvs;
           environmentFiles = [ config.age.secrets.authentik.path ];
           volumes = [
@@ -142,7 +140,7 @@ in
             "traefik.http.middlewares.authentik.forwardauth.trustForwardHeader=true"
             "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
           ];
-          inherit pod;
+          inherit pod user;
         };
 
         unitConfig = systemdLib.requiresAfter

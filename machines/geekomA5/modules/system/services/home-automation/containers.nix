@@ -1,6 +1,11 @@
-{ config, pkgs, containerLib, systemdLib, ... }:
+{ inputs, config, pkgs, containerLib, systemdLib, ... }:
 let
-  userSetting = "${toString config.users.users.user.uid}:${toString config.users.groups.${config.users.users.user.group}.gid}";
+  user = "${builtins.toString config.users.users.user.uid}:${builtins.toString config.users.groups.${config.users.users.user.group}.gid}";
+  PUID_GUID = {
+    PUID = builtins.toString config.users.users.user.uid;
+    PGID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
+    UMASK = "007";
+  };
 
   storeFor = localPath: remotePath: "/mnt/store/home-automation/${localPath}:${remotePath}";
 
@@ -31,7 +36,6 @@ in
             (storeFor "mosquitto/data" "/mosquitto/data")
             (storeFor "mosquitto/log" "/mosquitto/log")
           ];
-          user = userSetting;
           labels = [
             "traefik.enable=true"
             "traefik.tcp.routers.mosquitto.rule=HostSNI(`*`)"
@@ -39,7 +43,7 @@ in
             "traefik.tcp.routers.mosquitto.service=mosquitto"
             "traefik.tcp.services.mosquitto.loadBalancer.server.port=1883"
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -52,19 +56,22 @@ in
             TZ = "${config.time.timeZone}";
           };
           volumes = [
-            # configuration file is managed by systemd.tmpfiles
             (storeFor "zigbee2mqtt" "/app/data")
             "${config.age.secrets.zigbee2mqtt_secrets.path}:/app/data/secrets.yaml:ro"
             "/run/udev:/run/udev:ro"
           ];
-          devices = [ "/dev/ttyUSB0:/dev/ttyZigbee" ];
-          # user = userSetting;
+          addGroups = [
+            (builtins.toString config.users.groups.zigbee.gid)
+          ];
+          devices = [
+            "/dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0:/dev/ttyZigbee"
+          ];
           labels = containerLib.mkTraefikLabels {
             name = "zigbee2mqtt";
             port = 8080;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks pod;
+          inherit networks pod user;
         };
 
         unitConfig = systemdLib.requiresAfter [ "mosquitto.service" ] { };
@@ -78,7 +85,7 @@ in
           volumes = [
             (storeFor "postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
@@ -88,10 +95,9 @@ in
         wantsAuthentik = true;
 
         containerConfig = {
-          environments = {
+          environments = PUID_GUID // {
             TZ = "${config.time.timeZone}";
           };
-          # user = userSetting;
           # capabilities = {
           #   CAP_NET_RAW = true;
           #   CAP_NET_BIND_SERVICE = true;
@@ -100,10 +106,12 @@ in
             (storeFor "homeassistant" "/config")
             (storeFor "homeassistant/local" "/.local")
             "${config.age.secrets.ha_secrets.path}:/config/secrets.yaml"
+            # See https://github.com/tribut/homeassistant-docker-venv
+            "${inputs.homeassistant-docker-venv}/run:/etc/services.d/home-assistant/run"
           ];
           labels = (containerLib.mkTraefikLabels {
             name = "homeassistant";
-            port = 80;
+            port = 8123;
             priority = 10;
             middlewares = [ "authentik@docker" ];
           }) ++
@@ -135,7 +143,6 @@ in
             TZ = "${config.time.timeZone}";
             NODE_RED_ENABLE_PROJECTS = "true";
           };
-          user = userSetting;
           volumes = [
             (storeFor "nodered" "/data")
           ];
@@ -144,7 +151,7 @@ in
             port = 1880;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks pod;
+          inherit networks pod user;
         };
       };
 
