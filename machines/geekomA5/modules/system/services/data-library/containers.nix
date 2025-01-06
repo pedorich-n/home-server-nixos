@@ -165,6 +165,9 @@ in
             TZ = "${config.time.timeZone}";
           };
           notify = "healthy"; # This image has working healthcheck already, so I just need to connect it to systemd
+          addGroups = [
+            (builtins.toString config.users.groups.render.gid) # For HW Transcoding
+          ];
           devices = [
             # HW Transcoding acceleration. 
             # See https://jellyfin.org/docs/general/installation/container#with-hardware-acceleration
