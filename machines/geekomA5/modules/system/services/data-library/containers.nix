@@ -24,6 +24,13 @@ let
     PGID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
   };
 
+  afterDownloaders = {
+    After = [
+      "qbittorrent.service"
+      "sabnzbd.service"
+      "gluetun.service"
+    ];
+  };
 in
 {
   virtualisation.quadlet = {
@@ -118,6 +125,7 @@ in
           }) ++ (mkArrApiTraefikLabels "prowlarr");
           inherit networks pod user;
         };
+        unitConfig = afterDownloaders;
       };
 
       sonarr = {
@@ -139,6 +147,8 @@ in
           }) ++ (mkArrApiTraefikLabels "sonarr");
           inherit networks pod;
         };
+
+        unitConfig = afterDownloaders;
       };
 
       radarr = {
@@ -159,6 +169,8 @@ in
           }) ++ (mkArrApiTraefikLabels "radarr");
           inherit networks pod user;
         };
+
+        unitConfig = afterDownloaders;
       };
 
       jellyfin = {
