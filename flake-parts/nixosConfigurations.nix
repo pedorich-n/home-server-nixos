@@ -5,6 +5,7 @@
       withPresets = presets: with presets; [
         headless
         home-manager
+        podman
         ssh
         systemd-notifications
       ];
