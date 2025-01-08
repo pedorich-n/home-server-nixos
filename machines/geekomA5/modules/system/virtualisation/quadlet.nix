@@ -29,6 +29,10 @@ in
             type = lib.types.bool;
             default = false;
           };
+          usernsAuto = lib.mkOption {
+            type = lib.types.bool;
+            default = false;
+          };
         };
 
         config = lib.mkMerge [
@@ -71,6 +75,9 @@ in
               healthRetries = 5;
               notify = "healthy";
             };
+          })
+          (lib.mkIf config.usernsAuto {
+            containerConfig.userns = "auto";
           })
         ];
       }));

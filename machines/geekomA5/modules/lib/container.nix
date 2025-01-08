@@ -66,5 +66,22 @@
       # dig & nslookup resolves the domain, but curl fails, and the call to OIDC discovery fails too. Providing hard-coded host seems to help.
       addHosts = (cfg.addHosts or [ ]) ++ [ "authentik.${config.custom.networking.domain}:192.168.10.15" ];
     };
+
+    # Creates a mapping like `"/home/user/test:/test:idmap=uids=@1000-0-1024;gids=@100-0-1024"`
+    mkIdmappedVolume =
+      { uidNamespace
+      , uidHost
+      , uidCount ? 1
+      , uidRelative ? false
+      , gidNamespace
+      , gidHost
+      , gidCount ? 1
+      , gidRelative ? false
+      }: host: container:
+      let
+        uids = ''${if uidRelative then "@" else ""}${toString uidHost}-${toString uidNamespace}-${toString uidCount}'';
+        gids = ''${if gidRelative then "@" else ""}${toString gidHost}-${toString gidNamespace}-${toString gidCount}'';
+      in
+      "${host}:${container}:idmap=uids=${uids};gids=${gids}";
   };
 }

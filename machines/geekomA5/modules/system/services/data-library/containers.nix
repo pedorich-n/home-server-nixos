@@ -78,7 +78,7 @@ in
             (storeFor "qbittorrent/config" "/config")
             (externalStoreFor "downloads/torrent" "/data/downloads/torrent")
           ];
-          # Broken until https://github.com/containers/podman/pull/24794 is released
+          #TODO: Uncomment after https://github.com/containers/podman/pull/24794 is released
           # networks = [ "gluetun.container" ];
           networks = [ "container:gluetun" ];
           inherit pod user;
