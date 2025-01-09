@@ -1,40 +1,57 @@
 { inputs, config, pkgs, containerLib, systemdLib, ... }:
 let
-  user = "${builtins.toString config.users.users.user.uid}:${builtins.toString config.users.groups.${config.users.users.user.group}.gid}";
+  storeRoot = "/mnt/store/home-automation";
+
+  containerIds = {
+    uid = 1100;
+    gid = 1100;
+  };
+
+  user = "${builtins.toString containerIds.uid}:${builtins.toString containerIds.gid}";
+
   PUID_GUID = {
-    PUID = builtins.toString config.users.users.user.uid;
-    PGID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
+    PUID = builtins.toString containerIds.uid;
+    PGID = builtins.toString containerIds.gid;
     UMASK = "007";
   };
 
-  storeFor = localPath: remotePath: "/mnt/store/home-automation/${localPath}:${remotePath}";
+  mappedVolumeForUser = localPath: remotePath:
+    containerLib.mkIdmappedVolume
+      {
+        uidNamespace = containerIds.uid;
+        uidHost = config.users.users.user.uid;
+        uidCount = 1;
+        uidRelative = true;
+        gidNamespace = containerIds.gid;
+        gidHost = config.users.groups.${config.users.users.user.group}.gid;
+        gidCount = 1;
+        gidRelative = true;
+      }
+      localPath
+      remotePath;
 
   configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
     mosquitto = ./mosquitto/_config.nix;
   };
 
-  pod = "home-automation.pod";
   networks = [ "home-automation-internal.network" ];
 in
 {
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "home-automation";
 
-    pods.home-automation = {
-      podConfig = { inherit networks; };
-    };
-
     containers = {
       mosquitto = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
+        usernsAuto = true;
 
         containerConfig = {
           volumes = [
             "${configs.mosquitto}:/mosquitto/config/mosquitto.conf:ro"
             "${config.age.secrets.mosquitto_passwords.path}:/mosquitto/config/passwords.txt:ro"
-            (storeFor "mosquitto/data" "/mosquitto/data")
-            (storeFor "mosquitto/log" "/mosquitto/log")
+            (mappedVolumeForUser "${storeRoot}/mosquitto/data" "/mosquitto/data")
+            (mappedVolumeForUser "${storeRoot}/mosquitto/log" "/mosquitto/log")
           ];
           labels = [
             "traefik.enable=true"
@@ -43,20 +60,21 @@ in
             "traefik.tcp.routers.mosquitto.service=mosquitto"
             "traefik.tcp.services.mosquitto.loadBalancer.server.port=1883"
           ];
-          inherit networks pod user;
+          inherit networks user;
         };
       };
 
       zigbee2mqtt = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
+        usernsAuto = true;
 
         containerConfig = {
           environments = {
             TZ = "${config.time.timeZone}";
           };
           volumes = [
-            (storeFor "zigbee2mqtt" "/app/data")
+            (mappedVolumeForUser "${storeRoot}/zigbee2mqtt" "/app/data")
             "${config.age.secrets.zigbee2mqtt_secrets.path}:/app/data/secrets.yaml:ro"
             "/run/udev:/run/udev:ro"
           ];
@@ -71,7 +89,7 @@ in
             port = 8080;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks pod user;
+          inherit networks user;
         };
 
         unitConfig = systemdLib.requiresAfter [ "mosquitto.service" ] { };
@@ -79,13 +97,14 @@ in
 
       homeassistant-postgresql = {
         useGlobalContainers = true;
+        usernsAuto = true;
 
         containerConfig = {
           environmentFiles = [ config.age.secrets.ha_postgres.path ];
           volumes = [
-            (storeFor "postgresql" "/var/lib/postgresql/data")
+            (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks pod user;
+          inherit networks user;
         };
       };
 
@@ -102,9 +121,10 @@ in
           #   CAP_NET_RAW = true;
           #   CAP_NET_BIND_SERVICE = true;
           # };
+          userns = "auto:size=2000";
           volumes = [
-            (storeFor "homeassistant" "/config")
-            (storeFor "homeassistant/local" "/.local")
+            (mappedVolumeForUser "${storeRoot}/homeassistant" "/config")
+            (mappedVolumeForUser "${storeRoot}/homeassistant/local" "/.local")
             "${config.age.secrets.ha_secrets.path}:/config/secrets.yaml"
             # See https://github.com/tribut/homeassistant-docker-venv
             "${inputs.homeassistant-docker-venv}/run:/etc/services.d/home-assistant/run"
@@ -121,7 +141,7 @@ in
             service = "homeassistant";
             priority = 15;
           });
-          inherit networks pod;
+          inherit networks;
         };
 
         unitConfig = systemdLib.requiresAfter
@@ -136,6 +156,7 @@ in
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
         useGlobalContainers = true;
+        usernsAuto = true;
         autoStart = false;
 
         containerConfig = {
@@ -144,14 +165,14 @@ in
             NODE_RED_ENABLE_PROJECTS = "true";
           };
           volumes = [
-            (storeFor "nodered" "/data")
+            (mappedVolumeForUser "${storeRoot}/nodered" "/data")
           ];
           labels = containerLib.mkTraefikLabels {
             name = "nodered";
             port = 1880;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks pod user;
+          inherit networks user;
         };
       };
 
