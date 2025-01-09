@@ -1,9 +1,5 @@
 { config, containerLib, systemdLib, ... }:
 let
-  user = "${builtins.toString config.users.users.user.uid}:${builtins.toString config.users.groups.${config.users.users.user.group}.gid}";
-  storeFor = localPath: remotePath: "/mnt/store/paperless/${localPath}:${remotePath}";
-
-
   storeRoot = "/mnt/store/paperless";
   externalStoreRoot = "/mnt/external/paperless-library";
 
@@ -22,26 +18,18 @@ let
       localPath
       remotePath;
 
-  pod = "paperless.pod";
   networks = [ "paperless-internal.network" ];
 in
 {
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "paperless";
 
-    pods.paperless = {
-      podConfig = {
-        inherit networks;
-        # userns = "auto";
-      };
-    };
-
     containers = {
       paperless-redis = {
         useGlobalContainers = true;
+        usernsAuto = true;
 
         containerConfig = {
-          userns = "auto";
           volumes = [
             # https://github.com/redis/docker-library-redis/blob/8338d86bc3f/Dockerfile.template#L11-L12
             (mappedVolumeForUser 999 1000 "${storeRoot}/redis" "/data")
@@ -52,16 +40,15 @@ in
 
       paperless-postgresql = {
         useGlobalContainers = true;
+        usernsAuto = true;
 
         containerConfig = {
-          # userns = "auto";
-          # user = "70:70";
           environmentFiles = [ config.age.secrets.paperless.path ];
           volumes = [
             # https://github.com/docker-library/postgres/blob/cb049360/Dockerfile-alpine.template#L10-L11
-            (storeFor "postgresql" "/var/lib/postgresql/data")
+            (mappedVolumeForUser 70 70 "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks pod user;
+          inherit networks;
         };
       };
 
@@ -69,13 +56,9 @@ in
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
         useGlobalContainers = true;
-        # usernsAuto = true;
 
         containerConfig = {
           environments = {
-            # USERMAP_UID = builtins.toString config.users.users.user.uid;
-            # USERMAP_GID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
-
             PAPERLESS_DBHOST = "paperless-postgresql";
             PAPERLESS_DBENGINE = "postgres";
             PAPERLESS_REDIS = "redis://paperless-redis:6379";
