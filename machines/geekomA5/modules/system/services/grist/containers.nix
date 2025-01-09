@@ -1,7 +1,21 @@
 { config, containerLib, authentikLib, ... }:
 let
-  user = "${builtins.toString config.users.users.user.uid}:${builtins.toString config.users.groups.${config.users.users.user.group}.gid}";
-  storeFor = localPath: remotePath: "/mnt/store/grist/${localPath}:${remotePath}";
+  storeRoot = "/mnt/store/grist";
+
+  mappedVolumeForUser = uidNamespace: gidNamespace: localPath: remotePath:
+    containerLib.mkIdmappedVolume
+      {
+        inherit uidNamespace;
+        uidHost = config.users.users.user.uid;
+        uidCount = 1;
+        uidRelative = true;
+        inherit gidNamespace;
+        gidHost = config.users.groups.${config.users.users.user.group}.gid;
+        gidCount = 1;
+        gidRelative = true;
+      }
+      localPath
+      remotePath;
 in
 {
   virtualisation.quadlet.containers.grist = {
@@ -22,11 +36,12 @@ in
         GRIST_OIDC_IDP_SCOPES = authentikLib.openIdScopes;
       };
       environmentFiles = [ config.age.secrets.grist.path ];
+      user = "1100:1100";
+      userns = "auto:size=65535";
       volumes = [
-        (storeFor "persist" "/persist")
+        (mappedVolumeForUser 1100 1100 "${storeRoot}/persist" "/persist")
       ];
       labels = containerLib.mkTraefikLabels { name = "grist"; port = 8484; };
-      inherit user;
     };
   };
 
