@@ -3,20 +3,27 @@ let
   storeRoot = "/mnt/store/paperless";
   externalStoreRoot = "/mnt/external/paperless-library";
 
-  mappedVolumeForUser = uidNamespace: gidNamespace: localPath: remotePath:
+  containerIds = {
+    uid = 1100;
+    gid = 1100;
+  };
+
+  mappedVolumeForUser = localPath: remotePath:
     containerLib.mkIdmappedVolume
       {
-        inherit uidNamespace;
+        uidNamespace = containerIds.uid;
         uidHost = config.users.users.user.uid;
         uidCount = 1;
         uidRelative = true;
-        inherit gidNamespace;
+        gidNamespace = containerIds.gid;
         gidHost = config.users.groups.${config.users.users.user.group}.gid;
         gidCount = 1;
         gidRelative = true;
       }
       localPath
       remotePath;
+
+  user = "${builtins.toString containerIds.uid}:${builtins.toString containerIds.gid}";
 
   networks = [ "paperless-internal.network" ];
 in
@@ -31,10 +38,9 @@ in
 
         containerConfig = {
           volumes = [
-            # https://github.com/redis/docker-library-redis/blob/8338d86bc3f/Dockerfile.template#L11-L12
-            (mappedVolumeForUser 999 1000 "${storeRoot}/redis" "/data")
+            (mappedVolumeForUser "${storeRoot}/redis" "/data")
           ];
-          inherit networks;
+          inherit networks user;
         };
       };
 
@@ -45,10 +51,9 @@ in
         containerConfig = {
           environmentFiles = [ config.age.secrets.paperless.path ];
           volumes = [
-            # https://github.com/docker-library/postgres/blob/cb049360/Dockerfile-alpine.template#L10-L11
-            (mappedVolumeForUser 70 70 "${storeRoot}/postgresql" "/var/lib/postgresql/data")
+            (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks;
+          inherit networks user;
         };
       };
 
@@ -59,6 +64,9 @@ in
 
         containerConfig = {
           environments = {
+            USERMAP_UID = builtins.toString containerIds.uid;
+            USERMAP_GID = builtins.toString containerIds.gid;
+
             PAPERLESS_DBHOST = "paperless-postgresql";
             PAPERLESS_DBENGINE = "postgres";
             PAPERLESS_REDIS = "redis://paperless-redis:6379";
@@ -77,11 +85,10 @@ in
           environmentFiles = [ config.age.secrets.paperless.path ];
           userns = "auto:size=65535";
           volumes = [
-            # https://github.com/paperless-ngx/paperless-ngx/blob/7035445d6a8/Dockerfile#L267-L268
-            (mappedVolumeForUser 1000 1000 "${storeRoot}/data" "/usr/src/paperless/data")
-            (mappedVolumeForUser 1000 1000 "${storeRoot}/export" "/usr/src/paperless/export")
-            (mappedVolumeForUser 1000 1000 "${externalStoreRoot}/media" "/usr/src/paperless/media")
-            (mappedVolumeForUser 1000 1000 "${externalStoreRoot}/media/trash" "/usr/src/paperless/media/trash")
+            (mappedVolumeForUser "${storeRoot}/data" "/usr/src/paperless/data")
+            (mappedVolumeForUser "${storeRoot}/export" "/usr/src/paperless/export")
+            (mappedVolumeForUser "${externalStoreRoot}/media" "/usr/src/paperless/media")
+            (mappedVolumeForUser "${externalStoreRoot}/media/trash" "/usr/src/paperless/media/trash")
           ];
           labels = containerLib.mkTraefikLabels { name = "paperless"; port = 8000; };
           inherit networks;
