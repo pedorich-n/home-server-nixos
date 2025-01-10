@@ -1,8 +1,28 @@
 { config, containerLib, systemdLib, jinja2RendererLib, ... }:
 let
-  user = "${builtins.toString config.users.users.user.uid}:${builtins.toString config.users.groups.${config.users.users.user.group}.gid}";
+  storeRoot = "/mnt/store/server-management/authentik";
 
-  storeFor = localPath: remotePath: "/mnt/store/server-management/authentik/${localPath}:${remotePath}";
+  containerIds = {
+    uid = 1100;
+    gid = 1100;
+  };
+
+  user = "${builtins.toString containerIds.uid}:${builtins.toString containerIds.gid}";
+
+  mappedVolumeForUser = localPath: remotePath:
+    containerLib.mkIdmappedVolume
+      {
+        uidNamespace = containerIds.uid;
+        uidHost = config.users.users.user.uid;
+        uidCount = 1;
+        uidRelative = true;
+        gidNamespace = containerIds.gid;
+        gidHost = config.users.groups.${config.users.users.user.group}.gid;
+        gidCount = 1;
+        gidRelative = true;
+      }
+      localPath
+      remotePath;
 
   defaultEnvs = {
     # https://docs.goauthentik.io/docs/installation/docker-compose#startup
@@ -18,40 +38,37 @@ let
 
   serverIp = "172.31.0.240";
 
-  pod = "authentik.pod";
   networks = [ "authentik-internal.network" ];
 in
 {
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "authentik";
 
-    pods.authentik = {
-      podConfig = { inherit networks; };
-    };
-
     containers = {
       authentik-postgresql = {
         useGlobalContainers = true;
+        usernsAuto = true;
 
         containerConfig = {
           environments = defaultEnvs;
           environmentFiles = [ config.age.secrets.authentik.path ];
           volumes = [
-            (storeFor "postgresql" "/var/lib/postgresql/data")
+            (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks pod user;
+          inherit networks user;
         };
       };
 
       authentik-redis = {
         useGlobalContainers = true;
+        usernsAuto = true;
 
         containerConfig = {
           exec = "--save 60 1 --loglevel warning";
           volumes = [
-            (storeFor "redis" "/data")
+            (mappedVolumeForUser "${storeRoot}/redis" "/data")
           ];
-          inherit networks pod user;
+          inherit networks user;
         };
       };
 
@@ -65,13 +82,14 @@ in
           healthInterval = "30s";
           healthRetries = 5;
           notify = "healthy";
+          userns = "auto:size=65535";
           environments = defaultEnvs;
           environmentFiles = [ config.age.secrets.authentik.path ];
           volumes = [
-            (storeFor "media" "/media")
+            (mappedVolumeForUser "${storeRoot}/media" "/media")
             "${blueprints}:/blueprints/custom"
           ];
-          inherit networks pod user;
+          inherit networks user;
         };
 
         unitConfig = systemdLib.requiresAfter
@@ -96,6 +114,7 @@ in
           environments = defaultEnvs // {
             AUTHENTIK_HOST = "http://authentik.${config.custom.networking.domain}";
           };
+          userns = "auto:size=65535";
           environmentFiles = [ config.age.secrets.authentik_ldap_outpost.path ];
           labels = [
             "traefik.enable=true"
@@ -104,7 +123,7 @@ in
             "traefik.tcp.routers.authentik-ldap-outpost.entrypoints=ldap"
             "traefik.tcp.routers.authentik-ldap-outpost.service=authentik-ldap-outpost"
           ];
-          inherit networks pod user;
+          inherit networks user;
         };
       };
 
@@ -114,8 +133,9 @@ in
           exec = "server";
           environments = defaultEnvs;
           environmentFiles = [ config.age.secrets.authentik.path ];
+          userns = "auto:size=65535";
           volumes = [
-            (storeFor "media" "/media")
+            (mappedVolumeForUser "${storeRoot}/media" "/media")
           ];
           networks = networks ++ [
             "traefik.network:ip=${serverIp}"
@@ -140,7 +160,7 @@ in
             "traefik.http.middlewares.authentik.forwardauth.trustForwardHeader=true"
             "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
           ];
-          inherit pod user;
+          inherit user;
         };
 
         unitConfig = systemdLib.requiresAfter
