@@ -54,13 +54,19 @@ in
       gluetun = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           addCapabilities = [ "NET_ADMIN" ];
           devices = [ "/dev/net/tun:/dev/net/tun" ];
           environments = {
-            VPN_SERVICE_PROVIDER = "nordvpn";
             SERVER_COUNTRIES = "Japan";
+
+            VPN_SERVICE_PROVIDER = "protonvpn";
+            VPN_PORT_FORWARDING = "on";
+            VPN_PORT_FORWARDING_PROVIDER = "protonvpn";
+            VPN_PORT_FORWARDING_UP_COMMAND = "'/gluetun/scripts/qbt_update_port_forward.sh {{PORTS}}'";
+
           };
           environmentFiles = [ config.age.secrets.gluetun.path ];
           # https://github.com/qdm12/gluetun/blob/ddd9f4d0210c35d062896ffa2c7dc6e585deddfb/Dockerfile#L226
@@ -70,6 +76,10 @@ in
           healthInterval = "30s";
           healthRetries = 5;
           notify = "healthy";
+          volumes = [
+            "${./gluetun/qbt_update_port_forward.sh}:/gluetun/scripts/qbt_update_port_forward.sh"
+            "${./gluetun/auth_config.toml}:/gluetun/auth/config.toml"
+          ];
           labels = containerLib.mkTraefikLabels {
             name = "qbittorrent"; # Proxied
             port = 8080;
