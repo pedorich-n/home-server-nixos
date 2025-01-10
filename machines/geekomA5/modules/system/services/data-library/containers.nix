@@ -143,12 +143,10 @@ in
 
       sonarr = {
         requiresTraefikNetwork = true;
-        # useGlobalContainers = true;
+        useGlobalContainers = true;
         usernsAuto.enable = true;
 
         containerConfig = {
-          # TODO: use global image, after https://github.com/linuxserver/docker-sonarr/pull/311 is merged
-          image = "localhost/linuxserver/sonarr:latest";
           environments = defaultEnvs;
           volumes = [
             (mappedVolumeForUser "${storeRoot}/sonarr/config" "/config")
