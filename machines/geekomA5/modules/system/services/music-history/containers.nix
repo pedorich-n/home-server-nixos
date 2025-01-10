@@ -35,10 +35,6 @@ in
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "music-history";
 
-    pods.music-history = {
-      podConfig = { inherit networks; };
-    };
-
     containers = {
       multiscrobbler = {
         requiresTraefikNetwork = true;
