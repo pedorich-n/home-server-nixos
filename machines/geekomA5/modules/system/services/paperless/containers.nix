@@ -34,7 +34,7 @@ in
     containers = {
       paperless-redis = {
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           volumes = [
@@ -46,7 +46,7 @@ in
 
       paperless-postgresql = {
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           environmentFiles = [ config.age.secrets.paperless.path ];
@@ -61,6 +61,10 @@ in
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
         useGlobalContainers = true;
+        usernsAuto = {
+          enable = true;
+          size = 65535;
+        };
 
         containerConfig = {
           environments = {
@@ -83,7 +87,6 @@ in
             PAPERLESS_URL = "http://paperless.${config.custom.networking.domain}";
           };
           environmentFiles = [ config.age.secrets.paperless.path ];
-          userns = "auto:size=65535";
           volumes = [
             (mappedVolumeForUser "${storeRoot}/data" "/usr/src/paperless/data")
             (mappedVolumeForUser "${storeRoot}/export" "/usr/src/paperless/export")

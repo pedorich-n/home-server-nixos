@@ -47,7 +47,7 @@ in
     containers = {
       authentik-postgresql = {
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           environments = defaultEnvs;
@@ -61,7 +61,7 @@ in
 
       authentik-redis = {
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           exec = "--save 60 1 --loglevel warning";
@@ -74,6 +74,11 @@ in
 
       authentik-worker = {
         useGlobalContainers = true;
+        usernsAuto = {
+          enable = true;
+          size = 65535;
+        };
+
         containerConfig = {
           exec = "worker";
           healthCmd = "ak healthcheck";
@@ -82,7 +87,6 @@ in
           healthInterval = "30s";
           healthRetries = 5;
           notify = "healthy";
-          userns = "auto:size=65535";
           environments = defaultEnvs;
           environmentFiles = [ config.age.secrets.authentik.path ];
           volumes = [
@@ -110,11 +114,15 @@ in
 
       authentik-ldap = {
         useGlobalContainers = true;
+        usernsAuto = {
+          enable = true;
+          size = 65535;
+        };
+
         containerConfig = {
           environments = defaultEnvs // {
             AUTHENTIK_HOST = "http://authentik.${config.custom.networking.domain}";
           };
-          userns = "auto:size=65535";
           environmentFiles = [ config.age.secrets.authentik_ldap_outpost.path ];
           labels = [
             "traefik.enable=true"
@@ -129,11 +137,15 @@ in
 
       authentik-server = {
         useGlobalContainers = true;
+        usernsAuto = {
+          enable = true;
+          size = 65535;
+        };
+
         containerConfig = {
           exec = "server";
           environments = defaultEnvs;
           environmentFiles = [ config.age.secrets.authentik.path ];
-          userns = "auto:size=65535";
           volumes = [
             (mappedVolumeForUser "${storeRoot}/media" "/media")
           ];

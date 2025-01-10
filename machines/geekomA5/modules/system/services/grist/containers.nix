@@ -2,14 +2,21 @@
 let
   storeRoot = "/mnt/store/grist";
 
-  mappedVolumeForUser = uidNamespace: gidNamespace: localPath: remotePath:
+  containerIds = {
+    uid = 1100;
+    gid = 1100;
+  };
+
+  user = "${builtins.toString containerIds.uid}:${builtins.toString containerIds.gid}";
+
+  mappedVolumeForUser = localPath: remotePath:
     containerLib.mkIdmappedVolume
       {
-        inherit uidNamespace;
+        uidNamespace = containerIds.uid;
         uidHost = config.users.users.user.uid;
         uidCount = 1;
         uidRelative = true;
-        inherit gidNamespace;
+        gidNamespace = containerIds.gid;
         gidHost = config.users.groups.${config.users.users.user.group}.gid;
         gidCount = 1;
         gidRelative = true;
@@ -22,6 +29,10 @@ in
     requiresTraefikNetwork = true;
     wantsAuthentik = true;
     useGlobalContainers = true;
+    usernsAuto = {
+      enable = true;
+      size = 65535;
+    };
 
     containerConfig = {
       environments = rec {
@@ -36,12 +47,11 @@ in
         GRIST_OIDC_IDP_SCOPES = authentikLib.openIdScopes;
       };
       environmentFiles = [ config.age.secrets.grist.path ];
-      user = "1100:1100";
-      userns = "auto:size=65535";
       volumes = [
-        (mappedVolumeForUser 1100 1100 "${storeRoot}/persist" "/persist")
+        (mappedVolumeForUser "${storeRoot}/persist" "/persist")
       ];
       labels = containerLib.mkTraefikLabels { name = "grist"; port = 8484; };
+      inherit user;
     };
   };
 

@@ -81,7 +81,7 @@ in
 
       qbittorrent = {
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           environments = defaultEnvs;
@@ -101,7 +101,7 @@ in
       sabnzbd = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = rec {
           environments = defaultEnvs // {
@@ -123,7 +123,7 @@ in
       prowlarr = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           environments = defaultEnvs;
@@ -144,7 +144,7 @@ in
       sonarr = {
         requiresTraefikNetwork = true;
         # useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           # TODO: use global image, after https://github.com/linuxserver/docker-sonarr/pull/311 is merged
@@ -169,7 +169,7 @@ in
       radarr = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           environments = defaultEnvs;
@@ -192,13 +192,16 @@ in
       jellyfin = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
+        usernsAuto = {
+          enable = true;
+          size = 65535;
+        };
 
         containerConfig = {
           notify = "healthy"; # This image has working healthcheck already, so I just need to connect it to systemd
           addGroups = [
             (builtins.toString config.users.groups.render.gid) # For HW Transcoding
           ];
-          userns = "auto:size=65535";
           devices = [
             # HW Transcoding acceleration. 
             # See https://jellyfin.org/docs/general/installation/container#with-hardware-acceleration
@@ -229,7 +232,7 @@ in
       audiobookshelf = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = containerLib.withAlpineHostsFix rec {
           environments = defaultEnvs // {

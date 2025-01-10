@@ -44,7 +44,7 @@ in
       mosquitto = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           volumes = [
@@ -67,7 +67,7 @@ in
       zigbee2mqtt = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           environments = {
@@ -97,7 +97,7 @@ in
 
       homeassistant-postgresql = {
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           environmentFiles = [ config.age.secrets.ha_postgres.path ];
@@ -112,6 +112,10 @@ in
         useGlobalContainers = true;
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
+        usernsAuto = {
+          enable = true;
+          size = containerIds.uid + 500;
+        };
 
         containerConfig = {
           environments = PUID_GUID // {
@@ -121,7 +125,6 @@ in
           #   CAP_NET_RAW = true;
           #   CAP_NET_BIND_SERVICE = true;
           # };
-          userns = "auto:size=2000";
           volumes = [
             (mappedVolumeForUser "${storeRoot}/homeassistant" "/config")
             (mappedVolumeForUser "${storeRoot}/homeassistant/local" "/.local")
@@ -156,7 +159,7 @@ in
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
         useGlobalContainers = true;
-        usernsAuto = true;
+        usernsAuto.enable = true;
         autoStart = false;
 
         containerConfig = {

@@ -43,7 +43,7 @@ in
 
     containers = {
       immich-vectordb = {
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           image = "registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0";
@@ -57,7 +57,7 @@ in
       };
 
       immich-redis = {
-        usernsAuto = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           image = "registry.hub.docker.com/library/redis:6.2-alpine@sha256:84882e87b54734154586e5f8abd4dce69fe7311315e2fc6d67c29614c8de2672";
@@ -70,12 +70,15 @@ in
 
       immich-machine-learning = {
         useGlobalContainers = true;
+        usernsAuto = {
+          enable = true;
+          size = 65535;
+        };
 
         containerConfig = {
           volumes = [
             (mappedVolumeForUser "${storeRoot}/cache/machine-learning" "/cache")
           ];
-          userns = "auto:size=65535";
           inherit networks user;
         };
 
@@ -91,6 +94,10 @@ in
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
         useGlobalContainers = true;
+        usernsAuto = {
+          enable = true;
+          size = 65535;
+        };
 
         containerConfig = {
           environments = sharedEnvs;
@@ -98,7 +105,6 @@ in
           addGroups = [
             (builtins.toString config.users.groups.render.gid) # For HW Transcoding
           ];
-          userns = "auto:size=65535";
           devices = [
             "/dev/dri:/dev/dri" # HW Transcoding acceleration. See https://immich.app/docs/features/hardware-transcoding
           ];
