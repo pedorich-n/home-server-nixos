@@ -100,24 +100,6 @@ let
       container = "krateng/maloja";
     };
 
-    librechat-mongodb = registries.docker {
-      container = "library/mongo";
-      exclude_regex = regexes.rc;
-    };
-
-    librechat-server = registries.ghcr {
-      container = "danny-avila/librechat";
-      exclude_regex = regexes.rc;
-    };
-
-    librechat-rag = registries.ghcr {
-      container = "danny-avila/librechat-rag-api-dev-lite";
-    };
-
-    librechat-vectordb = registries.docker {
-      container = "ankane/pgvector";
-    };
-
     paperless-server = registries.ghcr {
       container = "paperless-ngx/paperless-ngx";
     };

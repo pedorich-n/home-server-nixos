@@ -1,9 +1,0 @@
-# For more information, see the Configuration Guide:
-# https://docs.librechat.ai/install/configuration/custom_config.html
-# Configuration version (required)
-version: 1.1.4
-
-cache: true
-
-registration:
-  socialLogins: ["openid"]
