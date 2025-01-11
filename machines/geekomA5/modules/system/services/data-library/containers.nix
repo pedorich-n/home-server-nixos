@@ -21,8 +21,6 @@ let
     gid = 1100;
   };
 
-  user = "${builtins.toString containerIds.uid}:${builtins.toString containerIds.gid}";
-
   mappedVolumeForUser = localPath: remotePath:
     containerLib.mkIdmappedVolume
       {
