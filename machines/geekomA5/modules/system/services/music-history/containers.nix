@@ -2,27 +2,11 @@
 let
   storeRoot = "/mnt/store/music-history";
 
-  containerIds = {
-    uid = 1100;
-    gid = 1100;
-  };
-
-  PUID_GUID = {
-    PUID = builtins.toString containerIds.uid;
-    PGID = builtins.toString containerIds.gid;
-  };
-
   mappedVolumeForUser = localPath: remotePath:
     containerLib.mkIdmappedVolume
       {
-        uidNamespace = containerIds.uid;
         uidHost = config.users.users.user.uid;
-        uidCount = 1;
-        uidRelative = true;
-        gidNamespace = containerIds.gid;
         gidHost = config.users.groups.${config.users.users.user.group}.gid;
-        gidCount = 1;
-        gidRelative = true;
       }
       localPath
       remotePath;
@@ -46,7 +30,8 @@ in
         };
 
         containerConfig = {
-          environments = PUID_GUID // {
+          environments = {
+            inherit (containerLib.containerIds) PUID PGID;
             TZ = config.time.timeZone;
 
             BASE_URL = "http://multiscrobbler.${config.custom.networking.domain}:80";
@@ -74,11 +59,12 @@ in
         useGlobalContainers = true;
         usernsAuto = {
           enable = true;
-          size = containerIds.uid + 500;
+          size = containerLib.containerIds.uid + 500;
         };
 
         containerConfig = {
-          environments = PUID_GUID // {
+          environments = {
+            inherit (containerLib.containerIds) PUID PGID;
             MALOJA_SKIP_SETUP = "true";
             MALOJA_SEND_STATS = "false";
             MALOJA_SCROBBLE_LASTFM = "false";

@@ -2,24 +2,11 @@
 let
   storeRoot = "/mnt/store/server-management/authentik";
 
-  containerIds = {
-    uid = 1100;
-    gid = 1100;
-  };
-
-  user = "${builtins.toString containerIds.uid}:${builtins.toString containerIds.gid}";
-
   mappedVolumeForUser = localPath: remotePath:
     containerLib.mkIdmappedVolume
       {
-        uidNamespace = containerIds.uid;
         uidHost = config.users.users.user.uid;
-        uidCount = 1;
-        uidRelative = true;
-        gidNamespace = containerIds.gid;
         gidHost = config.users.groups.${config.users.users.user.group}.gid;
-        gidCount = 1;
-        gidRelative = true;
       }
       localPath
       remotePath;
@@ -55,7 +42,8 @@ in
           volumes = [
             (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
@@ -68,7 +56,8 @@ in
           volumes = [
             (mappedVolumeForUser "${storeRoot}/redis" "/data")
           ];
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
@@ -93,7 +82,8 @@ in
             (mappedVolumeForUser "${storeRoot}/media" "/media")
             "${blueprints}:/blueprints/custom"
           ];
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
 
         unitConfig = systemdLib.requiresAfter
@@ -131,7 +121,8 @@ in
             "traefik.tcp.routers.authentik-ldap-outpost.entrypoints=ldap"
             "traefik.tcp.routers.authentik-ldap-outpost.service=authentik-ldap-outpost"
           ];
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
@@ -172,7 +163,7 @@ in
             "traefik.http.middlewares.authentik.forwardauth.trustForwardHeader=true"
             "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
           ];
-          inherit user;
+          inherit (containerLib.containerIds) user;
         };
 
         unitConfig = systemdLib.requiresAfter

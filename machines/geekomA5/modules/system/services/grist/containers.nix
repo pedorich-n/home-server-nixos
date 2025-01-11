@@ -2,24 +2,11 @@
 let
   storeRoot = "/mnt/store/grist";
 
-  containerIds = {
-    uid = 1100;
-    gid = 1100;
-  };
-
-  user = "${builtins.toString containerIds.uid}:${builtins.toString containerIds.gid}";
-
   mappedVolumeForUser = localPath: remotePath:
     containerLib.mkIdmappedVolume
       {
-        uidNamespace = containerIds.uid;
         uidHost = config.users.users.user.uid;
-        uidCount = 1;
-        uidRelative = true;
-        gidNamespace = containerIds.gid;
         gidHost = config.users.groups.${config.users.users.user.group}.gid;
-        gidCount = 1;
-        gidRelative = true;
       }
       localPath
       remotePath;
@@ -51,7 +38,7 @@ in
         (mappedVolumeForUser "${storeRoot}/persist" "/persist")
       ];
       labels = containerLib.mkTraefikLabels { name = "grist"; port = 8484; };
-      inherit user;
+      inherit (containerLib.containerIds) user;
     };
   };
 

@@ -102,7 +102,7 @@ in
           #TODO: Uncomment after https://github.com/containers/podman/pull/24794 is released
           # networks = [ "gluetun.container" ];
           networks = [ "container:gluetun" ];
-          inherit user;
+          inherit (containerLib.containerIds) user;
         };
 
         unitConfig = systemdLib.requiresAfter [ "gluetun.service" ] { };
@@ -126,7 +126,8 @@ in
             port = environments.PORT;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
@@ -146,7 +147,8 @@ in
             priority = 10;
             middlewares = [ "authentik@docker" ];
           }) ++ (mkArrApiTraefikLabels "prowlarr");
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
         unitConfig = afterDownloaders;
       };
@@ -168,7 +170,8 @@ in
             priority = 10;
             middlewares = [ "authentik@docker" ];
           }) ++ (mkArrApiTraefikLabels "sonarr");
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
 
         unitConfig = afterDownloaders;
@@ -191,7 +194,8 @@ in
             priority = 10;
             middlewares = [ "authentik@docker" ];
           }) ++ (mkArrApiTraefikLabels "radarr");
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
 
         unitConfig = afterDownloaders;
@@ -233,7 +237,8 @@ in
             "traefik.udp.routers.jellyfin-client-discovery.entrypoints=jellyfin-client-discovery"
             "traefik.udp.routers.jellyfin-client-discovery.service=jellyfin-client-discovery"
           ];
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
@@ -258,7 +263,8 @@ in
             (mappedVolumeForUser "${externalStoreRoot}/media/audiobooks" "/audiobooks")
           ];
           labels = containerLib.mkTraefikLabels { name = "audiobookshelf"; port = 8080; };
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
     };

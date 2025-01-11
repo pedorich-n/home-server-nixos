@@ -2,30 +2,11 @@
 let
   storeRoot = "/mnt/store/home-automation";
 
-  containerIds = {
-    uid = 1100;
-    gid = 1100;
-  };
-
-  user = "${builtins.toString containerIds.uid}:${builtins.toString containerIds.gid}";
-
-  PUID_GUID = {
-    PUID = builtins.toString containerIds.uid;
-    PGID = builtins.toString containerIds.gid;
-    UMASK = "007";
-  };
-
   mappedVolumeForUser = localPath: remotePath:
     containerLib.mkIdmappedVolume
       {
-        uidNamespace = containerIds.uid;
         uidHost = config.users.users.user.uid;
-        uidCount = 1;
-        uidRelative = true;
-        gidNamespace = containerIds.gid;
         gidHost = config.users.groups.${config.users.users.user.group}.gid;
-        gidCount = 1;
-        gidRelative = true;
       }
       localPath
       remotePath;
@@ -60,7 +41,8 @@ in
             "traefik.tcp.routers.mosquitto.service=mosquitto"
             "traefik.tcp.services.mosquitto.loadBalancer.server.port=1883"
           ];
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
@@ -89,7 +71,8 @@ in
             port = 8080;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
 
         unitConfig = systemdLib.requiresAfter [ "mosquitto.service" ] { };
@@ -104,7 +87,8 @@ in
           volumes = [
             (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
@@ -114,12 +98,14 @@ in
         wantsAuthentik = true;
         usernsAuto = {
           enable = true;
-          size = containerIds.uid + 500;
+          size = containerLib.containerIds.uid + 500;
         };
 
         containerConfig = {
-          environments = PUID_GUID // {
+          environments = {
             TZ = "${config.time.timeZone}";
+            inherit (containerLib.containerIds) PUID PGID;
+            UMASK = "007";
           };
           # capabilities = {
           #   CAP_NET_RAW = true;
@@ -175,7 +161,8 @@ in
             port = 1880;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 

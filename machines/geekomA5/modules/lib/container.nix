@@ -1,5 +1,5 @@
 { config, lib, ... }: {
-  _module.args.containerLib = {
+  _module.args.containerLib = rec {
     mkTraefikLabels =
       { name
       , domain ? "${name}.${config.custom.networking.domain}"
@@ -50,33 +50,33 @@
       };
     };
 
-    mkWithNetwork = name: cfg: cfg // {
-      containerConfig = cfg.containerConfig // {
-        networks = [ name ] ++ (cfg.containerConfig.networks or [ ]);
-      };
-
-      unitConfig = (cfg.unitConfig or { }) // {
-        Requires = [ "${name}-network.service" ] ++ (cfg.unitConfig.Requires or [ ]);
-        After = [ "${name}-network.service" ] ++ (cfg.unitConfig.After or [ ]);
-      };
-    };
-
     withAlpineHostsFix = cfg: cfg // {
       #NOTE - there's a bug with musl or C libs or something in alpine-based images with resolving .lan domains; 
       # dig & nslookup resolves the domain, but curl fails, and the call to OIDC discovery fails too. Providing hard-coded host seems to help.
       addHosts = (cfg.addHosts or [ ]) ++ [ "authentik.${config.custom.networking.domain}:192.168.10.15" ];
     };
 
+    # UID:GID to use with `--user` or `PUID`, `GUID` inside the container. Arbitrary values.
+    containerIds = rec {
+      uid = 1100;
+      gid = 1100;
+
+      PUID = builtins.toString uid;
+      PGID = builtins.toString gid;
+
+      user = "${builtins.toString uid}:${builtins.toString gid}";
+    };
+
     # Creates a mapping like `"/home/user/test:/test:idmap=uids=@1000-0-1024;gids=@100-0-1024"`
     mkIdmappedVolume =
-      { uidNamespace
+      { uidNamespace ? containerIds.uid
       , uidHost
       , uidCount ? 1
-      , uidRelative ? false
-      , gidNamespace
+      , uidRelative ? true
+      , gidNamespace ? containerIds.gid
       , gidHost
       , gidCount ? 1
-      , gidRelative ? false
+      , gidRelative ? true
       }: host: container:
       let
         uids = ''${if uidRelative then "@" else ""}${toString uidHost}-${toString uidNamespace}-${toString uidCount}'';

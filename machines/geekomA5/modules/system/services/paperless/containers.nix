@@ -3,27 +3,14 @@ let
   storeRoot = "/mnt/store/paperless";
   externalStoreRoot = "/mnt/external/paperless-library";
 
-  containerIds = {
-    uid = 1100;
-    gid = 1100;
-  };
-
   mappedVolumeForUser = localPath: remotePath:
     containerLib.mkIdmappedVolume
       {
-        uidNamespace = containerIds.uid;
         uidHost = config.users.users.user.uid;
-        uidCount = 1;
-        uidRelative = true;
-        gidNamespace = containerIds.gid;
         gidHost = config.users.groups.${config.users.users.user.group}.gid;
-        gidCount = 1;
-        gidRelative = true;
       }
       localPath
       remotePath;
-
-  user = "${builtins.toString containerIds.uid}:${builtins.toString containerIds.gid}";
 
   networks = [ "paperless-internal.network" ];
 in
@@ -40,7 +27,8 @@ in
           volumes = [
             (mappedVolumeForUser "${storeRoot}/redis" "/data")
           ];
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
@@ -53,7 +41,8 @@ in
           volumes = [
             (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
@@ -68,8 +57,8 @@ in
 
         containerConfig = {
           environments = {
-            USERMAP_UID = builtins.toString containerIds.uid;
-            USERMAP_GID = builtins.toString containerIds.gid;
+            USERMAP_UID = containerLib.containerIds.PUID;
+            USERMAP_GID = containerLib.containerIds.PGID;
 
             PAPERLESS_DBHOST = "paperless-postgresql";
             PAPERLESS_DBENGINE = "postgres";
