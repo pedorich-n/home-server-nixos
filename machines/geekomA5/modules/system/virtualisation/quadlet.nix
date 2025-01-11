@@ -29,6 +29,15 @@ in
             type = lib.types.bool;
             default = false;
           };
+          usernsAuto = {
+            enable = lib.mkEnableOption "userns=auto";
+
+            size = lib.mkOption {
+              type = lib.types.nullOr lib.types.numbers.positive;
+              default = null;
+              apply = value: lib.mapNullable builtins.toString value;
+            };
+          };
         };
 
         config = lib.mkMerge [
@@ -71,6 +80,9 @@ in
               healthRetries = 5;
               notify = "healthy";
             };
+          })
+          (lib.mkIf config.usernsAuto.enable {
+            containerConfig.userns = "auto" + (lib.optionalString (config.usernsAuto.size != null) ":size=${config.usernsAuto.size}");
           })
         ];
       }));

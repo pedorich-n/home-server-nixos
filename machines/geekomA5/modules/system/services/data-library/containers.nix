@@ -1,9 +1,5 @@
 { config, containerLib, systemdLib, ... }:
 let
-  storeFor = localPath: remotePath: "/mnt/store/data-library/${localPath}:${remotePath}";
-  externalStoreFor = localPath: remotePath: ''/mnt/external/data-library${if (localPath != "") then "/${localPath}" else ""}:${remotePath}'';
-
-  pod = "data-library.pod";
   networks = [ "data-library-internal.network" ];
 
   mkArrApiTraefikLabels = name: containerLib.mkTraefikLabels {
@@ -13,16 +9,34 @@ let
     priority = 15;
   };
 
-  user = "${builtins.toString config.users.users.user.uid}:${builtins.toString config.users.groups.${config.users.users.user.group}.gid}";
-
   defaultEnvs = {
     TZ = "${config.time.timeZone}";
   };
 
-  PUID_GUID = {
-    PUID = builtins.toString config.users.users.user.uid;
-    PGID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
+  storeRoot = "/mnt/store/data-library";
+  externalStoreRoot = "/mnt/external/data-library";
+
+  containerIds = {
+    uid = 1100;
+    gid = 1100;
   };
+
+  user = "${builtins.toString containerIds.uid}:${builtins.toString containerIds.gid}";
+
+  mappedVolumeForUser = localPath: remotePath:
+    containerLib.mkIdmappedVolume
+      {
+        uidNamespace = containerIds.uid;
+        uidHost = config.users.users.user.uid;
+        uidCount = 1;
+        uidRelative = true;
+        gidNamespace = containerIds.gid;
+        gidHost = config.users.groups.${config.users.users.user.group}.gid;
+        gidCount = 1;
+        gidRelative = true;
+      }
+      localPath
+      remotePath;
 
   afterDownloaders = {
     After = [
@@ -36,21 +50,23 @@ in
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "data-library";
 
-    pods.data-library = {
-      podConfig = { inherit networks; };
-    };
-
     containers = {
       gluetun = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           addCapabilities = [ "NET_ADMIN" ];
           devices = [ "/dev/net/tun:/dev/net/tun" ];
           environments = {
-            VPN_SERVICE_PROVIDER = "nordvpn";
             SERVER_COUNTRIES = "Japan";
+
+            VPN_SERVICE_PROVIDER = "protonvpn";
+            VPN_PORT_FORWARDING = "on";
+            VPN_PORT_FORWARDING_PROVIDER = "protonvpn";
+            VPN_PORT_FORWARDING_UP_COMMAND = "'/gluetun/scripts/qbt_update_port_forward.sh {{PORTS}}'";
+
           };
           environmentFiles = [ config.age.secrets.gluetun.path ];
           # https://github.com/qdm12/gluetun/blob/ddd9f4d0210c35d062896ffa2c7dc6e585deddfb/Dockerfile#L226
@@ -60,28 +76,33 @@ in
           healthInterval = "30s";
           healthRetries = 5;
           notify = "healthy";
+          volumes = [
+            "${./gluetun/qbt_update_port_forward.sh}:/gluetun/scripts/qbt_update_port_forward.sh"
+            "${./gluetun/auth_config.toml}:/gluetun/auth/config.toml"
+          ];
           labels = containerLib.mkTraefikLabels {
             name = "qbittorrent"; # Proxied
             port = 8080;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks pod;
+          inherit networks;
         };
       };
 
       qbittorrent = {
         useGlobalContainers = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           environments = defaultEnvs;
           volumes = [
-            (storeFor "qbittorrent/config" "/config")
-            (externalStoreFor "downloads/torrent" "/data/downloads/torrent")
+            (mappedVolumeForUser "${storeRoot}/qbittorrent/config" "/config")
+            (mappedVolumeForUser "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
           ];
-          # Broken until https://github.com/containers/podman/pull/24794 is released
+          #TODO: Uncomment after https://github.com/containers/podman/pull/24794 is released
           # networks = [ "gluetun.container" ];
           networks = [ "container:gluetun" ];
-          inherit pod user;
+          inherit (containerLib.containerIds) user;
         };
 
         unitConfig = systemdLib.requiresAfter [ "gluetun.service" ] { };
@@ -90,32 +111,35 @@ in
       sabnzbd = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
+        usernsAuto.enable = true;
 
         containerConfig = rec {
           environments = defaultEnvs // {
             PORT = "8080";
           };
           volumes = [
-            (storeFor "sabnzbd/config" "/config")
-            (externalStoreFor "downloads/usenet" "/data/downloads/usenet")
+            (mappedVolumeForUser "${storeRoot}/sabnzbd/config" "/config")
+            (mappedVolumeForUser "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
           ];
           labels = containerLib.mkTraefikLabels {
             name = "sabnzbd";
             port = environments.PORT;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks pod user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
       prowlarr = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           environments = defaultEnvs;
           volumes = [
-            (storeFor "prowlarr/config" "/config")
+            (mappedVolumeForUser "${storeRoot}/prowlarr/config" "/config")
           ];
           labels = (containerLib.mkTraefikLabels {
             name = "prowlarr";
@@ -123,7 +147,8 @@ in
             priority = 10;
             middlewares = [ "authentik@docker" ];
           }) ++ (mkArrApiTraefikLabels "prowlarr");
-          inherit networks pod user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
         unitConfig = afterDownloaders;
       };
@@ -131,13 +156,13 @@ in
       sonarr = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
+        usernsAuto.enable = true;
 
-        # TODO: get rid of PUID/GUID with the next release as it should support `user` now. 
         containerConfig = {
-          environments = defaultEnvs // PUID_GUID;
+          environments = defaultEnvs;
           volumes = [
-            (storeFor "sonarr/config" "/config")
-            (externalStoreFor "" "/data")
+            (mappedVolumeForUser "${storeRoot}/sonarr/config" "/config")
+            (mappedVolumeForUser externalStoreRoot "/data")
           ];
           labels = (containerLib.mkTraefikLabels {
             name = "sonarr";
@@ -145,7 +170,8 @@ in
             priority = 10;
             middlewares = [ "authentik@docker" ];
           }) ++ (mkArrApiTraefikLabels "sonarr");
-          inherit networks pod;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
 
         unitConfig = afterDownloaders;
@@ -154,12 +180,13 @@ in
       radarr = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           environments = defaultEnvs;
           volumes = [
-            (storeFor "radarr/config" "/config")
-            (externalStoreFor "" "/data")
+            (mappedVolumeForUser "${storeRoot}/radarr/config" "/config")
+            (mappedVolumeForUser externalStoreRoot "/data")
           ];
           labels = (containerLib.mkTraefikLabels {
             name = "radarr";
@@ -167,7 +194,8 @@ in
             priority = 10;
             middlewares = [ "authentik@docker" ];
           }) ++ (mkArrApiTraefikLabels "radarr");
-          inherit networks pod user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
 
         unitConfig = afterDownloaders;
@@ -176,6 +204,10 @@ in
       jellyfin = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
+        usernsAuto = {
+          enable = true;
+          size = 65535;
+        };
 
         containerConfig = {
           notify = "healthy"; # This image has working healthcheck already, so I just need to connect it to systemd
@@ -192,9 +224,9 @@ in
             JELLYFIN_PublishedServerUrl = "http://jellyfin.${config.custom.networking.domain}";
           };
           volumes = [
-            (storeFor "jellyfin/config" "/config")
-            (storeFor "jellyfin/cache" "/cache")
-            (externalStoreFor "media" "/media")
+            (mappedVolumeForUser "${storeRoot}/jellyfin/config" "/config")
+            (mappedVolumeForUser "${storeRoot}/jellyfin/cache" "/cache")
+            (mappedVolumeForUser "${externalStoreRoot}/media" "/media")
           ];
           labels = (containerLib.mkTraefikLabels { name = "jellyfin"; port = 8096; }) ++ [
             "traefik.udp.services.jellyfin-service-discovery.loadBalancer.server.port=1900"
@@ -205,13 +237,15 @@ in
             "traefik.udp.routers.jellyfin-client-discovery.entrypoints=jellyfin-client-discovery"
             "traefik.udp.routers.jellyfin-client-discovery.service=jellyfin-client-discovery"
           ];
-          inherit networks pod user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
       audiobookshelf = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
+        usernsAuto.enable = true;
 
         containerConfig = containerLib.withAlpineHostsFix rec {
           environments = defaultEnvs // {
@@ -224,12 +258,13 @@ in
           healthRetries = 5;
           notify = "healthy";
           volumes = [
-            (storeFor "audiobookshelf/config" "/config")
-            (storeFor "audiobookshelf/metadata" "/metadata")
-            (externalStoreFor "media/audiobooks" "/audiobooks")
+            (mappedVolumeForUser "${storeRoot}/audiobookshelf/config" "/config")
+            (mappedVolumeForUser "${storeRoot}/audiobookshelf/metadata" "/metadata")
+            (mappedVolumeForUser "${externalStoreRoot}/media/audiobooks" "/audiobooks")
           ];
           labels = containerLib.mkTraefikLabels { name = "audiobookshelf"; port = 8080; };
-          inherit networks pod user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
     };

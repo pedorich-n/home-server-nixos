@@ -1,34 +1,37 @@
 { config, containerLib, pkgs, ... }:
 let
-  # Those images are built on linuxserver.io images so they need PUID/PGID instead of `--user uid:gid` :(
-  defaultEnvs = {
-    PUID = builtins.toString config.users.users.user.uid;
-    PGID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
-  };
+  storeRoot = "/mnt/store/music-history";
 
-  storeFor = localPath: remotePath: "/mnt/store/music-history/${localPath}:${remotePath}";
+  mappedVolumeForUser = localPath: remotePath:
+    containerLib.mkIdmappedVolume
+      {
+        uidHost = config.users.users.user.uid;
+        gidHost = config.users.groups.${config.users.users.user.group}.gid;
+      }
+      localPath
+      remotePath;
 
   malojaArtistRules = pkgs.callPackage ./maloja/_artist-rules.nix { };
 
-  pod = "music-history.pod";
   networks = [ "music-history-internal.network" ];
 in
 {
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "music-history";
 
-    pods.music-history = {
-      podConfig = { inherit networks; };
-    };
-
     containers = {
       multiscrobbler = {
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
         useGlobalContainers = true;
+        usernsAuto = {
+          enable = true;
+          size = 65535;
+        };
 
         containerConfig = {
-          environments = defaultEnvs // {
+          environments = {
+            inherit (containerLib.containerIds) PUID PGID;
             TZ = config.time.timeZone;
 
             BASE_URL = "http://multiscrobbler.${config.custom.networking.domain}:80";
@@ -36,7 +39,7 @@ in
             LOG_LEVEL = "debug";
           };
           volumes = [
-            (storeFor "multi-scrobbler/config" "/config")
+            (mappedVolumeForUser "${storeRoot}/multi-scrobbler/config" "/config")
             "${config.age.secrets.multi_scrobbler_spotify.path}:/config/spotify.json"
             "${config.age.secrets.multi_scrobbler_maloja.path}:/config/maloja.json"
             "${./multi-scrobbler/webscrobbler.json}:/config/webscrobbler.json"
@@ -46,7 +49,7 @@ in
             port = 9078;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks pod;
+          inherit networks;
         };
       };
 
@@ -54,9 +57,14 @@ in
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
         useGlobalContainers = true;
+        usernsAuto = {
+          enable = true;
+          size = containerLib.containerIds.uid + 500;
+        };
 
         containerConfig = {
-          environments = defaultEnvs // {
+          environments = {
+            inherit (containerLib.containerIds) PUID PGID;
             MALOJA_SKIP_SETUP = "true";
             MALOJA_SEND_STATS = "false";
             MALOJA_SCROBBLE_LASTFM = "false";
@@ -66,7 +74,7 @@ in
           };
           environmentFiles = [ config.age.secrets.music_history.path ];
           volumes = [
-            (storeFor "maloja/data" "/data")
+            (mappedVolumeForUser "${storeRoot}/maloja/data" "/data")
             "${malojaArtistRules}:/data/rules/custom_rules.tsv"
             "${config.age.secrets.maloja_apikeys.path}:/data/apikeys.yml"
           ];
@@ -75,7 +83,7 @@ in
             port = 42010;
             middlewares = [ "authentik@docker" ];
           };
-          inherit networks pod;
+          inherit networks;
         };
       };
     };

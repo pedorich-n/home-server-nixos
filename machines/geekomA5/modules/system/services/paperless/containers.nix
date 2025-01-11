@@ -1,42 +1,48 @@
 { config, containerLib, systemdLib, ... }:
 let
-  user = "${builtins.toString config.users.users.user.uid}:${builtins.toString config.users.groups.${config.users.users.user.group}.gid}";
+  storeRoot = "/mnt/store/paperless";
+  externalStoreRoot = "/mnt/external/paperless-library";
 
-  storeFor = localPath: remotePath: "/mnt/store/paperless/${localPath}:${remotePath}";
-  externalStoreFor = localPath: remotePath: "/mnt/external/paperless-library/${localPath}:${remotePath}";
+  mappedVolumeForUser = localPath: remotePath:
+    containerLib.mkIdmappedVolume
+      {
+        uidHost = config.users.users.user.uid;
+        gidHost = config.users.groups.${config.users.users.user.group}.gid;
+      }
+      localPath
+      remotePath;
 
-  pod = "paperless.pod";
   networks = [ "paperless-internal.network" ];
 in
 {
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "paperless";
 
-    pods.paperless = {
-      podConfig = { inherit networks; };
-    };
-
     containers = {
       paperless-redis = {
         useGlobalContainers = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           volumes = [
-            (storeFor "redis" "/data")
+            (mappedVolumeForUser "${storeRoot}/redis" "/data")
           ];
-          inherit networks pod user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
       paperless-postgresql = {
         useGlobalContainers = true;
+        usernsAuto.enable = true;
 
         containerConfig = {
           environmentFiles = [ config.age.secrets.paperless.path ];
           volumes = [
-            (storeFor "postgresql" "/var/lib/postgresql/data")
+            (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
-          inherit networks pod user;
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
@@ -44,11 +50,15 @@ in
         requiresTraefikNetwork = true;
         wantsAuthentik = true;
         useGlobalContainers = true;
+        usernsAuto = {
+          enable = true;
+          size = 65535;
+        };
 
         containerConfig = {
           environments = {
-            USERMAP_UID = builtins.toString config.users.users.user.uid;
-            USERMAP_GID = builtins.toString config.users.groups.${config.users.users.user.group}.gid;
+            USERMAP_UID = containerLib.containerIds.PUID;
+            USERMAP_GID = containerLib.containerIds.PGID;
 
             PAPERLESS_DBHOST = "paperless-postgresql";
             PAPERLESS_DBENGINE = "postgres";
@@ -67,13 +77,13 @@ in
           };
           environmentFiles = [ config.age.secrets.paperless.path ];
           volumes = [
-            (storeFor "data" "/usr/src/paperless/data")
-            (storeFor "export" "/usr/src/paperless/export")
-            (externalStoreFor "media" "/usr/src/paperless/media")
-            (externalStoreFor "media/trash" "/usr/src/paperless/media/trash")
+            (mappedVolumeForUser "${storeRoot}/data" "/usr/src/paperless/data")
+            (mappedVolumeForUser "${storeRoot}/export" "/usr/src/paperless/export")
+            (mappedVolumeForUser "${externalStoreRoot}/media" "/usr/src/paperless/media")
+            (mappedVolumeForUser "${externalStoreRoot}/media/trash" "/usr/src/paperless/media/trash")
           ];
           labels = containerLib.mkTraefikLabels { name = "paperless"; port = 8000; };
-          inherit networks pod;
+          inherit networks;
         };
 
         unitConfig = systemdLib.requiresAfter

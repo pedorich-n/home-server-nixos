@@ -5,7 +5,7 @@ let
   mkMapping = path: override: override {
     file = path;
     name = lib.removeSuffix ".age" (getFilename path);
-    mode = "440";
+    mode = "444"; # FIXME: figure out how to pass secrets into containers with userns=auto
     owner = config.users.users.user.name;
     group = config.users.users.user.group;
   };
