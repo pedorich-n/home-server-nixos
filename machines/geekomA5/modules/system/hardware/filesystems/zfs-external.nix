@@ -29,14 +29,13 @@
 
         # NOTE: https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/
         # NOTE: https://www.high-availability.com/docs/ZFS-Tuning-Guide
+        # NOTE: https://jrs-s.net/2019/04/03/on-zfs-recordsize/
 
         # Properties of the zpool (zpool create -o <options>)
         options = {
           ashift = "12"; # Means 4KiB sector size
         };
 
-
-        # NOTE https://github.com/nix-community/disko/issues/469#issuecomment-1944931386 for difference between `mountpoint` and `options.mountpoint`/`rootFsOptions.mountpoint`
 
         # Properties of the FS on the zpool (zfs set <options>)
         rootFsOptions = {
@@ -47,16 +46,17 @@
           "com.sun:auto-snapshot" = "false"; # Don't take snapshots of root
         };
 
-        mountpoint = "/mnt/external"; # fstab mountpoint, ideally should be removed, but it's not currently possible with disko
+        mountpoint = "/mnt/external"; # fstab mountpoint
 
         datasets = {
           immich = {
             type = "zfs_fs";
             options = {
               mountpoint = "/mnt/external/immich-library"; # ZFS prop: https://openzfs.github.io/openzfs-docs/man/v2.2/7/zfsprops.7.html#mountpoint
+              recordsize = "1M"; # Better read performance for "large" files like images, videos, etc.
               "com.sun:auto-snapshot" = "true";
             };
-            mountpoint = "/mnt/external/immich-library"; # fstab mountpoint, ideally should be removed, but it's not currently possible with disko
+            mountpoint = "/mnt/external/immich-library"; # fstab mountpoint
           };
 
           paperless = {
@@ -74,9 +74,10 @@
             options = {
               mountpoint = "/mnt/external/data-library";
               quota = "1T";
-              "com.sun:auto-snapshot" = "false";
+              recordsize = "1M"; # Better read performance for "large" files like images, videos, etc.
+              "com.sun:auto-snapshot" = "false"; # Not worth saving (yet?)
             };
-            mountpoint = "/mnt/external/data-library";
+            mountpoint = "/mnt/external/data-library"; # fstab mountpoint
           };
         };
       };
