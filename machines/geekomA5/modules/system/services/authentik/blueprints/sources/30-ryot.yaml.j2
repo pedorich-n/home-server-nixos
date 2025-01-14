@@ -1,0 +1,5 @@
+{% from "macros/oidc_entry.j2" import oidc_entry with context %}
+{% import "global_utils.j2" as global_utils with context %}
+
+{% set redirect_uris = [ global_utils.generate_url("ryot") + "/api/auth" ] %}
+{{ oidc_entry(name="Ryot", slug="ryot", application_group=applicationGroups.media, redirect_uris=redirect_uris,  icon=global_utils.generate_icon("ryot") ) }}

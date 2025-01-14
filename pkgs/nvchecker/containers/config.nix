@@ -139,6 +139,13 @@ let
       container = "advplyr/audiobookshelf";
       include_regex = regexes.semverLike;
     };
+
+    ryot = registries.ghcr {
+      container = "ignisda/ryot";
+      include_regex = regexes.semverLike;
+    };
+
+    ryot-postgresql = reusedContainers.postgres16;
   };
 
   config = {

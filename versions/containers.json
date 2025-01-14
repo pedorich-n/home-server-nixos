@@ -124,6 +124,16 @@
     "registry": "docker.io",
     "version": "5.17.2"
   },
+  "ryot": {
+    "container": "ignisda/ryot",
+    "registry": "ghcr.io",
+    "version": "v7.15.0"
+  },
+  "ryot-postgresql": {
+    "container": "library/postgres",
+    "registry": "docker.io",
+    "version": "16.6-alpine"
+  },
   "sabnzbd": {
     "container": "linuxserver/sabnzbd",
     "registry": "docker.io",
