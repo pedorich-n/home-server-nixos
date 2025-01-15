@@ -46,6 +46,7 @@ in
             FRONTEND_URL = "http://ryot.${config.custom.networking.domain}";
             SERVER_OIDC_ISSUER_URL = "http://authentik.server.lan/application/o/ryot/";
             FRONTEND_OIDC_BUTTON_LABEL = "Authentik";
+            RUST_LOG = "ryot=debug";
           };
           environmentFiles = [ config.age.secrets.ryot.path ];
           labels = containerLib.mkTraefikLabels { name = "ryot"; port = 8000; };
