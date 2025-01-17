@@ -202,17 +202,17 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1736595067,
-        "narHash": "sha256-rwgwA2VVKVAmEwptSwTcYXk4e5mlXJN+wGXhC7RXySA=",
-        "ref": "refs/heads/main",
-        "rev": "e301ed6e2b630191a296dd0e7f8c6e811fd3b843",
-        "revCount": 104,
+        "lastModified": 1737120462,
+        "narHash": "sha256-+bWt6lNLlw3qUnmeSrcFOxoBNnWK1H0Z0N792ysDEqw=",
+        "ref": "refs/heads/sops",
+        "rev": "bc63984aec63217a499bd0a75af75a33498df8bb",
+        "revCount": 110,
         "type": "git",
-        "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
+        "url": "file:///home/pedorich_n/Projects/home-server-nixos-secrets"
       },
       "original": {
         "type": "git",
-        "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
+        "url": "file:///home/pedorich_n/Projects/home-server-nixos-secrets"
       }
     },
     "homeassistant-docker-venv": {
@@ -416,9 +416,30 @@
         "personal-home-manager": "personal-home-manager",
         "poetry2nix": "poetry2nix",
         "quadlet-nix": "quadlet-nix",
+        "sops-nix": "sops-nix",
         "systems": "systems",
         "terranix": "terranix",
         "trash-guides": "trash-guides"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1736808430,
+        "narHash": "sha256-wlgdf/n7bJMLBheqt1jmPoxJFrUP6FByKQFXuM9YvIk=",
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "rev": "553c7cb22fed19fd60eb310423fdc93045c51ba8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "type": "github"
       }
     },
     "systems": {
