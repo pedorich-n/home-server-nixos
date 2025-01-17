@@ -53,6 +53,8 @@ in
       "restic/maloja/repository" = { };
       "restic/paperless/password" = { };
       "restic/paperless/repository" = { };
+
+      "tailscale/key" = { };
     }
     // envSecrets;
   };
