@@ -37,6 +37,8 @@ in
         neededForUsers = true;
       };
 
+      "apprise/urls/telegram" = { };
+
       "home-automation/homeassistant_secrets.yaml" = {
         sopsFile = sopsFilePathFor "home-automation/homeassistant_secrets.yaml";
         mode = "444"; # FIXME: figure out a way to idmap mount the file
