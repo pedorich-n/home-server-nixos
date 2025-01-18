@@ -72,7 +72,7 @@ in
             MALOJA_DATA_DIRECTORY = "/data";
             MALOJA_TIMEZONE = "9";
           };
-          environmentFiles = [ config.age.secrets.music_history.path ];
+          environmentFiles = [ config.sops.secrets.maloja.path ];
           volumes = [
             (mappedVolumeForUser "${storeRoot}/maloja/data" "/data")
             "${malojaArtistRules}:/data/rules/custom_rules.tsv"
