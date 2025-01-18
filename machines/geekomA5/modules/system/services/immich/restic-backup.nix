@@ -25,7 +25,7 @@ in
       # NOTE: https://immich.app/docs/administration/backup-and-restore/
       backupPrepareCommand = ''
         mkdir -p ${dbBackupFolder}
-        set -o allexport; source ${config.sops.secrets."immich/postgresql".path}; set +o allexport
+        set -o allexport; source ${config.sops.secrets."immich/postgresql.env".path}; set +o allexport
 
         ${lib.getExe config.virtualisation.podman.package} exec --tty immich-vectordb \
         pg_dumpall --username ''${POSTGRES_USER} --clean --if-exists > "${dbBackupFolder}/backup.sql"

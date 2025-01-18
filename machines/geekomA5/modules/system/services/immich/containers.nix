@@ -35,7 +35,7 @@ in
         containerConfig = {
           image = "registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0";
           environments = sharedEnvs;
-          environmentFiles = [ config.sops.secrets."immich/postgresql".path ];
+          environmentFiles = [ config.sops.secrets."immich/postgresql.env".path ];
           volumes = [
             (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
@@ -91,7 +91,7 @@ in
 
         containerConfig = {
           environments = sharedEnvs;
-          environmentFiles = [ config.sops.secrets."immich/main".path ];
+          environmentFiles = [ config.sops.secrets."immich/main.env".path ];
           addGroups = [
             (builtins.toString config.users.groups.render.gid) # For HW Transcoding
           ];

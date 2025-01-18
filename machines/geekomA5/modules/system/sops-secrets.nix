@@ -7,12 +7,10 @@ let
   envSecrets =
     let
       mkRelativePath = path: (lib.removePrefix "${secretsRoot}/" (builtins.unsafeDiscardStringContext path));
-      mkSecretAttrName = path: lib.removeSuffix ".env" (mkRelativePath path);
 
       allEnvs = lib.filter (path: lib.hasSuffix ".env" path) (lib.filesystem.listFilesRecursive secretsRoot);
       mkEnv = path: {
-        ${mkSecretAttrName path} = {
-          name = mkRelativePath path;
+        ${mkRelativePath path} = {
           sopsFile = path;
           format = "dotenv";
           key = "";
@@ -39,9 +37,26 @@ in
         neededForUsers = true;
       };
 
-      # "multiscrobbler/maloja/api_key" = { };
-      # "multiscrobbler/spotify/client_id" = { };
-      # "multiscrobbler/spotify/client_secret" = { };
+      "home-automation/homeassistant_secrets.yaml" = {
+        sopsFile = sopsFilePathFor "home-automation/homeassistant_secrets.yaml";
+        mode = "444"; # FIXME: figure out a way to idmap mount the file
+        key = "";
+      };
+      "home-automation/zigbee2mqtt_secrets.yaml" = {
+        sopsFile = sopsFilePathFor "home-automation/zigbee2mqtt_secrets.yaml";
+        mode = "444"; # FIXME: figure out a way to idmap mount the file
+        key = "";
+      };
+      "home-automation/mosquitto_passwords.txt" = {
+        sopsFile = sopsFilePathFor "home-automation/mosquitto_passwords.txt";
+        mode = "444"; # FIXME: figure out a way to idmap mount the file
+        format = "binary";
+      };
+
+      "music-history/maloja/api_keys/multiscrobbler" = { };
+      "music-history/multiscrobbler/maloja/api_key" = { };
+      "music-history/multiscrobbler/spotify/client_id" = { };
+      "music-history/multiscrobbler/spotify/client_secret" = { };
 
       "restic/grist/password" = { };
       "restic/grist/repository" = { };
