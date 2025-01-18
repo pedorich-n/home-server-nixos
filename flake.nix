@@ -1,9 +1,4 @@
 {
-  nixConfig = {
-    extra-substituters = [ "https://playit-nixos-module.cachix.org" ];
-    extra-trusted-public-keys = [ "playit-nixos-module.cachix.org-1:22hBXWXBbd/7o1cOnh+p0hpFUVk9lPdRLX3p5YSfRz4=" ];
-  };
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -139,33 +134,6 @@
         systems.follows = "systems";
         flake-utils.follows = "flake-utils";
         poetry2nix.follows = "poetry2nix";
-      };
-    };
-
-    nix-minecraft = {
-      url = "github:Infinidoge/nix-minecraft";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-        flake-utils.follows = "flake-utils";
-        flake-compat.follows = "flake-compat";
-      };
-    };
-
-    minecraft-modpack = {
-      url = "github:pedorich-n/MinecraftModpack";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-        systems.follows = "systems";
-        flake-parts.follows = "flake-parts";
-      };
-    };
-
-    playit-nixos-module = {
-      url = "github:pedorich-n/playit-nixos-module";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-        systems.follows = "systems";
-        flake-parts.follows = "flake-parts";
       };
     };
 

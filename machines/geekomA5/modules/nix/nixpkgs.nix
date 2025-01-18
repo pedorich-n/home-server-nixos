@@ -1,11 +1,9 @@
-{ inputs, pkgs, overlays, ... }:
+{ inputs, pkgs, ... }:
 {
   nixpkgs = {
     overlays = [
-      inputs.nix-minecraft.overlays.default
       inputs.poetry2nix.overlays.default
       inputs.jinja2-renderer.overlays.default
-      overlays.minecraft-server-check
     ];
   };
 

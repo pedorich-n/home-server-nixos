@@ -263,59 +263,6 @@
         "type": "github"
       }
     },
-    "minecraft-modpack": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ],
-        "packwiz2nix": "packwiz2nix",
-        "systems": [
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1735812023,
-        "narHash": "sha256-5LHWn1adfgdUNcyfJfD1zv8Xr4axN5x5BV4Rb9mg84Y=",
-        "owner": "pedorich-n",
-        "repo": "MinecraftModpack",
-        "rev": "c4ef3ab939d147986823833ff3adca20ec6a2c08",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pedorich-n",
-        "repo": "MinecraftModpack",
-        "type": "github"
-      }
-    },
-    "nix-minecraft": {
-      "inputs": {
-        "flake-compat": [
-          "flake-compat"
-        ],
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1736128264,
-        "narHash": "sha256-B2RuVaQBbVChPf9ZqRBEqUA09MCD5P/iBpOokoXd5gM=",
-        "owner": "Infinidoge",
-        "repo": "nix-minecraft",
-        "rev": "eefeae9b72d15f69e7264a6a87fba6ecc9782496",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Infinidoge",
-        "repo": "nix-minecraft",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1736061677,
@@ -364,28 +311,6 @@
         "type": "github"
       }
     },
-    "packwiz2nix": {
-      "inputs": {
-        "nixpkgs": [
-          "minecraft-modpack",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1695101165,
-        "narHash": "sha256-Epv0PEu1s9kLEohWOSBAsFVRNC9z9UAazdYIwKF0Ptw=",
-        "owner": "getchoo",
-        "repo": "packwiz2nix",
-        "rev": "92ef4547a654cbad32ee2f6488bd816717cbfe96",
-        "type": "github"
-      },
-      "original": {
-        "owner": "getchoo",
-        "ref": "rewrite",
-        "repo": "packwiz2nix",
-        "type": "github"
-      }
-    },
     "personal-home-manager": {
       "inputs": {
         "flake-parts": [
@@ -421,49 +346,6 @@
       "original": {
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/config.nix"
-      }
-    },
-    "playit-agent-source": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1734908220,
-        "narHash": "sha256-ED6sXofCG68P0GJpwvqQl3I30zpV++lL7jI5sKRMhl0=",
-        "owner": "playit-cloud",
-        "repo": "playit-agent",
-        "rev": "87d6cd430c7a329b49b5d7bed817738145b4adeb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "playit-cloud",
-        "repo": "playit-agent",
-        "type": "github"
-      }
-    },
-    "playit-nixos-module": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ],
-        "playit-agent-source": "playit-agent-source",
-        "systems": [
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1735811943,
-        "narHash": "sha256-5bsMbqtFcSbfiOLV30YS267rq8/u3FHowpb8ncWxMLo=",
-        "owner": "pedorich-n",
-        "repo": "playit-nixos-module",
-        "rev": "194100bd8c51f51029df5651a3416ea3c240e6fe",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pedorich-n",
-        "repo": "playit-nixos-module",
-        "type": "github"
       }
     },
     "poetry2nix": {
@@ -528,13 +410,10 @@
         "home-server-nixos-secrets": "home-server-nixos-secrets",
         "homeassistant-docker-venv": "homeassistant-docker-venv",
         "jinja2-renderer": "jinja2-renderer",
-        "minecraft-modpack": "minecraft-modpack",
-        "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
         "nixpkgs-netdata": "nixpkgs-netdata",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "personal-home-manager": "personal-home-manager",
-        "playit-nixos-module": "playit-nixos-module",
         "poetry2nix": "poetry2nix",
         "quadlet-nix": "quadlet-nix",
         "systems": "systems",
