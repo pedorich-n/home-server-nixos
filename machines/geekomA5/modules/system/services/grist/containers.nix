@@ -33,7 +33,7 @@ in
         GRIST_OIDC_IDP_ISSUER = authentikLib.mkIssuerUrl "grist";
         GRIST_OIDC_IDP_SCOPES = authentikLib.openIdScopes;
       };
-      environmentFiles = [ config.age.secrets.grist.path ];
+      environmentFiles = [ config.sops.secrets."grist/main".path ];
       volumes = [
         (mappedVolumeForUser "${storeRoot}/persist" "/persist")
       ];
