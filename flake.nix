@@ -98,16 +98,6 @@
       };
     };
 
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-        systems.follows = "systems";
-        darwin.follows = "";
-        home-manager.follows = "";
-      };
-    };
-
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs = {

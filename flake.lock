@@ -1,30 +1,5 @@
 {
   "nodes": {
-    "agenix": {
-      "inputs": {
-        "darwin": [],
-        "home-manager": [],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ],
-        "systems": [
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1723293904,
-        "narHash": "sha256-b+uqzj+Wa6xgMS9aNbX4I+sXeb5biPDi39VgvSFqFvU=",
-        "owner": "ryantm",
-        "repo": "agenix",
-        "rev": "f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ryantm",
-        "repo": "agenix",
-        "type": "github"
-      }
-    },
     "airtable-telegram-bot": {
       "inputs": {
         "flake-parts": [
@@ -398,7 +373,6 @@
     },
     "root": {
       "inputs": {
-        "agenix": "agenix",
         "airtable-telegram-bot": "airtable-telegram-bot",
         "auto-cpufreq": "auto-cpufreq",
         "deploy-rs": "deploy-rs",

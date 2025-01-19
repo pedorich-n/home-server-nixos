@@ -12,7 +12,6 @@
       extraModules = [
         inputs.disko.nixosModules.disko
         inputs.sops-nix.nixosModules.sops
-        inputs.agenix.nixosModules.default
         inputs.home-manager.nixosModules.default
         inputs.airtable-telegram-bot.nixosModules.ngrok
         inputs.airtable-telegram-bot.nixosModules.calendar-loader
