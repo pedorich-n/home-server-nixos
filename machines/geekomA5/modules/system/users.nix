@@ -9,14 +9,14 @@
     users = {
       root = {
         password = lib.mkForce null;
-        hashedPasswordFile = config.age.secrets.os_root_password.path;
+        hashedPasswordFile = config.sops.secrets."os_passwords/root".path;
       };
 
       user = {
         uid = 1000;
         isNormalUser = true;
         shell = pkgs.zsh;
-        hashedPasswordFile = config.age.secrets.os_user_password.path;
+        hashedPasswordFile = config.sops.secrets."os_passwords/user".path;
         openssh.authorizedKeys.keys = config.custom.ssh.keys;
         extraGroups = [
           "zigbee"
