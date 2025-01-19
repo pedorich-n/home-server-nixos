@@ -17,7 +17,6 @@ let
     TZ = "${config.time.timeZone}";
     REDIS_HOSTNAME = "immich-redis";
     DB_HOSTNAME = "immich-vectordb";
-    IMMICH_CONFIG_FILE = "/usr/src/app/custom-config.json";
 
     IMMICH_TELEMETRY_INCLUDE = "all"; # See https://immich.app/docs/features/monitoring#prometheus
   };
@@ -35,7 +34,7 @@ in
         containerConfig = {
           image = "registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0";
           environments = sharedEnvs;
-          environmentFiles = [ config.age.secrets.immich.path ];
+          environmentFiles = [ config.sops.secrets."immich/postgresql.env".path ];
           volumes = [
             (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
@@ -91,7 +90,7 @@ in
 
         containerConfig = {
           environments = sharedEnvs;
-          environmentFiles = [ config.age.secrets.immich.path ];
+          environmentFiles = [ config.sops.secrets."immich/main.env".path ];
           addGroups = [
             (builtins.toString config.users.groups.render.gid) # For HW Transcoding
           ];
@@ -100,7 +99,6 @@ in
           ];
           volumes = [
             "/etc/localtime:/etc/localtime:ro"
-            "${config.custom.services.immich.configPath}:/usr/src/app/custom-config.json:ro"
             (mappedVolumeForUser "${storeRoot}/cache/thumbnails" "/usr/src/app/upload/thumbs")
             (mappedVolumeForUser "${storeRoot}/cache/profile" "/usr/src/app/upload/profile")
             (mappedVolumeForUser externalStoreRoot "/usr/src/app/upload")
@@ -117,8 +115,6 @@ in
           [
             "immich-redis.service"
             "immich-vectordb.service"
-            #LINK - machines/geekomA5/modules/system/services/immich/render-config-runtime.nix:20
-            "immich-render-config.service"
           ]
           { };
       };

@@ -23,9 +23,9 @@ Restic backups are exposed as a service in nix under [`services.restic.backups`]
       ```
 4. Add new entry in `services.restic.backups.<something>` with secret values
    ```nix
-   environmentFile = config.age.secrets.<something>_restic_environment.path;
-   repositoryFile = config.age.secrets.<something>_restic_repository.path;
-   passwordFile = config.age.secrets.<something>_restic_password.path;
+   environmentFile = config.sops.secrets."restic/${name}/environment.env".path;
+   repositoryFile = config.sops.secrets."restic/${name}/repository".path;
+   passwordFile = config.sops.secrets."restic/${name}/password".path;
    ```
 5. Deploy new config
 6. Run `restic-<something> init` to initialize the repository

@@ -30,7 +30,7 @@ in
         containerConfig = {
           volumes = [
             "${configs.mosquitto}:/mosquitto/config/mosquitto.conf:ro"
-            "${config.age.secrets.mosquitto_passwords.path}:/mosquitto/config/passwords.txt:ro"
+            "${config.sops.secrets."home-automation/mosquitto_passwords.txt".path}:/mosquitto/config/passwords.txt:ro"
             (mappedVolumeForUser "${storeRoot}/mosquitto/data" "/mosquitto/data")
             (mappedVolumeForUser "${storeRoot}/mosquitto/log" "/mosquitto/log")
           ];
@@ -57,7 +57,7 @@ in
           };
           volumes = [
             (mappedVolumeForUser "${storeRoot}/zigbee2mqtt" "/app/data")
-            "${config.age.secrets.zigbee2mqtt_secrets.path}:/app/data/secrets.yaml:ro"
+            "${config.sops.secrets."home-automation/zigbee2mqtt_secrets.yaml".path}:/app/data/secrets.yaml:ro"
             "/run/udev:/run/udev:ro"
           ];
           addGroups = [
@@ -83,7 +83,7 @@ in
         usernsAuto.enable = true;
 
         containerConfig = {
-          environmentFiles = [ config.age.secrets.ha_postgres.path ];
+          environmentFiles = [ config.sops.secrets."home-automation/postgresql.env".path ];
           volumes = [
             (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
@@ -114,7 +114,7 @@ in
           volumes = [
             (mappedVolumeForUser "${storeRoot}/homeassistant" "/config")
             (mappedVolumeForUser "${storeRoot}/homeassistant/local" "/.local")
-            "${config.age.secrets.ha_secrets.path}:/config/secrets.yaml"
+            "${config.sops.secrets."home-automation/homeassistant_secrets.yaml".path}:/config/secrets.yaml"
             # See https://github.com/tribut/homeassistant-docker-venv
             "${inputs.homeassistant-docker-venv}/run:/etc/services.d/home-assistant/run"
           ];

@@ -38,7 +38,7 @@ in
 
         containerConfig = {
           environments = defaultEnvs;
-          environmentFiles = [ config.age.secrets.authentik.path ];
+          environmentFiles = [ config.sops.secrets."authentik/postgresql.env".path ];
           volumes = [
             (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
@@ -77,7 +77,7 @@ in
           healthRetries = 5;
           notify = "healthy";
           environments = defaultEnvs;
-          environmentFiles = [ config.age.secrets.authentik.path ];
+          environmentFiles = [ config.sops.secrets."authentik/main.env".path ];
           volumes = [
             (mappedVolumeForUser "${storeRoot}/media" "/media")
             "${blueprints}:/blueprints/custom"
@@ -113,7 +113,7 @@ in
           environments = defaultEnvs // {
             AUTHENTIK_HOST = "http://authentik.${config.custom.networking.domain}";
           };
-          environmentFiles = [ config.age.secrets.authentik_ldap_outpost.path ];
+          environmentFiles = [ config.sops.secrets."authentik/ldap_outpost.env".path ];
           labels = [
             "traefik.enable=true"
             "traefik.tcp.services.authentik-ldap-outpost.loadBalancer.server.port=3389"
@@ -136,7 +136,7 @@ in
         containerConfig = {
           exec = "server";
           environments = defaultEnvs;
-          environmentFiles = [ config.age.secrets.authentik.path ];
+          environmentFiles = [ config.sops.secrets."authentik/main.env".path ];
           volumes = [
             (mappedVolumeForUser "${storeRoot}/media" "/media")
           ];

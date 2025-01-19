@@ -66,7 +66,7 @@ in
             VPN_PORT_FORWARDING_UP_COMMAND = "'/gluetun/scripts/qbt_update_port_forward.sh {{PORTS}}'";
 
           };
-          environmentFiles = [ config.age.secrets.gluetun.path ];
+          environmentFiles = [ config.sops.secrets."data-library/gluetun.env".path ];
           # https://github.com/qdm12/gluetun/blob/ddd9f4d0210c35d062896ffa2c7dc6e585deddfb/Dockerfile#L226
           healthCmd = "/gluetun-entrypoint healthcheck";
           healthStartPeriod = "10s";

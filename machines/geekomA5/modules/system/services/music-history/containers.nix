@@ -40,8 +40,8 @@ in
           };
           volumes = [
             (mappedVolumeForUser "${storeRoot}/multi-scrobbler/config" "/config")
-            "${config.age.secrets.multi_scrobbler_spotify.path}:/config/spotify.json"
-            "${config.age.secrets.multi_scrobbler_maloja.path}:/config/maloja.json"
+            "${config.sops.templates."music-history/multiscrobbler/spotify.json".path}:/config/spotify.json"
+            "${config.sops.templates."music-history/multiscrobbler/maloja.json".path}:/config/maloja.json"
             "${./multi-scrobbler/webscrobbler.json}:/config/webscrobbler.json"
           ];
           labels = containerLib.mkTraefikLabels {
@@ -72,11 +72,11 @@ in
             MALOJA_DATA_DIRECTORY = "/data";
             MALOJA_TIMEZONE = "9";
           };
-          environmentFiles = [ config.age.secrets.music_history.path ];
+          environmentFiles = [ config.sops.secrets."music-history/maloja.env".path ];
           volumes = [
             (mappedVolumeForUser "${storeRoot}/maloja/data" "/data")
             "${malojaArtistRules}:/data/rules/custom_rules.tsv"
-            "${config.age.secrets.maloja_apikeys.path}:/data/apikeys.yml"
+            "${config.sops.templates."music-history/maloja/api_keys.yaml".path}:/data/apikeys.yml"
           ];
           labels = containerLib.mkTraefikLabels {
             name = "maloja";

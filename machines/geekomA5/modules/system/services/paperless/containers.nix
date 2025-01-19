@@ -37,7 +37,7 @@ in
         usernsAuto.enable = true;
 
         containerConfig = {
-          environmentFiles = [ config.age.secrets.paperless.path ];
+          environmentFiles = [ config.sops.secrets."paperless/postgresql.env".path ];
           volumes = [
             (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
@@ -75,7 +75,7 @@ in
             PAPERLESS_ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http";
             PAPERLESS_URL = "http://paperless.${config.custom.networking.domain}";
           };
-          environmentFiles = [ config.age.secrets.paperless.path ];
+          environmentFiles = [ config.sops.secrets."paperless/main.env".path ];
           volumes = [
             (mappedVolumeForUser "${storeRoot}/data" "/usr/src/paperless/data")
             (mappedVolumeForUser "${storeRoot}/export" "/usr/src/paperless/export")

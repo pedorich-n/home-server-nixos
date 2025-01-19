@@ -44,7 +44,7 @@ in
   services.tailscale = {
     enable = true;
     package = pkgs-unstable.tailscale;
-    authKeyFile = config.age.secrets.tailscale_key.path;
+    authKeyFile = config.sops.secrets."tailscale/key".path;
 
     extraUpFlags = [ "--accept-dns=false" ];
   };
