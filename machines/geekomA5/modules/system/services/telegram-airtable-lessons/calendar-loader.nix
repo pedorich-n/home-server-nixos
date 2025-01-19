@@ -1,20 +1,15 @@
-{ config, pkgs-unstable, ... }:
+{ config, ... }:
 let
   user = config.users.users.user.name;
   group = config.users.users.user.group;
 in
 {
+  custom.networking.ports.tcp.lessons-calendar-loader = { port = 9000; openFirewall = false; };
+
   services = {
-
-    ngrok = {
-      enable = true;
-      package = pkgs-unstable.ngrok;
-      settingsFile = config.age.secrets.ngrok.path;
-    };
-
     lessons-calendar-loader = {
       enable = true;
-      configFile = config.age.secrets.calendar_loader_config_main.path;
+      configFile = config.sops.secrets."telegram-airtable-lessons/calendar_loader.toml".path;
       inherit user group;
     };
 
@@ -30,12 +25,6 @@ in
           # refreshToken = "Wed *-*-* 15:00:00";
         };
       };
-    };
-
-    telegram-lessons-bot = {
-      enable = true;
-      configFile = config.age.secrets.telegram_airtable_bot_config_main.path;
-      inherit user group;
     };
   };
 }
