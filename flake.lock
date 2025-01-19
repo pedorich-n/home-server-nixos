@@ -202,17 +202,17 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1737260635,
-        "narHash": "sha256-1cp9X9MTIivAz1D6O9YLzC0KDXTniLjwGGoMRV97CJI=",
-        "ref": "refs/heads/sops",
-        "rev": "35f3ef796524a32c605420501b68f2f37a81e813",
-        "revCount": 116,
+        "lastModified": 1737294094,
+        "narHash": "sha256-CHDCLMkvQyDNsbAfmDESWQTM2M18YVejtnZ80HNMJFs=",
+        "ref": "refs/heads/main",
+        "rev": "e78ef3cb4aafbb4d904f82322103d49d07af604e",
+        "revCount": 105,
         "type": "git",
-        "url": "file:///home/pedorich_n/Projects/home-server-nixos-secrets"
+        "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
       "original": {
         "type": "git",
-        "url": "file:///home/pedorich_n/Projects/home-server-nixos-secrets"
+        "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }
     },
     "homeassistant-docker-venv": {
