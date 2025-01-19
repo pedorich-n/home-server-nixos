@@ -5,7 +5,8 @@
     backend.local = { };
 
     required_providers = {
-      inherit (config.custom.providers) prowlarr sonarr radarr;
+      # 1Password configured using ENV variables, see https://registry.terraform.io/providers/1Password/onepassword/2.1.2/docs#authenticate-cli-with-service-accountc
+      inherit (config.custom.providers) prowlarr sonarr radarr onepassword;
     };
   };
 }

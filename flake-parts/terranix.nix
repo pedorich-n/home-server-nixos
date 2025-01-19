@@ -10,13 +10,16 @@
               terraformWrapper = lib.mkOption {
                 type = lib.types.submodule {
                   config = {
-                    extraRuntimeInputs = [ pkgs.gitMinimal ];
+                    extraRuntimeInputs = [ pkgs.gitMinimal pkgs.jq ];
                     prefixText = lib.mkBefore ''
                       if [ "''${CI:-false}" = "false" ]; then
                         ROOT="$(git rev-parse --show-toplevel)"
                         WORKDIR="${lib.escapeShellArg config.workdir}"
                         # shellcheck disable=SC1090,SC1091
                         source "$ROOT/$(dirname $WORKDIR)/.env"
+
+                        OP_ACCOUNT=$(op account list --format=json | jq -r '.[0] | .user_uuid')
+                        export OP_ACCOUNT
                       fi
                     '';
                   };

@@ -9,7 +9,7 @@
     name = "SABnzbd";
     host = "sabnzbd";
     port = 8080;
-    api_key = lib.tfRef ''var.downloaders["${name}"]'';
+    api_key = lib.tfRef ''local.secrets.sabnzbd["API"]["key"]'';
     use_ssl = false;
   };
 

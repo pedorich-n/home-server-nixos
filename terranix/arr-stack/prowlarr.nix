@@ -13,11 +13,27 @@ let
     protocol = "usenet";
     fields = [
       { name = "apiPath"; text_value = "/api"; }
-      { name = "apiKey"; sensitive_value = tfRef ''var.indexers["${args.name}"]''; }
+      { name = "apiKey"; sensitive_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${args.name}"].api_key''; }
     ] ++ (args.fields or [ ]);
   } // (builtins.removeAttrs args [ "fields" ]);
+
+  mkOnePasswordMapping = item: tfRef ''{ 
+      for section in data.onepassword_item.${item}.section: section.label => {
+        for field in section.field: field.label => field.value
+      } 
+    }'';
 in
 {
+  locals = {
+    secrets = {
+      prowlarr_indexer_credentials = mkOnePasswordMapping "prowlarr_indexers";
+      sonarr = mkOnePasswordMapping "sonarr";
+      radarr = mkOnePasswordMapping "radarr";
+      prowlarr = mkOnePasswordMapping "prowlarr";
+      sabnzbd = mkOnePasswordMapping "sabnzbd";
+    };
+  };
+
   resource = {
     # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/indexer
     prowlarr_indexer = {
@@ -62,7 +78,7 @@ in
       sync_level = "fullSync";
       base_url = "http://radarr:7878";
       prowlarr_url = prowlarInternalUrl;
-      api_key = tfRef ''var.arrs["radarr"]'';
+      api_key = tfRef ''local.secrets.radarr["API"]["key"]'';
     };
 
     # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/application_sonarr
@@ -71,7 +87,7 @@ in
       sync_level = "fullSync";
       base_url = "http://sonarr:8989";
       prowlarr_url = prowlarInternalUrl;
-      api_key = tfRef ''var.arrs["sonarr"]'';
+      api_key = tfRef ''local.secrets.sonarr["API"]["key"]'';
     };
 
     # Schema https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/sync_profile
