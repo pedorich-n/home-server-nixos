@@ -69,20 +69,24 @@ in
       #!SECTION - Usenet
 
       #SECTION - Torrent
-      # torrentleech = torrentIndexer rec {
-      #   name = "TorrentLeech";
-      #   priority = 15;
-      #   implementation = "Cardigann";
-      #   config_contract = "CardigannSettings";
-      #   fields = [
-      #     { name = "baseUrl"; text_value = "https://www.torrentleech.org/"; }
-      #     { name = "definitionFile"; text_value = "torrentleech"; }
-      #     { name = "username"; text_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].username''; }
-      #     # Not marked as sensitive by the provider :(
-      #     { name = "password"; text_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].password''; }
-      #   ];
-      # };
-
+      torrentleech = torrentIndexer rec {
+        name = "TorrentLeech";
+        priority = 15;
+        implementation = "Cardigann";
+        config_contract = "CardigannSettings";
+        fields = [
+          { name = "baseUrl"; text_value = "https://www.torrentleech.org/"; }
+          { name = "definitionFile"; text_value = "torrentleech"; }
+          { name = "exclude_archives"; bool_value = false; }
+          { name = "exclude_scene"; bool_value = false; }
+          { name = "freeleech"; bool_value = false; }
+          { name = "sort"; number_value = 0; } # Sort by Created
+          { name = "type"; number_value = 1; } # Sort desc
+          { name = "username"; text_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].username''; }
+          # Not marked as sensitive by the provider :(
+          { name = "password"; text_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].password''; }
+        ];
+      };
 
       toloka = torrentIndexer rec {
         name = "Toloka";
