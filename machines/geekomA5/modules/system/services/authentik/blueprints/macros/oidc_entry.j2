@@ -1,7 +1,7 @@
 {% import "macros/utils.j2" as utils with context %}
 {% import "global_utils.j2" as global_utils with context %}
 
-{% macro oidc_entry(name, slug, application_group, client_id_env, client_secret_env, redirect_uris, icon, access_group, access_token_validity="days=30", refresh_token_validity="days=180") -%}
+{% macro oidc_entry(name, slug, application_group, client_id_env, client_secret_env, redirect_uris, icon, access_group, extra_property_mappings, access_token_validity="days=30", refresh_token_validity="days=180") -%}
   {% if client_id_env is not defined %}
 {% set client_id = name | upper + "_OAUTH_CLIENT_ID" %}
   {% else %}
@@ -37,6 +37,11 @@ entries:
         - !Find [authentik_providers_oauth2.scopemapping, [scope_name, openid]]
         - !Find [authentik_providers_oauth2.scopemapping, [scope_name, email]]
         - !Find [authentik_providers_oauth2.scopemapping, [scope_name, profile]]
+  {% if extra_property_mappings is defined %}
+    {% for extra_property_mapping in extra_property_mappings %}
+        - !Find [authentik_providers_oauth2.scopemapping, [scope_name, {{ extra_property_mapping }}]]
+    {% endfor %}
+  {% endif %}
       client_type: confidential
       access_token_validity: {{ access_token_validity }}
       refresh_token_validity: {{ refresh_token_validity }}

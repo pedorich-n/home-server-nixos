@@ -3,4 +3,4 @@
 
 {% set redirect_uris = [ global_utils.generate_url("audiobookshelf") + "/auth/openid/callback",
                          global_utils.generate_url("audiobookshelf") + "/auth/openid/mobile-redirect" ] %}
-{{ oidc_entry(name="Audiobookshelf", slug="audiobookshelf", application_group=applicationGroups.media, redirect_uris=redirect_uris) }}
+{{ oidc_entry(name="Audiobookshelf", slug="audiobookshelf", application_group=applicationGroups.media, redirect_uris=redirect_uris, extra_property_mappings=["absgroups"]) }}
