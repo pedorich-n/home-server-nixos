@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, customLib, ... }:
 let
   inherit (lib) tfRef;
 
@@ -17,26 +17,32 @@ let
     ] ++ (args.fields or [ ]);
   } // (builtins.removeAttrs args [ "fields" ]);
 
-  mkOnePasswordMapping = item: tfRef ''{ 
-      for section in data.onepassword_item.${item}.section: section.label => {
-        for field in section.field: field.label => field.value
-      } 
-    }'';
+
+  torrentIndexer = args: {
+    enable = true;
+    app_profile_id = tfRef "resource.prowlarr_sync_profile.automatic.id";
+    protocol = "torrent";
+    fields = [
+      { name = "baseSettings.limitsUnit"; number_value = 0; } # 0 means Day, 1 means Hour
+      { name = "torrentBaseSettings.preferMagnetUrl"; bool_value = false; }
+    ] ++ (args.fields or [ ]);
+  } // (builtins.removeAttrs args [ "fields" ]);
 in
 {
   locals = {
     secrets = {
-      prowlarr_indexer_credentials = mkOnePasswordMapping "prowlarr_indexers";
-      sonarr = mkOnePasswordMapping "sonarr";
-      radarr = mkOnePasswordMapping "radarr";
-      prowlarr = mkOnePasswordMapping "prowlarr";
-      sabnzbd = mkOnePasswordMapping "sabnzbd";
+      prowlarr_indexer_credentials = customLib.mkOnePasswordMapping "prowlarr_indexers";
+      sonarr = customLib.mkOnePasswordMapping "sonarr";
+      radarr = customLib.mkOnePasswordMapping "radarr";
+      prowlarr = customLib.mkOnePasswordMapping "prowlarr";
+      sabnzbd = customLib.mkOnePasswordMapping "sabnzbd";
     };
   };
 
   resource = {
     # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/indexer
     prowlarr_indexer = {
+      #SECTION - Usenet
       nzbgeek = nzbIndexer {
         app_profile_id = tfRef "resource.prowlarr_sync_profile.automatic.id";
         name = "NZBGeek";
@@ -51,7 +57,7 @@ in
       nzbfinder = nzbIndexer {
         app_profile_id = tfRef "resource.prowlarr_sync_profile.interactive.id";
         name = "NZBFinder";
-        priority = 35;
+        priority = 40;
         fields = [
           { name = "baseUrl"; text_value = "https://nzbfinder.ws"; }
           { name = "vipExpiration"; text_value = ""; }
@@ -60,6 +66,56 @@ in
           { name = "baseSettings.limitsUnit"; number_value = 0; } # 0 means Day, 1 means Hour
         ];
       };
+      #!SECTION - Usenet
+
+      #SECTION - Torrent
+      # torrentleech = torrentIndexer rec {
+      #   name = "TorrentLeech";
+      #   priority = 15;
+      #   implementation = "Cardigann";
+      #   config_contract = "CardigannSettings";
+      #   fields = [
+      #     { name = "baseUrl"; text_value = "https://www.torrentleech.org/"; }
+      #     { name = "definitionFile"; text_value = "torrentleech"; }
+      #     { name = "username"; text_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].username''; }
+      #     # Not marked as sensitive by the provider :(
+      #     { name = "password"; text_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].password''; }
+      #   ];
+      # };
+
+
+      toloka = torrentIndexer rec {
+        name = "Toloka";
+        priority = 30;
+        implementation = "Toloka";
+        config_contract = "TolokaSettings";
+        fields = [
+          { name = "baseUrl"; text_value = "https://toloka.to/"; }
+          { name = "stripCyrillicLetters"; bool_value = false; }
+          { name = "freeleechOnly"; bool_value = false; }
+          { name = "username"; text_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].username''; }
+          { name = "password"; sensitive_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].password''; }
+        ];
+      };
+
+      rutracker = torrentIndexer rec {
+        name = "Rutracker";
+        priority = 30;
+        implementation = "RuTracker";
+        config_contract = "RuTrackerSettings";
+        fields = [
+          { name = "baseUrl"; text_value = "https://rutracker.org/"; }
+          { name = "russianLetters"; bool_value = false; }
+          { name = "useMagnetLinks"; bool_value = false; }
+          { name = "addRussianToTitle"; bool_value = false; }
+          { name = "moveFirstTagsToEndOfReleaseTitle"; bool_value = false; }
+          { name = "moveAllTagsToEndOfReleaseTitle"; bool_value = false; }
+          { name = "username"; text_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].username''; }
+          { name = "password"; sensitive_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].password''; }
+        ];
+      };
+
+      #!SECTION - Torrent
     };
 
     # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/download_client_sabnzbd
