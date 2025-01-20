@@ -24,29 +24,6 @@ provider "registry.terraform.io/1password/onepassword" {
   ]
 }
 
-provider "registry.terraform.io/devopsarr/prowlarr" {
-  version     = "2.4.3"
-  constraints = "2.4.3"
-  hashes = [
-    "h1:XvDCwaz8jmrdQ+bucLmxV7qwhyXhS42ss2iW969Etu0=",
-    "zh:0e1b67ed07a25d5a0edbe2b791a2837bcb5192e726cd2c131e9ca7a3d1e4ca59",
-    "zh:16f9a978b390758a4fcbd248afe24d75cbfb9998484e0d476145e010a5c8ddf1",
-    "zh:219ff7f74334309412e92e276f4b60ec26e9d90bf9fc9a356b91cd72110647d0",
-    "zh:260f851c537d26fcf5cc50258ed01f4fba832636c0b938ca1da20105b4b576cc",
-    "zh:26e9cb344324144cc7c17e00b9a0a89ee0213a36b734fbe8fea3b73fe4a0c113",
-    "zh:4afc18e700de1d3b03a6b1058f0d0fcf9470f0d4dc084fe5021de0684b40685c",
-    "zh:5b79c886635dc92c6e4bc2fec63b123df69fa045f80775ae9ef91d263b5157be",
-    "zh:6de200c88a4c5aa74ac538abe321c6139b3b7a007eb7f6b94570f43288cc0e75",
-    "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:8ce76ae5c9fdb1d644a8d8ff865fbab68fdd472f6f0f97f454852455f6fd98a7",
-    "zh:90f9de604ae403dfaa471c8b2e479e5e517d4944f5c9f5bd9372adae8364a18f",
-    "zh:9a462ef99af371afbf7d2f715a6d290a3d592f41420c3bbb1fbcc9f2eb7033fc",
-    "zh:c7f52ed94feaddb8d01c108c60970fe8dae263cf6fa1ce6805938d46b789b26d",
-    "zh:cb416616f32304a5f061787c6288cdd9fb0e83f36f3c273d99a05e506cadad54",
-    "zh:e59ab8bfaaf30b9c9beacab11a967beb30772fad9b5a1b4fab845150a63bea2e",
-  ]
-}
-
 provider "registry.terraform.io/devopsarr/radarr" {
   version     = "2.3.1"
   constraints = "2.3.1"
@@ -90,5 +67,13 @@ provider "registry.terraform.io/devopsarr/sonarr" {
     "zh:e66fdffecd0fd57e03f4bdc0308259d7bce68c1613dbcb7524d74581ba243d22",
     "zh:ec3c61ded75bf038196ec3bb8ad372229f7e07f4edd34af9f0d0b78aaf7afd7b",
     "zh:f2a678b0e5dd776d0448eb017edaa122bc225bd32e649a4953cb9089810b30c2",
+  ]
+}
+
+provider "registry.terraform.io/prowlarr/prowlarr" {
+  version     = "7.7.7"
+  constraints = "7.7.7"
+  hashes = [
+    "h1:u15wrpKFzKjONMYw1kvw4gJvXpdgkwLih27+xI3ydrA=",
   ]
 }
