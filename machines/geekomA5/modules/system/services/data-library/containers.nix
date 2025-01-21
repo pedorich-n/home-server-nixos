@@ -1,4 +1,4 @@
-{ config, containerLib, systemdLib, ... }:
+{ config, containerLib, ... }:
 let
   networks = [ "data-library-internal.network" ];
 
@@ -58,7 +58,7 @@ in
           addCapabilities = [ "NET_ADMIN" ];
           devices = [ "/dev/net/tun:/dev/net/tun" ];
           environments = {
-            SERVER_COUNTRIES = "Japan";
+            SERVER_COUNTRIES = "Japan,Korea";
 
             VPN_SERVICE_PROVIDER = "protonvpn";
             VPN_PORT_FORWARDING = "on";
@@ -70,7 +70,7 @@ in
           # https://github.com/qdm12/gluetun/blob/ddd9f4d0210c35d062896ffa2c7dc6e585deddfb/Dockerfile#L226
           healthCmd = "/gluetun-entrypoint healthcheck";
           healthStartPeriod = "10s";
-          healthTimeout = "5s";
+          healthTimeout = "10s";
           healthInterval = "30s";
           healthRetries = 5;
           notify = "healthy";
@@ -103,7 +103,10 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.requiresAfter [ "gluetun.service" ] { };
+        unitConfig = {
+          BindsTo = [ "gluetun.service" ];
+          After = [ "gluetun.service" ];
+        };
       };
 
       sabnzbd = {
