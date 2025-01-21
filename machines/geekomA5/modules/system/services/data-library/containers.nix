@@ -2,7 +2,7 @@
 let
   networks = [ "data-library-internal.network" ];
 
-  mkArrApiTraefikLabels = name: containerLib.mkTraefikLabels {
+  mkApiTraefikLabels = name: containerLib.mkTraefikLabels {
     name = "${name}-api";
     rule = "'Host(`${name}.${config.custom.networking.domain}`) && PathPrefix(`/api/`)'";
     service = name;
@@ -80,11 +80,12 @@ in
             "${./gluetun/qbt_update_port_forward.sh}:/gluetun/scripts/qbt_update_port_forward.sh"
             "${./gluetun/auth_config.toml}:/gluetun/auth/config.toml"
           ];
-          labels = containerLib.mkTraefikLabels {
+          labels = (containerLib.mkTraefikLabels {
             name = "qbittorrent"; # Proxied
             port = 8080;
+            priority = 10;
             middlewares = [ "authentik@docker" ];
-          };
+          }) ++ (mkApiTraefikLabels "qbittorrent");
           inherit networks;
         };
       };
@@ -149,7 +150,7 @@ in
             port = 9696;
             priority = 10;
             middlewares = [ "authentik@docker" ];
-          }) ++ (mkArrApiTraefikLabels "prowlarr");
+          }) ++ (mkApiTraefikLabels "prowlarr");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -172,7 +173,7 @@ in
             port = 8989;
             priority = 10;
             middlewares = [ "authentik@docker" ];
-          }) ++ (mkArrApiTraefikLabels "sonarr");
+          }) ++ (mkApiTraefikLabels "sonarr");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -196,7 +197,7 @@ in
             port = 7878;
             priority = 10;
             middlewares = [ "authentik@docker" ];
-          }) ++ (mkArrApiTraefikLabels "radarr");
+          }) ++ (mkApiTraefikLabels "radarr");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };

@@ -8,5 +8,7 @@ let
   };
 in
 {
-  provider = lib.foldl' (acc: name: acc // (mkArrProvider name)) { } [ "prowlarr" "radarr" "sonarr" ];
+  provider = {
+    terracurl = { };
+  } // lib.foldl' (acc: name: acc // (mkArrProvider name)) { } [ "prowlarr" "radarr" "sonarr" ];
 }

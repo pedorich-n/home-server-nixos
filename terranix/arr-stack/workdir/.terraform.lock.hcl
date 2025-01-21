@@ -24,6 +24,20 @@ provider "registry.terraform.io/1password/onepassword" {
   ]
 }
 
+provider "registry.terraform.io/devops-rob/terracurl" {
+  version     = "1.2.1"
+  constraints = "1.2.1"
+  hashes = [
+    "h1:Uf6UutmWrk6S4gh2LN1z6gOrWkbiAjCFYIrcoiM5kXg=",
+    "zh:1081272d4a4a2fa7c44189895460445c3fcb1f3da9d95c87bd0f2eb7c632f520",
+    "zh:383c80383dac4362fcec19291d4afe2330dcd940e1bf9488d17b6981dfa8a89b",
+    "zh:41d3e3fec3f3018b191c690c871e66e249dde6119ce04a2985375d2b822c3e0b",
+    "zh:770448c818553e00bb996ce719d3e3ba77e78161f06ebf680dfd8519bd1f3e28",
+    "zh:da4d0dfe3620140351fc933339183ba6d2e0f261af9132b530be5f7cf44f8f02",
+    "zh:f177c25183bdc64e0c74a94fe540e33b49cefd4cefbe07d33f9607a34d4e5670",
+  ]
+}
+
 provider "registry.terraform.io/devopsarr/radarr" {
   version     = "2.3.1"
   constraints = "2.3.1"
