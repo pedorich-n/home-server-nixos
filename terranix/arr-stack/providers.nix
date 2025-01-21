@@ -3,7 +3,7 @@ let
   mkArrProvider = name: {
     ${name} = {
       url = "http://${name}.${domain}";
-      api_key = lib.tfRef ''local.secrets.${name}["API"]["key"]'';
+      api_key = lib.tfRef "local.secrets.${name}.API.key";
     };
   };
 in

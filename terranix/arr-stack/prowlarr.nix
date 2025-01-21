@@ -4,7 +4,7 @@ let
 
   common = import ./_common.nix { inherit lib; };
 
-  prowlarInternalUrl = "http://prowlarr:9696";
+  prowlarrInternalUrl = "http://prowlarr:9696";
 
   nzbIndexer = args: {
     enable = true;
@@ -13,7 +13,7 @@ let
     protocol = "usenet";
     fields = [
       { name = "apiPath"; text_value = "/api"; }
-      { name = "apiKey"; sensitive_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${args.name}"].api_key''; }
+      { name = "apiKey"; sensitive_value = tfRef "local.secrets.prowlarr_indexer_credentials.${args.name}.api_key"; }
     ] ++ (args.fields or [ ]);
   } // (builtins.removeAttrs args [ "fields" ]);
 
@@ -69,6 +69,18 @@ in
       #!SECTION - Usenet
 
       #SECTION - Torrent
+      milkie = torrentIndexer rec {
+        name = "Milkie";
+        priority = 10;
+        implementation = "Cardigann";
+        config_contract = "CardigannSettings";
+        fields = [
+          { name = "baseUrl"; text_value = "https://milkie.cc/"; }
+          { name = "definitionFile"; text_value = "milkie"; }
+          { name = "apikey"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.api_key"; }
+        ];
+      };
+
       torrentleech = torrentIndexer rec {
         name = "TorrentLeech";
         priority = 15;
@@ -82,9 +94,8 @@ in
           { name = "freeleech"; bool_value = false; }
           { name = "sort"; number_value = 0; } # Sort by Created
           { name = "type"; number_value = 1; } # Sort desc
-          { name = "username"; text_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].username''; }
-          # Not marked as sensitive by the provider :(
-          { name = "password"; text_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].password''; }
+          { name = "username"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.username"; }
+          { name = "password"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.password"; }
         ];
       };
 
@@ -97,8 +108,8 @@ in
           { name = "baseUrl"; text_value = "https://toloka.to/"; }
           { name = "stripCyrillicLetters"; bool_value = false; }
           { name = "freeleechOnly"; bool_value = false; }
-          { name = "username"; text_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].username''; }
-          { name = "password"; sensitive_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].password''; }
+          { name = "username"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.username"; }
+          { name = "password"; sensitive_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.password"; }
         ];
       };
 
@@ -114,8 +125,8 @@ in
           { name = "addRussianToTitle"; bool_value = false; }
           { name = "moveFirstTagsToEndOfReleaseTitle"; bool_value = false; }
           { name = "moveAllTagsToEndOfReleaseTitle"; bool_value = false; }
-          { name = "username"; text_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].username''; }
-          { name = "password"; sensitive_value = tfRef ''local.secrets.prowlarr_indexer_credentials["${name}"].password''; }
+          { name = "username"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.username"; }
+          { name = "password"; sensitive_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.password"; }
         ];
       };
 
@@ -137,8 +148,8 @@ in
       name = "Radarr";
       sync_level = "fullSync";
       base_url = "http://radarr:7878";
-      prowlarr_url = prowlarInternalUrl;
-      api_key = tfRef ''local.secrets.radarr["API"]["key"]'';
+      prowlarr_url = prowlarrInternalUrl;
+      api_key = tfRef "local.secrets.radarr.API.key";
     };
 
     # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/application_sonarr
@@ -146,8 +157,8 @@ in
       name = "Sonarr";
       sync_level = "fullSync";
       base_url = "http://sonarr:8989";
-      prowlarr_url = prowlarInternalUrl;
-      api_key = tfRef ''local.secrets.sonarr["API"]["key"]'';
+      prowlarr_url = prowlarrInternalUrl;
+      api_key = tfRef "local.secrets.sonarr.API.key";
     };
 
     # Schema https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/sync_profile
