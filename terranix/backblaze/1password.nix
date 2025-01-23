@@ -15,6 +15,6 @@ in
       homelab.name = "HomeLab";
     };
 
-    items = lib.foldl' (acc: title: acc // (mkItem title)) { } [ "Prowlarr" "Prowlarr_Indexers" "Sonarr" "Radarr" "SABNzbd" ];
+    items = lib.foldl' (acc: title: acc // (mkItem title)) { } [ "Backblaze_Terranix" "Backblaze_Bucket_Names" ];
   };
 }

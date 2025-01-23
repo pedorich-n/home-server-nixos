@@ -1,4 +1,4 @@
-{ hostname, domain, lib, customLib, ... }:
+{ hostname, domain, lib, ... }:
 let
   inherit (lib) tfRef;
 in
@@ -7,25 +7,6 @@ in
     # Schema https://registry.terraform.io/providers/tailscale/tailscale/0.17.2/docs/data-sources/device
     tailscale_device.server = {
       hostname = "${hostname}";
-    };
-
-    # https://registry.terraform.io/providers/1Password/onepassword/2.1.2/docs/data-sources/vault
-    onepassword_vault.homelab = {
-      name = "HomeLab";
-    };
-
-    onepassword_item = {
-      tailscale = {
-        vault = tfRef "data.onepassword_vault.homelab.uuid";
-        title = "Tailscale";
-      };
-    };
-  };
-
-
-  locals = {
-    secrets = {
-      tailscale = customLib.mkOnePasswordMapping "tailscale";
     };
   };
 

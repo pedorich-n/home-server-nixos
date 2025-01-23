@@ -1,4 +1,4 @@
-{ lib, customLib, ... }:
+{ lib, ... }:
 let
   inherit (lib) tfRef;
 
@@ -13,7 +13,7 @@ let
     protocol = "usenet";
     fields = [
       { name = "apiPath"; text_value = "/api"; }
-      { name = "apiKey"; sensitive_value = tfRef "local.secrets.prowlarr_indexer_credentials.${args.name}.api_key"; }
+      { name = "apiKey"; sensitive_value = tfRef "local.secrets.prowlarr_indexers.${args.name}.api_key"; }
     ] ++ (args.fields or [ ]);
   } // (builtins.removeAttrs args [ "fields" ]);
 
@@ -29,16 +29,6 @@ let
   } // (builtins.removeAttrs args [ "fields" ]);
 in
 {
-  locals = {
-    secrets = {
-      prowlarr_indexer_credentials = customLib.mkOnePasswordMapping "prowlarr_indexers";
-      sonarr = customLib.mkOnePasswordMapping "sonarr";
-      radarr = customLib.mkOnePasswordMapping "radarr";
-      prowlarr = customLib.mkOnePasswordMapping "prowlarr";
-      sabnzbd = customLib.mkOnePasswordMapping "sabnzbd";
-    };
-  };
-
   resource = {
     # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/indexer
     prowlarr_indexer = {
@@ -82,8 +72,8 @@ in
           { name = "freeleech"; bool_value = false; }
           { name = "sort"; number_value = 0; } # Sort by Created
           { name = "type"; number_value = 1; } # Sort desc
-          { name = "username"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.username"; }
-          { name = "password"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.password"; }
+          { name = "username"; text_value = tfRef "local.secrets.prowlarr_indexers.${name}.username"; }
+          { name = "password"; text_value = tfRef "local.secrets.prowlarr_indexers.${name}.password"; }
         ];
       };
 
@@ -95,7 +85,7 @@ in
         fields = [
           { name = "baseUrl"; text_value = "https://milkie.cc/"; }
           { name = "definitionFile"; text_value = "milkie"; }
-          { name = "apikey"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.api_key"; }
+          { name = "apikey"; text_value = tfRef "local.secrets.prowlarr_indexers.${name}.api_key"; }
         ];
       };
 
@@ -108,8 +98,8 @@ in
           { name = "baseUrl"; text_value = "https://toloka.to/"; }
           { name = "stripCyrillicLetters"; bool_value = false; }
           { name = "freeleechOnly"; bool_value = false; }
-          { name = "username"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.username"; }
-          { name = "password"; sensitive_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.password"; }
+          { name = "username"; text_value = tfRef "local.secrets.prowlarr_indexers.${name}.username"; }
+          { name = "password"; sensitive_value = tfRef "local.secrets.prowlarr_indexers.${name}.password"; }
         ];
       };
 
@@ -125,8 +115,8 @@ in
           { name = "addRussianToTitle"; bool_value = false; }
           { name = "moveFirstTagsToEndOfReleaseTitle"; bool_value = false; }
           { name = "moveAllTagsToEndOfReleaseTitle"; bool_value = false; }
-          { name = "username"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.username"; }
-          { name = "password"; sensitive_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.password"; }
+          { name = "username"; text_value = tfRef "local.secrets.prowlarr_indexers.${name}.username"; }
+          { name = "password"; sensitive_value = tfRef "local.secrets.prowlarr_indexers.${name}.password"; }
         ];
       };
 

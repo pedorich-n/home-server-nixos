@@ -2,21 +2,20 @@
   imports = [ inputs.terranix.flakeModule ];
 
   options = {
-    perSystem = flake-parts-lib.mkPerSystemOption ({ pkgs, ... }: {
+    perSystem = flake-parts-lib.mkPerSystemOption {
       options.terranix = {
         terranixConfigurations = lib.mkOption {
-          type = lib.types.attrsOf (lib.types.submodule ({ config, ... }: {
+          type = lib.types.attrsOf (lib.types.submodule {
             options = {
               terraformWrapper = lib.mkOption {
                 type = lib.types.submodule {
                   config = {
-                    extraRuntimeInputs = [ pkgs.gitMinimal pkgs.jq ];
                     prefixText = lib.mkBefore ''
                       if [ "''${CI:-false}" = "false" ]; then
-                        ROOT="$(git rev-parse --show-toplevel)"
-                        WORKDIR="${lib.escapeShellArg config.workdir}"
-                        # shellcheck disable=SC1090,SC1091
-                        source "$ROOT/$(dirname $WORKDIR)/.env"
+                        if ! [ -x "$(command -v op)" ]; then
+                          echo "Error: 1Password CLI (op) not found in PATH!" >&2
+                          exit 1
+                        fi
 
                         OP_ACCOUNT=$(op account list --format=json | jq -r '.[0] | .user_uuid')
                         export OP_ACCOUNT
@@ -37,61 +36,45 @@
                 }
               ] ++ (flake.lib.loaders.listFilesRecursively { src = "${flake}/shared-modules/terranix"; }));
             };
-          }));
+          });
 
         };
       };
-    });
+    };
   };
 
   config = {
 
-    perSystem = { pkgs, ... }:
-      {
-        terranix = {
-          setDevShell = true;
+    perSystem = {
+      terranix = {
+        setDevShell = true;
 
-          terranixConfigurations = {
-            tailscale = {
-              workdir = "./terranix/tailscale/workdir";
+        terranixConfigurations = {
+          tailscale = {
+            workdir = "./terranix/tailscale/workdir";
 
-              modules = flake.lib.loaders.listFilesRecursively { src = ../terranix/tailscale; };
-            };
+            modules = flake.lib.loaders.listFilesRecursively { src = ../terranix/tailscale; };
+          };
 
-            arr-stack = {
-              workdir = "./terranix/arr-stack/workdir";
+          arr-stack = {
+            workdir = "./terranix/arr-stack/workdir";
 
-              modules = [
-                {
-                  _module.args = {
-                    inherit (inputs) trash-guides;
-                  };
-                }
-              ] ++ flake.lib.loaders.listFilesRecursively { src = ../terranix/arr-stack; };
-            };
+            modules = [
+              {
+                _module.args = {
+                  inherit (inputs) trash-guides;
+                };
+              }
+            ] ++ flake.lib.loaders.listFilesRecursively { src = ../terranix/arr-stack; };
+          };
 
-            backblaze = {
-              terraformWrapper = {
-                extraRuntimeInputs = [
-                  pkgs._1password-cli
-                ];
+          backblaze = {
+            workdir = "./terranix/backblaze/workdir";
 
-                prefixText = ''
-                  if [ "''${CI:-false}" = "false" ]; then
-                    op_path="op://HomeLab/Backblaze_Terranix"
-                    B2_APPLICATION_KEY=$(op read "''${op_path}/application_key")
-                    B2_APPLICATION_KEY_ID=$(op read "''${op_path}/application_key_id")
-                    export B2_APPLICATION_KEY B2_APPLICATION_KEY_ID
-                  fi
-                '';
-              };
-
-              workdir = "./terranix/backblaze/workdir";
-
-              modules = flake.lib.loaders.listFilesRecursively { src = ../terranix/backblaze; };
-            };
+            modules = flake.lib.loaders.listFilesRecursively { src = ../terranix/backblaze; };
           };
         };
       };
+    };
   };
 }
