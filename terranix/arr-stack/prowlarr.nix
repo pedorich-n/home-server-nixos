@@ -69,21 +69,9 @@ in
       #!SECTION - Usenet
 
       #SECTION - Torrent
-      milkie = torrentIndexer rec {
-        name = "Milkie";
-        priority = 10;
-        implementation = "Cardigann";
-        config_contract = "CardigannSettings";
-        fields = [
-          { name = "baseUrl"; text_value = "https://milkie.cc/"; }
-          { name = "definitionFile"; text_value = "milkie"; }
-          { name = "apikey"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.api_key"; }
-        ];
-      };
-
       torrentleech = torrentIndexer rec {
         name = "TorrentLeech";
-        priority = 15;
+        priority = 10;
         implementation = "Cardigann";
         config_contract = "CardigannSettings";
         fields = [
@@ -96,6 +84,18 @@ in
           { name = "type"; number_value = 1; } # Sort desc
           { name = "username"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.username"; }
           { name = "password"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.password"; }
+        ];
+      };
+
+      milkie = torrentIndexer rec {
+        name = "Milkie";
+        priority = 15;
+        implementation = "Cardigann";
+        config_contract = "CardigannSettings";
+        fields = [
+          { name = "baseUrl"; text_value = "https://milkie.cc/"; }
+          { name = "definitionFile"; text_value = "milkie"; }
+          { name = "apikey"; text_value = tfRef "local.secrets.prowlarr_indexer_credentials.${name}.api_key"; }
         ];
       };
 
