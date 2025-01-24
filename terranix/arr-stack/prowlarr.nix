@@ -20,7 +20,9 @@ let
 
   torrentIndexer = args: {
     enable = true;
-    app_profile_id = tfRef "resource.prowlarr_sync_profile.automatic.id";
+    app_profile_id = tfRef "data.prowlarr_sync_profile.standard.id";
+    implementation = "Cardigann";
+    config_contract = "CardigannSettings";
     protocol = "torrent";
     fields = [
       { name = "baseSettings.limitsUnit"; number_value = 0; } # 0 means Day, 1 means Hour
@@ -29,12 +31,18 @@ let
   } // (builtins.removeAttrs args [ "fields" ]);
 in
 {
+  data = {
+    prowlarr_sync_profile.standard = {
+      name = "Standard";
+    };
+  };
+
   resource = {
     # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/indexer
     prowlarr_indexer = {
       #SECTION - Usenet
       nzbgeek = nzbIndexer {
-        app_profile_id = tfRef "resource.prowlarr_sync_profile.automatic.id";
+        app_profile_id = tfRef "data.prowlarr_sync_profile.standard.id";
         name = "NZBGeek";
         priority = 20;
         fields = [
@@ -62,8 +70,6 @@ in
       torrentleech = torrentIndexer rec {
         name = "TorrentLeech";
         priority = 10;
-        implementation = "Cardigann";
-        config_contract = "CardigannSettings";
         fields = [
           { name = "baseUrl"; text_value = "https://www.torrentleech.org/"; }
           { name = "definitionFile"; text_value = "torrentleech"; }
@@ -80,12 +86,21 @@ in
       milkie = torrentIndexer rec {
         name = "Milkie";
         priority = 15;
-        implementation = "Cardigann";
-        config_contract = "CardigannSettings";
         fields = [
           { name = "baseUrl"; text_value = "https://milkie.cc/"; }
           { name = "definitionFile"; text_value = "milkie"; }
           { name = "apikey"; text_value = tfRef "local.secrets.prowlarr_indexers.${name}.api_key"; }
+        ];
+      };
+
+      therarbg = torrentIndexer {
+        name = "TheRARBG";
+        app_profile_id = tfRef "resource.prowlarr_sync_profile.automatic.id";
+        priority = 25;
+        fields = [
+          { name = "baseUrl"; text_value = "https://therarbg.to/"; }
+          { name = "definitionFile"; text_value = "therarbg"; }
+          { name = "sort"; number_value = 0; } # Created desc
         ];
       };
 
