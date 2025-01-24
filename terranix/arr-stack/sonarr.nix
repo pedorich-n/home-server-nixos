@@ -9,6 +9,27 @@ let
 
   # https://github.com/TRaSH-Guides/Guides/blob/master/docs/json/sonarr/quality-size/series.json
   qualityDefinitions = lib.importJSON "${trash-guides}/docs/json/sonarr/quality-size/series.json";
+
+  # https://github.com/TRaSH-Guides/Guides/blob/master/docs/json/sonarr/quality-profiles/web-1080p.json
+  qualityProfile = lib.importJSON "${trash-guides}/docs/json/sonarr/quality-profiles/web-1080p.json";
+
+  # https://github.com/TRaSH-Guides/Guides/blob/master/docs/json/sonarr/cf
+  customFormatsMapped =
+    let
+      files = lib.filesystem.listFilesRecursive "${trash-guides}/docs/json/sonarr/cf";
+
+      mkEntry = file:
+        let
+          json = lib.importJSON file;
+        in
+        {
+          ${json.trash_id} = json;
+        };
+    in
+    lib.foldl' (acc: file: acc // (mkEntry file)) { } files;
+
+  # A map where key is the CF name and value - CF definition
+  customFormatsForQualityProfile = lib.mapAttrs (_: trash_id: customFormatsMapped.${trash_id}) qualityProfile.formatItems;
 in
 {
   locals = {
@@ -26,6 +47,8 @@ in
         id = local.sonarr_quality_definition_existing[quality.quality].id
       } if contains(keys(local.sonarr_quality_definition_existing), quality.quality) 
     }'';
+
+    sonarr_custom_formats_mapped = customFormatsForQualityProfile;
   };
 
   data = {
@@ -73,6 +96,22 @@ in
       min_size = tfRef "each.value.min_size";
       max_size = tfRef "each.value.max_size";
       preferred_size = tfRef "each.value.preferred_size";
+    };
+
+    # https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/resources/custom_format
+    sonarr_custom_format.trash = {
+      for_each = tfRef "local.sonarr_custom_formats_mapped";
+      name = tfRef "each.key";
+      include_custom_format_when_renaming = tfRef "each.value.includeCustomFormatWhenRenaming";
+      specifications = tfRef ''[
+        for spec in each.value.specifications: {
+          name = spec.name,
+          implementation = spec.implementation,
+          negate = spec.negate,
+          required = spec.required,
+          value = spec.fields.value
+        }
+      ]'';
     };
   };
 }
