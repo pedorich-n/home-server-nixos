@@ -1,4 +1,4 @@
-{ config, containerLib, systemdLib, ... }:
+{ config, containerLib, ... }:
 let
   networks = [ "data-library-internal.network" ];
 
@@ -52,26 +52,28 @@ in
       gluetun = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
-        usernsAuto.enable = true;
 
         containerConfig = {
-          addCapabilities = [ "NET_ADMIN" ];
+          addCapabilities = [
+            "NET_ADMIN"
+            "NET_RAW"
+          ];
           devices = [ "/dev/net/tun:/dev/net/tun" ];
           environments = {
-            SERVER_COUNTRIES = "Japan";
+            BLOCK_MALICIOUS = "off";
 
+            SERVER_COUNTRIES = "Japan,Korea";
             VPN_SERVICE_PROVIDER = "protonvpn";
             VPN_PORT_FORWARDING = "on";
             VPN_PORT_FORWARDING_PROVIDER = "protonvpn";
             VPN_PORT_FORWARDING_UP_COMMAND = "'/gluetun/scripts/qbt_update_port_forward.sh {{PORTS}}'";
-
           };
           environmentFiles = [ config.sops.secrets."data-library/gluetun.env".path ];
           # https://github.com/qdm12/gluetun/blob/ddd9f4d0210c35d062896ffa2c7dc6e585deddfb/Dockerfile#L226
           healthCmd = "/gluetun-entrypoint healthcheck";
-          healthStartPeriod = "10s";
+          healthStartPeriod = "15s";
           healthTimeout = "5s";
-          healthInterval = "30s";
+          healthInterval = "10s";
           healthRetries = 5;
           notify = "healthy";
           volumes = [
@@ -103,7 +105,10 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.requiresAfter [ "gluetun.service" ] { };
+        unitConfig = {
+          BindsTo = [ "gluetun.service" ];
+          After = [ "gluetun.service" ];
+        };
       };
 
       sabnzbd = {
