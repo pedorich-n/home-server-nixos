@@ -30,6 +30,7 @@ let
 
   # A map where key is the CF name and value - CF definition
   customFormatsForQualityProfile = lib.mapAttrs (_: trash_id: customFormatsMapped.${trash_id}) qualityProfile.formatItems;
+  # enabledQualityGroups = lib.filter (item: item.allowed) qualityProfile.items;
 in
 {
   locals = {
@@ -49,10 +50,18 @@ in
     }'';
 
     sonarr_custom_formats_mapped = customFormatsForQualityProfile;
+
+    sonarr_quality_groups_existing = tfRef ''toset(flatten([for qp in data.sonarr_quality_profiles.existing.quality_profiles: qp.quality_groups ]))'';
   };
 
   data = {
     sonarr_quality_definitions.main = { };
+
+    sonarr_quality_profiles.existing = { };
+
+    sonarr_quality_profile.existing1080p = {
+      name = "HD-1080p";
+    };
   };
 
   resource = {
@@ -113,5 +122,51 @@ in
         }
       ]'';
     };
+
+    # sonarr_quality_profile.trash1080p =
+    #   let
+    #     mkTfFormatItem = name: item: {
+    #       inherit name;
+    #       format = tfRef ''sonarr_custom_format.trash["${name}"].id'';
+    #       score = item.trash_scores.default;
+    #     };
+
+    #     mkTfQualityGroup = group: {
+    #       inherit (group) name;
+    #       id = tfRef ''one([for group in local.sonarr_quality_groups_existing : group if group.name == "${group.name}"]).id'';
+    #       qualities = lib.map (quality: tfRef ''local.sonarr_quality_definition_existing["${quality}"]'') group.items;
+    #     };
+    #   in
+    #   {
+    #     name = qualityProfile.name;
+    #     cutoff_format_score = qualityProfile.cutoffFormatScore;
+    #     min_format_score = qualityProfile.minFormatScore;
+    #     min_upgrade_format_score = qualityProfile.minUpgradeFormatScore;
+    #     upgrade_allowed = qualityProfile.upgradeAllowed;
+    #     cutoff = tfRef ''one([for group in local.sonarr_quality_groups_existing : group if group.name == "${qualityProfile.cutoff}"]).id'';
+
+    #     format_items = lib.mapAttrsToList mkTfFormatItem customFormatsForQualityProfile;
+    #     quality_groups = lib.map mkTfQualityGroup enabledQualityGroups;
+    #   };
+
+    # sonarr_quality_profile.updated1080p =
+    #   let
+    #     mkTfFormatItem = name: item: {
+    #       inherit name;
+    #       # format = tfRef ''sonarr_custom_format.trash["${name}"].id'';
+    #       score = item.trash_scores.default;
+    #     };
+    #   in
+    #   {
+    #     name = "HD-1080p - 2";
+    #     cutoff_format_score = tfRef "data.sonarr_quality_profile.existing1080p.cutoff_format_score";
+    #     cutoff = tfRef "data.sonarr_quality_profile.existing1080p.cutoff";
+    #     min_format_score = tfRef "data.sonarr_quality_profile.existing1080p.min_format_score";
+    #     min_upgrade_format_score = tfRef "data.sonarr_quality_profile.existing1080p.min_upgrade_format_score";
+    #     upgrade_allowed = tfRef "data.sonarr_quality_profile.existing1080p.upgrade_allowed";
+
+    #     quality_groups = tfRef "data.sonarr_quality_profile.existing1080p.quality_groups";
+    #     format_items = lib.mapAttrsToList mkTfFormatItem customFormatsForQualityProfile;
+    #   };
   };
 }
