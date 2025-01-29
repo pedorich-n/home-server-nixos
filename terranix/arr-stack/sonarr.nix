@@ -123,6 +123,8 @@ in
       ]'';
     };
 
+    #TODO: come back to this one day, when I have the patience to deal with weird API
+    #SECTION - quality profile
     # sonarr_quality_profile.trash1080p =
     #   let
     #     mkTfFormatItem = name: item: {
@@ -168,5 +170,6 @@ in
     #     quality_groups = tfRef "data.sonarr_quality_profile.existing1080p.quality_groups";
     #     format_items = lib.mapAttrsToList mkTfFormatItem customFormatsForQualityProfile;
     #   };
+    #!SECTION - quality profile
   };
 }

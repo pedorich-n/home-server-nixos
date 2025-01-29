@@ -32,8 +32,7 @@ let
 in
 {
   locals = {
-    # TODO: add "audiobooks" "movies"
-    qbittorrent_categories = tfRef ''toset(["tv", "prowlarr"])'';
+    qbittorrent_categories = tfRef ''toset(["tv", "movies", "audiobooks", "prowlarr"])'';
   };
 
   resource = {
