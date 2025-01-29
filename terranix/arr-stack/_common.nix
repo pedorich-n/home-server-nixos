@@ -3,13 +3,13 @@
   # https://registry.terraform.io/providers/devopsarr/radarr/2.3.1/docs/resources/download_client_sabnzbd
   # https://registry.terraform.io/providers/devopsarr/sonarr/3.4.0/docs/resources/download_client_sabnzbd
   # https://registry.terraform.io/providers/devopsarr/prowlarr/2.4.3/docs/resources/download_client_sabnzbd
-  sabnzbdDownloadClient = rec {
+  sabnzbdDownloadClient = {
     enable = true;
     priority = 1;
     name = "SABnzbd";
     host = "sabnzbd";
     port = 8080;
-    api_key = lib.tfRef ''var.downloaders["${name}"]'';
+    api_key = lib.tfRef "local.secrets.sabnzbd.API.key";
     use_ssl = false;
   };
 

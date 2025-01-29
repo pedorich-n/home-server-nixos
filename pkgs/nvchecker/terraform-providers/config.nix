@@ -14,6 +14,7 @@ let
     prowlarr = "devopsarr/prowlarr";
     sonarr = "devopsarr/sonarr";
     radarr = "devopsarr/radarr";
+    terracurl = "devops-rob/terracurl";
 
     # Backblaze
     netparse = "gmeligio/netparse";

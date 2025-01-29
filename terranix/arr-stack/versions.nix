@@ -5,7 +5,7 @@
     backend.local = { };
 
     required_providers = {
-      inherit (config.custom.providers) prowlarr sonarr radarr;
+      inherit (config.custom.providers) sonarr radarr terracurl prowlarr;
     };
   };
 }
