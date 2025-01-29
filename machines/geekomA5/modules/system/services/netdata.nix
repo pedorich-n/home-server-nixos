@@ -1,4 +1,4 @@
-{ inputs, config, lib, pkgs, pkgs-netdata, ... }:
+{ inputs, config, lib, pkgs, pkgs-unstable, ... }:
 let
   metricsDomain = "http://metrics.${config.custom.networking.domain}:${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
 
@@ -20,7 +20,7 @@ let
 in
 {
   disabledModules = [ "services/monitoring/netdata.nix" ];
-  imports = [ "${inputs.nixpkgs-netdata}/nixos/modules/services/monitoring/netdata.nix" ];
+  imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/monitoring/netdata.nix" ];
 
   custom.networking.ports.tcp.netdata = { port = 19999; openFirewall = false; };
 
@@ -28,7 +28,7 @@ in
     netdata = {
       enable = true;
 
-      package = pkgs-netdata.netdataCloud.override { withNdsudo = true; };
+      package = pkgs-unstable.netdataCloud.override { withNdsudo = true; };
 
       extraNdsudoPackages = with pkgs; [
         nvme-cli

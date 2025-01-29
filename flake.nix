@@ -3,10 +3,6 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # nixpkgs-netdata.url = "github:rhoriguchi/nixpkgs/netdata-newer?shallow=true";
-    nixpkgs-netdata.url = "github:pedorich-n/nixpkgs/netdata-ndsudo?shallow=true";
-    # nixpkgs-netdata.url = "git+file:///home/pedorich_n/Projects/nixpkgs?shallow=true";
-
     systems.url = "github:nix-systems/default-linux";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
@@ -114,7 +110,7 @@
     airtable-telegram-bot = {
       url = "git+ssh://git@github.com/pedorich-n/airtable-telegram-lessons";
       inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
+        nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
         systems.follows = "systems";
         flake-utils.follows = "flake-utils";
