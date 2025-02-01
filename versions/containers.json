@@ -121,7 +121,8 @@
   },
   "radarr": {
     "container": "linuxserver/radarr",
-    "registry": "docker.io"
+    "registry": "docker.io",
+    "version": "5.17.2"
   },
   "sabnzbd": {
     "container": "linuxserver/sabnzbd",
