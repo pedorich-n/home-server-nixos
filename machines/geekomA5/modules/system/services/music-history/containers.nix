@@ -36,7 +36,7 @@ in
 
             BASE_URL = "http://multiscrobbler.${config.custom.networking.domain}:80";
 
-            LOG_LEVEL = "debug";
+            LOG_LEVEL = "INFO";
           };
           volumes = [
             (mappedVolumeForUser "${storeRoot}/multi-scrobbler/config" "/config")

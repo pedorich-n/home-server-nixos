@@ -12,4 +12,8 @@
       flags = lib.mkDefault [ "--all" ];
     };
   };
+
+  systemd.services.podman.environment = {
+    "LOGGING" = "--log-level=warn";
+  };
 }
