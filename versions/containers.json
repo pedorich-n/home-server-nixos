@@ -2,7 +2,7 @@
   "audiobookshelf": {
     "container": "advplyr/audiobookshelf",
     "registry": "ghcr.io",
-    "version": "2.18.1"
+    "version": "2.19.1"
   },
   "authentik-ldap": {
     "container": "goauthentik/ldap",
@@ -42,7 +42,7 @@
   "homeassistant": {
     "container": "homeassistant/home-assistant",
     "registry": "docker.io",
-    "version": "2025.1.4"
+    "version": "2025.2.2"
   },
   "homeassistant-mariadb": {
     "container": "library/mariadb",
@@ -57,12 +57,12 @@
   "immich-machine-learning": {
     "container": "immich-app/immich-machine-learning",
     "registry": "ghcr.io",
-    "version": "v1.125.7"
+    "version": "v1.126.1"
   },
   "immich-server": {
     "container": "immich-app/immich-server",
     "registry": "ghcr.io",
-    "version": "v1.125.7"
+    "version": "v1.126.1"
   },
   "jellyfin": {
     "container": "jellyfin/jellyfin",
@@ -72,7 +72,7 @@
   "maloja": {
     "container": "krateng/maloja",
     "registry": "docker.io",
-    "version": "3.2.3"
+    "version": "3.2.4"
   },
   "mosquitto": {
     "container": "library/eclipse-mosquitto",
@@ -122,7 +122,7 @@
   "radarr": {
     "container": "linuxserver/radarr",
     "registry": "docker.io",
-    "version": "5.17.2"
+    "version": "5.18.4"
   },
   "sabnzbd": {
     "container": "linuxserver/sabnzbd",
@@ -132,11 +132,11 @@
   "sonarr": {
     "container": "linuxserver/sonarr",
     "registry": "docker.io",
-    "version": "4.0.12"
+    "version": "4.0.13"
   },
   "zigbee2mqtt": {
     "container": "koenkk/zigbee2mqtt",
     "registry": "docker.io",
-    "version": "2.0.0"
+    "version": "2.1.1"
   }
 }
