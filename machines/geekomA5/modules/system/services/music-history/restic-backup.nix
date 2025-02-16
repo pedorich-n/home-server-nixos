@@ -31,7 +31,7 @@ in
         text = ''
           mkdir -p "${preparedBackupFolder}"
 
-          output=$(podman exec --user 1100:1100 --tty maloja maloja backup --targetfolder /data/backups/)
+          output=$(podman exec --user 1100:1100 --tty maloja /venv/bin/python -m maloja backup --targetfolder /data/backups/)
           filename=$(echo "''${output}" | ansi2txt | grep -oP '(?<=Backup created: ).*' | xargs basename)
           echo "Backup filename is ''${filename}"
 
