@@ -35,7 +35,7 @@ in
           clientSecret = config.sops.placeholder."music-history/multiscrobbler/spotify/client_secret";
         };
         options = {
-          scrobbleBacklog = false;
+          scrobbleBacklog = true;
         };
       }];
     };
