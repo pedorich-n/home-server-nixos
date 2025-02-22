@@ -100,9 +100,7 @@ in
             (mappedVolumeForUser "${storeRoot}/qbittorrent/config" "/config")
             (mappedVolumeForUser "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
           ];
-          #TODO: Uncomment after https://github.com/containers/podman/pull/24794 is released
-          # networks = [ "gluetun.container" ];
-          networks = [ "container:gluetun" ];
+          networks = [ "gluetun.container" ];
           inherit (containerLib.containerIds) user;
         };
 
