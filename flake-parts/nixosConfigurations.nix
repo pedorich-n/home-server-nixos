@@ -17,6 +17,8 @@
         inputs.airtable-telegram-bot.nixosModules.calendar-loader
         inputs.airtable-telegram-bot.nixosModules.calendar-loader-scheduler-cron
         inputs.airtable-telegram-bot.nixosModules.telegram-lessons-bot
+        inputs.nix-minecraft.nixosModules.minecraft-servers
+        inputs.playit-nixos-module.nixosModules.default
         inputs.quadlet-nix.nixosModules.quadlet
       ];
       deploySettings = {

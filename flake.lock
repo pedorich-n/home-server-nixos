@@ -177,11 +177,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1739028109,
-        "narHash": "sha256-SlPdlnTA7C0WS2uSSl8R1iV1VfsRzpSXT0LmBfFCjyE=",
+        "lastModified": 1741088353,
+        "narHash": "sha256-TbfP2fVGy/8iN2AuB25YC6hIvCISz2H4lddiofJerSk=",
         "ref": "refs/heads/main",
-        "rev": "0fb58d3704da97e78b477038cd766730d449dc72",
-        "revCount": 107,
+        "rev": "a814a19c19f554305fda053501e2c66a00580d21",
+        "revCount": 109,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -331,11 +331,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1740831772,
-        "narHash": "sha256-o8OPp25epi/UKuKWFnKSXoqiisuYmKJIRn6wrojquxk=",
+        "lastModified": 1741088856,
+        "narHash": "sha256-82ChRrtqDNZtAcsCaeywM1aKK6sVLKaOegu68/JxBa8=",
         "owner": "pedorich-n",
         "repo": "playit-nixos-module",
-        "rev": "4651c193e5d04f3a0e568bf894a44f365b31f419",
+        "rev": "fb86a6d7d28858a33d59f39d7413b56186a76f83",
         "type": "github"
       },
       "original": {
