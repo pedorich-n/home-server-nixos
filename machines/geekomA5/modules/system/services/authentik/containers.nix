@@ -1,4 +1,4 @@
-{ config, containerLib, systemdLib, jinja2RendererLib, ... }:
+{ config, containerLib, systemdLib, pkgs, ... }:
 let
   storeRoot = "/mnt/store/server-management/authentik";
 
@@ -21,7 +21,7 @@ let
     AUTHENTIK_POSTGRESQL__HOST = "authentik-postgresql";
   };
 
-  blueprints = import ./_render-blueprints.nix { inherit jinja2RendererLib; };
+  blueprints = pkgs.callPackage ./_render-blueprints.nix { inherit (config.custom.networking) domain; };
 
   serverIp = "172.31.0.240";
 

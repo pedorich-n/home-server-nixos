@@ -206,38 +206,6 @@
         "type": "github"
       }
     },
-    "jinja2-renderer": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ],
-        "poetry2nix": [
-          "poetry2nix"
-        ],
-        "systems": [
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1738406193,
-        "narHash": "sha256-BkN922p3+Z0lGg3CC+4UkyAsyROYZe3V3evuX1eiVZg=",
-        "owner": "pedorich-n",
-        "repo": "jinja2-renderer",
-        "rev": "801f27734b4037d85684b5db201b189b92fb531f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pedorich-n",
-        "repo": "jinja2-renderer",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1740339700,
@@ -367,7 +335,6 @@
         "home-manager": "home-manager",
         "home-server-nixos-secrets": "home-server-nixos-secrets",
         "homeassistant-docker-venv": "homeassistant-docker-venv",
-        "jinja2-renderer": "jinja2-renderer",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "personal-home-manager": "personal-home-manager",

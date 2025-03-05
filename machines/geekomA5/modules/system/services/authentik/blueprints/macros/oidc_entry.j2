@@ -1,5 +1,5 @@
 {% import "macros/utils.j2" as utils with context %}
-{% import "global_utils.j2" as global_utils with context %}
+
 
 {% macro oidc_entry(name, slug, application_group, client_id_env, client_secret_env, redirect_uris, icon, access_group, extra_property_mappings, access_token_validity="days=30", refresh_token_validity="days=180") -%}
   {% if client_id_env is not defined %}
@@ -15,7 +15,7 @@
   {% if icon is defined %}
 {% set final_icon = icon %}
   {% else %}
-{% set final_icon = global_utils.generate_icon(slug) %}
+{% set final_icon = utils.generate_icon(slug) %}
   {% endif %}
 # yaml-language-server: $schema=https://version-2024-8.goauthentik.io/blueprints/schema.json
 version: 1

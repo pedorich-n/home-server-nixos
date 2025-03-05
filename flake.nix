@@ -118,18 +118,6 @@
       };
     };
 
-    jinja2-renderer = {
-      url = "github:pedorich-n/jinja2-renderer";
-      # url = "git+file:///home/pedorich_n/Projects/jinja2-renderer";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-        flake-parts.follows = "flake-parts";
-        systems.follows = "systems";
-        flake-utils.follows = "flake-utils";
-        poetry2nix.follows = "poetry2nix";
-      };
-    };
-
     trash-guides = {
       url = "github:TRaSH-Guides/Guides";
       flake = false;
