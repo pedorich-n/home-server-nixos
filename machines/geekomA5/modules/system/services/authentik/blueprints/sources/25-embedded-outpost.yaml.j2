@@ -1,4 +1,4 @@
-{% import "global_utils.j2" as global_utils with context %}
+{% import "macros/utils.j2" as utils with context %}
 {% set providers = [
   "HomeAssistant",
   "Maloja",
@@ -29,6 +29,6 @@ entries:
         - !Find [authentik_providers_proxy.proxyprovider, [name, {{ provider }}]]
 {% endfor %}
       config:
-        authentik_host: {{ global_utils.generate_url("authentik") }}
+        authentik_host: {{ utils.generate_url("authentik") }}
         object_naming_template: ak-outpost-%(name)s
         log_level: info

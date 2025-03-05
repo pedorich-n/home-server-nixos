@@ -1,6 +1,6 @@
 {% from "macros/oidc_entry.j2" import oidc_entry with context %}
-{% import "global_utils.j2" as global_utils with context %}
+{% import "macros/utils.j2" as utils with context %}
 
-{% set redirect_uris = [ global_utils.generate_url("audiobookshelf") + "/auth/openid/callback",
-                         global_utils.generate_url("audiobookshelf") + "/auth/openid/mobile-redirect" ] %}
+{% set redirect_uris = [ utils.generate_url("audiobookshelf") + "/auth/openid/callback",
+                         utils.generate_url("audiobookshelf") + "/auth/openid/mobile-redirect" ] %}
 {{ oidc_entry(name="Audiobookshelf", slug="audiobookshelf", application_group=applicationGroups.media, redirect_uris=redirect_uris, extra_property_mappings=["absgroups"]) }}

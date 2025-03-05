@@ -1,5 +1,5 @@
 {% from "macros/oidc_entry.j2" import oidc_entry with context %}
-{% import "global_utils.j2" as global_utils with context %}
+{% import "macros/utils.j2" as utils with context %}
 
-{% set redirect_uris = [ global_utils.generate_url("paperless") + "/accounts/oidc/authentik/login/callback/" ] %}
-{{ oidc_entry(name="Paperless", slug="paperless", application_group=applicationGroups.services, redirect_uris=redirect_uris,  icon=global_utils.generate_icon("paperless-ngx") ) }}
+{% set redirect_uris = [ utils.generate_url("paperless") + "/accounts/oidc/authentik/login/callback/" ] %}
+{{ oidc_entry(name="Paperless", slug="paperless", application_group=applicationGroups.services, redirect_uris=redirect_uris,  icon=utils.generate_icon("paperless-ngx") ) }}

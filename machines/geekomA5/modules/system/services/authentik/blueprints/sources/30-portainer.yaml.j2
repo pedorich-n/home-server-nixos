@@ -1,4 +1,4 @@
 {% from "macros/oidc_entry.j2" import oidc_entry with context %}
-{% import "global_utils.j2" as global_utils with context %}
+{% import "macros/utils.j2" as utils with context %}
 
-{{ oidc_entry(name="Portainer", slug="portainer", application_group=applicationGroups.serverManagement, access_group=accessGroups.serverAdmins, redirect_uris=[ global_utils.generate_url("portainer") ] ) }}
+{{ oidc_entry(name="Portainer", slug="portainer", application_group=applicationGroups.serverManagement, access_group=accessGroups.serverAdmins, redirect_uris=[ utils.generate_url("portainer") ] ) }}
