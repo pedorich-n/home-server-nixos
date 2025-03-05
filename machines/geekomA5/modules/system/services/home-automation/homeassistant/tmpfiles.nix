@@ -1,6 +1,6 @@
-{ jinja2RendererLib, tmpfilesLib, ... }:
+{ tmpfilesLib, pkgs, ... }:
 let
-  rendered-templates = import ./_render-templates.nix { inherit jinja2RendererLib; };
+  rendered-templates = pkgs.callPackage ./_render-templates.nix { };
 in
 {
   systemd.tmpfiles.settings."90-homeassistant" = {
