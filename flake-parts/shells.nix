@@ -6,6 +6,7 @@ _: {
 
         packages = [
           pkgs.nvchecker
+          pkgs.nvfetcher
         ];
       };
     };
