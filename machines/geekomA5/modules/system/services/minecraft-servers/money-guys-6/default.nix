@@ -1,9 +1,9 @@
-{ minecraftLib, lib, config, ... }:
+{ minecraftLib, config, pkgs, lib, ... }:
 let
   serverName = "money-guys-6";
 
-  # forge = pkgs.callPackage ./_forge.nix { };
-  # forgeRunnable = pkgs.callPackage ./_forge-runnable.nix { inherit forge; };
+  forge = pkgs.callPackage ./_forge.nix { };
+  forgeRunner = pkgs.callPackage ./_forge-runner.nix { inherit forge; };
 in
 {
   config = lib.mkMerge [
@@ -13,7 +13,7 @@ in
         autoStart = true;
         openFirewall = true;
 
-        # package = forgeRunnable;
+        package = forgeRunner;
         serverProperties = {
           allow-flight = true;
           server-port = config.custom.networking.ports.tcp."minecraft-${serverName}-game".port;
