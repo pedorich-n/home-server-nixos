@@ -1,4 +1,6 @@
 { config, ... }: {
+  custom.minecraft-servers.check.enable = false;
+
   services = {
     minecraft-servers = {
       enable = true;

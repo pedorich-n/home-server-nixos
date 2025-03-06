@@ -6,6 +6,14 @@ let
   forgeRunner = pkgs.callPackage ./_forge-runner.nix { inherit forge; };
 
   modpack = pkgs.minecraft-modpack;
+  server-icon = pkgs.runCommand "server-icon.png"
+    {
+      nativeBuildInputs = [ pkgs.imagemagick ];
+    } ''
+    convert "${modpack}/icon.jpg" -resize 64x64 $out
+  '';
+
+  pidFile = "/run/minecraft/${serverName}.pid";
 in
 {
   config = lib.mkMerge [
@@ -21,7 +29,7 @@ in
           server-port = config.custom.networking.ports.tcp."minecraft-${serverName}-game".port;
           difficulty = 2;
           level-name = "the_best_1";
-          motd = "Money Guys' server. No chickens";
+          motd = ''\u00A72Money Guys\u00A7r - you better settle your bill in time'';
           max-players = 10;
           enable-status = true;
           enforce-secure-profile = false;
@@ -31,11 +39,26 @@ in
         jvmOpts = minecraftLib.aikarFlagsWith { memory = "5120M"; };
 
         symlinks = {
-          # "server-icon.png" = "${modpack}/icon.png";
+          "server-icon.png" = server-icon;
         } // minecraftLib.collectFilesAt modpack "mods";
 
-        files = (minecraftLib.collectFilesAt modpack "config") //
+        files =
+          (minecraftLib.collectFilesAt modpack "config") //
           (minecraftLib.collectFilesAt modpack "journeymap");
+      };
+
+      systemd.services."minecraft-server-${serverName}" = {
+        # environment = {
+        #   NOTIFY_SOCKET = notifySocket;
+        # };
+
+        serviceConfig = {
+          # Type = lib.mkForce "notify";
+          # NotifyAccess = "all";
+          # Restart = lib.mkForce "on-failure";
+          TimeoutStartSec = "90s";
+          # PIDFile = pidFile;
+        };
       };
     }
     (lib.mkIf (config.services.minecraft-servers.enable && config.services.minecraft-servers.servers.${serverName}.enable) {
@@ -44,31 +67,23 @@ in
           "minecraft-${serverName}-game" = { port = 25565; openFirewall = true; };
         };
 
-        # services.minecraft-server-check = {
-        #   server-service = "minecraft-server-${serverName}.service";
-        # };
+        minecraft-servers.check.servers = {
+          ${serverName} = {
+            address = "127.0.0.1";
+            port = config.custom.networking.ports.tcp."minecraft-${serverName}-game".port;
+
+            notify = {
+              # socket = notifySocket;
+              pidPath = pidFile;
+            };
+
+            healthCheck = {
+              retries = 15;
+              intervalSeconds = 5;
+            };
+          };
+        };
       };
-
-      # NOTE Should be the same as labels produced by
-      # LINK machines/geekomA5/modules/lib/docker.nix:11
-      # services.traefik.dynamicConfigOptions.http = {
-      #   routers.metrics-minecraft = {
-      #     entryPoints = [ "metrics" ];
-      #     rule = "Host(`metrics.${config.custom.networking.domain}`) && Path(`/minecraft`)";
-      #     service = "metrics-minecraft";
-      #     middlewares = [ "metrics-replacepath-minecraft" ];
-      #   };
-
-      #   services.metrics-minecraft = {
-      #     loadBalancer.servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp."minecraft-${serverName}-metrics".portStr}"; }];
-      #   };
-
-      #   middlewares.metrics-replacepath-minecraft = {
-      #     replacePath = {
-      #       path = "/metrics";
-      #     };
-      #   };
-      # };
     })
   ];
 }
