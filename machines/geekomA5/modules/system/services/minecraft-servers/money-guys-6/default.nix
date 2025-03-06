@@ -4,12 +4,14 @@ let
 
   forge = pkgs.callPackage ./_forge.nix { };
   forgeRunner = pkgs.callPackage ./_forge-runner.nix { inherit forge; };
+
+  modpack = pkgs.minecraft-modpack;
 in
 {
   config = lib.mkMerge [
     {
       services.minecraft-servers.servers.${serverName} = {
-        enable = false;
+        enable = true;
         autoStart = true;
         openFirewall = true;
 
@@ -28,12 +30,12 @@ in
         };
         jvmOpts = minecraftLib.aikarFlagsWith { memory = "5120M"; };
 
-        # symlinks = {
-        #   "server-icon.png" = ./icon.png;
-        # } // (minecraftLib.mkConsoleAccessSymlink serverName)
-        # // (minecraftLib.mkPackwizSymlinks { pkg = inputs.minecraft-modpack.packages.${system}.packwiz-server; folder = "mods"; });
+        symlinks = {
+          # "server-icon.png" = "${modpack}/icon.png";
+        } // minecraftLib.collectFilesAt modpack "mods";
 
-        # files = minecraftLib.mkPackwizSymlinks { pkg = inputs.minecraft-modpack.packages.${system}.packwiz-server; folder = "config"; };
+        files = (minecraftLib.collectFilesAt modpack "config") //
+          (minecraftLib.collectFilesAt modpack "journeymap");
       };
     }
     (lib.mkIf (config.services.minecraft-servers.enable && config.services.minecraft-servers.servers.${serverName}.enable) {

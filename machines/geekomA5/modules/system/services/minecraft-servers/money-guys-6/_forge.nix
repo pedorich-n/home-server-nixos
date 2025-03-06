@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   minecraftVersion = "1.20.1";
-  forgeVersion = "47.3.1";
+  forgeVersion = "47.3.33";
   version = "${minecraftVersion}-${forgeVersion}";
 in
 pkgs.runCommandNoCC "forge-${version}"
@@ -14,7 +14,7 @@ pkgs.runCommandNoCC "forge-${version}"
   ];
 
   outputHashMode = "recursive";
-  outputHash = "sha256-DRzLUVL56wnl2SBemSmXCYtHysI42yYB8WF7GEFnMjA=";
+  outputHash = "sha256-aOugxrl+mahBLQUGezL14o+pogxgx4M+FdoQH4+74K0=";
 }
   ''
     mkdir -p "$out"

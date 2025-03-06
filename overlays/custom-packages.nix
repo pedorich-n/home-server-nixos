@@ -1,6 +1,8 @@
 let
   packages = {
     systemd-onfailure-notify = ../pkgs/systemd-onfailure-notify;
+    mc-monitor = ../pkgs/mc-monitor;
+    minecraft-modpack = ../pkgs/minecraft-modpack;
   };
 
   mkOverlay = name: path: _: prev: {

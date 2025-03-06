@@ -1,5 +1,5 @@
-{ lib, ... }: {
-  _module.args.minecraftLib = {
+{ inputs, lib, ... }: {
+  _module.args.minecraftLib = inputs.nix-minecraft.lib // {
     # https://docs.papermc.io/paper/aikars-flags
     aikarFlagsWith = { memory }: builtins.concatStringsSep " " [
       "-Xms${memory}"
