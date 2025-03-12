@@ -1,3 +1,4 @@
 **/ui-lovelace-custom-grid-templated.yaml
 docs/initial_install.md
 **/authentik/blueprints/*.yaml
+**/_sources/* 

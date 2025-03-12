@@ -1,0 +1,4 @@
+[mc-monitor]
+src.github = "itzg/mc-monitor"
+fetch.github = "itzg/mc-monitor"
+passthru = { vendorHash = "sha256-q56mlGz6Qx+S3YRcYMI2a412Y0VeziUFvhQZOz3ifg4=" }

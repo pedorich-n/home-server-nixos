@@ -118,6 +118,24 @@
       };
     };
 
+    nix-minecraft = {
+      url = "github:Infinidoge/nix-minecraft";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        flake-utils.follows = "flake-utils";
+        flake-compat.follows = "flake-compat";
+      };
+    };
+
+    playit-nixos-module = {
+      url = "github:pedorich-n/playit-nixos-module";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        systems.follows = "systems";
+        flake-parts.follows = "flake-parts";
+      };
+    };
+
     trash-guides = {
       url = "github:TRaSH-Guides/Guides";
       flake = false;

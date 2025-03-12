@@ -177,11 +177,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1739028109,
-        "narHash": "sha256-SlPdlnTA7C0WS2uSSl8R1iV1VfsRzpSXT0LmBfFCjyE=",
+        "lastModified": 1741088353,
+        "narHash": "sha256-TbfP2fVGy/8iN2AuB25YC6hIvCISz2H4lddiofJerSk=",
         "ref": "refs/heads/main",
-        "rev": "0fb58d3704da97e78b477038cd766730d449dc72",
-        "revCount": 107,
+        "rev": "a814a19c19f554305fda053501e2c66a00580d21",
+        "revCount": 109,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -203,6 +203,32 @@
       "original": {
         "owner": "tribut",
         "repo": "homeassistant-docker-venv",
+        "type": "github"
+      }
+    },
+    "nix-minecraft": {
+      "inputs": {
+        "flake-compat": [
+          "flake-compat"
+        ],
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1740880473,
+        "narHash": "sha256-qS5cbZantakWcCjVjWAPilGOaV04ZN8dVXcsbsDhaYc=",
+        "owner": "Infinidoge",
+        "repo": "nix-minecraft",
+        "rev": "2143797cb223af6441d2085552da930f7430e3d3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Infinidoge",
+        "repo": "nix-minecraft",
         "type": "github"
       }
     },
@@ -275,6 +301,49 @@
         "url": "ssh://git@github.com/pedorich-n/config.nix"
       }
     },
+    "playit-agent-source": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1739837864,
+        "narHash": "sha256-mLQmfWgwQ4I3ZnIWrA4dhi5fvGYz4xNZZlJ3nvP4V1Q=",
+        "owner": "playit-cloud",
+        "repo": "playit-agent",
+        "rev": "c6e6b6f9075f0614a00de002eda9ec0d720cc900",
+        "type": "github"
+      },
+      "original": {
+        "owner": "playit-cloud",
+        "repo": "playit-agent",
+        "type": "github"
+      }
+    },
+    "playit-nixos-module": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "playit-agent-source": "playit-agent-source",
+        "systems": [
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1741088856,
+        "narHash": "sha256-82ChRrtqDNZtAcsCaeywM1aKK6sVLKaOegu68/JxBa8=",
+        "owner": "pedorich-n",
+        "repo": "playit-nixos-module",
+        "rev": "fb86a6d7d28858a33d59f39d7413b56186a76f83",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pedorich-n",
+        "repo": "playit-nixos-module",
+        "type": "github"
+      }
+    },
     "poetry2nix": {
       "inputs": {
         "flake-utils": [
@@ -335,9 +404,11 @@
         "home-manager": "home-manager",
         "home-server-nixos-secrets": "home-server-nixos-secrets",
         "homeassistant-docker-venv": "homeassistant-docker-venv",
+        "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "personal-home-manager": "personal-home-manager",
+        "playit-nixos-module": "playit-nixos-module",
         "poetry2nix": "poetry2nix",
         "quadlet-nix": "quadlet-nix",
         "sops-nix": "sops-nix",

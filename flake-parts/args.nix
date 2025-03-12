@@ -6,6 +6,9 @@
       config = {
         allowUnfree = true;
       };
+      overlays = [
+        inputs.nix-minecraft.overlays.default
+      ];
     };
   };
 }

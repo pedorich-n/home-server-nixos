@@ -97,6 +97,13 @@ in
 
         "tailscale/key" = { };
 
+        "playit/secret" = {
+          sopsFile = sopsFilePathFor "playit/secret.toml";
+          format = "binary";
+          owner = config.services.playit.user;
+          group = config.services.playit.group;
+        };
+
         "telegram-airtable-lessons/calendar_loader.toml" = {
           sopsFile = sopsFilePathFor "telegram-airtable-lessons/calendar_loader.toml";
           format = "binary";
