@@ -36,7 +36,7 @@ in
           max-world-size = 8000; # Value is a radius, so the world size is 16000x16000
           spawn-protection = 0;
         };
-        jvmOpts = minecraftLib.aikarFlagsWith { memory = "5120M"; };
+        jvmOpts = minecraftLib.aikarFlagsWith { memory = "6144M"; };
 
         symlinks = {
           "server-icon.png" = server-icon;
@@ -46,25 +46,33 @@ in
           (minecraftLib.collectFilesAt modpack "config") //
           (minecraftLib.collectFilesAt modpack "journeymap");
       };
-
-      systemd.services."minecraft-server-${serverName}" = {
-        # environment = {
-        #   NOTIFY_SOCKET = notifySocket;
-        # };
-
-        serviceConfig = {
-          # Type = lib.mkForce "notify";
-          # NotifyAccess = "all";
-          # Restart = lib.mkForce "on-failure";
-          TimeoutStartSec = "90s";
-          # PIDFile = pidFile;
-        };
-      };
     }
     (lib.mkIf (config.services.minecraft-servers.enable && config.services.minecraft-servers.servers.${serverName}.enable) {
+      # NOTE Should be the same as labels produced by
+      # LINK machines/geekomA5/modules/lib/docker.nix:11
+      services.traefik.dynamicConfigOptions.http = {
+        routers.metrics-minecraft = {
+          entryPoints = [ "metrics" ];
+          rule = "Host(`metrics.${config.custom.networking.domain}`) && Path(`/minecraft`)";
+          service = "metrics-minecraft";
+          middlewares = [ "metrics-replacepath-minecraft" ];
+        };
+
+        services.metrics-minecraft = {
+          loadBalancer.servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp.minecraft-money-guys-6-metrics.portStr}"; }];
+        };
+
+        middlewares.metrics-replacepath-minecraft = {
+          replacePath = {
+            path = "/metrics";
+          };
+        };
+      };
+
       custom = {
         networking.ports.tcp = {
           "minecraft-${serverName}-game" = { port = 25565; openFirewall = true; };
+          "minecraft-${serverName}-metrics" = { port = 19565; openFirewall = false; };
         };
 
         minecraft-servers.check.servers = {

@@ -16,7 +16,16 @@ let
       autodetection_retry = 60;
 
     }
-  ];
+  ] ++
+  (lib.optional (config.services.minecraft-servers.enable && (lib.any (server: server.enable) (lib.attrValues config.services.minecraft-servers.servers))) {
+    name = "Minecraft";
+    url = "${metricsDomain}/minecraft";
+    autodetection_retry = 60;
+    selector.deny = [
+      "jvm_buffer_pool*"
+      ''jvm_memory_pool_*{pool=*"CodeHeap*"}''
+    ];
+  });
 in
 {
   disabledModules = [ "services/monitoring/netdata.nix" ];
