@@ -127,15 +127,6 @@
       };
     };
 
-    # minecraft-modpack = {
-    #   url = "github:pedorich-n/MinecraftModpack";
-    #   inputs = {
-    #     nixpkgs.follows = "nixpkgs-unstable";
-    #     systems.follows = "systems";
-    #     flake-parts.follows = "flake-parts";
-    #   };
-    # };
-
     playit-nixos-module = {
       url = "github:pedorich-n/playit-nixos-module";
       inputs = {

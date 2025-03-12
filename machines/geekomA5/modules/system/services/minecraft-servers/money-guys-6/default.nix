@@ -1,19 +1,36 @@
-{ minecraftLib, config, pkgs, lib, ... }:
+{ inputs, config, pkgs, lib, ... }:
 let
+  minecraftLib = inputs.nix-minecraft.lib;
   serverName = "money-guys-6";
 
   forge = pkgs.callPackage ./_forge.nix { };
   forgeRunner = pkgs.callPackage ./_forge-runner.nix { inherit forge; };
 
   modpack = pkgs.minecraft-modpack;
-  server-icon = pkgs.runCommand "server-icon.png"
-    {
-      nativeBuildInputs = [ pkgs.imagemagick ];
-    } ''
-    convert "${modpack}/icon.jpg" -resize 64x64 $out
-  '';
 
-  pidFile = "/run/minecraft/${serverName}.pid";
+  # https://docs.papermc.io/paper/aikars-flags
+  aikarFlagsWith = { memory }: builtins.concatStringsSep " " [
+    "-Xms${memory}"
+    "-Xmx${memory}"
+    "-XX:+UseG1GC"
+    "-XX:+ParallelRefProcEnabled"
+    "-XX:MaxGCPauseMillis=200"
+    "-XX:+UnlockExperimentalVMOptions"
+    "-XX:+DisableExplicitGC"
+    "-XX:+AlwaysPreTouch"
+    "-XX:G1NewSizePercent=30"
+    "-XX:G1MaxNewSizePercent=40"
+    "-XX:G1HeapRegionSize=8M"
+    "-XX:G1ReservePercent=20"
+    "-XX:G1HeapWastePercent=5"
+    "-XX:G1MixedGCCountTarget=4"
+    "-XX:InitiatingHeapOccupancyPercent=15"
+    "-XX:G1MixedGCLiveThresholdPercent=90"
+    "-XX:G1RSetUpdatingPauseTimePercent=5"
+    "-XX:SurvivorRatio=32"
+    "-XX:+PerfDisableSharedMem"
+    "-XX:MaxTenuringThreshold=1"
+  ];
 in
 {
   config = lib.mkMerge [
@@ -36,10 +53,10 @@ in
           max-world-size = 8000; # Value is a radius, so the world size is 16000x16000
           spawn-protection = 0;
         };
-        jvmOpts = minecraftLib.aikarFlagsWith { memory = "6144M"; };
+        jvmOpts = aikarFlagsWith { memory = "6144M"; };
 
         symlinks = {
-          "server-icon.png" = server-icon;
+          "server-icon.png" = "${modpack}/server-icon.png";
         } // minecraftLib.collectFilesAt modpack "mods";
 
         files =
@@ -49,7 +66,7 @@ in
     }
     (lib.mkIf (config.services.minecraft-servers.enable && config.services.minecraft-servers.servers.${serverName}.enable) {
       # NOTE Should be the same as labels produced by
-      # LINK machines/geekomA5/modules/lib/docker.nix:11
+      # LINK machines/geekomA5/modules/lib/container.nix:11
       services.traefik.dynamicConfigOptions.http = {
         routers.metrics-minecraft = {
           entryPoints = [ "metrics" ];
@@ -82,7 +99,7 @@ in
 
             notify = {
               # socket = notifySocket;
-              pidPath = pidFile;
+              # pidPath = pidFile;
             };
 
             healthCheck = {
