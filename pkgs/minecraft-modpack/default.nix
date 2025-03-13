@@ -1,10 +1,10 @@
 { pkgs, ... }:
 let
-  version = "V1.1.0";
+  version = "V1.1.1";
 in
 pkgs.fetchPackwizModpack {
   pname = "money-guys-exploration";
   inherit version;
   url = "https://gitlab.com/pablo_peraza/moneyguys-explorationrevival/-/raw/${version}/pack.toml";
-  packHash = "sha256-RD8iPiT+B/NwA/21g+53WOWroU8y4CY6smcuq6GsOMU=";
+  packHash = "sha256-qIRjoKE8F3zNrRjx90dN95qqXSfC9m1Y2dYFCtFhwno=";
 }
