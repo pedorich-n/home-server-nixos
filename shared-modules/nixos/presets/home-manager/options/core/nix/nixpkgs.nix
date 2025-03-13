@@ -1,5 +1,5 @@
 { inputs, ... }: {
   nixpkgs.overlays = [
-    inputs.personal-home-manager.overlays.default
+    inputs.home-manager-config.overlays.default
   ];
 }

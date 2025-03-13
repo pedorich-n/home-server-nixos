@@ -22,8 +22,8 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    personal-home-manager = {
-      url = "git+ssh://git@github.com/pedorich-n/config.nix";
+    home-manager-config = {
+      url = "github:pedorich-n/home-manager-config";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         nixpkgs-nix.follows = "";
