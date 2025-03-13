@@ -66,7 +66,7 @@ in
 
             PAPERLESS_TRASH_DIR = "/usr/src/paperless/media/trash";
 
-            PAPERLESS_OCR_LANGUAGES = ''"eng jpn jpn-vert ukr rus"''; # Confusingly this only installs the language packs
+            PAPERLESS_OCR_LANGUAGES = "'eng jpn jpn-vert ukr rus'"; # Confusingly this only installs the language packs
             PAPERLESS_OCR_LANGUAGE = "ukr+rus+eng+jpn+jpn_vert"; # And this hints the OCR engine which languages to try to detect
             # https://github.com/paperless-ngx/paperless-ngx/discussions/4047#discussioncomment-7019544
             PAPERLESS_OCR_USER_ARGS = "'{\"invalidate_digital_signatures\": true}'";
