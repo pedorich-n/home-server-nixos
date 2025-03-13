@@ -42,7 +42,7 @@
   "homeassistant": {
     "container": "homeassistant/home-assistant",
     "registry": "docker.io",
-    "version": "2025.2.5"
+    "version": "2025.3.2"
   },
   "homeassistant-mariadb": {
     "container": "library/mariadb",
@@ -57,12 +57,12 @@
   "immich-machine-learning": {
     "container": "immich-app/immich-machine-learning",
     "registry": "ghcr.io",
-    "version": "v1.128.0"
+    "version": "v1.129.0"
   },
   "immich-server": {
     "container": "immich-app/immich-server",
     "registry": "ghcr.io",
-    "version": "v1.128.0"
+    "version": "v1.129.0"
   },
   "jellyfin": {
     "container": "jellyfin/jellyfin",
@@ -77,7 +77,7 @@
   "mosquitto": {
     "container": "library/eclipse-mosquitto",
     "registry": "docker.io",
-    "version": "2.0.20"
+    "version": "2.0.21"
   },
   "multiscrobbler": {
     "container": "foxxmd/multi-scrobbler",
@@ -137,6 +137,6 @@
   "zigbee2mqtt": {
     "container": "koenkk/zigbee2mqtt",
     "registry": "docker.io",
-    "version": "2.1.1"
+    "version": "2.1.3"
   }
 }
