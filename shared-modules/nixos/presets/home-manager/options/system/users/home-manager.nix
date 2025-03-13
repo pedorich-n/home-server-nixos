@@ -46,7 +46,7 @@ in
         pkgs-nix = pkgs;
       };
 
-      sharedModules = [ inputs.personal-home-manager.homeModules.sharedModules ] ++ sharedHomeManagerModules;
+      sharedModules = [ inputs.home-manager-config.homeModules.sharedModules ] ++ sharedHomeManagerModules;
 
       users = enabledHmUsers;
     };

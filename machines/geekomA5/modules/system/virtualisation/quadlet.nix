@@ -88,4 +88,8 @@ in
       }));
     };
   };
+
+  config = {
+    virtualisation.quadlet.autoEscape = true;
+  };
 }

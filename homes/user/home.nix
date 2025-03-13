@@ -1,5 +1,5 @@
 { inputs, ... }: {
   imports = [
-    inputs.personal-home-manager.homeModules.common
+    inputs.home-manager-config.homeModules.common
   ];
 }
