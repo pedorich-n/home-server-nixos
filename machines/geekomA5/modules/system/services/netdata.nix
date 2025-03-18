@@ -1,4 +1,4 @@
-{ inputs, config, lib, pkgs, pkgs-unstable, ... }:
+{ inputs, config, lib, pkgs, pkgs-netdata, ... }:
 let
   metricsDomain = "http://metrics.${config.custom.networking.domain}:${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
 
@@ -29,7 +29,7 @@ let
 in
 {
   disabledModules = [ "services/monitoring/netdata.nix" ];
-  imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/monitoring/netdata.nix" ];
+  imports = [ "${inputs.nixpkgs-netdata}/nixos/modules/services/monitoring/netdata.nix" ];
 
   custom.networking.ports.tcp.netdata = { port = 19999; openFirewall = false; };
 
@@ -37,7 +37,7 @@ in
     netdata = {
       enable = true;
 
-      package = pkgs-unstable.netdataCloud.override { withNdsudo = true; };
+      package = pkgs-netdata.netdataCloud.override { withNdsudo = true; };
 
       extraNdsudoPackages = with pkgs; [
         nvme-cli
@@ -150,18 +150,13 @@ in
             nvme: yes
             smartctl: yes
             zfspool: yes
+            sensors: yes
         '';
 
         "go.d/zfspool.conf" = pkgs.writeText "netdata-zfspool.conf" ''
           jobs:
             - name: zfspool
               binary_path: zpool
-        '';
-
-        "go.d/sensors.conf" = pkgs.writeText "netdata-sensors.conf" ''
-          jobs:
-            - name: sensors
-              binary_path: ${lib.getExe' pkgs.lm_sensors "sensors"}
         '';
 
         #SECTION - Requires ndsudo
