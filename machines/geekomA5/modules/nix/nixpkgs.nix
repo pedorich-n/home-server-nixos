@@ -1,5 +1,5 @@
 #LINK - overlays/custom-packages.nix
-{ inputs, overlays, ... }:
+{ inputs, overlays, pkgs, ... }:
 {
   nixpkgs = {
     overlays = [
@@ -9,5 +9,10 @@
       overlays.mc-monitor
       overlays.minecraft-modpack
     ];
+  };
+
+  _module.args.pkgs-netdata = import inputs.nixpkgs-netdata {
+    inherit (pkgs) config overlays;
+    inherit (pkgs.stdenv.hostPlatform) system;
   };
 }
