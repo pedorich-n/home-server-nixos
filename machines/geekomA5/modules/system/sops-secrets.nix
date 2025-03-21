@@ -61,6 +61,16 @@ let
 
     in
     lib.foldl' (acc: user: acc // (mkUserPasswordSecret user)) { } users;
+
+  playitSecrets = {
+    "playit/secret" = {
+      sopsFile = sopsFilePathFor "playit/secret.toml";
+      format = "binary";
+      owner = config.services.playit.user;
+      group = config.services.playit.group;
+    };
+  };
+
 in
 {
   sops = {
@@ -97,13 +107,6 @@ in
 
         "tailscale/key" = { };
 
-        "playit/secret" = {
-          sopsFile = sopsFilePathFor "playit/secret.toml";
-          format = "binary";
-          owner = config.services.playit.user;
-          group = config.services.playit.group;
-        };
-
         "telegram-airtable-lessons/calendar_loader.toml" = {
           sopsFile = sopsFilePathFor "telegram-airtable-lessons/calendar_loader.toml";
           format = "binary";
@@ -121,6 +124,7 @@ in
       envSecrets
       resticSecrets
       (lib.mkIf (config.services ? ngrok && config.services.ngrok.enable) ngrokSecrets)
+      (lib.mkIf (config.services ? playit && config.services.playit.enable) playitSecrets)
     ];
   };
 }
