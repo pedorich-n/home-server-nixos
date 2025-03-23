@@ -139,6 +139,21 @@ let
       container = "advplyr/audiobookshelf";
       include_regex = regexes.semverLike;
     };
+
+    adventurelog-frontend = registries.ghcr {
+      container = "seanmorley15/adventurelog-frontend";
+      include_regex = regexes.semverLike;
+    };
+
+    adventurelog-backend = registries.ghcr {
+      container = "seanmorley15/adventurelog-backend";
+      include_regex = regexes.semverLike;
+    };
+
+    adventurelog-postgis = registries.docker {
+      container = "postgis/postgis";
+      include_regex = "^15-[\\d+\\.]+-alpine$";
+    };
   };
 
   config = {

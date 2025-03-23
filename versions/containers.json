@@ -1,4 +1,19 @@
 {
+  "adventurelog-backend": {
+    "container": "seanmorley15/adventurelog-backend",
+    "registry": "ghcr.io",
+    "version": "v0.9.0"
+  },
+  "adventurelog-frontend": {
+    "container": "seanmorley15/adventurelog-frontend",
+    "registry": "ghcr.io",
+    "version": "v0.9.0"
+  },
+  "adventurelog-postgis": {
+    "container": "postgis/postgis",
+    "registry": "docker.io",
+    "version": "15-3.5-alpine"
+  },
   "audiobookshelf": {
     "container": "advplyr/audiobookshelf",
     "registry": "ghcr.io",
