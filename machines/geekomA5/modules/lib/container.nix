@@ -31,7 +31,7 @@
       in
       [
         "traefik.enable=true"
-        "traefik.http.routers.${entityName}.rule='Host(`${domain}`) && Path(`/${name}`)'"
+        "traefik.http.routers.${entityName}.rule=Host(`${domain}`) && Path(`/${name}`)"
         "traefik.http.routers.${entityName}.entrypoints=metrics"
         "traefik.http.routers.${entityName}.service=${entityName}"
 
