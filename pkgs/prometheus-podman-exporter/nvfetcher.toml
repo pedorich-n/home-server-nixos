@@ -1,0 +1,3 @@
+[prometheus-podman-exporter]
+src.github = "containers/prometheus-podman-exporter"
+fetch.github = "containers/prometheus-podman-exporter"

@@ -1,0 +1,23 @@
+{
+    "prometheus-podman-exporter": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "prometheus-podman-exporter",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "containers",
+            "repo": "prometheus-podman-exporter",
+            "rev": "v1.15.0",
+            "sha256": "sha256-eXuLiJx0WsPlPAN5ZwQIp89thXiNS6AGE9p3aqjD+K8=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v1.15.0"
+    }
+}

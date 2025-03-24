@@ -25,6 +25,11 @@ let
       "jvm_buffer_pool*"
       ''jvm_memory_pool_*{pool=*"CodeHeap*"}''
     ];
+  }) ++
+  (lib.optional config.custom.services.prometheus-podman-exporter.enable {
+    name = "Podman";
+    url = "${metricsDomain}/podman";
+    autodetection_retry = 60;
   });
 in
 {

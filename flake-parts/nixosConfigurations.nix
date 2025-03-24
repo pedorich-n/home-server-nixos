@@ -6,6 +6,7 @@
         headless
         home-manager
         podman
+        podman-metrics
         ssh
         systemd-notifications
       ];
