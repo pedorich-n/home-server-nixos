@@ -126,7 +126,7 @@ in
           }) ++
           (containerLib.mkTraefikLabels {
             name = "homeassistant-hooks";
-            rule = "'Host(`homeassistant.${config.custom.networking.domain}`) && PathPrefix(`/api/webhook/`)'";
+            rule = "Host(`homeassistant.${config.custom.networking.domain}`) && PathPrefix(`/api/webhook/`)";
             service = "homeassistant";
             priority = 15;
           });
