@@ -38,7 +38,6 @@ let
     assertions;
 in
 {
-  ###### interface
   options = with lib; {
     custom.networking.ports = {
       tcp = mkOption {
@@ -53,7 +52,6 @@ in
     };
   };
 
-  ###### implementation
   config = {
     assertions = (assertUniquePorts cfg.tcp) ++ (assertUniquePorts cfg.udp);
 

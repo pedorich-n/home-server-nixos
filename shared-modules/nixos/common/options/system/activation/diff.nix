@@ -3,14 +3,12 @@ let
   cfg = config.custom.activation.diff;
 in
 {
-  ###### interface
   options = {
     custom.activation.diff = {
       enable = lib.mkEnableOption "Show Diff between generations on activation";
     };
   };
 
-  ###### implementation
   config = lib.mkIf cfg.enable {
     system.activationScripts.diff = {
       supportsDryActivation = true;

@@ -30,10 +30,9 @@ let
   };
 in
 {
-  ###### interface
-  options = with lib; {
+  options = {
     custom.systemd.on-failure-notify = {
-      enable = mkEnableOption "Systemd On Failure Notify" // {
+      enable = lib.mkEnableOption "Systemd On Failure Notify" // {
         description = ''
           If systemd units fail, this service gets triggered and notifies the targets using the Apprise app.
           This modules utilizes what's called "Systemd Top-Level Drop-In Override" 
@@ -41,19 +40,18 @@ in
         '';
       };
 
-      package = mkPackageOption pkgs "systemd-onfailure-notify" { };
+      package = lib.mkPackageOption pkgs "systemd-onfailure-notify" { };
 
-      enableForUnits = mkOption {
-        type = types.listOf overrideUnitType;
+      enableForUnits = lib.mkOption {
+        type = lib.types.listOf overrideUnitType;
       };
 
-      appriseConfigPath = mkOption {
-        type = types.path;
+      appriseConfigPath = lib.mkOption {
+        type = lib.types.path;
       };
     };
   };
 
-  ###### implementation
   config = lib.mkIf cfg.enable {
     systemd = {
       packages = systemdOverrides;

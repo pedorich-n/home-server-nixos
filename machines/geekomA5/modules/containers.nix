@@ -17,8 +17,6 @@ let
   };
 in
 {
-
-  ###### interface
   options = with lib; {
     custom.containers = mkOption {
       type = with types; attrsOf containerSubmodule;
@@ -26,7 +24,6 @@ in
     };
   };
 
-  ###### implementation
   config = {
     custom.containers = lib.importJSON "${flake}/versions/containers.json";
   };
