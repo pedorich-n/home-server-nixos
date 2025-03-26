@@ -76,6 +76,9 @@ in
   sops = {
     defaultSopsFile = sopsFilePathFor "secrets.yaml";
 
+    # Required to make the Podman mounts with idmap work, as ramfs doesn't support idmap
+    useTmpfs = true;
+
     age = {
       generateKey = true;
     };
@@ -86,17 +89,20 @@ in
 
         "home-automation/homeassistant_secrets.yaml" = {
           sopsFile = sopsFilePathFor "home-automation/homeassistant_secrets.yaml";
-          mode = "444"; # FIXME: figure out a way to idmap mount the file
+          owner = config.users.users.user.name;
+          group = config.users.users.user.group;
           key = "";
         };
         "home-automation/zigbee2mqtt_secrets.yaml" = {
           sopsFile = sopsFilePathFor "home-automation/zigbee2mqtt_secrets.yaml";
-          mode = "444"; # FIXME: figure out a way to idmap mount the file
+          owner = config.users.users.user.name;
+          group = config.users.users.user.group;
           key = "";
         };
         "home-automation/mosquitto_passwords.txt" = {
           sopsFile = sopsFilePathFor "home-automation/mosquitto_passwords.txt";
-          mode = "444"; # FIXME: figure out a way to idmap mount the file
+          owner = config.users.users.user.name;
+          group = config.users.users.user.group;
           format = "binary";
         };
 

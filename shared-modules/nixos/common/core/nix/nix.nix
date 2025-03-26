@@ -1,6 +1,5 @@
 { inputs, lib, ... }:
 let
-  #TODO - more (all) inputs?
   inputsToUse = {
     inherit (inputs) nixpkgs nixpkgs-unstable;
   };

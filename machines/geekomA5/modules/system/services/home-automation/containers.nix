@@ -30,7 +30,7 @@ in
         containerConfig = {
           volumes = [
             "${configs.mosquitto}:/mosquitto/config/mosquitto.conf:ro"
-            "${config.sops.secrets."home-automation/mosquitto_passwords.txt".path}:/mosquitto/config/passwords.txt:ro"
+            (mappedVolumeForUser config.sops.secrets."home-automation/mosquitto_passwords.txt".path "/mosquitto/config/passwords.txt")
             (mappedVolumeForUser "${storeRoot}/mosquitto/data" "/mosquitto/data")
             (mappedVolumeForUser "${storeRoot}/mosquitto/log" "/mosquitto/log")
           ];
@@ -57,7 +57,7 @@ in
           };
           volumes = [
             (mappedVolumeForUser "${storeRoot}/zigbee2mqtt" "/app/data")
-            "${config.sops.secrets."home-automation/zigbee2mqtt_secrets.yaml".path}:/app/data/secrets.yaml:ro"
+            (mappedVolumeForUser config.sops.secrets."home-automation/zigbee2mqtt_secrets.yaml".path "/app/data/secrets.yaml")
             "/run/udev:/run/udev:ro"
           ];
           addGroups = [
@@ -114,7 +114,7 @@ in
           volumes = [
             (mappedVolumeForUser "${storeRoot}/homeassistant" "/config")
             (mappedVolumeForUser "${storeRoot}/homeassistant/local" "/.local")
-            "${config.sops.secrets."home-automation/homeassistant_secrets.yaml".path}:/config/secrets.yaml"
+            (mappedVolumeForUser config.sops.secrets."home-automation/homeassistant_secrets.yaml".path "/config/secrets.yaml")
             # See https://github.com/tribut/homeassistant-docker-venv
             "${inputs.homeassistant-docker-venv}/run:/etc/services.d/home-assistant/run"
           ];
