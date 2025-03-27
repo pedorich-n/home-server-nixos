@@ -2,7 +2,10 @@ _: {
   perSystem = { pkgs, ... }: {
     treefmt.config = {
       settings = {
-        global.excludes = [ "**/_sources/*" ];
+        global.excludes = [
+          "**/_sources/*"
+          "**/.terraform.lock.hcl"
+        ];
         formatter = {
           djlint = {
             command = pkgs.djlint;
@@ -19,7 +22,14 @@ _: {
             includes = [ "*.j2" ];
           };
         };
-        programs.shellcheck = {
+      };
+      programs = {
+        shellcheck = {
+          enable = true;
+          excludes = [ "**/.envrc" ];
+        };
+
+        terraform = {
           enable = true;
         };
       };
