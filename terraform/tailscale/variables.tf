@@ -1,9 +1,7 @@
 variable "hostname" {
-  type    = string
-  default = "geekomA5"
+  type = string
 }
 
 variable "domain" {
-  type    = string
-  default = "server.lan"
+  type = string
 }
