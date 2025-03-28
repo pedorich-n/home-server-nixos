@@ -1,0 +1,44 @@
+locals {
+  indexers_nzb = {
+    nzbgeek = {
+      name           = "NZBGeek"
+      app_profile_id = data.prowlarr_sync_profile.standard.id
+      priority       = 20
+      fields = [
+        { name = "baseUrl", text_value = "https://api.nzbgeek.info" },
+        { name = "vipExpiration", text_value = "2025-06-13" },
+        { name = "baseSettings.limitsUnit", number_value = 0 } # 0 means Day, 1 means Hour
+      ]
+    }
+
+    nzbfinder = {
+      name           = "NZBFinder"
+      app_profile_id = prowlarr_sync_profile.interactive.id
+      priority       = 40
+      fields = [
+        { name = "baseUrl", text_value = "https://nzbfinder.ws" },
+        { name = "vipExpiration", text_value = "" },
+        { name = "baseSettings.queryLimit", number_value = 15 },
+        { name = "baseSettings.grabLimit", number_value = 3 },
+        { name = "baseSettings.limitsUnit", number_value = 0 } # 0 means Day, 1 means Hour
+      ]
+    }
+  }
+
+}
+
+resource "prowlarr_indexer" "nzb" {
+  for_each = local.indexers_nzb
+
+  name            = each.value.name
+  enable          = true
+  implementation  = "Newznab"
+  config_contract = "NewznabSettings"
+  protocol        = "usenet"
+  app_profile_id  = each.value.app_profile_id
+  priority        = each.value.priority
+  fields = concat([
+    { name = "apiPath", text_value = "/api" },
+    { name = "apiKey", sensitive_value = var.indexer_credentials[each.value.name].api_key }
+  ], each.value.fields)
+}
