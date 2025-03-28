@@ -9,5 +9,5 @@ terraform {
 
 provider "prowlarr" {
   url     = var.base_url
-  api_key = var.api_key
+  api_key = var.prowlarr_api_key
 }
