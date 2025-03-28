@@ -13,7 +13,7 @@ resource "radarr_naming" "naming" {
 }
 
 resource "radarr_quality_definition" "trash" {
-  for_each       = local.radarr_quality_definitions_trash_mapped
+  for_each       = local.quality_definitions_trash_mapped
   title          = each.value.title
   id             = each.value.id
   min_size       = each.value.min_size

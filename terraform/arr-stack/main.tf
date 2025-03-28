@@ -26,3 +26,11 @@ module "radarr" {
   sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
   qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client
 }
+
+module "sonarr" {
+  source                             = "./modules/sonarr"
+  base_url                           = "http://sonarr.server.lan" // TODO: turn into variable
+  sonarr_api_key                     = module.onepassword.secrets.Sonarr.API.key
+  sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
+  qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client
+}
