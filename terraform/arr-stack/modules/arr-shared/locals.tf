@@ -2,7 +2,7 @@ locals {
   sabnznd_download_client = {
     enable   = true
     priority = 1
-    name     = "SABnznd"
+    name     = "SABnzbd"
     host     = "sabnzbd"
     port     = 8080
     api_key  = var.sabnznd_api_key

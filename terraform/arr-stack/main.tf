@@ -18,3 +18,11 @@ module "prowlarr" {
   sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
   qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client
 }
+
+module "radarr" {
+  source                             = "./modules/radarr"
+  base_url                           = "http://radarr.server.lan" // TODO: turn into variable
+  radarr_api_key                     = module.onepassword.secrets.Radarr.API.key
+  sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
+  qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client
+}
