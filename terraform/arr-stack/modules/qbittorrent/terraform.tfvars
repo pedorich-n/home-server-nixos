@@ -1,1 +1,0 @@
-base_url = "http://qbittorrent.server.lan/api/v2"

@@ -8,10 +8,15 @@ module "arr_stack_shared" {
   sabnznd_api_key = module.onepassword.secrets.SABnzbd.API.key
 }
 
+module "qbittorrent" {
+  source   = "./modules/qbittorrent"
+  base_url = "http://qbittorrent.server.lan/api/v2" # TODO: turn into variable
+}
+
 module "prowlarr" {
   source                             = "./modules/prowlarr"
   indexer_credentials                = module.onepassword.secrets.Prowlarr_Indexers
-  base_url                           = "http://prowlarr.server.lan" // TODO: turn into a variable
+  base_url                           = "http://prowlarr.server.lan" # TODO: turn into a variable
   prowlarr_api_key                   = module.onepassword.secrets.Prowlarr.API.key
   radarr_api_key                     = module.onepassword.secrets.Radarr.API.key
   sonarr_api_key                     = module.onepassword.secrets.Sonarr.API.key
@@ -21,7 +26,7 @@ module "prowlarr" {
 
 module "radarr" {
   source                             = "./modules/radarr"
-  base_url                           = "http://radarr.server.lan" // TODO: turn into variable
+  base_url                           = "http://radarr.server.lan" # TODO: turn into variable
   radarr_api_key                     = module.onepassword.secrets.Radarr.API.key
   sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
   qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client
@@ -29,7 +34,7 @@ module "radarr" {
 
 module "sonarr" {
   source                             = "./modules/sonarr"
-  base_url                           = "http://sonarr.server.lan" // TODO: turn into variable
+  base_url                           = "http://sonarr.server.lan" # TODO: turn into variable
   sonarr_api_key                     = module.onepassword.secrets.Sonarr.API.key
   sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
   qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client

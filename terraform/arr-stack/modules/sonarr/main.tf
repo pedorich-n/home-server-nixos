@@ -27,7 +27,6 @@ resource "sonarr_quality_definition" "trash" {
   preferred_size = each.value.preferred_size
 }
 
-
 resource "sonarr_download_client_sabnzbd" "sabnzbd" {
   enable      = var.sabnzbd_download_client_fields.enable
   priority    = var.sabnzbd_download_client_fields.priority

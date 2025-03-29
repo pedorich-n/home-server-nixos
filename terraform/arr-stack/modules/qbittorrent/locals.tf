@@ -5,7 +5,7 @@ locals {
 
   default_response_codes = ["200"]
 
-  categories = toset(["tv", "movies", "audiobooks", "prowlarr"])
+  categories = toset(["movies", "audiobooks", "prowlarr"]) # TODO: add "tv" once possible
 
   preferences = {
     bypass_auth_subnet_whitelist         = "0.0.0.0/0"
