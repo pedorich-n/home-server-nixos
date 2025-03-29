@@ -3,11 +3,6 @@ module "onepassword" {
   items  = ["Tailscale"]
 }
 
-data "tailscale_device" "server" {
-  hostname = var.hostname
-}
-
-
 resource "tailscale_dns_nameservers" "global_dns" {
   nameservers = [
     "1.1.1.1",
@@ -16,7 +11,7 @@ resource "tailscale_dns_nameservers" "global_dns" {
 }
 
 resource "tailscale_dns_split_nameservers" "server" {
-  domain      = var.domain
+  domain      = var.server_domain
   nameservers = data.tailscale_device.server.addresses
 }
 

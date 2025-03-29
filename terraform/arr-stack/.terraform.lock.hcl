@@ -1,7 +1,7 @@
-# This file is maintained automatically by "terraform init".
+# This file is maintained automatically by "tofu init".
 # Manual edits may be lost in future updates.
 
-provider "registry.terraform.io/1password/onepassword" {
+provider "registry.opentofu.org/1password/onepassword" {
   version     = "2.1.2"
   constraints = "~> 2.0"
   hashes = [
@@ -24,7 +24,7 @@ provider "registry.terraform.io/1password/onepassword" {
   ]
 }
 
-provider "registry.terraform.io/devops-rob/terracurl" {
+provider "registry.opentofu.org/devops-rob/terracurl" {
   version     = "1.2.2"
   constraints = "~> 1.2.2"
   hashes = [
@@ -38,7 +38,7 @@ provider "registry.terraform.io/devops-rob/terracurl" {
   ]
 }
 
-provider "registry.terraform.io/devopsarr/prowlarr" {
+provider "registry.opentofu.org/devopsarr/prowlarr" {
   version     = "3.0.2"
   constraints = "~> 3.0.2"
   hashes = [
@@ -61,7 +61,7 @@ provider "registry.terraform.io/devopsarr/prowlarr" {
   ]
 }
 
-provider "registry.terraform.io/devopsarr/radarr" {
+provider "registry.opentofu.org/devopsarr/radarr" {
   version     = "2.3.2"
   constraints = "~> 2.3.2"
   hashes = [
@@ -84,7 +84,7 @@ provider "registry.terraform.io/devopsarr/radarr" {
   ]
 }
 
-provider "registry.terraform.io/devopsarr/sonarr" {
+provider "registry.opentofu.org/devopsarr/sonarr" {
   version     = "3.4.0"
   constraints = "~> 3.4.0"
   hashes = [

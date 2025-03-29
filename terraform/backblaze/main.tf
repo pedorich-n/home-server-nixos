@@ -3,12 +3,6 @@ module "onepassword" {
   items  = ["Backblaze_Terraform", "Backblaze_Bucket_Names"]
 }
 
-data "b2_account_info" "info" {}
-
-data "netparse_url" "s3_base_url" {
-  url = data.b2_account_info.info.s3_api_url
-}
-
 resource "b2_bucket" "managed_buckets" {
   for_each = module.onepassword.secrets.Backblaze_Bucket_Names
 
@@ -76,7 +70,7 @@ resource "onepassword_item" "buckets_with_b2_info" {
       field {
         label = "url"
         type  = "STRING"
-        value = "${data.netparse_url.s3_base_url.authority}/${section.value.bucket_name}"
+        value = "${data.corefunc_url_parse.s3_base_url.host}/${section.value.bucket_name}"
       }
     }
   }

@@ -1,8 +1,8 @@
 terraform {
   required_providers {
-    netparse = {
-      source  = "gmeligio/netparse"
-      version = "~> 0.0.3"
+    corefunc = {
+      source  = "northwood-labs/corefunc"
+      version = "~> 1.5.1"
     }
 
     b2 = {

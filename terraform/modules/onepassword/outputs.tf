@@ -3,6 +3,5 @@ output "vault_homelab" {
 }
 
 output "secrets" {
-  value     = local.secrets
-  sensitive = true
+  value = local.secrets
 }

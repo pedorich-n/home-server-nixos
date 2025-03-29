@@ -1,7 +1,7 @@
-variable "hostname" {
+variable "server_hostname" {
   type = string
 }
 
-variable "domain" {
+variable "server_domain" {
   type = string
 }
