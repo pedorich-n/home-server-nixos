@@ -1,14 +1,7 @@
 terraform {
-  required_providers {
-    tailscale = {
-      source  = "tailscale/tailscale"
-      version = "~> 0.18"
-    }
-  }
-
   backend "s3" {
     bucket     = var.s3_backend_bucket
-    key        = "homelab/tailscale/terraform.tfstate"
+    key        = "homelab/arr-stack/terraform.tfstate"
     access_key = var.s3_backend_application_key_id
     secret_key = var.s3_backend_application_key
 
@@ -21,8 +14,4 @@ terraform {
       s3 = "https://s3.us-east-005.backblazeb2.com"
     }
   }
-}
-
-provider "tailscale" {
-  api_key = module.onepassword.secrets.Tailscale.API.key
 }
