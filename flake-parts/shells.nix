@@ -32,6 +32,14 @@
 
             OP_ACCOUNT=$(op account list --format=json | jq -r '.[0] | .user_uuid')
             export OP_ACCOUNT
+
+            echo "Getting values from 1Password..."
+            ITEM_PATH="op://HomeLab/Backblaze_Terraform_State/Homelab"
+            TF_VAR_s3_backend_application_key=$(op read "''${ITEM_PATH}/application_key")
+            TF_VAR_s3_backend_application_key_id=$(op read "''${ITEM_PATH}/application_key_id")
+            TF_VAR_s3_backend_bucket=$(op read "''${ITEM_PATH}/bucket")
+
+            export TF_VAR_s3_backend_application_key TF_VAR_s3_backend_application_key_id TF_VAR_s3_backend_bucket
           fi
         '';
       };
