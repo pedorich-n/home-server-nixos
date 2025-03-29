@@ -429,7 +429,6 @@
         "quadlet-nix": "quadlet-nix",
         "sops-nix": "sops-nix",
         "systems": "systems",
-        "terranix": "terranix",
         "trash-guides": "trash-guides"
       }
     },
@@ -465,36 +464,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default-linux",
-        "type": "github"
-      }
-    },
-    "terranix": {
-      "inputs": {
-        "bats-assert": [],
-        "bats-support": [],
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ],
-        "systems": [
-          "systems"
-        ],
-        "terranix-examples": []
-      },
-      "locked": {
-        "lastModified": 1734441080,
-        "narHash": "sha256-8XTKUEcZmJX6SBqTomXCIzmQqBgPEx6OnTsucYUQFrk=",
-        "owner": "pedorich-n",
-        "repo": "terranix",
-        "rev": "eda482813dce03b711a49de3bde5aee12461eee5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pedorich-n",
-        "ref": "local-merged",
-        "repo": "terranix",
         "type": "github"
       }
     },

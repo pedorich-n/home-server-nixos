@@ -14,5 +14,4 @@
 - Another tool manage runtime secrets in NixOS, with additional bells and whistles: https://github.com/Mic92/sops-nix
 - Declarative disk management in NixOS: https://github.com/nix-community/disko
 - Very cool tool for remote deployments https://github.com/serokell/deploy-rs
-- Terraform written in Nix: https://github.com/terranix/terranix
 - Handy tool to keep track of non-Nix dependencies: https://github.com/lilydjwg/nvchecker
