@@ -57,12 +57,12 @@
   "immich-machine-learning": {
     "container": "immich-app/immich-machine-learning",
     "registry": "ghcr.io",
-    "version": "v1.130.3"
+    "version": "v1.131.1"
   },
   "immich-server": {
     "container": "immich-app/immich-server",
     "registry": "ghcr.io",
-    "version": "v1.130.3"
+    "version": "v1.131.1"
   },
   "jellyfin": {
     "container": "jellyfin/jellyfin",
