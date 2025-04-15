@@ -28,8 +28,8 @@
           {% set room = summary[0] | lower %}
           {{ 
             { 
-              "climate": "climate.{{ room }}_ac",
-              "temperature": "sensor.{{ room }}_temperature_avg"
+              "climate": "climate.{}_ac".format(room),
+              "temperature": "sensor.{}_temperature_avg".format(room)
             } 
           }}
         mode: |
