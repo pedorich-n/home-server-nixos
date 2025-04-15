@@ -65,11 +65,6 @@ let
       container = "koenkk/zigbee2mqtt";
     };
 
-    nodered = registries.docker {
-      container = "nodered/node-red";
-      include_regex = regexes.semverLike;
-    };
-
     homeassistant-mariadb = registries.docker {
       container = "library/mariadb";
       exclude_regex = regexes.rc;

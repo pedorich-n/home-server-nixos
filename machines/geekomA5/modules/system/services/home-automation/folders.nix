@@ -24,8 +24,6 @@ let
       "mosquitto/data"
       "mosquitto/log"
 
-      "nodered"
-
       "postgresql"
 
       "zigbee2mqtt"

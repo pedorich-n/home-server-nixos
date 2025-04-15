@@ -141,31 +141,6 @@ in
           { };
       };
 
-      nodered = {
-        requiresTraefikNetwork = true;
-        wantsAuthentik = true;
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
-        autoStart = false;
-
-        containerConfig = {
-          environments = {
-            TZ = "${config.time.timeZone}";
-            NODE_RED_ENABLE_PROJECTS = "true";
-          };
-          volumes = [
-            (mappedVolumeForUser "${storeRoot}/nodered" "/data")
-          ];
-          labels = containerLib.mkTraefikLabels {
-            name = "nodered";
-            port = 1880;
-            middlewares = [ "authentik@docker" ];
-          };
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-      };
-
     };
   };
 }
