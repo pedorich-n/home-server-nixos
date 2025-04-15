@@ -58,13 +58,12 @@ in
           volumes = [
             (mappedVolumeForUser "${storeRoot}/zigbee2mqtt" "/app/data")
             (mappedVolumeForUser config.sops.secrets."home-automation/zigbee2mqtt_secrets.yaml".path "/app/data/secrets.yaml")
-            "/run/udev:/run/udev:ro"
           ];
           addGroups = [
             (builtins.toString config.users.groups.zigbee.gid)
           ];
           devices = [
-            "/dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0:/dev/ttyZigbee"
+            "/dev/ttyZigbee:/dev/ttyZigbee"
           ];
           labels = containerLib.mkTraefikLabels {
             name = "zigbee2mqtt";

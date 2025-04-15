@@ -22,14 +22,6 @@ advanced:
   channel: 25
   last_seen: ISO_8601
 devices:
-  "0xa4c1387f4ac9519d":
-    friendly_name: tuya_temperature_bedroom_1
-    humidity_precision: 1
-    temperature_precision: 2
-  "0xa4c138b417d5433b":
-    friendly_name: tuya_temperature_ldk_1
-    humidity_precision: 1
-    temperature_precision: 2
   "0xa4c13844697d3aa2":
     friendly_name: hallway_wardrobe_led_controller_1
     homeassistant:
