@@ -165,6 +165,12 @@ in
             - name: nvme
               autodetection_retry: 30
         '';
+
+        "go.d/smartctl.conf" = pkgs.writeText "netdata-smartctl.conf" ''
+          jobs:
+            - name: smartctl
+              no_check_power_mode: never
+        '';
         #!SECTION
       };
     };
