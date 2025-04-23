@@ -286,11 +286,11 @@
     },
     "nixpkgs-netdata": {
       "locked": {
-        "lastModified": 1743723709,
-        "narHash": "sha256-kRBPeisqwRjEYHjnDVMKAxMczFx1fXaFQeyfmnNWmKU=",
+        "lastModified": 1745284628,
+        "narHash": "sha256-vS6cy1MTBcqAt2bWxMgbWCAOFVOzX83l2dSDPKlQymE=",
         "owner": "rhoriguchi",
         "repo": "nixpkgs",
-        "rev": "bb81a267b3eb398ec1d4f86d7ebdcba3a4a31263",
+        "rev": "547813ca4c118818947eccbb63be2506b5bbcdfd",
         "type": "github"
       },
       "original": {
