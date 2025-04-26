@@ -43,6 +43,5 @@
         renegotiation = false;
       };
     };
-
   };
 }

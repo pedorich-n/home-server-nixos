@@ -121,7 +121,7 @@ in
             "traefik.tcp.routers.authentik-ldap-outpost.entrypoints=ldap"
             "traefik.tcp.routers.authentik-ldap-outpost.service=authentik-ldap-outpost"
           ];
-          inherit networks;
+          networks = networks ++ [ "traefik" ];
           inherit (containerLib.containerIds) user;
         };
       };

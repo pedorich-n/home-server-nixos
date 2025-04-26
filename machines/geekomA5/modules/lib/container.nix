@@ -12,7 +12,6 @@
         "traefik.enable=true"
         "traefik.http.routers.${name}.rule=${rule}"
         "traefik.http.routers.${name}.entrypoints=web"
-        "traefik.http.routers.${name}.service=${name}"
         "traefik.http.routers.${name}.priority=${builtins.toString priority}"
       ]
       ++ lib.optional (middlewares != [ ]) "traefik.http.routers.${name}.middlewares=${lib.concatStringsSep ", " middlewares}"

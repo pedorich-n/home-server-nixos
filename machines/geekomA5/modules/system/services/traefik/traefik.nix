@@ -6,6 +6,7 @@
       traefik-ldap = { port = 389; openFirewall = true; };
       traefik-mqtt = { port = 1883; openFirewall = true; };
       traefik-web = { port = 80; openFirewall = true; };
+      traefik-web-secure = { port = 443; openFirewall = true; };
       traefik-metrics = { port = 9100; openFirewall = false; };
     };
     udp = {
@@ -14,9 +15,10 @@
     };
   };
 
+  users.users.traefik.extraGroups = [ "podman" ];
+
   services.traefik = {
     enable = true;
-    group = "podman";
 
     staticConfigOptions = {
       log = {
@@ -40,12 +42,28 @@
         };
       };
 
+
+      certificatesResolvers.step-ca = {
+        acme = {
+          email = "";
+          caServer = "https://ca.${config.custom.networking.domain}:${config.custom.networking.ports.tcp.step-ca.portStr}/acme/acme/directory";
+          storage = "/var/lib/traefik/acme.json";
+          tlsChallenge = { };
+        };
+      };
+
       entryPoints = {
         ldap.address = ":${config.custom.networking.ports.tcp.traefik-ldap.portStr}";
         mqtt.address = ":${config.custom.networking.ports.tcp.traefik-mqtt.portStr}";
 
         metrics.address = ":${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
         web.address = ":${config.custom.networking.ports.tcp.traefik-web.portStr}";
+        web-secure = {
+          address = ":${config.custom.networking.ports.tcp.traefik-web-secure.portStr}";
+          http = {
+            tls.certresolver = "step-ca";
+          };
+        };
 
         jellyfin-service-discovery.address = ":${config.custom.networking.ports.udp.traefik-jellyfin-service-discovery.portStr}/udp";
         jellyfin-client-discovery.address = ":${config.custom.networking.ports.udp.traefik-jellyfin-client-discovery.portStr}/udp";
@@ -73,7 +91,7 @@
           };
 
           traefik = {
-            entryPoints = [ "web" ];
+            entryPoints = [ "web" "web-secure" ];
             rule = "Host(`traefik.${config.custom.networking.domain}`)";
             service = "traefik";
             middlewares = [ "authentik@docker" ];
