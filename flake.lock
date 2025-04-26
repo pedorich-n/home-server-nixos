@@ -189,7 +189,6 @@
         "nixpkgs": [
           "nixpkgs-unstable"
         ],
-        "nixpkgs-nix": [],
         "rust-overlay": [],
         "systems": [
           "systems"
@@ -197,11 +196,11 @@
         "tomorrow-theme-source": "tomorrow-theme-source"
       },
       "locked": {
-        "lastModified": 1745066971,
-        "narHash": "sha256-AB03aGU8ySWNyZFOLdDaw45UkggiuU8jF+BrpgxEFp0=",
+        "lastModified": 1745633255,
+        "narHash": "sha256-kqXTq55966Brh8MBeVwanL1YCMK8b7PCpCLqzUDoIC4=",
         "owner": "pedorich-n",
         "repo": "home-manager-config",
-        "rev": "9d09d0e18a5e79d41b9e0777e70e186792c20a3f",
+        "rev": "88e5e1cd24d6bce51744e8af88adbcb8a42368d1",
         "type": "github"
       },
       "original": {
