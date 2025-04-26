@@ -50,7 +50,7 @@ in
           max-players = 10;
           enable-status = true;
           enforce-secure-profile = false;
-          max-world-size = 8000; # Value is a radius, so the world size is 16000x16000
+          max-world-size = 20000; # Value is a radius, so the world size is 40000x40000
           spawn-protection = 0;
         };
         jvmOpts = aikarFlagsWith { memory = "6144M"; };
