@@ -28,7 +28,6 @@
       url = "github:pedorich-n/home-manager-config";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
-        nixpkgs-nix.follows = "";
         systems.follows = "systems";
         flake-parts.follows = "flake-parts";
         flake-utils.follows = "flake-utils";

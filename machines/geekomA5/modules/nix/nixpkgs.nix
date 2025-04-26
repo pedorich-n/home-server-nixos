@@ -1,5 +1,5 @@
 #LINK - overlays/custom-packages.nix
-{ inputs, overlays, pkgs, ... }:
+{ inputs, overlays, lib, pkgs, pkgs-unstable, ... }:
 {
   nixpkgs = {
     overlays = [
@@ -8,6 +8,12 @@
       inputs.playit-nixos-module.overlays.default
       overlays.mc-monitor
       overlays.minecraft-modpack
+      (_: prev:
+        lib.optionalAttrs (!(prev.formats ? "xml")) {
+          formats = prev.formats // {
+            xml = pkgs-unstable.formats.xml;
+          };
+        })
     ];
   };
 
