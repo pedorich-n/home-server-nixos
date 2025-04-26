@@ -71,6 +71,32 @@ let
     };
   };
 
+  stepCaSecrets =
+    let
+      mkStepCaSecret = args: {
+        owner = config.users.users.step-ca.name;
+        group = config.users.users.step-ca.group;
+      } // args;
+    in
+    {
+      "step-ca/intermediate/certificate" = mkStepCaSecret {
+        sopsFile = sopsFilePathFor "step-ca/intermediate/ca.crt";
+        format = "binary";
+      };
+
+      "step-ca/intermediate/key" = mkStepCaSecret {
+        sopsFile = sopsFilePathFor "step-ca/intermediate/ca.key";
+        format = "binary";
+      };
+
+      "step-ca/intermediate/password" = mkStepCaSecret { };
+
+      "step-ca/root/certificate" = mkStepCaSecret {
+        sopsFile = sopsFilePathFor "step-ca/root/ca.crt";
+        format = "binary";
+      };
+    };
+
 in
 {
   sops = {
@@ -131,6 +157,7 @@ in
       resticSecrets
       (lib.mkIf (config.services ? ngrok && config.services.ngrok.enable) ngrokSecrets)
       (lib.mkIf (config.services ? playit && config.services.playit.enable) playitSecrets)
+      (lib.mkIf config.services.step-ca.enable stepCaSecrets)
     ];
   };
 }
