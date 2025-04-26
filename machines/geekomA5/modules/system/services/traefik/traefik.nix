@@ -80,6 +80,13 @@
               permanent = true;
             };
           };
+
+          secure-redirect = {
+            redirectScheme = {
+              scheme = "https";
+              permanent = true;
+            };
+          };
         };
 
         routers = {

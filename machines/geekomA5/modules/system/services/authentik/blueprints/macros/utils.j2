@@ -8,13 +8,14 @@
     order: 0
 {% endmacro %}
 
-{% macro generate_url(slug, domain_name) -%}
+{% macro generate_url(slug, domain_name, secure=false) -%}
   {% if domain_name is not defined %}
 {% set domain = server_domain %}
   {% else %}
 {% set domain = domain_name %}
   {% endif %}
-http://{{ slug }}.{{ domain }}
+{% set scheme = "https://" if secure else "http://" -%}
+{{ scheme }}{{ slug }}.{{ domain }}
 {%- endmacro %}
 
 {% macro generate_icon(slug, base_url) -%}

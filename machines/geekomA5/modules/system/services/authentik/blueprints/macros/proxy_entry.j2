@@ -1,11 +1,11 @@
 {% import "macros/utils.j2" as utils with context %}
 
 
-{% macro proxy_entry(name, slug, application_group, url, icon, access_group, access_token_validity="days=30", refresh_token_validity="days=180") -%}
+{% macro proxy_entry(name, slug, application_group, url, icon, access_group, access_token_validity="days=30", refresh_token_validity="days=180", secure=false) -%}
   {% if url is defined %}
 {% set final_url = url %}
   {% else %}
-{% set final_url = utils.generate_url(slug) %}
+{% set final_url = utils.generate_url(slug, secure=secure) %}
   {% endif %}
   {% if icon is defined %}
 {% set final_icon = icon %}

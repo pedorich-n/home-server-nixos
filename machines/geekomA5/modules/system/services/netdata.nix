@@ -176,11 +176,20 @@ in
     };
 
     traefik.dynamicConfigOptions.http = {
-      routers.netdata = {
-        entryPoints = [ "web" ];
-        rule = "Host(`netdata.${config.custom.networking.domain}`)";
-        service = "netdata";
-        middlewares = [ "authentik@docker" ];
+      routers = {
+        netdata = {
+          entryPoints = [ "web" ];
+          rule = "Host(`netdata.${config.custom.networking.domain}`)";
+          service = "netdata";
+          middlewares = [ "secure-redirect@file" ];
+        };
+
+        netdata-secure = {
+          entryPoints = [ "web-secure" ];
+          rule = "Host(`netdata.${config.custom.networking.domain}`)";
+          service = "netdata";
+          middlewares = [ "authentik@docker" ];
+        };
       };
 
       services.netdata = {
