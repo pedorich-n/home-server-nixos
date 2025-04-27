@@ -9,9 +9,9 @@
     intermediatePasswordFile = config.sops.secrets."step-ca/intermediate/password".path;
 
     settings = {
-      crt = config.sops.secrets."step-ca/intermediate/certificate".path;
+      crt = config.custom.certificates."step-ca/intermediate-ca.crt";
       key = config.sops.secrets."step-ca/intermediate/key".path;
-      root = config.sops.secrets."step-ca/root/certificate".path;
+      root = config.custom.certificates."step-ca/root-ca.crt";
       dnsNames = [
         "ca.${config.custom.networking.domain}"
       ];
