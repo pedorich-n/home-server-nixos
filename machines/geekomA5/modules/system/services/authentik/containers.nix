@@ -103,6 +103,7 @@ in
       };
 
       authentik-ldap = {
+        requiresTraefikNetwork = true;
         useGlobalContainers = true;
         usernsAuto = {
           enable = true;
@@ -121,7 +122,7 @@ in
             "traefik.tcp.routers.authentik-ldap-outpost.entrypoints=ldap"
             "traefik.tcp.routers.authentik-ldap-outpost.service=authentik-ldap-outpost"
           ];
-          networks = networks ++ [ "traefik" ];
+          inherit networks;
           inherit (containerLib.containerIds) user;
         };
       };

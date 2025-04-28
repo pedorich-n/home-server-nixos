@@ -9,7 +9,7 @@ _: {
       hourly = 24;
       daily = 14;
       weekly = 4;
-      monthly = 6;
+      monthly = 3;
     };
 
     autoScrub = {
