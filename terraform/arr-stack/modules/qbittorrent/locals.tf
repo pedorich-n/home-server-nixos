@@ -23,6 +23,18 @@ locals {
     anonymous_mode = false
 
     max_ratio        = 2
-    queueing_enabled = false
+    queueing_enabled = true
+
+    max_active_downloads = 2
+    max_active_uploads   = 50
+    max_active_torrents  = 100
+
+    dont_count_slow_torrents       = true
+    slow_torrent_dl_rate_threshold = 500
+    slow_torrent_ul_rate_threshold = 100
+    slow_torrent_inactive_timer    = 60
+
+    autorun_enabled = true
+    autorun_program = "/opt/scripts/auto_unrar.sh \"%R\""
   }
 }

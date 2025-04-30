@@ -51,6 +51,7 @@ let
       "downloads/usenet/complete/prowlarr"
 
       "downloads/torrent"
+      "downloads/torrent/temporary"
       "downloads/torrent/incomplete"
       "downloads/torrent/complete"
       "downloads/torrent/complete/tv"

@@ -100,6 +100,7 @@ in
           volumes = [
             (mappedVolumeForUser "${storeRoot}/qbittorrent/config" "/config")
             (mappedVolumeForUser "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
+            "${./qbittorrent/auto_unrar.sh}:/opt/scripts/auto_unrar.sh"
           ];
           networks = [ "gluetun.container" ];
           inherit (containerLib.containerIds) user;
