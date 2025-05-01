@@ -126,7 +126,8 @@
   },
   "sonarr": {
     "container": "linuxserver/sonarr",
-    "registry": "docker.io"
+    "registry": "docker.io",
+    "version": "4.0.14"
   },
   "zigbee2mqtt": {
     "container": "koenkk/zigbee2mqtt",
