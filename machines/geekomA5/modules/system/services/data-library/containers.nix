@@ -16,22 +16,11 @@ let
   storeRoot = "/mnt/store/data-library";
   externalStoreRoot = "/mnt/external/data-library";
 
-  containerIds = {
-    uid = 1100;
-    gid = 1100;
-  };
-
   mappedVolumeForUser = localPath: remotePath:
     containerLib.mkIdmappedVolume
       {
-        uidNamespace = containerIds.uid;
         uidHost = config.users.users.user.uid;
-        uidCount = 1;
-        uidRelative = true;
-        gidNamespace = containerIds.gid;
         gidHost = config.users.groups.${config.users.users.user.group}.gid;
-        gidCount = 1;
-        gidRelative = true;
       }
       localPath
       remotePath;
@@ -79,7 +68,7 @@ in
           healthCmd = "/gluetun-entrypoint healthcheck";
           healthStartPeriod = "15s";
           healthTimeout = "5s";
-          healthInterval = "10s";
+          healthInterval = "30s";
           healthRetries = 5;
           notify = "healthy";
           volumes = [
