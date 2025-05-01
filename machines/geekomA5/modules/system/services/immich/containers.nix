@@ -15,7 +15,7 @@ let
   sharedEnvs = {
     # https://immich.app/docs/install/environment-variables/
     TZ = "${config.time.timeZone}";
-    REDIS_HOSTNAME = "immich-redis";
+    REDIS_HOSTNAME = "immich-valkey";
     DB_HOSTNAME = "immich-vectordb";
 
     IMMICH_TELEMETRY_INCLUDE = "all"; # See https://immich.app/docs/features/monitoring#prometheus
@@ -32,7 +32,7 @@ in
         usernsAuto.enable = true;
 
         containerConfig = {
-          image = "registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0";
+          image = "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52";
           environments = sharedEnvs;
           environmentFiles = [ config.sops.secrets."immich/postgresql.env".path ];
           volumes = [
@@ -43,11 +43,11 @@ in
         };
       };
 
-      immich-redis = {
+      immich-valkey = {
         usernsAuto.enable = true;
+        useGlobalContainers = true;
 
         containerConfig = {
-          image = "registry.hub.docker.com/library/redis:6.2-alpine@sha256:84882e87b54734154586e5f8abd4dce69fe7311315e2fc6d67c29614c8de2672";
           volumes = [
             (mappedVolumeForUser "${storeRoot}/redis" "/data")
           ];
@@ -73,7 +73,7 @@ in
 
         unitConfig = systemdLib.requiresAfter
           [
-            "immich-redis.service"
+            "immich-valkey.service"
             "immich-vectordb.service"
           ]
           { };
@@ -113,7 +113,7 @@ in
 
         unitConfig = systemdLib.requiresAfter
           [
-            "immich-redis.service"
+            "immich-valkey.service"
             "immich-vectordb.service"
           ]
           { };

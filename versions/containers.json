@@ -64,6 +64,11 @@
     "registry": "ghcr.io",
     "version": "v1.132.3"
   },
+  "immich-valkey": {
+    "container": "valkey/valkey",
+    "registry": "docker.io",
+    "version": "8.1.1-bookworm"
+  },
   "jellyfin": {
     "container": "jellyfin/jellyfin",
     "registry": "docker.io",

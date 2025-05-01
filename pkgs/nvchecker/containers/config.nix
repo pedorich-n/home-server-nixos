@@ -87,6 +87,11 @@ let
       include_regex = regexes.semverLike;
     };
 
+    immich-valkey = registries.docker {
+      container = "valkey/valkey";
+      include_regex = "^8\\.\\d+\\.\\d+-bookworm";
+    };
+
     multiscrobbler = registries.docker {
       container = "foxxmd/multi-scrobbler";
     };
