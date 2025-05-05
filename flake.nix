@@ -3,8 +3,6 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    nixpkgs-netdata.url = "github:rhoriguchi/nixpkgs/netdata";
-
     systems.url = "github:nix-systems/default-linux";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
@@ -32,6 +30,7 @@
         flake-parts.follows = "flake-parts";
         flake-utils.follows = "flake-utils";
         home-manager.follows = "home-manager";
+        nixpkgs-cassandra.follows = "";
         nix-vscode-extensions.follows = "";
         rust-overlay.follows = "";
       };

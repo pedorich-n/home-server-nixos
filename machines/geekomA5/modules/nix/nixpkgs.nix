@@ -1,5 +1,5 @@
 #LINK - overlays/custom-packages.nix
-{ inputs, overlays, lib, pkgs, pkgs-unstable, ... }:
+{ inputs, overlays, lib, pkgs-unstable, ... }:
 {
   nixpkgs = {
     overlays = [
@@ -9,16 +9,20 @@
       overlays.mc-monitor
       overlays.minecraft-modpack
       (_: prev:
-        lib.optionalAttrs (!(prev.formats ? "xml")) {
+        # FIXME: should probably be auto-fixed in 25.05
+        (lib.optionalAttrs (!(prev.formats ? "xml")) {
           formats = prev.formats // {
             xml = pkgs-unstable.formats.xml;
           };
         })
+      )
+      (_: prev:
+        (lib.optionalAttrs (!((prev.formats.ini { }) ? "lib")) {
+          formats = prev.formats // {
+            ini = pkgs-unstable.formats.ini;
+          };
+        })
+      )
     ];
-  };
-
-  _module.args.pkgs-netdata = import inputs.nixpkgs-netdata {
-    inherit (pkgs) config overlays;
-    inherit (pkgs.stdenv.hostPlatform) system;
   };
 }
