@@ -1,20 +1,16 @@
 { config, pkgs, ... }:
 {
   boot = {
-    supportedFilesystems = {
-      zfs = true;
+    initrd = {
+      network.ssh.hostKeys = [
+        "/etc/initrd/ssh/ssh_host_rsa_key"
+        "/etc/initrd/ssh/ssh_host_ed25519_key"
+      ];
+      systemd.network.networks."10-uplink" = config.systemd.network.networks."10-uplink";
     };
 
-    initrd = {
-      # https://gist.github.com/CMCDragonkai/810f78ee29c8fce916d072875f7e1751
-      availableKernelModules = [
-        "ahci" # SATA devices on modern AHCI controllers
-        "sd_mod" # SCSI, SATA, and PATA (IDE) devices
-        "nvme" # NVME Drives
-        "sdhci_pci" # SD Card
-
-        "usbcore" # USB modules (USB 2.0, USB 3.0, USB HID, etc)
-      ];
+    supportedFilesystems = {
+      zfs = true;
     };
 
     # TODO: use linuxPackages_latest once ZFS kernel module is compatible

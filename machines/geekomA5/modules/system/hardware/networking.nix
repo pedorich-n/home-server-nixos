@@ -22,7 +22,7 @@
         enable = true;
 
         networks = {
-          "10-eth" = {
+          "10-uplink" = {
             name = "enp2s0";
 
             networkConfig = {

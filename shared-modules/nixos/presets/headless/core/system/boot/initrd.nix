@@ -1,0 +1,36 @@
+{ config, lib, ... }: {
+  boot.initrd = {
+    supportedFilesystems = {
+      ext4 = lib.mkDefault true;
+    };
+
+    # https://gist.github.com/CMCDragonkai/810f78ee29c8fce916d072875f7e1751
+    availableKernelModules = [
+      # Storage
+      "ahci" # SATA devices on modern AHCI controllers
+      "sd_mod" # SCSI, SATA, and PATA (IDE) devices
+      "nvme" # NVME Drives
+
+      "xhci_pci" # USB 3.0 (eXtensible Host Controller Interface)
+      "ehci_pci" # USB 2.0 (Enhanced Host Controller Interface)
+    ];
+
+    systemd = {
+      enable = lib.mkDefault true;
+    };
+
+    network = {
+      enable = lib.mkDefault true;
+
+      ssh = lib.mkMerge [
+        {
+          enable = lib.mkDefault true;
+          port = lib.mkDefault 2222; # To avoid ssh client complaining about different Host Key
+        }
+        (lib.mkIf (config ? custom.ssh.keys) {
+          authorizedKeys = lib.mkDefault config.custom.ssh.keys;
+        })
+      ];
+    };
+  };
+}
