@@ -1,7 +1,7 @@
 { flake, ... }: {
   perSystem = { pkgs, deployPkgs, lib, ... }: {
     apps = {
-      generate-host-key.program = pkgs.callPackage ../pkgs/generate-host-key { };
+      generate-host-keys.program = pkgs.callPackage ../pkgs/generate-host-keys { };
 
       deploy.program = pkgs.writeShellScriptBin "deploy-nixos" ''
         system=$1
