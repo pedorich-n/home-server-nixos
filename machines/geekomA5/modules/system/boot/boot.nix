@@ -2,6 +2,10 @@
 {
   boot = {
     initrd = {
+      availableKernelModules = [
+        "r8169" # Ethernet. Detected with `lspci -v`
+      ];
+
       network.ssh.hostKeys = [
         "/etc/initrd/ssh/ssh_host_rsa_key"
         "/etc/initrd/ssh/ssh_host_ed25519_key"
