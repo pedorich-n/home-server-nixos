@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, containerLib, systemdLib, ... }:
+{ inputs, config, lib, pkgs, containerLib, systemdLib, ... }:
 let
   storeRoot = "/mnt/store/home-automation";
 
@@ -74,10 +74,10 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.requiresAfter [ "mosquitto.service" ] {
-          BindsTo = [ "dev-ttyZigbee.device" ];
-          After = [ "dev-ttyZigbee.device" ];
-        };
+        unitConfig = lib.mkMerge [
+          (systemdLib.requiresAfter [ "mosquitto.service" ])
+          (systemdLib.bindsToAfter [ "dev-ttyZigbee.device" ])
+        ];
       };
 
       homeassistant-postgresql = {
@@ -135,12 +135,10 @@ in
           inherit networks;
         };
 
-        unitConfig = systemdLib.requiresAfter
-          [
-            "homeassistant-postgresql.service"
-            "mosquitto.service"
-          ]
-          { };
+        unitConfig = systemdLib.requiresAfter [
+          "homeassistant-postgresql.service"
+          "mosquitto.service"
+        ];
       };
 
     };

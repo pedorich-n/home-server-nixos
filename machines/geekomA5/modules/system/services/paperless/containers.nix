@@ -86,12 +86,10 @@ in
           inherit networks;
         };
 
-        unitConfig = systemdLib.requiresAfter
-          [
-            "paperless-redis.service"
-            "paperless-postgresql.service"
-          ]
-          { };
+        unitConfig = systemdLib.requiresAfter [
+          "paperless-redis.service"
+          "paperless-postgresql.service"
+        ];
       };
     };
   };

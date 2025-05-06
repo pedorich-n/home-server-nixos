@@ -1,4 +1,4 @@
-{ config, containerLib, systemdLib, pkgs, ... }:
+{ config, lib, containerLib, systemdLib, pkgs, ... }:
 let
   storeRoot = "/mnt/store/server-management/authentik";
 
@@ -86,14 +86,15 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.requiresAfter
-          [
+        unitConfig = lib.mkMerge [
+          (systemdLib.requiresAfter [
             "authentik-redis.service"
             "authentik-postgresql.service"
-          ]
+          ])
           {
             After = [ "authentik-server.service" ];
-          };
+          }
+        ];
 
         serviceConfig = {
           # Quite often the worker's healthcheck gets stuck for some reason. 
@@ -167,12 +168,10 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.requiresAfter
-          [
-            "authentik-redis.service"
-            "authentik-postgresql.service"
-          ]
-          { };
+        unitConfig = systemdLib.requiresAfter [
+          "authentik-redis.service"
+          "authentik-postgresql.service"
+        ];
 
         serviceConfig = {
           # Sometimes server's healthcheck gets stuck for some reason as well. 

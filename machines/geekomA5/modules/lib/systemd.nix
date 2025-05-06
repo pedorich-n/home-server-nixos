@@ -1,8 +1,13 @@
-{ lib, ... }: {
+_: {
   _module.args.systemdLib = {
-    requiresAfter = services: cfg: cfg // {
-      Requires = (cfg.Requires or [ ]) ++ (if (lib.isList services) then services else [ services ]);
-      After = (cfg.After or [ ]) ++ (if (lib.isList services) then services else [ services ]);
+    requiresAfter = services: {
+      Requires = services;
+      After = services;
+    };
+
+    bindsToAfter = services: {
+      BindsTo = services;
+      After = services;
     };
   };
 }

@@ -49,10 +49,10 @@
       };
     };
 
-    withAlpineHostsFix = cfg: cfg // {
+    alpineHostsFix = {
       #NOTE - there's a bug with musl or C libs or something in alpine-based images with resolving .lan domains; 
       # dig & nslookup resolves the domain, but curl fails, and the call to OIDC discovery fails too. Providing hard-coded host seems to help.
-      addHosts = (cfg.addHosts or [ ]) ++ [ "authentik.${config.custom.networking.domain}:192.168.10.15" ];
+      addHosts = [ "authentik.${config.custom.networking.domain}:192.168.10.15" ];
     };
 
     # UID:GID to use with `--user` or `PUID`, `GUID` inside the container. Arbitrary values.

@@ -71,12 +71,10 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.requiresAfter
-          [
-            "immich-valkey.service"
-            "immich-vectordb.service"
-          ]
-          { };
+        unitConfig = systemdLib.requiresAfter [
+          "immich-valkey.service"
+          "immich-vectordb.service"
+        ];
       };
 
       immich-server = {
@@ -111,12 +109,10 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.requiresAfter
-          [
-            "immich-valkey.service"
-            "immich-vectordb.service"
-          ]
-          { };
+        unitConfig = systemdLib.requiresAfter [
+          "immich-valkey.service"
+          "immich-vectordb.service"
+        ];
       };
     };
 

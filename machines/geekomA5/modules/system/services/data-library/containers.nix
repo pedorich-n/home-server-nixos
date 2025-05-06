@@ -1,4 +1,4 @@
-{ config, containerLib, ... }:
+{ config, lib, containerLib, systemdLib, ... }:
 let
   networks = [ "data-library-internal.network" ];
 
@@ -100,10 +100,7 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = {
-          BindsTo = [ "gluetun.service" ];
-          After = [ "gluetun.service" ];
-        };
+        unitConfig = systemdLib.bindsToAfter [ "gluetun.service" ];
       };
 
       sabnzbd = {
@@ -245,25 +242,28 @@ in
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
-        containerConfig = containerLib.withAlpineHostsFix rec {
-          environments = defaultEnvs // {
-            PORT = "8080";
-          };
-          healthCmd = "curl http://localhost:${environments.PORT}/healthcheck";
-          healthStartPeriod = "5s";
-          healthTimeout = "5s";
-          healthInterval = "30s";
-          healthRetries = 5;
-          notify = "healthy";
-          volumes = [
-            (mappedVolumeForUser "${storeRoot}/audiobookshelf/config" "/config")
-            (mappedVolumeForUser "${storeRoot}/audiobookshelf/metadata" "/metadata")
-            (mappedVolumeForUser "${externalStoreRoot}/media/audiobooks" "/audiobooks")
-          ];
-          labels = containerLib.mkTraefikLabels { name = "audiobookshelf"; port = 8080; };
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
+        containerConfig = lib.mkMerge [
+          containerLib.alpineHostsFix
+          rec {
+            environments = defaultEnvs // {
+              PORT = "8080";
+            };
+            healthCmd = "curl http://localhost:${environments.PORT}/healthcheck";
+            healthStartPeriod = "5s";
+            healthTimeout = "5s";
+            healthInterval = "30s";
+            healthRetries = 5;
+            notify = "healthy";
+            volumes = [
+              (mappedVolumeForUser "${storeRoot}/audiobookshelf/config" "/config")
+              (mappedVolumeForUser "${storeRoot}/audiobookshelf/metadata" "/metadata")
+              (mappedVolumeForUser "${externalStoreRoot}/media/audiobooks" "/audiobooks")
+            ];
+            labels = containerLib.mkTraefikLabels { name = "audiobookshelf"; port = 8080; };
+            inherit networks;
+            inherit (containerLib.containerIds) user;
+          }
+        ];
       };
     };
   };
