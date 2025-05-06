@@ -31,7 +31,7 @@ pkgs.writeShellApplication {
     }
 
     # Create a temporary directory
-    temp=$(mktemp -d)
+    temp=$(mktemp --directory /tmp/keys.XXXXXXXX)
 
     types=("ed25519" "rsa")
     roots=("''${temp}/etc/ssh" "''${temp}/etc/initrd/ssh")
