@@ -10,11 +10,18 @@ pkgs.writeShellApplication {
       root=$1
       type=$2
       path="''${root}/ssh_host_''${type}_key"
+      comment=""
+
+      if [[ "''${root}" == *initrd* ]]; then
+        comment="Initrd"
+      else
+        comment="Host"
+      fi
 
       # Create new SSH key of a given type, with no passphrase, and no comment; save to the temporary directory
       ssh-keygen -t "''${type}" \
         -N "" \
-        -C "" \
+        -C "''${comment}" \
         -f "''${path}"
 
       # Set the correct permissions so sshd will accept the key

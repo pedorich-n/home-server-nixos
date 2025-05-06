@@ -4,14 +4,15 @@
 
 1. Generate custom bootable ISO: `nix run .#build-iso-minimal` or `just build-iso`
 2. Burn the ISO onto USB using [Rufus](https://rufus.ie/en/)
-3. Boot from the USB
-4. Generate & use new SSH host key
-   1. `just generate-host-keys` or `nix run .#generate-host-keys`
-   2. The output should contain the public key in plain text and path to keys in the temporary folder
-   3. Add the newly generated public key to `recipients.txt` file in `home-server-nixos-secrets` repo
-   4. Encrypt secrets & push the changes
-   5. Fetch new secrets in this repo `nix flake lock --update-input home-server-nixos-secrets`
-   6. Copy the path to the keys from the `generate-host-keys`' output
+3. Generate & use new SSH host & initrd host keys
+   1. Run `just generate-host-keys`
+   2. The output should contain path to the keys in the temporary folder
+   3. Convert the newly generated public key(s) to age by running `just convert-host-keys <path-to-keys>`
+   4. Add the converted `age` key(s) to `.sops.yaml` file in `home-server-nixos-secrets` repo
+   5. Encrypt secrets & push the changes
+   6. Fetch new secrets in this repo `nix flake update home-server-nixos-secrets`
+   7. Copy the path to the keys from the `generate-host-keys`' output
+4. Boot from the USB
 > [!CAUTION]
 > This will erase the disk and create new partitions. DATA WILL BE LOST
 4. Run `nix run github:nix-community/nixos-anywhere -- --extra-files "<path-to-keys>" --flake ".#<machine>" root@nixos`
