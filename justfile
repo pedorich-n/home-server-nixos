@@ -8,6 +8,9 @@ _build target *args:
 _run target *args:
     nix run "{{ justfile_directory() + '#' + target }}" {{ args }}
 
+_develop target:
+    nix develop "{{ justfile_directory() + '#' + target }}" 
+
 _deploy hostname *args:
     nix run "{{ justfile_directory() + '#deploy' }}" -- {{ hostname }} {{ args }}
 
@@ -35,5 +38,8 @@ generate-host-keys:
 convert-host-keys root:
     just _run convert-host-keys {{ root }}
 
-tf-shell:
-    nix develop "{{ justfile_directory() + '#tf' }}" 
+shell-tf:
+    just _develop tf
+
+shell-updater:
+    just _develop version-updater
