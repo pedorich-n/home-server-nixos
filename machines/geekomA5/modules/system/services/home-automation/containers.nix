@@ -74,7 +74,10 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.requiresAfter [ "mosquitto.service" ] { };
+        unitConfig = systemdLib.requiresAfter [ "mosquitto.service" ] {
+          BindsTo = [ "dev-ttyZigbee.device" ];
+          After = [ "dev-ttyZigbee.device" ];
+        };
       };
 
       homeassistant-postgresql = {
