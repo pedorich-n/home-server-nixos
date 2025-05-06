@@ -3,10 +3,10 @@ locals {
     nzbgeek = {
       name           = "NZBGeek"
       app_profile_id = data.prowlarr_sync_profile.standard.id
-      priority       = 20
+      priority       = 15
       fields = [
         { name = "baseUrl", text_value = "https://api.nzbgeek.info" },
-        { name = "vipExpiration", text_value = "2025-06-13" },
+        { name = "vipExpiration", text_value = "2025-12-13" },
         { name = "baseSettings.limitsUnit", number_value = 0 } # 0 means Day, 1 means Hour
       ]
     }

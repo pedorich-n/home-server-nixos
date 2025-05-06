@@ -1,8 +1,29 @@
 locals {
   indexers_torrent = {
+    therarbg = {
+      name           = "TheRARBG"
+      app_profile_id = prowlarr_sync_profile.automatic.id
+      priority       = 10
+      fields = [
+        { name = "baseUrl", text_value = "https://therarbg.to/" },
+        { name = "definitionFile", text_value = "therarbg" },
+        { name = "sort", number_value = 0 } # Created desc
+      ]
+    }
+
+    milkie = {
+      name     = "Milkie"
+      priority = 20
+      fields = [
+        { name = "baseUrl", text_value = "https://milkie.cc/" },
+        { name = "definitionFile", text_value = "milkie" },
+        { name = "apikey", text_value = var.indexer_credentials.Milkie.api_key }
+      ]
+    }
+
     torrentleech = {
       name     = "TorrentLeech"
-      priority = 10
+      priority = 25
       fields = [
         { name = "baseUrl", text_value = "https://www.torrentleech.org/" },
         { name = "definitionFile", text_value = "torrentleech" },
@@ -16,26 +37,6 @@ locals {
       ]
     }
 
-    milkie = {
-      name     = "Milkie"
-      priority = 15
-      fields = [
-        { name = "baseUrl", text_value = "https://milkie.cc/" },
-        { name = "definitionFile", text_value = "milkie" },
-        { name = "apikey", text_value = var.indexer_credentials.Milkie.api_key }
-      ]
-    }
-
-    therarbg = {
-      name           = "TheRARBG"
-      app_profile_id = prowlarr_sync_profile.automatic.id
-      priority       = 25
-      fields = [
-        { name = "baseUrl", text_value = "https://therarbg.to/" },
-        { name = "definitionFile", text_value = "therarbg" },
-        { name = "sort", number_value = 0 } # Created desc
-      ]
-    }
 
     toloka = {
       name            = "Toloka"
