@@ -34,3 +34,6 @@ generate-host-keys:
 
 convert-host-keys root:
     just _run convert-host-keys {{ root }}
+
+tf-shell:
+    nix develop "{{ justfile_directory() + '#tf' }}" 

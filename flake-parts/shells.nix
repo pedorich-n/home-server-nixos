@@ -14,6 +14,7 @@
         name = "tf";
 
         packages = with pkgs; [
+          gitMinimal
           opentofu
           tfupdate
         ];
@@ -30,6 +31,9 @@
               exit 1
             fi
 
+            ROOT="$(git rev-parse --show-toplevel)"
+            export ROOT
+
             OP_ACCOUNT=$(op account list --format=json | jq -r '.[0] | .user_uuid')
             export OP_ACCOUNT
 
@@ -40,6 +44,8 @@
             TF_VAR_s3_backend_bucket=$(op read "''${ITEM_PATH}/bucket")
 
             export TF_VAR_s3_backend_application_key TF_VAR_s3_backend_application_key_id TF_VAR_s3_backend_bucket
+
+            cd "$ROOT/terraform"
           fi
         '';
       };

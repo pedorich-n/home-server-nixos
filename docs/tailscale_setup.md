@@ -10,13 +10,33 @@ Running a DNS server on the same machine (and interface) as Tailscale pointing t
 
 It's not ideal, but it works. Here's how to set this up:
 
-1. After a machine has been added to the network for the first time go to [Tailscale Admin page](https://login.tailscale.com/admin/machines)
-2. Copy the machine's IP
-3. Go to [DNS](https://login.tailscale.com/admin/dns) settings. Under "Nameservers" add new Custom name server:
+### Terraform
+
+There's now a terraform module available to set most of the things automatically.
+
+1. Generate new [Auth Key](https://tailscale.com/kb/1085/auth-keys) for the server
+2. Add it to `home-server-nixos-secrets`
+3. Fetch new secrets in this repo `nix flake update home-server-nixos-secrets`
+4. Deploy new config, make sure the machine shows up in the [Tailscale Admin page](https://login.tailscale.com/admin/machines)
+5. Enter the terraform shell with `just tf-shell` or `nix develop .#tf`
+6. Go to `terraform/tailscale` and run `terraform init` && `terraform apply`.
+   1. This will setup the DNS in Tailscale and will disable key expiry for the server.
+7. Modify `machines/geekomA5/modules/system/services/server-management/tailscale.nix`
+   1. Set `tailscaleMachineIp` to Machine's IP from Tailscale Admin
+
+### Manual
+
+1. Generate new [Auth Key](https://tailscale.com/kb/1085/auth-keys) for the server
+2. Add it to `home-server-nixos-secrets`
+3. Fetch new secrets in this repo `nix flake update home-server-nixos-secrets`
+4. Deploy new config, make sure the machine shows up in the [Tailscale Admin page](https://login.tailscale.com/admin/machines)
+5. Copy the machine's IP from the Admin page
+6. Go to [DNS](https://login.tailscale.com/admin/dns) settings. Under "Nameservers" add new Custom name server:
    1. Set address to the machine's IP
    2. Enable Split DNS and set the domain to `server.lan`
-4. Modify `machines/geekomA5/modules/system/services/server-management/tailscale.nix`
+7. Modify `machines/geekomA5/modules/system/services/server-management/tailscale.nix`
    1. Set `tailscaleMachineIp` to Machine's IP from Tailscale Admin
-5. PROFIT
+
+---
 
 Now `*.server.lan` domains are accessible from Tailscale network
