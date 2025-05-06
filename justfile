@@ -5,6 +5,9 @@ extra_dev_config := justfile_directory() / 'dev-extra-config.nix'
 _build target *args:
     nix build "{{ justfile_directory() + '#' + target }}" {{ if args != "" { '-- ' + args } else { '' } }} 
 
+_run target *args:
+    nix run "{{ justfile_directory() + '#' + target }}" {{ args }}
+
 _deploy hostname *args:
     nix run "{{ justfile_directory() + '#deploy' }}" -- {{ hostname }} {{ args }}
 
@@ -26,5 +29,8 @@ build-iso *args:
 check:
     nix flake check "{{ justfile_directory() }}"
 
-generate-host-key:
-    nix run "{{ justfile_directory() + '#generate-host-key' }}"
+generate-host-keys:
+    just _run generate-host-keys
+
+convert-host-keys root:
+    just _run convert-host-keys {{ root }}
