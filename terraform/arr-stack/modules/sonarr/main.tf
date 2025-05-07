@@ -47,3 +47,17 @@ resource "sonarr_download_client_qbittorrent" "qbittorrent" {
   use_ssl     = var.qbittorrent_download_client_fields.use_ssl
   tv_category = "tv"
 }
+
+# NOTE - this requires manual import first
+# tofu import module.sonarr.sonarr_delay_profile.default 1
+resource "sonarr_delay_profile" "default" {
+  enable_usenet                       = true
+  enable_torrent                      = true
+  bypass_if_highest_quality           = true
+  bypass_if_above_custom_format_score = false
+  usenet_delay                        = 15
+  torrent_delay                       = 60
+  preferred_protocol                  = "usenet"
+  tags                                = []
+  order                               = 2147483647 # Copied from existing
+}
