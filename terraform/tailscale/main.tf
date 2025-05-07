@@ -19,3 +19,23 @@ resource "tailscale_device_key" "server" {
   device_id           = data.tailscale_device.server.id
   key_expiry_disabled = true
 }
+
+resource "tailscale_acl" "acl" {
+  acl = <<EOT
+    {
+      "tagOwners": {
+        "tag:initramfs": [],
+      },
+      "acls": [
+       // Allow all members to connect to any node
+       {"action": "accept", "src": ["autogroup:member"], "dst": ["*:*"] }, 
+      ],
+      "tests": [
+        // initramfs can't make outbound connections
+        {"src": "tag:initramfs", "deny": ["100.113.5.10:22", "192.168.10.5:22"] },
+        // But a user should be able to access any node
+        {"src": "pedorich.n@gmail.com", "allow": ["tag:initramfs:2222", "100.113.5.10:80"] }
+      ]
+    }
+  EOT
+}
