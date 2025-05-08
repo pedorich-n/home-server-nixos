@@ -1,4 +1,5 @@
-{ config, lib, ... }: {
+{ config, lib, ... }:
+{
   boot.initrd = {
     supportedFilesystems = {
       ext4 = lib.mkDefault true;
@@ -16,21 +17,21 @@
     ];
 
     systemd = {
-      enable = lib.mkDefault true;
+      network.enable = lib.mkIf config.boot.initrd.systemd.enable (lib.mkOverride 950 true);
     };
 
-    network = {
-      enable = lib.mkDefault true;
-
-      ssh = lib.mkMerge [
-        {
-          enable = lib.mkDefault true;
-          port = lib.mkDefault 2222; # To avoid ssh client complaining about different Host Key
-        }
-        (lib.mkIf (config ? custom.ssh.keys) {
-          authorizedKeys = lib.mkDefault config.custom.ssh.keys;
-        })
-      ];
+    services.resolved = {
+      enable = lib.mkIf config.boot.initrd.systemd.enable (lib.mkOverride 950 true);
     };
+
+    network.ssh = lib.mkMerge [
+      {
+        enable = lib.mkDefault true;
+        port = lib.mkDefault 2222; # To avoid ssh client complaining about different Host Key
+      }
+      (lib.mkIf (config ? custom.ssh.keys) {
+        authorizedKeys = lib.mkDefault config.custom.ssh.keys;
+      })
+    ];
   };
 }

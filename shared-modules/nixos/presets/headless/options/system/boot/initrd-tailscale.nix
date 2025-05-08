@@ -24,12 +24,6 @@ in
         default = "tailscale0";
         description = ''The interface name for tunnel traffic. Use "userspace-networking" (beta) to not use TUN.'';
       };
-
-      port = lib.mkOption {
-        type = lib.types.port;
-        default = 41641;
-        description = "The port to listen on for tunnel traffic (0=autoselect).";
-      };
     };
   };
 
@@ -43,41 +37,84 @@ in
         "tun"
       ];
 
+      availableKernelModules = [
+        "ip_tables"
+        "iptable_filter"
+        "iptable_nat"
+        "nf_conntrack"
+        "nf_nat"
+        "xt_mark"
+        "nft_chain_nat"
+        "nft_compat"
+        "x_tables"
+        "xt_LOG"
+        "xt_MASQUERADE"
+        "xt_addrtype"
+        "xt_comment"
+        "xt_conntrack"
+        "xt_multiport"
+        "xt_pkttype"
+        "xt_tcpudp"
+      ];
+
       secrets = {
         "/etc/tailscale/auth_key" = cfg.authKeyFile;
       };
 
       systemd = {
-        initrdBin = [
+        # Packages listed here will be included in initrd's /bin
+        initrdBin = with pkgs; [
           cfg.package
-          pkgs.iproute2
-          pkgs.iptables
-          pkgs.iputils
-        ];
-        packages = [
-          cfg.package
-          pkgs.jq
+
+          curl
+          dig
+          jq
+
+          iproute2
+          iptables
+          iputils
         ];
 
-        network.networks."50-tailscale" = {
-          matchConfig = {
-            Name = cfg.interfaceName;
-          };
-          linkConfig = {
-            Unmanaged = true;
-            ActivationPolicy = "manual";
+        storePaths = [
+          "${pkgs.glibc}/lib/libresolv.so.2"
+          "${pkgs.glibc}/lib/libnss_dns.so.2"
+        ];
+
+        network = {
+          # I don't want to stall boot if Tailscale can't connect.
+          wait-online.ignoredInterfaces = [
+            cfg.interfaceName
+          ];
+
+          networks."50-tailscale" = {
+            matchConfig = {
+              Name = cfg.interfaceName;
+            };
+            linkConfig = {
+              Unmanaged = true;
+              ActivationPolicy = "manual";
+            };
           };
         };
 
         services = {
           tailscaled = {
             wantedBy = [ "initrd.target" ];
-            after = [ "network.target" ];
+            wants = [ "network-online.target" ];
+            after = [ "network-online.target" ];
+            before = [ "shutdown.target" ];
+            conflicts = [ "shutdown.target" ];
 
-            serviceConfig.Environment = [
-              "PORT=${builtins.toString cfg.port}"
-              ''"FLAGS=--tun ${lib.escapeShellArg cfg.interfaceName}"''
-            ];
+            serviceConfig = {
+              Type = "notify";
+              ExecStart = ''
+                ${lib.getExe' cfg.package "tailscaled"} --state=mem: --tun=${lib.escapeShellArg cfg.interfaceName}
+              '';
+              ExecStopPost = "${lib.getExe' cfg.package "tailscaled"} --cleanup";
+
+              RuntimeDirectory = "tailscale";
+              RuntimeDirectoryMode = 0755;
+            };
           };
 
           tailscaled-autoconnect = {
@@ -87,18 +124,16 @@ in
               "tailscaled.service"
               "initrd-nixos-copy-secrets.service"
             ];
+            before = [ "shutdown.target" ];
+            conflicts = [ "shutdown.target" ];
 
             serviceConfig = {
               Type = "oneshot";
             };
 
-            path = [
-              pkgs.jq
-            ];
-
             script =
               let
-                statusCommand = "${lib.getExe' cfg.package "tailscale"} status --json --peers=false | jq -r '.BackendState'";
+                statusCommand = "${lib.getExe' cfg.package "tailscale"} status --json --peers=false | ${lib.getExe pkgs.jq} -r '.BackendState'";
               in
               ''
                 while [[ "$(${statusCommand})" == "NoState" ]]; do
