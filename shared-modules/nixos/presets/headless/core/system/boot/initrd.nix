@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 {
   boot.initrd = {
     supportedFilesystems = {
@@ -18,6 +18,11 @@
 
     systemd = {
       network.enable = lib.mkIf config.boot.initrd.systemd.enable (lib.mkOverride 950 true);
+
+      initrdBin = with pkgs; [
+        curlMinimal
+        dig
+      ];
     };
 
     services.resolved = {
@@ -28,6 +33,7 @@
       {
         enable = lib.mkDefault true;
         port = lib.mkDefault 2222; # To avoid ssh client complaining about different Host Key
+        shell = lib.mkDefault "/bin/bash";
       }
       (lib.mkIf (config ? custom.ssh.keys) {
         authorizedKeys = lib.mkDefault config.custom.ssh.keys;

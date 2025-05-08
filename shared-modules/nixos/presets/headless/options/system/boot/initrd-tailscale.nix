@@ -66,8 +66,6 @@ in
         initrdBin = with pkgs; [
           cfg.package
 
-          curl
-          dig
           jq
 
           iproute2
