@@ -24,6 +24,8 @@
         curlMinimal
         dig
       ];
+
+      users.root.shell = lib.mkDefault "/bin/bash";
     };
 
     services.resolved = {
@@ -34,7 +36,6 @@
       {
         enable = lib.mkDefault true;
         port = lib.mkDefault 2222; # To avoid ssh client complaining about different Host Key
-        shell = lib.mkDefault "/bin/bash";
       }
       (lib.mkIf (config ? custom.ssh.keys) {
         authorizedKeys = lib.mkDefault config.custom.ssh.keys;

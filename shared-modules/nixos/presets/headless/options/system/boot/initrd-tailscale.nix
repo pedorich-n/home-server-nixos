@@ -25,6 +25,13 @@ in
         description = ''The interface name for tunnel traffic. Use "userspace-networking" (beta) to not use TUN.'';
       };
 
+      extraDaemonFlags = lib.mkOption {
+        description = "Extra flags to pass to {command}`tailscaled`.";
+        type = lib.types.listOf lib.types.str;
+        default = [ ];
+        example = [ "--no-logs-no-support" ];
+      };
+
       extraUpFlags = lib.mkOption {
         description = ''
           Extra flags to pass to {command}`tailscale up`. Only applied if `authKeyFile` is specified.";
@@ -46,24 +53,15 @@ in
         "tun"
       ];
 
-      # TODO: this list probably can be smaller
       availableKernelModules = [
         "ip_tables"
-        "iptable_filter"
-        "iptable_nat"
         "nf_conntrack"
         "nf_nat"
-        "xt_mark"
         "nft_chain_nat"
         "nft_compat"
         "x_tables"
-        "xt_LOG"
+        "xt_mark"
         "xt_MASQUERADE"
-        "xt_addrtype"
-        "xt_comment"
-        "xt_conntrack"
-        "xt_multiport"
-        "xt_pkttype"
         "xt_tcpudp"
         "wireguard"
       ];
@@ -73,21 +71,20 @@ in
       };
 
       systemd = {
-        # Packages listed here will be included in initrd's /bin
+        # Packages listed here will be included in initrd's `/bin` by combining their `/bin` outputs into a single folder
         initrdBin = with pkgs; [
           cfg.package
 
           jq
 
+          getent
           iproute2
           iptables
           iputils
         ];
 
-        # TODO: do I actually need this? I copied it from Initrd OpenVPN
+        # Paths listed here will be copied to initrd's `/nix/store`
         storePaths = [
-          "${pkgs.glibc}/lib/libresolv.so.2"
-          "${pkgs.glibc}/lib/libnss_dns.so.2"
           "${pkgs.iptables}/lib"
         ];
 
@@ -109,6 +106,7 @@ in
         };
 
         services = {
+          # Mostly copied from https://github.com/tailscale/tailscale/blob/cb6fc37d660f4/cmd/tailscaled/tailscaled.service
           tailscaled = {
             wantedBy = [ "initrd.target" ];
             wants = [ "network-online.target" ];
@@ -118,13 +116,21 @@ in
 
             serviceConfig = {
               Type = "notify";
+
+              # See https://github.com/tailscale/tailscale/issues/13200#issuecomment-2351633313 for --statedir
               ExecStart = ''
-                ${lib.getExe' cfg.package "tailscaled"} --state=mem: --tun=${lib.escapeShellArg cfg.interfaceName}
+                ${lib.getExe' cfg.package "tailscaled"} \
+                  --tun=${lib.escapeShellArg cfg.interfaceName} \
+                  --state=mem: \
+                  --statedir="/var/lib/tailscale/" \
+                  ${lib.escapeShellArgs cfg.extraDaemonFlags}
               '';
               ExecStopPost = "${lib.getExe' cfg.package "tailscaled"} --cleanup";
 
               RuntimeDirectory = "tailscale";
               RuntimeDirectoryMode = 0755;
+              StateDirectory = "tailscale";
+              StateDirectoryMode = 0700;
             };
           };
 
