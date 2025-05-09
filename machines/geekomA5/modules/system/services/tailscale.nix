@@ -46,6 +46,6 @@ in
     package = pkgs-unstable.tailscale;
     authKeyFile = config.sops.secrets."tailscale/key".path;
 
-    extraUpFlags = [ "--accept-dns=false" ];
+    extraSetFlags = [ "--accept-dns=false" "--ssh" ];
   };
 }

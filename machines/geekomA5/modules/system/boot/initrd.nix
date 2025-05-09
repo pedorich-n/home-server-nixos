@@ -19,5 +19,7 @@
     enable = true;
 
     authKeyFile = config.sops.secrets."tailscale/initrd_key".path;
+
+    extraUpFlags = [ "--ssh" ];
   };
 }
