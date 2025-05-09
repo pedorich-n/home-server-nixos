@@ -20,6 +20,7 @@
       network.enable = lib.mkIf config.boot.initrd.systemd.enable (lib.mkOverride 950 true);
 
       initrdBin = with pkgs; [
+        bashInteractive
         curlMinimal
         dig
       ];

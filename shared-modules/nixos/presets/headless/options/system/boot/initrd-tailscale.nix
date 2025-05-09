@@ -24,6 +24,15 @@ in
         default = "tailscale0";
         description = ''The interface name for tunnel traffic. Use "userspace-networking" (beta) to not use TUN.'';
       };
+
+      extraUpFlags = lib.mkOption {
+        description = ''
+          Extra flags to pass to {command}`tailscale up`. Only applied if `authKeyFile` is specified.";
+        '';
+        type = lib.types.listOf lib.types.str;
+        default = [ ];
+        example = [ "--ssh" ];
+      };
     };
   };
 
@@ -37,6 +46,7 @@ in
         "tun"
       ];
 
+      # TODO: this list probably can be smaller
       availableKernelModules = [
         "ip_tables"
         "iptable_filter"
@@ -55,6 +65,7 @@ in
         "xt_multiport"
         "xt_pkttype"
         "xt_tcpudp"
+        "wireguard"
       ];
 
       secrets = {
@@ -73,9 +84,11 @@ in
           iputils
         ];
 
+        # TODO: do I actually need this? I copied it from Initrd OpenVPN
         storePaths = [
           "${pkgs.glibc}/lib/libresolv.so.2"
           "${pkgs.glibc}/lib/libnss_dns.so.2"
+          "${pkgs.iptables}/lib"
         ];
 
         network = {
@@ -125,9 +138,7 @@ in
             before = [ "shutdown.target" ];
             conflicts = [ "shutdown.target" ];
 
-            serviceConfig = {
-              Type = "oneshot";
-            };
+            serviceConfig.Type = "oneshot";
 
             script =
               let
@@ -139,7 +150,10 @@ in
                 done
                 status=$(${statusCommand})
                 if [[ "$status" == "NeedsLogin" || "$status" == "NeedsMachineAuth" ]]; then
-                  ${lib.getExe' cfg.package "tailscale"} up --auth-key "file:/etc/tailscale/auth_key" --hostname "${config.networking.hostName}-initrd"
+                  ${lib.getExe' cfg.package "tailscale"} up \
+                    --auth-key "file:/etc/tailscale/auth_key" \
+                    --hostname "${config.networking.hostName}-initrd" \
+                    ${lib.escapeShellArgs cfg.extraUpFlags}
                 fi
               '';
           };
