@@ -1,5 +1,5 @@
 #LINK - overlays/custom-packages.nix
-{ inputs, overlays, lib, pkgs-unstable, ... }:
+{ inputs, overlays, lib, pkgs, pkgs-unstable, ... }:
 {
   nixpkgs = {
     overlays = [
@@ -24,5 +24,10 @@
         })
       )
     ];
+  };
+
+  _module.args.pkgs-netdata = import inputs.nixpkgs-netdata {
+    inherit (pkgs) config;
+    inherit (pkgs.stdenv.hostPlatform) system;
   };
 }
