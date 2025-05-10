@@ -18,8 +18,14 @@
   custom.boot.initrd.network.tailscale = {
     enable = true;
 
-    authKeyFile = config.sops.secrets."tailscale/initrd_key".path;
+    authKeyFile = config.sops.secrets."tailscale/oauth_clients/initrd/secret".path;
+    authKeyParameters = {
+      ephemeral = true;
+    };
 
-    extraUpFlags = [ "--ssh" ];
+    extraUpFlags = [
+      "--ssh"
+      "--advertise-tags=tag:ssh,tag:initramfs"
+    ];
   };
 }
