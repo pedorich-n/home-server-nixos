@@ -112,6 +112,7 @@ in
         "music-history/multiscrobbler/spotify/client_secret" = { };
 
         "tailscale/key" = { };
+        "tailscale/initrd_key" = { };
 
         "telegram-airtable-lessons/calendar_loader.toml" = {
           sopsFile = sopsFilePathFor "telegram-airtable-lessons/calendar_loader.toml";
