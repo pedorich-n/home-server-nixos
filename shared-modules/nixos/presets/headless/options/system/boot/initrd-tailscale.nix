@@ -15,38 +15,41 @@ in
         example = "/run/secrets/tailscale_key";
         description = ''
           A file containing the auth key.
-          Tailscale will be automatically started if provided.
         '';
       };
 
       interfaceName = lib.mkOption {
         type = lib.types.str;
         default = "tailscale0";
-        description = ''The interface name for tunnel traffic. Use "userspace-networking" (beta) to not use TUN.'';
+        description = ''
+          The interface name for tunnel traffic
+        '';
       };
 
       extraDaemonFlags = lib.mkOption {
-        description = "Extra flags to pass to {command}`tailscaled`.";
         type = lib.types.listOf lib.types.str;
         default = [ ];
         example = [ "--no-logs-no-support" ];
+        description = ''
+          Extra flags to pass to {command}`tailscaled`.
+        '';
       };
 
       extraUpFlags = lib.mkOption {
-        description = ''
-          Extra flags to pass to {command}`tailscale up`. Only applied if `authKeyFile` is specified.";
-        '';
         type = lib.types.listOf lib.types.str;
         default = [ ];
         example = [ "--ssh" ];
+        description = ''
+          Extra flags to pass to {command}`tailscale up`.
+        '';
       };
     };
   };
 
   # A combination of 
   # https://github.com/ElvishJerricco/stage1-tpm-tailscale/blob/2c07f2a531e1557965a0d483ea694fabf9a6d5bb/initrd-tailscale.nix and
-  # https://github.com/NixOS/nixpkgs/blob/6739a5d2bf8eb57e3d785101e47496978a3b1835/nixos/modules/services/networking/tailscale.nix and
-  # https://github.com/yomaq/nix-config/blob/f89a171ec539b5eef726155ea4b7088fe9afae84/modules/hosts/initrd-tailscale/nixos.nix#L144
+  # https://github.com/yomaq/nix-config/blob/f89a171ec539b5eef726155ea4b7088fe9afae84/modules/hosts/initrd-tailscale/nixos.nix and
+  # https://github.com/NixOS/nixpkgs/blob/6739a5d2bf8eb57e3d785101e47496978a3b1835/nixos/modules/services/networking/tailscale.nix
   config = lib.mkIf cfg.enable {
     boot.initrd = {
       kernelModules = [

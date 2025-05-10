@@ -11,6 +11,11 @@ resource "time_rotating" "tailnet_key" {
   rotation_days = local.tailnet_key_rotate_period
 }
 
+# See https://github.com/hashicorp/terraform-provider-time/issues/118#issuecomment-1316056478
+resource "time_static" "tailnet_key" {
+  rfc3339 = time_rotating.tailnet_key.rfc3339
+}
+
 resource "tailscale_tailnet_key" "initrd" {
   description         = "Initrd"
   reusable            = true
@@ -24,7 +29,9 @@ resource "tailscale_tailnet_key" "initrd" {
   ]
 
   lifecycle {
-    replace_triggered_by = [time_rotating.tailnet_key]
+    replace_triggered_by = [
+      time_static.tailnet_key
+    ]
   }
 }
 
