@@ -44,8 +44,19 @@ in
   services.tailscale = {
     enable = true;
     package = pkgs-unstable.tailscale;
-    authKeyFile = config.sops.secrets."tailscale/key".path;
+    authKeyFile = config.sops.secrets."tailscale/oauth_clients/server/secret".path;
+    authKeyParameters = {
+      ephemeral = false;
+    };
 
-    extraSetFlags = [ "--accept-dns=false" "--ssh" ];
+    extraUpFlags = [
+      "--ssh"
+      "--advertise-tags=tag:ssh,tag:server"
+    ];
+
+    extraSetFlags = [
+      "--accept-dns=false"
+      "--ssh"
+    ];
   };
 }

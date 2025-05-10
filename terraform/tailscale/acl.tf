@@ -2,8 +2,9 @@ resource "tailscale_acl" "acl" {
   acl = <<EOT
     {
       "tagOwners": {
-        "tag:initramfs": [],
-        "tag:ssh": []
+        "${local.tags.server}": [], // Not used for any ACL yet
+        "${local.tags.initrd}": [],
+        "${local.tags.ssh}": []
       },
       "acls": [
         {
@@ -25,7 +26,7 @@ resource "tailscale_acl" "acl" {
             "autogroup:admin"
           ], 
           "dst": [ 
-            "tag:ssh" 
+            "${local.tags.ssh}" 
           ], 
           "users": [ 
             "autogroup:nonroot", 
@@ -36,7 +37,7 @@ resource "tailscale_acl" "acl" {
       "tests": [
         {
           // initramfs can't make outbound connections
-          "src": "tag:initramfs", 
+          "src": "${local.tags.initrd}", 
           "deny": [
             "100.113.5.10:22", 
             "192.168.10.5:22"
@@ -46,7 +47,7 @@ resource "tailscale_acl" "acl" {
           // But a user should be able to access any node
           "src": "pedorich.n@gmail.com", 
           "allow": [
-            "tag:initramfs:2222", 
+            "${local.tags.initrd}:2222", 
             "100.113.5.10:80"
           ] 
         }
@@ -55,7 +56,7 @@ resource "tailscale_acl" "acl" {
         {
           "src": "pedorich.n@gmail.com",
           "dst": [ 
-            "tag:ssh" 
+            "${local.tags.ssh}" 
           ],
           "accept": [ 
             "root", 

@@ -111,8 +111,10 @@ in
         "music-history/multiscrobbler/spotify/client_id" = { };
         "music-history/multiscrobbler/spotify/client_secret" = { };
 
-        "tailscale/key" = { };
-        "tailscale/initrd_key" = { };
+        "tailscale/oauth_clients/server/id" = { };
+        "tailscale/oauth_clients/server/secret" = { };
+        "tailscale/oauth_clients/initrd/id" = { };
+        "tailscale/oauth_clients/initrd/secret" = { };
 
         "telegram-airtable-lessons/calendar_loader.toml" = {
           sopsFile = sopsFilePathFor "telegram-airtable-lessons/calendar_loader.toml";

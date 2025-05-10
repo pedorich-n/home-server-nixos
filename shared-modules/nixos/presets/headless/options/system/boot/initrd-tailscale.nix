@@ -3,6 +3,10 @@ let
   cfg = config.custom.boot.initrd.network.tailscale;
 in
 {
+  # A combination of 
+  # https://github.com/ElvishJerricco/stage1-tpm-tailscale/blob/2c07f2a531e1557965a0d483ea694fabf9a6d5bb/initrd-tailscale.nix and
+  # https://github.com/yomaq/nix-config/blob/f89a171ec539b5eef726155ea4b7088fe9afae84/modules/hosts/initrd-tailscale/nixos.nix and
+  # https://github.com/NixOS/nixpkgs/blob/6739a5d2bf8eb57e3d785101e47496978a3b1835/nixos/modules/services/networking/tailscale.nix
   options = {
     custom.boot.initrd.network.tailscale = {
       enable = lib.mkEnableOption "Initrd Tailscale";
@@ -15,6 +19,35 @@ in
         example = "/run/secrets/tailscale_key";
         description = ''
           A file containing the auth key.
+        '';
+      };
+
+      authKeyParameters = lib.mkOption {
+        type = lib.types.submodule {
+          options = {
+            ephemeral = lib.mkOption {
+              type = lib.types.nullOr lib.types.bool;
+              default = null;
+              description = "Whether to register as an ephemeral node.";
+            };
+
+            preauthorized = lib.mkOption {
+              type = lib.types.nullOr lib.types.bool;
+              default = null;
+              description = "Whether to skip manual device approval.";
+            };
+
+            baseURL = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+              description = "Base URL for the Tailscale API.";
+            };
+          };
+        };
+        default = { };
+        description = ''
+          Extra parameters to pass after the auth key.
+          See https://tailscale.com/kb/1215/oauth-clients#registering-new-nodes-using-oauth-credentials
         '';
       };
 
@@ -46,10 +79,6 @@ in
     };
   };
 
-  # A combination of 
-  # https://github.com/ElvishJerricco/stage1-tpm-tailscale/blob/2c07f2a531e1557965a0d483ea694fabf9a6d5bb/initrd-tailscale.nix and
-  # https://github.com/yomaq/nix-config/blob/f89a171ec539b5eef726155ea4b7088fe9afae84/modules/hosts/initrd-tailscale/nixos.nix and
-  # https://github.com/NixOS/nixpkgs/blob/6739a5d2bf8eb57e3d785101e47496978a3b1835/nixos/modules/services/networking/tailscale.nix
   config = lib.mkIf cfg.enable {
     boot.initrd = {
       kernelModules = [
@@ -87,9 +116,19 @@ in
         ];
 
         # Paths listed here will be copied to initrd's `/nix/store`
+        # OpenSSL & certificates are needed for OAuth & HTTPS 
         storePaths = [
           "${pkgs.iptables}/lib"
+          "${pkgs.openssl.dev}/lib"
+          "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
         ];
+
+        tmpfiles.settings = {
+          "10-certificates" = {
+            "/etc/ssl/certs/ca-certificates.crt".L.argument = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+          };
+        };
+
 
         network = {
           # I don't want to stall boot if Tailscale can't connect.
@@ -152,6 +191,13 @@ in
             script =
               let
                 statusCommand = "${lib.getExe' cfg.package "tailscale"} status --json --peers=false | ${lib.getExe pkgs.jq} -r '.BackendState'";
+                paramToString = v: if (builtins.isBool v) then (lib.boolToString v) else (builtins.toString v);
+                params = lib.pipe cfg.authKeyParameters [
+                  (lib.filterAttrs (_: v: v != null))
+                  (lib.mapAttrsToList (k: v: "${k}=${paramToString v}"))
+                  (builtins.concatStringsSep "&")
+                  (params: if params != "" then "?${params}" else "")
+                ];
               in
               ''
                 while [[ "$(${statusCommand})" == "NoState" ]]; do
@@ -160,7 +206,7 @@ in
                 status=$(${statusCommand})
                 if [[ "$status" == "NeedsLogin" || "$status" == "NeedsMachineAuth" ]]; then
                   ${lib.getExe' cfg.package "tailscale"} up \
-                    --auth-key "file:/etc/tailscale/auth_key" \
+                    --auth-key "$(cat /etc/tailscale/auth_key)${params}" \
                     --hostname "${config.networking.hostName}-initrd" \
                     ${lib.escapeShellArgs cfg.extraUpFlags}
                 fi
