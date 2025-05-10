@@ -5,11 +5,6 @@ terraform {
       version = "~> 0.18"
     }
 
-    time = {
-      source  = "hashicorp/time"
-      version = "~> 0.13"
-    }
-
     onepassword = {
       source  = "1Password/onepassword"
       version = "~> 2"
