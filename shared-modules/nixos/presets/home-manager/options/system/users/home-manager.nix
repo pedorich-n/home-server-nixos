@@ -1,4 +1,4 @@
-{ flake, inputs, config, lib, pkgs, ... }:
+{ flake, inputs, config, lib, pkgs, pkgs-unstable, ... }:
 let
   uniqueListOf = elemType:
     let
@@ -38,10 +38,10 @@ in
       # Reuse NixOS's pkgs. "Saves an extra Nixpkgs evaluation, adds consistency, and removes the dependency on NIX_PATH" - HM manual
       useGlobalPkgs = true;
       # File extension to add to backuped files
-      backupFileExtension = ".bak";
+      backupFileExtension = "bak";
 
       extraSpecialArgs = {
-        inherit flake inputs;
+        inherit flake inputs pkgs-unstable;
         # TODO: remove once https://github.com/NixOS/nix/issues/11181 is resolved
         pkgs-nix = pkgs;
       };
