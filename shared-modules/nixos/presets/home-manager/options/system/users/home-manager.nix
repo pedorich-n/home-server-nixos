@@ -1,4 +1,4 @@
-{ flake, inputs, config, lib, pkgs, pkgs-unstable, ... }:
+{ flake, inputs, config, lib, pkgs-unstable, ... }:
 let
   uniqueListOf = elemType:
     let
@@ -42,8 +42,6 @@ in
 
       extraSpecialArgs = {
         inherit flake inputs pkgs-unstable;
-        # TODO: remove once https://github.com/NixOS/nix/issues/11181 is resolved
-        pkgs-nix = pkgs;
       };
 
       sharedModules = [ inputs.home-manager-config.homeModules.sharedModules ] ++ sharedHomeManagerModules;
