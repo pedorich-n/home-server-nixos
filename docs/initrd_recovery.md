@@ -11,5 +11,5 @@ For this to work properly, SSH host keys must be supplied. See the [`boot.initrd
 For remote access, Tailscale can also be enabled in initrd. See `custom.boot.initrd.network.tailscale.*` config options.  
 When enabled, Tailscale creates an ephemeral node on the tailnet with the name `<hostname>-initrd`.
 
-Note: Tailscale requires an auth key, which expires after a maximum of 90 days.  
+Note: Tailscale requires an auth key, which expires after a maximum of 90 days (unless OAuth client is used).  
 This means the key must be rotated regularly, and a new initrd must be built each time.
