@@ -12,7 +12,7 @@
   "authentik-postgresql": {
     "container": "library/postgres",
     "registry": "docker.io",
-    "version": "16.8-alpine"
+    "version": "16.9-alpine"
   },
   "authentik-redis": {
     "container": "library/redis",
@@ -42,7 +42,7 @@
   "homeassistant": {
     "container": "homeassistant/home-assistant",
     "registry": "docker.io",
-    "version": "2025.4.4"
+    "version": "2025.5.1"
   },
   "homeassistant-mariadb": {
     "container": "library/mariadb",
@@ -52,7 +52,7 @@
   "homeassistant-postgresql": {
     "container": "library/postgres",
     "registry": "docker.io",
-    "version": "16.8-alpine"
+    "version": "16.9-alpine"
   },
   "immich-machine-learning": {
     "container": "immich-app/immich-machine-learning",
@@ -92,7 +92,7 @@
   "paperless-postgresql": {
     "container": "library/postgres",
     "registry": "docker.io",
-    "version": "16.8-alpine"
+    "version": "16.9-alpine"
   },
   "paperless-redis": {
     "container": "library/redis",
@@ -117,7 +117,7 @@
   "qbittorrent": {
     "container": "linuxserver/qbittorrent",
     "registry": "docker.io",
-    "version": "5.0.4"
+    "version": "5.1.0"
   },
   "radarr": {
     "container": "linuxserver/radarr",
@@ -137,6 +137,6 @@
   "zigbee2mqtt": {
     "container": "koenkk/zigbee2mqtt",
     "registry": "docker.io",
-    "version": "2.2.1"
+    "version": "2.3.0"
   }
 }

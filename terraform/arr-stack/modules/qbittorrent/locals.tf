@@ -36,5 +36,7 @@ locals {
 
     autorun_enabled = true
     autorun_program = "/opt/scripts/auto_unrar.sh \"%R\""
+
+    status_bar_external_ip = true
   }
 }
