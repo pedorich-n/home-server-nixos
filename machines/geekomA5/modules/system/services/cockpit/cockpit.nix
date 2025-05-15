@@ -1,17 +1,19 @@
-{ pkgs, ... }:
-let
-  cockpitPodman = pkgs.callPackage ./_cockpit-podman.nix { };
-  cockpitSensors = pkgs.callPackage ./_cockpit-sensors.nix { };
-in
+{ pkgs, pkgs-unstable, ... }:
 {
   services.cockpit = {
     enable = true;
     openFirewall = true;
+    package = pkgs-unstable.cockpit;
+
+    settings = {
+      WebService = {
+        AllowUnencrypted = true;
+      };
+    };
   };
 
   environment.systemPackages = [
-    cockpitPodman
-    cockpitSensors
-    pkgs.lm_sensors
+    pkgs.cockpit-files
+    pkgs.cockpit-podman
   ];
 }

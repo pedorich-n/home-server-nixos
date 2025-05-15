@@ -6,10 +6,10 @@
 }:
 stdenv.mkDerivation rec {
   pname = "cockpit-podman";
-  version = "99";
+  version = "105";
 
   src = fetchzip {
-    sha256 = "140sjw0pmzxs2hm33hrrragyhqq5gfp7n5ypma4bm6mnnnx0dydd";
+    sha256 = "sha256-bidIwpePf03wGVNXzeWT8+Tfilf9yCDff/rUW88qJgs=";
     url = "https://github.com/cockpit-project/cockpit-podman/releases/download/${version}/cockpit-podman-${version}.tar.xz";
   };
 
@@ -25,6 +25,11 @@ stdenv.mkDerivation rec {
   # '';
 
   dontBuild = true;
+
+  postFixup = ''
+    substituteInPlace $out/share/cockpit/podman/manifest.json \
+      --replace-warn "/lib/systemd/system/podman.socket" "/run/podman/podman.sock"
+  '';
 
   meta = {
     description = "Cockpit UI for podman containers";
