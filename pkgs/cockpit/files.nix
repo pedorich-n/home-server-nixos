@@ -1,12 +1,14 @@
-{ lib, stdenv, fetchzip, gettext, python3 }:
-stdenv.mkDerivation rec {
-  pname = "cockpit-files";
-  version = "20";
-
-  src = fetchzip {
-    sha256 = "sha256-aQVqo9lq7dVoQeTUd56fAxEc9wP0LCx2ZqAH4n7AQ84=";
-    url = "https://github.com/cockpit-project/cockpit-files/releases/download/${version}/cockpit-files-${version}.tar.xz";
-  };
+{ lib
+, stdenv
+, callPackage
+, gettext
+, python3
+}:
+let
+  sources = callPackage ./_sources/generated.nix { };
+in
+stdenv.mkDerivation {
+  inherit (sources.cockpit-files) pname version src;
 
   nativeBuildInputs = [
     gettext
