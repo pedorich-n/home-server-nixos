@@ -1,28 +1,18 @@
 { lib
+, callPackage
 , stdenv
-, fetchzip
 , gettext
 ,
 }:
-stdenv.mkDerivation rec {
-  pname = "cockpit-podman";
-  version = "105";
-
-  src = fetchzip {
-    sha256 = "sha256-bidIwpePf03wGVNXzeWT8+Tfilf9yCDff/rUW88qJgs=";
-    url = "https://github.com/cockpit-project/cockpit-podman/releases/download/${version}/cockpit-podman-${version}.tar.xz";
-  };
+let
+  sources = callPackage ./_sources/generated.nix { };
+in
+stdenv.mkDerivation {
+  inherit (sources.cockpit-podman) pname version src;
 
   nativeBuildInputs = [ gettext ];
 
   makeFlags = [ "DESTDIR=$(out)" "PREFIX=" ];
-
-  # postPatch = ''
-  #   substituteInPlace Makefile \
-  #     --replace /usr/share $out/share
-  #   touch pkg/lib/cockpit-po-plugin.js
-  #   touch dist/manifest.json
-  # '';
 
   dontBuild = true;
 

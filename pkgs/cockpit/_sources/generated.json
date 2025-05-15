@@ -1,0 +1,32 @@
+{
+    "cockpit-files": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "cockpit-files",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-5IABiavYKJvOR7OjpvTR/H2KZTVJzmsRMtJYHC6Gy80=",
+            "type": "url",
+            "url": "https://github.com/cockpit-project/cockpit-files/releases/download/20/cockpit-files-20.tar.xz"
+        },
+        "version": "20"
+    },
+    "cockpit-podman": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "cockpit-podman",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-XCx+xLtyo7srPFtXzyq54ynrcblYYA9lVASEHRka/XE=",
+            "type": "url",
+            "url": "https://github.com/cockpit-project/cockpit-podman/releases/download/105/cockpit-podman-105.tar.xz"
+        },
+        "version": "105"
+    }
+}
