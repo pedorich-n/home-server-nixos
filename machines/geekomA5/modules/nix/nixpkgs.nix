@@ -8,6 +8,8 @@
       inputs.playit-nixos-module.overlays.default
       overlays.mc-monitor
       overlays.minecraft-modpack
+      overlays.cockpit-files
+      overlays.cockpit-podman
       (_: prev:
         # FIXME: should probably be auto-fixed in 25.05
         (lib.optionalAttrs (!(prev.formats ? "xml")) {
