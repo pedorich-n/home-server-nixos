@@ -32,4 +32,9 @@
     inherit (pkgs) config;
     inherit (pkgs.stdenv.hostPlatform) system;
   };
+
+  _module.args.pkgs-cockpit = import inputs.nixpkgs-cockpit {
+    inherit (pkgs) config;
+    inherit (pkgs.stdenv.hostPlatform) system;
+  };
 }

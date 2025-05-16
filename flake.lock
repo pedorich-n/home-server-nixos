@@ -284,6 +284,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-cockpit": {
+      "locked": {
+        "lastModified": 1747367329,
+        "narHash": "sha256-3eAYg6EFSH6taj2qJcjkRyFLIltEWVv5SkhwS7HG9SY=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "2cf3e0b3df13750c604002f45e26b0657bb66999",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "2cf3e0b3df13750c604002f45e26b0657bb66999",
+        "type": "github"
+      }
+    },
     "nixpkgs-netdata": {
       "locked": {
         "lastModified": 1746788187,
@@ -422,6 +438,7 @@
         "homeassistant-docker-venv": "homeassistant-docker-venv",
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-cockpit": "nixpkgs-cockpit",
         "nixpkgs-netdata": "nixpkgs-netdata",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "playit-nixos-module": "playit-nixos-module",
