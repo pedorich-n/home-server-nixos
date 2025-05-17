@@ -1,4 +1,4 @@
-{ inputs, config, lib, pkgs, pkgs-netdata, ... }:
+{ inputs, config, lib, pkgs, pkgs-unstable, ... }:
 let
   metricsDomain = "http://metrics.${config.custom.networking.domain}:${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
 
@@ -37,7 +37,7 @@ in
     netdata = {
       enable = true;
 
-      package = pkgs-netdata.netdataCloud.override { withNdsudo = true; };
+      package = pkgs-unstable.netdataCloud.override { withNdsudo = true; };
 
       extraNdsudoPackages = with pkgs; [
         nvme-cli
