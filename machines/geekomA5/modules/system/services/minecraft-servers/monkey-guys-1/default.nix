@@ -1,12 +1,9 @@
 { inputs, config, pkgs, lib, ... }:
 let
   minecraftLib = inputs.nix-minecraft.lib;
-  serverName = "money-guys-6";
+  serverName = "monkey-guys-1";
 
-  forge = pkgs.callPackage ./_forge.nix { };
-  forgeRunner = pkgs.callPackage ./_forge-runner.nix { inherit forge; };
-
-  modpack = pkgs.minecraft-modpacks.exploration;
+  modpack = pkgs.minecraft-modpacks.crying-obsidian;
 
   # https://docs.papermc.io/paper/aikars-flags
   aikarFlagsWith = { memory }: builtins.concatStringsSep " " [
@@ -40,13 +37,13 @@ in
         autoStart = true;
         openFirewall = true;
 
-        package = forgeRunner;
+        package = pkgs.fabricServers.fabric-1_20_1;
         serverProperties = {
           allow-flight = true;
           server-port = config.custom.networking.ports.tcp."minecraft-${serverName}-game".port;
           difficulty = 2;
           level-name = "the_best_1";
-          motd = ''\u00A72Money Guys\u00A7r - you better settle your bill in time'';
+          motd = ''🐒Leave society, be a monkey🐒'';
           max-players = 10;
           enable-status = true;
           enforce-secure-profile = false;
@@ -61,7 +58,7 @@ in
 
         files =
           (minecraftLib.collectFilesAt modpack "config") //
-          (minecraftLib.collectFilesAt modpack "journeymap");
+          (minecraftLib.collectFilesAt modpack "datapacks");
       };
     }
     (lib.mkIf (config.services.minecraft-servers.enable && config.services.minecraft-servers.servers.${serverName}.enable) {
@@ -89,7 +86,7 @@ in
       custom = {
         networking.ports.tcp = {
           "minecraft-${serverName}-game" = { port = 25565; openFirewall = true; };
-          "minecraft-${serverName}-metrics" = { port = 19565; openFirewall = false; };
+          "minecraft-${serverName}-metrics" = { port = 25585; openFirewall = false; };
         };
 
         minecraft-servers.check.servers = {

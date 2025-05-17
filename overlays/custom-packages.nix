@@ -2,7 +2,8 @@ let
   packages = {
     systemd-onfailure-notify = ../pkgs/systemd-onfailure-notify;
     mc-monitor = ../pkgs/mc-monitor;
-    minecraft-modpack = ../pkgs/minecraft-modpack;
+    minecraft-modpacks.exploration = ../pkgs/minecraft-modpacks/exploration.nix;
+    minecraft-modpacks.crying-obsidian = ../pkgs/minecraft-modpacks/crying-obsidian.nix;
   };
 
   cockpit-plugins = {
