@@ -73,7 +73,7 @@ let
       hostname = name;
       interactiveSudo = false;
       magicRollback = true;
-      remoteBuild = false;
+      remoteBuild = true;
 
       profiles = {
         system = {
