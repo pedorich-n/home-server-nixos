@@ -7,7 +7,7 @@
       inputs.nix-minecraft.overlays.default
       inputs.playit-nixos-module.overlays.default
       overlays.mc-monitor
-      overlays.minecraft-modpack
+      overlays.minecraft-modpacks
       (_: prev:
         # FIXME: should probably be auto-fixed in 25.05
         (lib.optionalAttrs (!(prev.formats ? "xml")) {
