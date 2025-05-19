@@ -1,4 +1,4 @@
-{ config, containerLib, pkgs, ... }:
+{ config, containerLib, networkingLib, pkgs, ... }:
 let
   storeRoot = "/mnt/store/music-history";
 
@@ -45,9 +45,11 @@ in
             "${./multi-scrobbler/webscrobbler.json}:/config/webscrobbler.json"
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "multiscrobbler";
+            name = "multiscrobbler-secure";
+            domain = networkingLib.mkExternalDomain "multiscrobbler";
             port = 9078;
-            middlewares = [ "authentik@docker" ];
+            entrypoints = [ "web-secure" ];
+            middlewares = [ "authentik-secure@docker" ];
           };
           inherit networks;
         };
@@ -80,8 +82,10 @@ in
           ];
           labels = containerLib.mkTraefikLabels {
             name = "maloja";
+            domain = networkingLib.mkExternalDomain "maloja";
             port = 42010;
-            middlewares = [ "authentik@docker" ];
+            entrypoints = [ "web-secure" ];
+            middlewares = [ "authentik-secure@docker" ];
           };
           inherit networks;
         };
