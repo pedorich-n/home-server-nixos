@@ -1,4 +1,4 @@
-{ config, lib, containerLib, systemdLib, ... }:
+{ config, lib, containerLib, systemdLib, networkingLib, ... }:
 let
   networks = [ "data-library-internal.network" ];
 
@@ -6,6 +6,14 @@ let
     name = "${name}-api";
     rule = "Host(`${name}.${config.custom.networking.domain}`) && PathPrefix(`/api/`)";
     service = name;
+    priority = 15;
+  };
+
+  mkApiSecureTraefikLabels = name: containerLib.mkTraefikLabels {
+    name = "${name}-secure-api";
+    rule = "Host(`${networkingLib.mkExternalDomain name}`) && PathPrefix(`/api/`)";
+    service = "${name}-secure";
+    entrypoints = [ "web-secure" ];
     priority = 15;
   };
 
@@ -117,9 +125,11 @@ in
             (mappedVolumeForUser "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "sabnzbd";
+            name = "sabnzbd-secure";
             port = environments.PORT;
-            middlewares = [ "authentik@docker" ];
+            domain = networkingLib.mkExternalDomain "sabnzbd";
+            entrypoints = [ "web-secure" ];
+            middlewares = [ "authentik-secure@docker" ];
           };
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -137,11 +147,13 @@ in
             (mappedVolumeForUser "${storeRoot}/prowlarr/config" "/config")
           ];
           labels = (containerLib.mkTraefikLabels {
-            name = "prowlarr";
+            name = "prowlarr-secure";
             port = 9696;
             priority = 10;
-            middlewares = [ "authentik@docker" ];
-          }) ++ (mkApiTraefikLabels "prowlarr");
+            domain = networkingLib.mkExternalDomain "prowlarr";
+            entrypoints = [ "web-secure" ];
+            middlewares = [ "authentik-secure@docker" ];
+          }) ++ (mkApiSecureTraefikLabels "prowlarr");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -160,11 +172,13 @@ in
             (mappedVolumeForUser externalStoreRoot "/data")
           ];
           labels = (containerLib.mkTraefikLabels {
-            name = "sonarr";
+            name = "sonarr-secure";
             port = 8989;
             priority = 10;
-            middlewares = [ "authentik@docker" ];
-          }) ++ (mkApiTraefikLabels "sonarr");
+            domain = networkingLib.mkExternalDomain "sonarr";
+            entrypoints = [ "web-secure" ];
+            middlewares = [ "authentik-secure@docker" ];
+          }) ++ (mkApiSecureTraefikLabels "sonarr");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -184,11 +198,13 @@ in
             (mappedVolumeForUser externalStoreRoot "/data")
           ];
           labels = (containerLib.mkTraefikLabels {
-            name = "radarr";
+            name = "radarr-secure";
             port = 7878;
             priority = 10;
-            middlewares = [ "authentik@docker" ];
-          }) ++ (mkApiTraefikLabels "radarr");
+            domain = networkingLib.mkExternalDomain "radarr";
+            entrypoints = [ "web-secure" ];
+            middlewares = [ "authentik-secure@docker" ];
+          }) ++ (mkApiSecureTraefikLabels "radarr");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };

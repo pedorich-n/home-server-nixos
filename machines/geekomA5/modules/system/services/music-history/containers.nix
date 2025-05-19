@@ -81,7 +81,7 @@ in
             "${malojaArtistRules}:/data/rules/custom_rules.tsv"
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "maloja";
+            name = "maloja-secure";
             domain = networkingLib.mkExternalDomain "maloja";
             port = 42010;
             entrypoints = [ "web-secure" ];
