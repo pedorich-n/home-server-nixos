@@ -123,6 +123,9 @@ in
         "tailscale/oauth_clients/initrd/id" = { };
         "tailscale/oauth_clients/initrd/secret" = { };
 
+        "paperless/client_id" = { };
+        "paperless/client_secret" = { };
+
         "telegram-airtable-lessons/calendar_loader.toml" = {
           sopsFile = sopsFilePathFor "telegram-airtable-lessons/calendar_loader.toml";
           format = "binary";
