@@ -73,7 +73,7 @@
       certificatesResolvers = {
         cloudflare = {
           acme = {
-            storage = "/var/lib/traefik/acme.json";
+            storage = "${config.services.traefik.dataDir}/acme.json"; # /var/lib/traefik/acme.json
             dnsChallenge = {
               provider = "cloudflare";
               resolvers = [
