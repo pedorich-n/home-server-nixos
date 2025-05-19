@@ -71,6 +71,13 @@ let
     };
   };
 
+  traefikSecrets = {
+    "cloudflare/api_tokens/traefik_acme" = {
+      owner = config.users.users.traefik.name;
+      group = config.users.users.traefik.group;
+    };
+  };
+
 in
 {
   sops = {
@@ -134,6 +141,7 @@ in
       resticSecrets
       (lib.mkIf (config.services ? ngrok && config.services.ngrok.enable) ngrokSecrets)
       (lib.mkIf (config.services ? playit && config.services.playit.enable) playitSecrets)
+      (lib.mkIf config.services.traefik.enable traefikSecrets)
     ];
   };
 }
