@@ -106,18 +106,18 @@
             middlewares = [ "authentik-homepage@file" ];
           };
 
-          traefik = {
-            entryPoints = [ "web" ];
-            rule = "Host(`traefik.${config.custom.networking.domain}`)";
-            service = "traefik";
-            middlewares = [ "authentik@docker" ];
-          };
+          # traefik = {
+          #   entryPoints = [ "web" ];
+          #   rule = "Host(`traefik.${config.custom.networking.domain}`)";
+          #   service = "traefik";
+          #   middlewares = [ "authentik@docker" ];
+          # };
 
           traefik-secure = {
             entryPoints = [ "web-secure" ];
-            rule = "Host(`${networkingLib.mkDomainExternal "traefik"}`)";
+            rule = "Host(`${networkingLib.mkExternalDomain "traefik"}`)";
             service = "traefik";
-            # middlewares = [ "authentik@docker" ];
+            middlewares = [ "authentik-secure@docker" ];
           };
         };
 

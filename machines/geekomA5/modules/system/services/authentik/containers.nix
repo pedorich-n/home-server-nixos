@@ -189,13 +189,13 @@ in
             priority = 10;
           }) ++ (containerLib.mkTraefikLabels {
             name = "authentik-secure";
-            domain = networkingLib.mkDomainExternal "authentik";
+            domain = networkingLib.mkExternalDomain "authentik";
             service = "authentik";
             priority = 10;
             entrypoints = [ "web-secure" ];
           }) ++ (containerLib.mkTraefikLabels {
             name = "authentik-outpost-secure";
-            rule = "HostRegexp(`${networkingLib.mkDomainExternal "{subdomain:[a-z0-9-]+}"}`) && PathPrefix(`/outpost.goauthentik.io/`)";
+            rule = "HostRegexp(`${networkingLib.mkExternalDomain "{subdomain:[a-z0-9-]+}"}`) && PathPrefix(`/outpost.goauthentik.io/`)";
             service = "authentik";
             entrypoints = [ "web-secure" ];
             priority = 15;
