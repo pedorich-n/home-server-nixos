@@ -3,7 +3,7 @@
 
   services = {
     minecraft-servers = {
-      enable = false;
+      enable = true;
       openFirewall = true;
       eula = true;
       dataDir = "/mnt/store/minecraft";
@@ -13,7 +13,7 @@
     };
 
     playit = {
-      enable = false;
+      enable = true;
       secretPath = config.sops.secrets."playit/secret".path;
     };
   };

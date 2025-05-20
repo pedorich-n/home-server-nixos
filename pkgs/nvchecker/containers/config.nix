@@ -47,8 +47,6 @@ let
 
     authentik-worker = makers.mkAuthentik "server";
 
-    authentik-proxy = makers.mkAuthentik "proxy";
-
     authentik-ldap = makers.mkAuthentik "ldap";
 
     authentik-postgresql = reusedContainers.postgres16;

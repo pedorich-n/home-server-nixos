@@ -14,11 +14,6 @@
     "registry": "docker.io",
     "version": "16.9-alpine"
   },
-  "authentik-proxy": {
-    "container": "goauthentik/proxy",
-    "registry": "ghcr.io",
-    "version": "2025.4.0"
-  },
   "authentik-redis": {
     "container": "library/redis",
     "registry": "docker.io",
