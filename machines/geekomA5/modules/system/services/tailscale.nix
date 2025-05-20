@@ -12,7 +12,7 @@ let
       except-interface=lo
       interface=${config.services.tailscale.interfaceName}
 
-      address=/${config.custom.networking.domain-external}/${tailscaleMachineIp}
+      address=/${config.custom.networking.domain}/${tailscaleMachineIp}
     '';
   };
 in

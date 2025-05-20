@@ -60,9 +60,9 @@
           http.tls = {
             certResolver = "cloudflare";
             domains = [{
-              main = config.custom.networking.domain-external;
+              main = config.custom.networking.domain;
               sans = [
-                "*.${config.custom.networking.domain-external}"
+                (networkingLib.mkDomain "*")
               ];
             }];
           };
@@ -93,8 +93,8 @@
         middlewares = {
           authentik-homepage = {
             redirectRegex = {
-              regex = "^https://${config.custom.networking.domain-external}(.*)";
-              replacement = ''${networkingLib.mkExternalUrl "authentik"}''${1}'';
+              regex = "^https://${config.custom.networking.domain}(.*)";
+              replacement = ''${networkingLib.mkUrl "authentik"}''${1}'';
               permanent = true;
             };
           };
@@ -103,14 +103,14 @@
         routers = {
           top-level = {
             entrypoints = [ "web-secure" ];
-            rule = "Host(`${config.custom.networking.domain-external}`)";
+            rule = "Host(`${config.custom.networking.domain}`)";
             service = "noop@internal";
             middlewares = [ "authentik-homepage@file" ];
           };
 
           traefik-secure = {
             entryPoints = [ "web-secure" ];
-            rule = "Host(`${networkingLib.mkExternalDomain "traefik"}`)";
+            rule = "Host(`${networkingLib.mkDomain "traefik"}`)";
             service = "traefik";
             middlewares = [ "authentik-secure@docker" ];
           };

@@ -21,7 +21,7 @@ let
     AUTHENTIK_POSTGRESQL__HOST = "authentik-postgresql";
   };
 
-  blueprints = pkgs.callPackage ./_render-blueprints.nix { domain = config.custom.networking.domain-external; };
+  blueprints = pkgs.callPackage ./_render-blueprints.nix { inherit (config.custom.networking) domain; };
 
   serverIp = "172.31.0.240";
 
@@ -113,7 +113,7 @@ in
 
         containerConfig = {
           environments = defaultEnvs // {
-            AUTHENTIK_HOST = networkingLib.mkExternalUrl "authentik";
+            AUTHENTIK_HOST = networkingLib.mkUrl "authentik";
           };
           environmentFiles = [ config.sops.secrets."authentik/ldap_outpost.env".path ];
           labels = [
@@ -153,15 +153,12 @@ in
           notify = "healthy";
           labels = (containerLib.mkTraefikLabels {
             name = "authentik-secure";
-            domain = networkingLib.mkExternalDomain "authentik";
             port = 9000;
             priority = 10;
-            entrypoints = [ "web-secure" ];
           }) ++ (containerLib.mkTraefikLabels {
             name = "authentik-outpost-secure";
-            rule = "HostRegexp(`${networkingLib.mkExternalDomain "{subdomain:[a-z0-9-]+}"}`) && PathPrefix(`/outpost.goauthentik.io/`)";
+            rule = "HostRegexp(`${networkingLib.mkDomain "{subdomain:[a-z0-9-]+}"}`) && PathPrefix(`/outpost.goauthentik.io/`)";
             service = "authentik-secure";
-            entrypoints = [ "web-secure" ];
             priority = 15;
           }) ++ [
             "traefik.http.middlewares.authentik-secure.forwardauth.address=http://${serverIp}:9000/outpost.goauthentik.io/auth/traefik"

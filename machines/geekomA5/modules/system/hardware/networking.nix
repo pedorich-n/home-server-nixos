@@ -4,17 +4,11 @@
       type = lib.types.str;
       readOnly = true;
     };
-
-    custom.networking.domain-external = lib.mkOption {
-      type = lib.types.str;
-      readOnly = true;
-    };
   };
 
   config = {
     custom.networking = {
-      domain = "server.lan";
-      domain-external = config.custom.secrets.plaintext.variables.domain;
+      domain = config.custom.secrets.plaintext.variables.domain;
     };
 
     networking = {

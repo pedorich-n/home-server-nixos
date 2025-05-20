@@ -68,8 +68,6 @@ in
           labels = containerLib.mkTraefikLabels {
             name = "zigbee2mqtt-secure";
             port = 8080;
-            domain = networkingLib.mkExternalDomain "zigbee2mqtt";
-            entrypoints = [ "web-secure" ];
             middlewares = [ "authentik-secure@docker" ];
           };
           inherit networks;
@@ -126,13 +124,11 @@ in
             name = "homeassistant-secure";
             port = 8123;
             priority = 10;
-            domain = networkingLib.mkExternalDomain "homeassistant";
-            entrypoints = [ "web-secure" ];
             middlewares = [ "authentik-secure@docker" ];
           }) ++
           (containerLib.mkTraefikLabels {
             name = "homeassistant-secure-hooks";
-            rule = "Host(`${networkingLib.mkExternalDomain "homeassistant"}`) && PathPrefix(`/api/webhook/`)";
+            rule = "Host(`${networkingLib.mkDomain "homeassistant"}`) && PathPrefix(`/api/webhook/`)";
             service = "homeassistant-secure";
             priority = 15;
             entrypoints = [ "web-secure" ];

@@ -1,9 +1,10 @@
-{ config, lib, ... }: {
+{ config, lib, networkingLib, ... }: {
   _module.args.containerLib = rec {
     mkTraefikLabels =
       { name
-      , domain ? "${name}.${config.custom.networking.domain}"
-      , entrypoints ? [ "web" ]
+      , slug ? lib.removeSuffix "-secure" name
+      , domain ? networkingLib.mkDomain slug
+      , entrypoints ? [ "web-secure" ]
       , rule ? "Host(`${domain}`)"
       , priority ? 0
       , middlewares ? [ ]

@@ -75,7 +75,7 @@ in
             PAPERLESS_ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https";
             PAPERLESS_APPS = "allauth.socialaccount.providers.openid_connect";
 
-            PAPERLESS_URL = networkingLib.mkExternalUrl "paperless";
+            PAPERLESS_URL = networkingLib.mkUrl "paperless";
           };
           environmentFiles = [
             config.sops.secrets."paperless/main.env".path
@@ -89,9 +89,7 @@ in
           ];
           labels = containerLib.mkTraefikLabels {
             name = "paperless-secure";
-            domain = networkingLib.mkExternalDomain "paperless";
             port = 8000;
-            entrypoints = [ "web-secure" ];
           };
           inherit networks;
         };

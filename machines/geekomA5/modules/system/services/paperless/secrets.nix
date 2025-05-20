@@ -17,7 +17,7 @@ in
               client_id = config.sops.placeholder."paperless/client_id";
               secret = config.sops.placeholder."paperless/client_secret";
               settings = {
-                server_url = authentikLib.mkExternalIssuerUrl "paperless";
+                server_url = authentikLib.mkIssuerUrl "paperless";
               };
             }];
             OAUTH_PKCE_ENABLED = true;

@@ -1,4 +1,4 @@
-{ config, containerLib, networkingLib, ... }:
+{ config, containerLib, ... }:
 let
   storeFor = localPath: remotePath: "/mnt/store/server-management/${localPath}:${remotePath}";
 
@@ -30,8 +30,6 @@ in
       labels = containerLib.mkTraefikLabels {
         name = "portainer-secure";
         port = 9000;
-        domain = networkingLib.mkExternalDomain "portainer";
-        entrypoints = [ "web-secure" ];
       };
     };
   };

@@ -4,7 +4,7 @@ let
 
   mkApiSecureTraefikLabels = name: containerLib.mkTraefikLabels {
     name = "${name}-secure-api";
-    rule = "Host(`${networkingLib.mkExternalDomain name}`) && PathPrefix(`/api/`)";
+    rule = "Host(`${networkingLib.mkDomain name}`) && PathPrefix(`/api/`)";
     service = "${name}-secure";
     entrypoints = [ "web-secure" ];
     priority = 15;
@@ -85,8 +85,6 @@ in
             name = "qbittorrent-secure"; # Proxied
             port = 8080;
             priority = 10;
-            domain = networkingLib.mkExternalDomain "qbittorrent";
-            entrypoints = [ "web-secure" ];
             middlewares = [ "authentik-secure@docker" ];
           }) ++ (mkApiSecureTraefikLabels "qbittorrent");
           inherit networks;
@@ -127,8 +125,6 @@ in
           labels = containerLib.mkTraefikLabels {
             name = "sabnzbd-secure";
             port = environments.PORT;
-            domain = networkingLib.mkExternalDomain "sabnzbd";
-            entrypoints = [ "web-secure" ];
             middlewares = [ "authentik-secure@docker" ];
           };
           inherit networks;
@@ -150,8 +146,6 @@ in
             name = "prowlarr-secure";
             port = 9696;
             priority = 10;
-            domain = networkingLib.mkExternalDomain "prowlarr";
-            entrypoints = [ "web-secure" ];
             middlewares = [ "authentik-secure@docker" ];
           }) ++ (mkApiSecureTraefikLabels "prowlarr");
           inherit networks;
@@ -175,8 +169,6 @@ in
             name = "sonarr-secure";
             port = 8989;
             priority = 10;
-            domain = networkingLib.mkExternalDomain "sonarr";
-            entrypoints = [ "web-secure" ];
             middlewares = [ "authentik-secure@docker" ];
           }) ++ (mkApiSecureTraefikLabels "sonarr");
           inherit networks;
@@ -201,8 +193,6 @@ in
             name = "radarr-secure";
             port = 7878;
             priority = 10;
-            domain = networkingLib.mkExternalDomain "radarr";
-            entrypoints = [ "web-secure" ];
             middlewares = [ "authentik-secure@docker" ];
           }) ++ (mkApiSecureTraefikLabels "radarr");
           inherit networks;
@@ -236,7 +226,7 @@ in
             "/dev/dri:/dev/dri"
           ];
           environments = defaultEnvs // {
-            JELLYFIN_PublishedServerUrl = networkingLib.mkExternalUrl "jellyfin";
+            JELLYFIN_PublishedServerUrl = networkingLib.mkUrl "jellyfin";
           };
           volumes = [
             (mappedVolumeForUser "${storeRoot}/jellyfin/config" "/config")
@@ -244,9 +234,8 @@ in
             (mappedVolumeForUser "${externalStoreRoot}/media" "/media")
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "jellyfin-secured";
+            name = "jellyfin-secure";
             port = 8096;
-            domain = networkingLib.mkExternalDomain "jellyfin";
             entrypoints = [ "web-secure" ];
           };
           #  ++ [
@@ -288,8 +277,6 @@ in
             labels = containerLib.mkTraefikLabels {
               name = "audiobookshelf-secure";
               port = 8080;
-              domain = networkingLib.mkExternalDomain "audiobookshelf";
-              entrypoints = [ "web-secure" ];
             };
             inherit networks;
             inherit (containerLib.containerIds) user;

@@ -10,7 +10,7 @@ pkgs.mkShellNoCC {
   ];
 
   env = {
-    TF_VAR_server_domain = nixosConfig.config.custom.networking.domain-external;
+    TF_VAR_server_domain = nixosConfig.config.custom.networking.domain;
     TF_VAR_server_hostname = nixosConfig.config.networking.hostName;
   };
 

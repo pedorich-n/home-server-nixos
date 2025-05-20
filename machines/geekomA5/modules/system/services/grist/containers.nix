@@ -23,14 +23,14 @@ in
 
     containerConfig = {
       environments = rec {
-        GRIST_DOMAIN = networkingLib.mkExternalDomain "grist";
-        APP_HOME_URL = networkingLib.mkExternalUrl "grist";
+        GRIST_DOMAIN = networkingLib.mkDomain "grist";
+        APP_HOME_URL = networkingLib.mkUrl "grist";
 
         GRIST_HIDE_UI_ELEMENTS = "billing";
         GRIST_SUPPORT_ANON = "false";
 
         GRIST_OIDC_SP_HOST = "${APP_HOME_URL}";
-        GRIST_OIDC_IDP_ISSUER = authentikLib.mkExternalIssuerUrl "grist";
+        GRIST_OIDC_IDP_ISSUER = authentikLib.mkIssuerUrl "grist";
       };
       environmentFiles = [ config.sops.secrets."grist/main.env".path ];
       volumes = [
@@ -39,8 +39,6 @@ in
       labels = containerLib.mkTraefikLabels {
         name = "grist";
         port = 8484;
-        domain = networkingLib.mkExternalDomain "grist";
-        entrypoints = [ "web-secure" ];
       };
       inherit (containerLib.containerIds) user;
     };

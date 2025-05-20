@@ -105,18 +105,16 @@ in
             (containerLib.mkTraefikLabels {
               name = "immich-secure";
               port = 2283;
-              domain = networkingLib.mkExternalDomain "immich";
-              entrypoints = [ "web-secure" ];
             }) ++
             (containerLib.mkTraefikMetricsLabels {
               name = "immich";
-              domain = networkingLib.mkExternalDomain "metrics";
+              domain = networkingLib.mkDomain "metrics";
               port = 8081;
               addPath = "/metrics";
             }) ++
             (containerLib.mkTraefikMetricsLabels {
               name = "immich-microservices";
-              domain = networkingLib.mkExternalDomain "metrics";
+              domain = networkingLib.mkDomain "metrics";
               port = 8082;
               addPath = "/metrics";
             });
