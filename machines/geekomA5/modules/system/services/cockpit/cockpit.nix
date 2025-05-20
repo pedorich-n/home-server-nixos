@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-cockpit, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 {
   custom = {
     networking.ports.tcp.cockpit = { port = 9090; openFirewall = true; };
@@ -26,7 +26,7 @@
   services = {
     cockpit = {
       enable = true;
-      package = pkgs-cockpit.cockpit;
+      package = pkgs-unstable.cockpit;
 
       inherit (config.custom.networking.ports.tcp.cockpit) port openFirewall;
 
