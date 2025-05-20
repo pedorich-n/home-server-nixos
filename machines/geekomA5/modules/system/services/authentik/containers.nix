@@ -21,7 +21,7 @@ let
     AUTHENTIK_POSTGRESQL__HOST = "authentik-postgresql";
   };
 
-  blueprints = pkgs.callPackage ./_render-blueprints.nix { inherit (config.custom.networking) domain; };
+  blueprints = pkgs.callPackage ./_render-blueprints.nix { domain = config.custom.networking.domain-external; };
 
   serverIp = "172.31.0.240";
 

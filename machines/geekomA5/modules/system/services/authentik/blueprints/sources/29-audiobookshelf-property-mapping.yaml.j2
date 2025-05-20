@@ -14,9 +14,9 @@ entries:
       scope_name: absgroups
       expression: |
         group = "guest"
-        if ak_is_group_member(request.user, name=accessGroups.mediaAdmins):
-            group = "admin"
-        elif ak_is_group_member(request.user, name=accessGroups.media):
+        if ak_is_group_member(request.user, name="{{ accessGroups.mediaAdmins }}"):
+          group = "admin"
+        elif ak_is_group_member(request.user, name="{{ accessGroups.media }}"):
           group = "user"
 
         return {
