@@ -24,7 +24,6 @@ let
   blueprints = pkgs.callPackage ./_render-blueprints.nix { inherit (config.custom.networking) domain; };
 
   serverIp = "172.31.0.240";
-  outpostIp = "172.31.0.245";
 
   networks = [ "authentik-internal.network" ];
 in
@@ -114,7 +113,7 @@ in
 
         containerConfig = {
           environments = defaultEnvs // {
-            AUTHENTIK_HOST = "http://authentik.${config.custom.networking.domain}";
+            AUTHENTIK_HOST = networkingLib.mkExternalUrl "authentik";
           };
           environmentFiles = [ config.sops.secrets."authentik/ldap_outpost.env".path ];
           labels = [
@@ -125,37 +124,6 @@ in
             "traefik.tcp.routers.authentik-ldap-outpost.service=authentik-ldap-outpost"
           ];
           inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-      };
-
-      authentik-proxy = {
-        useGlobalContainers = true;
-        # requiresTraefikNetwork = true;
-        usernsAuto = {
-          enable = true;
-          size = 65535;
-        };
-
-        containerConfig = {
-          environments = defaultEnvs // {
-            AUTHENTIK_HOST = "http://authentik.${config.custom.networking.domain}";
-            AUTHENTIK_TOKEN = "8CpzNdBSDNjQjhuguIv6uDshPcG4ZiEDPeuP8a2me54RT1xvpCIZHln1HmN0";
-          };
-          networks = networks ++ [
-            "traefik.network:ip=${outpostIp}"
-          ];
-          labels =
-            (containerLib.mkTraefikLabels {
-              name = "authentik-outpost";
-              rule = "HostRegexp(`${networkingLib.mkDomain "{subdomain:[a-z0-9-]+}"}`) && PathPrefix(`/outpost.goauthentik.io/`)";
-              priority = 15;
-            }) ++ [
-              "traefik.http.middlewares.authentik.forwardauth.address=http://${outpostIp}:9000/outpost.goauthentik.io/auth/traefik"
-              "traefik.http.middlewares.authentik.forwardauth.trustForwardHeader=true"
-              "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
-            ];
-
           inherit (containerLib.containerIds) user;
         };
       };

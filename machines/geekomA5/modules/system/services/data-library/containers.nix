@@ -2,13 +2,6 @@
 let
   networks = [ "data-library-internal.network" ];
 
-  mkApiTraefikLabels = name: containerLib.mkTraefikLabels {
-    name = "${name}-api";
-    rule = "Host(`${name}.${config.custom.networking.domain}`) && PathPrefix(`/api/`)";
-    service = name;
-    priority = 15;
-  };
-
   mkApiSecureTraefikLabels = name: containerLib.mkTraefikLabels {
     name = "${name}-secure-api";
     rule = "Host(`${networkingLib.mkExternalDomain name}`) && PathPrefix(`/api/`)";
@@ -42,6 +35,11 @@ let
   };
 in
 {
+  custom.networking.ports.udp = {
+    jellyfin-service-discovery = { port = 1900; openFirewall = true; };
+    jellyfin-client-discovery = { port = 7359; openFirewall = true; };
+  };
+
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "data-library";
 
@@ -84,11 +82,13 @@ in
             "${./gluetun/auth_config.toml}:/gluetun/auth/config.toml"
           ];
           labels = (containerLib.mkTraefikLabels {
-            name = "qbittorrent"; # Proxied
+            name = "qbittorrent-secure"; # Proxied
             port = 8080;
             priority = 10;
-            middlewares = [ "authentik@docker" ];
-          }) ++ (mkApiTraefikLabels "qbittorrent");
+            domain = networkingLib.mkExternalDomain "qbittorrent";
+            entrypoints = [ "web-secure" ];
+            middlewares = [ "authentik-secure@docker" ];
+          }) ++ (mkApiSecureTraefikLabels "qbittorrent");
           inherit networks;
         };
       };
@@ -225,6 +225,10 @@ in
           addGroups = [
             (builtins.toString config.users.groups.render.gid) # For HW Transcoding
           ];
+          # publishPorts = [
+          #   "1900:1900/udp"
+          #   "7359:7359/udp"
+          # ];
           devices = [
             # HW Transcoding acceleration. 
             # See https://jellyfin.org/docs/general/installation/container#with-hardware-acceleration
@@ -232,22 +236,28 @@ in
             "/dev/dri:/dev/dri"
           ];
           environments = defaultEnvs // {
-            JELLYFIN_PublishedServerUrl = "http://jellyfin.${config.custom.networking.domain}";
+            JELLYFIN_PublishedServerUrl = networkingLib.mkExternalUrl "jellyfin";
           };
           volumes = [
             (mappedVolumeForUser "${storeRoot}/jellyfin/config" "/config")
             (mappedVolumeForUser "${storeRoot}/jellyfin/cache" "/cache")
             (mappedVolumeForUser "${externalStoreRoot}/media" "/media")
           ];
-          labels = (containerLib.mkTraefikLabels { name = "jellyfin"; port = 8096; }) ++ [
-            "traefik.udp.services.jellyfin-service-discovery.loadBalancer.server.port=1900"
-            "traefik.udp.routers.jellyfin-service-discovery.entrypoints=jellyfin-service-discovery"
-            "traefik.udp.routers.jellyfin-service-discovery.service=jellyfin-service-discovery"
+          labels = containerLib.mkTraefikLabels {
+            name = "jellyfin-secured";
+            port = 8096;
+            domain = networkingLib.mkExternalDomain "jellyfin";
+            entrypoints = [ "web-secure" ];
+          };
+          #  ++ [
+          #   "traefik.udp.services.jellyfin-service-discovery.loadBalancer.server.port=1900"
+          #   "traefik.udp.routers.jellyfin-service-discovery.entrypoints=jellyfin-service-discovery"
+          #   "traefik.udp.routers.jellyfin-service-discovery.service=jellyfin-service-discovery"
 
-            "traefik.udp.services.jellyfin-client-discovery.loadBalancer.server.port=7359"
-            "traefik.udp.routers.jellyfin-client-discovery.entrypoints=jellyfin-client-discovery"
-            "traefik.udp.routers.jellyfin-client-discovery.service=jellyfin-client-discovery"
-          ];
+          #   "traefik.udp.services.jellyfin-client-discovery.loadBalancer.server.port=7359"
+          #   "traefik.udp.routers.jellyfin-client-discovery.entrypoints=jellyfin-client-discovery"
+          #   "traefik.udp.routers.jellyfin-client-discovery.service=jellyfin-client-discovery"
+          # ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -275,7 +285,12 @@ in
               (mappedVolumeForUser "${storeRoot}/audiobookshelf/metadata" "/metadata")
               (mappedVolumeForUser "${externalStoreRoot}/media/audiobooks" "/audiobooks")
             ];
-            labels = containerLib.mkTraefikLabels { name = "audiobookshelf"; port = 8080; };
+            labels = containerLib.mkTraefikLabels {
+              name = "audiobookshelf-secure";
+              port = 8080;
+              domain = networkingLib.mkExternalDomain "audiobookshelf";
+              entrypoints = [ "web-secure" ];
+            };
             inherit networks;
             inherit (containerLib.containerIds) user;
           }
