@@ -1,9 +1,9 @@
 locals {
   base_urls = {
-    prowlarr    = "http://prowlarr.${var.server_domain}"
-    sonarr      = "http://sonarr.${var.server_domain}"
-    radarr      = "http://radarr.${var.server_domain}"
-    qbittorrent = "http://qbittorrent.${var.server_domain}/api/v2"
+    prowlarr    = "https://prowlarr.${var.server_domain}"
+    sonarr      = "https://sonarr.${var.server_domain}"
+    radarr      = "https://radarr.${var.server_domain}"
+    qbittorrent = "https://qbittorrent.${var.server_domain}/api/v2"
   }
 }
 
