@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-unstable, ... }:
+{ config, networkingLib, lib, pkgs, pkgs-unstable, ... }:
 {
   custom = {
     networking.ports.tcp.cockpit = { port = 9090; openFirewall = true; };
@@ -32,7 +32,10 @@
 
       settings = {
         WebService = {
-          Origins = "http://cockpit.${config.custom.networking.domain} ws://cockpit.${config.custom.networking.domain}";
+          Origins = lib.concatStringsSep " " [
+            (networkingLib.mkUrl "cockpit")
+            (networkingLib.mkCustomUrl { scheme = "wss"; service = "cockpit"; })
+          ];
           ProtocolHeader = "X-Forwarded-Proto";
           ForwardedForHeader = "X-Forwarded-For";
           AllowUnencrypted = true;
@@ -41,17 +44,9 @@
     };
 
     traefik.dynamicConfigOptions.http = {
-      # middlewares.cockpit = {
-      #   headers = {
-      #     customRequestHeaders = {
-      #       "X-Forwarded-Proto" = "http";
-      #     };
-      #   };
-      # };
-
       routers.cockpit = {
-        entryPoints = [ "web" ];
-        rule = "Host(`cockpit.${config.custom.networking.domain}`)";
+        entryPoints = [ "web-secure" ];
+        rule = "Host(`${networkingLib.mkDomain "cockpit"}`)";
         service = "cockpit";
         # middlewares = [ "cockpit@file" ];
       };
