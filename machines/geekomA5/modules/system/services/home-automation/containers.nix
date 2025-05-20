@@ -1,4 +1,4 @@
-{ inputs, config, lib, pkgs, containerLib, systemdLib, ... }:
+{ inputs, config, lib, pkgs, containerLib, systemdLib, networkingLib, ... }:
 let
   storeRoot = "/mnt/store/home-automation";
 
@@ -66,9 +66,11 @@ in
             "/dev/ttyZigbee:/dev/ttyZigbee"
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "zigbee2mqtt";
+            name = "zigbee2mqtt-secure";
             port = 8080;
-            middlewares = [ "authentik@docker" ];
+            domain = networkingLib.mkExternalDomain "zigbee2mqtt";
+            entrypoints = [ "web-secure" ];
+            middlewares = [ "authentik-secure@docker" ];
           };
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -121,16 +123,19 @@ in
             "${inputs.homeassistant-docker-venv}/run:/etc/services.d/home-assistant/run"
           ];
           labels = (containerLib.mkTraefikLabels {
-            name = "homeassistant";
+            name = "homeassistant-secure";
             port = 8123;
             priority = 10;
-            middlewares = [ "authentik@docker" ];
+            domain = networkingLib.mkExternalDomain "homeassistant";
+            entrypoints = [ "web-secure" ];
+            middlewares = [ "authentik-secure@docker" ];
           }) ++
           (containerLib.mkTraefikLabels {
-            name = "homeassistant-hooks";
-            rule = "Host(`homeassistant.${config.custom.networking.domain}`) && PathPrefix(`/api/webhook/`)";
-            service = "homeassistant";
+            name = "homeassistant-secure-hooks";
+            rule = "Host(`${networkingLib.mkExternalDomain "homeassistant"}`) && PathPrefix(`/api/webhook/`)";
+            service = "homeassistant-secure";
             priority = 15;
+            entrypoints = [ "web-secure" ];
           });
           inherit networks;
         };
