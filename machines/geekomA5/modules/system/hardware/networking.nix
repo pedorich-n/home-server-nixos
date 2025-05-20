@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ config, lib, ... }: {
   options = {
     custom.networking.domain = lib.mkOption {
       type = lib.types.str;
@@ -7,7 +7,9 @@
   };
 
   config = {
-    custom.networking.domain = "server.lan";
+    custom.networking = {
+      domain = config.custom.secrets.plaintext.variables.domain;
+    };
 
     networking = {
       useNetworkd = true;

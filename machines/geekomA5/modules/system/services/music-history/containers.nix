@@ -45,9 +45,9 @@ in
             "${./multi-scrobbler/webscrobbler.json}:/config/webscrobbler.json"
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "multiscrobbler";
+            name = "multiscrobbler-secure";
             port = 9078;
-            middlewares = [ "authentik@docker" ];
+            middlewares = [ "authentik-secure@docker" ];
           };
           inherit networks;
         };
@@ -79,9 +79,9 @@ in
             "${malojaArtistRules}:/data/rules/custom_rules.tsv"
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "maloja";
+            name = "maloja-secure";
             port = 42010;
-            middlewares = [ "authentik@docker" ];
+            middlewares = [ "authentik-secure@docker" ];
           };
           inherit networks;
         };

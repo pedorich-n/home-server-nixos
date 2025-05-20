@@ -1,8 +1,10 @@
-{ config, lib, ... }: {
+{ config, lib, networkingLib, ... }: {
   _module.args.containerLib = rec {
     mkTraefikLabels =
       { name
-      , domain ? "${name}.${config.custom.networking.domain}"
+      , slug ? lib.removeSuffix "-secure" name
+      , domain ? networkingLib.mkDomain slug
+      , entrypoints ? [ "web-secure" ]
       , rule ? "Host(`${domain}`)"
       , priority ? 0
       , middlewares ? [ ]
@@ -11,10 +13,10 @@
       }: [
         "traefik.enable=true"
         "traefik.http.routers.${name}.rule=${rule}"
-        "traefik.http.routers.${name}.entrypoints=web"
+        "traefik.http.routers.${name}.entrypoints=${lib.concatStringsSep "," entrypoints}"
         "traefik.http.routers.${name}.priority=${builtins.toString priority}"
       ]
-      ++ lib.optional (middlewares != [ ]) "traefik.http.routers.${name}.middlewares=${lib.concatStringsSep ", " middlewares}"
+      ++ lib.optional (middlewares != [ ]) "traefik.http.routers.${name}.middlewares=${lib.concatStringsSep "," middlewares}"
       ++ (if (service == null) then [
         "traefik.http.services.${name}.loadBalancer.server.port=${builtins.toString port}"
         "traefik.http.routers.${name}.service=${name}"

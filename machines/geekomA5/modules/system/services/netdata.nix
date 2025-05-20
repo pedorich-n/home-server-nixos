@@ -1,6 +1,6 @@
-{ inputs, config, lib, pkgs, pkgs-unstable, ... }:
+{ inputs, config, networkingLib, lib, pkgs, pkgs-unstable, ... }:
 let
-  metricsDomain = "http://metrics.${config.custom.networking.domain}:${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
+  metricsDomain = "http://${networkingLib.mkDomain "metrics"}:${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
 
   # https://learn.netdata.cloud/docs/collecting-metrics/generic-collecting-metrics/prometheus-endpoint#options
   prometheusEndpoints = [
@@ -177,13 +177,13 @@ in
 
     traefik.dynamicConfigOptions.http = {
       routers.netdata = {
-        entryPoints = [ "web" ];
-        rule = "Host(`netdata.${config.custom.networking.domain}`)";
-        service = "netdata";
-        middlewares = [ "authentik@docker" ];
+        entryPoints = [ "web-secure" ];
+        rule = "Host(`${networkingLib.mkDomain "netdata"}`)";
+        service = "netdata-secure";
+        middlewares = [ "authentik-secure@docker" ];
       };
 
-      services.netdata = {
+      services.netdata-secure = {
         loadBalancer.servers = [{ url = "http://localhost:19999"; }];
       };
     };

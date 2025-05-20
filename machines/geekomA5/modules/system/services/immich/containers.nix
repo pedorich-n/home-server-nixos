@@ -1,4 +1,4 @@
-{ config, containerLib, systemdLib, ... }:
+{ config, containerLib, systemdLib, networkingLib, ... }:
 let
   storeRoot = "/mnt/store/immich";
   externalStoreRoot = "/mnt/external/immich-library";
@@ -102,9 +102,22 @@ in
             (mappedVolumeForUser externalStoreRoot "/usr/src/app/upload")
           ];
           labels =
-            (containerLib.mkTraefikLabels { name = "immich"; port = 2283; }) ++
-            (containerLib.mkTraefikMetricsLabels { name = "immich"; port = 8081; addPath = "/metrics"; }) ++
-            (containerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8082; addPath = "/metrics"; });
+            (containerLib.mkTraefikLabels {
+              name = "immich-secure";
+              port = 2283;
+            }) ++
+            (containerLib.mkTraefikMetricsLabels {
+              name = "immich";
+              domain = networkingLib.mkDomain "metrics";
+              port = 8081;
+              addPath = "/metrics";
+            }) ++
+            (containerLib.mkTraefikMetricsLabels {
+              name = "immich-microservices";
+              domain = networkingLib.mkDomain "metrics";
+              port = 8082;
+              addPath = "/metrics";
+            });
           inherit networks;
           inherit (containerLib.containerIds) user;
         };

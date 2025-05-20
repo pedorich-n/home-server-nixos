@@ -1,11 +1,12 @@
-{ config, lib, containerLib, systemdLib, ... }:
+{ config, lib, containerLib, systemdLib, networkingLib, ... }:
 let
   networks = [ "data-library-internal.network" ];
 
-  mkApiTraefikLabels = name: containerLib.mkTraefikLabels {
-    name = "${name}-api";
-    rule = "Host(`${name}.${config.custom.networking.domain}`) && PathPrefix(`/api/`)";
-    service = name;
+  mkApiSecureTraefikLabels = name: containerLib.mkTraefikLabels {
+    name = "${name}-secure-api";
+    rule = "Host(`${networkingLib.mkDomain name}`) && PathPrefix(`/api/`)";
+    service = "${name}-secure";
+    entrypoints = [ "web-secure" ];
     priority = 15;
   };
 
@@ -34,6 +35,11 @@ let
   };
 in
 {
+  custom.networking.ports.udp = {
+    jellyfin-service-discovery = { port = 1900; openFirewall = true; };
+    jellyfin-client-discovery = { port = 7359; openFirewall = true; };
+  };
+
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "data-library";
 
@@ -76,11 +82,11 @@ in
             "${./gluetun/auth_config.toml}:/gluetun/auth/config.toml"
           ];
           labels = (containerLib.mkTraefikLabels {
-            name = "qbittorrent"; # Proxied
+            name = "qbittorrent-secure"; # Proxied
             port = 8080;
             priority = 10;
-            middlewares = [ "authentik@docker" ];
-          }) ++ (mkApiTraefikLabels "qbittorrent");
+            middlewares = [ "authentik-secure@docker" ];
+          }) ++ (mkApiSecureTraefikLabels "qbittorrent");
           inherit networks;
         };
       };
@@ -117,9 +123,9 @@ in
             (mappedVolumeForUser "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "sabnzbd";
+            name = "sabnzbd-secure";
             port = environments.PORT;
-            middlewares = [ "authentik@docker" ];
+            middlewares = [ "authentik-secure@docker" ];
           };
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -137,11 +143,11 @@ in
             (mappedVolumeForUser "${storeRoot}/prowlarr/config" "/config")
           ];
           labels = (containerLib.mkTraefikLabels {
-            name = "prowlarr";
+            name = "prowlarr-secure";
             port = 9696;
             priority = 10;
-            middlewares = [ "authentik@docker" ];
-          }) ++ (mkApiTraefikLabels "prowlarr");
+            middlewares = [ "authentik-secure@docker" ];
+          }) ++ (mkApiSecureTraefikLabels "prowlarr");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -160,11 +166,11 @@ in
             (mappedVolumeForUser externalStoreRoot "/data")
           ];
           labels = (containerLib.mkTraefikLabels {
-            name = "sonarr";
+            name = "sonarr-secure";
             port = 8989;
             priority = 10;
-            middlewares = [ "authentik@docker" ];
-          }) ++ (mkApiTraefikLabels "sonarr");
+            middlewares = [ "authentik-secure@docker" ];
+          }) ++ (mkApiSecureTraefikLabels "sonarr");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -184,11 +190,11 @@ in
             (mappedVolumeForUser externalStoreRoot "/data")
           ];
           labels = (containerLib.mkTraefikLabels {
-            name = "radarr";
+            name = "radarr-secure";
             port = 7878;
             priority = 10;
-            middlewares = [ "authentik@docker" ];
-          }) ++ (mkApiTraefikLabels "radarr");
+            middlewares = [ "authentik-secure@docker" ];
+          }) ++ (mkApiSecureTraefikLabels "radarr");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -209,6 +215,10 @@ in
           addGroups = [
             (builtins.toString config.users.groups.render.gid) # For HW Transcoding
           ];
+          # publishPorts = [
+          #   "1900:1900/udp"
+          #   "7359:7359/udp"
+          # ];
           devices = [
             # HW Transcoding acceleration. 
             # See https://jellyfin.org/docs/general/installation/container#with-hardware-acceleration
@@ -216,22 +226,27 @@ in
             "/dev/dri:/dev/dri"
           ];
           environments = defaultEnvs // {
-            JELLYFIN_PublishedServerUrl = "http://jellyfin.${config.custom.networking.domain}";
+            JELLYFIN_PublishedServerUrl = networkingLib.mkUrl "jellyfin";
           };
           volumes = [
             (mappedVolumeForUser "${storeRoot}/jellyfin/config" "/config")
             (mappedVolumeForUser "${storeRoot}/jellyfin/cache" "/cache")
             (mappedVolumeForUser "${externalStoreRoot}/media" "/media")
           ];
-          labels = (containerLib.mkTraefikLabels { name = "jellyfin"; port = 8096; }) ++ [
-            "traefik.udp.services.jellyfin-service-discovery.loadBalancer.server.port=1900"
-            "traefik.udp.routers.jellyfin-service-discovery.entrypoints=jellyfin-service-discovery"
-            "traefik.udp.routers.jellyfin-service-discovery.service=jellyfin-service-discovery"
+          labels = containerLib.mkTraefikLabels {
+            name = "jellyfin-secure";
+            port = 8096;
+            entrypoints = [ "web-secure" ];
+          };
+          #  ++ [
+          #   "traefik.udp.services.jellyfin-service-discovery.loadBalancer.server.port=1900"
+          #   "traefik.udp.routers.jellyfin-service-discovery.entrypoints=jellyfin-service-discovery"
+          #   "traefik.udp.routers.jellyfin-service-discovery.service=jellyfin-service-discovery"
 
-            "traefik.udp.services.jellyfin-client-discovery.loadBalancer.server.port=7359"
-            "traefik.udp.routers.jellyfin-client-discovery.entrypoints=jellyfin-client-discovery"
-            "traefik.udp.routers.jellyfin-client-discovery.service=jellyfin-client-discovery"
-          ];
+          #   "traefik.udp.services.jellyfin-client-discovery.loadBalancer.server.port=7359"
+          #   "traefik.udp.routers.jellyfin-client-discovery.entrypoints=jellyfin-client-discovery"
+          #   "traefik.udp.routers.jellyfin-client-discovery.service=jellyfin-client-discovery"
+          # ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -259,7 +274,10 @@ in
               (mappedVolumeForUser "${storeRoot}/audiobookshelf/metadata" "/metadata")
               (mappedVolumeForUser "${externalStoreRoot}/media/audiobooks" "/audiobooks")
             ];
-            labels = containerLib.mkTraefikLabels { name = "audiobookshelf"; port = 8080; };
+            labels = containerLib.mkTraefikLabels {
+              name = "audiobookshelf-secure";
+              port = 8080;
+            };
             inherit networks;
             inherit (containerLib.containerIds) user;
           }

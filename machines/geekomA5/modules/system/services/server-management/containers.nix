@@ -27,7 +27,10 @@ in
         (storeFor "portainer" "/data")
       ];
       # user = userSetting;
-      labels = containerLib.mkTraefikLabels { name = "portainer"; port = 9000; };
+      labels = containerLib.mkTraefikLabels {
+        name = "portainer-secure";
+        port = 9000;
+      };
     };
   };
 }

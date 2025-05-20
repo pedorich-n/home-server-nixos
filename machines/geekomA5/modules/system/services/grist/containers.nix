@@ -1,4 +1,4 @@
-{ config, containerLib, authentikLib, ... }:
+{ config, containerLib, authentikLib, networkingLib, ... }:
 let
   storeRoot = "/mnt/store/grist";
 
@@ -23,8 +23,8 @@ in
 
     containerConfig = {
       environments = rec {
-        GRIST_DOMAIN = "grist.${config.custom.networking.domain}";
-        APP_HOME_URL = "http://${GRIST_DOMAIN}";
+        GRIST_DOMAIN = networkingLib.mkDomain "grist";
+        APP_HOME_URL = networkingLib.mkUrl "grist";
 
         GRIST_HIDE_UI_ELEMENTS = "billing";
         GRIST_SUPPORT_ANON = "false";
@@ -36,7 +36,10 @@ in
       volumes = [
         (mappedVolumeForUser "${storeRoot}/persist" "/persist")
       ];
-      labels = containerLib.mkTraefikLabels { name = "grist"; port = 8484; };
+      labels = containerLib.mkTraefikLabels {
+        name = "grist";
+        port = 8484;
+      };
       inherit (containerLib.containerIds) user;
     };
   };

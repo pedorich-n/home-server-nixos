@@ -1,4 +1,4 @@
-{ config, containerLib, systemdLib, ... }:
+{ config, containerLib, systemdLib, networkingLib, ... }:
 let
   storeRoot = "/mnt/store/paperless";
   externalStoreRoot = "/mnt/external/paperless-library";
@@ -72,17 +72,25 @@ in
             PAPERLESS_OCR_USER_ARGS = "{\"invalidate_digital_signatures\": true}";
 
             PAPERLESS_SOCIAL_AUTO_SIGNUP = "true";
-            PAPERLESS_ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http";
-            PAPERLESS_URL = "http://paperless.${config.custom.networking.domain}";
+            PAPERLESS_ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https";
+            PAPERLESS_APPS = "allauth.socialaccount.providers.openid_connect";
+
+            PAPERLESS_URL = networkingLib.mkUrl "paperless";
           };
-          environmentFiles = [ config.sops.secrets."paperless/main.env".path ];
+          environmentFiles = [
+            config.sops.secrets."paperless/main.env".path
+            config.sops.templates."paperless/oidc.env".path
+          ];
           volumes = [
             (mappedVolumeForUser "${storeRoot}/data" "/usr/src/paperless/data")
             (mappedVolumeForUser "${storeRoot}/export" "/usr/src/paperless/export")
             (mappedVolumeForUser "${externalStoreRoot}/media" "/usr/src/paperless/media")
             (mappedVolumeForUser "${externalStoreRoot}/media/trash" "/usr/src/paperless/media/trash")
           ];
-          labels = containerLib.mkTraefikLabels { name = "paperless"; port = 8000; };
+          labels = containerLib.mkTraefikLabels {
+            name = "paperless-secure";
+            port = 8000;
+          };
           inherit networks;
         };
 

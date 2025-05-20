@@ -1,4 +1,4 @@
-{ config, lib, containerLib, systemdLib, pkgs, ... }:
+{ config, lib, containerLib, systemdLib, networkingLib, pkgs, ... }:
 let
   storeRoot = "/mnt/store/server-management/authentik";
 
@@ -113,7 +113,7 @@ in
 
         containerConfig = {
           environments = defaultEnvs // {
-            AUTHENTIK_HOST = "http://authentik.${config.custom.networking.domain}";
+            AUTHENTIK_HOST = networkingLib.mkUrl "authentik";
           };
           environmentFiles = [ config.sops.secrets."authentik/ldap_outpost.env".path ];
           labels = [
@@ -152,18 +152,18 @@ in
           healthRetries = 5;
           notify = "healthy";
           labels = (containerLib.mkTraefikLabels {
-            name = "authentik";
+            name = "authentik-secure";
             port = 9000;
             priority = 10;
           }) ++ (containerLib.mkTraefikLabels {
-            name = "authentik-outpost";
-            rule = "HostRegexp(`{subdomain:[a-z0-9-]+}.${config.custom.networking.domain}`) && PathPrefix(`/outpost.goauthentik.io/`)";
-            service = "authentik";
+            name = "authentik-outpost-secure";
+            rule = "HostRegexp(`${networkingLib.mkDomain "{subdomain:[a-z0-9-]+}"}`) && PathPrefix(`/outpost.goauthentik.io/`)";
+            service = "authentik-secure";
             priority = 15;
           }) ++ [
-            "traefik.http.middlewares.authentik.forwardauth.address=http://${serverIp}:9000/outpost.goauthentik.io/auth/traefik"
-            "traefik.http.middlewares.authentik.forwardauth.trustForwardHeader=true"
-            "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
+            "traefik.http.middlewares.authentik-secure.forwardauth.address=http://${serverIp}:9000/outpost.goauthentik.io/auth/traefik"
+            "traefik.http.middlewares.authentik-secure.forwardauth.trustForwardHeader=true"
+            "traefik.http.middlewares.authentik-secure.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
           ];
           inherit (containerLib.containerIds) user;
         };

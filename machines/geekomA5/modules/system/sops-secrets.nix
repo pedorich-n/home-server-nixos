@@ -71,6 +71,13 @@ let
     };
   };
 
+  traefikSecrets = {
+    "cloudflare/api_tokens/traefik_acme" = {
+      owner = config.users.users.traefik.name;
+      group = config.users.users.traefik.group;
+    };
+  };
+
 in
 {
   sops = {
@@ -116,6 +123,9 @@ in
         "tailscale/oauth_clients/initrd/id" = { };
         "tailscale/oauth_clients/initrd/secret" = { };
 
+        "paperless/client_id" = { };
+        "paperless/client_secret" = { };
+
         "telegram-airtable-lessons/calendar_loader.toml" = {
           sopsFile = sopsFilePathFor "telegram-airtable-lessons/calendar_loader.toml";
           format = "binary";
@@ -134,6 +144,7 @@ in
       resticSecrets
       (lib.mkIf (config.services ? ngrok && config.services.ngrok.enable) ngrokSecrets)
       (lib.mkIf (config.services ? playit && config.services.playit.enable) playitSecrets)
+      (lib.mkIf config.services.traefik.enable traefikSecrets)
     ];
   };
 }
