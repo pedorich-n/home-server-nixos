@@ -1,6 +1,6 @@
 { inputs, config, networkingLib, lib, pkgs, pkgs-unstable, ... }:
 let
-  metricsDomain = "http://metrics.${config.custom.networking.domain}:${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
+  metricsDomain = "http://${networkingLib.mkExternalDomain "metrics"}:${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
 
   # https://learn.netdata.cloud/docs/collecting-metrics/generic-collecting-metrics/prometheus-endpoint#options
   prometheusEndpoints = [

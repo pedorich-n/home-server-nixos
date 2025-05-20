@@ -108,8 +108,18 @@ in
               domain = networkingLib.mkExternalDomain "immich";
               entrypoints = [ "web-secure" ];
             }) ++
-            (containerLib.mkTraefikMetricsLabels { name = "immich"; port = 8081; addPath = "/metrics"; }) ++
-            (containerLib.mkTraefikMetricsLabels { name = "immich-microservices"; port = 8082; addPath = "/metrics"; });
+            (containerLib.mkTraefikMetricsLabels {
+              name = "immich";
+              domain = networkingLib.mkExternalDomain "metrics";
+              port = 8081;
+              addPath = "/metrics";
+            }) ++
+            (containerLib.mkTraefikMetricsLabels {
+              name = "immich-microservices";
+              domain = networkingLib.mkExternalDomain "metrics";
+              port = 8082;
+              addPath = "/metrics";
+            });
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
