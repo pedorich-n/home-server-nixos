@@ -46,7 +46,15 @@
         mqtt.address = ":${config.custom.networking.ports.tcp.traefik-mqtt.portStr}";
 
         metrics.address = ":${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
-        web.address = ":${config.custom.networking.ports.tcp.traefik-web.portStr}";
+        web = {
+          address = ":${config.custom.networking.ports.tcp.traefik-web.portStr}";
+          http.redirections = {
+            entryPoint = {
+              to = "web-secure";
+              scheme = "https";
+            };
+          };
+        };
         web-secure = {
           address = ":${config.custom.networking.ports.tcp.traefik-web-secure.portStr}";
           http.tls = {
@@ -85,8 +93,8 @@
         middlewares = {
           authentik-homepage = {
             redirectRegex = {
-              regex = "^http://${config.custom.networking.domain}(.*)";
-              replacement = ''http://authentik.${config.custom.networking.domain}''${1}'';
+              regex = "^https://${config.custom.networking.domain-external}(.*)";
+              replacement = ''${networkingLib.mkExternalUrl "authentik"}''${1}'';
               permanent = true;
             };
           };
@@ -94,8 +102,8 @@
 
         routers = {
           top-level = {
-            entrypoints = [ "web" ];
-            rule = "Host(`${config.custom.networking.domain}`)";
+            entrypoints = [ "web-secure" ];
+            rule = "Host(`${config.custom.networking.domain-external}`)";
             service = "noop@internal";
             middlewares = [ "authentik-homepage@file" ];
           };

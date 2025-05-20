@@ -152,19 +152,15 @@ in
           healthRetries = 5;
           notify = "healthy";
           labels = (containerLib.mkTraefikLabels {
-            name = "authentik";
-            port = 9000;
-            priority = 10;
-          }) ++ (containerLib.mkTraefikLabels {
             name = "authentik-secure";
             domain = networkingLib.mkExternalDomain "authentik";
-            service = "authentik";
+            port = 9000;
             priority = 10;
             entrypoints = [ "web-secure" ];
           }) ++ (containerLib.mkTraefikLabels {
             name = "authentik-outpost-secure";
             rule = "HostRegexp(`${networkingLib.mkExternalDomain "{subdomain:[a-z0-9-]+}"}`) && PathPrefix(`/outpost.goauthentik.io/`)";
-            service = "authentik";
+            service = "authentik-secure";
             entrypoints = [ "web-secure" ];
             priority = 15;
           }) ++ [
