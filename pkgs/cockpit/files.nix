@@ -36,6 +36,6 @@ stdenv.mkDerivation {
     license = lib.licenses.lgpl21;
     homepage = "https://github.com/cockpit-project/cockpit-files";
     platforms = lib.platforms.linux;
-    maintainers = with lib.maintainers; [ ];
+    maintainers = [ ];
   };
 }

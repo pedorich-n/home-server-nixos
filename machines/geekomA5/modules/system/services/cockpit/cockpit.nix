@@ -1,27 +1,13 @@
 { config, networkingLib, lib, pkgs, pkgs-unstable, ... }:
 {
   custom = {
-    networking.ports.tcp.cockpit = { port = 9090; openFirewall = true; };
+    networking.ports.tcp.cockpit = { port = 9090; openFirewall = false; };
   };
 
   environment.systemPackages = [
     pkgs.cockpit-files
     pkgs.cockpit-podman
   ];
-
-  # systemd.sockets.cockpit.listenStreams = lib.mkForce [
-  #   "127.0.0.1:${config.custom.networking.ports.tcp.cockpit.portStr}"
-  # ];
-
-  systemd.services = {
-    cockpit.environment = {
-      G_MESSAGES_DEBUG = "all";
-    };
-
-    "cockpit-wsinstance-http".environment = {
-      G_MESSAGES_DEBUG = "all";
-    };
-  };
 
   services = {
     cockpit = {
@@ -47,11 +33,10 @@
       routers.cockpit = {
         entryPoints = [ "web-secure" ];
         rule = "Host(`${networkingLib.mkDomain "cockpit"}`)";
-        service = "cockpit";
-        # middlewares = [ "cockpit@file" ];
+        service = "cockpit-secure";
       };
 
-      services.cockpit = {
+      services.cockpit-secure = {
         loadBalancer.servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp.cockpit.portStr}"; }];
       };
     };
