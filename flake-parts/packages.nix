@@ -5,8 +5,7 @@
       mc-monitor = pkgs.callPackage ../pkgs/mc-monitor { };
       modpack = pkgs.callPackage ../pkgs/minecraft-modpack { };
 
-      cockpit-files = pkgs.callPackage ../pkgs/cockpit/files.nix { };
-      cockpit-podman = pkgs.callPackage ../pkgs/cockpit/podman.nix { };
+      cockpit-plugins-update = pkgs.callPackage ../pkgs/cockpit-plugins/updater.nix { };
     };
   };
 }

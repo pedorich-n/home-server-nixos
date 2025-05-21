@@ -4,9 +4,11 @@
     networking.ports.tcp.cockpit = { port = 9090; openFirewall = false; };
   };
 
+  #LINK - pkgs/cockpit-plugins/files.nix
+  #LINK - pkgs/cockpit-plugins/podman.nix
   environment.systemPackages = [
-    pkgs.cockpit-files
-    pkgs.cockpit-podman
+    pkgs.cockpit-plugins.files
+    pkgs.cockpit-plugins.podman
   ];
 
   services = {
