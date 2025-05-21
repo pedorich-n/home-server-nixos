@@ -36,7 +36,7 @@ in
   config = lib.mkMerge [
     {
       services.minecraft-servers.servers.${serverName} = {
-        enable = true;
+        enable = false;
         autoStart = true;
         openFirewall = true;
 

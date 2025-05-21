@@ -2,8 +2,11 @@ let
   packages = {
     systemd-onfailure-notify = ../pkgs/systemd-onfailure-notify;
     mc-monitor = ../pkgs/mc-monitor;
-    minecraft-modpacks.exploration = ../pkgs/minecraft-modpacks/exploration.nix;
-    minecraft-modpacks.crying-obsidian = ../pkgs/minecraft-modpacks/crying-obsidian.nix;
+  };
+
+  minecraft-modpacks = {
+    exploration = ../pkgs/minecraft-modpacks/exploration.nix;
+    crying-obsidian = ../pkgs/minecraft-modpacks/crying-obsidian.nix;
   };
 
   cockpit-plugins = {
@@ -20,5 +23,9 @@ in
 {
   cockpit-plugins = _: prev: {
     cockpit-plugins = builtins.mapAttrs (_: path: prev.callPackage path { }) cockpit-plugins;
+  };
+
+  minecraft-modpacks = _: prev: {
+    minecraft-modpacks = builtins.mapAttrs (_: path: prev.callPackage path { }) minecraft-modpacks;
   };
 }
