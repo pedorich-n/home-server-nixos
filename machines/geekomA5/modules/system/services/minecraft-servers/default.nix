@@ -13,7 +13,7 @@
     };
 
     playit = {
-      enable = false;
+      enable = true;
       secretPath = config.sops.secrets."playit/secret".path;
     };
   };
