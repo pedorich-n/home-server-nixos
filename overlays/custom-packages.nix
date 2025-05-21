@@ -5,8 +5,19 @@ let
     minecraft-modpack = ../pkgs/minecraft-modpack;
   };
 
+  cockpit-plugins = {
+    files = ../pkgs/cockpit-plugins/files.nix;
+    podman = ../pkgs/cockpit-plugins/podman.nix;
+  };
+
   mkOverlay = name: path: _: prev: {
     ${name} = prev.callPackage path { };
   };
 in
-builtins.mapAttrs (name: path: mkOverlay name path) packages
+# TODO: figure out a nicer way to do this. See https://noogle.dev/f/lib/filesystem/packagesFromDirectoryRecursive for inspiration
+(builtins.mapAttrs (name: path: mkOverlay name path) packages) //
+{
+  cockpit-plugins = _: prev: {
+    cockpit-plugins = builtins.mapAttrs (_: path: prev.callPackage path { }) cockpit-plugins;
+  };
+}

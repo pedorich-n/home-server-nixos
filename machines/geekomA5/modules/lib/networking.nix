@@ -2,6 +2,7 @@
   _module.args.networkingLib = rec {
     mkDomain = service: "${service}.${config.custom.networking.domain}";
 
-    mkUrl = service: "https://${mkDomain service}";
+    mkCustomUrl = { scheme ? "https", service }: "${scheme}://${mkDomain service}";
+    mkUrl = service: mkCustomUrl { inherit service; };
   };
 }
