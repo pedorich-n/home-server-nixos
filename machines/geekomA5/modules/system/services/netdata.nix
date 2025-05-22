@@ -23,6 +23,7 @@ let
     autodetection_retry = 60;
     selector.deny = [
       "jvm_buffer_pool*"
+      "minecraft_entities*"
       ''jvm_memory_pool_*{pool=*"CodeHeap*"}''
     ];
   });
