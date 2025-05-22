@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://version-2024-10.goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: idp-source-google
+  labels:
+    blueprints.goauthentik.io/description: "Setup Google OAuth as a IdP"
+entries:
+  # Create source
+  - model: authentik_sources_oauth.oauthsource
+    state: present
+    id: source-google
+    identifiers:
+      slug: google
+    attrs:
+      name: Google
+      provider_type: google
+      user_matching_mode: email_link
+      authentication_flow: !Find [authentik_flows.flow, [slug, default-source-authentication]]
+      enrollment_flow: !Find [authentik_flows.flow, [slug, default-source-enrollment]]
+      enabled: true
+      consumer_key: !Env SOURCE_GOOGLE_OAUTH_CLIENT_ID
+      consumer_secret: !Env SOURCE_GOOGLE_OAUTH_CLIENT_SECRET
+
+  # Display new source on the login page
+  - model: authentik_stages_identification.identificationstage
+    state: present
+    identifiers:
+      name: default-authentication-identification
+    attrs:
+      sources:
+        - !KeyOf source-google
