@@ -1,10 +1,10 @@
 { pkgs, ... }:
 let
-  version = "V1.0.0";
+  version = "V1.0.3";
 in
 pkgs.fetchPackwizModpack {
   pname = "crying-obsidian";
   inherit version;
   url = "https://gitlab.com/pablo_peraza/crying-obsidian/-/raw/${version}/pack.toml";
-  packHash = "sha256-XPoNZCayw/ZBwI+LvRKQzgEBC33kk97bWj0TWyk77w8=";
+  packHash = "sha256-BEaWsD9saCNnmG6HqdCMScSv/O2chfsVgCpJpaU/K4Y=";
 }

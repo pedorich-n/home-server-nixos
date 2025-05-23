@@ -89,6 +89,7 @@ in
         networking.ports.tcp = {
           "minecraft-${serverName}-game" = { port = 25565; openFirewall = true; };
           "minecraft-${serverName}-metrics" = { port = 25585; openFirewall = false; };
+          "minecraft-${serverName}-map" = { port = 25595; openFirewall = false; };
         };
       };
     })
