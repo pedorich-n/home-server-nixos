@@ -5,7 +5,6 @@ let
   };
 
   minecraft-modpacks = {
-    exploration = ../pkgs/minecraft-modpacks/exploration.nix;
     crying-obsidian = ../pkgs/minecraft-modpacks/crying-obsidian.nix;
   };
 
