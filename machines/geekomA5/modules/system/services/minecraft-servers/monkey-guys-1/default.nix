@@ -1,12 +1,9 @@
-{ inputs, config, pkgs, lib, ... }:
+{ inputs, config, pkgs, networkingLib, lib, ... }:
 let
   minecraftLib = inputs.nix-minecraft.lib;
-  serverName = "money-guys-6";
+  serverName = "monkey-guys-1";
 
-  forge = pkgs.callPackage ./_forge.nix { };
-  forgeRunner = pkgs.callPackage ./_forge-runner.nix { inherit forge; };
-
-  modpack = pkgs.minecraft-modpacks.exploration;
+  modpack = pkgs.minecraft-modpacks.crying-obsidian;
 
   # https://docs.papermc.io/paper/aikars-flags
   aikarFlagsWith = { memory }: builtins.concatStringsSep " " [
@@ -31,22 +28,25 @@ let
     "-XX:+PerfDisableSharedMem"
     "-XX:MaxTenuringThreshold=1"
   ];
+
+  gamePortCfg = config.custom.networking.ports.tcp."minecraft-${serverName}-game";
+  metricsPortCfg = config.custom.networking.ports.tcp."minecraft-${serverName}-metrics";
 in
 {
   config = lib.mkMerge [
     {
       services.minecraft-servers.servers.${serverName} = {
-        enable = false;
+        enable = true;
         autoStart = true;
-        openFirewall = true;
+        inherit (gamePortCfg) openFirewall;
 
-        package = forgeRunner;
+        package = pkgs.fabricServers.fabric-1_20_1;
         serverProperties = {
           allow-flight = true;
-          server-port = config.custom.networking.ports.tcp."minecraft-${serverName}-game".port;
+          server-port = gamePortCfg.port;
           difficulty = 2;
           level-name = "the_best_1";
-          motd = ''\u00A72Money Guys\u00A7r - you better settle your bill in time'';
+          motd = ''🐒Leave society, be a monkey🐒'';
           max-players = 10;
           enable-status = true;
           enforce-secure-profile = false;
@@ -60,8 +60,7 @@ in
         } // minecraftLib.collectFilesAt modpack "mods";
 
         files =
-          (minecraftLib.collectFilesAt modpack "config") //
-          (minecraftLib.collectFilesAt modpack "journeymap");
+          minecraftLib.collectFilesAt modpack "config";
       };
     }
     (lib.mkIf (config.services.minecraft-servers.enable && config.services.minecraft-servers.servers.${serverName}.enable) {
@@ -70,13 +69,13 @@ in
       services.traefik.dynamicConfigOptions.http = {
         routers.metrics-minecraft = {
           entryPoints = [ "metrics" ];
-          rule = "Host(`metrics.${config.custom.networking.domain}`) && Path(`/minecraft`)";
+          rule = "Host(`${networkingLib.mkDomain "metrics"}`) && Path(`/minecraft`)";
           service = "metrics-minecraft";
           middlewares = [ "metrics-replacepath-minecraft" ];
         };
 
         services.metrics-minecraft = {
-          loadBalancer.servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp.minecraft-money-guys-6-metrics.portStr}"; }];
+          loadBalancer.servers = [{ url = "http://localhost:${metricsPortCfg.portStr}"; }];
         };
 
         middlewares.metrics-replacepath-minecraft = {
@@ -89,24 +88,8 @@ in
       custom = {
         networking.ports.tcp = {
           "minecraft-${serverName}-game" = { port = 25565; openFirewall = true; };
-          "minecraft-${serverName}-metrics" = { port = 19565; openFirewall = false; };
-        };
-
-        minecraft-servers.check.servers = {
-          ${serverName} = {
-            address = "127.0.0.1";
-            port = config.custom.networking.ports.tcp."minecraft-${serverName}-game".port;
-
-            notify = {
-              # socket = notifySocket;
-              # pidPath = pidFile;
-            };
-
-            healthCheck = {
-              retries = 15;
-              intervalSeconds = 5;
-            };
-          };
+          "minecraft-${serverName}-metrics" = { port = 25585; openFirewall = false; };
+          "minecraft-${serverName}-map" = { port = 25595; openFirewall = false; };
         };
       };
     })
