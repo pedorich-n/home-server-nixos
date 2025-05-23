@@ -6,7 +6,6 @@
       inputs.poetry2nix.overlays.default
       inputs.nix-minecraft.overlays.default
       inputs.playit-nixos-module.overlays.default
-      overlays.mc-monitor
       overlays.cockpit-plugins
       overlays.minecraft-modpacks
       (_: prev:

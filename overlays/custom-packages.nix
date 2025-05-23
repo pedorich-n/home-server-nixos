@@ -1,7 +1,6 @@
 let
   packages = {
     systemd-onfailure-notify = ../pkgs/systemd-onfailure-notify;
-    mc-monitor = ../pkgs/mc-monitor;
   };
 
   minecraft-modpacks = {
