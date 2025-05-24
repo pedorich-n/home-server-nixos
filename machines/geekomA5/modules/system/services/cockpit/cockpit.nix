@@ -1,4 +1,4 @@
-{ config, networkingLib, lib, pkgs, pkgs-unstable, ... }:
+{ config, networkingLib, pkgs, pkgs-unstable, ... }:
 {
   custom = {
     networking.ports.tcp.cockpit = { port = 9090; openFirewall = false; };
@@ -18,12 +18,13 @@
 
       inherit (config.custom.networking.ports.tcp.cockpit) port openFirewall;
 
+      allowed-origins = [
+        (networkingLib.mkUrl "cockpit")
+        (networkingLib.mkCustomUrl { scheme = "wss"; service = "cockpit"; })
+      ];
+
       settings = {
         WebService = {
-          Origins = lib.concatStringsSep " " [
-            (networkingLib.mkUrl "cockpit")
-            (networkingLib.mkCustomUrl { scheme = "wss"; service = "cockpit"; })
-          ];
           ProtocolHeader = "X-Forwarded-Proto";
           ForwardedForHeader = "X-Forwarded-For";
           AllowUnencrypted = true;

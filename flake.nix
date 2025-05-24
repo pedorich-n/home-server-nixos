@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     # nixpkgs-netdata.url = "github:rhoriguchi/nixpkgs/netdata";
 
@@ -75,9 +75,6 @@
       url = "github:SEIAROTg/quadlet-nix";
       # url = "github:pedorich-n/quadlet-nix/fix-container-notify";
       # url = "git+file:///home/pedorich_n/Projects/quadlet-nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-      };
     };
 
     sops-nix = {
