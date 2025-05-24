@@ -1,5 +1,5 @@
 #LINK - overlays/custom-packages.nix
-{ inputs, overlays, lib, pkgs-unstable, ... }:
+{ inputs, overlays, ... }:
 {
   nixpkgs = {
     overlays = [
@@ -8,21 +8,6 @@
       inputs.playit-nixos-module.overlays.default
       overlays.cockpit-plugins
       overlays.minecraft-modpacks
-      (_: prev:
-        # FIXME: should probably be auto-fixed in 25.05
-        (lib.optionalAttrs (!(prev.formats ? "xml")) {
-          formats = prev.formats // {
-            xml = pkgs-unstable.formats.xml;
-          };
-        })
-      )
-      (_: prev:
-        (lib.optionalAttrs (!((prev.formats.ini { }) ? "lib")) {
-          formats = prev.formats // {
-            ini = pkgs-unstable.formats.ini;
-          };
-        })
-      )
     ];
   };
 

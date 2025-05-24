@@ -5,8 +5,7 @@
       zfs = true;
     };
 
-    # TODO: use linuxPackages_latest once ZFS kernel module is compatible
-    kernelPackages = pkgs.linuxPackages_6_12;
+    kernelPackages = pkgs.linuxPackages_latest;
 
     kernelModules = [
       "amdgpu" # AMD GPU 
