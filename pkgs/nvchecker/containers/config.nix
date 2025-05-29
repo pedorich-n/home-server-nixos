@@ -92,6 +92,11 @@ let
       include_regex = "^8\\.\\d+\\.\\d+-bookworm";
     };
 
+    immich-postgresql = registries.ghcr {
+      container = "immich-app/postgres";
+      include_regex = "^14-vectorchord0\.3\.0.*";
+    };
+
     multiscrobbler = registries.docker {
       container = "foxxmd/multi-scrobbler";
     };

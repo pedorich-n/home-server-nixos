@@ -16,7 +16,7 @@ let
     # https://immich.app/docs/install/environment-variables/
     TZ = "${config.time.timeZone}";
     REDIS_HOSTNAME = "immich-valkey";
-    DB_HOSTNAME = "immich-vectordb";
+    DB_HOSTNAME = "immich-postgresql";
 
     IMMICH_TELEMETRY_INCLUDE = "all"; # See https://immich.app/docs/features/monitoring#prometheus
   };
@@ -28,11 +28,11 @@ in
     networks = containerLib.mkDefaultNetwork "immich";
 
     containers = {
-      immich-vectordb = {
+      immich-postgresql = {
         usernsAuto.enable = true;
+        useGlobalContainers = true;
 
         containerConfig = {
-          image = "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52";
           environments = sharedEnvs;
           environmentFiles = [ config.sops.secrets."immich/postgresql.env".path ];
           volumes = [
@@ -73,7 +73,7 @@ in
 
         unitConfig = systemdLib.requiresAfter [
           "immich-valkey.service"
-          "immich-vectordb.service"
+          "immich-postgresql.service"
         ];
       };
 
@@ -124,7 +124,7 @@ in
 
         unitConfig = systemdLib.requiresAfter [
           "immich-valkey.service"
-          "immich-vectordb.service"
+          "immich-postgresql.service"
         ];
       };
     };
