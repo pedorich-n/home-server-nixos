@@ -259,16 +259,10 @@ in
 
         containerConfig = lib.mkMerge [
           containerLib.alpineHostsFix
-          rec {
+          {
             environments = defaultEnvs // {
               PORT = "8080";
             };
-            healthCmd = "curl http://localhost:${environments.PORT}/healthcheck";
-            healthStartPeriod = "5s";
-            healthTimeout = "5s";
-            healthInterval = "30s";
-            healthRetries = 5;
-            notify = "healthy";
             volumes = [
               (mappedVolumeForUser "${storeRoot}/audiobookshelf/config" "/config")
               (mappedVolumeForUser "${storeRoot}/audiobookshelf/metadata" "/metadata")
