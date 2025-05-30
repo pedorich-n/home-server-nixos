@@ -37,7 +37,7 @@ in
         (mappedVolumeForUser "${storeRoot}/persist" "/persist")
       ];
       labels = containerLib.mkTraefikLabels {
-        name = "grist";
+        name = "grist-secure";
         port = 8484;
       };
       inherit (containerLib.containerIds) user;
