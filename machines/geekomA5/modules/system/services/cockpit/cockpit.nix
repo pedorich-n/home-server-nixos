@@ -61,13 +61,14 @@ in
     };
 
     traefik.dynamicConfigOptions.http = {
-      routers.cockpit = {
+      routers.cockpit-root-secure = {
         entryPoints = [ "web-secure" ];
         rule = "Host(`${networkingLib.mkDomain "cockpit"}`)";
-        service = "cockpit-secure";
+        service = "cockpit-root-secure";
+        middlewares = [ "authentik-secure@docker" ];
       };
 
-      services.cockpit-secure = {
+      services.cockpit-root-secure = {
         loadBalancer.servers = [{ url = "http://localhost:${portCfg.portStr}"; }];
       };
     };
