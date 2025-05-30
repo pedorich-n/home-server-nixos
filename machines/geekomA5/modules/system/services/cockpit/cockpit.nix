@@ -1,7 +1,13 @@
 { config, networkingLib, pkgs, pkgs-unstable, ... }:
+let
+  package = pkgs-unstable.cockpit;
+
+  portCfg = config.custom.networking.ports.tcp.cockpit-root;
+in
 {
   custom = {
-    networking.ports.tcp.cockpit = { port = 9090; openFirewall = false; };
+    networking.ports.tcp.cockpit-root = { port = 9090; openFirewall = false; };
+    networking.ports.tcp.cockpit = { port = 45090; openFirewall = false; };
   };
 
   #LINK - pkgs/cockpit-plugins/files.nix
@@ -11,10 +17,32 @@
     pkgs.cockpit-plugins.podman
   ];
 
+  # Run a dedicated session as root to avoid login screen and use Authentik for access management
+  systemd.services."cockpit-root" = {
+    description = "Cockpit Web Session for root";
+    after = [
+      "network.target"
+    ];
+    wantedBy = [
+      "multi-user.target"
+    ];
+
+    environment = {
+      COCKPIT_SUPERUSER = "pkexec";
+    };
+
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${package}/libexec/cockpit-ws --for-tls-proxy --port=${portCfg.portStr} --address=127.0.0.1 --local-session=${package}/bin/cockpit-bridge";
+      Restart = "on-failure";
+      PAMName = "cockpit";
+    };
+  };
+
   services = {
     cockpit = {
       enable = true;
-      package = pkgs-unstable.cockpit;
+      inherit package;
 
       inherit (config.custom.networking.ports.tcp.cockpit) port openFirewall;
 
@@ -40,7 +68,7 @@
       };
 
       services.cockpit-secure = {
-        loadBalancer.servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp.cockpit.portStr}"; }];
+        loadBalancer.servers = [{ url = "http://localhost:${portCfg.portStr}"; }];
       };
     };
   };
