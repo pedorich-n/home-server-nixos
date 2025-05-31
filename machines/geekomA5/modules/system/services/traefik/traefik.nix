@@ -2,7 +2,6 @@
 {
   custom.networking.ports.tcp = {
     traefik-dashboard = { port = 8080; openFirewall = false; };
-    traefik-ldap = { port = 389; openFirewall = true; };
     traefik-mqtt = { port = 1883; openFirewall = true; };
     traefik-web = { port = 80; openFirewall = true; };
     traefik-web-secure = { port = 443; openFirewall = true; };
@@ -42,7 +41,6 @@
       };
 
       entryPoints = {
-        ldap.address = ":${config.custom.networking.ports.tcp.traefik-ldap.portStr}";
         mqtt.address = ":${config.custom.networking.ports.tcp.traefik-mqtt.portStr}";
 
         metrics.address = ":${config.custom.networking.ports.tcp.traefik-metrics.portStr}";

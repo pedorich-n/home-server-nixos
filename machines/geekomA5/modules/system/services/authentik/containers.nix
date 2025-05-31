@@ -103,31 +103,6 @@ in
         };
       };
 
-      authentik-ldap = {
-        requiresTraefikNetwork = true;
-        useGlobalContainers = true;
-        usernsAuto = {
-          enable = true;
-          size = 65535;
-        };
-
-        containerConfig = {
-          environments = defaultEnvs // {
-            AUTHENTIK_HOST = networkingLib.mkUrl "authentik";
-          };
-          environmentFiles = [ config.sops.secrets."authentik/ldap_outpost.env".path ];
-          labels = [
-            "traefik.enable=true"
-            "traefik.tcp.services.authentik-ldap-outpost.loadBalancer.server.port=3389"
-            "traefik.tcp.routers.authentik-ldap-outpost.rule=HostSNI(`*`)"
-            "traefik.tcp.routers.authentik-ldap-outpost.entrypoints=ldap"
-            "traefik.tcp.routers.authentik-ldap-outpost.service=authentik-ldap-outpost"
-          ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-      };
-
       authentik-server = {
         useGlobalContainers = true;
         usernsAuto = {

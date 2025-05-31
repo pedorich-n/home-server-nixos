@@ -52,14 +52,3 @@ entries:
         - !KeyOf media-admins-group
         - !KeyOf media-group
       password: !Env AUTHENTIK_USER_PASSWORD
-
-  - model: authentik_core.user
-    identifiers:
-      username: !Env AUTHENTIK_LDAP_USER_NAME
-    state: present
-    attrs:
-      name: "LDAP service"
-      type: service_account
-      password: !Env AUTHENTIK_LDAP_USER_PASSWORD
-      groups:
-        - !KeyOf media-group
