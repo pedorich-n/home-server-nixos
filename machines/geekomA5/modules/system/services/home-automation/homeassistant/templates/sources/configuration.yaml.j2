@@ -2,34 +2,47 @@
 # Loads default set of integrations. Do not remove.
 default_config:
 
+# https://www.home-assistant.io/integrations/homeassistant/
 homeassistant:
   name: Home
   latitude: !secret latitude
   longitude: !secret longitude
   elevation: 10
   unit_system: metric
+  external_url: "{{ url }}"
+  internal_url: "{{ url }}"
   customize: !include_dir_merge_named configuration/customize/
 
-# Load frontend themes from the themes folder
+# https://www.home-assistant.io/integrations/frontend/
 frontend:
+  # Load frontend themes from the themes folder
   themes: !include_dir_merge_named themes
 
-# Enable integrations
+# https://www.home-assistant.io/integrations/api/
 api:
+
+# https://www.home-assistant.io/integrations/zeroconf/
+# Also https://developers.home-assistant.io/docs/api/native-app-integration/setup/#authenticating-the-user
+zeroconfg:
+
+# https://github.com/BeryJu/hass-auth-header
 auth_header:
   debug: true
   username_header: X-Authentik-Username
 
+# https://www.home-assistant.io/integrations/logger/
 logger:
   default: info
   logs:
     custom_components.auth_header: debug
 
+# https://www.home-assistant.io/integrations/recorder/
 recorder:
   purge_keep_days: 60
   auto_purge: true
   db_url: !secret db_url
 
+# https://www.home-assistant.io/integrations/http/
 http:
   use_x_forwarded_for: true
   trusted_proxies:

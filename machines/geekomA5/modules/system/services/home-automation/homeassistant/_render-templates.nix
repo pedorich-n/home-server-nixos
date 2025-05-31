@@ -1,6 +1,14 @@
-{ pkgs, ... }:
+{ networkingLib, pkgs, ... }:
+let
+  jsonFormat = pkgs.formats.json { };
+
+  variables = {
+    url = networkingLib.mkUrl "homeassistant";
+  };
+
+in
 pkgs.stdenv.mkDerivation {
-  name = "authentik-blueprints";
+  name = "homeassistant-blueprints";
 
   nativeBuildInputs = [ pkgs.makejinja ];
 
@@ -10,6 +18,10 @@ pkgs.stdenv.mkDerivation {
 
   src = ./templates;
 
+  env = {
+    variablesPath = jsonFormat.generate "variables.json" variables;
+  };
+
   buildPhase = ''
     runHook preBuild
 
@@ -17,6 +29,7 @@ pkgs.stdenv.mkDerivation {
 
     makejinja --input "$src" \
               --output ./result \
+              --data "$variablesPath" \
               --jinja-suffix ".j2" \
               --undefined "strict"
 
