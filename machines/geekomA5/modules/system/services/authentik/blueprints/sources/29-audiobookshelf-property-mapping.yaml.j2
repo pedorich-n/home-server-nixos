@@ -7,11 +7,11 @@ metadata:
 entries:
   - model: authentik_providers_oauth2.scopemapping
     identifiers:
-      name: absgroups
-    state: present
-    attrs:
       name: "Audiobookshelf Groups"
       scope_name: absgroups
+    state: present
+    attrs:
+      description: "Map Authentik groups to names that ABS expects"
       expression: |
         group = "guest"
         if ak_is_group_member(request.user, name="{{ accessGroups.mediaAdmins }}"):

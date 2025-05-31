@@ -4,11 +4,6 @@
     "registry": "ghcr.io",
     "version": "2.23.0"
   },
-  "authentik-ldap": {
-    "container": "goauthentik/ldap",
-    "registry": "ghcr.io",
-    "version": "2025.4.1"
-  },
   "authentik-postgresql": {
     "container": "library/postgres",
     "registry": "docker.io",
