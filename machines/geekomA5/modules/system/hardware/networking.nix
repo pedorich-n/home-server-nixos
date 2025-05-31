@@ -28,8 +28,17 @@
             name = "enp2s0";
 
             networkConfig = {
-              DHCP = "yes";
+              DHCP = true;
               IgnoreCarrierLoss = "10m";
+            };
+          };
+
+          "10-wireless" = {
+            name = "wlp3s0";
+
+            linkConfig = {
+              # Don't use WiFi on this machine
+              Unmanaged = true;
             };
           };
         };
