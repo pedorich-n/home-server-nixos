@@ -6,8 +6,10 @@ let
 in
 {
   custom = {
-    networking.ports.tcp.cockpit-root = { port = 9090; openFirewall = false; };
-    networking.ports.tcp.cockpit = { port = 45090; openFirewall = false; };
+    networking.ports.tcp = {
+      cockpit-root = { port = 9090; openFirewall = false; };
+      cockpit = { port = 45090; openFirewall = false; };
+    };
   };
 
   #LINK - pkgs/cockpit-plugins/files.nix
@@ -28,10 +30,6 @@ in
     wantedBy = [
       "multi-user.target"
     ];
-
-    environment = {
-      COCKPIT_SUPERUSER = "pkexec";
-    };
 
     serviceConfig = {
       Type = "simple";
