@@ -177,7 +177,7 @@ in
     };
 
     traefik.dynamicConfigOptions.http = {
-      routers.netdata = {
+      routers.netdata-secure = {
         entryPoints = [ "web-secure" ];
         rule = "Host(`${networkingLib.mkDomain "netdata"}`)";
         service = "netdata-secure";
