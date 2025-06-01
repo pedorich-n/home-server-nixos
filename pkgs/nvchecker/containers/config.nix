@@ -111,11 +111,6 @@ let
 
     paperless-redis = reusedContainers.redis7;
 
-    portainer = registries.docker {
-      container = "portainer/portainer-ce";
-      include_regex = regexes.semverLike;
-    };
-
     gluetun = registries.docker {
       container = "qmcgaw/gluetun";
       include_regex = regexes.semverLike;
