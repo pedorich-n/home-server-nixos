@@ -1,4 +1,4 @@
-{ config, lib, containerLib, systemdLib, networkingLib, ... }:
+{ config, containerLib, systemdLib, networkingLib, ... }:
 let
   networks = [ "data-library-internal.network" ];
 
@@ -257,25 +257,22 @@ in
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
-        containerConfig = lib.mkMerge [
-          containerLib.alpineHostsFix
-          {
-            environments = defaultEnvs // {
-              PORT = "8080";
-            };
-            volumes = [
-              (mappedVolumeForUser "${storeRoot}/audiobookshelf/config" "/config")
-              (mappedVolumeForUser "${storeRoot}/audiobookshelf/metadata" "/metadata")
-              (mappedVolumeForUser "${externalStoreRoot}/media/audiobooks" "/audiobooks")
-            ];
-            labels = containerLib.mkTraefikLabels {
-              name = "audiobookshelf-secure";
-              port = 8080;
-            };
-            inherit networks;
-            inherit (containerLib.containerIds) user;
-          }
-        ];
+        containerConfig = {
+          environments = defaultEnvs // {
+            PORT = "8080";
+          };
+          volumes = [
+            (mappedVolumeForUser "${storeRoot}/audiobookshelf/config" "/config")
+            (mappedVolumeForUser "${storeRoot}/audiobookshelf/metadata" "/metadata")
+            (mappedVolumeForUser "${externalStoreRoot}/media/audiobooks" "/audiobooks")
+          ];
+          labels = containerLib.mkTraefikLabels {
+            name = "audiobookshelf-secure";
+            port = 8080;
+          };
+          inherit networks;
+          inherit (containerLib.containerIds) user;
+        };
       };
     };
   };

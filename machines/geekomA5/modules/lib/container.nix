@@ -51,12 +51,6 @@
       };
     };
 
-    alpineHostsFix = {
-      #NOTE - there's a bug with musl or C libs or something in alpine-based images with resolving .lan domains; 
-      # dig & nslookup resolves the domain, but curl fails, and the call to OIDC discovery fails too. Providing hard-coded host seems to help.
-      addHosts = [ "authentik.${config.custom.networking.domain}:192.168.10.15" ];
-    };
-
     # UID:GID to use with `--user` or `PUID`, `GUID` inside the container. Arbitrary values.
     containerIds = rec {
       uid = 1100;
@@ -80,8 +74,8 @@
       , gidRelative ? true
       }: host: container:
       let
-        uids = ''${if uidRelative then "@" else ""}${toString uidHost}-${toString uidNamespace}-${toString uidCount}'';
-        gids = ''${if gidRelative then "@" else ""}${toString gidHost}-${toString gidNamespace}-${toString gidCount}'';
+        uids = ''${if uidRelative then "@" else ""}${builtins.toString uidHost}-${builtins.toString uidNamespace}-${builtins.toString uidCount}'';
+        gids = ''${if gidRelative then "@" else ""}${builtins.toString gidHost}-${builtins.toString gidNamespace}-${builtins.toString gidCount}'';
       in
       "${host}:${container}:idmap=uids=${uids};gids=${gids}";
   };
