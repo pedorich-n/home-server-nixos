@@ -12,7 +12,7 @@
   "authentik-redis": {
     "container": "library/redis",
     "registry": "docker.io",
-    "version": "7.4.3-alpine"
+    "version": "7.4.4-alpine"
   },
   "authentik-server": {
     "container": "goauthentik/server",
@@ -32,7 +32,7 @@
   "grist": {
     "container": "gristlabs/grist",
     "registry": "docker.io",
-    "version": "1.5.2"
+    "version": "1.6.0"
   },
   "homeassistant": {
     "container": "homeassistant/home-assistant",
@@ -87,7 +87,7 @@
   "multiscrobbler": {
     "container": "foxxmd/multi-scrobbler",
     "registry": "docker.io",
-    "version": "0.9.2"
+    "version": "0.9.3"
   },
   "paperless-postgresql": {
     "container": "library/postgres",
@@ -97,7 +97,7 @@
   "paperless-redis": {
     "container": "library/redis",
     "registry": "docker.io",
-    "version": "7.4.3-alpine"
+    "version": "7.4.4-alpine"
   },
   "paperless-server": {
     "container": "paperless-ngx/paperless-ngx",
