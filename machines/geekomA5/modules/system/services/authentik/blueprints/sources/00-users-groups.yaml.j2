@@ -6,39 +6,41 @@ metadata:
     blueprints.goauthentik.io/system-bootstrap: "true"
     blueprints.goauthentik.io/description: "Setup Default Authentik Users & Groups"
 entries:
-  # Keeping these as created to not re-create the users on every deployment as this requires re-connect accounts in existing integrations
   # Groups
   - model: authentik_core.group
     id: server-admins-group
     identifiers:
       name: "Server Admins"
-    state: created
+    state: present
     attrs:
-      is_superuser: false
-      users:
-        - !Find [authentik_core.user, [username, akadmin]]
+      is_superuser: true
 
   - model: authentik_core.group
     id: media-group
     identifiers:
       name: "Media"
-    state: created
+    state: present
     attrs:
       is_superuser: false
-      users:
-        - !Find [authentik_core.user, [username, akadmin]]
 
   - model: authentik_core.group
     id: media-admins-group
     identifiers:
       name: "Media Admins"
-    state: created
+    state: present
     attrs:
       is_superuser: false
-      users:
-        - !Find [authentik_core.user, [username, akadmin]]
 
   # Users
+  # Disable akadmin, as other user is already an admin
+  - model: authentik_core.user
+    state: present
+    identifiers:
+      username: akadmin
+    attrs:
+      is_active: false
+
+  # Keeping this as created to avoid accidental re-creation of the user as this requires re-connecting OAuth accounts in existing integrations
   - model: authentik_core.user
     identifiers:
       username: !Env AUTHENTIK_USER_NAME
@@ -47,7 +49,6 @@ entries:
       name: !Env AUTHENTIK_USER_NAME
       email: !Env AUTHENTIK_USER_EMAIL
       groups:
-        - !Find [authentik_core.group, [name, authentik Admins]]
         - !KeyOf server-admins-group
         - !KeyOf media-admins-group
         - !KeyOf media-group
