@@ -34,6 +34,12 @@ in
 
   custom.networking.ports.tcp.netdata = { port = 19999; openFirewall = false; };
 
+  systemd.services.netdata.serviceConfig = {
+    CapabilityBoundingSet = [
+      "CAP_SYS_RAWIO" # Required for smartctl
+    ];
+  };
+
   services = {
     netdata = {
       enable = true;
@@ -55,10 +61,6 @@ in
         # https://learn.netdata.cloud/docs/configuring/daemon-configuration
         web = {
           "default port" = config.custom.networking.ports.tcp.netdata.port;
-        };
-
-        ml = {
-          "enabled" = "no";
         };
 
         plugins = {
@@ -165,12 +167,6 @@ in
           jobs:
             - name: nvme
               autodetection_retry: 30
-        '';
-
-        "go.d/smartctl.conf" = pkgs.writeText "netdata-smartctl.conf" ''
-          jobs:
-            - name: smartctl
-              no_check_power_mode: never
         '';
         #!SECTION
       };
