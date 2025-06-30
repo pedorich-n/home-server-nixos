@@ -10,6 +10,9 @@ inputs:
   token:
     required: true
     description: Github Access token
+  message:
+    required: false
+    description: Commit message (defaults to title if not provided)
 
 runs:
   using: composite
@@ -25,7 +28,7 @@ runs:
       uses: peter-evans/create-pull-request@v7
       with:
         token: ${{ inputs.token }}
-        commit-message: ${{ inputs.title }}
+        commit-message: ${{ inputs.message || inputs.title }}
         title: ${{ inputs.title }}
         branch: ${{ inputs.branch }}
         labels: "automated"

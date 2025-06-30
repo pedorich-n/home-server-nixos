@@ -2,9 +2,9 @@
   perSystem = { pkgs, ... }: {
     packages = {
       update-containers = pkgs.callPackage ../pkgs/nvchecker/containers/updater.nix { };
-      modpack = pkgs.callPackage ../pkgs/minecraft-modpacks/crying-obsidian.nix { };
+      update-nvfetcher = pkgs.callPackage ../pkgs/update-nvfetcher { };
 
-      cockpit-plugins-update = pkgs.callPackage ../pkgs/cockpit-plugins/updater.nix { };
+      modpack = pkgs.callPackage ../pkgs/minecraft-modpacks/crying-obsidian.nix { };
     };
   };
 }

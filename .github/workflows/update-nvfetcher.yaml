@@ -1,0 +1,28 @@
+name: Nvfetcher Update Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 10 1 * *"
+
+jobs:
+  update-containers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup job
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
+
+      - name: Update nvfetcher sources
+        run: nix run .#update-nvfetcher | tee update.log
+
+      - name: Update log to variable
+        id: update-log
+        run: echo "stdout=$(cat update.log)" >> $GITHUB_OUTPUT
+
+      - name: Create PR if changes detected
+        uses: ./.github/actions/pr-on-changes
+        with:
+          title: "Update nvfetcher sources"
+          branch: "update_nvfetcher"
+          message: "${{ steps.update-log.outputs.stdout }}"
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
