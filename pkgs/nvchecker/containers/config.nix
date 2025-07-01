@@ -92,7 +92,7 @@ let
 
     immich-postgresql = registries.ghcr {
       container = "immich-app/postgres";
-      include_regex = "^14-vectorchord0\.3\.0.*";
+      include_regex = "^14-vectorchord0\.4.*";
     };
 
     multiscrobbler = registries.docker {
