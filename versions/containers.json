@@ -2,7 +2,7 @@
   "audiobookshelf": {
     "container": "advplyr/audiobookshelf",
     "registry": "ghcr.io",
-    "version": "2.23.0"
+    "version": "2.25.1"
   },
   "authentik-postgresql": {
     "container": "library/postgres",
@@ -12,17 +12,17 @@
   "authentik-redis": {
     "container": "library/redis",
     "registry": "docker.io",
-    "version": "7.4.3-alpine"
+    "version": "7.4.4-alpine"
   },
   "authentik-server": {
     "container": "goauthentik/server",
     "registry": "ghcr.io",
-    "version": "2025.4.1"
+    "version": "2025.6.3"
   },
   "authentik-worker": {
     "container": "goauthentik/server",
     "registry": "ghcr.io",
-    "version": "2025.4.1"
+    "version": "2025.6.3"
   },
   "gluetun": {
     "container": "qmcgaw/gluetun",
@@ -32,17 +32,17 @@
   "grist": {
     "container": "gristlabs/grist",
     "registry": "docker.io",
-    "version": "1.5.2"
+    "version": "1.6.1"
   },
   "homeassistant": {
     "container": "homeassistant/home-assistant",
     "registry": "docker.io",
-    "version": "2025.5.3"
+    "version": "2025.6.3"
   },
   "homeassistant-mariadb": {
     "container": "library/mariadb",
     "registry": "docker.io",
-    "version": "11.7.2"
+    "version": "11.8.2"
   },
   "homeassistant-postgresql": {
     "container": "library/postgres",
@@ -52,7 +52,7 @@
   "immich-machine-learning": {
     "container": "immich-app/immich-machine-learning",
     "registry": "ghcr.io",
-    "version": "v1.134.0"
+    "version": "v1.135.3"
   },
   "immich-postgresql": {
     "container": "immich-app/postgres",
@@ -62,12 +62,12 @@
   "immich-server": {
     "container": "immich-app/immich-server",
     "registry": "ghcr.io",
-    "version": "v1.134.0"
+    "version": "v1.135.3"
   },
   "immich-valkey": {
     "container": "valkey/valkey",
     "registry": "docker.io",
-    "version": "8.1.1-bookworm"
+    "version": "8.1.2-bookworm"
   },
   "jellyfin": {
     "container": "jellyfin/jellyfin",
@@ -87,7 +87,7 @@
   "multiscrobbler": {
     "container": "foxxmd/multi-scrobbler",
     "registry": "docker.io",
-    "version": "0.9.2"
+    "version": "0.9.6"
   },
   "paperless-postgresql": {
     "container": "library/postgres",
@@ -97,27 +97,27 @@
   "paperless-redis": {
     "container": "library/redis",
     "registry": "docker.io",
-    "version": "7.4.3-alpine"
+    "version": "7.4.4-alpine"
   },
   "paperless-server": {
     "container": "paperless-ngx/paperless-ngx",
     "registry": "ghcr.io",
-    "version": "2.16.2"
+    "version": "2.17.1"
   },
   "prowlarr": {
     "container": "linuxserver/prowlarr",
     "registry": "docker.io",
-    "version": "1.36.3"
+    "version": "1.37.0"
   },
   "qbittorrent": {
     "container": "linuxserver/qbittorrent",
     "registry": "docker.io",
-    "version": "5.1.0"
+    "version": "5.1.1"
   },
   "radarr": {
     "container": "linuxserver/radarr",
     "registry": "docker.io",
-    "version": "5.25.0"
+    "version": "5.26.2"
   },
   "sabnzbd": {
     "container": "linuxserver/sabnzbd",
@@ -127,11 +127,11 @@
   "sonarr": {
     "container": "linuxserver/sonarr",
     "registry": "docker.io",
-    "version": "4.0.14"
+    "version": "4.0.15"
   },
   "zigbee2mqtt": {
     "container": "koenkk/zigbee2mqtt",
     "registry": "docker.io",
-    "version": "2.3.0"
+    "version": "2.4.0"
   }
 }
