@@ -4,7 +4,7 @@ let
 
   mkApiSecureTraefikLabels = name: containerLib.mkTraefikLabels {
     name = "${name}-secure-api";
-    rule = "Host(`${networkingLib.mkDomain name}`) && PathPrefix(`/api/`)";
+    rule = "Host(`${networkingLib.mkDomain name}`) && PathPrefix(`/api`)";
     service = "${name}-secure";
     entrypoints = [ "web-secure" ];
     priority = 15;
