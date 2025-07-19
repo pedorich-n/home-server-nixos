@@ -122,11 +122,12 @@ in
             (mappedVolumeForUser "${storeRoot}/sabnzbd/config" "/config")
             (mappedVolumeForUser "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
           ];
-          labels = containerLib.mkTraefikLabels {
+          labels = (containerLib.mkTraefikLabels {
             name = "sabnzbd-secure";
             port = environments.PORT;
+            priority = 10;
             middlewares = [ "authentik-secure@docker" ];
-          };
+          }) ++ (mkApiSecureTraefikLabels "sabnzbd");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
