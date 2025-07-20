@@ -19,11 +19,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1750668307,
+        "lastModified": 1751887865,
         "narHash": "sha256-PX9amcb6MNvMNh3qSmPgUo/x2BYcyqw6AEEUW8+WXvg=",
         "ref": "refs/heads/main",
-        "rev": "c9d72b411786bf019431246cb5ee756faba5d222",
-        "revCount": 100,
+        "rev": "c93735d21dc3b48b77c01d09fbeefd0543185969",
+        "revCount": 101,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
       },
@@ -86,11 +86,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1751854533,
-        "narHash": "sha256-U/OQFplExOR1jazZY4KkaQkJqOl59xlh21HP9mI79Vc=",
+        "lastModified": 1752718651,
+        "narHash": "sha256-PkaR0qmyP9q/MDN3uYa+RLeBA0PjvEQiM0rTDDBXkL8=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "16b74a1e304197248a1bc663280f2548dbfcae3c",
+        "rev": "d5ad4485e6f2edcc06751df65c5e16572877db88",
         "type": "github"
       },
       "original": {
@@ -162,11 +162,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1751824240,
-        "narHash": "sha256-aDDC0CHTlL7QDKWWhdbEgVPK6KwWt+ca0QkmHYZxMzI=",
+        "lastModified": 1752814804,
+        "narHash": "sha256-irfg7lnfEpJY+3Cffkluzp2MTVw1Uq9QGxFp6qadcXI=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "fd9e55f5fac45a26f6169310afca64d56b681935",
+        "rev": "d0300c8808e41da81d6edfc202f3d3833c157daf",
         "type": "github"
       },
       "original": {
@@ -198,11 +198,11 @@
         "tomorrow-theme-source": "tomorrow-theme-source"
       },
       "locked": {
-        "lastModified": 1751154830,
-        "narHash": "sha256-ZlXfPFOdZTRGjHM5EnH+7wnIl749di7dFvXenxpmMog=",
+        "lastModified": 1752981225,
+        "narHash": "sha256-j064dVq69x9y/q9PBnz2OYwztN3wW3KW6w7m0cCkBhc=",
         "owner": "pedorich-n",
         "repo": "home-manager-config",
-        "rev": "53cba774d9c16a19f1ef370527c9982778d59857",
+        "rev": "d61a521aa754f5670c20dfddad420d0d9202c659",
         "type": "github"
       },
       "original": {
@@ -256,11 +256,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1751854764,
-        "narHash": "sha256-StA6nw3eYixvv1KKPKKD+L1nCxz65Gyx4zg5Es7V8tQ=",
+        "lastModified": 1752902428,
+        "narHash": "sha256-lX1D0TPT4xPXLCoNIssdEmPtAwDrpDyZVU/+J/L86Xo=",
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "d4a00866abd69011e70ac3a5976db9008601fd09",
+        "rev": "0004c25356ce4f89b311b9f26ac22fa13c64ebf2",
         "type": "github"
       },
       "original": {
@@ -271,11 +271,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1751741127,
-        "narHash": "sha256-t75Shs76NgxjZSgvvZZ9qOmz5zuBE8buUaYD28BMTxg=",
+        "lastModified": 1752620740,
+        "narHash": "sha256-f3pO+9lg66mV7IMmmIqG4PL3223TYMlnlw+pnpelbss=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "29e290002bfff26af1db6f64d070698019460302",
+        "rev": "32a4e87942101f1c9f9865e04dc3ddb175f5f32e",
         "type": "github"
       },
       "original": {
@@ -287,11 +287,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1751792365,
-        "narHash": "sha256-J1kI6oAj25IG4EdVlg2hQz8NZTBNYvIS0l4wpr9KcUo=",
+        "lastModified": 1752687322,
+        "narHash": "sha256-RKwfXA4OZROjBTQAl9WOZQFm7L8Bo93FQwSJpAiSRvo=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "1fd8bada0b6117e6c7eb54aad5813023eed37ccb",
+        "rev": "6e987485eb2c77e5dcc5af4e3c70843711ef9251",
         "type": "github"
       },
       "original": {
@@ -304,11 +304,11 @@
     "playit-agent-source": {
       "flake": false,
       "locked": {
-        "lastModified": 1747600774,
-        "narHash": "sha256-S/fid/MlC7eNVmaDxuLNAtbw2tIkeE5jx86MVycY/I0=",
+        "lastModified": 1752866398,
+        "narHash": "sha256-1MMYotqo34Rj+nKDeGwLHE3epamdnRfQQEztpM/yk6M=",
         "owner": "playit-cloud",
         "repo": "playit-agent",
-        "rev": "4198b257f5e43e6319f086d99bd08a4357d5bd9b",
+        "rev": "5a08445d8927de98fb2315740fa3acc96555c406",
         "type": "github"
       },
       "original": {
@@ -331,11 +331,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1751371921,
-        "narHash": "sha256-fVKvHAFQw8A+F1IppnBXl+IPnMywieDu5lCwr4Yt7i8=",
+        "lastModified": 1752981121,
+        "narHash": "sha256-/PnTxtCYz5wjDE/6QHpSytvyy2eSqhRXs8gC1xS9Pww=",
         "owner": "pedorich-n",
         "repo": "playit-nixos-module",
-        "rev": "50e8ec7f3ed7acf4d49f852af07fe33d069375f0",
+        "rev": "3d36083e2470640838e5ea0df233bb8cfaf79324",
         "type": "github"
       },
       "original": {
@@ -374,11 +374,11 @@
     },
     "quadlet-nix": {
       "locked": {
-        "lastModified": 1751815193,
-        "narHash": "sha256-TBKPkQevDJa7t+mTTfzaPo6CVzFoeizrfXaAiOq6c30=",
+        "lastModified": 1752618481,
+        "narHash": "sha256-8132xTqalZxJZbznHDNoia1UqjNdL/hIQD4IXnI9F58=",
         "owner": "SEIAROTg",
         "repo": "quadlet-nix",
-        "rev": "65a2b5dec63c9ea3d5e58a9332b14fb2f9a353c5",
+        "rev": "0c1d64f360c1a3c3534f6b592ca3ed5d46cf8429",
         "type": "github"
       },
       "original": {
@@ -417,11 +417,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1751606940,
-        "narHash": "sha256-KrDPXobG7DFKTOteqdSVeL1bMVitDcy7otpVZWDE6MA=",
+        "lastModified": 1752544651,
+        "narHash": "sha256-GllP7cmQu7zLZTs9z0J2gIL42IZHa9CBEXwBY9szT0U=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "3633fc4acf03f43b260244d94c71e9e14a2f6e0d",
+        "rev": "2c8def626f54708a9c38a5861866660395bb3461",
         "type": "github"
       },
       "original": {
