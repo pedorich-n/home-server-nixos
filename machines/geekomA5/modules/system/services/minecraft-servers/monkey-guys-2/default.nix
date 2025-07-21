@@ -1,9 +1,9 @@
 { inputs, config, pkgs, networkingLib, lib, ... }:
 let
   minecraftLib = inputs.nix-minecraft.lib;
-  serverName = "monkey-guys-1";
+  serverName = "monkey-guys-2";
 
-  modpack = pkgs.minecraft-modpacks.crying-obsidian;
+  modpack = pkgs.minecraft-modpacks.monkegeddoon;
 
   # https://docs.papermc.io/paper/aikars-flags
   aikarFlagsWith = { memory }: builtins.concatStringsSep " " [
@@ -36,11 +36,11 @@ in
   config = lib.mkMerge [
     {
       services.minecraft-servers.servers.${serverName} = {
-        enable = false;
-        autoStart = false;
+        enable = true;
+        autoStart = true;
         inherit (gamePortCfg) openFirewall;
 
-        package = pkgs.fabricServers.fabric-1_20_1;
+        package = pkgs.fabricServers.fabric-1_21_1;
         serverProperties = {
           allow-flight = true;
           server-port = gamePortCfg.port;

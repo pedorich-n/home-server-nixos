@@ -5,6 +5,7 @@ let
 
   minecraft-modpacks = {
     crying-obsidian = ../pkgs/minecraft-modpacks/crying-obsidian.nix;
+    monkegeddoon = ../pkgs/minecraft-modpacks/monkegeddoon.nix;
   };
 
   cockpit-plugins = {
