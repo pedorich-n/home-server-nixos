@@ -7,7 +7,7 @@ in
   custom.networking.ports.tcp = {
     garage-rpc = { port = 3900; openFirewall = false; };
     garage-s3 = { port = 3901; openFirewall = false; };
-    garage-s3-web = { port = 3902; openFirewall = false; };
+    # garage-s3-web = { port = 3902; openFirewall = false; };
   };
 
   services = {
@@ -33,13 +33,7 @@ in
 
         s3_api = {
           api_bind_addr = "127.0.0.1:${portsCfg.tcp.garage-s3.portStr}";
-          s3_region = "garage";
-          root_domain = ".s3.garage.local";
-        };
-
-        s3_web = {
-          bind_addr = "127.0.0.1:${portsCfg.tcp.garage-s3-web.portStr}";
-          root_domain = ".s3.garage.local";
+          s3_region = "ap-northeast-1"; # A real region, since looks like not all S3 clients support custom regions
         };
       };
     };
