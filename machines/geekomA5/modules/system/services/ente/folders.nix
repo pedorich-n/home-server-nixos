@@ -19,6 +19,7 @@ let
   foldersToCreate =
     lib.map (folder: "${storeRoot}/${folder}") [
       "museum"
+      "museum/data"
 
       "postgresql"
     ];

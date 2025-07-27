@@ -1,7 +1,6 @@
 { config, containerLib, systemdLib, networkingLib, ... }:
 let
-  storeRoot = "/mnt/store/immich";
-  externalStoreRoot = "/mnt/external/immich-library";
+  storeRoot = "/mnt/store/ente";
 
   mappedVolumeForUser = localPath: remotePath:
     containerLib.mkIdmappedVolume
@@ -12,29 +11,20 @@ let
       localPath
       remotePath;
 
-  sharedEnvs = {
-    # https://immich.app/docs/install/environment-variables/
-    TZ = "${config.time.timeZone}";
-    REDIS_HOSTNAME = "immich-valkey";
-    DB_HOSTNAME = "immich-postgresql";
 
-    IMMICH_TELEMETRY_INCLUDE = "all"; # See https://immich.app/docs/features/monitoring#prometheus
-  };
-
-  networks = [ "immich-internal.network" ];
+  networks = [ "ente-internal.network" ];
 in
 {
   virtualisation.quadlet = {
-    networks = containerLib.mkDefaultNetwork "immich";
+    networks = containerLib.mkDefaultNetwork "ente";
 
     containers = {
-      immich-postgresql = {
+      ente-postgresql = {
         usernsAuto.enable = true;
         useGlobalContainers = true;
 
         containerConfig = {
-          environments = sharedEnvs;
-          environmentFiles = [ config.sops.secrets."immich/postgresql.env".path ];
+          environmentFiles = [ config.sops.secrets."ente/postgresql.env".path ];
           volumes = [
             (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
@@ -43,88 +33,58 @@ in
         };
       };
 
-      immich-valkey = {
+      ente-museum = {
+        useGlobalContainers = false;
+        requiresTraefikNetwork = true;
         usernsAuto.enable = true;
-        useGlobalContainers = true;
 
         containerConfig = {
+          image = "ghcr.io/ente-io/server:latest";
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/redis" "/data")
+            (mappedVolumeForUser "${storeRoot}/museum/data" "/data")
+            (mappedVolumeForUser config.sops.templates."ente/museum.yaml".path "/museum.yaml")
           ];
+
+          labels = containerLib.mkTraefikLabels {
+            name = "ente-museum-secure";
+            slug = "ente-api";
+            port = 8080;
+          };
+
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
-      };
 
-      immich-machine-learning = {
-        useGlobalContainers = true;
-        usernsAuto = {
-          enable = true;
-          size = 65535;
-        };
-
-        containerConfig = {
-          volumes = [
-            (mappedVolumeForUser "${storeRoot}/cache/machine-learning" "/cache")
-          ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
 
         unitConfig = systemdLib.requiresAfter [
-          "immich-valkey.service"
-          "immich-postgresql.service"
+          "ente-postgresql.service"
         ];
       };
 
-      immich-server = {
+      ente-web = {
+        useGlobalContainers = false;
         requiresTraefikNetwork = true;
-        wantsAuthentik = true;
-        useGlobalContainers = true;
-        usernsAuto = {
-          enable = true;
-          size = 65535;
-        };
+        usernsAuto.enable = true;
 
         containerConfig = {
-          environments = sharedEnvs;
-          environmentFiles = [ config.sops.secrets."immich/main.env".path ];
-          addGroups = [
-            (builtins.toString config.users.groups.render.gid) # For HW Transcoding
-          ];
-          devices = [
-            "/dev/dri:/dev/dri" # HW Transcoding acceleration. See https://immich.app/docs/features/hardware-transcoding
-          ];
-          volumes = [
-            "/etc/localtime:/etc/localtime:ro"
-            (mappedVolumeForUser "${storeRoot}/cache/thumbnails" "/usr/src/app/upload/thumbs")
-            (mappedVolumeForUser "${storeRoot}/cache/profile" "/usr/src/app/upload/profile")
-            (mappedVolumeForUser externalStoreRoot "/usr/src/app/upload")
-          ];
-          labels =
-            (containerLib.mkTraefikLabels {
-              name = "immich-secure";
-              port = 2283;
-            }) ++
-            (containerLib.mkTraefikMetricsLabels {
-              name = "immich";
-              domain = networkingLib.mkDomain "metrics";
-              port = 8081;
-              addPath = "/metrics";
-            }) ++
-            (containerLib.mkTraefikMetricsLabels {
-              name = "immich-microservices";
-              domain = networkingLib.mkDomain "metrics";
-              port = 8082;
-              addPath = "/metrics";
-            });
+          image = "ghcr.io/ente-io/web:latest";
+          environments = {
+            ENTE_API_ORIGIN = networkingLib.mkUrl "ente-api";
+          };
+
+          labels = containerLib.mkTraefikLabels {
+            name = "ente-web-secure";
+            slug = "ente";
+            port = 3000;
+          };
+
           inherit networks;
-          inherit (containerLib.containerIds) user;
+          # inherit (containerLib.containerIds) user;
         };
 
         unitConfig = systemdLib.requiresAfter [
-          "immich-valkey.service"
-          "immich-postgresql.service"
+          "ente-postgresql.service"
+          "ente-museum.service"
         ];
       };
     };
