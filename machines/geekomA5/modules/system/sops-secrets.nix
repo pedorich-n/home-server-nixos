@@ -126,6 +126,16 @@ in
         "paperless/client_id" = { };
         "paperless/client_secret" = { };
 
+        "ente/encryption/key" = { };
+        "ente/encryption/hash" = { };
+        "ente/jwt/secret" = { };
+        "ente/storage/bucket_name" = { };
+        "ente/storage/key_id" = { };
+        "ente/storage/key_secret" = { };
+        "ente/database/name" = { };
+        "ente/database/username" = { };
+        "ente/database/password" = { };
+
         "telegram-airtable-lessons/calendar_loader.toml" = {
           sopsFile = sopsFilePathFor "telegram-airtable-lessons/calendar_loader.toml";
           format = "binary";

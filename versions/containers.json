@@ -24,6 +24,16 @@
     "registry": "ghcr.io",
     "version": "2025.6.3"
   },
+  "ente-postgresql": {
+    "container": "library/postgres",
+    "registry": "docker.io",
+    "version": "15.13-alpine"
+  },
+  "ente-socat": {
+    "container": "alpine/socat",
+    "registry": "docker.io",
+    "version": "1.8.0.3"
+  },
   "gluetun": {
     "container": "qmcgaw/gluetun",
     "registry": "docker.io",

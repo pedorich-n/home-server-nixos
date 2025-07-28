@@ -79,6 +79,16 @@
             };
             mountpoint = "/mnt/external/data-library"; # fstab mountpoint
           };
+
+          object-storage = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/mnt/external/object-storage";
+              quota = "500G";
+              "com.sun:auto-snapshot" = "false"; # Not worth saving (yet?)
+            };
+            mountpoint = "/mnt/external/object-storage"; # fstab mountpoint
+          };
         };
       };
     };
@@ -90,5 +100,6 @@
     "/mnt/external/immich-library".options = [ "nofail" "x-systemd.requires=zfs.target" ];
     "/mnt/external/paperless-library".options = [ "nofail" "x-systemd.requires=zfs.target" ];
     "/mnt/external/data-library".options = [ "nofail" "x-systemd.requires=zfs.target" ];
+    "/mnt/external/object-storage".options = [ "nofail" "x-systemd.requires=zfs.target" ];
   };
 }

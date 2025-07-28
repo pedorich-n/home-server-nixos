@@ -5,6 +5,8 @@ let
     semverLike = "^v?\\d+\\.\\d+\\.\\d+(\\.\\d+)?";
 
     rc = ".*rc.*";
+
+    hash = "^[a-zA-Z0-9]{40}$";
   };
 
 
@@ -18,6 +20,11 @@ let
     };
 
   reusedContainers = {
+    postgres15 = registries.docker {
+      container = "library/postgres";
+      include_regex = "^15\\.\\d+-alpine$";
+    };
+
     postgres16 = registries.docker {
       container = "library/postgres";
       include_regex = "^16\\.\\d+-alpine$";
@@ -74,6 +81,23 @@ let
     };
 
     homeassistant-postgresql = reusedContainers.postgres16;
+
+    # ente-server = registries.ghcr {
+    #   container = "ente-io/server";
+    #   include_regex = regexes.hash;
+    # };
+
+    # ente-web = registries.ghcr {
+    #   container = "ente-io/web";
+    #   include_regex = regexes.hash;
+    # };
+
+    ente-postgresql = reusedContainers.postgres15;
+
+    ente-socat = registries.docker {
+      container = "alpine/socat";
+      include_regex = regexes.semverLike;
+    };
 
     immich-server = registries.ghcr {
       container = "immich-app/immich-server";
