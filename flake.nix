@@ -86,7 +86,7 @@
     };
 
     home-server-nixos-secrets = {
-      url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets?ref=ente";
+      url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets";
       # url = "git+file:///home/pedorich_n/Projects/home-server-nixos-secrets";
       flake = false;
     };
