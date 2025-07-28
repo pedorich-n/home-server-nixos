@@ -1,4 +1,4 @@
-{ config, pkgs-unstable, networkingLib, ... }:
+{ config, pkgs-unstable, ... }:
 let
   portsCfg = config.custom.networking.ports;
 
@@ -38,16 +38,16 @@ in
       };
     };
 
-    traefik.dynamicConfigOptions.http = {
-      routers.garage-s3-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "storage"}`)";
-        service = "garage-s3-secure";
-      };
+    # traefik.dynamicConfigOptions.http = {
+    #   routers.garage-s3-secure = {
+    #     entryPoints = [ "web-secure" ];
+    #     rule = "Host(`${networkingLib.mkDomain "storage"}`)";
+    #     service = "garage-s3-secure";
+    #   };
 
-      services.garage-s3-secure = {
-        loadBalancer.servers = [{ url = "http://localhost:${portsCfg.tcp.garage-s3.portStr}"; }];
-      };
-    };
+    #   services.garage-s3-secure = {
+    #     loadBalancer.servers = [{ url = "http://localhost:${portsCfg.tcp.garage-s3.portStr}"; }];
+    #   };
+    # };
   };
 }
