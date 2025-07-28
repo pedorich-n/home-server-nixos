@@ -12,10 +12,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket     = var.s3_backend_bucket
-    key        = "homelab/tailscale/terraform.tfstate"
-    access_key = var.s3_backend_application_key_id
-    secret_key = var.s3_backend_application_key
+    key = "homelab/tailscale/terraform.tfstate"
 
     skip_credentials_validation = true
     skip_region_validation      = true

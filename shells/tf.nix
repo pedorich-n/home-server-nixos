@@ -30,11 +30,13 @@ pkgs.mkShellNoCC {
       echo "Getting values from 1Password..."
       item_json=$(op item get "Backblaze_Terraform_State" --vault "HomeLab" --format json)
 
-      TF_VAR_s3_backend_application_key=$(echo "$item_json" | jq -r '.fields[] | select(.label == "application_key") | .value')
-      TF_VAR_s3_backend_application_key_id=$(echo "$item_json" | jq -r '.fields[] | select(.label == "application_key_id") | .value')
-      TF_VAR_s3_backend_bucket=$(echo "$item_json" | jq -r '.fields[] | select(.label == "bucket") | .value')
+      s3_backend_application_key=$(echo "$item_json" | jq -r '.fields[] | select(.label == "application_key") | .value')
+      s3_backend_application_key_id=$(echo "$item_json" | jq -r '.fields[] | select(.label == "application_key_id") | .value')
+      s3_backend_bucket=$(echo "$item_json" | jq -r '.fields[] | select(.label == "bucket") | .value')
 
-      export TF_VAR_s3_backend_application_key TF_VAR_s3_backend_application_key_id TF_VAR_s3_backend_bucket
+      TF_CLI_ARGS_init="-backend-config=\"access_key=''${s3_backend_application_key_id}\" -backend-config=\"secret_key=''${s3_backend_application_key}\" -backend-config=\"bucket=''${s3_backend_bucket}\""
+
+      export TF_CLI_ARGS_init
 
       cd "$ROOT/terraform"
     fi
