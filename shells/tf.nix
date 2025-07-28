@@ -34,7 +34,7 @@ pkgs.mkShellNoCC {
       s3_backend_application_key_id=$(echo "$item_json" | jq -r '.fields[] | select(.label == "application_key_id") | .value')
       s3_backend_bucket=$(echo "$item_json" | jq -r '.fields[] | select(.label == "bucket") | .value')
 
-      TF_CLI_ARGS_init="-backend-config=\"access_key=''${s3_backend_application_key_id}\" -backend-config=\"secret_key=''${s3_backend_application_key}\" -backend-config=\"bucket=''${s3_backend_bucket}\""
+      TF_CLI_ARGS_init="-backend-config=\"$ROOT/terraform/backblaze.s3.tfbackend\" -backend-config=\"access_key=''${s3_backend_application_key_id}\" -backend-config=\"secret_key=''${s3_backend_application_key}\" -backend-config=\"bucket=''${s3_backend_bucket}\""
 
       export TF_CLI_ARGS_init
 
