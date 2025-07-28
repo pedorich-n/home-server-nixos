@@ -41,7 +41,7 @@ in
             key = config.sops.placeholder."ente/storage/key_id";
             secret = config.sops.placeholder."ente/storage/key_secret";
             endpoint = networkingLib.mkUrl "storage";
-            region = "ap-northeast-1";
+            region = config.services.minio.region;
             bucket = config.sops.placeholder."ente/storage/bucket_name";
           };
         };

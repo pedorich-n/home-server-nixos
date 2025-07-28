@@ -9,7 +9,7 @@ resource "minio_iam_user" "ente_photos" {
 
 resource "minio_s3_bucket" "ente_photos" {
   bucket = module.onepassword.secrets.Minio.Ente_Photos.bucket_name
-  acl    = "public"
+  acl    = "private"
 }
 
 resource "minio_iam_policy" "ente_photos_policy" {
