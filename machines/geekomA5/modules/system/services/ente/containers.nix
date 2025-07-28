@@ -72,11 +72,15 @@ in
             ENTE_API_ORIGIN = networkingLib.mkUrl "ente-api";
           };
 
-          labels = containerLib.mkTraefikLabels {
-            name = "ente-web-secure";
+          labels = (containerLib.mkTraefikLabels {
+            name = "ente-photos-web-secure";
             slug = "ente";
             port = 3000;
-          };
+          }) ++ (containerLib.mkTraefikLabels {
+            name = "ente-accounts-web-secure";
+            slug = "ente-accounts";
+            port = 3001;
+          });
 
           inherit networks;
           # inherit (containerLib.containerIds) user;

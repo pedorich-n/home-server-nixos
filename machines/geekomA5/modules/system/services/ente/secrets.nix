@@ -12,6 +12,16 @@ in
           admins = [ 1580559962386438 ];
           disable-registration = true;
         };
+        apps = {
+          accounts = networkingLib.mkUrl "ente-accounts";
+        };
+        webauthn = {
+          rpid = config.custom.networking.domain;
+          rporigins = [
+            (networkingLib.mkUrl "ente-accounts")
+          ];
+        };
+
         key = {
           encryption = config.sops.placeholder."ente/encryption/key";
           hash = config.sops.placeholder."ente/encryption/hash";
