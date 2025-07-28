@@ -36,8 +36,8 @@ in
         s3 = {
           are_local_buckets = false;
           use_path_style_urls = true;
+          # A hard-coded bucket name. See https://help.ente.io/self-hosting/administration/object-storage#bucket-configuration
           b2-eu-cen = {
-            # A hard-coded bucket name. See https://help.ente.io/self-hosting/administration/object-storage#bucket-configuration
             key = config.sops.placeholder."ente/storage/key_id";
             secret = config.sops.placeholder."ente/storage/key_secret";
             endpoint = networkingLib.mkUrl "storage";
