@@ -1,5 +1,7 @@
 {
   inputs = {
+    self.submodules = true;
+
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     # nixpkgs-netdata.url = "github:rhoriguchi/nixpkgs/netdata";
