@@ -5,8 +5,8 @@
       zfs = true;
     };
 
-    # TODO: when updating, make sure ZFS is supported by the kernel version
-    kernelPackages = pkgs.linuxPackages_6_14;
+    # NOTE: when updating, make sure ZFS is supported by the kernel version
+    kernelPackages = pkgs.linuxPackages_6_15;
 
     kernelModules = [
       "amdgpu" # AMD GPU 

@@ -26,7 +26,7 @@
     };
 
     home-manager-config = {
-      url = "github:pedorich-n/home-manager-config";
+      url = "git+https://github.com/pedorich-n/home-manager-config";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         systems.follows = "systems";
@@ -40,8 +40,7 @@
     };
 
     auto-cpufreq = {
-      #url = "github:AdnanHodzic/auto-cpufreq"; # TODO: uncomment this once requests library is updated in nixpkgs
-      url = "github:AdnanHodzic/auto-cpufreq/becd5b89963fa54fef3566147f3fd2087f8a5842";
+      url = "github:AdnanHodzic/auto-cpufreq";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
       };
