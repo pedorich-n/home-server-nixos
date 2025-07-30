@@ -198,18 +198,18 @@
         "tomorrow-theme-source": "tomorrow-theme-source"
       },
       "locked": {
-        "lastModified": 1753798195,
-        "narHash": "sha256-NnyTQ49LCbrtsXHGaFNh+Q1HV6b1qn0AB54Tm7W0s/0=",
+        "lastModified": 1753856136,
+        "narHash": "sha256-2AJtziTT4XSlcr6CXGP1yqB7/IPN6RsWYQOnIiKgbvE=",
         "ref": "refs/heads/main",
-        "rev": "7f6b2ff77ff632e15eb529ffa72751570ec38504",
-        "revCount": 467,
+        "rev": "6dc8120398a6de2780a69730e039b3ab58a1ff9a",
+        "revCount": 468,
         "submodules": true,
         "type": "git",
-        "url": "https://github.com/pedorich-n/home-manager-config"
+        "url": "ssh://git@github.com/pedorich-n/home-manager-config"
       },
       "original": {
         "type": "git",
-        "url": "https://github.com/pedorich-n/home-manager-config"
+        "url": "ssh://git@github.com/pedorich-n/home-manager-config"
       }
     },
     "home-server-nixos-secrets": {

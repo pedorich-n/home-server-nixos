@@ -26,7 +26,7 @@
     };
 
     home-manager-config = {
-      url = "git+https://github.com/pedorich-n/home-manager-config";
+      url = "git+ssh://git@github.com/pedorich-n/home-manager-config";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
         systems.follows = "systems";
