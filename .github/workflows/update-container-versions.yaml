@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Setup job
         uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
+        with:
+          ssh_key: ${{ secrets.SSH_ACTION_KEY }}
 
       - name: Update containers
         run: nix run .#update-containers
