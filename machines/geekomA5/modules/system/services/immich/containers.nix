@@ -1,5 +1,7 @@
 { config, containerLib, systemdLib, networkingLib, ... }:
 let
+  inherit (config.virtualisation.quadlet) containers;
+
   storeRoot = "/mnt/store/immich";
   externalStoreRoot = "/mnt/external/immich-library";
 
@@ -72,8 +74,8 @@ in
         };
 
         unitConfig = systemdLib.requiresAfter [
-          "immich-valkey.service"
-          "immich-postgresql.service"
+          containers.immich-valkey.ref
+          containers.immich-postgresql.ref
         ];
       };
 
@@ -123,8 +125,8 @@ in
         };
 
         unitConfig = systemdLib.requiresAfter [
-          "immich-valkey.service"
-          "immich-postgresql.service"
+          containers.immich-valkey.ref
+          containers.immich-postgresql.ref
         ];
       };
     };

@@ -1,5 +1,7 @@
 { lib, config, ... }:
 let
+  inherit (config.virtualisation.quadlet) containers;
+
   mkImage = name:
     let
       container = config.custom.containers.${name} or (builtins.throw "Can't find container info for '${name}'");
@@ -59,8 +61,8 @@ in
           })
           (lib.mkIf config.wantsAuthentik {
             unitConfig = {
-              Wants = lib.mkAfter [ "authentik-server.service" ];
-              After = lib.mkAfter [ "authentik-server.service" ];
+              Wants = lib.mkAfter [ containers.authentik-server.ref ];
+              After = lib.mkAfter [ containers.authentik-server.ref ];
             };
           })
           (lib.mkIf config.usernsAuto.enable {

@@ -1,5 +1,7 @@
 { config, lib, containerLib, systemdLib, networkingLib, pkgs, ... }:
 let
+  inherit (config.virtualisation.quadlet) containers;
+
   storeRoot = "/mnt/store/server-management/authentik";
 
   mappedVolumeForUser = localPath: remotePath:
@@ -88,11 +90,11 @@ in
 
         unitConfig = lib.mkMerge [
           (systemdLib.requiresAfter [
-            "authentik-redis.service"
-            "authentik-postgresql.service"
+            containers.authentik-redis.ref
+            containers.authentik-postgresql.ref
           ])
           {
-            After = [ "authentik-server.service" ];
+            After = [ containers.authentik-server.ref ];
           }
         ];
 
@@ -144,8 +146,8 @@ in
         };
 
         unitConfig = systemdLib.requiresAfter [
-          "authentik-redis.service"
-          "authentik-postgresql.service"
+          containers.authentik-redis.ref
+          containers.authentik-postgresql.ref
         ];
 
         serviceConfig = {

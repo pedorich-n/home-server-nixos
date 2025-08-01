@@ -1,5 +1,7 @@
 { inputs, config, lib, pkgs, containerLib, systemdLib, networkingLib, ... }:
 let
+  inherit (config.virtualisation.quadlet) containers;
+
   storeRoot = "/mnt/store/home-automation";
 
   mappedVolumeForUser = localPath: remotePath:
@@ -75,7 +77,7 @@ in
         };
 
         unitConfig = lib.mkMerge [
-          (systemdLib.requiresAfter [ "mosquitto.service" ])
+          (systemdLib.requiresAfter [ containers.mosquitto.ref ])
           (systemdLib.bindsToAfter [ "dev-ttyZigbee.device" ])
         ];
       };
@@ -137,8 +139,8 @@ in
         };
 
         unitConfig = systemdLib.requiresAfter [
-          "homeassistant-postgresql.service"
-          "mosquitto.service"
+          containers.homeassistant-postgresql.ref
+          containers.mosquitto.ref
         ];
       };
 

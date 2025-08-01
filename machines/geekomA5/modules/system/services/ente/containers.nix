@@ -1,5 +1,7 @@
 { config, containerLib, systemdLib, networkingLib, ... }:
 let
+  inherit (config.virtualisation.quadlet) containers;
+
   storeRoot = "/mnt/store/ente";
 
   mappedVolumeForUser = localPath: remotePath:
@@ -57,7 +59,7 @@ in
 
 
         unitConfig = systemdLib.requiresAfter [
-          "ente-postgresql.service"
+          containers.ente-postgresql.ref
         ];
       };
 
@@ -87,8 +89,8 @@ in
         };
 
         unitConfig = systemdLib.requiresAfter [
-          "ente-postgresql.service"
-          "ente-museum.service"
+          containers.ente-postgresql.ref
+          containers.ente-museum.ref
         ];
       };
     };

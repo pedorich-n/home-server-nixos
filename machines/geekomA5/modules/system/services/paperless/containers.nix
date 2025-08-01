@@ -1,5 +1,7 @@
 { config, containerLib, systemdLib, networkingLib, ... }:
 let
+  inherit (config.virtualisation.quadlet) containers;
+
   storeRoot = "/mnt/store/paperless";
   externalStoreRoot = "/mnt/external/paperless-library";
 
@@ -95,8 +97,8 @@ in
         };
 
         unitConfig = systemdLib.requiresAfter [
-          "paperless-redis.service"
-          "paperless-postgresql.service"
+          containers.paperless-redis.ref
+          containers.paperless-postgresql.ref
         ];
       };
     };

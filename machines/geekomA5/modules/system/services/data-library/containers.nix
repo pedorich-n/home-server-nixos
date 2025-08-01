@@ -1,5 +1,7 @@
 { config, containerLib, systemdLib, networkingLib, ... }:
 let
+  inherit (config.virtualisation.quadlet) containers;
+
   networks = [ "data-library-internal.network" ];
 
   mkApiSecureTraefikLabels = name: containerLib.mkTraefikLabels {
@@ -28,9 +30,9 @@ let
 
   afterDownloaders = {
     After = [
-      "qbittorrent.service"
-      "sabnzbd.service"
-      "gluetun.service"
+      containers.qbittorrent.ref
+      containers.sabnzbd.ref
+      containers.gluetun.ref
     ];
   };
 in
@@ -106,7 +108,9 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.bindsToAfter [ "gluetun.service" ];
+        unitConfig = systemdLib.bindsToAfter [
+          containers.gluetun.ref
+        ];
       };
 
       sabnzbd = {
