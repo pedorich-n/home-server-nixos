@@ -42,7 +42,7 @@
   "grist": {
     "container": "gristlabs/grist",
     "registry": "docker.io",
-    "version": "1.6.1"
+    "version": "1.7.1"
   },
   "homeassistant": {
     "container": "homeassistant/home-assistant",
@@ -62,7 +62,7 @@
   "immich-machine-learning": {
     "container": "immich-app/immich-machine-learning",
     "registry": "ghcr.io",
-    "version": "v1.136.0"
+    "version": "v1.137.1"
   },
   "immich-postgresql": {
     "container": "immich-app/postgres",
@@ -72,7 +72,7 @@
   "immich-server": {
     "container": "immich-app/immich-server",
     "registry": "ghcr.io",
-    "version": "v1.136.0"
+    "version": "v1.137.1"
   },
   "immich-valkey": {
     "container": "valkey/valkey",

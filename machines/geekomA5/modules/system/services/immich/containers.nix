@@ -97,9 +97,9 @@ in
           ];
           volumes = [
             "/etc/localtime:/etc/localtime:ro"
-            (mappedVolumeForUser "${storeRoot}/cache/thumbnails" "/usr/src/app/upload/thumbs")
-            (mappedVolumeForUser "${storeRoot}/cache/profile" "/usr/src/app/upload/profile")
-            (mappedVolumeForUser externalStoreRoot "/usr/src/app/upload")
+            (mappedVolumeForUser "${storeRoot}/cache/thumbnails" "/data/thumbs")
+            (mappedVolumeForUser "${storeRoot}/cache/profile" "/data/profile")
+            (mappedVolumeForUser externalStoreRoot "/data")
           ];
           labels =
             (containerLib.mkTraefikLabels {
