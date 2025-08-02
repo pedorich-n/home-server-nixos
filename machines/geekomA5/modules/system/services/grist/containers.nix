@@ -31,6 +31,9 @@ in
 
         GRIST_OIDC_SP_HOST = "${APP_HOME_URL}";
         GRIST_OIDC_IDP_ISSUER = authentikLib.mkIssuerUrl "grist";
+
+        # This function performs HTTP requests in a similar way to requests.request
+        GRIST_ENABLE_REQUEST_FUNCTION = "1";
       };
       environmentFiles = [ config.sops.secrets."grist/main.env".path ];
       volumes = [
