@@ -62,17 +62,6 @@
       };
     };
 
-    poetry2nix = {
-      url = "github:nix-community/poetry2nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-        flake-utils.follows = "flake-utils";
-        systems.follows = "systems";
-        treefmt-nix.follows = "";
-        nix-github-actions.follows = "";
-      };
-    };
-
     quadlet-nix = {
       url = "github:SEIAROTg/quadlet-nix";
       # url = "github:pedorich-n/quadlet-nix/fix-container-notify";
@@ -99,7 +88,6 @@
         flake-parts.follows = "flake-parts";
         systems.follows = "systems";
         flake-utils.follows = "flake-utils";
-        poetry2nix.follows = "poetry2nix";
       };
     };
 
