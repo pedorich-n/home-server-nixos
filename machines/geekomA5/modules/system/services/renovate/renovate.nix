@@ -1,14 +1,26 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 {
-  systemd.services.renovate.environment = {
-    LOG_LEVEL = "debug";
+  users = {
+    users.renovate = {
+      isSystemUser = true;
+      group = "renovate";
+    };
+
+    groups.renovate = { };
+  };
+
+  systemd.services.renovate = {
+    serviceConfig = {
+      # I want to utilize cache and state directories
+      PrivateUsers = lib.mkForce false;
+    };
   };
 
   services.renovate = {
     enable = true;
     validateSettings = true;
 
-    schedule = "*-*-* 05:00:00"; # Every day at 05:00;
+    schedule = "*-*-* 04,05,06:00:00"; # Every day at 04:00, 05:00, and 06:00;
 
     runtimePackages = with pkgs; [
       uv
@@ -19,6 +31,7 @@
     ];
 
     settings = {
+      # Global settings
       timezone = config.time.timeZone;
       binarySource = "global"; # https://docs.renovatebot.com/self-hosted-configuration/#binarysource
 
@@ -26,6 +39,9 @@
       onboardingConfig = {
         # https://docs.renovatebot.com/self-hosted-configuration/#onboardingconfig
         "$schema" = "https://docs.renovatebot.com/renovate-schema.json";
+        "extends" = [
+          "github>pedorich-n/renovate-config"
+        ];
       };
 
       persistRepoData = true; # https://docs.renovatebot.com/self-hosted-configuration/#persistrepodata
@@ -39,11 +55,12 @@
       ];
 
       platform = "github";
-      gitAuthor = "Renovate Bot <15573098+pedorich-n@users.noreply.github.com>";
+      gitAuthor = "pedorich-n Renovate <224430504+pedorich-n-renovate[bot]@users.noreply.github.com>";
 
       # Managers/tools/etc
       nix.enabled = true; # https://docs.renovatebot.com/modules/manager/nix/
       lockFileMaintenance.enabled = true; # https://docs.renovatebot.com/configuration-options/#lockfilemaintenance
+      git-submodules.enabled = true; # https://docs.renovatebot.com/modules/manager/git-submodules/
 
       docker-compose.enabled = false; # https://docs.renovatebot.com/modules/manager/docker-compose/
       dockerfile.enabled = false; # https://docs.renovatebot.com/modules/manager/dockerfile/
@@ -54,12 +71,6 @@
         matchDatasources = [ "terraform-provider" "terraform-module" ];
         registryUrls = [ "https://registry.opentofu.org" ];
       }];
-
-
-    };
-
-    credentials = {
-      RENOVATE_TOKEN = config.sops.secrets."renovate/github_token".path;
     };
   };
 }
