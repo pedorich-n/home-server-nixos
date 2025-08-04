@@ -12,7 +12,7 @@
         "/^versions/containers\\.toml$/"
       ],
       "matchStrings": [
-        "$each($, function($v, $k) { { \"depName\": $v.image, \"currentValue\": $v.version, \"datasource\": \"docker\", \"registryUrl\": $v.registry = \"docker.io\" ? \"https://index.docker.io\" : \"https://\" & $v.registry, \"versioning\": $v.versioning ? $v.versioning : \"docker\", \"currentDigest\": $v.digest } })"
+        "$each($, function($v, $k) { { \"packageName\": $v.image, \"depName\": $k, \"currentValue\": $v.version, \"datasource\": \"docker\", \"registryUrl\": $v.registry = \"docker.io\" ? \"https://index.docker.io\" : \"https://\" & $v.registry, \"versioning\": $v.versioning ? $v.versioning : \"docker\", \"currentDigest\": $v.digest } })"
       ]
     }
   ],
