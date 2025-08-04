@@ -19,7 +19,7 @@
     ];
 
     settings = {
-      inherit (config.time) timezone;
+      timezone = config.time.timeZone;
       binarySource = "global"; # https://docs.renovatebot.com/self-hosted-configuration/#binarysource
 
       onboarding = true; # https://docs.renovatebot.com/self-hosted-configuration/#onboarding
