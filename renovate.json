@@ -2,5 +2,28 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>pedorich-n/renovate-config"
+  ],
+  "customManagers": [
+    {
+      "customType": "jsonata",
+      "description": "Docker containers from a TOML file",
+      "fileFormat": "toml",
+      "managerFilePatterns": [
+        "/^versions/containers\\.toml$/"
+      ],
+      "matchStrings": [
+        "$each($, function($v, $k) { { \"depName\": $v.image, \"currentValue\": $v.version, \"datasource\": \"docker\", \"registryUrl\": $v.registry = \"docker.io\" ? \"https://index.docker.io\" : \"https://\" & $v.registry, \"versioning\": $v.versioning ? $v.versioning : \"docker\", \"currentDigest\": $v.digest } })"
+      ]
+    }
+  ],
+  "packageRules": [
+    {
+      "groupName": "All Docker",
+      "groupSlug": "all-docker",
+      "description": "Group all Docker containers together",
+      "matchDatasources": [
+        "docker"
+      ]
+    }
   ]
 }
