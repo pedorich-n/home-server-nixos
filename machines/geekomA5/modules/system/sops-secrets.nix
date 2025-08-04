@@ -136,6 +136,8 @@ in
         "ente/database/username" = { };
         "ente/database/password" = { };
 
+        "renovate/github_token" = { };
+
         "telegram-airtable-lessons/calendar_loader.toml" = {
           sopsFile = sopsFilePathFor "telegram-airtable-lessons/calendar_loader.toml";
           format = "binary";
