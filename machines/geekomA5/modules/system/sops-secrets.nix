@@ -136,7 +136,6 @@ in
         "ente/database/username" = { };
         "ente/database/password" = { };
 
-        "renovate/github_token" = { };
         "renovate/github_app_private_key" = {
           sopsFile = sopsFilePathFor "renovate/github_renovate_app.pem";
           format = "binary";

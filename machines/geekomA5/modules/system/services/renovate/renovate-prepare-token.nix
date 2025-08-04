@@ -28,7 +28,7 @@ in
       '';
 
       environment = {
-        APP_ID = "1721542";
+        APP_ID = "1721542"; # See https://github.com/settings/apps
         APP_LOGIN = "pedorich-n";
         APP_PRIVATE_KEY_FILE = config.sops.secrets."renovate/github_app_private_key".path;
       };
