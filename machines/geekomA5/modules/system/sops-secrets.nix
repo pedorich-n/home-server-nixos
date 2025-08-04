@@ -136,6 +136,13 @@ in
         "ente/database/username" = { };
         "ente/database/password" = { };
 
+        "renovate/github_app_private_key" = {
+          sopsFile = sopsFilePathFor "renovate/github_renovate_app.pem";
+          format = "binary";
+          owner = config.users.users.renovate.name;
+          group = config.users.users.renovate.group;
+        };
+
         "telegram-airtable-lessons/calendar_loader.toml" = {
           sopsFile = sopsFilePathFor "telegram-airtable-lessons/calendar_loader.toml";
           format = "binary";

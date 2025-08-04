@@ -34,6 +34,12 @@
                 ];
                 includes = [ "*.j2" ];
               };
+
+              shellcheck = {
+                options = [
+                  "--exclude=SC2148" # Disable shebang check https://www.shellcheck.net/wiki/SC2148
+                ];
+              };
             };
           };
 
