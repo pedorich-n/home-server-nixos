@@ -40,7 +40,7 @@ in
         autoStart = true;
         inherit (gamePortCfg) openFirewall;
 
-        package = pkgs.fabricServers.fabric-1_21_1;
+        package = pkgs.fabricServers.fabric-1_21_1.override { loaderVersion = "0.16.14"; };
         serverProperties = {
           allow-flight = true;
           server-port = gamePortCfg.port;

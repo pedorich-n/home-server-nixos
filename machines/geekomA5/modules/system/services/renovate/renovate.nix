@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, pkgs-unstable, lib, ... }:
 {
   users = {
     users.renovate = {
@@ -13,20 +13,21 @@
     serviceConfig = {
       # I want to utilize cache and state directories
       PrivateUsers = lib.mkForce false;
+      DynamicUser = lib.mkForce false;
     };
   };
 
   services.renovate = {
     enable = true;
     validateSettings = true;
+    package = pkgs-unstable.renovate;
 
-    schedule = "*-*-* 04,05,06:00:00"; # Every day at 04:00, 05:00, and 06:00;
+    schedule = "*-*-* 05,10,15,20:00:00"; # Every day 4 times a day
 
     runtimePackages = with pkgs; [
       uv
       git
       openssh
-      opentofu
       config.nix.package
     ];
 
