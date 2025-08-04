@@ -6,15 +6,22 @@ let
         type = lib.types.nonEmptyStr;
       };
 
-      container = lib.mkOption {
+      image = lib.mkOption {
         type = lib.types.nonEmptyStr;
       };
 
       version = lib.mkOption {
         type = lib.types.nonEmptyStr;
       };
+
+      digest = lib.mkOption {
+        type = lib.types.nonEmptyStr;
+      };
     };
   };
+
+  rawToml = lib.importTOML "${flake}/versions/containers.toml";
+  containers = lib.mapAttrs (_: attrs: { inherit (attrs) registry image version digest; }) rawToml;
 in
 {
   options = with lib; {
@@ -25,6 +32,6 @@ in
   };
 
   config = {
-    custom.containers = lib.importJSON "${flake}/versions/containers.json";
+    custom.containers = containers;
   };
 }

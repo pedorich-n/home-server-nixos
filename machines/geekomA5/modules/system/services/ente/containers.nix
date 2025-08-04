@@ -36,12 +36,11 @@ in
       };
 
       ente-museum = {
-        useGlobalContainers = false;
+        useGlobalContainers = true;
         requiresTraefikNetwork = true;
         usernsAuto.enable = true;
 
         containerConfig = {
-          image = "ghcr.io/ente-io/server:latest";
           volumes = [
             (mappedVolumeForUser "${storeRoot}/museum/data" "/data")
             (mappedVolumeForUser config.sops.templates."ente/museum.yaml".path "/museum.yaml")
@@ -64,12 +63,11 @@ in
       };
 
       ente-web = {
-        useGlobalContainers = false;
+        useGlobalContainers = true;
         requiresTraefikNetwork = true;
         usernsAuto.enable = true;
 
         containerConfig = {
-          image = "ghcr.io/ente-io/web:latest";
           environments = {
             ENTE_API_ORIGIN = networkingLib.mkUrl "ente-api";
           };
