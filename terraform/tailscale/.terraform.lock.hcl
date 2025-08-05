@@ -26,9 +26,22 @@ provider "registry.opentofu.org/1password/onepassword" {
 
 provider "registry.opentofu.org/tailscale/tailscale" {
   version     = "0.21.1"
-  constraints = "~> 0.18"
+  constraints = "~> 0.21"
   hashes = [
+    "h1:1BYmN/NCeMDwAUDRyPJn60rPmFvsEuFEMDu0x2lIYBc=",
+    "h1:1lEPhcw//tXbX9joYZ0XOxIUF3qQk0sD+O3sgRDH57s=",
+    "h1:4VMx9K2LoOEirjbm9txqVnULoXv1wln6XDo5yr8R+FY=",
+    "h1:Bx30XKMTi3KbpUiO+aY0V1xv0gdOwwquVTkOgRaSBj0=",
+    "h1:G80FxvN55uGcuGq5MhnaJf0NVIGZy21oH+9tCJ0TCZw=",
+    "h1:GGqir1oPNCly4JZWYBYXSbFxbwgk7zXYMoQDw3sCT/s=",
+    "h1:SiNbDqjARQsYbnOYGKyr9MHPMNVImSphs1q+7qmRnXw=",
+    "h1:WlL7BJHtxnvC4uR7NyTI95Ej5IDJxKqoSAu6pCwVVRs=",
+    "h1:Y+jeUvwRpk71EV3TjWTX/IOnmmzEDloFx//PSmrMQGc=",
+    "h1:bfIF0fyyCe8DuhxiEel6352ChCLRRFn7Dr1POR56X6c=",
+    "h1:g2qRee5bpyioNQ4w99XnZVtM+k1RRtMfm7uNV0JThtE=",
     "h1:jtRN8X5NWpfQgnuxKvGOKdTDqWmDRtgOF85AFwKi690=",
+    "h1:toxgMmK/+hipwu8DK6EtZR8vMnqFk1oPeePNI6gp9xU=",
+    "h1:un5yTNeyVreIPNjWkBNLdpiFTh0I3ytfEJUlnHsQKTM=",
     "zh:0ececf1715d6ece1983e773f8b8def68e8d2d455ff1e5d49fffa97a62c629661",
     "zh:36146ceadff77791297dfdffe3fa39a6a93b8efc5f0cf55e64f8ad9143685bb5",
     "zh:4e5304e0443fa6f99ac4c280c0d780078c09475c705581199e3dbd1c0b66fc51",
