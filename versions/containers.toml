@@ -1,8 +1,8 @@
 [audiobookshelf]
-digest = "sha256:fe2ec344b4881ee0fad5c1605e7069c993c218c103e8a57e467e381ee9eebcfb"
+digest = "sha256:f60a19bb94a9fc763212be0116502b0c2cee1da655c9320137a3020fb1ed2dca"
 image = "advplyr/audiobookshelf"
 registry = "ghcr.io"
-version = "2.26.3"
+version = "2.27.0"
 versioning = "semver"
 
 [authentik-postgresql]
@@ -48,7 +48,7 @@ version = "15.13-alpine"
 versioning = "regex:^(?<major>15)\\.(?<minor>\\d+)-alpine$"
 
 [ente-web]
-digest = "sha256:0f995958ad807d91dbc5e33561a427f7d29544e958e53343a01641b3b202129b"
+digest = "sha256:cfebce0dfdb52227aff2518408e06af77adcdd3ed8f4b98121c3a374d812ecae"
 image = "ente-io/web"
 registry = "ghcr.io"
 version = "latest"
@@ -83,10 +83,10 @@ version = "16.9-alpine"
 versioning = "regex:^(?<major>16)\\.(?<minor>\\d+)-alpine$"
 
 [immich-machine-learning]
-digest = "sha256:591a7aef2a9ae087beb5aa24901ecffd441c8dc85db2a5addc6e08f4dbcddee3"
+digest = "sha256:ef517c041fa4a6a84a6c3c4f88a1124058e686c9c92bf09a973e7e60c3c3ea1e"
 image = "immich-app/immich-machine-learning"
 registry = "ghcr.io"
-version = "v1.137.1"
+version = "v1.137.3"
 versioning = "semver"
 
 [immich-postgresql]
@@ -97,14 +97,14 @@ version = "14-vectorchord0.4.3-pgvectors0.3.0"
 versioning = "regex:^(?<major>14)-vectorchord(?<minor>0\\.4\\.\\d+)"
 
 [immich-server]
-digest = "sha256:fc2516bcd3a9e76a68447049bd3a69b84b618670c7a3a1d409b7d20606b2761f"
+digest = "sha256:e517f806457057d44695152a0af2dfa094225a7d85eb37f518925e68864c658d"
 image = "immich-app/immich-server"
 registry = "ghcr.io"
-version = "v1.137.1"
+version = "v1.137.3"
 versioning = "semver"
 
 [immich-valkey]
-digest = "sha256:facc1d2c3462975c34e10fccb167bfa92b0e0dbd992fc282c29a61c3243afb11"
+digest = "sha256:5b8f8c333bef895c925f56629d6ba90aea95a4f7391f62411e625267c600b19c"
 image = "valkey/valkey"
 registry = "docker.io"
 version = "8.1.3-bookworm"
@@ -132,10 +132,10 @@ version = "2.0.22"
 versioning = "semver"
 
 [multiscrobbler]
-digest = "sha256:f6d4481f8163d74657fad1a0d00aea3c3a8d005633c8935019c0f06e35b8ba39"
+digest = "sha256:e9d8f2596b065f60d15150d8e43e5eb8ee8796c258589801a1090d69e5447a81"
 image = "foxxmd/multi-scrobbler"
 registry = "docker.io"
-version = "0.9.9"
+version = "0.9.10"
 versioning = "semver"
 
 [paperless-postgresql]
@@ -160,7 +160,7 @@ version = "2.17.1"
 versioning = "semver"
 
 [prowlarr]
-digest = "sha256:d2462d470891c70073e31d158657a9b247b317c90238c40534d8be8f98671057"
+digest = "sha256:25d21c04c7cc39a706217abb77bb60b283d9eaaf16acf539c930e3c797e21f25"
 image = "linuxserver/prowlarr"
 registry = "docker.io"
 version = "1.37.0"
@@ -195,8 +195,8 @@ version = "4.0.15"
 versioning = "regex:^v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:\\.(?<build>\\d+))?$"
 
 [zigbee2mqtt]
-digest = "sha256:1e639d3144960f246dcecc21d993169fd6844b5817e939bca498b2abf2c23159"
+digest = "sha256:472f4f5ed5d4258056093ea5745bc0ada37628b667d7db4fb12c2ffea74b2703"
 image = "koenkk/zigbee2mqtt"
 registry = "docker.io"
-version = "2.5.1"
+version = "2.6.0"
 versioning = "semver"
