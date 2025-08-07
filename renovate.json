@@ -1,19 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "local>pedorich-n/renovate-config"
+    "github>pedorich-n/renovate-config"
   ],
   "customManagers": [
     {
-      "customType": "jsonata",
+      "customType": "regex",
       "description": "Docker containers from a TOML file",
-      "fileFormat": "toml",
       "managerFilePatterns": [
         "/^versions/containers\\.toml$/"
       ],
       "matchStrings": [
-        "$each($, function($v, $k) { { \"packageName\": $v.image, \"depName\": $k, \"currentValue\": $v.version, \"datasource\": \"docker\", \"registryUrl\": $v.registry = \"docker.io\" ? \"https://index.docker.io\" : \"https://\" & $v.registry, \"versioning\": $v.versioning ? $v.versioning : \"docker\", \"currentDigest\": $v.digest } })"
-      ]
+        "\\[(?<depName>[^\\]]+)\\][^\\[]*?digest = \"(?<currentDigest>[^\"]+)\"[^\\[]*?image = \"(?<packageName>[^\"]+)\"[^\\[]*?registry = \"(?<registry>[^\"]+)\"[^\\[]*?version = \"(?<currentValue>[^\"]+)\"[^\\[]*?versioning = \"(?<versioning>[^\"]+)\""
+      ],
+      "datasourceTemplate": "docker",
+      "registryUrlTemplate": "https://{{#if (equals registry 'docker.io')}}index.docker.io{{else}}{{registry}}{{/if}}"
     }
   ],
   "packageRules": [
