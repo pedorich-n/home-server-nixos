@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>pedorich-n/renovate-config"
+    "local>pedorich-n/renovate-config"
   ],
   "customManagers": [
     {
@@ -11,7 +11,7 @@
         "/^versions/containers\\.toml$/"
       ],
       "matchStrings": [
-        "\\[(?<depName>[^\\]]+)\\][^\\[]*?digest = \"(?<currentDigest>[^\"]+)\"[^\\[]*?image = \"(?<packageName>[^\"]+)\"[^\\[]*?registry = \"(?<registry>[^\"]+)\"[^\\[]*?version = \"(?<currentValue>[^\"]+)\"[^\\[]*?versioning = \"(?<versioning>[^\"]+)\""
+        "\\[(?<depName>[^\\]]+)\\][^\\[]*?digest = '(?<currentDigest>[^']+)'[^\\[]*?image = '(?<packageName>[^']+)'[^\\[]*?registry = '(?<registry>[^']+)'[^\\[]*?version = '(?<currentValue>[^']+)'[^\\[]*?versioning = '(?<versioning>[^']+)'"
       ],
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://{{#if (equals registry 'docker.io')}}index.docker.io{{else}}{{registry}}{{/if}}"
