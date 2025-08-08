@@ -13,11 +13,11 @@ version = '16.9-alpine'
 versioning = 'regex:^(?<major>16)\.(?<minor>\d+)-alpine$'
 
 [authentik-redis]
-digest = 'sha256:bb186d083732f669da90be8b0f975a37812b15e913465bb14d845db72a4e3e08'
+digest = 'sha256:7521abdff715d396aa482183942f3fe643344287c29ccb66eee16ac08a92190f'
 image = 'library/redis'
 registry = 'docker.io'
-version = '7.4.5-alpine'
-versioning = 'regex:^(?<major>7)\.(?<minor>\d+)\.(?<patch>\d+)-alpine$'
+version = '8.2.0-alpine'
+versioning = 'docker'
 
 [authentik-server]
 digest = 'sha256:acde6a1fc963301fe27f7e86facb9aefbc68eb523210bcab5679a899e6bf72d5'
@@ -146,11 +146,11 @@ version = '16.9-alpine'
 versioning = 'regex:^(?<major>16)\.(?<minor>\d+)-alpine$'
 
 [paperless-redis]
-digest = 'sha256:bb186d083732f669da90be8b0f975a37812b15e913465bb14d845db72a4e3e08'
+digest = 'sha256:7521abdff715d396aa482183942f3fe643344287c29ccb66eee16ac08a92190f'
 image = 'library/redis'
 registry = 'docker.io'
-version = '7.4.5-alpine'
-versioning = 'regex:^(?<major>7)\.(?<minor>\d+)\.(?<patch>\d+)-alpine$'
+version = '8.2.0-alpine'
+versioning = 'docker'
 
 [paperless-server]
 digest = 'sha256:ab72a0ab42a792228cdbe83342b99a48acd49f7890ae54b1ae8e04401fba24ee'
