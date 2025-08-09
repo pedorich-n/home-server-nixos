@@ -1,17 +1,24 @@
-{ inputs, config, lib, pkgs, containerLib, systemdLib, networkingLib, ... }:
+{
+  inputs,
+  config,
+  lib,
+  pkgs,
+  containerLib,
+  systemdLib,
+  networkingLib,
+  ...
+}:
 let
   inherit (config.virtualisation.quadlet) containers;
 
   storeRoot = "/mnt/store/home-automation";
 
-  mappedVolumeForUser = localPath: remotePath:
-    containerLib.mkIdmappedVolume
-      {
-        uidHost = config.users.users.user.uid;
-        gidHost = config.users.groups.${config.users.users.user.group}.gid;
-      }
-      localPath
-      remotePath;
+  mappedVolumeForUser =
+    localPath: remotePath:
+    containerLib.mkIdmappedVolume {
+      uidHost = config.users.users.user.uid;
+      gidHost = config.users.groups.${config.users.users.user.group}.gid;
+    } localPath remotePath;
 
   configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
     mosquitto = ./mosquitto/_config.nix;
@@ -122,19 +129,20 @@ in
             # See https://github.com/tribut/homeassistant-docker-venv
             "${inputs.homeassistant-docker-venv}/run:/etc/services.d/home-assistant/run"
           ];
-          labels = (containerLib.mkTraefikLabels {
-            name = "homeassistant-secure";
-            port = 8123;
-            priority = 10;
-            middlewares = [ "authentik-secure@docker" ];
-          }) ++
-          (containerLib.mkTraefikLabels {
-            name = "homeassistant-secure-hooks";
-            rule = "Host(`${networkingLib.mkDomain "homeassistant"}`) && PathPrefix(`/api/webhook/`)";
-            service = "homeassistant-secure";
-            priority = 15;
-            entrypoints = [ "web-secure" ];
-          });
+          labels =
+            (containerLib.mkTraefikLabels {
+              name = "homeassistant-secure";
+              port = 8123;
+              priority = 10;
+              middlewares = [ "authentik-secure@docker" ];
+            })
+            ++ (containerLib.mkTraefikLabels {
+              name = "homeassistant-secure-hooks";
+              rule = "Host(`${networkingLib.mkDomain "homeassistant"}`) && PathPrefix(`/api/webhook/`)";
+              service = "homeassistant-secure";
+              priority = 15;
+              entrypoints = [ "web-secure" ];
+            });
           inherit networks;
         };
 

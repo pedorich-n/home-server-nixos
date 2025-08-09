@@ -13,7 +13,12 @@ let
     "LC_NUMERIC"
     "LC_PAPER"
   ];
-  extraLocaleSettings = builtins.listToAttrs (builtins.map (localeVar: { name = localeVar; value = defaultLocale; }) extraLocaleVars);
+  extraLocaleSettings = builtins.listToAttrs (
+    builtins.map (localeVar: {
+      name = localeVar;
+      value = defaultLocale;
+    }) extraLocaleVars
+  );
 in
 {
   i18n = {
@@ -21,7 +26,8 @@ in
     extraLocaleSettings = {
       "LC_TIME" = "en_GB.UTF-8"; # dd/MM/YYYY please
       "LC_MEASUREMENT" = "en_GB.UTF-8"; # Metric, please
-    } // extraLocaleSettings;
+    }
+    // extraLocaleSettings;
 
     supportedLocales = [
       "en_US.UTF-8/UTF-8"

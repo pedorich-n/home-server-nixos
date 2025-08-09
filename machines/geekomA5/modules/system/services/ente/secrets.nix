@@ -1,4 +1,9 @@
-{ config, pkgs, networkingLib, ... }:
+{
+  config,
+  pkgs,
+  networkingLib,
+  ...
+}:
 let
   yamlFormat = pkgs.formats.yaml { };
 in

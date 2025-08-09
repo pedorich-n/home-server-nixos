@@ -19,8 +19,8 @@ let
   };
 in
 # TODO: figure out a nicer way to do this. See https://noogle.dev/f/lib/filesystem/packagesFromDirectoryRecursive for inspiration
-(builtins.mapAttrs (name: path: mkOverlay name path) packages) //
-{
+(builtins.mapAttrs (name: path: mkOverlay name path) packages)
+// {
   cockpit-plugins = _: prev: {
     cockpit-plugins = builtins.mapAttrs (_: path: prev.callPackage path { }) cockpit-plugins;
   };

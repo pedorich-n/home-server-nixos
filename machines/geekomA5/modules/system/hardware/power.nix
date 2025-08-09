@@ -1,4 +1,5 @@
-{ inputs, ... }: {
+{ inputs, ... }:
+{
   disabledModules = [ "services/hardware/auto-cpufreq.nix" ];
   imports = [ inputs.auto-cpufreq.nixosModules.default ];
 

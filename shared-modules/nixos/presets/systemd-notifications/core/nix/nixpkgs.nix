@@ -1,5 +1,6 @@
 #LINK - overlays/custom-packages.nix
-{ overlays, ... }: {
+{ overlays, ... }:
+{
   nixpkgs = {
     overlays = [
       overlays.systemd-onfailure-notify

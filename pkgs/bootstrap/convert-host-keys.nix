@@ -6,7 +6,7 @@ pkgs.writeShellApplication {
     openssh
     ssh-to-age
   ];
-  text = '' 
+  text = ''
     root=$1
 
     function convert() {

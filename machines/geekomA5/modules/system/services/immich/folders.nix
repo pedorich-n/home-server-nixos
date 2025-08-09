@@ -17,21 +17,20 @@ let
     "Z" = defaultRules; # Set mode/permissions recursively to a directory, in case it already exists
   };
 
-  foldersToCreate =
-    lib.map (folder: "${storeRoot}/${folder}") [
-      "cache"
-      "cache/thumbnails"
-      "cache/profile"
-      "cache/machine-learning"
+  foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
+    "cache"
+    "cache/thumbnails"
+    "cache/profile"
+    "cache/machine-learning"
 
-      # "machine-learning"
-      # "machine-learning/.cache"
-      # "machine-learning/.config"
+    # "machine-learning"
+    # "machine-learning/.cache"
+    # "machine-learning/.config"
 
-      "postgresql"
+    "postgresql"
 
-      "redis"
-    ];
+    "redis"
+  ];
 
   foldersToSetPermissions = [
     storeRoot

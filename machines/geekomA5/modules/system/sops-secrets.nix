@@ -1,4 +1,9 @@
-{ config, inputs, lib, ... }:
+{
+  config,
+  inputs,
+  lib,
+  ...
+}:
 let
   secretsRoot = "${inputs.home-server-nixos-secrets}/sops/encrypted/geekomA5";
 
@@ -51,7 +56,10 @@ let
 
   osUserPasswords =
     let
-      users = [ "root" "user" ];
+      users = [
+        "root"
+        "user"
+      ];
 
       mkUserPasswordSecret = user: {
         "os_passwords/${user}" = {

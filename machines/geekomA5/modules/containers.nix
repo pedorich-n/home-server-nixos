@@ -21,7 +21,14 @@ let
   };
 
   rawToml = lib.importTOML "${flake}/versions/containers.toml";
-  containers = lib.mapAttrs (_: attrs: { inherit (attrs) registry image version digest; }) rawToml;
+  containers = lib.mapAttrs (_: attrs: {
+    inherit (attrs)
+      registry
+      image
+      version
+      digest
+      ;
+  }) rawToml;
 in
 {
   options = with lib; {

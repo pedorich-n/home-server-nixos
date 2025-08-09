@@ -16,12 +16,11 @@ let
     "Z" = defaultRules; # Set mode/permissions recursively to a directory, in case it already exists
   };
 
-  foldersToCreate =
-    lib.map (folder: "${storeRoot}/${folder}") [
-      "underground-monkeys"
-      "underground-monkeys/server-data"
-      "underground-monkeys/server-files"
-    ];
+  foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
+    "underground-monkeys"
+    "underground-monkeys/server-data"
+    "underground-monkeys/server-files"
+  ];
 
   foldersToSetPermissions = [
     storeRoot

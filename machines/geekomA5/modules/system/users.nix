@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   users = {
     groups = {
       zigbee = {
@@ -30,5 +36,8 @@
   };
 
   #LINK - shared-modules/nixos/presets/home-manager/options/system/users/home-manager.nix
-  custom.users.homeManagerUsers = [ "root" "user" ];
+  custom.users.homeManagerUsers = [
+    "root"
+    "user"
+  ];
 }

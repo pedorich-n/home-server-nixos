@@ -1,11 +1,26 @@
 { config, networkingLib, ... }:
 {
   custom.networking.ports.tcp = {
-    traefik-dashboard = { port = 8080; openFirewall = false; };
-    traefik-mqtt = { port = 1883; openFirewall = true; };
-    traefik-web = { port = 80; openFirewall = true; };
-    traefik-web-secure = { port = 443; openFirewall = true; };
-    traefik-metrics = { port = 9100; openFirewall = false; };
+    traefik-dashboard = {
+      port = 8080;
+      openFirewall = false;
+    };
+    traefik-mqtt = {
+      port = 1883;
+      openFirewall = true;
+    };
+    traefik-web = {
+      port = 80;
+      openFirewall = true;
+    };
+    traefik-web-secure = {
+      port = 443;
+      openFirewall = true;
+    };
+    traefik-metrics = {
+      port = 9100;
+      openFirewall = false;
+    };
   };
 
   users.users.traefik.extraGroups = [ "podman" ];
@@ -57,12 +72,14 @@
           address = ":${config.custom.networking.ports.tcp.traefik-web-secure.portStr}";
           http.tls = {
             certResolver = "cloudflare";
-            domains = [{
-              main = config.custom.networking.domain;
-              sans = [
-                (networkingLib.mkDomain "*")
-              ];
-            }];
+            domains = [
+              {
+                main = config.custom.networking.domain;
+                sans = [
+                  (networkingLib.mkDomain "*")
+                ];
+              }
+            ];
           };
         };
 
@@ -117,7 +134,9 @@
         services = {
           traefik = {
             loadBalancer = {
-              servers = [{ url = "http://localhost:${config.custom.networking.ports.tcp.traefik-dashboard.portStr}"; }];
+              servers = [
+                { url = "http://localhost:${config.custom.networking.ports.tcp.traefik-dashboard.portStr}"; }
+              ];
             };
           };
         };

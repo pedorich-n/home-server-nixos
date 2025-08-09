@@ -16,14 +16,13 @@ let
     "Z" = defaultRules; # Set mode/permissions recursively to a directory, in case it already exists
   };
 
-  foldersToCreate =
-    lib.map (folder: "${storeRoot}/${folder}") [
-      "maloja"
-      "maloja/data"
+  foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
+    "maloja"
+    "maloja/data"
 
-      "multi-scrobbler"
-      "multi-scrobbler/config"
-    ];
+    "multi-scrobbler"
+    "multi-scrobbler/config"
+  ];
 
   foldersToSetPermissions = [
     storeRoot

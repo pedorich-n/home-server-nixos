@@ -16,15 +16,14 @@ let
     "Z" = defaultRules; # Set mode/permissions recursively to a directory, in case it already exists
   };
 
-  foldersToCreate =
-    lib.map (folder: "${storeRoot}/${folder}") [
-      "media"
-      "maloja/data"
+  foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
+    "media"
+    "maloja/data"
 
-      "postgres"
+    "postgres"
 
-      "redis"
-    ];
+    "redis"
+  ];
 
   foldersToSetPermissions = [
     storeRoot
@@ -33,6 +32,7 @@ in
 {
   systemd.tmpfiles.settings = {
     "90-authentik-create" = lib.foldl' (acc: folder: acc // { ${folder} = mkCreateDirectoryRule; }) { } foldersToCreate;
+
     "91-authentik-set" = lib.foldl' (acc: folder: acc // { ${folder} = mkSetPermissionsRule; }) { } foldersToSetPermissions;
   };
 }

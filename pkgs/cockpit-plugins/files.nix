@@ -1,8 +1,9 @@
-{ lib
-, stdenv
-, callPackage
-, gettext
-, python3
+{
+  lib,
+  stdenv,
+  callPackage,
+  gettext,
+  python3,
 }:
 let
   sources = callPackage ./_sources/generated.nix { };
@@ -18,7 +19,10 @@ stdenv.mkDerivation {
     python3
   ];
 
-  makeFlags = [ "DESTDIR=$(out)" "PREFIX=" ];
+  makeFlags = [
+    "DESTDIR=$(out)"
+    "PREFIX="
+  ];
 
   postFixup = ''
     gunzip $out/share/cockpit/files/index.js.gz

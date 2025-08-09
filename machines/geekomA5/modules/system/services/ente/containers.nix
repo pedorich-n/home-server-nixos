@@ -1,18 +1,21 @@
-{ config, containerLib, systemdLib, networkingLib, ... }:
+{
+  config,
+  containerLib,
+  systemdLib,
+  networkingLib,
+  ...
+}:
 let
   inherit (config.virtualisation.quadlet) containers;
 
   storeRoot = "/mnt/store/ente";
 
-  mappedVolumeForUser = localPath: remotePath:
-    containerLib.mkIdmappedVolume
-      {
-        uidHost = config.users.users.user.uid;
-        gidHost = config.users.groups.${config.users.users.user.group}.gid;
-      }
-      localPath
-      remotePath;
-
+  mappedVolumeForUser =
+    localPath: remotePath:
+    containerLib.mkIdmappedVolume {
+      uidHost = config.users.users.user.uid;
+      gidHost = config.users.groups.${config.users.users.user.group}.gid;
+    } localPath remotePath;
 
   networks = [ "ente-internal.network" ];
 in
@@ -56,7 +59,6 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-
         unitConfig = systemdLib.requiresAfter [
           containers.ente-postgresql.ref
         ];
@@ -72,15 +74,17 @@ in
             ENTE_API_ORIGIN = networkingLib.mkUrl "ente-api";
           };
 
-          labels = (containerLib.mkTraefikLabels {
-            name = "ente-photos-web-secure";
-            slug = "ente";
-            port = 3000;
-          }) ++ (containerLib.mkTraefikLabels {
-            name = "ente-accounts-web-secure";
-            slug = "ente-accounts";
-            port = 3001;
-          });
+          labels =
+            (containerLib.mkTraefikLabels {
+              name = "ente-photos-web-secure";
+              slug = "ente";
+              port = 3000;
+            })
+            ++ (containerLib.mkTraefikLabels {
+              name = "ente-accounts-web-secure";
+              slug = "ente-accounts";
+              port = 3001;
+            });
 
           inherit networks;
           # inherit (containerLib.containerIds) user;

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.custom.systemd.on-failure-notify;
 
@@ -7,7 +12,8 @@ let
   # Nix implementation from https://discourse.nixos.org/t/how-to-use-toplevel-overrides-for-systemd/12501/4
   systemdOverrides =
     let
-      mkOverride = { unitType, priority }:
+      mkOverride =
+        { unitType, priority }:
         pkgs.writeTextDir "/etc/systemd/system/${unitType}.d/${lib.fixedWidthNumber 2 priority}-on-failure-notify.conf" ''
           [Unit]
           OnFailure=${unitName}%N.service
@@ -15,19 +21,21 @@ let
     in
     builtins.map mkOverride cfg.enableForUnits;
 
-  overrideUnitType = with lib; types.submodule {
-    options = {
-      unitType = mkOption {
-        type = types.str;
-        example = "services";
-      };
+  overrideUnitType =
+    with lib;
+    types.submodule {
+      options = {
+        unitType = mkOption {
+          type = types.str;
+          example = "services";
+        };
 
-      priority = mkOption {
-        type = types.ints.between 0 100;
-        default = 50;
+        priority = mkOption {
+          type = types.ints.between 0 100;
+          default = 50;
+        };
       };
     };
-  };
 in
 {
   options = {

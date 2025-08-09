@@ -1,15 +1,18 @@
-{ config, containerLib, pkgs, ... }:
+{
+  config,
+  containerLib,
+  pkgs,
+  ...
+}:
 let
   storeRoot = "/mnt/store/music-history";
 
-  mappedVolumeForUser = localPath: remotePath:
-    containerLib.mkIdmappedVolume
-      {
-        uidHost = config.users.users.user.uid;
-        gidHost = config.users.groups.${config.users.users.user.group}.gid;
-      }
-      localPath
-      remotePath;
+  mappedVolumeForUser =
+    localPath: remotePath:
+    containerLib.mkIdmappedVolume {
+      uidHost = config.users.users.user.uid;
+      gidHost = config.users.groups.${config.users.users.user.group}.gid;
+    } localPath remotePath;
 
   malojaArtistRules = pkgs.callPackage ./maloja/_artist-rules.nix { };
 

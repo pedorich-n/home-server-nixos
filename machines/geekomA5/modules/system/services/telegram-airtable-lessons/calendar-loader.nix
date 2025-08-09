@@ -6,7 +6,10 @@ let
   portsCfg = config.custom.networking.ports.tcp.lessons-calendar-loader;
 in
 {
-  custom.networking.ports.tcp.lessons-calendar-loader = { port = 9000; openFirewall = false; };
+  custom.networking.ports.tcp.lessons-calendar-loader = {
+    port = 9000;
+    openFirewall = false;
+  };
 
   services = {
     lessons-calendar-loader = {
@@ -37,7 +40,7 @@ in
       };
 
       services.calendar-loader-secure = {
-        loadBalancer.servers = [{ url = "http://localhost:${portsCfg.portStr}"; }];
+        loadBalancer.servers = [ { url = "http://localhost:${portsCfg.portStr}"; } ];
       };
     };
   };

@@ -1,4 +1,9 @@
-{ networkingLib, tmpfilesLib, pkgs, ... }:
+{
+  networkingLib,
+  tmpfilesLib,
+  pkgs,
+  ...
+}:
 let
   rendered-templates = pkgs.callPackage ./_render-templates.nix { inherit networkingLib; };
 in
@@ -15,7 +20,9 @@ in
     };
     # C+ rule for a folder doesn't apply the permissions to nested files. So an additional rule is needed.
     "/mnt/store/home-automation/homeassistant/*" = {
-      "Z" = (tmpfilesLib.mkDefaultTmpDirectory "") // { mode = "0754"; };
+      "Z" = (tmpfilesLib.mkDefaultTmpDirectory "") // {
+        mode = "0754";
+      };
     };
   };
 }

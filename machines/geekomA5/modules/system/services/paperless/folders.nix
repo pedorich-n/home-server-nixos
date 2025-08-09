@@ -26,7 +26,8 @@ let
       "postgresql"
 
       "redis"
-    ]) ++ (lib.map (folder: "${externalRoot}/${folder}") [
+    ])
+    ++ (lib.map (folder: "${externalRoot}/${folder}") [
       "media"
     ]);
 

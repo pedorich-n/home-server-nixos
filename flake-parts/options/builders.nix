@@ -1,4 +1,12 @@
-{ flake, inputs, withSystem, flake-parts-lib, config, lib, ... }:
+{
+  flake,
+  inputs,
+  withSystem,
+  flake-parts-lib,
+  config,
+  lib,
+  ...
+}:
 let
   nixosConfigurationSubmodule = lib.types.submodule {
     options = {
@@ -17,7 +25,9 @@ let
         default = [ ];
       };
 
-      enableDeploy = lib.mkEnableOption "deploy" // { default = true; };
+      enableDeploy = lib.mkEnableOption "deploy" // {
+        default = true;
+      };
 
       deploySettings = lib.mkOption {
         type = lib.types.lazyAttrsOf lib.types.raw;
@@ -26,8 +36,9 @@ let
     };
   };
 
-
-  nixosCommonModules = flake.lib.loaders.listFilesRecursively { src = "${flake}/shared-modules/nixos/common"; };
+  nixosCommonModules = flake.lib.loaders.listFilesRecursively {
+    src = "${flake}/shared-modules/nixos/common";
+  };
 
   nixosPresetModules =
     let
@@ -46,43 +57,51 @@ let
 
   overlays = import "${flake}/overlays/custom-packages.nix";
 
-  mkSystem = name: cfg: inputs.nixpkgs.lib.nixosSystem {
-    modules =
-      [{
-        _module.args = {
-          inherit flake overlays;
-        };
+  mkSystem =
+    name: cfg:
+    inputs.nixpkgs.lib.nixosSystem {
+      modules = [
+        {
+          _module.args = {
+            inherit flake overlays;
+          };
 
-        networking.hostName = lib.mkDefault name;
-      }]
+          networking.hostName = lib.mkDefault name;
+        }
+      ]
       ++ (loadMachine name)
       ++ lib.optionals cfg.withSharedModules nixosCommonModules
       ++ (cfg.withPresets nixosPresetModules)
       ++ cfg.extraModules;
 
-    specialArgs = {
-      inherit inputs; # If passed in _module.args leads to infinite recursion :(
+      specialArgs = {
+        inherit inputs; # If passed in _module.args leads to infinite recursion :(
+      };
     };
-  };
 
-  mkDeployNode = name: cfg:
+  mkDeployNode =
+    name: cfg:
     let
       nixosCfg = config.flake.nixosConfigurations.${name};
     in
-    withSystem nixosCfg.pkgs.system ({ deployPkgs, ... }: {
-      hostname = name;
-      interactiveSudo = false;
-      magicRollback = true;
-      remoteBuild = true;
+    withSystem nixosCfg.pkgs.system (
+      { deployPkgs, ... }:
+      {
+        hostname = name;
+        interactiveSudo = false;
+        magicRollback = true;
+        remoteBuild = true;
 
-      profiles = {
-        system = {
-          sshUser = "root";
-          user = "root";
-          path = deployPkgs.deploy-rs.lib.activate.nixos nixosCfg;
-        } // cfg.deploySettings;
-      };
-    });
+        profiles = {
+          system = {
+            sshUser = "root";
+            user = "root";
+            path = deployPkgs.deploy-rs.lib.activate.nixos nixosCfg;
+          }
+          // cfg.deploySettings;
+        };
+      }
+    );
 in
 {
   options.flake = flake-parts-lib.mkSubmoduleOptions {

@@ -1,4 +1,12 @@
-{ inputs, config, networkingLib, lib, pkgs, pkgs-unstable, ... }:
+{
+  inputs,
+  config,
+  networkingLib,
+  lib,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 let
   metricsDomain = "http://${networkingLib.mkDomain "metrics"}:${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
 
@@ -16,23 +24,29 @@ let
       autodetection_retry = 60;
 
     }
-  ] ++
-  (lib.optional (config.services.minecraft-servers.enable && (lib.any (server: server.enable) (lib.attrValues config.services.minecraft-servers.servers))) {
-    name = "Minecraft";
-    url = "${metricsDomain}/minecraft";
-    autodetection_retry = 60;
-    selector.deny = [
-      "jvm_buffer_pool*"
-      "minecraft_entities*"
-      ''jvm_memory_pool_*{pool=*"CodeHeap*"}''
-    ];
-  });
+  ]
+  ++ (lib.optional
+    (config.services.minecraft-servers.enable && (lib.any (server: server.enable) (lib.attrValues config.services.minecraft-servers.servers)))
+    {
+      name = "Minecraft";
+      url = "${metricsDomain}/minecraft";
+      autodetection_retry = 60;
+      selector.deny = [
+        "jvm_buffer_pool*"
+        "minecraft_entities*"
+        ''jvm_memory_pool_*{pool=*"CodeHeap*"}''
+      ];
+    }
+  );
 in
 {
   disabledModules = [ "services/monitoring/netdata.nix" ];
   imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/monitoring/netdata.nix" ];
 
-  custom.networking.ports.tcp.netdata = { port = 19999; openFirewall = false; };
+  custom.networking.ports.tcp.netdata = {
+    port = 19999;
+    openFirewall = false;
+  };
 
   systemd.services.netdata.serviceConfig = {
     CapabilityBoundingSet = [
@@ -181,7 +195,7 @@ in
       };
 
       services.netdata-secure = {
-        loadBalancer.servers = [{ url = "http://localhost:19999"; }];
+        loadBalancer.servers = [ { url = "http://localhost:19999"; } ];
       };
     };
   };

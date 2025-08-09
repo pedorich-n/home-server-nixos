@@ -1,4 +1,5 @@
-{ config, pkgs-unstable, ... }: {
+{ config, pkgs-unstable, ... }:
+{
   services.ngrok = {
     enable = false;
     package = pkgs-unstable.ngrok;

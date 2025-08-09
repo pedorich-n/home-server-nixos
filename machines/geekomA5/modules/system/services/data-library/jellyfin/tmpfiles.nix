@@ -1,4 +1,9 @@
-{ pkgs, networkingLib, tmpfilesLib, ... }:
+{
+  pkgs,
+  networkingLib,
+  tmpfilesLib,
+  ...
+}:
 let
   branding-config = pkgs.callPackage ./_branding-config.nix { inherit networkingLib; };
 in

@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
 
   tokenPath = "/run/credentials/renovate/github_app_installation_token";

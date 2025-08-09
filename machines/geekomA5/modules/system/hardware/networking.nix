@@ -1,4 +1,5 @@
-{ config, lib, ... }: {
+{ config, lib, ... }:
+{
   options = {
     custom.networking.domain = lib.mkOption {
       type = lib.types.str;

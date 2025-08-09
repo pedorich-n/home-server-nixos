@@ -1,4 +1,10 @@
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 let
   #LINK - docs/tailscale_setup.md
   tailscaleMachineIp = "100.90.209.21";
@@ -18,7 +24,7 @@ let
 in
 {
   systemd = {
-    # services.dnsmasq is intended to be system-wide and it changes too many things in the config, 
+    # services.dnsmasq is intended to be system-wide and it changes too many things in the config,
     # so it's easier to have this "local" server running with a limited scope
     services.tailscale-dnsmasq = {
       description = "Tailscale's Dnsmasq";

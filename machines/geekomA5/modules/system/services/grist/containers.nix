@@ -1,15 +1,19 @@
-{ config, containerLib, authentikLib, networkingLib, ... }:
+{
+  config,
+  containerLib,
+  authentikLib,
+  networkingLib,
+  ...
+}:
 let
   storeRoot = "/mnt/store/grist";
 
-  mappedVolumeForUser = localPath: remotePath:
-    containerLib.mkIdmappedVolume
-      {
-        uidHost = config.users.users.user.uid;
-        gidHost = config.users.groups.${config.users.users.user.group}.gid;
-      }
-      localPath
-      remotePath;
+  mappedVolumeForUser =
+    localPath: remotePath:
+    containerLib.mkIdmappedVolume {
+      uidHost = config.users.users.user.uid;
+      gidHost = config.users.groups.${config.users.users.user.group}.gid;
+    } localPath remotePath;
 in
 {
   virtualisation.quadlet.containers.grist = {

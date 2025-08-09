@@ -1,17 +1,23 @@
-{ config, lib, containerLib, systemdLib, networkingLib, pkgs, ... }:
+{
+  config,
+  lib,
+  containerLib,
+  systemdLib,
+  networkingLib,
+  pkgs,
+  ...
+}:
 let
   inherit (config.virtualisation.quadlet) containers;
 
   storeRoot = "/mnt/store/server-management/authentik";
 
-  mappedVolumeForUser = localPath: remotePath:
-    containerLib.mkIdmappedVolume
-      {
-        uidHost = config.users.users.user.uid;
-        gidHost = config.users.groups.${config.users.users.user.group}.gid;
-      }
-      localPath
-      remotePath;
+  mappedVolumeForUser =
+    localPath: remotePath:
+    containerLib.mkIdmappedVolume {
+      uidHost = config.users.users.user.uid;
+      gidHost = config.users.groups.${config.users.users.user.group}.gid;
+    } localPath remotePath;
 
   defaultEnvs = {
     # https://docs.goauthentik.io/docs/installation/docker-compose#startup
@@ -23,7 +29,9 @@ let
     AUTHENTIK_POSTGRESQL__HOST = "authentik-postgresql";
   };
 
-  blueprints = pkgs.callPackage ./_render-blueprints.nix { inherit (config.custom.networking) domain; };
+  blueprints = pkgs.callPackage ./_render-blueprints.nix {
+    inherit (config.custom.networking) domain;
+  };
 
   serverIp = "172.31.0.240";
 
@@ -99,7 +107,7 @@ in
         ];
 
         serviceConfig = {
-          # Quite often the worker's healthcheck gets stuck for some reason. 
+          # Quite often the worker's healthcheck gets stuck for some reason.
           # With this systemd will restart the worker if it's been "activating" for 5 minutes.
           TimeoutStartSec = 300;
         };
@@ -128,20 +136,23 @@ in
           healthInterval = "30s";
           healthRetries = 5;
           notify = "healthy";
-          labels = (containerLib.mkTraefikLabels {
-            name = "authentik-secure";
-            port = 9000;
-            priority = 10;
-          }) ++ (containerLib.mkTraefikLabels {
-            name = "authentik-outpost-secure";
-            rule = "HostRegexp(`${networkingLib.mkDomain "{subdomain:[a-z0-9-]+}"}`) && PathPrefix(`/outpost.goauthentik.io/`)";
-            service = "authentik-secure";
-            priority = 15;
-          }) ++ [
-            "traefik.http.middlewares.authentik-secure.forwardauth.address=http://${serverIp}:9000/outpost.goauthentik.io/auth/traefik"
-            "traefik.http.middlewares.authentik-secure.forwardauth.trustForwardHeader=true"
-            "traefik.http.middlewares.authentik-secure.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
-          ];
+          labels =
+            (containerLib.mkTraefikLabels {
+              name = "authentik-secure";
+              port = 9000;
+              priority = 10;
+            })
+            ++ (containerLib.mkTraefikLabels {
+              name = "authentik-outpost-secure";
+              rule = "HostRegexp(`${networkingLib.mkDomain "{subdomain:[a-z0-9-]+}"}`) && PathPrefix(`/outpost.goauthentik.io/`)";
+              service = "authentik-secure";
+              priority = 15;
+            })
+            ++ [
+              "traefik.http.middlewares.authentik-secure.forwardauth.address=http://${serverIp}:9000/outpost.goauthentik.io/auth/traefik"
+              "traefik.http.middlewares.authentik-secure.forwardauth.trustForwardHeader=true"
+              "traefik.http.middlewares.authentik-secure.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
+            ];
           inherit (containerLib.containerIds) user;
         };
 
@@ -151,7 +162,7 @@ in
         ];
 
         serviceConfig = {
-          # Sometimes server's healthcheck gets stuck for some reason as well. 
+          # Sometimes server's healthcheck gets stuck for some reason as well.
           # With this systemd will restart the service if it's been "activating" for 5 minutes.
           TimeoutStartSec = 300;
         };

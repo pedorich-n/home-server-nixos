@@ -16,18 +16,17 @@ let
     "Z" = defaultRules; # Set mode/permissions recursively to a directory, in case it already exists
   };
 
-  foldersToCreate =
-    lib.map (folder: "${storeRoot}/${folder}") [
-      "homeassistant"
+  foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
+    "homeassistant"
 
-      "mosquitto"
-      "mosquitto/data"
-      "mosquitto/log"
+    "mosquitto"
+    "mosquitto/data"
+    "mosquitto/log"
 
-      "postgresql"
+    "postgresql"
 
-      "zigbee2mqtt"
-    ];
+    "zigbee2mqtt"
+  ];
 
   foldersToSetPermissions = [
     storeRoot

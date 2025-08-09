@@ -1,4 +1,5 @@
-{ pkgs-unstable, inputs, ... }: {
+{ pkgs-unstable, inputs, ... }:
+{
 
   disabledModules = [ "virtualisation/podman/default.nix" ];
   imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/virtualisation/podman/default.nix" ];

@@ -1,4 +1,5 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   options = {
     custom.ssh.keys = lib.mkOption {
       type = lib.types.listOf lib.types.singleLineStr;
