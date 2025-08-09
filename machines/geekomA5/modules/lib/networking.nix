@@ -9,6 +9,7 @@
         service,
       }:
       "${scheme}://${mkDomain service}";
+
     mkUrl = service: mkCustomUrl { inherit service; };
   };
 }
