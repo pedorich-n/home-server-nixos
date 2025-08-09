@@ -1,7 +1,5 @@
 { lib, tmpfilesLib, ... }:
 let
-  inherit (tmpfilesLib) mkDefaultCreateDirectoryRule mkDefaultSetPermissionsRule;
-
   storeRoot = "/mnt/store/paperless";
   externalRoot = "/mnt/external/paperless-library";
 
@@ -26,7 +24,7 @@ let
 in
 {
   systemd.tmpfiles.settings = {
-    "90-paperless-create" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultCreateDirectoryRule; }) { } foldersToCreate;
-    "91-paperless-set" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultSetPermissionsRule; }) { } foldersToSetPermissions;
+    "90-paperless-create" = tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate;
+    "91-paperless-set" = tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions;
   };
 }

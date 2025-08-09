@@ -1,7 +1,5 @@
 { lib, tmpfilesLib, ... }:
 let
-  inherit (tmpfilesLib) mkDefaultCreateDirectoryRule mkDefaultSetPermissionsRule;
-
   storeRoot = "/mnt/store/grist";
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
@@ -14,7 +12,7 @@ let
 in
 {
   systemd.tmpfiles.settings = {
-    "90-grist-create" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultCreateDirectoryRule; }) { } foldersToCreate;
-    "91-grist-set" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultSetPermissionsRule; }) { } foldersToSetPermissions;
+    "90-grist-create" = tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate;
+    "91-grist-set" = tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions;
   };
 }

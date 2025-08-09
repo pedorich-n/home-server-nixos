@@ -1,7 +1,5 @@
 { lib, tmpfilesLib, ... }:
 let
-  inherit (tmpfilesLib) mkDefaultCreateDirectoryRule mkDefaultSetPermissionsRule;
-
   storeRoot = "/mnt/store/data-library";
   externalRoot = "/mnt/external/data-library";
 
@@ -61,7 +59,7 @@ let
 in
 {
   systemd.tmpfiles.settings = {
-    "90-data-library-create" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultCreateDirectoryRule; }) { } foldersToCreate;
-    "91-data-library-set" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultSetPermissionsRule; }) { } foldersToSetPermissions;
+    "90-data-library-create" = tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate;
+    "91-data-library-set" = tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions;
   };
 }

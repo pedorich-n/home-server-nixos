@@ -1,7 +1,5 @@
 { lib, tmpfilesLib, ... }:
 let
-  inherit (tmpfilesLib) mkDefaultCreateDirectoryRule mkDefaultSetPermissionsRule;
-
   storeRoot = "/mnt/store/server-management/authentik";
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
@@ -19,7 +17,7 @@ let
 in
 {
   systemd.tmpfiles.settings = {
-    "90-authentik-create" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultCreateDirectoryRule; }) { } foldersToCreate;
-    "91-authentik-set" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultSetPermissionsRule; }) { } foldersToSetPermissions;
+    "90-authentik-create" = tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate;
+    "91-authentik-set" = tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions;
   };
 }

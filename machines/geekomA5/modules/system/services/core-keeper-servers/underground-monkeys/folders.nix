@@ -1,7 +1,5 @@
 { lib, tmpfilesLib, ... }:
 let
-  inherit (tmpfilesLib) mkDefaultCreateDirectoryRule mkDefaultSetPermissionsRule;
-
   storeRoot = "/mnt/store/core-keeper-servers";
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
@@ -16,7 +14,7 @@ let
 in
 {
   systemd.tmpfiles.settings = {
-    "90-core-keeper-create" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultCreateDirectoryRule; }) { } foldersToCreate;
-    "91-core-keeper-set" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultSetPermissionsRule; }) { } foldersToSetPermissions;
+    "90-core-keeper-create" = tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate;
+    "91-core-keeper-set" = tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions;
   };
 }

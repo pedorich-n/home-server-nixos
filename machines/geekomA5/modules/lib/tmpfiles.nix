@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   _module.args.tmpfilesLib = rec {
     mkDefaultTmpFile = argument: {
@@ -15,12 +15,15 @@
       inherit argument;
     };
 
-    mkDefaultCreateDirectoryRule = {
+    defaultCreateDirectoryRule = {
       "d" = mkDefaultTmpDirectory ""; # Create a directory
     };
 
-    mkDefaultSetPermissionsRule = {
+    defaultSetPermissionsRule = {
       "Z" = mkDefaultTmpDirectory ""; # Set mode/permissions recursively to a directory, in case it already exists
     };
+
+    createFoldersUsingDefaultRule = folders: lib.foldl' (acc: folder: acc // { "${folder}" = defaultCreateDirectoryRule; }) { } folders;
+    setPermissionsUsingDefaultRule = folders: lib.foldl' (acc: folder: acc // { "${folder}" = defaultSetPermissionsRule; }) { } folders;
   };
 }

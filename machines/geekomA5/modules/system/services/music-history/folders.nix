@@ -1,7 +1,5 @@
 { lib, tmpfilesLib, ... }:
 let
-  inherit (tmpfilesLib) mkDefaultCreateDirectoryRule mkDefaultSetPermissionsRule;
-
   storeRoot = "/mnt/store/music-history";
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
@@ -18,7 +16,7 @@ let
 in
 {
   systemd.tmpfiles.settings = {
-    "90-music-history-create" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultCreateDirectoryRule; }) { } foldersToCreate;
-    "91-music-history-set" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultSetPermissionsRule; }) { } foldersToSetPermissions;
+    "90-music-history-create" = tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate;
+    "91-music-history-set" = tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions;
   };
 }

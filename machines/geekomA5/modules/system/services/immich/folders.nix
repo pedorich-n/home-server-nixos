@@ -1,7 +1,5 @@
 { lib, tmpfilesLib, ... }:
 let
-  inherit (tmpfilesLib) mkDefaultCreateDirectoryRule mkDefaultSetPermissionsRule;
-
   storeRoot = "/mnt/store/immich";
   externalRoot = "/mnt/external/immich-library";
 
@@ -27,7 +25,7 @@ let
 in
 {
   systemd.tmpfiles.settings = {
-    "90-immich-create" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultCreateDirectoryRule; }) { } foldersToCreate;
-    "91-immich-set" = lib.foldl' (acc: folder: acc // { ${folder} = mkDefaultSetPermissionsRule; }) { } foldersToSetPermissions;
+    "90-immich-create" = tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate;
+    "91-immich-set" = tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions;
   };
 }
