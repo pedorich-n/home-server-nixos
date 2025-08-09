@@ -33,6 +33,13 @@ registry = 'ghcr.io'
 version = '2025.6.4'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
+[core-keeper-server]
+digest = 'sha256:8b31d5dba8b5ac376c6c0b8e774217d2448cbf75610b603ec73ab3c28dbec2f0'
+image = 'escaping/core-keeper-dedicated'
+registry = 'docker.io'
+version = 'v2.5.1'
+versioning = 'semver'
+
 [ente-museum]
 digest = 'sha256:a157cd2afb7caea14438f79dfd3b78c6dc05bf5b61c1311e3e9e7cf0ad3d5bf8'
 image = 'ente-io/server'
