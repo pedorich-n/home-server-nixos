@@ -7,13 +7,6 @@
 let
   storeRoot = "/mnt/store/music-history";
 
-  mappedVolumeForUser =
-    localPath: remotePath:
-    containerLib.mkIdmappedVolume {
-      uidHost = config.users.users.user.uid;
-      gidHost = config.users.groups.${config.users.users.user.group}.gid;
-    } localPath remotePath;
-
   malojaArtistRules = pkgs.callPackage ./maloja/_artist-rules.nix { };
 
   networks = [ "music-history-internal.network" ];
@@ -42,9 +35,9 @@ in
             LOG_LEVEL = "INFO";
           };
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/multi-scrobbler/config" "/config")
-            (mappedVolumeForUser config.sops.templates."music-history/multiscrobbler/spotify.json".path "/config/spotify.json")
-            (mappedVolumeForUser config.sops.templates."music-history/multiscrobbler/maloja.json".path "/config/maloja.json")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/multi-scrobbler/config" "/config")
+            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/spotify.json".path "/config/spotify.json")
+            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/maloja.json".path "/config/maloja.json")
             "${./multi-scrobbler/webscrobbler.json}:/config/webscrobbler.json"
           ];
           labels = containerLib.mkTraefikLabels {
@@ -77,8 +70,8 @@ in
           };
           environmentFiles = [ config.sops.secrets."music-history/maloja.env".path ];
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/maloja/data" "/data")
-            (mappedVolumeForUser config.sops.templates."music-history/maloja/api_keys.yaml".path "/data/apikeys.yml")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/maloja/data" "/data")
+            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/maloja/api_keys.yaml".path "/data/apikeys.yml")
             "${malojaArtistRules}:/data/rules/custom_rules.tsv"
           ];
           labels = containerLib.mkTraefikLabels {

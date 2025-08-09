@@ -12,13 +12,6 @@ let
 
   storeRoot = "/mnt/store/server-management/authentik";
 
-  mappedVolumeForUser =
-    localPath: remotePath:
-    containerLib.mkIdmappedVolume {
-      uidHost = config.users.users.user.uid;
-      gidHost = config.users.groups.${config.users.users.user.group}.gid;
-    } localPath remotePath;
-
   defaultEnvs = {
     # https://docs.goauthentik.io/docs/installation/docker-compose#startup
     TZ = "UTC";
@@ -50,7 +43,7 @@ in
           environments = defaultEnvs;
           environmentFiles = [ config.sops.secrets."authentik/postgresql.env".path ];
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -64,7 +57,7 @@ in
         containerConfig = {
           exec = "--save 60 1 --loglevel warning";
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/redis" "/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/redis" "/data")
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -89,7 +82,7 @@ in
           environments = defaultEnvs;
           environmentFiles = [ config.sops.secrets."authentik/main.env".path ];
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/media" "/media")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/media" "/media")
             "${blueprints}:/blueprints/custom"
           ];
           inherit networks;
@@ -125,7 +118,7 @@ in
           environments = defaultEnvs;
           environmentFiles = [ config.sops.secrets."authentik/main.env".path ];
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/media" "/media")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/media" "/media")
           ];
           networks = networks ++ [
             "traefik.network:ip=${serverIp}"

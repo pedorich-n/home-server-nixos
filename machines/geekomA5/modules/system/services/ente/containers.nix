@@ -10,13 +10,6 @@ let
 
   storeRoot = "/mnt/store/ente";
 
-  mappedVolumeForUser =
-    localPath: remotePath:
-    containerLib.mkIdmappedVolume {
-      uidHost = config.users.users.user.uid;
-      gidHost = config.users.groups.${config.users.users.user.group}.gid;
-    } localPath remotePath;
-
   networks = [ "ente-internal.network" ];
 in
 {
@@ -31,7 +24,7 @@ in
         containerConfig = {
           environmentFiles = [ config.sops.secrets."ente/postgresql.env".path ];
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -45,8 +38,8 @@ in
 
         containerConfig = {
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/museum/data" "/data")
-            (mappedVolumeForUser config.sops.templates."ente/museum.yaml".path "/museum.yaml")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/museum/data" "/data")
+            (containerLib.mkMappedVolumeForUser config.sops.templates."ente/museum.yaml".path "/museum.yaml")
           ];
 
           labels = containerLib.mkTraefikLabels {

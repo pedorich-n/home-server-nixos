@@ -11,13 +11,6 @@ let
   storeRoot = "/mnt/store/immich";
   externalStoreRoot = "/mnt/external/immich-library";
 
-  mappedVolumeForUser =
-    localPath: remotePath:
-    containerLib.mkIdmappedVolume {
-      uidHost = config.users.users.user.uid;
-      gidHost = config.users.groups.${config.users.users.user.group}.gid;
-    } localPath remotePath;
-
   sharedEnvs = {
     # https://immich.app/docs/install/environment-variables/
     TZ = "${config.time.timeZone}";
@@ -42,7 +35,7 @@ in
           environments = sharedEnvs;
           environmentFiles = [ config.sops.secrets."immich/postgresql.env".path ];
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -55,7 +48,7 @@ in
 
         containerConfig = {
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/redis" "/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/redis" "/data")
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -71,7 +64,7 @@ in
 
         containerConfig = {
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/cache/machine-learning" "/cache")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/cache/machine-learning" "/cache")
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -103,9 +96,9 @@ in
           ];
           volumes = [
             "/etc/localtime:/etc/localtime:ro"
-            (mappedVolumeForUser "${storeRoot}/cache/thumbnails" "/data/thumbs")
-            (mappedVolumeForUser "${storeRoot}/cache/profile" "/data/profile")
-            (mappedVolumeForUser externalStoreRoot "/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/cache/thumbnails" "/data/thumbs")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/cache/profile" "/data/profile")
+            (containerLib.mkMappedVolumeForUser externalStoreRoot "/data")
           ];
           labels =
             (containerLib.mkTraefikLabels {

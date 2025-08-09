@@ -1,13 +1,6 @@
 { config, containerLib, ... }:
 let
   storeRoot = "/mnt/store/core-keeper-servers/underground-monkeys";
-
-  mappedVolumeForUser =
-    localPath: remotePath:
-    containerLib.mkIdmappedVolume {
-      uidHost = config.users.users.user.uid;
-      gidHost = config.users.groups.${config.users.users.user.group}.gid;
-    } localPath remotePath;
 in
 {
   virtualisation.quadlet.containers.core-keeper-server = {
@@ -28,8 +21,8 @@ in
       };
       environmentFiles = [ config.sops.secrets."core-keeper/main.env".path ];
       volumes = [
-        (mappedVolumeForUser "${storeRoot}/server-data" "/home/steam/core-keeper-data")
-        (mappedVolumeForUser "${storeRoot}/server-files" "/home/steam/core-keeper-dedicated")
+        (containerLib.mkMappedVolumeForUser "${storeRoot}/server-data" "/home/steam/core-keeper-data")
+        (containerLib.mkMappedVolumeForUser "${storeRoot}/server-files" "/home/steam/core-keeper-dedicated")
       ];
     };
   };

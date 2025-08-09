@@ -11,13 +11,6 @@ let
   storeRoot = "/mnt/store/paperless";
   externalStoreRoot = "/mnt/external/paperless-library";
 
-  mappedVolumeForUser =
-    localPath: remotePath:
-    containerLib.mkIdmappedVolume {
-      uidHost = config.users.users.user.uid;
-      gidHost = config.users.groups.${config.users.users.user.group}.gid;
-    } localPath remotePath;
-
   networks = [ "paperless-internal.network" ];
 in
 {
@@ -31,7 +24,7 @@ in
 
         containerConfig = {
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/redis" "/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/redis" "/data")
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -45,7 +38,7 @@ in
         containerConfig = {
           environmentFiles = [ config.sops.secrets."paperless/postgresql.env".path ];
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -88,10 +81,10 @@ in
             config.sops.templates."paperless/oidc.env".path
           ];
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/data" "/usr/src/paperless/data")
-            (mappedVolumeForUser "${storeRoot}/export" "/usr/src/paperless/export")
-            (mappedVolumeForUser "${externalStoreRoot}/media" "/usr/src/paperless/media")
-            (mappedVolumeForUser "${externalStoreRoot}/media/trash" "/usr/src/paperless/media/trash")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/data" "/usr/src/paperless/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/export" "/usr/src/paperless/export")
+            (containerLib.mkMappedVolumeForUser "${externalStoreRoot}/media" "/usr/src/paperless/media")
+            (containerLib.mkMappedVolumeForUser "${externalStoreRoot}/media/trash" "/usr/src/paperless/media/trash")
           ];
           labels = containerLib.mkTraefikLabels {
             name = "paperless-secure";

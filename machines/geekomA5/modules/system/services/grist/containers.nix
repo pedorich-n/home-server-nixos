@@ -7,13 +7,6 @@
 }:
 let
   storeRoot = "/mnt/store/grist";
-
-  mappedVolumeForUser =
-    localPath: remotePath:
-    containerLib.mkIdmappedVolume {
-      uidHost = config.users.users.user.uid;
-      gidHost = config.users.groups.${config.users.users.user.group}.gid;
-    } localPath remotePath;
 in
 {
   virtualisation.quadlet.containers.grist = {
@@ -41,7 +34,7 @@ in
       };
       environmentFiles = [ config.sops.secrets."grist/main.env".path ];
       volumes = [
-        (mappedVolumeForUser "${storeRoot}/persist" "/persist")
+        (containerLib.mkMappedVolumeForUser "${storeRoot}/persist" "/persist")
       ];
       labels = containerLib.mkTraefikLabels {
         name = "grist-secure";
