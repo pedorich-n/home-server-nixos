@@ -5,7 +5,7 @@ let
   defaultRules = {
     user = config.users.users.user.name;
     group = config.users.users.user.group;
-    mode = "0755";
+    mode = "0700";
   };
 
   mkCreateDirectoryRule = {
@@ -18,6 +18,7 @@ let
 
   foldersToCreate =
     lib.map (folder: "${storeRoot}/${folder}") [
+      "underground-monkeys"
       "underground-monkeys/server-data"
       "underground-monkeys/server-files"
     ];
