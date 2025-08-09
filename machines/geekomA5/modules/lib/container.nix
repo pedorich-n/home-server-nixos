@@ -108,5 +108,12 @@
         gids = ''${gidPrefix}${builtins.toString gidHost}-${builtins.toString gidNamespace}-${builtins.toString gidCount}'';
       in
       "${host}:${container}:idmap=uids=${uids};gids=${gids}";
+
+    mkMappedVolumeForUser =
+      localPath: remotePath:
+      mkIdmappedVolume {
+        uidHost = config.users.users.user.uid;
+        gidHost = config.users.groups.${config.users.users.user.group}.gid;
+      } localPath remotePath;
   };
 }

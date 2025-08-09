@@ -13,13 +13,6 @@ let
 
   storeRoot = "/mnt/store/home-automation";
 
-  mappedVolumeForUser =
-    localPath: remotePath:
-    containerLib.mkIdmappedVolume {
-      uidHost = config.users.users.user.uid;
-      gidHost = config.users.groups.${config.users.users.user.group}.gid;
-    } localPath remotePath;
-
   configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
     mosquitto = ./mosquitto/_config.nix;
   };
@@ -39,9 +32,9 @@ in
         containerConfig = {
           volumes = [
             "${configs.mosquitto}:/mosquitto/config/mosquitto.conf:ro"
-            (mappedVolumeForUser config.sops.secrets."home-automation/mosquitto_passwords.txt".path "/mosquitto/config/passwords.txt")
-            (mappedVolumeForUser "${storeRoot}/mosquitto/data" "/mosquitto/data")
-            (mappedVolumeForUser "${storeRoot}/mosquitto/log" "/mosquitto/log")
+            (containerLib.mkMappedVolumeForUser config.sops.secrets."home-automation/mosquitto_passwords.txt".path "/mosquitto/config/passwords.txt")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/mosquitto/data" "/mosquitto/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/mosquitto/log" "/mosquitto/log")
           ];
           labels = [
             "traefik.enable=true"
@@ -65,8 +58,8 @@ in
             TZ = "${config.time.timeZone}";
           };
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/zigbee2mqtt" "/app/data")
-            (mappedVolumeForUser config.sops.secrets."home-automation/zigbee2mqtt_secrets.yaml".path "/app/data/secrets.yaml")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/zigbee2mqtt" "/app/data")
+            (containerLib.mkMappedVolumeForUser config.sops.secrets."home-automation/zigbee2mqtt_secrets.yaml".path "/app/data/secrets.yaml")
           ];
           addGroups = [
             (builtins.toString config.users.groups.zigbee.gid)
@@ -96,7 +89,7 @@ in
         containerConfig = {
           environmentFiles = [ config.sops.secrets."home-automation/postgresql.env".path ];
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -123,9 +116,9 @@ in
           #   CAP_NET_BIND_SERVICE = true;
           # };
           volumes = [
-            (mappedVolumeForUser "${storeRoot}/homeassistant" "/config")
-            (mappedVolumeForUser "${storeRoot}/homeassistant/local" "/.local")
-            (mappedVolumeForUser config.sops.secrets."home-automation/homeassistant_secrets.yaml".path "/config/secrets.yaml")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/homeassistant" "/config")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/homeassistant/local" "/.local")
+            (containerLib.mkMappedVolumeForUser config.sops.secrets."home-automation/homeassistant_secrets.yaml".path "/config/secrets.yaml")
             # See https://github.com/tribut/homeassistant-docker-venv
             "${inputs.homeassistant-docker-venv}/run:/etc/services.d/home-assistant/run"
           ];
