@@ -9,7 +9,7 @@
     kernelPackages = pkgs.linuxPackages_6_15;
 
     kernelModules = [
-      "amdgpu" # AMD GPU 
+      "amdgpu" # AMD GPU
       "kvm-amd" # KVM on AMD Cpus
       "zenpower" # AMD ZEN Family CPUs current, voltage, power monitoring
       "amd-pstate" # AMD CPU performance scaling driver

@@ -1,8 +1,8 @@
-{ findutils
-, gitMinimal
-, nvfetcher
-, writeShellApplication
-,
+{
+  findutils,
+  gitMinimal,
+  nvfetcher,
+  writeShellApplication,
 }:
 writeShellApplication {
   name = "update-nvfetcher";

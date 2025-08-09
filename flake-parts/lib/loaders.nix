@@ -1,12 +1,11 @@
 { lib, ... }:
 let
-  /* 
-    Poor man's Haumea
-  */
+  # Poor man's Haumea
   matchers = rec {
     nix = { path, ... }: lib.hasSuffix ".nix" (builtins.toString path);
 
-    notIgnored = { root, path, ... }:
+    notIgnored =
+      { root, path, ... }:
       let
         relative = lib.removePrefix "${builtins.toString root}/" (builtins.toString path);
         parts = lib.splitString "/" relative;
@@ -17,8 +16,18 @@ let
     default = { path, root }: (nix { inherit path; }) && (notIgnored { inherit root path; });
   };
 
-  listFilesRecursively = { src, matcher ? matchers.default }:
-    lib.filter (path: matcher { inherit path; root = src; }) (lib.filesystem.listFilesRecursive src);
+  listFilesRecursively =
+    {
+      src,
+      matcher ? matchers.default,
+    }:
+    lib.filter (
+      path:
+      matcher {
+        inherit path;
+        root = src;
+      }
+    ) (lib.filesystem.listFilesRecursive src);
 
 in
 {

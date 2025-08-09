@@ -2,13 +2,14 @@
 {
   flake.builders.nixosConfigurations = {
     geekomA5 = {
-      withPresets = presets: with presets; [
-        headless
-        home-manager
-        podman
-        ssh
-        systemd-notifications
-      ];
+      withPresets =
+        presets: with presets; [
+          headless
+          home-manager
+          podman
+          ssh
+          systemd-notifications
+        ];
       extraModules = [
         inputs.disko.nixosModules.disko
         inputs.sops-nix.nixosModules.sops
@@ -27,10 +28,11 @@
     };
 
     minimal = {
-      withPresets = presets: with presets; [
-        ssh
-        headless
-      ];
+      withPresets =
+        presets: with presets; [
+          ssh
+          headless
+        ];
       enableDeploy = false;
     };
   };

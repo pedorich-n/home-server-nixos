@@ -1,4 +1,5 @@
-{ config, ... }: {
+{ config, ... }:
+{
   boot.initrd = {
     availableKernelModules = [
       "r8169" # Ethernet. Detected with `lspci -v`

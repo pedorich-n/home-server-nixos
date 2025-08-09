@@ -41,7 +41,8 @@ let
 
       "sonarr"
       "sonarr/config"
-    ]) ++ (lib.map (folder: "${externalRoot}/${folder}") [
+    ])
+    ++ (lib.map (folder: "${externalRoot}/${folder}") [
       "downloads/usenet"
       "downloads/usenet/incomplete"
       "downloads/usenet/complete"

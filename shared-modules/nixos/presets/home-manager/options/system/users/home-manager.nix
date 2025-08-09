@@ -1,6 +1,14 @@
-{ flake, inputs, config, lib, pkgs-unstable, ... }:
+{
+  flake,
+  inputs,
+  config,
+  lib,
+  pkgs-unstable,
+  ...
+}:
 let
-  uniqueListOf = elemType:
+  uniqueListOf =
+    elemType:
     let
       type = (lib.types.listOf elemType) // {
         name = "uniqueListOf";
@@ -9,9 +17,12 @@ let
     in
     lib.types.addCheck type (l: lib.lists.allUnique l);
 
-  sharedHomeManagerModules = flake.lib.loaders.listFilesRecursively { src = "${flake}/shared-modules/home-manager"; };
+  sharedHomeManagerModules = flake.lib.loaders.listFilesRecursively {
+    src = "${flake}/shared-modules/home-manager";
+  };
 
-  hmForUser = username:
+  hmForUser =
+    username:
     let
       path = "${flake}/homes/${username}";
     in
@@ -32,7 +43,7 @@ in
 
   config = lib.mkIf (enabledHmUsers != { }) {
     home-manager = {
-      # Install HM into `/etc/profiles` rather than `$HOME/.nix-profile`. 
+      # Install HM into `/etc/profiles` rather than `$HOME/.nix-profile`.
       # Not sure if this needed, but HM docs say that it might be enabled by default in the future, so I assume it's better to enable it.
       useUserPackages = true;
       # Reuse NixOS's pkgs. "Saves an extra Nixpkgs evaluation, adds consistency, and removes the dependency on NIX_PATH" - HM manual
@@ -44,7 +55,10 @@ in
         inherit flake inputs pkgs-unstable;
       };
 
-      sharedModules = [ inputs.home-manager-config.homeModules.sharedModules ] ++ sharedHomeManagerModules;
+      sharedModules = [
+        inputs.home-manager-config.homeModules.sharedModules
+      ]
+      ++ sharedHomeManagerModules;
 
       users = enabledHmUsers;
     };

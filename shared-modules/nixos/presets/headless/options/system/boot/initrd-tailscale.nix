@@ -1,9 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.custom.boot.initrd.network.tailscale;
 in
 {
-  # A combination of 
+  # A combination of
   # https://github.com/ElvishJerricco/stage1-tpm-tailscale/blob/2c07f2a531e1557965a0d483ea694fabf9a6d5bb/initrd-tailscale.nix and
   # https://github.com/yomaq/nix-config/blob/f89a171ec539b5eef726155ea4b7088fe9afae84/modules/hosts/initrd-tailscale/nixos.nix and
   # https://github.com/NixOS/nixpkgs/blob/6739a5d2bf8eb57e3d785101e47496978a3b1835/nixos/modules/services/networking/tailscale.nix
@@ -116,7 +121,7 @@ in
         ];
 
         # Paths listed here will be copied to initrd's `/nix/store`
-        # OpenSSL & certificates are needed for OAuth & HTTPS 
+        # OpenSSL & certificates are needed for OAuth & HTTPS
         storePaths = [
           "${pkgs.iptables}/lib"
           "${pkgs.openssl.dev}/lib"
@@ -128,7 +133,6 @@ in
             "/etc/ssl/certs/ca-certificates.crt".L.argument = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
           };
         };
-
 
         network = {
           # I don't want to stall boot if Tailscale can't connect.

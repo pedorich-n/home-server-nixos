@@ -1,16 +1,24 @@
-{ config, containerLib, systemdLib, networkingLib, ... }:
+{
+  config,
+  containerLib,
+  systemdLib,
+  networkingLib,
+  ...
+}:
 let
   inherit (config.virtualisation.quadlet) containers;
 
   networks = [ "data-library-internal.network" ];
 
-  mkApiSecureTraefikLabels = name: containerLib.mkTraefikLabels {
-    name = "${name}-secure-api";
-    rule = "Host(`${networkingLib.mkDomain name}`) && PathPrefix(`/api`)";
-    service = "${name}-secure";
-    entrypoints = [ "web-secure" ];
-    priority = 15;
-  };
+  mkApiSecureTraefikLabels =
+    name:
+    containerLib.mkTraefikLabels {
+      name = "${name}-secure-api";
+      rule = "Host(`${networkingLib.mkDomain name}`) && PathPrefix(`/api`)";
+      service = "${name}-secure";
+      entrypoints = [ "web-secure" ];
+      priority = 15;
+    };
 
   defaultEnvs = {
     TZ = "${config.time.timeZone}";
@@ -19,14 +27,12 @@ let
   storeRoot = "/mnt/store/data-library";
   externalStoreRoot = "/mnt/external/data-library";
 
-  mappedVolumeForUser = localPath: remotePath:
-    containerLib.mkIdmappedVolume
-      {
-        uidHost = config.users.users.user.uid;
-        gidHost = config.users.groups.${config.users.users.user.group}.gid;
-      }
-      localPath
-      remotePath;
+  mappedVolumeForUser =
+    localPath: remotePath:
+    containerLib.mkIdmappedVolume {
+      uidHost = config.users.users.user.uid;
+      gidHost = config.users.groups.${config.users.users.user.group}.gid;
+    } localPath remotePath;
 
   afterDownloaders = {
     After = [
@@ -38,8 +44,14 @@ let
 in
 {
   custom.networking.ports.udp = {
-    jellyfin-service-discovery = { port = 1900; openFirewall = true; };
-    jellyfin-client-discovery = { port = 7359; openFirewall = true; };
+    jellyfin-service-discovery = {
+      port = 1900;
+      openFirewall = true;
+    };
+    jellyfin-client-discovery = {
+      port = 7359;
+      openFirewall = true;
+    };
   };
 
   virtualisation.quadlet = {
@@ -83,12 +95,14 @@ in
             "${./gluetun/qbt_update_port_forward.sh}:/gluetun/scripts/qbt_update_port_forward.sh"
             "${./gluetun/auth_config.toml}:/gluetun/auth/config.toml"
           ];
-          labels = (containerLib.mkTraefikLabels {
-            name = "qbittorrent-secure"; # Proxied
-            port = 8080;
-            priority = 10;
-            middlewares = [ "authentik-secure@docker" ];
-          }) ++ (mkApiSecureTraefikLabels "qbittorrent");
+          labels =
+            (containerLib.mkTraefikLabels {
+              name = "qbittorrent-secure"; # Proxied
+              port = 8080;
+              priority = 10;
+              middlewares = [ "authentik-secure@docker" ];
+            })
+            ++ (mkApiSecureTraefikLabels "qbittorrent");
           inherit networks;
         };
       };
@@ -126,12 +140,14 @@ in
             (mappedVolumeForUser "${storeRoot}/sabnzbd/config" "/config")
             (mappedVolumeForUser "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
           ];
-          labels = (containerLib.mkTraefikLabels {
-            name = "sabnzbd-secure";
-            port = environments.PORT;
-            priority = 10;
-            middlewares = [ "authentik-secure@docker" ];
-          }) ++ (mkApiSecureTraefikLabels "sabnzbd");
+          labels =
+            (containerLib.mkTraefikLabels {
+              name = "sabnzbd-secure";
+              port = environments.PORT;
+              priority = 10;
+              middlewares = [ "authentik-secure@docker" ];
+            })
+            ++ (mkApiSecureTraefikLabels "sabnzbd");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -147,12 +163,14 @@ in
           volumes = [
             (mappedVolumeForUser "${storeRoot}/prowlarr/config" "/config")
           ];
-          labels = (containerLib.mkTraefikLabels {
-            name = "prowlarr-secure";
-            port = 9696;
-            priority = 10;
-            middlewares = [ "authentik-secure@docker" ];
-          }) ++ (mkApiSecureTraefikLabels "prowlarr");
+          labels =
+            (containerLib.mkTraefikLabels {
+              name = "prowlarr-secure";
+              port = 9696;
+              priority = 10;
+              middlewares = [ "authentik-secure@docker" ];
+            })
+            ++ (mkApiSecureTraefikLabels "prowlarr");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -170,12 +188,14 @@ in
             (mappedVolumeForUser "${storeRoot}/sonarr/config" "/config")
             (mappedVolumeForUser externalStoreRoot "/data")
           ];
-          labels = (containerLib.mkTraefikLabels {
-            name = "sonarr-secure";
-            port = 8989;
-            priority = 10;
-            middlewares = [ "authentik-secure@docker" ];
-          }) ++ (mkApiSecureTraefikLabels "sonarr");
+          labels =
+            (containerLib.mkTraefikLabels {
+              name = "sonarr-secure";
+              port = 8989;
+              priority = 10;
+              middlewares = [ "authentik-secure@docker" ];
+            })
+            ++ (mkApiSecureTraefikLabels "sonarr");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -194,12 +214,14 @@ in
             (mappedVolumeForUser "${storeRoot}/radarr/config" "/config")
             (mappedVolumeForUser externalStoreRoot "/data")
           ];
-          labels = (containerLib.mkTraefikLabels {
-            name = "radarr-secure";
-            port = 7878;
-            priority = 10;
-            middlewares = [ "authentik-secure@docker" ];
-          }) ++ (mkApiSecureTraefikLabels "radarr");
+          labels =
+            (containerLib.mkTraefikLabels {
+              name = "radarr-secure";
+              port = 7878;
+              priority = 10;
+              middlewares = [ "authentik-secure@docker" ];
+            })
+            ++ (mkApiSecureTraefikLabels "radarr");
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -225,7 +247,7 @@ in
           #   "7359:7359/udp"
           # ];
           devices = [
-            # HW Transcoding acceleration. 
+            # HW Transcoding acceleration.
             # See https://jellyfin.org/docs/general/installation/container#with-hardware-acceleration
             # See https://jellyfin.org/docs/general/administration/hardware-acceleration/amd#linux-setups
             "/dev/dri:/dev/dri"

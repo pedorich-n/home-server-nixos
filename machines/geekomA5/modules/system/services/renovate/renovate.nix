@@ -1,4 +1,10 @@
-{ config, pkgs, pkgs-unstable, lib, ... }:
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  lib,
+  ...
+}:
 {
   users = {
     users.renovate = {
@@ -67,11 +73,16 @@
       dockerfile.enabled = false; # https://docs.renovatebot.com/modules/manager/dockerfile/
       poetry.enabled = false; # https://docs.renovatebot.com/modules/manager/poetry/
 
-      packageRules = [{
-        # https://docs.renovatebot.com/modules/manager/terraform/#terraform-vs-opentofu
-        matchDatasources = [ "terraform-provider" "terraform-module" ];
-        registryUrls = [ "https://registry.opentofu.org" ];
-      }];
+      packageRules = [
+        {
+          # https://docs.renovatebot.com/modules/manager/terraform/#terraform-vs-opentofu
+          matchDatasources = [
+            "terraform-provider"
+            "terraform-module"
+          ];
+          registryUrls = [ "https://registry.opentofu.org" ];
+        }
+      ];
     };
   };
 }

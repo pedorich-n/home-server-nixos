@@ -1,4 +1,10 @@
-{ config, lib, pkgs-unstable, ... }: {
+{
+  config,
+  lib,
+  pkgs-unstable,
+  ...
+}:
+{
   programs.superfile = {
     enable = true;
     package = pkgs-unstable.superfile;

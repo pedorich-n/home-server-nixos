@@ -2,15 +2,33 @@
 {
   custom.networking.ports = {
     tcp = {
-      samba-session-service = { port = 139; openFirewall = true; };
-      samba = { port = 445; openFirewall = true; };
-      samba-wsdd = { port = 5357; openFirewall = true; };
+      samba-session-service = {
+        port = 139;
+        openFirewall = true;
+      };
+      samba = {
+        port = 445;
+        openFirewall = true;
+      };
+      samba-wsdd = {
+        port = 5357;
+        openFirewall = true;
+      };
     };
 
     udp = {
-      samba-name-service = { port = 138; openFirewall = true; };
-      samba-datagram-service = { port = 139; openFirewall = true; };
-      samba-wsdd = { port = 3702; openFirewall = true; };
+      samba-name-service = {
+        port = 138;
+        openFirewall = true;
+      };
+      samba-datagram-service = {
+        port = 139;
+        openFirewall = true;
+      };
+      samba-wsdd = {
+        port = 3702;
+        openFirewall = true;
+      };
     };
   };
 

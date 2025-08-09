@@ -1,11 +1,22 @@
-{ config, pkgs-unstable, networkingLib, ... }:
+{
+  config,
+  pkgs-unstable,
+  networkingLib,
+  ...
+}:
 let
   portsCfg = config.custom.networking.ports;
 in
 {
   custom.networking.ports.tcp = {
-    minio-s3 = { port = 45000; openFirewall = false; };
-    minio-console = { port = 45001; openFirewall = false; };
+    minio-s3 = {
+      port = 45000;
+      openFirewall = false;
+    };
+    minio-console = {
+      port = 45001;
+      openFirewall = false;
+    };
   };
 
   systemd.services.minio.environment = {
@@ -38,7 +49,7 @@ in
       };
 
       services.minio-s3-secure = {
-        loadBalancer.servers = [{ url = "http://localhost:${portsCfg.tcp.minio-s3.portStr}"; }];
+        loadBalancer.servers = [ { url = "http://localhost:${portsCfg.tcp.minio-s3.portStr}"; } ];
       };
     };
   };

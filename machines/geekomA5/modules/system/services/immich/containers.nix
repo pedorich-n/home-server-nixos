@@ -1,18 +1,22 @@
-{ config, containerLib, systemdLib, networkingLib, ... }:
+{
+  config,
+  containerLib,
+  systemdLib,
+  networkingLib,
+  ...
+}:
 let
   inherit (config.virtualisation.quadlet) containers;
 
   storeRoot = "/mnt/store/immich";
   externalStoreRoot = "/mnt/external/immich-library";
 
-  mappedVolumeForUser = localPath: remotePath:
-    containerLib.mkIdmappedVolume
-      {
-        uidHost = config.users.users.user.uid;
-        gidHost = config.users.groups.${config.users.users.user.group}.gid;
-      }
-      localPath
-      remotePath;
+  mappedVolumeForUser =
+    localPath: remotePath:
+    containerLib.mkIdmappedVolume {
+      uidHost = config.users.users.user.uid;
+      gidHost = config.users.groups.${config.users.users.user.group}.gid;
+    } localPath remotePath;
 
   sharedEnvs = {
     # https://immich.app/docs/install/environment-variables/
@@ -107,14 +111,14 @@ in
             (containerLib.mkTraefikLabels {
               name = "immich-secure";
               port = 2283;
-            }) ++
-            (containerLib.mkTraefikMetricsLabels {
+            })
+            ++ (containerLib.mkTraefikMetricsLabels {
               name = "immich";
               domain = networkingLib.mkDomain "metrics";
               port = 8081;
               addPath = "/metrics";
-            }) ++
-            (containerLib.mkTraefikMetricsLabels {
+            })
+            ++ (containerLib.mkTraefikMetricsLabels {
               name = "immich-microservices";
               domain = networkingLib.mkDomain "metrics";
               port = 8082;

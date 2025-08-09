@@ -4,10 +4,21 @@ let
 
   #NOTE - https://github.com/krateng/maloja/blob/c6cf28896ca836407a1943cae5542d2b83d009cf/maloja/data_files/config/rules/rules.info
   rules = {
-    belongTogether = artist: toTSV [ "belongtogether" artist ];
-    replaceArtist = source: target: toTSV [ "replaceartist" source target ];
-  };
+    belongTogether =
+      artist:
+      toTSV [
+        "belongtogether"
+        artist
+      ];
 
+    replaceArtist =
+      source: target:
+      toTSV [
+        "replaceartist"
+        source
+        target
+      ];
+  };
 
   artists = {
     # Artists with separators in their names
@@ -59,7 +70,6 @@ let
       "Алина Орлова" = "Alina Orlova";
     };
   };
-
 
   allRulesTSV = builtins.concatLists [
     (builtins.map rules.belongTogether artists.belongTogether)

@@ -16,10 +16,9 @@ let
     "Z" = defaultRules; # Set mode/permissions recursively to a directory, in case it already exists
   };
 
-  foldersToCreate =
-    lib.map (folder: "${storeRoot}/${folder}") [
-      "persist"
-    ];
+  foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
+    "persist"
+  ];
 
   foldersToSetPermissions = [
     storeRoot

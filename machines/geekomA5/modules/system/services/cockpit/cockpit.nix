@@ -1,4 +1,10 @@
-{ config, networkingLib, pkgs, pkgs-unstable, ... }:
+{
+  config,
+  networkingLib,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 let
   package = pkgs-unstable.cockpit;
 
@@ -7,8 +13,14 @@ in
 {
   custom = {
     networking.ports.tcp = {
-      cockpit-root = { port = 9090; openFirewall = false; };
-      cockpit = { port = 45090; openFirewall = false; };
+      cockpit-root = {
+        port = 9090;
+        openFirewall = false;
+      };
+      cockpit = {
+        port = 45090;
+        openFirewall = false;
+      };
     };
   };
 
@@ -48,7 +60,10 @@ in
 
       allowed-origins = [
         (networkingLib.mkUrl "cockpit")
-        (networkingLib.mkCustomUrl { scheme = "wss"; service = "cockpit"; })
+        (networkingLib.mkCustomUrl {
+          scheme = "wss";
+          service = "cockpit";
+        })
       ];
 
       settings = {
@@ -69,7 +84,7 @@ in
       };
 
       services.cockpit-root-secure = {
-        loadBalancer.servers = [{ url = "http://localhost:${portCfg.portStr}"; }];
+        loadBalancer.servers = [ { url = "http://localhost:${portCfg.portStr}"; } ];
       };
     };
   };

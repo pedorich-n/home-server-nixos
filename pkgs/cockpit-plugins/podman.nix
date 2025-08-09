@@ -1,8 +1,8 @@
-{ lib
-, callPackage
-, stdenv
-, gettext
-,
+{
+  lib,
+  callPackage,
+  stdenv,
+  gettext,
 }:
 let
   sources = callPackage ./_sources/generated.nix { };
@@ -14,7 +14,10 @@ stdenv.mkDerivation {
     gettext
   ];
 
-  makeFlags = [ "DESTDIR=$(out)" "PREFIX=" ];
+  makeFlags = [
+    "DESTDIR=$(out)"
+    "PREFIX="
+  ];
 
   dontBuild = true;
 

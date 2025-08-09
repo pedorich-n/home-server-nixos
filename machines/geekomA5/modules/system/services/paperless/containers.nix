@@ -1,18 +1,22 @@
-{ config, containerLib, systemdLib, networkingLib, ... }:
+{
+  config,
+  containerLib,
+  systemdLib,
+  networkingLib,
+  ...
+}:
 let
   inherit (config.virtualisation.quadlet) containers;
 
   storeRoot = "/mnt/store/paperless";
   externalStoreRoot = "/mnt/external/paperless-library";
 
-  mappedVolumeForUser = localPath: remotePath:
-    containerLib.mkIdmappedVolume
-      {
-        uidHost = config.users.users.user.uid;
-        gidHost = config.users.groups.${config.users.users.user.group}.gid;
-      }
-      localPath
-      remotePath;
+  mappedVolumeForUser =
+    localPath: remotePath:
+    containerLib.mkIdmappedVolume {
+      uidHost = config.users.users.user.uid;
+      gidHost = config.users.groups.${config.users.users.user.group}.gid;
+    } localPath remotePath;
 
   networks = [ "paperless-internal.network" ];
 in

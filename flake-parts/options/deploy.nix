@@ -11,7 +11,7 @@ let
       sshOpts = mkOption {
         type = types.listOf types.str;
         default = [ ];
-        description = '' This is an optional list of arguments that will be passed to SSH. '';
+        description = ''This is an optional list of arguments that will be passed to SSH. '';
       };
 
       sshUser = mkOption {
@@ -168,15 +168,24 @@ let
   };
 
   profileModule = types.submoduleWith {
-    modules = [ genericSettings profileSettings ];
+    modules = [
+      genericSettings
+      profileSettings
+    ];
   };
 
   nodeModule = types.submoduleWith {
-    modules = [ genericSettings nodeSettings ];
+    modules = [
+      genericSettings
+      nodeSettings
+    ];
   };
 
   rootModule = types.submoduleWith {
-    modules = [ genericSettings nodesSettings ];
+    modules = [
+      genericSettings
+      nodesSettings
+    ];
   };
 in
 {

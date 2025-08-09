@@ -1,4 +1,5 @@
-{ config, ... }: {
+{ config, ... }:
+{
   _module.args.tmpfilesLib = {
     mkDefaultTmpFile = argument: {
       user = config.users.users.user.name;

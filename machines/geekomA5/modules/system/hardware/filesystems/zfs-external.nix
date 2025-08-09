@@ -36,11 +36,10 @@
           ashift = "12"; # Means 4KiB sector size
         };
 
-
         # Properties of the FS on the zpool (zfs set <options>)
         rootFsOptions = {
-          compression = "zstd"; # ZSTD is based on LZ4 
-          atime = "off"; # Disable Access Time 
+          compression = "zstd"; # ZSTD is based on LZ4
+          atime = "off"; # Disable Access Time
           xattr = "sa"; # Store Linux attributes in inodes rather than files in hidden folders
           mountpoint = "/mnt/external"; # ZFS prop: https://openzfs.github.io/openzfs-docs/man/v2.2/7/zfsprops.7.html#mountpoint
           "com.sun:auto-snapshot" = "false"; # Don't take snapshots of root
@@ -96,10 +95,29 @@
 
   # NOTE https://github.com/nix-community/disko/issues/581
   fileSystems = {
-    "/mnt/external".options = [ "nofail" "x-systemd.requires=zfs.target" ];
-    "/mnt/external/immich-library".options = [ "nofail" "x-systemd.requires=zfs.target" ];
-    "/mnt/external/paperless-library".options = [ "nofail" "x-systemd.requires=zfs.target" ];
-    "/mnt/external/data-library".options = [ "nofail" "x-systemd.requires=zfs.target" ];
-    "/mnt/external/object-storage".options = [ "nofail" "x-systemd.requires=zfs.target" ];
+    "/mnt/external".options = [
+      "nofail"
+      "x-systemd.requires=zfs.target"
+    ];
+
+    "/mnt/external/immich-library".options = [
+      "nofail"
+      "x-systemd.requires=zfs.target"
+    ];
+
+    "/mnt/external/paperless-library".options = [
+      "nofail"
+      "x-systemd.requires=zfs.target"
+    ];
+
+    "/mnt/external/data-library".options = [
+      "nofail"
+      "x-systemd.requires=zfs.target"
+    ];
+
+    "/mnt/external/object-storage".options = [
+      "nofail"
+      "x-systemd.requires=zfs.target"
+    ];
   };
 }

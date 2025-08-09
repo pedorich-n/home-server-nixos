@@ -16,13 +16,12 @@ let
     "Z" = defaultRules; # Set mode/permissions recursively to a directory, in case it already exists
   };
 
-  foldersToCreate =
-    lib.map (folder: "${storeRoot}/${folder}") [
-      "museum"
-      "museum/data"
+  foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
+    "museum"
+    "museum/data"
 
-      "postgresql"
-    ];
+    "postgresql"
+  ];
 
   foldersToSetPermissions = [
     storeRoot

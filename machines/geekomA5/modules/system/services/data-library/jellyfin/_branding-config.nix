@@ -2,7 +2,7 @@
 let
   xmlFormat = pkgs.formats.xml { };
 in
-# See https://github.com/9p4/jellyfin-plugin-sso 
+# See https://github.com/9p4/jellyfin-plugin-sso
 xmlFormat.generate "branding.xml" {
   BrandingOptions = {
     LoginDisclaimer = ''
