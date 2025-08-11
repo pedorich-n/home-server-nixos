@@ -1,0 +1,213 @@
+---
+button_card_templates: !include_dir_merge_named "../../custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
+
+title: "Main Dashboard"
+# theme: "minimalist-desktop"
+background: "var(--background-image)"
+views:
+  - title: Main
+    path: 0
+    icon: "mdi:flower"
+    type: "custom:grid-layout"
+    layout:
+      grid-template-columns: "14.5% 35% auto 35% 14.5%"
+      grid-template-rows: auto
+      grid-template-areas: |
+        ". livingroom . bedroom ."
+        ". others_title others_title others_title ."
+        ". others1 . others3 ."
+        ". others2 . others3 ."
+      mediaquery:
+        "(max-width: 600px)":
+          grid-template-columns: "auto 98% auto"
+          grid-template-areas: |
+            ". livingroom ."
+            ". bedroom ."
+            ". others_title ."
+            ". others1 ."
+            ". others2 ."
+            ". others3 ."
+    cards:
+      - type: custom:mod-card
+        view_layout:
+          grid-area: "livingroom"
+        card_mod:
+          style:
+            layout-card$: |
+              margin-top: 4px !important;
+        card:
+          type: "custom:layout-card"
+          layout_type: "custom:grid-layout"
+          layout:
+            margin: "-4px -4px 0px -4px" # https://github.com/thomasloven/lovelace-layout-card/issues/137#issuecomment-1399632956
+            grid-template-columns: "3fr 1fr 1fr"
+            grid-template-rows: "auto"
+            grid-template-areas: |
+              "title state1 state2"
+              "body body body"
+          mediaquery:
+            "(max-width: 600px)":
+              grid-template-columns: "3fr 1.75fr 1.75fr"
+          cards:
+            - type: custom:mushroom-title-card
+              title: "Living Room"
+              alignment: start
+              view_layout:
+                grid-area: "title"
+              card_mod:
+                style: |
+                  ha-card {
+                    --title-font-weight: bold;
+                    --title-font-size: 1.5rem;
+                  }
+
+            - type: custom:mushroom-chips-card
+              alignment: center
+              view_layout:
+                grid-area: "state1"
+                place-self: "center center"
+              chips:
+                - type: entity
+                  entity: sensor.ldk_temperature_humidity_1_temperature
+                  icon: mdi:thermometer
+
+            - type: custom:mushroom-chips-card
+              alignment: center
+              view_layout:
+                grid-area: "state2"
+                place-self: "center center"
+              chips:
+                - type: entity
+                  entity: sensor.ldk_temperature_humidity_1_humidity
+                  icon: mdi:water-percent
+
+            - type: tile
+              view_layout:
+                grid-area: "body"
+              features:
+                - type: target-temperature
+                - style: icons
+                  type: climate-hvac-modes
+              entity: climate.ldk_ac
+              features_position: bottom
+              vertical: false
+              show_entity_picture: false
+              icon: mdi:thermometer
+              hide_state: false
+              state_content:
+                - current_temperature
+                - current_humidity
+
+      - type: custom:mod-card
+        view_layout:
+          grid-area: "bedroom"
+        card_mod:
+          style:
+            layout-card$: |
+              margin-top: 4px !important;
+        card:
+          type: "custom:layout-card"
+          layout_type: "custom:grid-layout"
+          layout:
+            margin: "-4px -4px 0px -4px" # https://github.com/thomasloven/lovelace-layout-card/issues/137#issuecomment-1399632956
+            grid-template-columns: "3fr 1fr 1fr"
+            grid-template-rows: "auto"
+            grid-template-areas: |
+              "title state1 state2"
+              "body body body"
+          mediaquery:
+            "(max-width: 600px)":
+              grid-template-columns: "3fr 1.75fr 1.75fr"
+          cards:
+            - type: custom:mushroom-title-card
+              title: "Bedroom"
+              alignment: start
+              view_layout:
+                grid-area: "title"
+              card_mod:
+                style: |
+                  ha-card {
+                    --title-font-weight: bold;
+                    --title-font-size: 1.5rem;
+                  }
+
+            - type: custom:mushroom-chips-card
+              alignment: center
+              view_layout:
+                grid-area: "state1"
+                place-self: "center center"
+              chips:
+                - type: entity
+                  entity: sensor.bedroom_temperature_humidity_1_temperature
+                  icon: mdi:thermometer
+
+            - type: custom:mushroom-chips-card
+              alignment: center
+              view_layout:
+                grid-area: "state2"
+                place-self: "center center"
+              chips:
+                - type: entity
+                  entity: sensor.bedroom_temperature_humidity_1_humidity
+                  icon: mdi:water-percent
+
+            - type: tile
+              view_layout:
+                grid-area: "body"
+              features:
+                - type: target-temperature
+                - style: icons
+                  type: climate-hvac-modes
+              entity: climate.bedroom_ac
+              features_position: bottom
+              vertical: false
+              show_entity_picture: false
+              icon: mdi:thermometer
+              hide_state: false
+              state_content:
+                - current_temperature
+                - current_humidity
+
+      - type: custom:mushroom-title-card
+        title: "Others"
+        alignment: center
+        view_layout:
+          grid-area: "others_title"
+        card_mod:
+          style: |
+            ha-card {
+              --title-font-weight: bold;
+              --title-font-size: 1.5rem;
+            }
+
+      - type: "custom:button-card"
+        view_layout:
+          grid-area: "others1"
+        template: custom_card_humidifier
+        entity: select.ldk_humidifier_operating_mode_select
+        variables:
+          humidifier_name: "Humidifier"
+          humidifier_on_off_button: "button.ldk_humidifier_on_off_switch"
+          humidifier_water_level_sensor: "sensor.ldk_humidifier_water_level"
+
+      - type: custom:mushroom-vacuum-card
+        entity: vacuum.roborock_s5_max
+        icon: mdi:robot-vacuum
+        icon_animation: true
+        commands:
+          - start_pause
+          - stop
+          - return_home
+        tap_action:
+          action: more-info
+        view_layout:
+          grid-area: "others2"
+
+      - type: "custom:scheduler-card"
+        title: "Scheduler"
+        view_layout:
+          grid-area: "others3"
+        include:
+          - climate
+          - select
+          - input_boolean
