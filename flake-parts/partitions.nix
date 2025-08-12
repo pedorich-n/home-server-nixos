@@ -47,10 +47,6 @@
             };
 
             programs = {
-              nixfmt = {
-                width = 140;
-              };
-
               shellcheck = {
                 enable = true;
                 excludes = [ "**/.envrc" ];
