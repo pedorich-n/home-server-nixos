@@ -173,7 +173,6 @@ registry = 'docker.io'
 version = '1.37.0'
 versioning = 'semver'
 
-
 [qbittorrent]
 digest = 'sha256:a755d9f116b787a0087fd89df77bbc485c363cb88cf0f71348e25c735e77779e'
 image = 'linuxserver/qbittorrent'
@@ -187,6 +186,13 @@ digest = 'sha256:ae89f05ad7023258730ed62f5fcca63aab1e27ee5adcca1edb55d716f7cef35
 image = 'linuxserver/radarr'
 registry = 'docker.io'
 version = '5.26.2'
+versioning = 'semver'
+
+[recyclarr]
+digest = 'sha256:569277e9bf63367843e8f8819b35fa2a2e0a927b7200b45e95c8229f1a967afe'
+image = 'recyclarr/recyclarr'
+registry = 'ghcr.io'
+version = '7.4.1'
 versioning = 'semver'
 
 [sabnzbd]

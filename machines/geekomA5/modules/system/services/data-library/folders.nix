@@ -27,6 +27,10 @@ let
 
       "sonarr"
       "sonarr/config"
+
+      "recyclarr"
+      "recyclarr/config"
+      "recyclarr/config/configs"
     ])
     ++ (lib.map (folder: "${externalRoot}/${folder}") [
       "downloads/usenet"
@@ -56,10 +60,16 @@ let
     storeRoot
     externalRoot
   ];
+
+  filesToSetup = {
+    "${storeRoot}/recyclarr/config/configs" = {
+      "C+" = tmpfilesLib.mkDefaultTmpDirectory "${./recyclarr}";
+    };
+  };
 in
 {
   systemd.tmpfiles.settings = {
-    "90-data-library-create" = tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate;
+    "90-data-library-create" = lib.recursiveUpdate (tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate) filesToSetup;
     "91-data-library-set" = tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions;
   };
 }

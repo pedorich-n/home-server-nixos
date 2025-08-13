@@ -102,6 +102,16 @@ in
       {
         "apprise/urls/telegram" = { };
 
+        "ente/encryption/key" = { };
+        "ente/encryption/hash" = { };
+        "ente/jwt/secret" = { };
+        "ente/storage/bucket_name" = { };
+        "ente/storage/key_id" = { };
+        "ente/storage/key_secret" = { };
+        "ente/database/name" = { };
+        "ente/database/username" = { };
+        "ente/database/password" = { };
+
         "home-automation/homeassistant_secrets.yaml" = {
           sopsFile = sopsFilePathFor "home-automation/homeassistant_secrets.yaml";
           owner = config.users.users.user.name;
@@ -133,16 +143,6 @@ in
 
         "paperless/client_id" = { };
         "paperless/client_secret" = { };
-
-        "ente/encryption/key" = { };
-        "ente/encryption/hash" = { };
-        "ente/jwt/secret" = { };
-        "ente/storage/bucket_name" = { };
-        "ente/storage/key_id" = { };
-        "ente/storage/key_secret" = { };
-        "ente/database/name" = { };
-        "ente/database/username" = { };
-        "ente/database/password" = { };
 
         "renovate/github_app_private_key" = {
           sopsFile = sopsFilePathFor "renovate/github_renovate_app.pem";

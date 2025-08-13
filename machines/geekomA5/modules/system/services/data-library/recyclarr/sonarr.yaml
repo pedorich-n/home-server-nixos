@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
+# From https://recyclarr.dev/wiki/guide-configs/ WEB 1080p
+sonarr:
+  sonarr-main:
+    base_url: http://sonarr:8989
+    api_key: !env_var SONARR_API_KEY
+
+    include:
+      - template: sonarr-quality-definition-series
+      - template: sonarr-v4-quality-profile-web-1080p
+      - template: sonarr-v4-custom-formats-web-1080p
+
+    custom_formats:
+      - trash_ids:
+          - 3bc5f395426614e155e585a2f056cdf1 # Season Pack
+        assign_scores_to:
+          - name: WEB-1080p
+      - trash_ids:
+          - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
+        assign_scores_to:
+          - name: WEB-1080p
+            score: 0
+      - trash_ids:
+          - 9b64dff695c2115facf1b6ea59c9bd07 # x265 (no HDR/DV)
+        assign_scores_to:
+          - name: WEB-1080p
