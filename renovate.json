@@ -24,7 +24,8 @@
       "description": "Group all Docker containers together",
       "matchDatasources": [
         "docker"
-      ]
+      ],
+      "separateMultipleMajor": true
     }
   ]
 }
