@@ -2,6 +2,14 @@ locals {
   prowlarr_internal_url = "http://prowlarr:9696"
 }
 
+resource "prowlarr_sync_profile" "standard" {
+  name                      = "Standard"
+  enable_rss                = true
+  enable_automatic_search   = true
+  enable_interactive_search = true
+  minimum_seeders           = 5
+}
+
 resource "prowlarr_sync_profile" "interactive" {
   name                      = "Interactive"
   enable_rss                = false

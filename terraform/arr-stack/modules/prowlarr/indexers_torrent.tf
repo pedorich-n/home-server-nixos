@@ -13,8 +13,9 @@ locals {
     }
 
     milkie = {
-      name     = "Milkie"
-      priority = 20
+      name           = "Milkie"
+      priority       = 20
+      app_profile_id = prowlarr_sync_profile.standard.id
       fields = [
         { name = "baseUrl", text_value = "https://milkie.cc/" },
         { name = "definitionFile", text_value = "milkie" },
@@ -24,8 +25,9 @@ locals {
     }
 
     torrentleech = {
-      name     = "TorrentLeech"
-      priority = 25
+      name           = "TorrentLeech"
+      app_profile_id = prowlarr_sync_profile.standard.id
+      priority       = 25
       fields = [
         { name = "baseUrl", text_value = "https://www.torrentleech.org/" },
         { name = "definitionFile", text_value = "torrentleech" },
@@ -44,6 +46,7 @@ locals {
     toloka = {
       name            = "Toloka"
       priority        = 30
+      app_profile_id  = prowlarr_sync_profile.interactive.id
       implementation  = "Toloka"
       config_contract = "TolokaSettings"
       fields = [
@@ -59,6 +62,7 @@ locals {
     rutracker = {
       name            = "Rutracker"
       priority        = 30
+      app_profile_id  = prowlarr_sync_profile.interactive.id
       implementation  = "RuTracker"
       config_contract = "RuTrackerSettings"
       fields = [
