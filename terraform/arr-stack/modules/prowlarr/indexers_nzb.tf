@@ -2,7 +2,7 @@ locals {
   indexers_nzb = {
     nzbgeek = {
       name           = "NZBGeek"
-      app_profile_id = data.prowlarr_sync_profile.standard.id
+      app_profile_id = prowlarr_sync_profile.standard.id
       priority       = 15
       fields = [
         { name = "baseUrl", text_value = "https://api.nzbgeek.info" },
@@ -13,13 +13,13 @@ locals {
 
     nzbfinder = {
       name           = "NZBFinder"
-      app_profile_id = prowlarr_sync_profile.interactive.id
-      priority       = 40
+      app_profile_id = prowlarr_sync_profile.standard.id
+      priority       = 15
       fields = [
         { name = "baseUrl", text_value = "https://nzbfinder.ws" },
-        { name = "vipExpiration", text_value = "" },
-        { name = "baseSettings.queryLimit", number_value = 15 },
-        { name = "baseSettings.grabLimit", number_value = 3 },
+        { name = "vipExpiration", text_value = "2026-08-16" },
+        { name = "baseSettings.queryLimit", number_value = 5000 },
+        { name = "baseSettings.grabLimit", number_value = 5000 },
         { name = "baseSettings.limitsUnit", number_value = 0 } # 0 means Day, 1 means Hour
       ]
     }

@@ -12,15 +12,6 @@ resource "radarr_naming" "naming" {
   movie_folder_format        = local.naming_trash.folder["jellyfin-tmdb"]
 }
 
-resource "radarr_quality_definition" "trash" {
-  for_each       = local.quality_definitions_trash_mapped
-  title          = each.value.title
-  id             = each.value.id
-  min_size       = each.value.min_size
-  max_size       = each.value.max_size
-  preferred_size = each.value.preferred_size
-}
-
 resource "radarr_download_client_sabnzbd" "sabnzbd" {
   enable         = var.sabnzbd_download_client_fields.enable
   priority       = var.sabnzbd_download_client_fields.priority
