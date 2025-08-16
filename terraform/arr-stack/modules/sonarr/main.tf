@@ -18,15 +18,6 @@ resource "sonarr_naming" "naming" {
   specials_folder_format  = "Specials"
 }
 
-resource "sonarr_quality_definition" "trash" {
-  for_each       = local.quality_definitions_trash_mapped
-  title          = each.value.title
-  id             = each.value.id
-  min_size       = each.value.min_size
-  max_size       = each.value.max_size
-  preferred_size = each.value.preferred_size
-}
-
 resource "sonarr_download_client_sabnzbd" "sabnzbd" {
   enable      = var.sabnzbd_download_client_fields.enable
   priority    = var.sabnzbd_download_client_fields.priority
