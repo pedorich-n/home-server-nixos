@@ -7,7 +7,8 @@ locals {
       fields = [
         { name = "baseUrl", text_value = "https://therarbg.to/" },
         { name = "definitionFile", text_value = "therarbg" },
-        { name = "sort", number_value = 0 } # Created desc
+        { name = "sort", number_value = 0 }, # Created desc
+        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 10 }
       ]
     }
 
@@ -17,7 +18,8 @@ locals {
       fields = [
         { name = "baseUrl", text_value = "https://milkie.cc/" },
         { name = "definitionFile", text_value = "milkie" },
-        { name = "apikey", text_value = var.indexer_credentials.Milkie.api_key }
+        { name = "apikey", text_value = var.indexer_credentials.Milkie.api_key },
+        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 5 }
       ]
     }
 
@@ -33,7 +35,8 @@ locals {
         { name = "sort", number_value = 0 }, # Sort by Created
         { name = "type", number_value = 1 }, # Sort desc
         { name = "username", text_value = var.indexer_credentials.TorrentLeech.username },
-        { name = "password", text_value = var.indexer_credentials.TorrentLeech.password }
+        { name = "password", text_value = var.indexer_credentials.TorrentLeech.password },
+        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 3 }
       ]
     }
 
@@ -48,7 +51,8 @@ locals {
         { name = "stripCyrillicLetters", bool_value = false },
         { name = "freeleechOnly", bool_value = false },
         { name = "username", text_value = var.indexer_credentials.Toloka.username },
-        { name = "password", sensitive_value = var.indexer_credentials.Toloka.password }
+        { name = "password", sensitive_value = var.indexer_credentials.Toloka.password },
+        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 1 }
       ]
     }
 
@@ -65,7 +69,8 @@ locals {
         { name = "moveFirstTagsToEndOfReleaseTitle", bool_value = false },
         { name = "moveAllTagsToEndOfReleaseTitle", bool_value = false },
         { name = "username", text_value = var.indexer_credentials.RuTracker.username },
-        { name = "password", sensitive_value = var.indexer_credentials.RuTracker.password }
+        { name = "password", sensitive_value = var.indexer_credentials.RuTracker.password },
+        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 1 }
       ]
     }
   }
