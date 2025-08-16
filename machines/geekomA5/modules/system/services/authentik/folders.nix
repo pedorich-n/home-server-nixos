@@ -1,10 +1,9 @@
 { lib, tmpfilesLib, ... }:
 let
-  storeRoot = "/mnt/store/server-management/authentik";
+  storeRoot = "/mnt/store/authentik";
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
     "media"
-    "maloja/data"
 
     "postgres"
 

@@ -10,7 +10,7 @@
 let
   inherit (config.virtualisation.quadlet) containers;
 
-  storeRoot = "/mnt/store/server-management/authentik";
+  storeRoot = "/mnt/store/authentik";
 
   defaultEnvs = {
     # https://docs.goauthentik.io/docs/installation/docker-compose#startup

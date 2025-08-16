@@ -21,7 +21,7 @@ There's now a terraform module available to set most of the things automatically
 5. Enter the terraform shell with `just tf-shell` or `nix develop .#tf`
 6. Go to `terraform/tailscale` and run `terraform init` && `terraform apply`.
    1. This will setup the DNS in Tailscale and will disable key expiry for the server.
-7. Modify `machines/geekomA5/modules/system/services/server-management/tailscale.nix`
+7. Modify `machines/geekomA5/modules/system/services/tailscale.nix`
    1. Set `tailscaleMachineIp` to Machine's IP from Tailscale Admin
 
 ### Manual
@@ -34,7 +34,7 @@ There's now a terraform module available to set most of the things automatically
 6. Go to [DNS](https://login.tailscale.com/admin/dns) settings. Under "Nameservers" add new Custom name server:
    1. Set address to the machine's IP
    2. Enable Split DNS and set the domain to `server.lan`
-7. Modify `machines/geekomA5/modules/system/services/server-management/tailscale.nix`
+7. Modify `machines/geekomA5/modules/system/services/tailscale.nix`
    1. Set `tailscaleMachineIp` to Machine's IP from Tailscale Admin
 
 ---

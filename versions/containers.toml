@@ -6,11 +6,11 @@ version = '2.27.0'
 versioning = 'semver'
 
 [authentik-postgresql]
-digest = 'sha256:7c688148e5e156d0e86df7ba8ae5a05a2386aaec1e2ad8e6d11bdf10504b1fb7'
+digest = 'sha256:a283fb08619d3517039ae2106413cad68918934025640696a966f4fa468fe376'
 image = 'library/postgres'
 registry = 'docker.io'
-version = '16.9-alpine'
-versioning = 'regex:^(?<major>16)\.(?<minor>\d+)-alpine$'
+version = '17.6-alpine'
+versioning = 'docker'
 
 [authentik-redis]
 digest = 'sha256:7521abdff715d396aa482183942f3fe643344287c29ccb66eee16ac08a92190f'
@@ -83,11 +83,11 @@ version = '2025.8.0'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
-digest = 'sha256:7c688148e5e156d0e86df7ba8ae5a05a2386aaec1e2ad8e6d11bdf10504b1fb7'
+digest = 'sha256:a283fb08619d3517039ae2106413cad68918934025640696a966f4fa468fe376'
 image = 'library/postgres'
 registry = 'docker.io'
-version = '16.9-alpine'
-versioning = 'regex:^(?<major>16)\.(?<minor>\d+)-alpine$'
+version = '17.6-alpine'
+versioning = 'docker'
 
 [immich-machine-learning]
 digest = 'sha256:ef517c041fa4a6a84a6c3c4f88a1124058e686c9c92bf09a973e7e60c3c3ea1e'
@@ -146,11 +146,11 @@ version = '0.9.10'
 versioning = 'semver'
 
 [paperless-postgresql]
-digest = 'sha256:7c688148e5e156d0e86df7ba8ae5a05a2386aaec1e2ad8e6d11bdf10504b1fb7'
+digest = 'sha256:a283fb08619d3517039ae2106413cad68918934025640696a966f4fa468fe376'
 image = 'library/postgres'
 registry = 'docker.io'
-version = '16.9-alpine'
-versioning = 'regex:^(?<major>16)\.(?<minor>\d+)-alpine$'
+version = '17.6-alpine'
+versioning = 'docker'
 
 [paperless-redis]
 digest = 'sha256:7521abdff715d396aa482183942f3fe643344287c29ccb66eee16ac08a92190f'
