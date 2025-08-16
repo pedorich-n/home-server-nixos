@@ -12,6 +12,17 @@ locals {
       ]
     }
 
+    tpb = {
+      name           = "ThePirateBay"
+      app_profile_id = prowlarr_sync_profile.automatic.id
+      priority       = 10
+      fields = [
+        { name = "baseUrl", text_value = "https://tpb.proxyninja.org/" },
+        { name = "definitionFile", text_value = "thepiratebay" },
+        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 10 }
+      ]
+    }
+
     milkie = {
       name           = "Milkie"
       priority       = 20
@@ -86,7 +97,7 @@ resource "prowlarr_indexer" "torrent" {
 
   name            = each.value.name
   enable          = true
-  app_profile_id  = lookup(each.value, "app_profile_id", data.prowlarr_sync_profile.standard.id)
+  app_profile_id  = lookup(each.value, "app_profile_id", prowlarr_sync_profile.standard.id)
   implementation  = lookup(each.value, "implementation", "Cardigann")
   config_contract = lookup(each.value, "config_contract", "CardigannSettings")
   protocol        = "torrent"
