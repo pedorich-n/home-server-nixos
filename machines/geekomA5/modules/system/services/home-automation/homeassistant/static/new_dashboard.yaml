@@ -1,6 +1,22 @@
 ---
 button_card_templates: !include_dir_merge_named "../../custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
 
+chip-card-mod: &chip-card-mod
+  card_mod:
+    style: |
+      ha-card {
+        --chip-font-size: 1rem;
+        --chip-padding: 0.6rem;
+      }
+
+title-card-mod: &title-card-mod
+  card_mod:
+    style: |
+      ha-card {
+        --title-font-weight: bold;
+        --title-font-size: 1.5rem;
+      }
+
 title: "Main Dashboard"
 # theme: "minimalist-desktop"
 background: "var(--background-image)"
@@ -45,21 +61,16 @@ views:
             grid-template-areas: |
               "title state1 state2"
               "body body body"
-          mediaquery:
-            "(max-width: 600px)":
-              grid-template-columns: "3fr 1.75fr 1.75fr"
+            mediaquery:
+              "(max-width: 600px)":
+                grid-template-columns: "3fr 1.75fr 1.75fr"
           cards:
             - type: custom:mushroom-title-card
               title: "Living Room"
               alignment: start
               view_layout:
                 grid-area: "title"
-              card_mod:
-                style: |
-                  ha-card {
-                    --title-font-weight: bold;
-                    --title-font-size: 1.5rem;
-                  }
+              <<: *title-card-mod
 
             - type: custom:mushroom-chips-card
               alignment: center
@@ -70,6 +81,7 @@ views:
                 - type: entity
                   entity: sensor.ldk_temperature_humidity_1_temperature
                   icon: mdi:thermometer
+                  <<: *chip-card-mod
 
             - type: custom:mushroom-chips-card
               alignment: center
@@ -80,6 +92,7 @@ views:
                 - type: entity
                   entity: sensor.ldk_temperature_humidity_1_humidity
                   icon: mdi:water-percent
+                  <<: *chip-card-mod
 
             - type: tile
               view_layout:
@@ -115,21 +128,16 @@ views:
             grid-template-areas: |
               "title state1 state2"
               "body body body"
-          mediaquery:
-            "(max-width: 600px)":
-              grid-template-columns: "3fr 1.75fr 1.75fr"
+            mediaquery:
+              "(max-width: 600px)":
+                grid-template-columns: "3fr 1.75fr 1.75fr"
           cards:
             - type: custom:mushroom-title-card
               title: "Bedroom"
               alignment: start
               view_layout:
                 grid-area: "title"
-              card_mod:
-                style: |
-                  ha-card {
-                    --title-font-weight: bold;
-                    --title-font-size: 1.5rem;
-                  }
+              <<: *title-card-mod
 
             - type: custom:mushroom-chips-card
               alignment: center
@@ -140,6 +148,7 @@ views:
                 - type: entity
                   entity: sensor.bedroom_temperature_humidity_1_temperature
                   icon: mdi:thermometer
+                  <<: *chip-card-mod
 
             - type: custom:mushroom-chips-card
               alignment: center
@@ -150,6 +159,7 @@ views:
                 - type: entity
                   entity: sensor.bedroom_temperature_humidity_1_humidity
                   icon: mdi:water-percent
+                  <<: *chip-card-mod
 
             - type: tile
               view_layout:
@@ -173,12 +183,7 @@ views:
         alignment: center
         view_layout:
           grid-area: "others_title"
-        card_mod:
-          style: |
-            ha-card {
-              --title-font-weight: bold;
-              --title-font-size: 1.5rem;
-            }
+        <<: *title-card-mod
 
       - type: "custom:button-card"
         view_layout:
