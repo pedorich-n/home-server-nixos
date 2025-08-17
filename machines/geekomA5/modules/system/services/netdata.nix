@@ -4,7 +4,7 @@
   networkingLib,
   lib,
   pkgs,
-  pkgs-unstable,
+  pkgs-netdata,
   ...
 }:
 let
@@ -41,7 +41,7 @@ let
 in
 {
   disabledModules = [ "services/monitoring/netdata.nix" ];
-  imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/monitoring/netdata.nix" ];
+  imports = [ "${inputs.nixpkgs-netdata}/nixos/modules/services/monitoring/netdata.nix" ];
 
   custom.networking.ports.tcp.netdata = {
     port = 19999;
@@ -58,7 +58,7 @@ in
     netdata = {
       enable = true;
 
-      package = pkgs-unstable.netdataCloud.override { withNdsudo = true; };
+      package = pkgs-netdata.netdataCloud.override { withNdsudo = true; };
 
       extraNdsudoPackages = with pkgs; [
         nvme-cli
