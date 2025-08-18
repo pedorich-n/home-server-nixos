@@ -1,0 +1,92 @@
+{% from "macros/custom_room_grid_new.yaml.j2" import custom_room_grid %}
+---
+chip-card-mod: &chip-card-mod
+  card_mod:
+    style: |
+      ha-card {
+        --chip-font-size: 1rem;
+        --chip-padding: 0.6rem;
+      }
+
+title-card-mod: &title-card-mod
+  card_mod:
+    style: |
+      ha-card {
+        --title-font-weight: bold;
+        --title-font-size: 1.5rem;
+      }
+
+layout-card-mod: &layout-card-mod
+  card_mod: # https://github.com/thomasloven/lovelace-layout-card/issues/137#issuecomment-2584782990
+    style: |
+      layout-card {
+        --masonry-view-card-margin: 0px;
+      }
+
+title: "Main Dashboard"
+# theme: "minimalist-desktop"
+views:
+  - title: Main
+    path: 0
+    icon: "mdi:flower"
+    type: "custom:grid-layout"
+    layout:
+      grid-template-columns: "14.5% 35% auto 35% 14.5%"
+      grid-template-rows: auto
+      grid-template-areas: |
+        ". livingroom . bedroom ."
+        ". others_title others_title others_title ."
+        ". others1 . others3 ."
+        ". others2 . others3 ."
+      mediaquery:
+        "(max-width: 600px)":
+          grid-template-columns: "auto 98% auto"
+          grid-template-areas: |
+            ". livingroom ."
+            ". bedroom ."
+            ". others_title ."
+            ". others1 ."
+            ". others2 ."
+            ". others3 ."
+    cards:
+      {{ custom_room_grid('Living Room', 'livingroom', 'sensor.ldk_temperature_humidity_1_temperature', 'sensor.ldk_temperature_humidity_1_humidity', 'climate.ldk_ac') | indent(6, False) }}
+
+      {{ custom_room_grid('Bedroom', 'bedroom', 'sensor.bedroom_temperature_humidity_1_temperature', 'sensor.bedroom_temperature_humidity_1_humidity', 'climate.bedroom_ac') | indent(6, False) }}
+      - type: custom:mushroom-title-card
+        title: "Others"
+        alignment: center
+        <<: *title-card-mod
+        view_layout:
+          grid-area: "others_title"
+
+      # - type: "custom:button-card"
+      #   view_layout:
+      #     grid-area: "others1"
+      #   template: custom_card_humidifier
+      #   entity: select.ldk_humidifier_operating_mode_select
+      #   variables:
+      #     humidifier_name: "Humidifier"
+      #     humidifier_on_off_button: "button.ldk_humidifier_on_off_switch"
+      #     humidifier_water_level_sensor: "sensor.ldk_humidifier_water_level"
+
+      - type: custom:mushroom-vacuum-card
+        entity: vacuum.roborock_s5_max
+        view_layout:
+          grid-area: "others1"
+        icon: mdi:robot-vacuum
+        icon_animation: true
+        commands:
+          - start_pause
+          - stop
+          - return_home
+        tap_action:
+          action: more-info
+
+      - type: "custom:scheduler-card"
+        title: "Scheduler"
+        view_layout:
+          grid-area: "others3"
+        include:
+          - climate
+          - select
+          - input_boolean
