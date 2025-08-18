@@ -17,6 +17,13 @@ title-card-mod: &title-card-mod
         --title-font-size: 1.5rem;
       }
 
+layout-card-mod: &layout-card-mod
+  card_mod:
+    style: |
+      layout-card {
+        --masonry-view-card-margin: 0px;
+      }
+
 title: "Main Dashboard"
 # theme: "minimalist-desktop"
 background: "var(--background-image)"
@@ -47,10 +54,7 @@ views:
       - type: custom:mod-card
         view_layout:
           grid-area: "livingroom"
-        card_mod:
-          style:
-            layout-card$: |
-              margin-top: 4px !important;
+        <<: *layout-card-mod
         card:
           type: "custom:layout-card"
           layout_type: "custom:grid-layout"
@@ -114,10 +118,7 @@ views:
       - type: custom:mod-card
         view_layout:
           grid-area: "bedroom"
-        card_mod:
-          style:
-            layout-card$: |
-              margin-top: 4px !important;
+        <<: *layout-card-mod
         card:
           type: "custom:layout-card"
           layout_type: "custom:grid-layout"
