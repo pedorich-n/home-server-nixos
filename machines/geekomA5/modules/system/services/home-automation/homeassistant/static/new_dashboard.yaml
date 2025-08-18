@@ -1,6 +1,4 @@
 ---
-button_card_templates: !include_dir_merge_named "../../custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
-
 chip-card-mod: &chip-card-mod
   card_mod:
     style: |
@@ -112,8 +110,7 @@ views:
               icon: mdi:thermometer
               hide_state: false
               state_content:
-                - current_temperature
-                - current_humidity
+                - state
 
       - type: custom:mod-card
         view_layout:
@@ -176,8 +173,7 @@ views:
               icon: mdi:thermometer
               hide_state: false
               state_content:
-                - current_temperature
-                - current_humidity
+                - state
 
       - type: custom:mushroom-title-card
         title: "Others"
@@ -186,15 +182,15 @@ views:
           grid-area: "others_title"
         <<: *title-card-mod
 
-      - type: "custom:button-card"
-        view_layout:
-          grid-area: "others1"
-        template: custom_card_humidifier
-        entity: select.ldk_humidifier_operating_mode_select
-        variables:
-          humidifier_name: "Humidifier"
-          humidifier_on_off_button: "button.ldk_humidifier_on_off_switch"
-          humidifier_water_level_sensor: "sensor.ldk_humidifier_water_level"
+      # - type: "custom:button-card"
+      #   view_layout:
+      #     grid-area: "others1"
+      #   template: custom_card_humidifier
+      #   entity: select.ldk_humidifier_operating_mode_select
+      #   variables:
+      #     humidifier_name: "Humidifier"
+      #     humidifier_on_off_button: "button.ldk_humidifier_on_off_switch"
+      #     humidifier_water_level_sensor: "sensor.ldk_humidifier_water_level"
 
       - type: custom:mushroom-vacuum-card
         entity: vacuum.roborock_s5_max
