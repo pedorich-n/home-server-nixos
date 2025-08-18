@@ -6,7 +6,6 @@
   "minTemperature": 20,
   "maxTemperature": 30,
   "precision": 1.0,
-  "temperatureUnit": "C",
   "operationModes": ["cool", "heat", "dry", "fan_only"],
   "fanModes": ["auto", "quiet", "high", "midHigh", "mid", "lowMid", "low"],
   "swingModes": ["auto", "high", "midHigh", "mid", "lowMid", "low"],

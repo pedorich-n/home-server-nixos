@@ -23,7 +23,7 @@ api:
 
 # https://www.home-assistant.io/integrations/zeroconf/
 # Also https://developers.home-assistant.io/docs/api/native-app-integration/setup/#authenticating-the-user
-zeroconfg:
+zeroconf:
 
 # https://github.com/BeryJu/hass-auth-header
 auth_header:
@@ -51,12 +51,26 @@ http:
 lovelace:
   mode: storage
   dashboards:
+    main-grid:
+      mode: yaml
+      title: Main Dashboard
+      icon: mdi:view-dashboard-outline
+      show_in_sidebar: true
+      filename: dashboards/main.yaml
+
     lovelace-minimalist-grid:
       mode: yaml
       title: Minimalist Grid
       icon: mdi:view-dashboard-outline
       show_in_sidebar: true
       filename: ui_lovelace_minimalist/dashboard/ui-lovelace-custom-grid.yaml
+
+    new-grid-test:
+      mode: yaml
+      title: New Grid Test
+      icon: mdi:view-dashboard-outline
+      show_in_sidebar: true
+      filename: ui_lovelace_minimalist/dashboard/new-grid-test.yaml
 
 #!SECTION - Core
 

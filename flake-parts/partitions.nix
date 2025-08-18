@@ -36,6 +36,7 @@
                     "--quiet"
                   ];
                   includes = [ "*.j2" ];
+                  excludes = [ "*.yaml.j2" ];
                 };
 
                 shellcheck = {

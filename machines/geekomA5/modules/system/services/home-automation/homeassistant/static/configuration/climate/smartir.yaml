@@ -2,11 +2,7 @@
   name: LDK AC
   unique_id: ldk_ac
   device_code: 17000
-  controller_data:
-    controller_type: Broadlink
-    remote_entity: remote.ldk_ir_remote_1
-    delay_secs: 0.5
-    num_repeats: 1
+  controller_data: remote.ldk_ir_remote_1
   temperature_sensor: sensor.ldk_temperature_humidity_1_temperature
   humidity_sensor: sensor.ldk_temperature_humidity_1_humidity
   #power_sensor: binary_sensor.ac_power
@@ -16,11 +12,7 @@
   name: Bedroom AC
   unique_id: bedroom_ac
   device_code: 17000
-  controller_data:
-    controller_type: Broadlink
-    remote_entity: remote.bedroom_ir_remote_1
-    delay_secs: 0.5
-    num_repeats: 1
+  controller_data: remote.bedroom_ir_remote_1
   temperature_sensor: sensor.bedroom_temperature_humidity_1_temperature
   humidity_sensor: sensor.bedroom_temperature_humidity_1_humidity
   #power_sensor: binary_sensor.ac_power
