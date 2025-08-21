@@ -17,8 +17,20 @@ in
     };
   };
 
-  systemd.services.copyparty.environment = {
-    PRTY_NO_CFSSL = "1"; # Disable CFSSL certificate generation
+  systemd = {
+    services.copyparty.environment = {
+      PRTY_NO_TLS = "true"; # Disable CFSSL certificate generation
+    };
+
+    tmpfiles.settings."90-copyparty-history" = {
+      "/var/lib/copyparty/history" = {
+        "d" = {
+          mode = "0755";
+          user = config.users.users.copyparty.name;
+          group = config.users.users.copyparty.group;
+        };
+      };
+    };
   };
 
   services = {
@@ -34,6 +46,11 @@ in
         p = portsCfg.tcp.copyparty-web.portStr; # Port to listen on
 
         rproxy = "1"; # Enable reverse proxy mode
+
+        idp-h-usr = "X-authentik-username";
+        idp-h-grp = "X-authentik-groups";
+
+        hist = "/var/lib/copyparty/history";
       };
 
       volumes = {
@@ -66,6 +83,7 @@ in
         entryPoints = [ "web-secure" ];
         rule = "Host(`${networkingLib.mkDomain "copyparty"}`)";
         service = "copyparty-secure";
+        middlewares = [ "authentik-secure@docker" ];
       };
 
       services.copyparty-secure = {
