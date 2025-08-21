@@ -109,6 +109,14 @@
       };
     };
 
+    copyparty = {
+      url = "github:9001/copyparty";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        flake-utils.follows = "flake-utils";
+      };
+    };
+
     homeassistant-docker-venv = {
       url = "github:tribut/homeassistant-docker-venv";
       flake = false;

@@ -21,6 +21,7 @@
         inputs.nix-minecraft.nixosModules.minecraft-servers
         inputs.playit-nixos-module.nixosModules.default
         inputs.quadlet-nix.nixosModules.quadlet
+        inputs.copyparty.nixosModules.default
       ];
       deploySettings = {
         activationTimeout = 600;
