@@ -54,6 +54,13 @@ in
       };
 
       volumes = {
+        "/" = {
+          path = root;
+          access = {
+            "r" = "*";
+          };
+        };
+
         "/media" = {
           path = "${root}/media";
           access = {
