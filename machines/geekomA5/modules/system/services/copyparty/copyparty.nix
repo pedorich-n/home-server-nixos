@@ -64,6 +64,7 @@ in
         rproxy = "1"; # Enable reverse proxy mode
         idp-h-usr = "X-authentik-username"; # Reverse proxy header for username
         idp-h-grp = "X-authentik-groups"; # Reverse proxy header for groups
+        idp-store = "0"; # Do not store users/groups from IdP in the DB
 
         hist = "/var/lib/copyparty/history"; # Cache location
       };
@@ -82,6 +83,7 @@ in
             "r" = "*";
             "w" = "@acct";
             "d" = "@acct";
+            "a" = "@ServerAdmins";
           };
         };
       };
