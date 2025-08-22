@@ -10,6 +10,10 @@
       zigbee = {
         gid = 992; # Was set by the activation script before I needed to know it in build-time
       };
+
+      media = {
+        gid = 950;
+      };
     };
 
     users = {
@@ -25,11 +29,12 @@
         hashedPasswordFile = config.sops.secrets."os_passwords/user".path;
         openssh.authorizedKeys.keys = config.custom.ssh.keys;
         extraGroups = [
-          "zigbee"
-          "render"
-          "wheel"
-          "systemd-journal"
+          "media"
           "podman"
+          "render"
+          "systemd-journal"
+          "wheel"
+          "zigbee"
         ];
       };
     };

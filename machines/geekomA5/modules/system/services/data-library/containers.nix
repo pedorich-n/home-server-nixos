@@ -107,8 +107,8 @@ in
         containerConfig = {
           environments = defaultEnvs;
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/qbittorrent/config" "/config")
-            (containerLib.mkMappedVolumeForUser "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
+            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/qbittorrent/config" "/config")
+            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
             "${./qbittorrent/auto_unrar.sh}:/opt/scripts/auto_unrar.sh"
           ];
           networks = [ "gluetun.container" ];
@@ -130,8 +130,8 @@ in
             PORT = "8080";
           };
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/sabnzbd/config" "/config")
-            (containerLib.mkMappedVolumeForUser "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
+            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/sabnzbd/config" "/config")
+            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
           ];
           labels =
             (containerLib.mkTraefikLabels {
@@ -154,7 +154,7 @@ in
         containerConfig = {
           environments = defaultEnvs;
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/prowlarr/config" "/config")
+            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/prowlarr/config" "/config")
           ];
           labels =
             (containerLib.mkTraefikLabels {
@@ -178,8 +178,8 @@ in
         containerConfig = {
           environments = defaultEnvs;
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/sonarr/config" "/config")
-            (containerLib.mkMappedVolumeForUser externalStoreRoot "/data")
+            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/sonarr/config" "/config")
+            (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
           labels =
             (containerLib.mkTraefikLabels {
@@ -204,8 +204,8 @@ in
         containerConfig = {
           environments = defaultEnvs;
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/radarr/config" "/config")
-            (containerLib.mkMappedVolumeForUser externalStoreRoot "/data")
+            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/radarr/config" "/config")
+            (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
           labels =
             (containerLib.mkTraefikLabels {
@@ -234,7 +234,7 @@ in
             config.sops.secrets."data-library/recyclarr.env".path
           ];
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/recyclarr/config" "/config")
+            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/recyclarr/config" "/config")
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -273,9 +273,9 @@ in
             JELLYFIN_PublishedServerUrl = networkingLib.mkUrl "jellyfin";
           };
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/jellyfin/config" "/config")
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/jellyfin/cache" "/cache")
-            (containerLib.mkMappedVolumeForUser "${externalStoreRoot}/media" "/media")
+            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/jellyfin/config" "/config")
+            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/jellyfin/cache" "/cache")
+            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media" "/media")
           ];
           labels = containerLib.mkTraefikLabels {
             name = "jellyfin-secure";
@@ -306,9 +306,9 @@ in
             PORT = "8080";
           };
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/audiobookshelf/config" "/config")
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/audiobookshelf/metadata" "/metadata")
-            (containerLib.mkMappedVolumeForUser "${externalStoreRoot}/media/audiobooks" "/audiobooks")
+            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/audiobookshelf/config" "/config")
+            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/audiobookshelf/metadata" "/metadata")
+            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/audiobooks" "/audiobooks")
           ];
           labels = containerLib.mkTraefikLabels {
             name = "audiobookshelf-secure";

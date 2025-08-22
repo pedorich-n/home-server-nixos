@@ -68,24 +68,35 @@ let
 
   publicRule = {
     user = config.users.users.user.name;
-    group = config.users.users.user.group;
+    group = config.users.groups.media.name;
     mode = "0777";
   };
 
-  filesToSetup = {
+  extraCreateRules = {
     "${storeRoot}/recyclarr/config/configs" = {
       "C+" = tmpfilesLib.mkDefaultTmpDirectory "${./recyclarr}";
     };
 
     "${externalRoot}/share" = {
       "d" = publicRule;
+    };
+  };
+
+  extraSetRules = {
+    "${externalRoot}/share" = {
       "Z" = publicRule;
     };
   };
 in
 {
   systemd.tmpfiles.settings = {
-    "90-data-library-create" = lib.recursiveUpdate (tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate) filesToSetup;
-    "91-data-library-set" = tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions;
+    "90-data-library-create" = lib.mkMerge [
+      (tmpfilesLib.createFoldersUsingDefaultMediaRule foldersToCreate)
+      extraCreateRules
+    ];
+    "91-data-library-set" = lib.mkMerge [
+      (tmpfilesLib.setPermissionsUsingDefaultMediaRule foldersToSetPermissions)
+      extraSetRules
+    ];
   };
 }

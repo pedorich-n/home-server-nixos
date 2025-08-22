@@ -15,15 +15,19 @@
       inherit argument;
     };
 
-    defaultCreateDirectoryRule = {
-      "d" = mkDefaultTmpDirectory ""; # Create a directory
+    mkDefaultMediaTmpDirectory = argument: {
+      user = config.users.users.user.name;
+      group = config.users.groups.media.name;
+      mode = "0755";
+      inherit argument;
     };
 
-    defaultSetPermissionsRule = {
-      "Z" = mkDefaultTmpDirectory ""; # Set mode/permissions recursively to a directory, in case it already exists
-    };
+    applyRuleToFolders = rule: folders: lib.foldl' (acc: folder: acc // { "${folder}" = rule; }) { } folders;
 
-    createFoldersUsingDefaultRule = folders: lib.foldl' (acc: folder: acc // { "${folder}" = defaultCreateDirectoryRule; }) { } folders;
-    setPermissionsUsingDefaultRule = folders: lib.foldl' (acc: folder: acc // { "${folder}" = defaultSetPermissionsRule; }) { } folders;
+    createFoldersUsingDefaultRule = folders: applyRuleToFolders { "d" = mkDefaultTmpDirectory ""; } folders;
+    setPermissionsUsingDefaultRule = folders: applyRuleToFolders { "Z" = mkDefaultTmpDirectory ""; } folders;
+
+    createFoldersUsingDefaultMediaRule = folders: applyRuleToFolders { "d" = mkDefaultMediaTmpDirectory ""; } folders;
+    setPermissionsUsingDefaultMediaRule = folders: applyRuleToFolders { "Z" = mkDefaultMediaTmpDirectory ""; } folders;
   };
 }
