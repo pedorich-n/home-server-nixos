@@ -18,7 +18,7 @@
     mkDefaultMediaTmpDirectory = argument: {
       user = config.users.users.user.name;
       group = config.users.groups.media.name;
-      mode = "0755";
+      mode = "0775";
       inherit argument;
     };
 
