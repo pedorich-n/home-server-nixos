@@ -60,25 +60,12 @@ in
           };
         };
 
-        "/media" = {
-          path = "${root}/media";
-          access = {
-            "r" = "*";
-          };
-        };
-
-        "/downloads" = {
-          path = "${root}/downloads";
-          access = {
-            "r" = "*";
-          };
-        };
-
         "/share" = {
           path = "${root}/share";
           access = {
             "r" = "*";
-            "w" = "*";
+            "w" = "@acct";
+            "d" = "@acct";
           };
         };
       };
