@@ -42,6 +42,7 @@ entries:
 
   # Keeping this as created to avoid accidental re-creation of the user as this requires re-connecting OAuth accounts in existing integrations
   - model: authentik_core.user
+    id: authentik-user
     identifiers:
       username: !Env AUTHENTIK_USER_NAME
     state: created
@@ -53,3 +54,13 @@ entries:
         - !KeyOf media-admins-group
         - !KeyOf media-group
       password: !Env AUTHENTIK_USER_PASSWORD
+
+  - model: authentik_core.token
+    state: present
+    identifiers:
+      identifier: WebDav
+    attrs:
+      user: !KeyOf authentik-user
+      key: !Env AUTHENTIK_USER_WEBDAV_PASSWORD
+      intent: app_password
+      expiring: false

@@ -18,10 +18,6 @@ in
   };
 
   systemd = {
-    services.copyparty.environment = {
-      PRTY_NO_TLS = "true"; # Disable CFSSL certificate generation
-    };
-
     tmpfiles.settings."90-copyparty-history" = {
       "/var/lib/copyparty/history" = {
         "d" = {
@@ -44,13 +40,16 @@ in
       settings = {
         i = "127.0.0.1"; # Interface to bind to
         p = portsCfg.tcp.copyparty-web.portStr; # Port to listen on
+        http-only = true; # Disable TLS, use HTTP only since we are behind a reverse proxy
+        no-crt = true; # Disable certificate generation
+
+        name = config.networking.hostName; # Name of the server to use in Zeroconf
 
         rproxy = "1"; # Enable reverse proxy mode
+        idp-h-usr = "X-authentik-username"; # Reverse proxy header for username
+        idp-h-grp = "X-authentik-groups"; # Reverse proxy header for groups
 
-        idp-h-usr = "X-authentik-username";
-        idp-h-grp = "X-authentik-groups";
-
-        hist = "/var/lib/copyparty/history";
+        hist = "/var/lib/copyparty/history"; # Cache location
       };
 
       volumes = {
