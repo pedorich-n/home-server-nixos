@@ -115,5 +115,12 @@
         uidHost = config.users.users.user.uid;
         gidHost = config.users.groups.${config.users.users.user.group}.gid;
       } localPath remotePath;
+
+    mkMappedVolumeForUserMedia =
+      localPath: remotePath:
+      mkIdmappedVolume {
+        uidHost = config.users.users.user.uid;
+        gidHost = config.users.groups.media.gid;
+      } localPath remotePath;
   };
 }

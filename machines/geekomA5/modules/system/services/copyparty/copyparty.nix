@@ -29,6 +29,19 @@ in
     };
   };
 
+  users = {
+    groups.copyparty = { };
+
+    users.copyparty = {
+      isSystemUser = true;
+      home = "/var/lib/copyparty";
+      group = config.users.groups.copyparty.name;
+      extraGroups = [
+        "media"
+      ];
+    };
+  };
+
   services = {
     copyparty = {
       enable = true;
@@ -36,6 +49,9 @@ in
         withZeroMQ = false;
         withFTP = false;
       };
+
+      user = "copyparty";
+      group = "media";
 
       settings = {
         i = "127.0.0.1"; # Interface to bind to

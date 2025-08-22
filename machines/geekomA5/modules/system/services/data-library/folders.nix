@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   tmpfilesLib,
   ...
@@ -59,6 +58,8 @@ let
       "media/tv"
       "media/movies"
       "media/audiobooks"
+
+      "share"
     ]);
 
   foldersToSetPermissions = [
@@ -66,26 +67,18 @@ let
     externalRoot
   ];
 
-  publicRule = {
-    user = config.users.users.user.name;
-    group = config.users.users.user.group;
-    mode = "0777";
-  };
-
-  filesToSetup = {
+  extraCreateRules = {
     "${storeRoot}/recyclarr/config/configs" = {
       "C+" = tmpfilesLib.mkDefaultTmpDirectory "${./recyclarr}";
-    };
-
-    "${externalRoot}/share" = {
-      "d" = publicRule;
-      "Z" = publicRule;
     };
   };
 in
 {
   systemd.tmpfiles.settings = {
-    "90-data-library-create" = lib.recursiveUpdate (tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate) filesToSetup;
-    "91-data-library-set" = tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions;
+    "90-data-library-create" = lib.mkMerge [
+      (tmpfilesLib.createFoldersUsingDefaultMediaRule foldersToCreate)
+      extraCreateRules
+    ];
+    "91-data-library-set" = tmpfilesLib.setPermissionsUsingDefaultMediaRule foldersToSetPermissions;
   };
 }
