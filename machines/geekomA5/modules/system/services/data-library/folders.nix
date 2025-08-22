@@ -1,4 +1,9 @@
-{ lib, tmpfilesLib, ... }:
+{
+  config,
+  lib,
+  tmpfilesLib,
+  ...
+}:
 let
   storeRoot = "/mnt/store/data-library";
   externalRoot = "/mnt/external/data-library";
@@ -61,9 +66,20 @@ let
     externalRoot
   ];
 
+  publicRule = {
+    user = config.users.users.user.name;
+    group = config.users.users.user.group;
+    mode = "0777";
+  };
+
   filesToSetup = {
     "${storeRoot}/recyclarr/config/configs" = {
       "C+" = tmpfilesLib.mkDefaultTmpDirectory "${./recyclarr}";
+    };
+
+    "${externalRoot}/share" = {
+      "d" = publicRule;
+      "Z" = publicRule;
     };
   };
 in

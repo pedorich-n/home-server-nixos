@@ -10,6 +10,7 @@
     overlays = [
       inputs.nix-minecraft.overlays.default
       inputs.playit-nixos-module.overlays.default
+      inputs.copyparty.overlays.default
       overlays.github-app-installation-token
       overlays.cockpit-plugins
       overlays.minecraft-modpacks
