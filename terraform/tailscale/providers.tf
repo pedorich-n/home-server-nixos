@@ -9,6 +9,16 @@ terraform {
       source  = "1Password/onepassword"
       version = "~> 2"
     }
+
+    assert = {
+      source  = "hashicorp/assert"
+      version = "~> 0.16"
+    }
+
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.5"
+    }
   }
 
   backend "s3" {

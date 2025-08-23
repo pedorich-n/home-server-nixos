@@ -21,6 +21,7 @@
               global.excludes = [
                 "**/_sources/*"
                 "**/.terraform.lock.hcl"
+                "managed-files/server_addresses.json"
               ];
               formatter = {
                 djlint = {

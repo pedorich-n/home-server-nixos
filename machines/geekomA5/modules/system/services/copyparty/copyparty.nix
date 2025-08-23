@@ -17,30 +17,9 @@ in
     };
   };
 
-  systemd = {
-    tmpfiles.settings."90-copyparty-history" = {
-      "/var/lib/copyparty/history" = {
-        "d" = {
-          mode = "0755";
-          user = config.users.users.copyparty.name;
-          group = config.users.users.copyparty.group;
-        };
-      };
-    };
-  };
-
-  users = {
-    groups.copyparty = { };
-
-    users.copyparty = {
-      isSystemUser = true;
-      home = "/var/lib/copyparty";
-      group = config.users.groups.copyparty.name;
-      extraGroups = [
-        "media"
-      ];
-    };
-  };
+  users.users.copyparty.extraGroups = [
+    "media"
+  ];
 
   services = {
     copyparty = {
@@ -50,16 +29,11 @@ in
         withFTP = false;
       };
 
-      user = "copyparty";
-      group = "media";
-
       settings = {
         i = "127.0.0.1"; # Interface to bind to
         p = portsCfg.tcp.copyparty-web.portStr; # Port to listen on
         http-only = true; # Disable TLS, use HTTP only since we are behind a reverse proxy
         no-crt = true; # Disable certificate generation
-
-        name = config.networking.hostName; # Name of the server to use in Zeroconf
 
         rproxy = "1"; # Enable reverse proxy mode
         idp-h-usr = "X-authentik-username"; # Reverse proxy header for username
@@ -67,6 +41,8 @@ in
         idp-store = "0"; # Do not store users/groups from IdP in the DB
 
         hist = "/var/lib/copyparty/history"; # Cache location
+
+        gid = config.users.groups.media.gid; # GID for upload/create/mkdir operations
       };
 
       volumes = {
