@@ -17,9 +17,9 @@ let
 
     # This one is for access management to applications
     accessGroups = {
-      serverAdmins = "Server Admins";
+      serverAdmins = "ServerAdmins";
       media = "Media";
-      mediaAdmins = "Media Admins";
+      mediaAdmins = "MediaAdmins";
     };
   };
 in
