@@ -1,4 +1,0 @@
-[[roles]]
-name = "portforwarding"
-routes = ["GET /v1/openvpn/portforwarded"]
-auth = "none"
