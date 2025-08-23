@@ -24,6 +24,41 @@ provider "registry.opentofu.org/1password/onepassword" {
   ]
 }
 
+provider "registry.opentofu.org/hashicorp/assert" {
+  version     = "0.16.0"
+  constraints = "~> 0.16"
+  hashes = [
+    "h1:2jeV46S9jN2rk0GXOa+HGNlVvyWzaB3wz0T65elbjOc=",
+    "zh:3c04d08d1bb4ae810b7972a219c8dd42a8ab901a9bc25197b250c38f3fa57033",
+    "zh:46119bcc47b545809c0ee873a72d44f4f875cca4d7228605f5c7a8956a5e7d55",
+    "zh:511949ee8a6ac8ff7296b4c9778deb2aec2783f5b85c4f27382a3b623fc50a4a",
+    "zh:b4ebb8b832bae26443880d2e17493f754495db2d6c3f02c6d0070cbf5ae21598",
+    "zh:bebed6c1873871eb824103f08e72055c077f01b10a40944760d19ffdd721d9ab",
+    "zh:e412855fd2fd81e0a847e45308bdbac99995315c503fdddf262ee59e1b7c5263",
+    "zh:ed47c4fe28c6f148f11fa4098516abea008c49fa670c3cedd2ff94596cac0831",
+    "zh:edee914b1d12ac6db241a1fecaa5186c47f361f4ceb2deb23ad45d67bf95c7b1",
+    "zh:eff5b2e1c2128217bdbc600eda4fe011831e5c655bf4acd84b6495fc20d128d3",
+    "zh:ff64424784171a3361b1ea95d8cef334ec1c4a395812edd0a77a1ed6b4119b0f",
+  ]
+}
+
+provider "registry.opentofu.org/hashicorp/local" {
+  version = "2.5.3"
+  hashes = [
+    "h1:mC9+u1eaUILTjxey6Ivyf/3djm//RNNze9kBVX/trng=",
+    "zh:32e1d4b0595cea6cda4ca256195c162772ddff25594ab4008731a2ec7be230bf",
+    "zh:48c390af0c87df994ec9796f04ec2582bcac581fb81ed6bb58e0671da1c17991",
+    "zh:4be7289c969218a57b40902e2f359914f8d35a7f97b439140cb711aa21e494bd",
+    "zh:4cf958e631e99ed6c8b522c9b22e1f1b568c0bdadb01dd002ca7dffb1c927764",
+    "zh:7a0132c0faca4c4c96aa70808effd6817e28712bf5a39881666ac377b4250acf",
+    "zh:7d60de08fac427fb045e4590d1b921b6778498eee9eb16f78c64d4c577bde096",
+    "zh:91003bee5981e99ec3925ce2f452a5f743827f9d0e131a86613549c1464796f0",
+    "zh:9fe2fe75977c8149e2515fb30c6cc6cfd57b225d4ce592c570d81a3831d7ffa3",
+    "zh:e210e6be54933ce93e03d0994e520ba289aa01b2c1f70e77afb8f2ee796b0fe3",
+    "zh:e8793e5f9422f2b31a804e51806595f335b827c9a38db18766960464566f21d5",
+  ]
+}
+
 provider "registry.opentofu.org/tailscale/tailscale" {
   version     = "0.21.1"
   constraints = "~> 0.21"
