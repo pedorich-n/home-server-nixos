@@ -8,7 +8,7 @@
       "customType": "regex",
       "description": "Docker containers from a TOML file",
       "managerFilePatterns": [
-        "/^versions/containers\\.toml$/"
+        "/^managed-files/containers\\.toml$/"
       ],
       "matchStrings": [
         "\\[(?<depName>[^\\]]+)\\][^\\[]*?digest = '(?<currentDigest>[^']+)'[^\\[]*?image = '(?<packageName>[^']+)'[^\\[]*?registry = '(?<registry>[^']+)'[^\\[]*?version = '(?<currentValue>[^']+)'[^\\[]*?versioning = '(?<versioning>[^']+)'"

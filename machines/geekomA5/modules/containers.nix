@@ -20,7 +20,7 @@ let
     };
   };
 
-  rawToml = lib.importTOML "${flake}/versions/containers.toml";
+  rawToml = lib.importTOML "${flake}/managed-files/containers.toml";
   containers = lib.mapAttrs (_: attrs: {
     inherit (attrs)
       registry
