@@ -24,6 +24,8 @@
 
     applyRuleToFolders = rule: folders: lib.foldl' (acc: folder: acc // { "${folder}" = rule; }) { } folders;
 
+    #LINK - See https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html
+
     createFoldersUsingDefaultRule = folders: applyRuleToFolders { "d" = mkDefaultTmpDirectory ""; } folders;
     setPermissionsUsingDefaultRule = folders: applyRuleToFolders { "Z" = mkDefaultTmpDirectory ""; } folders;
 

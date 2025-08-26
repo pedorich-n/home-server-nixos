@@ -5,7 +5,7 @@ let
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
     "media"
 
-    "postgres"
+    "postgresql"
 
     "redis"
   ];

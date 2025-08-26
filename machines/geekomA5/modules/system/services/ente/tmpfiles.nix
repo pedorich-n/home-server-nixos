@@ -3,7 +3,6 @@ let
   storeRoot = "/mnt/store/ente";
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
-    "museum"
     "museum/data"
 
     "postgresql"

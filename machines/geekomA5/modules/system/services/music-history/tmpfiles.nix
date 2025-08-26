@@ -3,10 +3,8 @@ let
   storeRoot = "/mnt/store/music-history";
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
-    "maloja"
     "maloja/data"
 
-    "multi-scrobbler"
     "multi-scrobbler/config"
   ];
 

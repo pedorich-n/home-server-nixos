@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, tmpfilesLib, ... }:
 let
 
   globalRule = {
@@ -6,12 +6,14 @@ let
     group = config.users.users.minio.group;
     mode = "0755";
   };
+
+  folders = [
+    "/mnt/external/object-storage/minio"
+  ];
 in
 {
-  systemd.tmpfiles.settings."90-minio" = {
-    "/mnt/external/object-storage/minio" = {
-      "d" = globalRule; # Create a directory
-      "z" = globalRule; # Set mode/permissions to a directory, in case it already exists
-    };
+  systemd.tmpfiles.settings = {
+    "90-minio-create" = tmpfilesLib.applyRuleToFolders { "d" = globalRule; } folders;
+    "91-minio-set" = tmpfilesLib.applyRuleToFolders { "Z" = globalRule; } folders;
   };
 }
