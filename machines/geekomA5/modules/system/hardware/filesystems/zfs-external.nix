@@ -74,7 +74,7 @@
               mountpoint = "/mnt/external/data-library";
               quota = "1T";
               recordsize = "1M"; # Better read performance for "large" files like images, videos, etc.
-              "com.sun:auto-snapshot" = "false"; # Not worth saving (yet?)
+              "com.sun:auto-snapshot" = "true";
             };
             mountpoint = "/mnt/external/data-library"; # fstab mountpoint
           };
@@ -84,7 +84,7 @@
             options = {
               mountpoint = "/mnt/external/object-storage";
               quota = "500G";
-              "com.sun:auto-snapshot" = "false"; # Not worth saving (yet?)
+              "com.sun:auto-snapshot" = "true";
             };
             mountpoint = "/mnt/external/object-storage"; # fstab mountpoint
           };
@@ -97,27 +97,32 @@
   fileSystems = {
     "/mnt/external".options = [
       "nofail"
-      "x-systemd.requires=zfs.target"
+      "x-systemd.after=zfs.target"
+      "x-systemd.device-timeout=15s"
     ];
 
     "/mnt/external/immich-library".options = [
       "nofail"
-      "x-systemd.requires=zfs.target"
+      "x-systemd.after=zfs.target"
+      "x-systemd.device-timeout=15s"
     ];
 
     "/mnt/external/paperless-library".options = [
       "nofail"
-      "x-systemd.requires=zfs.target"
+      "x-systemd.after=zfs.target"
+      "x-systemd.device-timeout=15s"
     ];
 
     "/mnt/external/data-library".options = [
       "nofail"
-      "x-systemd.requires=zfs.target"
+      "x-systemd.after=zfs.target"
+      "x-systemd.device-timeout=15s"
     ];
 
     "/mnt/external/object-storage".options = [
       "nofail"
-      "x-systemd.requires=zfs.target"
+      "x-systemd.after=zfs.target"
+      "x-systemd.device-timeout=15s"
     ];
   };
 }
