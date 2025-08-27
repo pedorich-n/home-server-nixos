@@ -2,7 +2,7 @@
 {
   services = {
     minecraft-servers = {
-      enable = true;
+      enable = false;
       openFirewall = true;
       eula = true;
       dataDir = "/mnt/store/minecraft";
