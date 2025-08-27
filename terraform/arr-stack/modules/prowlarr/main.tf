@@ -2,6 +2,8 @@ locals {
   prowlarr_internal_url = "http://prowlarr:9696"
 }
 
+# NOTE - this requires manual import first
+# tofu import module.prowlarr.prowlarr_sync_profile.standard 1
 resource "prowlarr_sync_profile" "standard" {
   name                      = "Standard"
   enable_rss                = true

@@ -43,6 +43,7 @@ let
 
       "media/tv"
       "media/movies"
+      "media/music-videos"
       "media/audiobooks"
 
       "share"
