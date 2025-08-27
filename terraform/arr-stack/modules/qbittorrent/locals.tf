@@ -12,6 +12,9 @@ locals {
     bypass_auth_subnet_whitelist_enabled = true
     bypass_local_auth                    = true
 
+    auto_tmm_enabled  = true
+    temp_path_enabled = true
+
     save_path = "/data/downloads/torrent/complete"
     temp_path = "/data/downloads/torrent/incomplete"
 
