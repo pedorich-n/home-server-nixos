@@ -47,6 +47,19 @@
                   "compress=zstd"
                   "noatime"
                 ];
+
+                subvolumes = {
+                  "authentik" = { };
+                  "authentik/.snapshots" = { };
+                  "grist" = { };
+                  "grist/.snapshots" = { };
+                  "immich" = { };
+                  "immich/.snapshots" = { };
+                  "music-history" = { };
+                  "music-history/.snapshots" = { };
+                  "paperless" = { };
+                  "paperless/.snapshots" = { };
+                };
               };
             };
           };
