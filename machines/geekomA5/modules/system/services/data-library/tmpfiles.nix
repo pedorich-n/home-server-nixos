@@ -7,50 +7,53 @@ let
   storeRoot = "/mnt/store/data-library";
   externalRoot = "/mnt/external/data-library";
 
-  foldersToCreate =
-    (lib.map (folder: "${storeRoot}/${folder}") [
-      "audiobookshelf/config"
-      "audiobookshelf/metadata"
+  foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
+    "audiobookshelf/config"
+    "audiobookshelf/metadata"
 
-      "jellyfin/cache"
-      "jellyfin/config"
+    "jellyfin/cache"
+    "jellyfin/config"
 
-      "prowlarr/config"
+    "prowlarr/config"
 
-      "qbittorrent/config"
+    "qbittorrent/config"
 
-      "radarr/config"
+    "radarr/config"
 
-      "sabnzbd/config"
+    "sabnzbd/config"
 
-      "sonarr/config"
+    "sonarr/config"
 
-      "recyclarr/config"
-    ])
-    ++ (lib.map (folder: "${externalRoot}/${folder}") [
-      "downloads/usenet/incomplete"
-      "downloads/usenet/complete/tv"
-      "downloads/usenet/complete/movies"
-      "downloads/usenet/complete/audiobooks"
-      "downloads/usenet/complete/prowlarr"
+    "recyclarr/config"
+  ];
 
-      "downloads/torrent/temporary"
-      "downloads/torrent/incomplete"
-      "downloads/torrent/complete/tv"
-      "downloads/torrent/complete/movies"
-      "downloads/torrent/complete/audiobooks"
-      "downloads/torrent/complete/prowlarr"
+  foldersToCreateExternal = lib.map (folder: "${externalRoot}/${folder}") [
+    "downloads/usenet/incomplete"
+    "downloads/usenet/complete/tv"
+    "downloads/usenet/complete/movies"
+    "downloads/usenet/complete/audiobooks"
+    "downloads/usenet/complete/prowlarr"
 
-      "media/tv"
-      "media/movies"
-      "media/music-videos"
-      "media/audiobooks"
+    "downloads/torrent/temporary"
+    "downloads/torrent/incomplete"
+    "downloads/torrent/complete/tv"
+    "downloads/torrent/complete/movies"
+    "downloads/torrent/complete/audiobooks"
+    "downloads/torrent/complete/prowlarr"
 
-      "share"
-    ]);
+    "media/tv"
+    "media/movies"
+    "media/music-videos"
+    "media/audiobooks"
+
+    "share"
+  ];
 
   foldersToSetPermissions = [
     storeRoot
+  ];
+
+  foldersToSetPermissionsExternal = [
     externalRoot
   ];
 
@@ -63,9 +66,13 @@ in
 {
   systemd.tmpfiles.settings = {
     "90-data-library-create" = lib.mkMerge [
-      (tmpfilesLib.createFoldersUsingDefaultMediaRule foldersToCreate)
+      (tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate)
+      (tmpfilesLib.createFoldersUsingDefaultMediaRule foldersToCreateExternal)
       extraCreateRules
     ];
-    "91-data-library-set" = tmpfilesLib.setPermissionsUsingDefaultMediaRule foldersToSetPermissions;
+    "91-data-library-set" = lib.mkMerge [
+      (tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions)
+      (tmpfilesLib.setPermissionsUsingDefaultMediaRule foldersToSetPermissionsExternal)
+    ];
   };
 }
