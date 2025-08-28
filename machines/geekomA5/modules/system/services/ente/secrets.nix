@@ -15,7 +15,7 @@ in
       file = yamlFormat.generate "museum-config.yaml" {
         internal = {
           admins = [ 1580559962386438 ];
-          disable-registration = true;
+          disable-registration = false;
         };
         apps = {
           accounts = networkingLib.mkUrl "ente-accounts";

@@ -25,7 +25,6 @@ in
           enable = true;
           size = 65535;
         };
-        autoStart = true;
 
         containerConfig = {
           environments = {
@@ -58,7 +57,6 @@ in
           enable = true;
           size = containerLib.containerIds.uid + 500;
         };
-        autoStart = true;
 
         containerConfig = {
           environments = {
