@@ -1,12 +1,3 @@
-variable "base_url" {
-  type = string
-}
-
-variable "sonarr_api_key" {
-  type      = string
-  sensitive = true
-}
-
 variable "sabnzbd_download_client_fields" {
   type = object({
     enable   = bool

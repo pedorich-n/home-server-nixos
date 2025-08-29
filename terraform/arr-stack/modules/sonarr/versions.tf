@@ -11,8 +11,3 @@ terraform {
     }
   }
 }
-
-provider "sonarr" {
-  url     = var.base_url
-  api_key = var.sonarr_api_key
-}
