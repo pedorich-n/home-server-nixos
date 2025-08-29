@@ -28,6 +28,7 @@ module "sabnzbd" {
   base_url        = local.base_urls.sabnzbd
   api_key         = module.onepassword.secrets.SABnzbd.API.key
   sabnzbd_servers = module.onepassword.secrets.SABnzbd_Servers
+  server_domain   = var.server_domain
 }
 
 module "prowlarr" {

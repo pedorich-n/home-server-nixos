@@ -27,4 +27,11 @@ locals {
       quota       = "480G"
     }
   }
+
+  settings = {
+    direct_unpack  = "1"
+    download_dir   = "/data/downloads/usenet/incomplete"
+    complete_dir   = "/data/downloads/usenet/complete"
+    host_whitelist = "sabnzbd.${var.server_domain},sabnzbd"
+  }
 }

@@ -1,3 +1,20 @@
+resource "terracurl_request" "sabnzbd_settings" {
+  for_each = local.settings
+
+  name           = "setSettings_${each.key}"
+  method         = "POST"
+  url            = var.base_url
+  response_codes = local.default_response_codes
+  request_parameters = merge(local.default_request_parameters, {
+    mode    = "set_config"
+    section = "misc"
+    keyword = each.key
+    value   = each.value
+  })
+
+  destroy_skip = true
+}
+
 resource "terracurl_request" "sabnzbd_categories" {
   for_each = local.categories
 

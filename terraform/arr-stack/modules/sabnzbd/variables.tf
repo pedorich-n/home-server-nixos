@@ -1,3 +1,7 @@
+variable "server_domain" {
+  type = string
+}
+
 variable "base_url" {
   type = string
 }
@@ -8,6 +12,9 @@ variable "api_key" {
 }
 
 variable "sabnzbd_servers" {
-  type      = map(any)
+  type = map(object({
+    username = string
+    password = string
+  }))
   sensitive = true
 }
