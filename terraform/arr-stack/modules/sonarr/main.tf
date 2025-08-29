@@ -39,8 +39,6 @@ resource "sonarr_download_client_qbittorrent" "qbittorrent" {
   tv_category = "tv"
 }
 
-# NOTE - this requires manual import first
-# tofu import module.sonarr.sonarr_delay_profile.default 1
 resource "sonarr_delay_profile" "default" {
   enable_usenet                       = true
   enable_torrent                      = true

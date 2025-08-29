@@ -36,7 +36,13 @@ pkgs.mkShellNoCC {
 
       TF_CLI_ARGS_init="-backend-config=\"$ROOT/terraform/backblaze.s3.tfbackend\" -backend-config=\"access_key=''${s3_backend_application_key_id}\" -backend-config=\"secret_key=''${s3_backend_application_key}\" -backend-config=\"bucket=''${s3_backend_bucket}\""
 
-      export TF_CLI_ARGS_init
+      # Limit parallelism to 3 because 1Password CLI can't handle concurrency
+      parallelism_arg="-parallelism=3"
+
+      TF_CLI_ARGS_plan="$parallelism_arg"
+      TF_CLI_ARGS_apply="$parallelism_arg"
+
+      export TF_CLI_ARGS_init TF_CLI_ARGS_plan TF_CLI_ARGS_apply
 
       cd "$ROOT/terraform"
     fi

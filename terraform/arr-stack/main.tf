@@ -1,21 +1,6 @@
-locals {
-  base_urls = {
-    prowlarr    = "https://prowlarr.${var.server_domain}"
-    sonarr      = "https://sonarr.${var.server_domain}"
-    radarr      = "https://radarr.${var.server_domain}"
-    qbittorrent = "https://qbittorrent.${var.server_domain}/api/v2"
-    sabnzbd     = "https://sabnzbd.${var.server_domain}/api"
-  }
-}
-
 module "onepassword" {
   source = "../modules/onepassword"
   items  = ["Prowlarr", "Prowlarr_Indexers", "Sonarr", "Radarr", "SABnzbd", "SABnzbd_Servers"]
-}
-
-module "arr_stack_shared" {
-  source          = "./modules/arr-shared"
-  sabnznd_api_key = module.onepassword.secrets.SABnzbd.API.key
 }
 
 module "qbittorrent" {
@@ -33,8 +18,8 @@ module "sabnzbd" {
 
 module "radarr" {
   source                             = "./modules/radarr"
-  sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
-  qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client
+  sabnzbd_download_client_fields     = local.download_clients.sabnzbd
+  qbittorrent_download_client_fields = local.download_clients.qbittorrent
 
   providers = {
     radarr = radarr
@@ -48,8 +33,8 @@ module "radarr" {
 
 module "sonarr" {
   source                             = "./modules/sonarr"
-  sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
-  qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client
+  sabnzbd_download_client_fields     = local.download_clients.sabnzbd
+  qbittorrent_download_client_fields = local.download_clients.qbittorrent
 
   providers = {
     sonarr = sonarr
@@ -66,8 +51,8 @@ module "prowlarr" {
   indexer_credentials                = module.onepassword.secrets.Prowlarr_Indexers
   radarr_api_key                     = module.onepassword.secrets.Radarr.API.key
   sonarr_api_key                     = module.onepassword.secrets.Sonarr.API.key
-  sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
-  qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client
+  sabnzbd_download_client_fields     = local.download_clients.sabnzbd
+  qbittorrent_download_client_fields = local.download_clients.qbittorrent
 
   providers = {
     prowlarr = prowlarr
