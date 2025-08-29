@@ -1,9 +1,3 @@
-terraform {
-  backend "s3" {
-    key = "homelab/arr-stack/terraform.tfstate"
-  }
-}
-
 provider "prowlarr" {
   url     = local.base_urls.prowlarr
   api_key = module.onepassword.secrets.Prowlarr.API.key
