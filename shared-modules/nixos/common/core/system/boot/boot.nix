@@ -6,8 +6,8 @@
 
   boot = {
     loader = {
-      efi.canTouchEfiVariables = true;
-      timeout = lib.mkDefault 5;
+      efi.canTouchEfiVariables = lib.mkDefault true;
+      timeout = lib.mkDefault 10;
     };
   };
 }
