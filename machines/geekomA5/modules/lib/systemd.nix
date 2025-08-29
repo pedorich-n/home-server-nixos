@@ -5,6 +5,11 @@ _: {
       After = services;
     };
 
+    wantsAfter = services: {
+      Wants = services;
+      After = services;
+    };
+
     bindsToAfter = services: {
       BindsTo = services;
       After = services;

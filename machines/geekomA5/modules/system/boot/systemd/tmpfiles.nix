@@ -1,15 +1,8 @@
-let
-  after = [ "zfs-mount.service" ];
-  wants = [ "zfs-mount.service" ];
-in
+{ systemdLib, ... }:
 {
   systemd.services = {
-    systemd-tmpfiles-setup = {
-      inherit after wants;
-    };
+    systemd-tmpfiles-setup.unitConfig = systemdLib.wantsAfter [ "zfs.target" ];
 
-    systemd-tmpfiles-resetup = {
-      inherit after wants;
-    };
+    systemd-tmpfiles-resetup.unitConfig = systemdLib.wantsAfter [ "zfs.target" ];
   };
 }
