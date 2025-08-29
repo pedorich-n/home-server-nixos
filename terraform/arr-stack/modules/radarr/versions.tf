@@ -11,8 +11,3 @@ terraform {
     }
   }
 }
-
-provider "radarr" {
-  url     = var.base_url
-  api_key = var.radarr_api_key
-}

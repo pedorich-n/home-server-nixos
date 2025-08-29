@@ -31,29 +31,52 @@ module "sabnzbd" {
   server_domain   = var.server_domain
 }
 
-module "prowlarr" {
-  source                             = "./modules/prowlarr"
-  indexer_credentials                = module.onepassword.secrets.Prowlarr_Indexers
-  base_url                           = local.base_urls.prowlarr
-  prowlarr_api_key                   = module.onepassword.secrets.Prowlarr.API.key
-  radarr_api_key                     = module.onepassword.secrets.Radarr.API.key
-  sonarr_api_key                     = module.onepassword.secrets.Sonarr.API.key
-  sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
-  qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client
-}
-
 module "radarr" {
   source                             = "./modules/radarr"
-  base_url                           = local.base_urls.radarr
-  radarr_api_key                     = module.onepassword.secrets.Radarr.API.key
   sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
   qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client
+
+  providers = {
+    radarr = radarr
+  }
+
+  depends_on = [
+    module.qbittorrent,
+    module.sabnzbd
+  ]
 }
 
 module "sonarr" {
   source                             = "./modules/sonarr"
-  base_url                           = local.base_urls.sonarr
+  sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
+  qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client
+
+  providers = {
+    sonarr = sonarr
+  }
+
+  depends_on = [
+    module.qbittorrent,
+    module.sabnzbd
+  ]
+}
+
+module "prowlarr" {
+  source                             = "./modules/prowlarr"
+  indexer_credentials                = module.onepassword.secrets.Prowlarr_Indexers
+  radarr_api_key                     = module.onepassword.secrets.Radarr.API.key
   sonarr_api_key                     = module.onepassword.secrets.Sonarr.API.key
   sabnzbd_download_client_fields     = module.arr_stack_shared.sabnznd_download_client
   qbittorrent_download_client_fields = module.arr_stack_shared.qbittorrent_download_client
+
+  providers = {
+    prowlarr = prowlarr
+  }
+
+  depends_on = [
+    module.qbittorrent,
+    module.sabnzbd,
+    module.radarr,
+    module.sonarr
+  ]
 }
