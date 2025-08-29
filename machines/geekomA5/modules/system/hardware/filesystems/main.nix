@@ -35,12 +35,22 @@
             store = {
               priority = 300;
               size = "100%"; # Whatever left
-              type = "8300"; # Linux filesystem
               label = "store";
               content = {
-                type = "filesystem";
-                format = "ext4";
+                type = "btrfs";
+                extraArgs = [
+                  "-L"
+                  "store"
+                ];
                 mountpoint = "/mnt/store";
+                mountOptions = [
+                  "compress=zstd"
+                  "noatime"
+                ];
+
+                subvolumes = {
+                  ".snapshots" = { };
+                };
               };
             };
           };

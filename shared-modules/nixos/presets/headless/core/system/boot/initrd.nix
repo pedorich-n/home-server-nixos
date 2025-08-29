@@ -4,6 +4,9 @@
   pkgs,
   ...
 }:
+let
+  mkDefaultIfInitrd = attr: lib.mkIf config.boot.initrd.systemd.enable (lib.mkOverride 950 attr);
+in
 {
   boot.initrd = {
     supportedFilesystems = {
@@ -22,7 +25,9 @@
     ];
 
     systemd = {
-      network.enable = lib.mkIf config.boot.initrd.systemd.enable (lib.mkOverride 950 true);
+      emergencyAccess = lib.mkDefault true;
+
+      network.enable = mkDefaultIfInitrd true;
 
       initrdBin = with pkgs; [
         bashInteractive
@@ -34,7 +39,7 @@
     };
 
     services.resolved = {
-      enable = lib.mkIf config.boot.initrd.systemd.enable (lib.mkOverride 950 true);
+      enable = mkDefaultIfInitrd true;
     };
 
     network.ssh = lib.mkMerge [

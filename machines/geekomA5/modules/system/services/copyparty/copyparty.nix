@@ -2,6 +2,7 @@
   config,
   pkgs-unstable,
   networkingLib,
+  systemdLib,
   ...
 }:
 let
@@ -20,6 +21,10 @@ in
   users.users.copyparty.extraGroups = [
     "media"
   ];
+
+  systemd.services.copyparty = {
+    unitConfig = systemdLib.requiresAfter [ "zfs.target" ];
+  };
 
   services = {
     copyparty = {

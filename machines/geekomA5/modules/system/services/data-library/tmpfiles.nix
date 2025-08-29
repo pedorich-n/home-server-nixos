@@ -7,63 +7,53 @@ let
   storeRoot = "/mnt/store/data-library";
   externalRoot = "/mnt/external/data-library";
 
-  foldersToCreate =
-    (lib.map (folder: "${storeRoot}/${folder}") [
-      "audiobookshelf"
-      "audiobookshelf/config"
-      "audiobookshelf/metadata"
+  foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
+    "audiobookshelf/config"
+    "audiobookshelf/metadata"
 
-      "jellyfin"
-      "jellyfin/cache"
-      "jellyfin/config"
+    "jellyfin/cache"
+    "jellyfin/config"
 
-      "prowlarr"
-      "prowlarr/config"
+    "prowlarr/config"
 
-      "qbittorrent"
-      "qbittorrent/config"
+    "qbittorrent/config"
 
-      "radarr"
-      "radarr/config"
+    "radarr/config"
 
-      "sabnzbd"
-      "sabnzbd/config"
+    "sabnzbd/config"
 
-      "sonarr"
-      "sonarr/config"
+    "sonarr/config"
 
-      "recyclarr"
-      "recyclarr/config"
-      "recyclarr/config/configs"
-    ])
-    ++ (lib.map (folder: "${externalRoot}/${folder}") [
-      "downloads/usenet"
-      "downloads/usenet/incomplete"
-      "downloads/usenet/complete"
-      "downloads/usenet/complete/tv"
-      "downloads/usenet/complete/movies"
-      "downloads/usenet/complete/audiobooks"
-      "downloads/usenet/complete/prowlarr"
+    "recyclarr/config"
+  ];
 
-      "downloads/torrent"
-      "downloads/torrent/temporary"
-      "downloads/torrent/incomplete"
-      "downloads/torrent/complete"
-      "downloads/torrent/complete/tv"
-      "downloads/torrent/complete/movies"
-      "downloads/torrent/complete/audiobooks"
-      "downloads/torrent/complete/prowlarr"
+  foldersToCreateExternal = lib.map (folder: "${externalRoot}/${folder}") [
+    "downloads/usenet/incomplete"
+    "downloads/usenet/complete/tv"
+    "downloads/usenet/complete/movies"
+    "downloads/usenet/complete/audiobooks"
+    "downloads/usenet/complete/prowlarr"
 
-      "media"
-      "media/tv"
-      "media/movies"
-      "media/audiobooks"
+    "downloads/torrent/temporary"
+    "downloads/torrent/incomplete"
+    "downloads/torrent/complete/tv"
+    "downloads/torrent/complete/movies"
+    "downloads/torrent/complete/audiobooks"
+    "downloads/torrent/complete/prowlarr"
 
-      "share"
-    ]);
+    "media/tv"
+    "media/movies"
+    "media/music-videos"
+    "media/audiobooks"
+
+    "share"
+  ];
 
   foldersToSetPermissions = [
     storeRoot
+  ];
+
+  foldersToSetPermissionsExternal = [
     externalRoot
   ];
 
@@ -76,9 +66,13 @@ in
 {
   systemd.tmpfiles.settings = {
     "90-data-library-create" = lib.mkMerge [
-      (tmpfilesLib.createFoldersUsingDefaultMediaRule foldersToCreate)
+      (tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate)
+      (tmpfilesLib.createFoldersUsingDefaultMediaRule foldersToCreateExternal)
       extraCreateRules
     ];
-    "91-data-library-set" = tmpfilesLib.setPermissionsUsingDefaultMediaRule foldersToSetPermissions;
+    "91-data-library-set" = lib.mkMerge [
+      (tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions)
+      (tmpfilesLib.setPermissionsUsingDefaultMediaRule foldersToSetPermissionsExternal)
+    ];
   };
 }

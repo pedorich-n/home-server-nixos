@@ -102,7 +102,7 @@ in
         containerConfig = {
           environments = defaultEnvs;
           volumes = [
-            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/qbittorrent/config" "/config")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/qbittorrent/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
             "${./qbittorrent/auto_unrar.sh}:/opt/scripts/auto_unrar.sh"
           ];
@@ -125,7 +125,7 @@ in
             PORT = "8080";
           };
           volumes = [
-            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/sabnzbd/config" "/config")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/sabnzbd/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
           ];
           labels =
@@ -149,7 +149,7 @@ in
         containerConfig = {
           environments = defaultEnvs;
           volumes = [
-            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/prowlarr/config" "/config")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/prowlarr/config" "/config")
           ];
           labels =
             (containerLib.mkTraefikLabels {
@@ -173,7 +173,7 @@ in
         containerConfig = {
           environments = defaultEnvs;
           volumes = [
-            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/sonarr/config" "/config")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/sonarr/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
           labels =
@@ -199,7 +199,7 @@ in
         containerConfig = {
           environments = defaultEnvs;
           volumes = [
-            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/radarr/config" "/config")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/radarr/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
           labels =
@@ -229,7 +229,7 @@ in
             config.sops.secrets."data-library/recyclarr.env".path
           ];
           volumes = [
-            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/recyclarr/config" "/config")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/recyclarr/config" "/config")
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -268,8 +268,8 @@ in
             JELLYFIN_PublishedServerUrl = networkingLib.mkUrl "jellyfin";
           };
           volumes = [
-            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/jellyfin/config" "/config")
-            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/jellyfin/cache" "/cache")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/jellyfin/config" "/config")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/jellyfin/cache" "/cache")
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media" "/media")
           ];
           labels = containerLib.mkTraefikLabels {
@@ -301,8 +301,8 @@ in
             PORT = "8080";
           };
           volumes = [
-            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/audiobookshelf/config" "/config")
-            (containerLib.mkMappedVolumeForUserMedia "${storeRoot}/audiobookshelf/metadata" "/metadata")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/audiobookshelf/config" "/config")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/audiobookshelf/metadata" "/metadata")
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/audiobooks" "/audiobooks")
           ];
           labels = containerLib.mkTraefikLabels {

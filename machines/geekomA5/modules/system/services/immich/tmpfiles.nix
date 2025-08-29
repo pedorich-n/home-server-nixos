@@ -4,14 +4,9 @@ let
   externalRoot = "/mnt/external/immich-library";
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
-    "cache"
     "cache/thumbnails"
     "cache/profile"
     "cache/machine-learning"
-
-    # "machine-learning"
-    # "machine-learning/.cache"
-    # "machine-learning/.config"
 
     "postgresql"
 

@@ -3,7 +3,6 @@ let
   storeRoot = "/mnt/store/core-keeper-servers";
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
-    "underground-monkeys"
     "underground-monkeys/server-data"
     "underground-monkeys/server-files"
   ];

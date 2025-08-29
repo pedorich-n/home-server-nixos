@@ -2,6 +2,7 @@
   config,
   pkgs-unstable,
   networkingLib,
+  systemdLib,
   ...
 }:
 let
@@ -19,8 +20,12 @@ in
     };
   };
 
-  systemd.services.minio.environment = {
-    MINIO_API_CORS_ALLOW_ORIGIN = "*";
+  systemd.services.minio = {
+    environment = {
+      MINIO_API_CORS_ALLOW_ORIGIN = "*";
+    };
+
+    unitConfig = systemdLib.requiresAfter [ "zfs.target" ];
   };
 
   environment.systemPackages = [

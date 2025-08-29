@@ -1,6 +1,7 @@
 {
   config,
   containerLib,
+  networkingLib,
   pkgs,
   ...
 }:
@@ -30,7 +31,7 @@ in
             inherit (containerLib.containerIds) PUID PGID;
             TZ = config.time.timeZone;
 
-            BASE_URL = "http://multiscrobbler.${config.custom.networking.domain}:80";
+            BASE_URL = networkingLib.mkUrl "multiscrobbler";
 
             LOG_LEVEL = "INFO";
           };
@@ -38,7 +39,6 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/multi-scrobbler/config" "/config")
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/spotify.json".path "/config/spotify.json")
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/maloja.json".path "/config/maloja.json")
-            "${./multi-scrobbler/webscrobbler.json}:/config/webscrobbler.json"
           ];
           labels = containerLib.mkTraefikLabels {
             name = "multiscrobbler-secure";

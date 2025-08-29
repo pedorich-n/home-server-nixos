@@ -5,12 +5,15 @@ locals {
 
   default_response_codes = ["200"]
 
-  categories = toset(["movies", "audiobooks", "prowlarr"]) # TODO: add "tv" once possible
+  categories = toset(["movies", "audiobooks", "prowlarr", "tv"])
 
   preferences = {
     bypass_auth_subnet_whitelist         = "0.0.0.0/0"
     bypass_auth_subnet_whitelist_enabled = true
     bypass_local_auth                    = true
+
+    auto_tmm_enabled  = true
+    temp_path_enabled = true
 
     save_path = "/data/downloads/torrent/complete"
     temp_path = "/data/downloads/torrent/incomplete"

@@ -9,6 +9,7 @@ in
       enable = true;
       size = 65535;
     };
+    autoStart = false;
 
     containerConfig = {
       environments = {
