@@ -1,9 +1,6 @@
-{ inputs, ... }:
 {
-  disabledModules = [ "services/hardware/auto-cpufreq.nix" ];
-  imports = [ inputs.auto-cpufreq.nixosModules.default ];
 
-  programs.auto-cpufreq = {
+  services.auto-cpufreq = {
     enable = true;
     settings = {
       charger = {

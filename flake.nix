@@ -4,7 +4,7 @@
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-netdata.url = "github:hatch01/nixpkgs/netdata";
+    # nixpkgs-netdata.url = "github:hatch01/nixpkgs/netdata";
 
     systems.url = "github:nix-systems/default-linux";
     flake-parts = {
@@ -36,13 +36,6 @@
         nixpkgs-cassandra.follows = "";
         nix-vscode-extensions.follows = "";
         rust-overlay.follows = "";
-      };
-    };
-
-    auto-cpufreq = {
-      url = "github:AdnanHodzic/auto-cpufreq";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
       };
     };
 
