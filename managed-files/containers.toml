@@ -1,8 +1,8 @@
 [audiobookshelf]
-digest = 'sha256:b854ec08b1a7bee67c3274f1df5dce2143f48e05cbce5ada356c38662694f7fe'
+digest = 'sha256:dd4a3079d26bfe9f0ea63de3e3eff483dfa25fef05ef850a5a9d121dca3794b2'
 image = 'advplyr/audiobookshelf'
 registry = 'ghcr.io'
-version = '2.28.0'
+version = '2.29.0'
 versioning = 'semver'
 
 [authentik-postgresql]
@@ -55,7 +55,7 @@ version = '15.14-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:ba0f2fb33f19e60ee065a63f95cfbb53a8faad29f476e82269b7bc793b57c889'
+digest = 'sha256:7f7eeecd95f772d8b6108adac42fc39f7f520562175a92521093abc2d46e9b13'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
@@ -69,10 +69,10 @@ version = 'v3.40.0'
 versioning = 'semver'
 
 [grist]
-digest = 'sha256:b7957412adaafba5eb43b13b9a40f5a67b3b72f2da02a4045d4008fa26d1365f'
+digest = 'sha256:6276701cfaaaf4a11f5ac77afa31faadab1aee24f0f2ccd5d68a55075e53802a'
 image = 'gristlabs/grist'
 registry = 'docker.io'
-version = '1.7.2'
+version = '1.7.3'
 versioning = 'semver'
 
 [homeassistant]
@@ -90,24 +90,24 @@ version = '17.6-alpine'
 versioning = 'docker'
 
 [immich-machine-learning]
-digest = 'sha256:735cacb990861a2e8e69ee71389d5551d4ca1db426b330c7c5a83ab28901b3b0'
+digest = 'sha256:20b1a58406882400c25909054628ee98565dde88e3e028235f5da493ca33b11a'
 image = 'immich-app/immich-machine-learning'
 registry = 'ghcr.io'
-version = 'v1.139.2'
+version = 'v1.140.0'
 versioning = 'semver'
 
 [immich-postgresql]
-digest = 'sha256:834049bf4c4e253b2db658e3585ca16535e9b548cb69de1e2a0e3599da2fd5de'
+digest = 'sha256:b20b880be059980a971b019cec608ec26e739f12a974360d26035ff6f750b63d'
 image = 'immich-app/postgres'
 registry = 'ghcr.io'
 version = '14-vectorchord0.4.3-pgvectors0.3.0'
 versioning = 'regex:^(?<major>14)-vectorchord(?<minor>0\.4\.\d+)'
 
 [immich-server]
-digest = 'sha256:ccfca8a87a65914ab23164efa1f6392940629a2a54ed71bce87049713d926426'
+digest = 'sha256:761a60e899bcc00e86018085babf21f8dd68e38f5b48d3e817271f1f74705a16'
 image = 'immich-app/immich-server'
 registry = 'ghcr.io'
-version = 'v1.139.2'
+version = 'v1.140.0'
 versioning = 'semver'
 
 [immich-valkey]
@@ -174,7 +174,7 @@ version = '1.37.0'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:e18ca174d53f4b065884aa36564598395142fb450968f3ef95aaa5eaaa90cb42'
+digest = 'sha256:ebfd00848045b30298bcb43627e24bd98ff2bbf584d9b3e62257586de85bcb15'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.1.2'
@@ -182,7 +182,7 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [radarr]
-digest = 'sha256:c2adf66bafefa781401d07d358e399c476bdffb9a179a2780bb465bda8a55a51'
+digest = 'sha256:7eb64f5af8bbe48e79bc55c0c37ca8db89b2f073a9ff0094f603916ae1df9de8'
 image = 'linuxserver/radarr'
 registry = 'docker.io'
 version = '5.26.2'
@@ -196,14 +196,14 @@ version = '7.4.1'
 versioning = 'semver'
 
 [sabnzbd]
-digest = 'sha256:371fd7665789ee0c1961c4d15bbd43d85ef2af0145c0e740c505ccd4fff72d16'
+digest = 'sha256:5a3196d71c12603bb0e7ceb83e4b38876510b7ba008d174d7081b69d6dbabd55'
 image = 'linuxserver/sabnzbd'
 registry = 'docker.io'
-version = '4.5.2'
+version = '4.5.3'
 versioning = 'semver'
 
 [sonarr]
-digest = 'sha256:1a90192952c30f9420994b2e2171083ea8cae100357de5e9eb25890efa90a6ce'
+digest = 'sha256:e00e87e0e7c24fdc992093756f120a6ab292790b6a637ff3641bf813091cd726'
 image = 'linuxserver/sonarr'
 registry = 'docker.io'
 version = '4.0.15'
