@@ -2,7 +2,7 @@ terraform {
   required_providers {
     corefunc = {
       source  = "northwood-labs/corefunc"
-      version = "~> 1.5.1"
+      version = "~> 2.1.0"
     }
 
     b2 = {
