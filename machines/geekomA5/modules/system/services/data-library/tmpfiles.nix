@@ -34,12 +34,12 @@ let
     "downloads/usenet/complete/audiobooks"
     "downloads/usenet/complete/prowlarr"
 
-    "downloads/torrent/temporary"
     "downloads/torrent/incomplete"
     "downloads/torrent/complete/tv"
     "downloads/torrent/complete/movies"
     "downloads/torrent/complete/audiobooks"
     "downloads/torrent/complete/prowlarr"
+    "downloads/torrent/complete/others"
 
     "media/tv"
     "media/movies"
