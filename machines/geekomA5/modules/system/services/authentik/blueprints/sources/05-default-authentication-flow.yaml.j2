@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://version-2024-10.goauthentik.io/blueprints/schema.json
+version: 1
+metadata:
+  name: adjust-default-authentication-flow
+  labels:
+    blueprints.goauthentik.io/description: "Default Authentication Flow to show both username and password on the same page"
+entries:
+  # Show password field on the same page as username
+  - model: authentik_stages_identification.identificationstage
+    state: present
+    identifiers:
+      name: default-authentication-identification
+    attrs:
+      password_stage: !Find [authentik_stages_password.passwordstage, [name, default-authentication-password]]
+      user_fields:
+        - username
+        - email
