@@ -48,6 +48,7 @@ in
       maloja.timerConfig.OnCalendar = mkEveryDayAt "02:35:00";
       paperless.timerConfig.OnCalendar = mkEveryDayAt "02:40:00";
       homeassistant.timerConfig.OnCalendar = mkEveryDayAt "02:45:00";
+      jellyfin.timerConfig.OnCalendar = mkEveryDayAt "02:50:00";
     };
   };
 }
