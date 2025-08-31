@@ -43,11 +43,18 @@ in
     environment.systemPackages = [ package ];
 
     services.restic.backups = {
+      # Potentially takes a long time
       immich.timerConfig.OnCalendar = mkEveryDayAt "02:00:00";
-      grist.timerConfig.OnCalendar = mkEveryDayAt "02:30:00";
-      maloja.timerConfig.OnCalendar = mkEveryDayAt "02:35:00";
-      paperless.timerConfig.OnCalendar = mkEveryDayAt "02:40:00";
-      homeassistant.timerConfig.OnCalendar = mkEveryDayAt "02:45:00";
+
+      # Takes a couple of minutes due to service stop and start
+      jellyfin.timerConfig.OnCalendar = mkEveryDayAt "02:15:00";
+
+      # Short ones
+      audiobookshelf.timerConfig.OnCalendar = mkEveryDayAt "02:30:00";
+      grist.timerConfig.OnCalendar = mkEveryDayAt "02:31:00";
+      maloja.timerConfig.OnCalendar = mkEveryDayAt "02:32:00";
+      paperless.timerConfig.OnCalendar = mkEveryDayAt "02:33:00";
+      homeassistant.timerConfig.OnCalendar = mkEveryDayAt "02:34:00";
     };
   };
 }
