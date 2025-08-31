@@ -90,10 +90,10 @@ version = '17.6-alpine'
 versioning = 'docker'
 
 [immich-machine-learning]
-digest = 'sha256:20b1a58406882400c25909054628ee98565dde88e3e028235f5da493ca33b11a'
+digest = 'sha256:7c78ce7562246a5126d62bed9ba609f7129842a3f4c243b99e2dd68fb0ba43a7'
 image = 'immich-app/immich-machine-learning'
 registry = 'ghcr.io'
-version = 'v1.140.0'
+version = 'v1.140.1'
 versioning = 'semver'
 
 [immich-postgresql]
@@ -104,10 +104,10 @@ version = '14-vectorchord0.4.3-pgvectors0.3.0'
 versioning = 'regex:^(?<major>14)-vectorchord(?<minor>0\.4\.\d+)'
 
 [immich-server]
-digest = 'sha256:761a60e899bcc00e86018085babf21f8dd68e38f5b48d3e817271f1f74705a16'
+digest = 'sha256:92effed36e8fd55dc46e3f50cf891fd12f8f5429aaf646ef99fee938bb1e38af'
 image = 'immich-app/immich-server'
 registry = 'ghcr.io'
-version = 'v1.140.0'
+version = 'v1.140.1'
 versioning = 'semver'
 
 [immich-valkey]
@@ -174,7 +174,7 @@ version = '2.0.5'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:ebfd00848045b30298bcb43627e24bd98ff2bbf584d9b3e62257586de85bcb15'
+digest = 'sha256:d464a92d5656f1fa66baafe610a06a6cafd4bdf900a245e6f20b220f281b456d'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.1.2'
