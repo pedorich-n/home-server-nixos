@@ -5,7 +5,8 @@ resource "terracurl_request" "qbittorrent_preferences" {
   response_codes = local.default_response_codes
   headers        = local.default_headers
   request_body   = "json=${jsonencode(local.preferences)}"
-  destroy_skip   = true
+
+  skip_destroy = true
 }
 
 resource "terracurl_request" "qbittorrent_categories" {

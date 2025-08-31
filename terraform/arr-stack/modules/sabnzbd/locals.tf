@@ -1,8 +1,4 @@
 locals {
-  default_headers = {
-    "Content-Type" = "application/x-www-form-urlencoded"
-  }
-
   default_response_codes = ["200"]
 
   default_request_parameters = {

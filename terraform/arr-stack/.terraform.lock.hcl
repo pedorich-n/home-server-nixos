@@ -25,16 +25,21 @@ provider "registry.opentofu.org/1password/onepassword" {
 }
 
 provider "registry.opentofu.org/devops-rob/terracurl" {
-  version     = "1.2.2"
-  constraints = "~> 1.2.2"
+  version     = "2.1.0"
+  constraints = "~> 2.1.0"
   hashes = [
-    "h1:8J9LmLQUoUqRlohX3oat3FculIrxzvrfrlDaKh3M5DI=",
-    "zh:2eb990a827dff68493afe538eb2ca2a27641fa48aae0db0579f863aba444aa8c",
-    "zh:4f095cd60d8f4074e4452d27da49a2181b4f38b13ca7357dd8bccc3580a2e8d6",
-    "zh:55aa8b8fb84067a08915674d4fe131bc0794a5f888f16256ab7242e2a2a4a823",
-    "zh:57fd9d9c95dd2f94c6052fb856d5c03efb0d5189a718a5ee0a8c7524b242ad30",
-    "zh:c700a1554c009f4b03712b9774c54245e0bfae13044d5fbe97105dc08000c04e",
-    "zh:c86952d18ada325d1ca9a10e79c7d0046f811cff8bac18e64e7136ad08042640",
+    "h1:/Fg3iZ+gSePNMeWFEm+VbHOWGNg9S82kGCg9o4c5xtw=",
+    "h1:RY+mLsFOrgzoEEle4uROwI6c3HVSyTTcK2lW0ZFPOVg=",
+    "h1:V3s4ogVeNcCt+7y49ZjszWC9dXoWbz5HZqcLWuYHefM=",
+    "h1:jGfLQCvC14pbbhQLAug7P2+v6NmnfWhWoh8rLAuYPuA=",
+    "h1:uHvOLcpr/lkCHjY6/0UQllB66gX3NAWA+XLXAh2MoKw=",
+    "h1:zI4QMfrQioCFX9PYlVEkq/rQOH5c/lFSE7KKKQZ/omE=",
+    "zh:1ae8588d83a3ee3f270788207643fb435f4bb7cbf194edfa8c5c1628c2bf7d76",
+    "zh:3bcc038010c63a00867d467494d328f821887b5c44e2eaaf54144184c4251ee1",
+    "zh:73eafa4d6aefc2fed5d430bfd779bfadc03722d68d65ffb276079696c4bc5529",
+    "zh:9752cd3280abb509be029c6190dc812fb43efa2f8c398ff30afcc27c3c8974da",
+    "zh:a49f5ab9f44dd1f3d94a8bd56c62c91074fd186f4a78d6f4655f27c9c5308751",
+    "zh:d31e4f4a473fde202efe426791b34d8342f6b1b984daaa48887b440ee6af96e8",
   ]
 }
 
