@@ -12,7 +12,23 @@ resource "terracurl_request" "sabnzbd_settings" {
     value   = each.value
   })
 
-  destroy_skip = true
+  read_url            = var.base_url
+  read_method         = "GET"
+  read_response_codes = local.default_response_codes
+  read_parameters = merge(local.default_request_parameters, {
+    mode    = "get_config"
+    section = "misc"
+    keyword = each.key
+  })
+  skip_read = false
+
+  destroy_url            = var.base_url
+  destroy_method         = "DELETE"
+  destroy_response_codes = local.default_response_codes
+  destroy_request_parameters = merge(local.default_request_parameters, {
+    mode    = "set_config_default"
+    keyword = each.key
+  })
 }
 
 resource "terracurl_request" "sabnzbd_categories" {
@@ -29,13 +45,24 @@ resource "terracurl_request" "sabnzbd_categories" {
     dir     = each.key
   })
 
-  destroy_skip = true
+  read_url            = var.base_url
+  read_method         = "GET"
+  read_response_codes = local.default_response_codes
+  read_parameters = merge(local.default_request_parameters, {
+    mode    = "get_config"
+    section = "categories"
+    keyword = each.key
+  })
+  skip_read = false
 
-  #   destroy_request_parameters = merge(local.default_request_parameters, {
-  #     mode    = "del_config"
-  #     section = "categories"
-  #     keyword = each.key
-  #   })
+  destroy_url            = var.base_url
+  destroy_method         = "DELETE"
+  destroy_response_codes = local.default_response_codes
+  destroy_request_parameters = merge(local.default_request_parameters, {
+    mode    = "del_config"
+    section = "categories"
+    keyword = each.key
+  })
 }
 
 resource "terracurl_request" "sabnzbd_servers" {
@@ -60,11 +87,22 @@ resource "terracurl_request" "sabnzbd_servers" {
     password = var.sabnzbd_servers[each.key].password
   })
 
-  destroy_skip = true
+  read_url            = var.base_url
+  read_method         = "GET"
+  read_response_codes = local.default_response_codes
+  read_parameters = merge(local.default_request_parameters, {
+    mode    = "get_config"
+    section = "servers"
+    keyword = each.key
+  })
+  skip_read = false
 
-  #   destroy_request_parameters = merge(local.default_request_parameters, {
-  #     mode    = "del_config"
-  #     section = "servers"
-  #     keyword = each.key
-  #   })
+  destroy_url            = var.base_url
+  destroy_method         = "DELETE"
+  destroy_response_codes = local.default_response_codes
+  destroy_request_parameters = merge(local.default_request_parameters, {
+    mode    = "del_config"
+    section = "servers"
+    keyword = each.key
+  })
 }
