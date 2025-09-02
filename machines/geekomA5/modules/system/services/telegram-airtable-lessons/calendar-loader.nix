@@ -13,19 +13,19 @@ in
 
   services = {
     lessons-calendar-loader = {
-      enable = false;
+      enable = true;
       configFile = config.sops.secrets."telegram-airtable-lessons/calendar_loader.toml".path;
       inherit user group;
     };
 
     lessons-calendar-loader-scheduler-cron = {
-      enable = false;
+      enable = true;
       username = user;
 
       baseUrl = "http://localhost:${portsCfg.portStr}";
 
       schedules = {
-        "a7620a98-5378-4749-b73c-350e1dcc72b5" = {
+        "3fde21a1-f908-420c-bba4-255446e89fab" = {
           dumpEvents = "0 17 * * Sun";
           # refreshToken = "Wed *-*-* 15:00:00";
         };

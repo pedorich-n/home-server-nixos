@@ -32,6 +32,7 @@
 
     runtimePackages = with pkgs; [
       uv
+      python313
       git
       openssh
       config.nix.package
@@ -63,6 +64,14 @@
 
       platform = "github";
       gitAuthor = "pedorich-n Renovate <224430504+pedorich-n-renovate[bot]@users.noreply.github.com>";
+
+      allowedEnv = [
+        "UV_NO_MANAGED_PYTHON"
+      ];
+
+      env = {
+        UV_NO_MANAGED_PYTHON = "1";
+      };
 
       # Managers/tools/etc
       nix.enabled = true; # https://docs.renovatebot.com/modules/manager/nix/
