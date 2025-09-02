@@ -4,4 +4,4 @@
 {% set redirect_uris = [ utils.generate_url("immich") + "/auth/login",
                          utils.generate_url("immich") + "/user-settings",
                          "app.immich:///oauth-callback" ] %}
-{{ oidc_entry(name="Immich", slug="immich", application_group=applicationGroups.media, redirect_uris=redirect_uris) }}
+{{ oidc_entry(name="Immich", slug="immich", application_group=applicationGroups.media, redirect_uris=redirect_uris, extra_property_mappings=[ "immich_role" ]) }}
