@@ -14,6 +14,8 @@
       media = {
         gid = 950;
       };
+
+      fuse = { };
     };
 
     users = {
