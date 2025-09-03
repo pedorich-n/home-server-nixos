@@ -3,6 +3,9 @@
   "extends": [
     "local>pedorich-n/renovate-config"
   ],
+  "nix": {
+    "enabled": false
+  },
   "customManagers": [
     {
       "customType": "regex",

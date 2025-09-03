@@ -74,7 +74,7 @@
       };
 
       # Managers/tools/etc
-      nix.enabled = false; # Doesn't work properly, sadly
+      nix.enabled = true; # Doesn't work properly, sadly
       lockFileMaintenance.enabled = true; # https://docs.renovatebot.com/configuration-options/#lockfilemaintenance
       git-submodules.enabled = true; # https://docs.renovatebot.com/modules/manager/git-submodules/
 
