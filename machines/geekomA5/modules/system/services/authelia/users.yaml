@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://www.authelia.com/schemas/latest/json-schema/user-database.json
+users:
+  admin:
+    displayname: "Admin"
+    email: "admin@server.lan"
+    # PW: itsthetest
+    password: "$argon2id$v=19$m=65536,t=3,p=4$KzmMiZgUmSKp73LTafhLuw$IHbhyEnjOJ0pE0p2ygz02LFFadJkM1zdLO5L7T7UkyE"
+    groups:
+      - ServerAdmins
+      - MediaAdmins
+      - Media

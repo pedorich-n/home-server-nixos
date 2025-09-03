@@ -86,6 +86,22 @@ let
     };
   };
 
+  autheliaSecrets =
+    let
+      paths = [
+        "authelia/jwt_secret"
+        "authelia/storage_encryption_key"
+      ];
+
+      mkSecret = path: {
+        ${path} = {
+          owner = config.services.authelia.instances.main.user;
+          inherit (config.services.authelia.instances.main) group;
+        };
+      };
+    in
+    lib.foldl' (acc: path: acc // (mkSecret path)) { } paths;
+
 in
 {
   sops = {
@@ -167,6 +183,7 @@ in
       osUserPasswords
       envSecrets
       resticSecrets
+      (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
       (lib.mkIf (config.services ? ngrok && config.services.ngrok.enable) ngrokSecrets)
       (lib.mkIf (config.services ? playit && config.services.playit.enable) playitSecrets)
       (lib.mkIf config.services.traefik.enable traefikSecrets)
