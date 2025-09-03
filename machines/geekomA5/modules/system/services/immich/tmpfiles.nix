@@ -1,7 +1,7 @@
 { lib, tmpfilesLib, ... }:
 let
   storeRoot = "/mnt/store/immich";
-  externalRoot = "/mnt/external/immich-library";
+  # externalRoot = "/mnt/external/immich-library";
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
     "cache/thumbnails"
@@ -15,7 +15,7 @@ let
 
   foldersToSetPermissions = [
     storeRoot
-    externalRoot
+    # externalRoot
   ];
 in
 {

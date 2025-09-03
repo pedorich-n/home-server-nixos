@@ -5,7 +5,7 @@
 }:
 let
   storeRoot = "/mnt/store/data-library";
-  externalRoot = "/mnt/external/data-library";
+  # externalRoot = "/mnt/external/data-library";
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
     "audiobookshelf/config"
@@ -27,35 +27,35 @@ let
     "recyclarr/config"
   ];
 
-  foldersToCreateExternal = lib.map (folder: "${externalRoot}/${folder}") [
-    "downloads/usenet/incomplete"
-    "downloads/usenet/complete/tv"
-    "downloads/usenet/complete/movies"
-    "downloads/usenet/complete/audiobooks"
-    "downloads/usenet/complete/prowlarr"
+  # foldersToCreateExternal = lib.map (folder: "${externalRoot}/${folder}") [
+  #   "downloads/usenet/incomplete"
+  #   "downloads/usenet/complete/tv"
+  #   "downloads/usenet/complete/movies"
+  #   "downloads/usenet/complete/audiobooks"
+  #   "downloads/usenet/complete/prowlarr"
 
-    "downloads/torrent/incomplete"
-    "downloads/torrent/complete/tv"
-    "downloads/torrent/complete/movies"
-    "downloads/torrent/complete/audiobooks"
-    "downloads/torrent/complete/prowlarr"
-    "downloads/torrent/complete/others"
+  #   "downloads/torrent/incomplete"
+  #   "downloads/torrent/complete/tv"
+  #   "downloads/torrent/complete/movies"
+  #   "downloads/torrent/complete/audiobooks"
+  #   "downloads/torrent/complete/prowlarr"
+  #   "downloads/torrent/complete/others"
 
-    "media/tv"
-    "media/movies"
-    "media/music-videos"
-    "media/audiobooks"
+  #   "media/tv"
+  #   "media/movies"
+  #   "media/music-videos"
+  #   "media/audiobooks"
 
-    "share"
-  ];
+  #   "share"
+  # ];
 
   foldersToSetPermissions = [
     storeRoot
   ];
 
-  foldersToSetPermissionsExternal = [
-    externalRoot
-  ];
+  # foldersToSetPermissionsExternal = [
+  #   externalRoot
+  # ];
 
   extraCreateRules = {
     "${storeRoot}/recyclarr/config/configs" = {
@@ -67,12 +67,12 @@ in
   systemd.tmpfiles.settings = {
     "90-data-library-create" = lib.mkMerge [
       (tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate)
-      (tmpfilesLib.createFoldersUsingDefaultMediaRule foldersToCreateExternal)
+      # (tmpfilesLib.createFoldersUsingDefaultMediaRule foldersToCreateExternal)
       extraCreateRules
     ];
     "91-data-library-set" = lib.mkMerge [
       (tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions)
-      (tmpfilesLib.setPermissionsUsingDefaultMediaRule foldersToSetPermissionsExternal)
+      # (tmpfilesLib.setPermissionsUsingDefaultMediaRule foldersToSetPermissionsExternal)
     ];
   };
 }

@@ -1,6 +1,9 @@
 {
   # NOTE: https://wiki.archlinux.org/title/ZFS
 
+  # LINK https://github.com/nix-community/disko/issues/581#issuecomment-2260602290
+  boot.zfs.extraPools = [ "external" ];
+
   disko.devices = {
     disk = {
       external_1 = {
@@ -45,8 +48,6 @@
           "com.sun:auto-snapshot" = "false"; # Don't take snapshots of root
         };
 
-        mountpoint = "/mnt/external"; # fstab mountpoint
-
         datasets = {
           immich = {
             type = "zfs_fs";
@@ -55,7 +56,6 @@
               recordsize = "1M"; # Better read performance for "large" files like images, videos, etc.
               "com.sun:auto-snapshot" = "true";
             };
-            mountpoint = "/mnt/external/immich-library"; # fstab mountpoint
           };
 
           paperless = {
@@ -65,7 +65,6 @@
               quota = "10G";
               "com.sun:auto-snapshot" = "true";
             };
-            mountpoint = "/mnt/external/paperless-library";
           };
 
           data = {
@@ -76,7 +75,6 @@
               recordsize = "1M"; # Better read performance for "large" files like images, videos, etc.
               "com.sun:auto-snapshot" = "true";
             };
-            mountpoint = "/mnt/external/data-library"; # fstab mountpoint
           };
 
           object-storage = {
@@ -86,38 +84,9 @@
               quota = "500G";
               "com.sun:auto-snapshot" = "true";
             };
-            mountpoint = "/mnt/external/object-storage"; # fstab mountpoint
           };
         };
       };
     };
-  };
-
-  # NOTE https://github.com/nix-community/disko/issues/581
-  fileSystems = {
-    "/mnt/external".options = [
-      "nofail"
-      "noauto"
-    ];
-
-    "/mnt/external/immich-library".options = [
-      "nofail"
-      "noauto"
-    ];
-
-    "/mnt/external/paperless-library".options = [
-      "nofail"
-      "noauto"
-    ];
-
-    "/mnt/external/data-library".options = [
-      "nofail"
-      "noauto"
-    ];
-
-    "/mnt/external/object-storage".options = [
-      "nofail"
-      "noauto"
-    ];
   };
 }

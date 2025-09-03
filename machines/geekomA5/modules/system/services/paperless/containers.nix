@@ -96,6 +96,7 @@ in
         unitConfig = systemdLib.requiresAfter [
           containers.paperless-redis.ref
           containers.paperless-postgresql.ref
+          "zfs.target"
         ];
       };
     };

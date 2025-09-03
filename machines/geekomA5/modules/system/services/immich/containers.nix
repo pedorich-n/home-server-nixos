@@ -124,6 +124,7 @@ in
         unitConfig = systemdLib.requiresAfter [
           containers.immich-valkey.ref
           containers.immich-postgresql.ref
+          "zfs.target"
         ];
       };
     };
