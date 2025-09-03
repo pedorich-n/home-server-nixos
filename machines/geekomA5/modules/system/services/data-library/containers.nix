@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   containerLib,
   systemdLib,
   networkingLib,
@@ -112,6 +113,7 @@ in
 
         unitConfig = systemdLib.bindsToAfter [
           containers.gluetun.ref
+          "zfs.target"
         ];
       };
 
@@ -139,6 +141,10 @@ in
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
+
+        unitConfig = systemdLib.requiresAfter [
+          "zfs.target"
+        ];
       };
 
       prowlarr = {
@@ -162,6 +168,7 @@ in
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
+
         unitConfig = afterDownloaders;
       };
 
@@ -188,7 +195,10 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = afterDownloaders;
+        unitConfig = lib.mkMerge [
+          afterDownloaders
+          (systemdLib.requiresAfter [ "zfs.target" ])
+        ];
       };
 
       radarr = {
@@ -214,7 +224,10 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = afterDownloaders;
+        unitConfig = lib.mkMerge [
+          afterDownloaders
+          (systemdLib.requiresAfter [ "zfs.target" ])
+        ];
       };
 
       recyclarr = {
@@ -289,6 +302,8 @@ in
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
+
+        unitConfig = systemdLib.requiresAfter [ "zfs.target" ];
       };
 
       audiobookshelf = {
@@ -312,6 +327,8 @@ in
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
+
+        unitConfig = systemdLib.requiresAfter [ "zfs.target" ];
       };
     };
   };
