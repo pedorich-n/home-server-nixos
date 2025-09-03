@@ -111,10 +111,7 @@ in
             inherit (containerLib.containerIds) PUID PGID;
             UMASK = "007";
           };
-          # capabilities = {
-          #   CAP_NET_RAW = true;
-          #   CAP_NET_BIND_SERVICE = true;
-          # };
+          addCapabilities = [ "NET_RAW" ];
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/homeassistant" "/config")
             (containerLib.mkMappedVolumeForUser "${storeRoot}/homeassistant/local" "/.local")

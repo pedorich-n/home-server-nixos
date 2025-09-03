@@ -16,6 +16,7 @@
       useNetworkd = true;
       networkmanager.enable = false;
       wireless.enable = false;
+      enableIPv6 = false;
 
       hostId = "ac7dc50d"; # head -c 8 /etc/machine-id
     };
