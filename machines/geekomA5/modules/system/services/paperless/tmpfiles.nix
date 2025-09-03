@@ -1,25 +1,24 @@
 { lib, tmpfilesLib, ... }:
 let
   storeRoot = "/mnt/store/paperless";
-  externalRoot = "/mnt/external/paperless-library";
+  # externalRoot = "/mnt/external/paperless-library";
 
-  foldersToCreate =
-    (lib.map (folder: "${storeRoot}/${folder}") [
-      "data"
+  foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
+    "data"
 
-      "export"
+    "export"
 
-      "postgresql"
+    "postgresql"
 
-      "redis"
-    ])
-    ++ (lib.map (folder: "${externalRoot}/${folder}") [
-      "media"
-    ]);
+    "redis"
+  ];
+  # ++ (lib.map (folder: "${externalRoot}/${folder}") [
+  #   "media"
+  # ]);
 
   foldersToSetPermissions = [
     storeRoot
-    externalRoot
+    # externalRoot
   ];
 in
 {
