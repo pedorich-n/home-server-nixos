@@ -22,26 +22,22 @@ let
       subject = "group:${group}";
     });
 
-  serverAdminsApps = [
+  adminApps = [
     "cockpit"
-    "netdata"
-    "traefik"
-    "zigbee2mqtt"
-  ];
-
-  mediaAdminsApps = [
     "multiscrobbler"
+    "netdata"
     "prowlarr"
     "qbittorrent"
     "radarr"
     "sabnzbd"
     "sonarr"
+    "traefik"
+    "zigbee2mqtt"
   ];
 
   regularApps = [
     "copyparty"
     "homeassistant"
-    "jellyfin"
     "maloja"
   ];
 
@@ -148,12 +144,8 @@ in
           default_policy = "deny";
           rules = [
             (mkAccessRule {
-              apps = serverAdminsApps;
-              group = shared.groups.ServerAdmins;
-            })
-            (mkAccessRule {
-              apps = mediaAdminsApps;
-              group = shared.groups.MediaAdmins;
+              apps = adminApps;
+              group = shared.groups.Admins;
             })
             (mkAccessRule { apps = regularApps; })
           ];

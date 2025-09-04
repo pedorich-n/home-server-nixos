@@ -97,8 +97,12 @@ let
 
         "authelia/oidc/hmac_secret"
 
+        "authelia/oidc/audiobookshelf/client_id"
+        "authelia/oidc/audiobookshelf/client_secret_hashed"
+
         "authelia/oidc/grist/client_id"
         "authelia/oidc/grist/client_secret_hashed"
+
         "authelia/oidc/paperless/client_id"
         "authelia/oidc/paperless/client_secret_hashed"
         "authelia/oidc/paperless/client_secret_raw"

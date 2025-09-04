@@ -64,7 +64,7 @@ in
             "r" = "*";
             "w" = "@acct";
             "d" = "@acct";
-            "a" = "@ServerAdmins";
+            "a" = "@Admins";
           };
         };
       };
