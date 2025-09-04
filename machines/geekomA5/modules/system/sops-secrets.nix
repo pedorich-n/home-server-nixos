@@ -94,6 +94,11 @@ let
         "authelia/users/user_1/username"
         "authelia/users/user_1/email"
         "authelia/users/user_1/password"
+
+        "authelia/oidc/hmac_secret"
+
+        "authelia/oidc/grist/client_id"
+        "authelia/oidc/grist/client_secret_hashed"
       ];
 
       mkSecret = path: {
@@ -102,8 +107,18 @@ let
           inherit (config.services.authelia.instances.main) group;
         };
       };
+
+      extraSecrets = {
+        "authelia/oidc/jwks.key" = {
+          sopsFile = sopsFilePathFor "authelia/oidc/jwks.key";
+          format = "binary";
+          owner = config.services.authelia.instances.main.user;
+          inherit (config.services.authelia.instances.main) group;
+        };
+      };
+
     in
-    lib.foldl' (acc: path: acc // (mkSecret path)) { } paths;
+    (lib.foldl' (acc: path: acc // (mkSecret path)) { } paths) // extraSecrets;
 
 in
 {

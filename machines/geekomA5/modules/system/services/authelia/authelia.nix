@@ -39,14 +39,10 @@ let
   ];
 
   regularApps = [
-    "audibookshelf"
     "copyparty"
-    "grist"
     "homeassistant"
-    "immich"
     "jellyfin"
     "maloja"
-    "paperless"
   ];
 
   stateRoot = "/var/lib/authelia-main";
@@ -89,6 +85,16 @@ in
       secrets = {
         jwtSecretFile = config.sops.secrets."authelia/jwt_secret".path;
         storageEncryptionKeyFile = config.sops.secrets."authelia/storage_encryption_key".path;
+        oidcHmacSecretFile = config.sops.secrets."authelia/oidc/hmac_secret".path;
+        oidcIssuerPrivateKeyFile = config.sops.secrets."authelia/oidc/jwks.key".path;
+      };
+
+      settingsFiles = [
+        config.sops.templates."authelia/oidc-apps.yaml".path
+      ];
+
+      environmentVariables = {
+        X_AUTHELIA_CONFIG_FILTERS = "template";
       };
 
       settings = {

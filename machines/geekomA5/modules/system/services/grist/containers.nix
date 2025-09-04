@@ -1,7 +1,7 @@
 {
   config,
   containerLib,
-  authentikLib,
+  autheliaLib,
   networkingLib,
   ...
 }:
@@ -27,7 +27,8 @@ in
         GRIST_SUPPORT_ANON = "false";
 
         GRIST_OIDC_SP_HOST = "${APP_HOME_URL}";
-        GRIST_OIDC_IDP_ISSUER = authentikLib.mkIssuerUrl "grist";
+        GRIST_OIDC_IDP_ISSUER = autheliaLib.issuerUrl;
+        GRIST_OIDC_IDP_SKIP_END_SESSION_ENDPOINT = "true";
 
         # This function performs HTTP requests in a similar way to requests.request
         GRIST_ENABLE_REQUEST_FUNCTION = "1";
