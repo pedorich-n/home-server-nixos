@@ -90,6 +90,7 @@ let
     let
       paths = [
         "authelia/jwt_secret"
+        "authelia/storage_encryption_key"
         "authelia/ldap/password"
 
         "authelia/oidc/hmac_secret"
