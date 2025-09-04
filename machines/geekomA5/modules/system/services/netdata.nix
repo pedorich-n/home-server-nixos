@@ -191,7 +191,7 @@ in
         entryPoints = [ "web-secure" ];
         rule = "Host(`${networkingLib.mkDomain "netdata"}`)";
         service = "netdata-secure";
-        middlewares = [ "authentik-secure@docker" ];
+        middlewares = [ "authelia@file" ];
       };
 
       services.netdata-secure = {

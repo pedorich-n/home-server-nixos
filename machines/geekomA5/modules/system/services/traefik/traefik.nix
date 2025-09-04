@@ -127,7 +127,7 @@
             entryPoints = [ "web-secure" ];
             rule = "Host(`${networkingLib.mkDomain "traefik"}`)";
             service = "traefik";
-            middlewares = [ "authentik-secure@docker" ];
+            middlewares = [ "authelia@file" ];
           };
         };
 

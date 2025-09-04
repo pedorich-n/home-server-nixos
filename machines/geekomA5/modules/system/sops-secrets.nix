@@ -86,6 +86,53 @@ let
     };
   };
 
+  autheliaSecrets =
+    let
+      paths = [
+        "authelia/jwt_secret"
+        "authelia/storage_encryption_key"
+        "authelia/users/user_1/username"
+        "authelia/users/user_1/email"
+        "authelia/users/user_1/password"
+
+        "authelia/oidc/hmac_secret"
+
+        "authelia/oidc/audiobookshelf/client_id"
+        "authelia/oidc/audiobookshelf/client_secret_hashed"
+
+        "authelia/oidc/grist/client_id"
+        "authelia/oidc/grist/client_secret_hashed"
+
+        "authelia/oidc/homeassistant/client_id"
+        "authelia/oidc/homeassistant/client_secret_hashed"
+
+        "authelia/oidc/immich/client_id"
+        "authelia/oidc/immich/client_secret_hashed"
+
+        "authelia/oidc/paperless/client_id"
+        "authelia/oidc/paperless/client_secret_hashed"
+        "authelia/oidc/paperless/client_secret_raw"
+      ];
+
+      mkSecret = path: {
+        ${path} = {
+          owner = config.services.authelia.instances.main.user;
+          inherit (config.services.authelia.instances.main) group;
+        };
+      };
+
+      extraSecrets = {
+        "authelia/oidc/jwks.key" = {
+          sopsFile = sopsFilePathFor "authelia/oidc/jwks.key";
+          format = "binary";
+          owner = config.services.authelia.instances.main.user;
+          inherit (config.services.authelia.instances.main) group;
+        };
+      };
+
+    in
+    (lib.foldl' (acc: path: acc // (mkSecret path)) { } paths) // extraSecrets;
+
 in
 {
   sops = {
@@ -167,6 +214,7 @@ in
       osUserPasswords
       envSecrets
       resticSecrets
+      (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
       (lib.mkIf (config.services ? ngrok && config.services.ngrok.enable) ngrokSecrets)
       (lib.mkIf (config.services ? playit && config.services.playit.enable) playitSecrets)
       (lib.mkIf config.services.traefik.enable traefikSecrets)

@@ -3,6 +3,7 @@ let
   jsonFormat = pkgs.formats.json { };
 
   variables = {
+    auth_url = networkingLib.mkUrl "authelia";
     url = networkingLib.mkUrl "homeassistant";
   };
 

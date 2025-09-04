@@ -70,7 +70,7 @@ in
           labels = containerLib.mkTraefikLabels {
             name = "zigbee2mqtt-secure";
             port = 8080;
-            middlewares = [ "authentik-secure@docker" ];
+            middlewares = [ "authelia@file" ];
           };
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -124,7 +124,6 @@ in
               name = "homeassistant-secure";
               port = 8123;
               priority = 10;
-              middlewares = [ "authentik-secure@docker" ];
             })
             ++ (containerLib.mkTraefikLabels {
               name = "homeassistant-secure-hooks";
