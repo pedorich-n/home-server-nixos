@@ -62,6 +62,10 @@ in
             name = "grist";
             redirectUris = [ "${networkingLib.mkUrl "grist"}/oauth2/callback" ];
           })
+          (mkOidcProvider {
+            name = "paperless";
+            redirectUris = [ "${networkingLib.mkUrl "paperless"}/accounts/oidc/authelia/login/callback/" ];
+          })
         ];
       };
     };

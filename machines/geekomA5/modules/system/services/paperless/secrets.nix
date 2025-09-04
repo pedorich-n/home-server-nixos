@@ -1,5 +1,6 @@
 {
   config,
+  autheliaLib,
   authentikLib,
   pkgs,
   ...
@@ -24,6 +25,15 @@ in
                 secret = config.sops.placeholder."paperless/client_secret";
                 settings = {
                   server_url = authentikLib.mkIssuerUrl "paperless";
+                };
+              }
+              {
+                provider_id = "authelia";
+                name = "Authelia";
+                client_id = config.sops.placeholder."authelia/oidc/paperless/client_id";
+                secret = config.sops.placeholder."authelia/oidc/paperless/client_secret_raw";
+                settings = {
+                  server_url = autheliaLib.issuerUrl;
                 };
               }
             ];
