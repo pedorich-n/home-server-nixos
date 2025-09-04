@@ -94,6 +94,13 @@ in
             redirectUris = [ "${networkingLib.mkUrl "grist"}/oauth2/callback" ];
           })
           (mkOidcProvider {
+            name = "homeassistant";
+            redirectUris = [ "${networkingLib.mkUrl "homeassistant"}/auth/oidc/callback" ];
+            extraArgs = {
+              token_endpoint_auth_method = "client_secret_post";
+            };
+          })
+          (mkOidcProvider {
             name = "immich";
             redirectUris = [
               "${networkingLib.mkUrl "immich"}/auth/login"

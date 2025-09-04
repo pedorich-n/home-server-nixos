@@ -25,10 +25,13 @@ api:
 # Also https://developers.home-assistant.io/docs/api/native-app-integration/setup/#authenticating-the-user
 zeroconf:
 
-# https://github.com/BeryJu/hass-auth-header
-auth_header:
-  debug: true
-  username_header: X-Authentik-Username
+# https://github.com/christiaangoossens/hass-oidc-auth
+auth_oidc:
+  client_id: !secret oauth_oidc_client_id
+  client_secret: !secret oauth_oidc_client_secret
+  discovery_url: "{{ auth_url }}/.well-known/openid-configuration"
+  roles:
+    admin: "Admins"
 
 # https://www.home-assistant.io/integrations/logger/
 logger:

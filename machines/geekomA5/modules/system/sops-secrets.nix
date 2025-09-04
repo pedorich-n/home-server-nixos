@@ -103,6 +103,9 @@ let
         "authelia/oidc/grist/client_id"
         "authelia/oidc/grist/client_secret_hashed"
 
+        "authelia/oidc/homeassistant/client_id"
+        "authelia/oidc/homeassistant/client_secret_hashed"
+
         "authelia/oidc/immich/client_id"
         "authelia/oidc/immich/client_secret_hashed"
 

@@ -124,7 +124,6 @@ in
               name = "homeassistant-secure";
               port = 8123;
               priority = 10;
-              middlewares = [ "authentik-secure@docker" ];
             })
             ++ (containerLib.mkTraefikLabels {
               name = "homeassistant-secure-hooks";
