@@ -41,8 +41,8 @@ in
         no-crt = true; # Disable certificate generation
 
         rproxy = "1"; # Enable reverse proxy mode
-        idp-h-usr = "X-authentik-username"; # Reverse proxy header for username
-        idp-h-grp = "X-authentik-groups"; # Reverse proxy header for groups
+        idp-h-usr = "Remote-User"; # Reverse proxy header for username
+        idp-h-grp = "Remote-Groups"; # Reverse proxy header for groups
         idp-store = "0"; # Do not store users/groups from IdP in the DB
 
         hist = "/var/lib/copyparty/history"; # Cache location
@@ -75,7 +75,7 @@ in
         entryPoints = [ "web-secure" ];
         rule = "Host(`${networkingLib.mkDomain "copyparty"}`)";
         service = "copyparty-secure";
-        middlewares = [ "authentik-secure@docker" ];
+        middlewares = [ "authelia@file" ];
       };
 
       services.copyparty-secure = {

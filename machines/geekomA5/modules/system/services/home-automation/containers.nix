@@ -70,7 +70,7 @@ in
           labels = containerLib.mkTraefikLabels {
             name = "zigbee2mqtt-secure";
             port = 8080;
-            middlewares = [ "authentik-secure@docker" ];
+            middlewares = [ "authelia@file" ];
           };
           inherit networks;
           inherit (containerLib.containerIds) user;

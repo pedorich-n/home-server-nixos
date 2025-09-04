@@ -89,7 +89,7 @@ in
               name = "qbittorrent-secure"; # Proxied
               port = 8080;
               priority = 10;
-              middlewares = [ "authentik-secure@docker" ];
+              middlewares = [ "authelia@file" ];
             })
             ++ (mkApiSecureTraefikLabels "qbittorrent");
           inherit networks;
@@ -135,7 +135,7 @@ in
               name = "sabnzbd-secure";
               port = environments.PORT;
               priority = 10;
-              middlewares = [ "authentik-secure@docker" ];
+              middlewares = [ "authelia@file" ];
             })
             ++ (mkApiSecureTraefikLabels "sabnzbd");
           inherit networks;
@@ -162,7 +162,7 @@ in
               name = "prowlarr-secure";
               port = 9696;
               priority = 10;
-              middlewares = [ "authentik-secure@docker" ];
+              middlewares = [ "authelia@file" ];
             })
             ++ (mkApiSecureTraefikLabels "prowlarr");
           inherit networks;
@@ -188,7 +188,7 @@ in
               name = "sonarr-secure";
               port = 8989;
               priority = 10;
-              middlewares = [ "authentik-secure@docker" ];
+              middlewares = [ "authelia@file" ];
             })
             ++ (mkApiSecureTraefikLabels "sonarr");
           inherit networks;
@@ -217,7 +217,7 @@ in
               name = "radarr-secure";
               port = 7878;
               priority = 10;
-              middlewares = [ "authentik-secure@docker" ];
+              middlewares = [ "authelia@file" ];
             })
             ++ (mkApiSecureTraefikLabels "radarr");
           inherit networks;

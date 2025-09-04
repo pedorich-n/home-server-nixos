@@ -43,7 +43,7 @@ in
           labels = containerLib.mkTraefikLabels {
             name = "multiscrobbler-secure";
             port = 9078;
-            middlewares = [ "authentik-secure@docker" ];
+            middlewares = [ "authelia@file" ];
           };
           inherit networks;
         };
@@ -77,7 +77,7 @@ in
           labels = containerLib.mkTraefikLabels {
             name = "maloja-secure";
             port = 42010;
-            middlewares = [ "authentik-secure@docker" ];
+            middlewares = [ "authelia@file" ];
           };
           inherit networks;
         };

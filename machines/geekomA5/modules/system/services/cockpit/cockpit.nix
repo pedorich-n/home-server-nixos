@@ -80,7 +80,7 @@ in
         entryPoints = [ "web-secure" ];
         rule = "Host(`${networkingLib.mkDomain "cockpit"}`)";
         service = "cockpit-root-secure";
-        middlewares = [ "authentik-secure@docker" ];
+        middlewares = [ "authelia@file" ];
       };
 
       services.cockpit-root-secure = {
