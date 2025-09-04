@@ -91,6 +91,9 @@ let
       paths = [
         "authelia/jwt_secret"
         "authelia/storage_encryption_key"
+        "authelia/users/user_1/username"
+        "authelia/users/user_1/email"
+        "authelia/users/user_1/password"
       ];
 
       mkSecret = path: {

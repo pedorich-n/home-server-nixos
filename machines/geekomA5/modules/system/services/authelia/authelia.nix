@@ -1,10 +1,53 @@
 {
   config,
   networkingLib,
+  lib,
   ...
 }:
 let
+  shared = import ./_shared.nix;
+
   portsCfg = config.custom.networking.ports.tcp.authelia-main;
+
+  mkAccessRule =
+    {
+      apps,
+      group ? null,
+    }:
+    {
+      domain = lib.map networkingLib.mkDomain apps;
+      policy = "one_factor";
+    }
+    // (lib.optionalAttrs (group != null) {
+      subject = "group:${group}";
+    });
+
+  serverAdminsApps = [
+    "cockpit"
+    "netdata"
+    "traefik"
+    "zigbee2mqtt"
+  ];
+
+  mediaAdminsApps = [
+    "multiscrobbler"
+    "prowlarr"
+    "qbittorrent"
+    "radarr"
+    "sabnzbd"
+    "sonarr"
+  ];
+
+  regularApps = [
+    "audibookshelf"
+    "copyparty"
+    "grist"
+    "homeassistant"
+    "immich"
+    "jellyfin"
+    "maloja"
+    "paperless"
+  ];
 
   stateRoot = "/var/lib/authelia-main";
 in
@@ -64,7 +107,7 @@ in
 
         authentication_backend = {
           file = {
-            path = ./users.yaml;
+            path = config.sops.templates."authelia/users.yaml".path;
             watch = false;
           };
         };
@@ -98,10 +141,15 @@ in
         access_control = {
           default_policy = "deny";
           rules = [
-            {
-              domain = networkingLib.mkDomain "*";
-              policy = "one_factor";
-            }
+            (mkAccessRule {
+              apps = serverAdminsApps;
+              group = shared.groups.ServerAdmins;
+            })
+            (mkAccessRule {
+              apps = mediaAdminsApps;
+              group = shared.groups.MediaAdmins;
+            })
+            (mkAccessRule { apps = regularApps; })
           ];
         };
       };
