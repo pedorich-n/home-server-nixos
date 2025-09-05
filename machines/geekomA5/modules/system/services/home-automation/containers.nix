@@ -5,7 +5,6 @@
   pkgs,
   containerLib,
   systemdLib,
-  networkingLib,
   ...
 }:
 let
@@ -119,19 +118,11 @@ in
             # See https://github.com/tribut/homeassistant-docker-venv
             "${inputs.homeassistant-docker-venv}/run:/etc/services.d/home-assistant/run"
           ];
-          labels =
-            (containerLib.mkTraefikLabels {
-              name = "homeassistant-secure";
-              port = 8123;
-              priority = 10;
-            })
-            ++ (containerLib.mkTraefikLabels {
-              name = "homeassistant-secure-hooks";
-              rule = "Host(`${networkingLib.mkDomain "homeassistant"}`) && PathPrefix(`/api/webhook/`)";
-              service = "homeassistant-secure";
-              priority = 15;
-              entrypoints = [ "web-secure" ];
-            });
+          labels = containerLib.mkTraefikLabels {
+            name = "homeassistant-secure";
+            port = 8123;
+            priority = 10;
+          };
           inherit networks;
         };
 

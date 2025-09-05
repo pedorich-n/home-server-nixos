@@ -107,13 +107,25 @@ in
         theme = "auto";
 
         log = {
+          level = "info";
           format = "text";
         };
 
         server = {
           address = "tcp://127.0.0.1:${portsCfg.portStr}";
-          endpoints.authz.forward-auth = {
-            implementation = "ForwardAuth";
+          endpoints.authz = {
+            forward-auth = {
+              implementation = "ForwardAuth";
+            };
+          };
+        };
+
+        webauthn = {
+          disable = false;
+          enable_passkey_login = true;
+
+          selection_criteria = {
+            discoverability = "preferred";
           };
         };
 
