@@ -100,6 +100,9 @@ let
         "authelia/oidc/audiobookshelf/client_id"
         "authelia/oidc/audiobookshelf/client_secret_hashed"
 
+        "authelia/oidc/jellyfin/client_id"
+        "authelia/oidc/jellyfin/client_secret_hashed"
+
         "authelia/oidc/grist/client_id"
         "authelia/oidc/grist/client_secret_hashed"
 
