@@ -39,4 +39,6 @@ stdenvNoCC.mkDerivation {
       }
 
   '';
+
+  meta.mainPackage = "lldap-bootstrap";
 }

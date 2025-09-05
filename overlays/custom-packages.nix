@@ -2,6 +2,7 @@ let
   packages = {
     systemd-onfailure-notify = ../pkgs/systemd-onfailure-notify;
     github-app-installation-token = ../pkgs/github-app-installation-token;
+    lldap-bootstrap = ../pkgs/lldap-bootstrap;
   };
 
   minecraft-modpacks = {

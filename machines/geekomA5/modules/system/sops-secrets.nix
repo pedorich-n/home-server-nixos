@@ -137,6 +137,12 @@ let
         "lldap/key_seed"
         "lldap/jwt_secret"
         "lldap/users/admin/password"
+        "lldap/users/authelia/password"
+
+        "lldap/users/user_1/username"
+        "lldap/users/user_1/displayname"
+        "lldap/users/user_1/email"
+        "lldap/users/user_1/password"
       ];
 
       mkSecret = path: {

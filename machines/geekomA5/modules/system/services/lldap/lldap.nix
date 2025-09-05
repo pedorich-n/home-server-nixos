@@ -2,11 +2,16 @@
   config,
   lib,
   networkingLib,
+  pkgs,
   ...
 }:
 let
   portsCfg = config.custom.networking.ports.tcp;
 
+  bootstrap = pkgs.callPackage ./bootstrap/_bootstrap.nix {
+    lldapHttpPort = portsCfg.lldap-http.portStr;
+    lldapAdminPasswordFile = config.sops.secrets."lldap/users/admin/password".path;
+  };
 in
 {
   custom.networking.ports.tcp = {
@@ -33,6 +38,8 @@ in
   systemd.services.lldap = {
     serviceConfig = {
       DynamicUser = lib.mkForce false;
+
+      ExecStartPost = "-${lib.getExe bootstrap}";
     };
   };
 
@@ -65,7 +72,7 @@ in
         ldap_user_email = "admin@server.lan";
         ldap_user_dn = "admin";
 
-        ldap_base_dn = "dc=server";
+        ldap_base_dn = "DC=server";
 
         database_url = "sqlite:///var/lib/lldap/users.db?mode=rwc";
       };

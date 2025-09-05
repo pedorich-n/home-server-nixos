@@ -13,6 +13,7 @@
       overlays.github-app-installation-token
       overlays.cockpit-plugins
       overlays.minecraft-modpacks
+      overlays.lldap-bootstrap
     ];
   };
 
