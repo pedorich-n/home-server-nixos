@@ -78,7 +78,7 @@ in
 
       immich-server = {
         requiresTraefikNetwork = true;
-        wantsAuthentik = true;
+        wantsAuthelia = true;
         useGlobalContainers = true;
         usernsAuto = {
           enable = true;

@@ -6,9 +6,9 @@ in
 xmlFormat.generate "branding.xml" {
   BrandingOptions = {
     LoginDisclaimer = ''
-      <form action="${networkingLib.mkUrl "jellyfin"}/sso/OID/start/Authentik">
+      <form action="${networkingLib.mkUrl "jellyfin"}/sso/OID/start/Authelia">
         <button class="raised button-submit block emby-button">
-          Sign in with SSO
+          Sign in with Authelia
         </button>
       </form>
     '';

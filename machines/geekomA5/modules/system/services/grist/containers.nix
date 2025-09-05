@@ -11,7 +11,7 @@ in
 {
   virtualisation.quadlet.containers.grist = {
     requiresTraefikNetwork = true;
-    wantsAuthentik = true;
+    wantsAuthelia = true;
     useGlobalContainers = true;
     usernsAuto = {
       enable = true;
