@@ -218,15 +218,16 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1757064719,
-        "narHash": "sha256-vT5zMReLWo96cdlgyqjLcatiLFTFHEPyNm3NbEowF9Y=",
-        "ref": "refs/heads/main",
-        "rev": "e8e291a88db688aa3492352a8fd77c687f9c446a",
-        "revCount": 147,
+        "lastModified": 1757050911,
+        "narHash": "sha256-73PRGzzf2gago6RUZZhhxuqmT4oLi8sWuRaSTGUo6vs=",
+        "ref": "improve-authelia",
+        "rev": "79e743ad936b96fcfdc46b7c202d39c995a9a985",
+        "revCount": 153,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
       "original": {
+        "ref": "improve-authelia",
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }

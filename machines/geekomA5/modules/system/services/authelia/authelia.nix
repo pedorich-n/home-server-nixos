@@ -1,6 +1,7 @@
 {
   config,
   networkingLib,
+  systemdLib,
   lib,
   ...
 }:
@@ -49,6 +50,12 @@ in
     openFirewall = false;
   };
 
+  systemd.services.authelia-main = {
+    unitConfig = systemdLib.requiresAfter [ "redis-authelia.service" ];
+  };
+
+  users.users.authelia-main.extraGroups = [ config.services.redis.servers.authelia.group ];
+
   services = {
     traefik.dynamicConfigOptions.http = {
       middlewares.authelia = {
@@ -83,6 +90,7 @@ in
         storageEncryptionKeyFile = config.sops.secrets."authelia/storage_encryption_key".path;
         oidcHmacSecretFile = config.sops.secrets."authelia/oidc/hmac_secret".path;
         oidcIssuerPrivateKeyFile = config.sops.secrets."authelia/oidc/jwks.key".path;
+        sessionSecretFile = config.sops.secrets."authelia/session_secret".path;
       };
 
       settingsFiles = [
@@ -92,6 +100,7 @@ in
 
       environmentVariables = {
         X_AUTHELIA_CONFIG_FILTERS = "template";
+        AUTHELIA_SESSION_REDIS_PASSWORD_FILE = config.sops.secrets."authelia/redis/password".path;
       };
 
       settings = {
@@ -118,6 +127,10 @@ in
         };
 
         session = {
+          redis = {
+            host = config.services.redis.servers.authelia.unixSocket;
+          };
+
           name = "authelia_session";
           same_site = "lax";
           inactivity = "1w";

@@ -90,8 +90,10 @@ let
     let
       paths = [
         "authelia/jwt_secret"
+        "authelia/session_secret"
         "authelia/storage_encryption_key"
         "authelia/ldap/password"
+        "authelia/redis/password"
 
         "authelia/oidc/hmac_secret"
 
@@ -155,6 +157,20 @@ let
     in
     lib.foldl' (acc: path: acc // (mkSecret path)) { } paths;
 
+  redisAutheliaSecrets =
+    let
+      paths = [
+        "redis/authelia/password"
+      ];
+
+      mkSecret = path: {
+        ${path} = {
+          owner = config.services.redis.servers.authelia.user;
+          group = config.services.redis.servers.authelia.group;
+        };
+      };
+    in
+    lib.foldl' (acc: path: acc // (mkSecret path)) { } paths;
 in
 {
   sops = {
@@ -238,6 +254,7 @@ in
       resticSecrets
       (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
+      (lib.mkIf config.services.redis.servers.authelia.enable redisAutheliaSecrets)
       (lib.mkIf (config.services ? ngrok && config.services.ngrok.enable) ngrokSecrets)
       (lib.mkIf (config.services ? playit && config.services.playit.enable) playitSecrets)
       (lib.mkIf config.services.traefik.enable traefikSecrets)
