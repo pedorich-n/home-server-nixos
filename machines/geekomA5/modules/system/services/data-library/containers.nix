@@ -257,6 +257,7 @@ in
       jellyfin = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
+        wantsAuthelia = true;
         usernsAuto = {
           enable = true;
           size = 65535;
@@ -310,6 +311,7 @@ in
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
+        wantsAuthelia = true;
 
         containerConfig = {
           environments = defaultEnvs // {

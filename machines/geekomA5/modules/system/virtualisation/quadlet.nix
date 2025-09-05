@@ -1,6 +1,11 @@
-{ lib, config, ... }:
+{
+  config,
+  lib,
+  systemdLib,
+  ...
+}:
 let
-  inherit (config.virtualisation.quadlet) containers;
+  autheliaRef = config.systemd.services.authelia-main.name;
 
   mkImage =
     name:
@@ -24,7 +29,7 @@ in
                 type = lib.types.bool;
                 default = false;
               };
-              wantsAuthentik = lib.mkOption {
+              wantsAuthelia = lib.mkOption {
                 type = lib.types.bool;
                 default = false;
               };
@@ -67,11 +72,8 @@ in
                 containerConfig.networks = lib.mkAfter [ "traefik.network" ];
               })
 
-              (lib.mkIf config.wantsAuthentik {
-                unitConfig = {
-                  Wants = lib.mkAfter [ containers.authentik-server.ref ];
-                  After = lib.mkAfter [ containers.authentik-server.ref ];
-                };
+              (lib.mkIf config.wantsAuthelia {
+                unitConfig = systemdLib.wantsAfter [ autheliaRef ];
               })
 
               (lib.mkIf config.usernsAuto.enable {

@@ -19,7 +19,6 @@ in
     containers = {
       multiscrobbler = {
         requiresTraefikNetwork = true;
-        wantsAuthentik = true;
         useGlobalContainers = true;
         usernsAuto = {
           enable = true;
@@ -51,7 +50,6 @@ in
 
       maloja = {
         requiresTraefikNetwork = true;
-        wantsAuthentik = true;
         useGlobalContainers = true;
         usernsAuto = {
           enable = true;

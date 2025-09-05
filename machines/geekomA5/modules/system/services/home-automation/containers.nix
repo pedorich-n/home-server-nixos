@@ -98,7 +98,7 @@ in
       homeassistant = {
         useGlobalContainers = true;
         requiresTraefikNetwork = true;
-        wantsAuthentik = true;
+        wantsAuthelia = true;
         usernsAuto = {
           enable = true;
           size = containerLib.containerIds.uid + 500;
