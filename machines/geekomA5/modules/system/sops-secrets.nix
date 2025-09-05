@@ -91,9 +91,7 @@ let
       paths = [
         "authelia/jwt_secret"
         "authelia/storage_encryption_key"
-        "authelia/users/user_1/username"
-        "authelia/users/user_1/email"
-        "authelia/users/user_1/password"
+        "authelia/ldap/password"
 
         "authelia/oidc/hmac_secret"
 
@@ -132,6 +130,30 @@ let
 
     in
     (lib.foldl' (acc: path: acc // (mkSecret path)) { } paths) // extraSecrets;
+
+  lldapSecrets =
+    let
+      paths = [
+        "lldap/key_seed"
+        "lldap/jwt_secret"
+        "lldap/users/admin/password"
+        "lldap/users/authelia/password"
+
+        "lldap/users/user_1/username"
+        "lldap/users/user_1/displayname"
+        "lldap/users/user_1/email"
+        "lldap/users/user_1/password"
+      ];
+
+      mkSecret = path: {
+        ${path} = {
+          owner = config.users.users.lldap.name;
+          group = config.users.users.lldap.group;
+        };
+      };
+
+    in
+    lib.foldl' (acc: path: acc // (mkSecret path)) { } paths;
 
 in
 {
@@ -214,6 +236,7 @@ in
       osUserPasswords
       envSecrets
       resticSecrets
+      (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
       (lib.mkIf (config.services ? ngrok && config.services.ngrok.enable) ngrokSecrets)
       (lib.mkIf (config.services ? playit && config.services.playit.enable) playitSecrets)

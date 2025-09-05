@@ -87,6 +87,7 @@ in
 
       settingsFiles = [
         config.sops.templates."authelia/oidc-apps.yaml".path
+        config.sops.templates."authelia/ldap.yaml".path
       ];
 
       environmentVariables = {
@@ -104,13 +105,6 @@ in
           address = "tcp://127.0.0.1:${portsCfg.portStr}";
           endpoints.authz.forward-auth = {
             implementation = "ForwardAuth";
-          };
-        };
-
-        authentication_backend = {
-          file = {
-            path = config.sops.templates."authelia/users.yaml".path;
-            watch = false;
           };
         };
 
