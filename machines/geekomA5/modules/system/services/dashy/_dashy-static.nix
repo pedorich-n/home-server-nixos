@@ -120,7 +120,7 @@ let
       {
         name = "Media Management";
         icon = "mdi-movie-open-settings";
-        # displayData.showForKeycloakUsers.groups = [ "Admins" ];
+        displayData.showForKeycloakUsers.groups = [ "Admins" ];
         items = [
           (mkEntry {
             slug = "sonarr";
@@ -149,7 +149,7 @@ let
       {
         name = "Server Management";
         icon = "mdi-server";
-        # displayData.showForKeycloakUsers.groups = [ "Admins" ];
+        displayData.showForKeycloakUsers.groups = [ "Admins" ];
         items = [
           (mkEntry {
             slug = "cockpit";
