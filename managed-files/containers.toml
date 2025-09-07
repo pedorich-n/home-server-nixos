@@ -55,7 +55,7 @@ version = '15.14-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:7f7eeecd95f772d8b6108adac42fc39f7f520562175a92521093abc2d46e9b13'
+digest = 'sha256:6d9a1b5cd5a9efa48f26e9588af3227f239489ae6d68d6aa894492930acd5e42'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
@@ -76,10 +76,10 @@ version = '1.7.3'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:2eb83307a08de3287822b648fce4cbf1364423b55f2af623c149c6b21c2cef00'
+digest = 'sha256:816b80788e81b517c477a200a47f3d7e882cc2b9b0504f616957a19f59518d2f'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2025.8.3'
+version = '2025.9.1'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
@@ -90,7 +90,7 @@ version = '17.6-alpine'
 versioning = 'docker'
 
 [immich-machine-learning]
-digest = 'sha256:7c78ce7562246a5126d62bed9ba609f7129842a3f4c243b99e2dd68fb0ba43a7'
+digest = 'sha256:6239f9852f2ccd8bef52b161629a8fc62bac7636750c06e5fe021e994bab4781'
 image = 'immich-app/immich-machine-learning'
 registry = 'ghcr.io'
 version = 'v1.140.1'
@@ -104,7 +104,7 @@ version = '14-vectorchord0.4.3-pgvectors0.3.0'
 versioning = 'regex:^(?<major>14)-vectorchord(?<minor>0\.4\.\d+)'
 
 [immich-server]
-digest = 'sha256:92effed36e8fd55dc46e3f50cf891fd12f8f5429aaf646ef99fee938bb1e38af'
+digest = 'sha256:d97aea4b3f59989a79c6adffb39a1a8b95dd27c90a7f79280b1176a6220cf17b'
 image = 'immich-app/immich-server'
 registry = 'ghcr.io'
 version = 'v1.140.1'
@@ -160,10 +160,10 @@ version = '8.2.1-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:fbe142ff2e02713740329ebb5981c6bb6fe54f8b4de18e98637c2ff586ea1935'
+digest = 'sha256:6dbe57d8198fa117158ba9e867e2d45280b65e9c37ea54c1df7b34c4085a564c'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '2.18.2'
+version = '2.18.3'
 versioning = 'semver'
 
 [prowlarr]
@@ -182,10 +182,10 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [radarr]
-digest = 'sha256:7eb64f5af8bbe48e79bc55c0c37ca8db89b2f073a9ff0094f603916ae1df9de8'
+digest = 'sha256:3ebb31bce86870dbcc15a5db3fba8864e302310cb2adb70476b0b64c1b3dc6dc'
 image = 'linuxserver/radarr'
 registry = 'docker.io'
-version = '5.26.2'
+version = '5.27.5'
 versioning = 'semver'
 
 [recyclarr]
@@ -210,8 +210,8 @@ version = '4.0.15'
 versioning = 'semver'
 
 [zigbee2mqtt]
-digest = 'sha256:472f4f5ed5d4258056093ea5745bc0ada37628b667d7db4fb12c2ffea74b2703'
+digest = 'sha256:22e1fc160163edee0ceef47910211e97e7b0fb18b6bc94c9b799409252409f6a'
 image = 'koenkk/zigbee2mqtt'
 registry = 'docker.io'
-version = '2.6.0'
+version = '2.6.1'
 versioning = 'semver'
