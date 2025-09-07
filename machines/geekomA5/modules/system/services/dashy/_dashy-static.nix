@@ -6,11 +6,11 @@
 }:
 
 let
-  capitilize =
+  capitalize =
     word:
     let
-      firstChar = builtins.substring 0 1 word;
-      restOfWord = builtins.substring 1 (-1) word;
+      firstChar = lib.substring 0 1 word;
+      restOfWord = lib.substring 1 (-1) word;
       upperFirstChar = lib.strings.toUpper firstChar;
     in
     "${upperFirstChar}${restOfWord}";
@@ -18,7 +18,7 @@ let
   mkEntry =
     {
       slug,
-      title ? capitilize slug,
+      title ? capitalize slug,
       iconName ? slug,
       iconLink ? "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${iconName}.png",
     }:
