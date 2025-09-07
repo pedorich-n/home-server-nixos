@@ -24,10 +24,24 @@ in
     };
 
     traefik.dynamicConfigOptions.http = {
-      routers.dashy-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "dashy"}`)";
-        service = "dashy-secure";
+      middlewares = {
+        dashy-top-level-redirect = {
+          redirectRegex = {
+            regex = "^https://${config.custom.networking.domain}(.*)";
+            replacement = ''${networkingLib.mkUrl "dashy"}'';
+            permanent = true;
+          };
+        };
+      };
+
+      routers = {
+        top-level.middlewares = [ "dashy-top-level-redirect@file" ];
+
+        dashy-secure = {
+          entryPoints = [ "web-secure" ];
+          rule = "Host(`${networkingLib.mkDomain "dashy"}`)";
+          service = "dashy-secure";
+        };
       };
 
       services.dashy-secure = {

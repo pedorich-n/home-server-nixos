@@ -38,6 +38,20 @@ let
     appConfig = {
       disableContextMenu = true;
 
+      layout = "horizontal";
+      iconSize = "large";
+      theme = "Cherry-Blossom";
+
+      preventWriteToDisk = true;
+      disableUpdateChecks = true;
+
+      hideComponents = {
+        hideHeading = true;
+        hideSearch = true;
+        hideNav = true;
+        hideFooter = true;
+      };
+
       auth = {
         enableOidc = true;
         oidc = {
@@ -46,10 +60,6 @@ let
           scope = "openid profile email groups";
           adminGroup = "Admins";
         };
-      };
-
-      hideComponents = {
-        hideSearch = true;
       };
     };
 
@@ -143,6 +153,7 @@ let
         items = [
           (mkEntry {
             slug = "cockpit";
+            iconName = "cockpit-light";
           })
           (mkEntry {
             slug = "netdata";
@@ -153,6 +164,7 @@ let
           (mkEntry {
             slug = "lldap";
             title = "LLDAP";
+            iconName = "lldap-dark";
           })
         ];
       }
