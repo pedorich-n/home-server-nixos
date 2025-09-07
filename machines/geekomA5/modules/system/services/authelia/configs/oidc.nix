@@ -9,7 +9,7 @@ let
 
   yamlFormat = pkgs.formats.yaml { };
 
-  mkOidcProvider =
+  mkOidcProviderPrivate =
     {
       name,
       redirectUris,
@@ -20,8 +20,31 @@ let
       client_id = config.sops.placeholder."authelia/oidc/${name}/client_id";
       client_secret = config.sops.placeholder."authelia/oidc/${name}/client_secret_hashed";
       redirect_uris = redirectUris;
+      public = false;
       authorization_policy = "one_factor";
       consent_mode = "implicit";
+    }
+    // extraArgs;
+
+  mkOidcProviderPublic =
+    {
+      name,
+      id ? config.sops.placeholder."authelia/oidc/${name}/client_id",
+      redirectUris,
+      extraArgs ? { },
+    }:
+    {
+      client_name = name;
+      client_id = id;
+      redirect_uris = redirectUris;
+      public = true;
+      authorization_policy = "one_factor";
+      consent_mode = "implicit";
+      require_pkce = true;
+      pkce_challenge_method = "S256";
+      grant_types = [
+        "authorization_code"
+      ];
     }
     // extraArgs;
 
@@ -59,6 +82,14 @@ in
               };
             };
           };
+
+          roles = {
+            custom_claims = {
+              roles = {
+                attribute = "admin_or_user_list";
+              };
+            };
+          };
         };
 
         scopes = {
@@ -69,10 +100,23 @@ in
           immich_role = {
             claims = [ "immich_role" ];
           };
+
+          roles = {
+            claims = [ "roles" ];
+          };
+        };
+
+        cors = {
+          allowed_origins_from_client_redirect_uris = true;
+          endpoints = [
+            "userinfo"
+            "authorization"
+            "token"
+          ];
         };
 
         clients = [
-          (mkOidcProvider {
+          (mkOidcProviderPrivate {
             name = "audiobookshelf";
             redirectUris = [
               "${networkingLib.mkUrl "audiobookshelf"}/auth/openid/callback"
@@ -89,7 +133,7 @@ in
               ];
             };
           })
-          (mkOidcProvider {
+          (mkOidcProviderPrivate {
             name = "jellyfin";
             redirectUris = [
               "${networkingLib.mkUrl "jellyfin"}/sso/OID/redirect/Authelia"
@@ -99,18 +143,18 @@ in
               token_endpoint_auth_method = "client_secret_post";
             };
           })
-          (mkOidcProvider {
+          (mkOidcProviderPrivate {
             name = "grist";
             redirectUris = [ "${networkingLib.mkUrl "grist"}/oauth2/callback" ];
           })
-          (mkOidcProvider {
+          (mkOidcProviderPrivate {
             name = "homeassistant";
             redirectUris = [ "${networkingLib.mkUrl "homeassistant"}/auth/oidc/callback" ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
             };
           })
-          (mkOidcProvider {
+          (mkOidcProviderPrivate {
             name = "immich";
             redirectUris = [
               "${networkingLib.mkUrl "immich"}/auth/login"
@@ -128,9 +172,26 @@ in
               ];
             };
           })
-          (mkOidcProvider {
+          (mkOidcProviderPrivate {
             name = "paperless";
             redirectUris = [ "${networkingLib.mkUrl "paperless"}/accounts/oidc/authelia/login/callback/" ];
+          })
+          (mkOidcProviderPublic {
+            name = "dashy";
+            id = "dashy";
+            redirectUris = [
+              (networkingLib.mkUrl "dashy")
+            ];
+            extraArgs = {
+              claims_policy = "roles";
+              scopes = [
+                "openid"
+                "profile"
+                "email"
+                "groups"
+                "roles"
+              ];
+            };
           })
         ];
       };

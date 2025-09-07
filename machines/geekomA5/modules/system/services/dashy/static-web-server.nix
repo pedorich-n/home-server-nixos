@@ -7,7 +7,7 @@
 let
   portsCfg = config.custom.networking.ports.tcp.dashy;
 
-  dashy-static = pkgs.callPackage ./_dashy-static { inherit networkingLib; };
+  dashy-static = pkgs.callPackage ./_dashy-static.nix { inherit networkingLib; };
 in
 {
   custom.networking.ports.tcp.dashy = {

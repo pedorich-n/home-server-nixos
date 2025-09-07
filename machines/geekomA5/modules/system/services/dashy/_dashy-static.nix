@@ -38,6 +38,16 @@ let
     appConfig = {
       disableContextMenu = true;
 
+      auth = {
+        enableOidc = true;
+        oidc = {
+          clientId = "dashy";
+          endpoint = networkingLib.mkUrl "authelia";
+          scope = "openid profile email groups";
+          adminGroup = "Admins";
+        };
+      };
+
       hideComponents = {
         hideSearch = true;
       };
@@ -100,6 +110,7 @@ let
       {
         name = "Media Management";
         icon = "mdi-movie-open-settings";
+        # displayData.showForKeycloakUsers.groups = [ "Admins" ];
         items = [
           (mkEntry {
             slug = "sonarr";
@@ -128,6 +139,7 @@ let
       {
         name = "Server Management";
         icon = "mdi-server";
+        # displayData.showForKeycloakUsers.groups = [ "Admins" ];
         items = [
           (mkEntry {
             slug = "cockpit";
