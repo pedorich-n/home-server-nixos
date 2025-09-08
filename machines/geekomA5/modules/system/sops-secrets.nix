@@ -212,12 +212,6 @@ in
           group = config.users.users.user.group;
           key = "";
         };
-        "home-automation/mosquitto_passwords.txt" = {
-          sopsFile = sopsFilePathFor "home-automation/mosquitto_passwords.txt";
-          owner = config.users.users.user.name;
-          group = config.users.users.user.group;
-          format = "binary";
-        };
 
         "mosquitto/users/homeassistant/password" = { };
         "mosquitto/users/zigbee2mqtt/password" = { };
