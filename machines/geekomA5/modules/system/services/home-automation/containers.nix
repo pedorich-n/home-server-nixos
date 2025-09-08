@@ -2,7 +2,6 @@
   inputs,
   config,
   lib,
-  pkgs,
   containerLib,
   systemdLib,
   ...
@@ -12,10 +11,6 @@ let
 
   storeRoot = "/mnt/store/home-automation";
 
-  configs = builtins.mapAttrs (_: path: pkgs.callPackage path { }) {
-    mosquitto = ./mosquitto/_config.nix;
-  };
-
   networks = [ "home-automation-internal.network" ];
 in
 {
@@ -23,30 +18,6 @@ in
     networks = containerLib.mkDefaultNetwork "home-automation";
 
     containers = {
-      mosquitto = {
-        requiresTraefikNetwork = true;
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
-
-        containerConfig = {
-          volumes = [
-            "${configs.mosquitto}:/mosquitto/config/mosquitto.conf:ro"
-            (containerLib.mkMappedVolumeForUser config.sops.secrets."home-automation/mosquitto_passwords.txt".path "/mosquitto/config/passwords.txt")
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/mosquitto/data" "/mosquitto/data")
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/mosquitto/log" "/mosquitto/log")
-          ];
-          labels = [
-            "traefik.enable=true"
-            "traefik.tcp.routers.mosquitto.rule=HostSNI(`*`)"
-            "traefik.tcp.routers.mosquitto.entrypoints=mqtt"
-            "traefik.tcp.routers.mosquitto.service=mosquitto"
-            "traefik.tcp.services.mosquitto.loadBalancer.server.port=1883"
-          ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-      };
-
       zigbee2mqtt = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
@@ -76,7 +47,7 @@ in
         };
 
         unitConfig = lib.mkMerge [
-          (systemdLib.requiresAfter [ containers.mosquitto.ref ])
+          (systemdLib.requiresAfter [ config.systemd.services.mosquitto.name ])
           (systemdLib.bindsToAfter [ "dev-ttyZigbee.device" ])
         ];
       };
@@ -128,7 +99,7 @@ in
 
         unitConfig = systemdLib.requiresAfter [
           containers.homeassistant-postgresql.ref
-          containers.mosquitto.ref
+          config.systemd.services.mosquitto.name
         ];
       };
 

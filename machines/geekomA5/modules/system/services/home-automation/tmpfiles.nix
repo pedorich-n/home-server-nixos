@@ -3,9 +3,6 @@ let
   storeRoot = "/mnt/store/home-automation";
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
-    "mosquitto/data"
-    "mosquitto/log"
-
     "postgresql"
 
     "zigbee2mqtt"

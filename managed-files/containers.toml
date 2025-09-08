@@ -131,13 +131,6 @@ registry = 'docker.io'
 version = '3.2.4'
 versioning = 'semver'
 
-[mosquitto]
-digest = 'sha256:d219d3a72847f3aed6a1d66975972d3b17f86e39e8f6f6b86b4088b879c1a2d6'
-image = 'library/eclipse-mosquitto'
-registry = 'docker.io'
-version = '2.0.22'
-versioning = 'semver'
-
 [multiscrobbler]
 digest = 'sha256:7212fa36e0bc25c88ab43cbe554d69361f331001654866ce048a3c4a8f93a333'
 image = 'foxxmd/multi-scrobbler'

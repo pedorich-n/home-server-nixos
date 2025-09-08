@@ -3,7 +3,7 @@ homeassistant:
   enabled: true
 mqtt:
   base_topic: zigbee2mqtt
-  server: mqtt://mosquitto
+  server: mqtt://host.containers.internal:1883
   keepalive: 60
   password: "!secrets.yaml mqtt_password"
   reject_unauthorized: true
