@@ -31,6 +31,10 @@
             hashedPasswordFile = config.sops.secrets."mosquitto/users/zigbee2mqtt/password".path;
             acl = [ "readwrite #" ];
           };
+          observer = {
+            hashedPasswordFile = config.sops.secrets."mosquitto/users/observer/password".path;
+            acl = [ "read #" ];
+          };
         };
       }
     ];

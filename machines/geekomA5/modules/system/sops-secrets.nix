@@ -222,6 +222,7 @@ in
         "mosquitto/users/homeassistant/password" = { };
         "mosquitto/users/zigbee2mqtt/password" = { };
         "mosquitto/users/iot-device/password" = { };
+        "mosquitto/users/observer/password" = { };
 
         "music-history/maloja/api_keys/multiscrobbler" = { };
         "music-history/multiscrobbler/maloja/api_key" = { };
