@@ -219,6 +219,10 @@ in
           format = "binary";
         };
 
+        "mosquitto/users/homeassistant/password" = { };
+        "mosquitto/users/zigbee2mqtt/password" = { };
+        "mosquitto/users/iot-device/password" = { };
+
         "music-history/maloja/api_keys/multiscrobbler" = { };
         "music-history/multiscrobbler/maloja/api_key" = { };
         "music-history/multiscrobbler/spotify/client_id" = { };

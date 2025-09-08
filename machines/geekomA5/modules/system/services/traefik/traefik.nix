@@ -5,10 +5,10 @@
       port = 8080;
       openFirewall = false;
     };
-    traefik-mqtt = {
-      port = 1883;
-      openFirewall = true;
-    };
+    # traefik-mqtt = {
+    #   port = 1883;
+    #   openFirewall = true;
+    # };
     traefik-web = {
       port = 80;
       openFirewall = true;
@@ -56,7 +56,7 @@
       };
 
       entryPoints = {
-        mqtt.address = ":${config.custom.networking.ports.tcp.traefik-mqtt.portStr}";
+        # mqtt.address = ":${config.custom.networking.ports.tcp.traefik-mqtt.portStr}";
 
         metrics.address = ":${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
         web = {
