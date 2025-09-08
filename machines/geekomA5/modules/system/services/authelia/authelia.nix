@@ -51,7 +51,10 @@ in
   };
 
   systemd.services.authelia-main = {
-    unitConfig = systemdLib.requiresAfter [ "redis-authelia.service" ];
+    unitConfig = systemdLib.requiresAfter [
+      config.systemd.services.redis-authelia.name
+      config.systemd.services.lldap.name
+    ];
   };
 
   users.users.authelia-main.extraGroups = [ config.services.redis.servers.authelia.group ];

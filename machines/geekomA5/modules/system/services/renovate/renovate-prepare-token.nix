@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  systemdLib,
   ...
 }:
 let
@@ -40,10 +41,9 @@ in
 
     };
 
-    renovate.unitConfig = {
-      Requires = [ "renovate-prepare-token.service" ];
-      After = [ "renovate-prepare-token.service" ];
-    };
+    renovate.unitConfig = systemdLib.requiresAfter [
+      config.systemd.services.renovate-prepare-token.name
+    ];
   };
 
   services.renovate.credentials = {

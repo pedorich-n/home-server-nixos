@@ -34,10 +34,12 @@ in
       description = "Tailscale's Dnsmasq";
       after = [
         "network.target"
-        "systemd-resolved.service"
-        "tailscaled.service"
+        config.systemd.services.systemd-resolved.name
+        config.systemd.services.tailscaled.name
       ];
-      bindsTo = [ "tailscaled.service" ];
+      bindsTo = [
+        config.systemd.services.tailscaled.name
+      ];
       wantedBy = [ "multi-user.target" ];
 
       serviceConfig = {
