@@ -36,13 +36,14 @@ let
 in
 {
   systemd = {
-    # timers.immich-cloud-dumper = {
-    #   description = "Run Immich Cloud Photos Dumper";
+    timers.immich-cloud-dumper = {
+      description = "Run Immich Cloud Photos Dumper";
 
-    #   timerConfig = {
-    #     OnCalendar = "*-*-* 21:00:00";
-    #   };
-    # };
+      timerConfig = {
+        OnCalendar = "*-*-* 01:00:00";
+        Persistent = true;
+      };
+    };
 
     services.immich-cloud-dumper = {
       description = "Immich Cloud Photos Dumper";
