@@ -7,11 +7,16 @@
   ...
 }:
 let
+  photosRoot = "/mnt/rclone/mega/Photos";
+  logRoot = "/var/log/immich-cloud-dumper";
+
   arguments = [
     "upload"
     "from-folder"
     "--no-ui"
     "--pause-immich-jobs"
+    "--log-file"
+    "${logRoot}/immich-go_\${TIMESTAMP}.log"
     "--server"
     (networkingLib.mkUrl "immich")
     "--api-key"
@@ -26,7 +31,7 @@ let
     "StackCoverJPG"
     "--manage-raw-jpeg"
     "StackCoverJPG"
-    "/mnt/rclone/mega/Photos"
+    photosRoot
   ];
 in
 {
@@ -54,6 +59,7 @@ in
 
       script = ''
         export API_KEY=$(systemd-creds cat api-key)
+        export TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
 
         ${lib.getExe pkgs.immich-go} ${lib.concatStringsSep " " arguments}
       '';
@@ -62,8 +68,35 @@ in
         LoadCredential = ''api-key:${config.sops.secrets."immich/api/immich-go/key".path}'';
         Restart = "on-failure";
 
-        User = config.users.users.user.name;
-        Group = config.users.users.user.group;
+        LogsDirectory = "immich-cloud-dumper";
+
+        # Hardening
+        DynamicUser = true;
+        SupplementaryGroups = [ "media" ];
+        ReadWritePaths = [
+          photosRoot
+          logRoot
+        ];
+
+        ProtectSystem = "full";
+        DeviceAllow = "";
+        LockPersonality = true;
+        PrivateDevices = true;
+        PrivateTmp = true;
+        PrivateUsers = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        ProtectKernelLogs = true;
+        ProtectControlGroups = true;
+        RestrictSUIDSGID = true;
+        RestrictNamespaces = true;
+        ProtectClock = true;
+        NoNewPrivileges = true;
+        CapabilityBoundingSet = "";
+        RestrictAddressFamilies = [
+          "AF_INET"
+          "AF_INET6"
+        ];
       };
     };
   };
