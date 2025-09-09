@@ -23,10 +23,11 @@ in
           user = "UID=authelia,OU=people,DC=server";
           password = config.sops.placeholder."authelia/ldap/password";
 
-          pooling = {
-            enable = true;
-            count = 5;
-          };
+          # Disabled because of https://github.com/authelia/authelia/issues/9936
+          # pooling = {
+          #   enable = true;
+          #   count = 5;
+          # };
         };
       };
     };

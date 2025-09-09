@@ -79,7 +79,7 @@ let
           })
           (mkEntry {
             slug = "ente";
-            iconLink = "https://ente.io/assets/ente-photos-icon-transparent.png";
+            iconName = "ente-photos";
           })
           (mkEntry {
             slug = "copyparty";

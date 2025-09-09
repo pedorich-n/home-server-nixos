@@ -3,6 +3,7 @@
   lib,
   networkingLib,
   pkgs,
+  pkgs-unstable,
   ...
 }:
 let
@@ -59,6 +60,8 @@ in
     lldap = {
       enable = true;
 
+      package = pkgs-unstable.lldap;
+
       environment = {
         LLDAP_JWT_SECRET_FILE = config.sops.secrets."lldap/jwt_secret".path;
         LLDAP_KEY_SEED_FILE = config.sops.secrets."lldap/key_seed".path;
@@ -75,6 +78,7 @@ in
         ldap_base_dn = "DC=server";
 
         database_url = "sqlite:///var/lib/lldap/users.db?mode=rwc";
+        key_file = ""; # I am using key seed, so there's no need for a file
       };
     };
   };
