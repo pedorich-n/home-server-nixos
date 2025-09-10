@@ -42,10 +42,6 @@ in
     users.rclone = {
       isSystemUser = true;
       group = "rclone";
-      extraGroups = [
-        config.users.groups.fuse.name
-        config.users.groups.media.name
-      ];
     };
 
     groups.rclone = { };
@@ -72,6 +68,10 @@ in
       Type = "notify";
       User = config.users.users.rclone.name;
       Group = config.users.groups.rclone.name;
+      SupplementaryGroups = [
+        config.users.groups.fuse.name
+        config.users.groups.media.name
+      ];
 
       ExecStart = ''${lib.getExe pkgs.rclone} mount mega: /mnt/rclone/mega ${lib.concatStringsSep " " arguments}'';
       Restart = "on-failure";

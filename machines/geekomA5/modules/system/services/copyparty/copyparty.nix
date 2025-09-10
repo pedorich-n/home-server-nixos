@@ -3,6 +3,7 @@
   pkgs-unstable,
   networkingLib,
   systemdLib,
+  lib,
   ...
 }:
 let
@@ -18,12 +19,15 @@ in
     };
   };
 
-  users.users.copyparty.extraGroups = [
-    "media"
-  ];
-
   systemd.services.copyparty = {
     unitConfig = systemdLib.requiresAfter [ "zfs.target" ];
+
+    serviceConfig = {
+      SupplementaryGroups = [
+        config.users.groups.media.name
+      ];
+      UMask = lib.mkForce "037"; # rwx r-- ---
+    };
   };
 
   services = {
@@ -46,8 +50,6 @@ in
         idp-store = "0"; # Do not store users/groups from IdP in the DB
 
         hist = "/var/lib/copyparty/history"; # Cache location
-
-        gid = config.users.groups.media.gid; # GID for upload/create/mkdir operations
       };
 
       volumes = {
@@ -65,6 +67,9 @@ in
             "w" = "@acct";
             "d" = "@acct";
             "a" = "@Admins";
+          };
+          flags = {
+            gid = config.users.groups.media.gid; # GID for upload/create/mkdir operations
           };
         };
       };

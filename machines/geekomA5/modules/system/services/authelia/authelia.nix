@@ -55,9 +55,13 @@ in
       config.systemd.services.redis-authelia.name
       config.systemd.services.lldap.name
     ];
-  };
 
-  users.users.authelia-main.extraGroups = [ config.services.redis.servers.authelia.group ];
+    serviceConfig = {
+      SupplementaryGroups = [
+        config.services.redis.servers.authelia.group
+      ];
+    };
+  };
 
   services = {
     traefik.dynamicConfigOptions.http = {
