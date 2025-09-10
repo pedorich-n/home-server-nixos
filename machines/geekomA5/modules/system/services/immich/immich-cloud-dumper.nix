@@ -39,6 +39,8 @@ in
     timers.immich-cloud-dumper = {
       description = "Run Immich Cloud Photos Dumper";
 
+      wantedBy = [ "timers.target" ];
+
       timerConfig = {
         OnCalendar = "*-*-* 01:00:00";
         Persistent = true;
@@ -73,7 +75,9 @@ in
 
         # Hardening
         DynamicUser = true;
-        SupplementaryGroups = [ "media" ];
+        SupplementaryGroups = [
+          config.users.groups.media.name
+        ];
         ReadWritePaths = [
           photosRoot
           logRoot
