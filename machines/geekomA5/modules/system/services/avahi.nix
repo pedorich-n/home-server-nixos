@@ -5,6 +5,13 @@
     openFirewall = true;
   };
 
+  systemd.services.avahi-daemon.serviceConfig = {
+    # During boot, while podman containers are starting avahi gets restarted multiple times and eventually gets marked as failed.
+    # This makes sure it gets restarted enough times to get going eventually.
+    StartLimitBurst = 15;
+    StartLimitInterval = 300;
+  };
+
   services = {
     networkd-dispatcher = {
       enable = true;

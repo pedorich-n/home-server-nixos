@@ -32,6 +32,8 @@
             networkConfig = {
               DHCP = true;
               IgnoreCarrierLoss = "10m";
+              LinkLocalAddressing = "ipv4";
+              IPv6AcceptRA = false;
             };
           };
 

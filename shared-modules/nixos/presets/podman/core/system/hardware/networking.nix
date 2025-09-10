@@ -4,7 +4,6 @@
     allowedUDPPorts = [
       53 # DNS
       5353 # mDNS
-      5453 # container DNS
     ];
   };
 }
