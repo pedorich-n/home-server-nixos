@@ -213,6 +213,8 @@ in
           key = "";
         };
 
+        "immich/api/immich-go/key" = { };
+
         "mosquitto/users/homeassistant/password" = { };
         "mosquitto/users/zigbee2mqtt/password" = { };
         "mosquitto/users/iot-device/password" = { };
