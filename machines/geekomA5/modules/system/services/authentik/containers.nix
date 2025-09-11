@@ -36,6 +36,7 @@ in
 
     containers = {
       authentik-postgresql = {
+        autoStart = false;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -51,6 +52,7 @@ in
       };
 
       authentik-redis = {
+        autoStart = false;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -65,6 +67,7 @@ in
       };
 
       authentik-worker = {
+        autoStart = false;
         useGlobalContainers = true;
         usernsAuto = {
           enable = true;
@@ -107,6 +110,7 @@ in
       };
 
       authentik-server = {
+        autoStart = false;
         useGlobalContainers = true;
         usernsAuto = {
           enable = true;
