@@ -3,6 +3,7 @@
   containerLib,
   systemdLib,
   networkingLib,
+  lib,
   ...
 }:
 let
@@ -121,10 +122,14 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.requiresAfter [
-          containers.immich-valkey.ref
-          containers.immich-postgresql.ref
-          "zfs.target"
+        unitConfig = lib.mkMerge [
+          (systemdLib.requiresAfter [
+            containers.immich-valkey.ref
+            containers.immich-postgresql.ref
+          ])
+          (systemdLib.requisiteAfter [
+            "zfs.target"
+          ])
         ];
       };
     };

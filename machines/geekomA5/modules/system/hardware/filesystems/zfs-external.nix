@@ -4,6 +4,10 @@
   # LINK https://github.com/nix-community/disko/issues/581#issuecomment-2260602290
   boot.zfs.extraPools = [ "external" ];
 
+  systemd.services."zfs-import-external".serviceConfig = {
+    TimeoutStartSec = 120; # Max 2 minutes to import
+  };
+
   disko.devices = {
     disk = {
       external_1 = {

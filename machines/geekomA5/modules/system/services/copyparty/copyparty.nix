@@ -20,7 +20,9 @@ in
   };
 
   systemd.services.copyparty = {
-    unitConfig = systemdLib.requiresAfter [ "zfs.target" ];
+    unitConfig = systemdLib.requisiteAfter [
+      "zfs.target"
+    ];
 
     serviceConfig = {
       SupplementaryGroups = [

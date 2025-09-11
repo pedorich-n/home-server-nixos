@@ -25,7 +25,9 @@ in
       MINIO_API_CORS_ALLOW_ORIGIN = "*";
     };
 
-    unitConfig = systemdLib.requiresAfter [ "zfs.target" ];
+    unitConfig = systemdLib.requisiteAfter [
+      "zfs.target"
+    ];
   };
 
   environment.systemPackages = [

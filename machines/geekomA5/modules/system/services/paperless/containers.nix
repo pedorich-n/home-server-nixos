@@ -3,6 +3,7 @@
   containerLib,
   systemdLib,
   networkingLib,
+  lib,
   ...
 }:
 let
@@ -93,10 +94,14 @@ in
           inherit networks;
         };
 
-        unitConfig = systemdLib.requiresAfter [
-          containers.paperless-redis.ref
-          containers.paperless-postgresql.ref
-          "zfs.target"
+        unitConfig = lib.mkMerge [
+          (systemdLib.requiresAfter [
+            containers.paperless-redis.ref
+            containers.paperless-postgresql.ref
+          ])
+          (systemdLib.requisiteAfter [
+            "zfs.target"
+          ])
         ];
       };
     };

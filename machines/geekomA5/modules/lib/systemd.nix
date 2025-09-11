@@ -5,6 +5,11 @@ _: {
       After = services;
     };
 
+    requisiteAfter = services: {
+      Requisite = services;
+      After = services;
+    };
+
     wantsAfter = services: {
       Wants = services;
       After = services;

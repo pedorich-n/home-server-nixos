@@ -28,13 +28,11 @@ let
   storeRoot = "/mnt/store/data-library";
   externalStoreRoot = "/mnt/external/data-library";
 
-  afterDownloaders = {
-    After = [
-      containers.qbittorrent.ref
-      containers.sabnzbd.ref
-      containers.gluetun.ref
-    ];
-  };
+  afterDownloaders = systemdLib.wantsAfter [
+    containers.qbittorrent.ref
+    containers.sabnzbd.ref
+    containers.gluetun.ref
+  ];
 in
 {
   custom.networking.ports.udp = {
@@ -111,9 +109,13 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.bindsToAfter [
-          containers.gluetun.ref
-          "zfs.target"
+        unitConfig = lib.mkMerge [
+          (systemdLib.bindsToAfter [
+            containers.gluetun.ref
+          ])
+          (systemdLib.requisiteAfter [
+            "zfs.target"
+          ])
         ];
       };
 
@@ -142,7 +144,7 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.requiresAfter [
+        unitConfig = systemdLib.requisiteAfter [
           "zfs.target"
         ];
       };
@@ -197,7 +199,9 @@ in
 
         unitConfig = lib.mkMerge [
           afterDownloaders
-          (systemdLib.requiresAfter [ "zfs.target" ])
+          (systemdLib.requisiteAfter [
+            "zfs.target"
+          ])
         ];
       };
 
@@ -226,7 +230,9 @@ in
 
         unitConfig = lib.mkMerge [
           afterDownloaders
-          (systemdLib.requiresAfter [ "zfs.target" ])
+          (systemdLib.requisiteAfter [
+            "zfs.target"
+          ])
         ];
       };
 
@@ -304,7 +310,9 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.requiresAfter [ "zfs.target" ];
+        unitConfig = systemdLib.requisiteAfter [
+          "zfs.target"
+        ];
       };
 
       audiobookshelf = {
@@ -330,7 +338,9 @@ in
           inherit (containerLib.containerIds) user;
         };
 
-        unitConfig = systemdLib.requiresAfter [ "zfs.target" ];
+        unitConfig = systemdLib.requisiteAfter [
+          "zfs.target"
+        ];
       };
     };
   };

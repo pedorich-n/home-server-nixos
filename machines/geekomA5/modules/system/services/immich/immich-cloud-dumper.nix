@@ -51,7 +51,7 @@ in
       description = "Immich Cloud Photos Dumper";
 
       unitConfig = lib.mkMerge [
-        (systemdLib.requiresAfter [
+        (systemdLib.requisiteAfter [
           config.systemd.services.rclone-mega.name
           "immich-server.service"
         ])
