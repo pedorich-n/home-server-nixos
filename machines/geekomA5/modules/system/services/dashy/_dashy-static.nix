@@ -1,5 +1,5 @@
 {
-  pkgs,
+  dashy-ui,
   lib,
   networkingLib,
   ...
@@ -172,4 +172,4 @@ let
   };
 
 in
-pkgs.dashy-ui.override { settings = dashySettings; }
+dashy-ui.override { settings = dashySettings; }

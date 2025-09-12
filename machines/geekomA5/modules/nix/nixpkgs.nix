@@ -2,6 +2,7 @@
 {
   inputs,
   overlays,
+  pkgs,
   ...
 }:
 {
@@ -14,7 +15,6 @@
       overlays.cockpit-plugins
       overlays.minecraft-modpacks
       overlays.lldap-bootstrap
-      overlays.dashy-ui
     ];
   };
 
@@ -22,4 +22,9 @@
   #   inherit (pkgs) config;
   #   inherit (pkgs.stdenv.hostPlatform) system;
   # };
+
+  _module.args.pkgs-dashy = import inputs.nixpkgs-dashy {
+    inherit (pkgs) config;
+    inherit (pkgs.stdenv.hostPlatform) system;
+  };
 }

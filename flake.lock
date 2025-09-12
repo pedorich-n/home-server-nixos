@@ -289,6 +289,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-dashy": {
+      "locked": {
+        "lastModified": 1757690445,
+        "narHash": "sha256-OVBu8sZ0lXbOuGEcb6JTPDSgolKAs9tSKdO4LI4rnZ4=",
+        "owner": "pedorich-n",
+        "repo": "nixpkgs",
+        "rev": "11d4a83ac9fe61301d5ded7315a4d6c3bdea4f0e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pedorich-n",
+        "ref": "update-dashy",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1756386758,
@@ -428,6 +444,7 @@
         "homeassistant-docker-venv": "homeassistant-docker-venv",
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-dashy": "nixpkgs-dashy",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "playit-nixos-module": "playit-nixos-module",
         "quadlet-nix": "quadlet-nix",
