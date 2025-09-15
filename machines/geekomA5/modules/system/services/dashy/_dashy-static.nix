@@ -166,6 +166,9 @@ let
             title = "LLDAP";
             iconName = "lldap-dark";
           })
+          (mkEntry {
+            slug = "authelia";
+          })
         ];
       }
     ];
