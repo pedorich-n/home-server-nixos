@@ -58,7 +58,10 @@ in
     netdata = {
       enable = true;
 
-      package = pkgs-unstable.netdataCloud.override { withNdsudo = true; };
+      package = pkgs-unstable.netdataCloud.override {
+        withNdsudo = true;
+        withIpmi = false;
+      };
 
       extraNdsudoPackages = with pkgs; [
         nvme-cli
@@ -83,6 +86,8 @@ in
           "netdata monitoring" = "no";
           "debugfs" = "no";
           "ioping" = "no";
+          "tc" = "no";
+          "freeipmi" = "no";
         };
 
         "plugin:cgroups" = {
