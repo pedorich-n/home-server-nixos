@@ -23,9 +23,9 @@ resource "tailscale_acl" "acl" {
         }
       ],
       "autoApprovers": {
-        "exitNode": [ "tag:router" ],
+        "exitNode": [ "${local.tags.router}" ],
         "routes": {
-          "192.168.0.0/16": [ "tag:subnet" ]
+          "192.168.0.0/16": [ "${local.tags.subnet}" ]
         }
       },
       "ssh": [
@@ -57,7 +57,10 @@ resource "tailscale_acl" "acl" {
           // But a user should be able to access any node
           "src": "pedorich.n@gmail.com", 
           "allow": [
-            "${local.tags.initrd}:2222", 
+            "${local.tags.initrd}:2222",
+            "${local.tags.initrd}:2222",
+            "${local.tags.ssh}:22",
+            "${local.tags.router}:443",
             "100.113.5.10:80"
           ] 
         },
@@ -65,7 +68,7 @@ resource "tailscale_acl" "acl" {
           // A router also should be able to access any node
           "src": "${local.tags.router}", 
           "allow": [
-            "${local.tags.initrd}:2222", 
+            "${local.tags.initrd}:2222",
             "${local.tags.ssh}:22",
             "${local.tags.router}:443",
             "100.113.5.10:80"
