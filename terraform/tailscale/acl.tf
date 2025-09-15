@@ -4,20 +4,30 @@ resource "tailscale_acl" "acl" {
       "tagOwners": {
         "${local.tags.server}": [], // Not used for any ACL yet
         "${local.tags.initrd}": [],
-        "${local.tags.ssh}": []
+        "${local.tags.ssh}": [],
+        "${local.tags.router}": [],
+        "${local.tags.subnet}": []
       },
-      "acls": [
+      "grants": [
         {
           // Allow all members to connect to any node
-          "action": "accept", 
-          "src": [ 
-            "autogroup:member"
-          ], 
-          "dst": [
-            "*:*"
-          ] 
+          "src": [ "autogroup:member" ], 
+          "dst": [ "*" ],
+          "ip": [ "*" ]
         }, 
+        {
+          // Allow routers to connect to any node
+          "src": [ "${local.tags.router}" ], 
+          "dst": [ "*" ],
+          "ip": [ "*" ]
+        }
       ],
+      "autoApprovers": {
+        "exitNode": [ "tag:router" ],
+        "routes": {
+          "192.168.0.0/16": [ "tag:subnet" ]
+        }
+      },
       "ssh": [
         {
           "action": "accept", 
@@ -50,7 +60,17 @@ resource "tailscale_acl" "acl" {
             "${local.tags.initrd}:2222", 
             "100.113.5.10:80"
           ] 
-        }
+        },
+        {
+          // A router also should be able to access any node
+          "src": "${local.tags.router}", 
+          "allow": [
+            "${local.tags.initrd}:2222", 
+            "${local.tags.ssh}:22",
+            "${local.tags.router}:443",
+            "100.113.5.10:80"
+          ]
+        },
       ],
       "sshTests": [
         {

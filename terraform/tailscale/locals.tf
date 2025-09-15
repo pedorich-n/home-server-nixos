@@ -1,7 +1,9 @@
 locals {
   tags = {
     ssh    = "tag:ssh",
+    initrd = "tag:initramfs",
     server = "tag:server",
-    initrd = "tag:initramfs"
+    router = "tag:router",
+    subnet = "tag:subnet"
   }
 }
