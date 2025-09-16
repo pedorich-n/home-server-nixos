@@ -9,6 +9,13 @@ let
 
   yamlFormat = pkgs.formats.yaml { };
 
+  defaultScopes = [
+    "openid"
+    "profile"
+    "email"
+    "groups"
+  ];
+
   mkOidcProviderPrivate =
     {
       name,
@@ -23,6 +30,7 @@ let
       public = false;
       authorization_policy = "one_factor";
       consent_mode = "implicit";
+      scopes = defaultScopes;
     }
     // extraArgs;
 
@@ -42,6 +50,7 @@ let
       consent_mode = "implicit";
       require_pkce = true;
       pkce_challenge_method = "S256";
+      scopes = defaultScopes;
       grant_types = [
         "authorization_code"
       ];
@@ -67,17 +76,9 @@ in
 
       identity_providers.oidc = {
         claims_policies = {
-          abs_role = {
+          role = {
             custom_claims = {
-              absgroups = {
-                attribute = "admin_or_user_list";
-              };
-            };
-          };
-
-          immich_role = {
-            custom_claims = {
-              immich_role = {
+              role = {
                 attribute = "admin_or_user";
               };
             };
@@ -93,12 +94,8 @@ in
         };
 
         scopes = {
-          absgroups = {
-            claims = [ "absgroups" ];
-          };
-
-          immich_role = {
-            claims = [ "immich_role" ];
+          role = {
+            claims = [ "role" ];
           };
 
           roles = {
@@ -124,12 +121,9 @@ in
               "audiobookshelf://oauth"
             ];
             extraArgs = {
-              claims_policy = "abs_role";
-              scopes = [
-                "openid"
-                "profile"
-                "email"
-                "absgroups"
+              claims_policy = "roles";
+              scopes = defaultScopes ++ [
+                "roles"
               ];
             };
           })
@@ -163,12 +157,9 @@ in
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
-              claims_policy = "immich_role";
-              scopes = [
-                "openid"
-                "profile"
-                "email"
-                "immich_role"
+              claims_policy = "role";
+              scopes = defaultScopes ++ [
+                "role"
               ];
             };
           })
@@ -184,11 +175,7 @@ in
             ];
             extraArgs = {
               claims_policy = "roles";
-              scopes = [
-                "openid"
-                "profile"
-                "email"
-                "groups"
+              scopes = defaultScopes ++ [
                 "roles"
               ];
             };
