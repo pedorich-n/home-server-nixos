@@ -25,7 +25,10 @@ locals {
     lsd            = false
     anonymous_mode = false
 
-    max_ratio        = 2
+    max_ratio_enabled = true
+    max_ratio         = 2
+    max_ratio_act     = 0 # Pause torrent when ratio is reached. Let the media manager handle deletion.
+
     queueing_enabled = true
 
     max_active_downloads = 2

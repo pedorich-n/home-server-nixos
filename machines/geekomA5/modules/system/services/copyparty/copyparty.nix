@@ -59,6 +59,9 @@ in
           path = root;
           access = {
             "r" = "*";
+            "w" = "@Admins";
+            "d" = "@Admins";
+            "a" = "@Admins";
           };
         };
 
