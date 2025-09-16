@@ -1,23 +1,41 @@
-# Fixing OAuth state after Authentik update
+# Fixing OAuth state
 
-This rarely happens when Authentik blueprint re-creates users with new IDs and some OAuth/OpenID Connect logins break because of it.
+This might happen if OAuth Identity Provider re-creates users with new IDs and some OAuth/OpenID Connect logins break because of it.
 
 ### Immich
 
 1. Go to `immich-postgresql` container, open console
 2. `psql -U immich`
 3. `update users set "oauthId" = '' where email = '<email>';`
-4. Re-login to Immich using Authentik
+4. Re-login to Immich using IdP
 
 ### Paperless
 
-1. Go to `http://paperless.<domain>/admin/socialaccount/socialaccount/` as admin
+1. Go to `https://paperless.<domain>/admin/socialaccount/socialaccount/` as admin
 2. Find account of a `<user>`, and delete it
 3. Log out
 4. Log in as a `<user>` using password
-5. Go to `http://paperless.<domain>/accounts/oidc/authentik/login/?process=connect`
-6. Connect account with Authentik
+5. Go to `https://paperless.<domain>/accounts/oidc/<provider-name>/login/?process=connect`
+6. Connect account with IdP
 
 ### Jellyfin
 
-Haven't had a case of broken connection yet, so don't know if it'll help, but there's a page to link/unlink SSO accounts: `http://jellyfin.<domain>/SSOViews/linking`.
+There's a page to link/unlink SSO accounts: `http://jellyfin.<domain>/SSOViews/linking`.
+
+### Audiobookshelf
+
+1. Log in using password as an admin
+2. Go to `https://audiobookshelf.<domain>/audiobookshelf/config/users` and unlink user(s)
+3. Log in as a user using OAuth link
+
+### Grist
+
+No action needed. Seems like grist matches only by username/email and automatically picks-up changes.
+
+### Home-Assistant
+
+No action needed (I think). HA plugin matches users by username and automatically picks-up changes.
+
+### Dashy
+
+Log out and log in. No extra actions needed. Dashy only cares about groups/roles and doesn't keep the user info.

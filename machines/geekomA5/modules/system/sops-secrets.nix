@@ -230,9 +230,6 @@ in
         "tailscale/oauth_clients/initrd/id" = { };
         "tailscale/oauth_clients/initrd/secret" = { };
 
-        "paperless/client_id" = { };
-        "paperless/client_secret" = { };
-
         "renovate/github_app_private_key" = {
           sopsFile = sopsFilePathFor "renovate/github_renovate_app.pem";
           format = "binary";

@@ -1,7 +1,6 @@
 {
   config,
   autheliaLib,
-  authentikLib,
   pkgs,
   ...
 }:
@@ -14,19 +13,9 @@ in
       owner = config.users.users.user.name;
       group = config.users.users.user.group;
       file = keyValueFomat.generate "paperless-oidc.env" {
-        # See https://docs.goauthentik.io/integrations/services/paperless-ngx/
         PAPERLESS_SOCIALACCOUNT_PROVIDERS = builtins.toJSON {
           openid_connect = {
             APPS = [
-              {
-                provider_id = "authentik";
-                name = "Authentik";
-                client_id = config.sops.placeholder."paperless/client_id";
-                secret = config.sops.placeholder."paperless/client_secret";
-                settings = {
-                  server_url = authentikLib.mkIssuerUrl "paperless";
-                };
-              }
               {
                 provider_id = "authelia";
                 name = "Authelia";

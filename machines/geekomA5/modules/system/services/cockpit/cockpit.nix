@@ -31,7 +31,7 @@ in
     pkgs.cockpit-plugins.podman
   ];
 
-  # Run a dedicated session as root to avoid login screen and use Authentik for access management
+  # Run a dedicated session as root to avoid login screen and use external tool for access management
   # See https://github.com/cockpit-project/cockpit/discussions/20814#discussioncomment-10542120
   # See https://github.com/rhinstaller/anaconda-webui/blob/4904f91cd5d84143460a11612032ff315f9563b0/src/systemd/webui-cockpit-ws.service
   systemd.services."cockpit-root" = {

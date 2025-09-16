@@ -5,34 +5,6 @@ registry = 'ghcr.io'
 version = '2.29.0'
 versioning = 'semver'
 
-[authentik-postgresql]
-digest = 'sha256:3406990b6e4c7192317b6fdc5680498744f6142f01f0287f4ee0420d8c74063c'
-image = 'library/postgres'
-registry = 'docker.io'
-version = '17.6-alpine'
-versioning = 'docker'
-
-[authentik-redis]
-digest = 'sha256:987c376c727652f99625c7d205a1cba3cb2c53b92b0b62aade2bd48ee1593232'
-image = 'library/redis'
-registry = 'docker.io'
-version = '8.2.1-alpine'
-versioning = 'docker'
-
-[authentik-server]
-digest = 'sha256:13aa5e2ad3990061602b8792b1d1ba751cf60225d368066f31ab7496cdc18e78'
-image = 'goauthentik/server'
-registry = 'ghcr.io'
-version = '2025.8.1'
-versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
-
-[authentik-worker]
-digest = 'sha256:13aa5e2ad3990061602b8792b1d1ba751cf60225d368066f31ab7496cdc18e78'
-image = 'goauthentik/server'
-registry = 'ghcr.io'
-version = '2025.8.1'
-versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
-
 [core-keeper-server]
 digest = 'sha256:e7db583b392914acbee2e4440f43233a172a9fa9485d8050fbcf8f4f5bdf2855'
 image = 'escaping/core-keeper-dedicated'
