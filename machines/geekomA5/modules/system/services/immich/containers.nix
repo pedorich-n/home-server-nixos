@@ -22,6 +22,15 @@ let
   };
 
   networks = [ "immich-internal.network" ];
+
+  mkMappedVolumeForUserContainerRoot =
+    localPath: remotePath:
+    containerLib.mkIdmappedVolume {
+      uidNamespace = 0;
+      gidNamespace = 0;
+      uidHost = config.users.users.user.uid;
+      gidHost = config.users.groups.${config.users.users.user.group}.gid;
+    } localPath remotePath;
 in
 {
   virtualisation.quadlet = {
@@ -65,10 +74,13 @@ in
 
         containerConfig = {
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/cache/machine-learning" "/cache")
+            # Looks like this container doesn't work properly with both `user` and `userns` set.
+            # It spits "permission denied" errors when it tries to write to download ML models.
+            # So I'll just leave it running as root inside the container for and map volume for root.
+            (mkMappedVolumeForUserContainerRoot "${storeRoot}/machine-learning/cache" "/cache")
           ];
           inherit networks;
-          inherit (containerLib.containerIds) user;
+          # inherit (containerLib.containerIds) user;
         };
 
         unitConfig = systemdLib.requiresAfter [

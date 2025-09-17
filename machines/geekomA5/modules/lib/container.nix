@@ -88,6 +88,7 @@
     };
 
     # Creates a mapping like `"/home/user/test:/test:idmap=uids=@1000-0-1024;gids=@100-0-1024"`
+    # See https://docs.podman.io/en/stable/markdown/podman-run.1.html#mount-type-type-type-specific-option
     mkIdmappedVolume =
       {
         uidNamespace ? containerIds.uid,

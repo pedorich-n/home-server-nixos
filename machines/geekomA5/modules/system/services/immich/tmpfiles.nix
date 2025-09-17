@@ -6,7 +6,8 @@ let
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
     "cache/thumbnails"
     "cache/profile"
-    "cache/machine-learning"
+
+    "machine-learning/model-cache"
 
     "postgresql"
 

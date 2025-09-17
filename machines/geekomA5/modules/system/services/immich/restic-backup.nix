@@ -30,6 +30,10 @@ in
         ${lib.getExe config.virtualisation.podman.package} exec --tty immich-postgresql \
         pg_dumpall --username ''${POSTGRES_USER} --clean --if-exists > "${dbBackupFolder}/backup.sql"
       '';
+
+      backupCleanupCommand = ''
+        rm -r ${dbBackupFolder}
+      '';
     };
   };
 }
