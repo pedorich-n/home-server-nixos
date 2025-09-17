@@ -26,7 +26,7 @@ in
 
     serviceConfig = {
       SupplementaryGroups = [
-        config.users.groups.media.name
+        config.users.groups.media.gid
       ];
       UMask = lib.mkForce "037"; # rwx r-- ---
     };
@@ -52,6 +52,8 @@ in
         idp-store = "0"; # Do not store users/groups from IdP in the DB
 
         hist = "/var/lib/copyparty/history"; # Cache location
+
+        gid = config.users.groups.media.gid; # GID for upload/create/mkdir operations
       };
 
       volumes = {
@@ -72,9 +74,6 @@ in
             "w" = "@acct";
             "d" = "@acct";
             "a" = "@Admins";
-          };
-          flags = {
-            gid = config.users.groups.media.gid; # GID for upload/create/mkdir operations
           };
         };
       };
