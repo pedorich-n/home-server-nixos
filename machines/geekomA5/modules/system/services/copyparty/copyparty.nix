@@ -28,7 +28,7 @@ in
       SupplementaryGroups = [
         config.users.groups.media.gid
       ];
-      UMask = lib.mkForce "037"; # rwx r-- ---
+      UMask = lib.mkForce "002"; # rwx rwx r-x
     };
   };
 
@@ -54,6 +54,8 @@ in
         hist = "/var/lib/copyparty/history"; # Cache location
 
         gid = config.users.groups.media.gid; # GID for upload/create/mkdir operations
+        chmod-d = "775"; # Permissions for created directories
+        chmod-f = "664"; # Permissions for created files
       };
 
       volumes = {
