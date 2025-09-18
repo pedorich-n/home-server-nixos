@@ -13,21 +13,21 @@ version = 'v2.6.0'
 versioning = 'semver'
 
 [ente-museum]
-digest = 'sha256:f7134fae7201b8a94ffd1695820f756f975e3ed90e587fb3519f12bccef7cde9'
+digest = 'sha256:3c922f9f6dca7b6510449b9eb2d2fb012e4749df25e005db96a92f70626af626'
 image = 'ente-io/server'
 registry = 'ghcr.io'
 version = 'latest'
 versioning = 'docker'
 
 [ente-postgresql]
-digest = 'sha256:987b242173006d6df08506f10b967a71478a3610664cfefbc49b9c775d3d0eed'
+digest = 'sha256:dfcf0459185089e88a43197975780f5a3078acd5ece84824a14c9d6fbbab02d0'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '15.14-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:6d9a1b5cd5a9efa48f26e9588af3227f239489ae6d68d6aa894492930acd5e42'
+digest = 'sha256:791459f639001064512653fc5c7fa9887221c64cce8728dc5724c67d0e4381c0'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
@@ -48,38 +48,38 @@ version = '1.7.3'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:816b80788e81b517c477a200a47f3d7e882cc2b9b0504f616957a19f59518d2f'
+digest = 'sha256:2da8dea31821db443a69d822bd0c47972572fc8379a920a8fac730d2072c8ed2'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2025.9.1'
+version = '2025.9.3'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
-digest = 'sha256:3406990b6e4c7192317b6fdc5680498744f6142f01f0287f4ee0420d8c74063c'
+digest = 'sha256:d5f196a551b5cef1c70853c6dd588f456d16ca4ea733e3f31c75bc1ae2f65f3f'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '17.6-alpine'
 versioning = 'docker'
 
 [immich-machine-learning]
-digest = 'sha256:6239f9852f2ccd8bef52b161629a8fc62bac7636750c06e5fe021e994bab4781'
+digest = 'sha256:9855f6a0a998db508ca97894997b17f3a0a61e9388b204d861110c19c42814eb'
 image = 'immich-app/immich-machine-learning'
 registry = 'ghcr.io'
-version = 'v1.140.1'
+version = 'v1.142.1'
 versioning = 'semver'
 
 [immich-postgresql]
-digest = 'sha256:b20b880be059980a971b019cec608ec26e739f12a974360d26035ff6f750b63d'
+digest = 'sha256:f161c80fb73f5e7d3be8efbbd361b5b80925cfbf4c8babca05a3215ea1b61c0a'
 image = 'immich-app/postgres'
 registry = 'ghcr.io'
 version = '14-vectorchord0.4.3-pgvectors0.3.0'
 versioning = 'regex:^(?<major>14)-vectorchord(?<minor>0\.4\.\d+)'
 
 [immich-server]
-digest = 'sha256:d97aea4b3f59989a79c6adffb39a1a8b95dd27c90a7f79280b1176a6220cf17b'
+digest = 'sha256:06bc7715fa4c4a1641bd0b566c949cd7327f420632b480389fd4d1e70665d046'
 image = 'immich-app/immich-server'
 registry = 'ghcr.io'
-version = 'v1.140.1'
+version = 'v1.142.1'
 versioning = 'semver'
 
 [immich-valkey]
@@ -111,7 +111,7 @@ version = '0.9.11'
 versioning = 'semver'
 
 [paperless-postgresql]
-digest = 'sha256:3406990b6e4c7192317b6fdc5680498744f6142f01f0287f4ee0420d8c74063c'
+digest = 'sha256:d5f196a551b5cef1c70853c6dd588f456d16ca4ea733e3f31c75bc1ae2f65f3f'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '17.6-alpine'
@@ -125,21 +125,21 @@ version = '8.2.1-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:6dbe57d8198fa117158ba9e867e2d45280b65e9c37ea54c1df7b34c4085a564c'
+digest = 'sha256:3421ebe06ed27662d014046cf5089e612de853aae0c676a2bc72f73b38080e57'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '2.18.3'
+version = '2.18.4'
 versioning = 'semver'
 
 [prowlarr]
-digest = 'sha256:4f2a6d597845b2f3e19284b1d982b3e0b4bd7c22472c2979c956aa198b83f472'
+digest = 'sha256:856c93bab72a6a41a23ff60bab48554135c044a456f40909307011dea8ddeafb'
 image = 'linuxserver/prowlarr'
 registry = 'docker.io'
 version = '2.0.5'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:d464a92d5656f1fa66baafe610a06a6cafd4bdf900a245e6f20b220f281b456d'
+digest = 'sha256:ffa4e82aa55e3bd3d2d99151f235fcd41b976303c4d4029940363452a59a3833'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.1.2'
@@ -147,7 +147,7 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [radarr]
-digest = 'sha256:3ebb31bce86870dbcc15a5db3fba8864e302310cb2adb70476b0b64c1b3dc6dc'
+digest = 'sha256:19474a623b278f558c9696a19b84640ad4aff3b2959f08904a77ffbad73ed7bd'
 image = 'linuxserver/radarr'
 registry = 'docker.io'
 version = '5.27.5'
@@ -161,7 +161,7 @@ version = '7.4.1'
 versioning = 'semver'
 
 [sabnzbd]
-digest = 'sha256:5a3196d71c12603bb0e7ceb83e4b38876510b7ba008d174d7081b69d6dbabd55'
+digest = 'sha256:488becc2dd8b81dadc76ccb82adb2f251cf61f10b969ecd85b53c6ec9c40ff0c'
 image = 'linuxserver/sabnzbd'
 registry = 'docker.io'
 version = '4.5.3'
