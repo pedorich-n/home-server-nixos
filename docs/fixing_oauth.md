@@ -4,10 +4,10 @@ This might happen if OAuth Identity Provider re-creates users with new IDs and s
 
 ### Immich
 
-1. Go to `immich-postgresql` container, open console
-2. `psql -U immich`
-3. `update users set "oauthId" = '' where email = '<email>';`
-4. Re-login to Immich using IdP
+1. Got to `https://immich.<domain>/user-settings?isOpen=oauth`
+2. Unlink OAuth
+3. Log out
+4. Log in with using IdP
 
 ### Paperless
 
@@ -20,13 +20,17 @@ This might happen if OAuth Identity Provider re-creates users with new IDs and s
 
 ### Jellyfin
 
-There's a page to link/unlink SSO accounts: `http://jellyfin.<domain>/SSOViews/linking`.
+1. Go to `http://jellyfin.<domain>/SSOViews/linking`.
+2. Unlink OAuth
+3. Log out
+4. Log in using IdP
 
 ### Audiobookshelf
 
 1. Log in using password as an admin
 2. Go to `https://audiobookshelf.<domain>/audiobookshelf/config/users` and unlink user(s)
-3. Log in as a user using OAuth link
+3. Log out
+4. Log in using IdP
 
 ### Grist
 
@@ -35,6 +39,7 @@ No action needed. Seems like grist matches only by username/email and automatica
 ### Home-Assistant
 
 No action needed (I think). HA plugin matches users by username and automatically picks-up changes.
+Welcome URL is `https://homeassistant.<domain>/auth/oidc/welcome`
 
 ### Dashy
 

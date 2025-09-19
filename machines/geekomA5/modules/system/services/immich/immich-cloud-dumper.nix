@@ -35,6 +35,15 @@ let
   ];
 in
 {
+  services.logrotate.settings.immich-cloud-dumper = {
+    files = "${logRoot}/*.log";
+    frequency = "daily";
+    rotate = 14;
+    noolddir = true;
+    nocompress = true;
+    nocreate = true;
+  };
+
   systemd = {
     timers.immich-cloud-dumper = {
       description = "Run Immich Cloud Photos Dumper";
