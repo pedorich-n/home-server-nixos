@@ -2,7 +2,6 @@
 {
   inputs,
   overlays,
-  pkgs,
   ...
 }:
 {
@@ -22,9 +21,4 @@
   #   inherit (pkgs) config;
   #   inherit (pkgs.stdenv.hostPlatform) system;
   # };
-
-  _module.args.pkgs-dashy = import inputs.nixpkgs-dashy {
-    inherit (pkgs) config;
-    inherit (pkgs.stdenv.hostPlatform) system;
-  };
 }

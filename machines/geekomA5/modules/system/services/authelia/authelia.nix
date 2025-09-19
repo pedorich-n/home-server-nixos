@@ -3,6 +3,7 @@
   networkingLib,
   systemdLib,
   lib,
+  pkgs-unstable,
   ...
 }:
 let
@@ -91,6 +92,7 @@ in
 
     authelia.instances.main = {
       enable = true;
+      package = pkgs-unstable.authelia;
 
       secrets = {
         jwtSecretFile = config.sops.secrets."authelia/jwt_secret".path;

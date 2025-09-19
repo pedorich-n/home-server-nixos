@@ -1,13 +1,13 @@
 {
   config,
   networkingLib,
-  pkgs-dashy,
+  pkgs-unstable,
   ...
 }:
 let
   portsCfg = config.custom.networking.ports.tcp.dashy;
 
-  dashy-static = pkgs-dashy.callPackage ./_dashy-static.nix { inherit networkingLib; };
+  dashy-static = pkgs-unstable.callPackage ./_dashy-static.nix { inherit networkingLib; };
 in
 {
   custom.networking.ports.tcp.dashy = {
