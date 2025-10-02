@@ -55,10 +55,10 @@ version = '2025.9.3'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
-digest = 'sha256:d5f196a551b5cef1c70853c6dd588f456d16ca4ea733e3f31c75bc1ae2f65f3f'
+digest = 'sha256:70b32afe0c274b4d93098fd724fcdaab3aba47270a4f1e63cbf9cc69d7bf1be4'
 image = 'library/postgres'
 registry = 'docker.io'
-version = '17.6-alpine'
+version = '18.0-alpine'
 versioning = 'docker'
 
 [immich-machine-learning]
@@ -111,10 +111,10 @@ version = '0.9.11'
 versioning = 'semver'
 
 [paperless-postgresql]
-digest = 'sha256:d5f196a551b5cef1c70853c6dd588f456d16ca4ea733e3f31c75bc1ae2f65f3f'
+digest = 'sha256:70b32afe0c274b4d93098fd724fcdaab3aba47270a4f1e63cbf9cc69d7bf1be4'
 image = 'library/postgres'
 registry = 'docker.io'
-version = '17.6-alpine'
+version = '18.0-alpine'
 versioning = 'docker'
 
 [paperless-redis]
