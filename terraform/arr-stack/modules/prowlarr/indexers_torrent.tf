@@ -1,17 +1,5 @@
 locals {
   indexers_torrent = {
-    therarbg = {
-      name           = "TheRARBG"
-      app_profile_id = prowlarr_sync_profile.automatic.id
-      priority       = 10
-      fields = [
-        { name = "baseUrl", text_value = "https://therarbg.to/" },
-        { name = "definitionFile", text_value = "therarbg" },
-        { name = "sort", number_value = 0 }, # Created desc
-        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 10 }
-      ]
-    }
-
     tpb = {
       name           = "ThePirateBay"
       app_profile_id = prowlarr_sync_profile.automatic.id
