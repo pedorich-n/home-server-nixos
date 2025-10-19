@@ -46,6 +46,8 @@ in
 
   systemd = {
     timers.immich-cloud-dumper = {
+      enable = false;
+
       description = "Run Immich Cloud Photos Dumper";
 
       wantedBy = [ "timers.target" ];
@@ -57,6 +59,8 @@ in
     };
 
     services.immich-cloud-dumper = {
+      enable = false;
+
       description = "Immich Cloud Photos Dumper";
 
       unitConfig = lib.mkMerge [
