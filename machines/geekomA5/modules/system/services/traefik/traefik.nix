@@ -75,6 +75,14 @@
               }
             ];
           };
+
+          transport = {
+            respondingTimeouts = {
+              readTimeout = "20m"; # Default is 60s
+              idleTimeout = "10m"; # Default is 180s
+              writeTimeout = "0s"; # Default value
+            };
+          };
         };
 
         # jellyfin-service-discovery.address = ":${config.custom.networking.ports.udp.traefik-jellyfin-service-discovery.portStr}/udp";
