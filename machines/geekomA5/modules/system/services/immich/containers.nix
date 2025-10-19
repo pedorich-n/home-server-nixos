@@ -47,6 +47,7 @@ in
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
           ];
+          shmSize = "128m";
           inherit networks;
           inherit (containerLib.containerIds) user;
         };

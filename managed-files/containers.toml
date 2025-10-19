@@ -62,10 +62,10 @@ version = '17.6-alpine'
 versioning = 'docker'
 
 [immich-machine-learning]
-digest = 'sha256:21b6a0bf02426336f456e8dca43c55b6a79b8e01ee2c25f91bc817fc3a745e52'
+digest = 'sha256:24bfef29bc5c0923c64c98810931eda1449a4b237e6704a715605761bc107ae4'
 image = 'immich-app/immich-machine-learning'
 registry = 'ghcr.io'
-version = 'v1.144.1'
+version = 'v2.1.0'
 versioning = 'semver'
 
 [immich-postgresql]
@@ -76,10 +76,10 @@ version = '14-vectorchord0.4.3-pgvectors0.3.0'
 versioning = 'regex:^(?<major>14)-vectorchord(?<minor>0\.4\.\d+)'
 
 [immich-server]
-digest = 'sha256:f34203f6c2db130c26480ff21c412c6f0c37c24ee5261f6a6e4fe1eecaa921c0'
+digest = 'sha256:72a9b9de6c6abfa7a9c9cdc244ae4d2bd9fea2ae00997f194cbd10aca72ea210'
 image = 'immich-app/immich-server'
 registry = 'ghcr.io'
-version = 'v1.144.1'
+version = 'v2.1.0'
 versioning = 'semver'
 
 [immich-valkey]
