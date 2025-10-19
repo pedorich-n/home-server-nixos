@@ -56,7 +56,6 @@ locals {
         { name = "useFreeleechWedge", number_value = 0 }, # Don't use freeleech wedge
         { name = "searchLanguages", set_value = [] },
         { name = "torrentBaseSettings.seedTime", number_value = 4320 }, # 3 days
-        { name = "torrentBaseSettings.seedRatio", number_value = 2 },   # Seed ratio 2.0
         { name = "torrentBaseSettings.appMinimumSeeders", number_value = 3 },
         { name = "mamId", text_value = var.indexer_credentials.MyAnonamouse.mam_id }
       ]
