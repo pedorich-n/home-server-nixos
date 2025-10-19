@@ -76,8 +76,8 @@ in
           volumes = [
             # Looks like this container doesn't work properly with both `user` and `userns` set.
             # It spits "permission denied" errors when it tries to write to download ML models.
-            # So I'll just leave it running as root inside the container for and map volume for root.
-            (mkMappedVolumeForUserContainerRoot "${storeRoot}/machine-learning/cache" "/cache")
+            # So I'll just leave it running as root inside the container and map volume for root.
+            (mkMappedVolumeForUserContainerRoot "${storeRoot}/machine-learning/model-cache" "/cache")
           ];
           inherit networks;
           # inherit (containerLib.containerIds) user;
