@@ -7,10 +7,11 @@
     git
 
     # Tools
-    vim
+    vim # text editor
     util-linux # mount, umount, etc.
-    htop
-    jq
-    tree
+    htop # interactive process viewer
+    jq # JSON processor
+    tree # visualize directory structure
+    lsof # list open files
   ];
 }
