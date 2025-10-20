@@ -65,11 +65,10 @@ in
             DOT = "off";
 
             VPN_TYPE = "wireguard";
-            SERVER_COUNTRIES = "Japan,Korea";
+            SERVER_COUNTRIES = "Japan";
             VPN_SERVICE_PROVIDER = "protonvpn";
             VPN_PORT_FORWARDING = "on";
             VPN_PORT_FORWARDING_PROVIDER = "protonvpn";
-            VPN_PORT_FORWARDING_UP_COMMAND = "/gluetun/scripts/qbt_update_port_forward.sh {{PORTS}}";
           };
           environmentFiles = [ config.sops.secrets."data-library/gluetun.env".path ];
           # https://github.com/qdm12/gluetun/blob/ddd9f4d0210c35d062896ffa2c7dc6e585deddfb/Dockerfile#L226
@@ -80,7 +79,7 @@ in
           healthRetries = 5;
           notify = "healthy";
           volumes = [
-            "${./gluetun/qbt_update_port_forward.sh}:/gluetun/scripts/qbt_update_port_forward.sh"
+            "${./gluetun/config.toml}:/gluetun/auth/config.toml"
           ];
           labels =
             (containerLib.mkTraefikLabels {
@@ -96,17 +95,27 @@ in
 
       qbittorrent = {
         useGlobalContainers = true;
-        usernsAuto.enable = true;
+        usernsAuto = {
+          enable = true;
+          size = containerLib.containerIds.uid + 500;
+        };
 
         containerConfig = {
-          environments = defaultEnvs;
+          environments = defaultEnvs // {
+            inherit (containerLib.containerIds) PUID PGID;
+
+            # https://github.com/t-anc/GSP-Qbittorent-Gluetun-sync-port-mod
+            DOCKER_MODS = "ghcr.io/t-anc/gsp-qbittorent-gluetun-sync-port-mod:main";
+            GSP_SKIP_INIT_CHECKS = "warning";
+            GSP_SLEEP = "60";
+            GSP_RETRY_DELAY = "10";
+          };
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/qbittorrent/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
             "${./qbittorrent/auto_unrar.sh}:/opt/scripts/auto_unrar.sh"
           ];
           networks = [ "gluetun.container" ];
-          inherit (containerLib.containerIds) user;
         };
 
         unitConfig = lib.mkMerge [
