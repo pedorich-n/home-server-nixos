@@ -119,6 +119,7 @@ in
               "${networkingLib.mkUrl "audiobookshelf"}/auth/openid/callback"
               "${networkingLib.mkUrl "audiobookshelf"}/auth/openid/mobile-redirect"
               "audiobookshelf://oauth"
+              "lissen://oauth"
             ];
             extraArgs = {
               claims_policy = "roles";
