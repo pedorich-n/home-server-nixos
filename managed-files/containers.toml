@@ -103,6 +103,13 @@ registry = 'docker.io'
 version = '3.2.4'
 versioning = 'semver'
 
+[mamapi]
+digest = 'sha256:9403628e9c0e773c04bb640743105bdbfca53423033828e13d3f5efc79370493'
+image = 'elforkhead/mamapi'
+registry = 'ghcr.io'
+version = 'v2.1.2'
+versioning = 'semver'
+
 [multiscrobbler]
 digest = 'sha256:e23ddda129ea2a8e9a009ef73d62af910ac25e6213c833680886b7002c5bb6fa'
 image = 'foxxmd/multi-scrobbler'

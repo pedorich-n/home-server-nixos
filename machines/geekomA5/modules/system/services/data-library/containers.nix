@@ -128,6 +128,21 @@ in
         ];
       };
 
+      mamapi = {
+        useGlobalContainers = true;
+        usernsAuto.enable = true;
+
+        containerConfig = {
+          environments = defaultEnvs;
+          environmentFiles = [ config.sops.secrets."data-library/mamapi.env".path ];
+          volumes = [
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/mamapi/data" "/data")
+          ];
+          networks = [ "gluetun.container" ];
+          inherit (containerLib.containerIds) user;
+        };
+      };
+
       sabnzbd = {
         requiresTraefikNetwork = true;
         useGlobalContainers = true;
