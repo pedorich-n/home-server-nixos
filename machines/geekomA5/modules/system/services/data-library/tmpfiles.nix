@@ -16,6 +16,8 @@ let
 
     "prowlarr/config"
 
+    "mamapi/data"
+
     "qbittorrent/config"
 
     "radarr/config"
