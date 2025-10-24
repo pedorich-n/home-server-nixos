@@ -62,6 +62,9 @@ in
   sops.templates."authelia/oidc-apps.yaml" = {
     owner = config.services.authelia.instances.main.user;
     group = config.services.authelia.instances.main.group;
+    restartUnits = [
+      config.systemd.services.authelia-main.name
+    ];
 
     file = yamlFormat.generate "authelia-oidc-apps-template.yaml" {
       definitions.user_attributes = {
