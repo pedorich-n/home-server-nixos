@@ -11,6 +11,9 @@ in
   sops.templates."authelia/ldap.yaml" = {
     owner = config.services.authelia.instances.main.user;
     group = config.services.authelia.instances.main.group;
+    restartUnits = [
+      config.systemd.services.authelia-main.name
+    ];
 
     file = yamlFormat.generate "authelia-ldap-template.yaml" {
       authentication_backend = {
@@ -24,10 +27,10 @@ in
           password = config.sops.placeholder."authelia/ldap/password";
 
           # Disabled because of https://github.com/authelia/authelia/issues/9936
-          # pooling = {
-          #   enable = true;
-          #   count = 5;
-          # };
+          pooling = {
+            enable = true;
+            count = 5;
+          };
         };
       };
     };
