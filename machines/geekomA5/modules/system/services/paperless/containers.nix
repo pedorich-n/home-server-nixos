@@ -39,7 +39,7 @@ in
         containerConfig = {
           environmentFiles = [ config.sops.secrets."paperless/postgresql.env".path ];
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql")
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
