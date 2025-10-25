@@ -20,14 +20,14 @@ version = 'latest'
 versioning = 'docker'
 
 [ente-postgresql]
-digest = 'sha256:6bd113a3de3274beda0f056ebf0d75cf060dc4a493b72bea6f9d810dce63f897'
+digest = 'sha256:64583b3cb4f2010277bdd9749456de78e5c36f8956466ba14b0b96922e510950'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '15.14-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:355e1619781ced88343bf73726effde9fa5e2cea685d4e9c9c499faaf49b508a'
+digest = 'sha256:9d2cfbfd242c50d4fb2c8b94e10ab49bc91844227ae39c3f614cf979e9627a79'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
@@ -48,14 +48,14 @@ version = '1.7.4'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:22376034bddcb952cfd3f3b4101b932b5a561f050acccd16ef879e88c7ff8233'
+digest = 'sha256:449140e073d8d7814098cd62dfdbb326ad043f51a3c4d4721889369f46751d52'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2025.10.3'
+version = '2025.10.4'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
-digest = 'sha256:0ce0d1fa5bf54b7b338e09829ab76b479dbd0702da50bf0cdf5c258208e47f40'
+digest = 'sha256:48c8ad3a7284b82be4482a52076d47d879fd6fb084a1cbfccbd551f9331b0e40'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '18.0-alpine'
@@ -90,10 +90,10 @@ version = '8.1.3-bookworm'
 versioning = 'regex:^(?<major>8)\.(?<minor>\d+)\.(?<patch>\d+)-bookworm$'
 
 [jellyfin]
-digest = 'sha256:7ae36aab93ef9b6aaff02b37f8bb23df84bb2d7a3f6054ec8fc466072a648ce2'
+digest = 'sha256:59417f441213e236a9f907d4e71a13472042409d85f9e9310dbdd87ee33d7bd4'
 image = 'jellyfin/jellyfin'
 registry = 'docker.io'
-version = '10.10.7'
+version = '10.11.0'
 versioning = 'semver'
 
 [maloja]
@@ -118,7 +118,7 @@ version = '0.10.0'
 versioning = 'semver'
 
 [paperless-postgresql]
-digest = 'sha256:0ce0d1fa5bf54b7b338e09829ab76b479dbd0702da50bf0cdf5c258208e47f40'
+digest = 'sha256:48c8ad3a7284b82be4482a52076d47d879fd6fb084a1cbfccbd551f9331b0e40'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '18.0-alpine'
@@ -132,21 +132,21 @@ version = '8.2.2-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:3421ebe06ed27662d014046cf5089e612de853aae0c676a2bc72f73b38080e57'
+digest = 'sha256:e1e0026cdacda4bb157c024a8a1a343bd16b34d8900e7f3958598b9afebd0d38'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '2.18.4'
+version = '2.19.2'
 versioning = 'semver'
 
 [prowlarr]
-digest = 'sha256:366914352b21e79733f1bad1c3840ca679a55dc4875754eec06ccbcc49b649d1'
+digest = 'sha256:608935c38763920b25622a3d404bb14ea08fcaa7c2a9b1c93ce9bac61ad4b11d'
 image = 'linuxserver/prowlarr'
 registry = 'docker.io'
 version = '2.0.5'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:884b9b6e9c6467d9c1fb16551e03cb1f66ad32c412ce4bb492e206e0bd0f55b5'
+digest = 'sha256:51dd497bd9b1de06fc1f9c9753297fae1e7445ad817e4528ee3f84c9c3122c7d'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.1.2'
@@ -168,14 +168,14 @@ version = '7.4.1'
 versioning = 'semver'
 
 [sabnzbd]
-digest = 'sha256:9011bb04b95417fe6345e48c98f9880188f5825402623a0201d29d1c300eea67'
+digest = 'sha256:37fc318dc632106eac00f096661f43ca513793bf51913bcbd989ba921b3409c8'
 image = 'linuxserver/sabnzbd'
 registry = 'docker.io'
-version = '4.5.3'
+version = '4.5.5'
 versioning = 'semver'
 
 [sonarr]
-digest = 'sha256:69d72f525bc181728c8f4788992a28ae1cd797ddd978f48bc2e271c7acd02e9b'
+digest = 'sha256:fbe67c25693dc5f3de220c5691f374576ae265df782c16918cc071b630490bd7'
 image = 'linuxserver/sonarr'
 registry = 'docker.io'
 version = '4.0.15'
