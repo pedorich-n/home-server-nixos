@@ -12,9 +12,6 @@ in
     "/mnt/store/home-automation/homeassistant" = {
       "C+" = tmpfilesLib.mkDefaultTmpDirectory "${./static}";
     };
-    "/mnt/store/home-automation/homeassistant/ui_lovelace_minimalist/dashboard/ui-lovelace-custom-grid.yaml" = {
-      "C+" = tmpfilesLib.mkDefaultTmpFile "${rendered-templates}/ui_lovelace_minimalist/dashboard/ui-lovelace-custom-grid.yaml";
-    };
     "/mnt/store/home-automation/homeassistant/dashboards/main.yaml" = {
       "C+" = tmpfilesLib.mkDefaultTmpFile "${rendered-templates}/dashboards/main.yaml";
     };
