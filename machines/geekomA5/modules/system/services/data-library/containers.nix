@@ -353,6 +353,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/audiobookshelf/config" "/config")
             (containerLib.mkMappedVolumeForUser "${storeRoot}/audiobookshelf/metadata" "/metadata")
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/audiobooks" "/audiobooks")
+            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/podcasts" "/podcasts")
           ];
           labels = containerLib.mkTraefikLabels {
             name = "audiobookshelf-secure";
