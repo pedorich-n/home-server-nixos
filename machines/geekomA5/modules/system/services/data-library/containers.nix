@@ -69,6 +69,8 @@ in
             VPN_SERVICE_PROVIDER = "protonvpn";
             VPN_PORT_FORWARDING = "on";
             VPN_PORT_FORWARDING_PROVIDER = "protonvpn";
+
+            HTTP_CONTROL_SERVER_LOG = "off";
           };
           environmentFiles = [ config.sops.secrets."data-library/gluetun.env".path ];
           # https://github.com/qdm12/gluetun/blob/ddd9f4d0210c35d062896ffa2c7dc6e585deddfb/Dockerfile#L226
