@@ -46,8 +46,9 @@ resource "minio_iam_user_policy_attachment" "ente_photos_policy_attachment" {
 }
 
 resource "minio_accesskey" "ente-photos-key" {
-  user       = minio_iam_user.ente_photos.name
-  access_key = module.onepassword.secrets.Minio.Ente_Photos.access_key
-  secret_key = module.onepassword.secrets.Minio.Ente_Photos.secret_key
-  status     = "enabled"
+  user               = minio_iam_user.ente_photos.name
+  access_key         = module.onepassword.secrets.Minio.Ente_Photos.access_key
+  secret_key         = module.onepassword.secrets.Minio.Ente_Photos.secret_key
+  secret_key_version = sha256(module.onepassword.secrets.Minio.Ente_Photos.secret_key)
+  status             = "enabled"
 }
