@@ -1,4 +1,8 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 {
   boot = {
     supportedFilesystems = {
@@ -6,7 +10,8 @@
     };
 
     # NOTE: when updating, make sure ZFS is supported by the kernel version
-    kernelPackages = pkgs.linuxPackages_6_16;
+    # TODO: update this to 6.17 once OpenZFS supports it
+    kernelPackages = pkgs.linuxPackages-rt_latest;
 
     kernelModules = [
       "amdgpu" # AMD GPU
