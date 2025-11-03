@@ -13,6 +13,15 @@ let
   externalStoreRoot = "/mnt/external/paperless-library";
 
   networks = [ "paperless-internal.network" ];
+
+  mkMappedVolumeForUserContainerRoot =
+    localPath: remotePath:
+    containerLib.mkIdmappedVolume {
+      uidNamespace = 0;
+      gidNamespace = 0;
+      uidHost = config.users.users.user.uid;
+      gidHost = config.users.groups.${config.users.users.user.group}.gid;
+    } localPath remotePath;
 in
 {
   virtualisation.quadlet = {
@@ -103,6 +112,62 @@ in
             "zfs.target"
           ])
         ];
+      };
+
+      paperless-gpt = {
+        useGlobalContainers = true;
+        usernsAuto.enable = true;
+
+        containerConfig = {
+          environments = {
+            PAPERLESS_BASE_URL = "http://paperless-server:8000";
+            PAPERLESS_API_TOKEN = "<TOKEN>"; # TODO
+            PAPERLESS_PUBLIC_URL = networkingLib.mkUrl "paperless";
+
+            LLM_PROVIDER = "ollama";
+            LLM_MODEL = "qwen3:8b";
+            OLLAMA_HOST = networkingLib.mkUrl "ollama";
+            OLLAMA_CONTEXT_LENGTH = "8192";
+            TOKEN_LIMIT = "1000";
+
+            MANUAL_TAG = "paperless-gpt";
+            AUTO_TAG = "paperless-gpt-auto";
+
+            AUTO_GENERATE_TITLE = "true";
+            AUTO_GENERATE_CREATED_DATE = "true";
+            AUTO_GENERATE_TAGS = "false";
+            AUTO_GENERATE_CORRESPONDENTS = "false";
+
+            OCR_PROVIDER = "google_docai";
+            GOOGLE_PROJECT_ID = "<ID>"; # TODO
+            GOOGLE_LOCATION = "eu";
+            GOOGLE_PROCESSOR_ID = "<ID>"; # TODO
+            CREATE_LOCAL_HOCR = "true";
+            CREATE_LOCAL_PDF = "true";
+            GOOGLE_APPLICATION_CREDENTIALS = "/app/google-credentials.json";
+
+            OCR_PROCESS_MODE = "pdf";
+            OCR_LIMIT_PAGES = "10";
+            PDF_SKIP_EXISTING_OCR = "false";
+
+            PDF_UPLOAD = "true";
+            PDF_COPY_METADATA = "true";
+            PDF_REPLACE = "false";
+            PDF_OCR_TAGGING = "false";
+          };
+          volumes = [
+            (mkMappedVolumeForUserContainerRoot "${storeRoot}/paperless-gpt/hocr" "/app/hocr")
+            (mkMappedVolumeForUserContainerRoot "${storeRoot}/paperless-gpt/pdf" "/app/pdf")
+            (mkMappedVolumeForUserContainerRoot "${storeRoot}/paperless-gpt/prompts" "/app/prompts")
+            # (mkMappedVolumeForUserContainerRoot "${./paperless-gpt-credentials.json}" "/app/google-credentials.json")
+          ];
+          labels = containerLib.mkTraefikLabels {
+            name = "paperless-gpt-secure";
+            port = 8080;
+          };
+          inherit networks;
+          # inherit (containerLib.containerIds) user;
+        };
       };
     };
   };
