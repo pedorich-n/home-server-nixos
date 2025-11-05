@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   containerLib,
   systemdLib,
   networkingLib,
@@ -13,6 +14,8 @@ let
   storeRoot = "/mnt/store/librechat";
 
   networks = [ "librechat-internal.network" ];
+
+  settings = import ./_config.nix { inherit pkgs; };
 in
 {
   virtualisation.quadlet = {
@@ -112,7 +115,7 @@ in
             "${storeRoot}/server/images:/app/client/public/images"
             "${storeRoot}/server/uploads:/app/uploads"
             "${storeRoot}/server/logs:/app/logs"
-            "${config.sops.templates."librechat/librechat.yaml".path}:/app/librechat.yaml:ro"
+            "${settings}:/app/librechat.yaml:ro"
           ];
 
           labels = containerLib.mkTraefikLabels {
