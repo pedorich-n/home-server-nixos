@@ -112,6 +112,7 @@ in
             "${storeRoot}/server/images:/app/client/public/images"
             "${storeRoot}/server/uploads:/app/uploads"
             "${storeRoot}/server/logs:/app/logs"
+            "${config.sops.templates."librechat/librechat.yaml".path}:/app/librechat.yaml:ro"
           ];
 
           labels = containerLib.mkTraefikLabels {
