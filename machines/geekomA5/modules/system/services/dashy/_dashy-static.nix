@@ -115,6 +115,11 @@ let
           (mkEntry {
             slug = "grist";
           })
+          (mkEntry {
+            slug = "chat";
+            title = "LibreChat";
+            iconName = "librechat";
+          })
         ];
       }
       {
