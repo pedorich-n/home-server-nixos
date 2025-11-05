@@ -3,6 +3,7 @@
   containerLib,
   systemdLib,
   networkingLib,
+  autheliaLib,
   lib,
   ...
 }:
@@ -54,7 +55,10 @@ in
             DB_HOST = "librechat-postgresql";
             RAG_PORT = "8000";
           };
-          environmentFiles = [ config.sops.secrets."librechat/rag.env".path ];
+          environmentFiles = [
+            config.sops.secrets."librechat/rag.env".path
+            config.sops.secrets."librechat/apis.env".path
+          ];
           inherit networks;
         };
 
@@ -66,14 +70,17 @@ in
       };
 
       librechat-server = {
-        usernsAuto.enable = true;
+        # usernsAuto.enable = true;
         useGlobalContainers = true;
         requiresTraefikNetwork = true;
         wantsAuthelia = true;
 
         containerConfig = {
           environments = {
-            MONGO_URL = "mongodb://librechat-mongodb:27017/LibreChat";
+            UID = containerLib.containerIds.PUID;
+            GID = containerLib.containerIds.PGID;
+
+            MONGO_URI = "mongodb://librechat-mongodb:27017/LibreChat";
             RAG_API_URL = "http://librechat-rag:8000";
 
             TRUST_PROXY = "1";
@@ -85,13 +92,26 @@ in
             ALLOW_REGISTRATION = "false";
             ALLOW_SOCIAL_LOGIN = "true";
             ALLOW_SOCIAL_REGISTRATION = "true";
-
+            OPENID_BUTTON_LABEL = "Log in with Authelia";
+            OPENID_ISSUER = autheliaLib.issuerUrl;
+            OPENID_CALLBACK_URL = "/oauth/openid/callback";
+            OPENID_SCOPE = "openid profile email roles";
+            OPENID_ADMIN_ROLE = "admin";
+            OPENID_ADMIN_ROLE_TOKEN_KIND = "userinfo";
+            OPENID_ADMIN_ROLE_PARAMETER_PATH = "roles";
+            OPENID_USE_END_SESSION_ENDPOINT = "false";
           };
-          environmentFiles = [ config.sops.secrets."librechat/server.env".path ];
+          environmentFiles = [
+            config.sops.secrets."librechat/server.env".path
+            config.sops.secrets."librechat/apis.env".path
+          ];
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/server/images" "/app/client/public/images")
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/server/uploads" "/app/uploads")
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/server/logs" "/app/logs")
+            # (containerLib.mkMappedVolumeForUser "${storeRoot}/server/images" "/app/client/public/images")
+            # (containerLib.mkMappedVolumeForUser "${storeRoot}/server/uploads" "/app/uploads")
+            # (containerLib.mkMappedVolumeForUser "${storeRoot}/server/logs" "/app/logs")
+            "${storeRoot}/server/images:/app/client/public/images"
+            "${storeRoot}/server/uploads:/app/uploads"
+            "${storeRoot}/server/logs:/app/logs"
           ];
 
           labels = containerLib.mkTraefikLabels {
@@ -100,7 +120,7 @@ in
             port = 3080;
           };
           inherit networks;
-          inherit (containerLib.containerIds) user;
+          # inherit (containerLib.containerIds) user;
         };
 
         unitConfig = lib.mkMerge [

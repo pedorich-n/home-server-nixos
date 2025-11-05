@@ -177,6 +177,13 @@ in
             redirectUris = [
               "${networkingLib.mkUrl "chat"}/oauth/openid/callback"
             ];
+            extraArgs = {
+              token_endpoint_auth_method = "client_secret_post";
+              claims_policy = "roles";
+              scopes = defaultScopes ++ [
+                "roles"
+              ];
+            };
           })
 
           (mkOidcProviderPrivate {

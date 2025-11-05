@@ -97,10 +97,10 @@ version = '10.11.1'
 versioning = 'semver'
 
 [librechat-server]
-digest = 'sha256:adcb326f43a971b53df0fbca5f4769c8e56fafbdf834c9dd8c7e4924788f0152'
+digest = 'sha256:e6790a1fab2d1870efe077127cc6255cb58105cabde9ec013b8573bfe3025882'
 image = 'danny-avila/librechat'
 registry = 'ghcr.io'
-version = 'v0.8.0'
+version = 'v0.8.1-rc1'
 versioning = 'semver'
 
 [librechat-mongodb]
