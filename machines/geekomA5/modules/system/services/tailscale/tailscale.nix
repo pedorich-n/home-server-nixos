@@ -15,6 +15,7 @@
     extraUpFlags = [
       "--ssh"
       "--advertise-tags=tag:ssh,tag:server"
+      "--accept-dns=false"
     ];
 
     extraSetFlags = [
