@@ -96,6 +96,34 @@ registry = 'docker.io'
 version = '10.11.1'
 versioning = 'semver'
 
+[librechat-server]
+digest = 'sha256:e6790a1fab2d1870efe077127cc6255cb58105cabde9ec013b8573bfe3025882'
+image = 'danny-avila/librechat'
+registry = 'ghcr.io'
+version = 'v0.8.1-rc1'
+versioning = 'semver'
+
+[librechat-mongodb]
+digest = 'sha256:86835e8da0f94efd61334decb320fa43e8a60027688cbd856bf29d065b470338'
+image = 'library/mongo'
+registry = 'docker.io'
+version = '8.2.1'
+versioning = 'semver'
+
+[librechat-rag]
+digest = 'sha256:86a9b2202f740c1e737b4587de28faa81a131c4c616f832259bcea77096dd6a0'
+image = 'danny-avila/librechat-rag-api-dev-lite'
+registry = 'ghcr.io'
+version = 'latest'
+versioning = 'docker'
+
+[librechat-postgresql]
+digest = 'sha256:8809cfffff0082cf260c9ac752f1dd1afc77f6f0a55c4e6411321e78efc3d9a5'
+image = 'pgvector/pgvector'
+registry = 'docker.io'
+version = '0.8.0-pg15-trixie'
+versioning = 'regex:^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-pg15-trixie$'
+
 [maloja]
 digest = 'sha256:4ecea26058d2ca5168a8d53820279942d28f0606664cea6425f42371d5d88f95'
 image = 'krateng/maloja'

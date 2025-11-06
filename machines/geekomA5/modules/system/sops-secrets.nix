@@ -100,9 +100,6 @@ let
         "authelia/oidc/audiobookshelf/client_id"
         "authelia/oidc/audiobookshelf/client_secret_hashed"
 
-        "authelia/oidc/jellyfin/client_id"
-        "authelia/oidc/jellyfin/client_secret_hashed"
-
         "authelia/oidc/grist/client_id"
         "authelia/oidc/grist/client_secret_hashed"
 
@@ -111,6 +108,12 @@ let
 
         "authelia/oidc/immich/client_id"
         "authelia/oidc/immich/client_secret_hashed"
+
+        "authelia/oidc/jellyfin/client_id"
+        "authelia/oidc/jellyfin/client_secret_hashed"
+
+        "authelia/oidc/librechat/client_id"
+        "authelia/oidc/librechat/client_secret_hashed"
 
         "authelia/oidc/paperless/client_id"
         "authelia/oidc/paperless/client_secret_hashed"

@@ -131,20 +131,12 @@ in
               ];
             };
           })
-          (mkOidcProviderPrivate {
-            name = "jellyfin";
-            redirectUris = [
-              "${networkingLib.mkUrl "jellyfin"}/sso/OID/redirect/Authelia"
-              "${networkingLib.mkUrl "jellyfin"}/sso/OID/r/Authelia"
-            ];
-            extraArgs = {
-              token_endpoint_auth_method = "client_secret_post";
-            };
-          })
+
           (mkOidcProviderPrivate {
             name = "grist";
             redirectUris = [ "${networkingLib.mkUrl "grist"}/oauth2/callback" ];
           })
+
           (mkOidcProviderPrivate {
             name = "homeassistant";
             redirectUris = [ "${networkingLib.mkUrl "homeassistant"}/auth/oidc/callback" ];
@@ -152,6 +144,7 @@ in
               token_endpoint_auth_method = "client_secret_post";
             };
           })
+
           (mkOidcProviderPrivate {
             name = "immich";
             redirectUris = [
@@ -167,10 +160,37 @@ in
               ];
             };
           })
+
+          (mkOidcProviderPrivate {
+            name = "jellyfin";
+            redirectUris = [
+              "${networkingLib.mkUrl "jellyfin"}/sso/OID/redirect/Authelia"
+              "${networkingLib.mkUrl "jellyfin"}/sso/OID/r/Authelia"
+            ];
+            extraArgs = {
+              token_endpoint_auth_method = "client_secret_post";
+            };
+          })
+
+          (mkOidcProviderPrivate {
+            name = "librechat";
+            redirectUris = [
+              "${networkingLib.mkUrl "chat"}/oauth/openid/callback"
+            ];
+            extraArgs = {
+              token_endpoint_auth_method = "client_secret_post";
+              claims_policy = "roles";
+              scopes = defaultScopes ++ [
+                "roles"
+              ];
+            };
+          })
+
           (mkOidcProviderPrivate {
             name = "paperless";
             redirectUris = [ "${networkingLib.mkUrl "paperless"}/accounts/oidc/authelia/login/callback/" ];
           })
+
           (mkOidcProviderPublic {
             name = "dashy";
             id = "dashy";
