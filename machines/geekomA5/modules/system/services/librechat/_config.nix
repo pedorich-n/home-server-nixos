@@ -25,4 +25,11 @@ yamlFormat.generate "librechat.yaml" {
       }
     ];
   };
+
+  ocr = {
+    strategy = "mistral_ocr";
+    apiKey = "\${OCR_API_KEY}";
+    baseURL = "https://api.mistral.ai/v1";
+    mistralModel = "mistral-ocr-latest";
+  };
 }
