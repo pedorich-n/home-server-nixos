@@ -60,6 +60,7 @@ resource "tailscale_acl" "acl" {
             "${local.tags.initrd}:2222",
             "${local.tags.initrd}:2222",
             "${local.tags.ssh}:22",
+            "${local.tags.server}:443",
             "${local.tags.router}:443",
             "100.113.5.10:80"
           ] 
@@ -71,6 +72,7 @@ resource "tailscale_acl" "acl" {
             "${local.tags.initrd}:2222",
             "${local.tags.ssh}:22",
             "${local.tags.router}:443",
+            "${local.tags.server}:443",
             "100.113.5.10:80"
           ]
         },
