@@ -9,6 +9,12 @@ yamlFormat.generate "librechat.yaml" {
   version = "1.2.1";
   cache = true;
 
+  interface = {
+    modelSelect = true;
+    presets = true;
+    parameters = true;
+  };
+
   endpoints = {
     custom = [
       {
@@ -31,5 +37,20 @@ yamlFormat.generate "librechat.yaml" {
     apiKey = "\${OCR_API_KEY}";
     baseURL = "https://api.mistral.ai/v1";
     mistralModel = "mistral-ocr-latest";
+  };
+
+  modelSpecs = {
+    prioritize = true;
+    list = [
+      {
+        name = "default-gpt-4o";
+        label = "GPT-4o";
+        default = true;
+        preset = {
+          endpoint = "openAI";
+          model = "gpt-4o";
+        };
+      }
+    ];
   };
 }
