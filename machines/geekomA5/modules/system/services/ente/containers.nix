@@ -43,7 +43,7 @@ in
           ];
 
           labels = containerLib.mkTraefikLabels {
-            name = "ente-museum-secure";
+            name = "ente-museum";
             slug = "ente-api";
             port = 8080;
           };
@@ -69,12 +69,12 @@ in
 
           labels =
             (containerLib.mkTraefikLabels {
-              name = "ente-photos-web-secure";
+              name = "ente-photos-web";
               slug = "ente";
               port = 3000;
             })
             ++ (containerLib.mkTraefikLabels {
-              name = "ente-accounts-web-secure";
+              name = "ente-accounts-web";
               slug = "ente-accounts";
               port = 3001;
             });

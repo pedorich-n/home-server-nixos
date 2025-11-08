@@ -14,7 +14,8 @@ let
   mkApiSecureTraefikLabels =
     name:
     containerLib.mkTraefikLabels {
-      name = "${name}-secure-api";
+      name = "${name}-api";
+      traefikName = "${name}-api-secure";
       rule = "Host(`${networkingLib.mkDomain name}`) && PathPrefix(`/api`)";
       service = "${name}-secure";
       entrypoints = [ "web-secure" ];
@@ -85,7 +86,7 @@ in
           ];
           labels =
             (containerLib.mkTraefikLabels {
-              name = "qbittorrent-secure"; # Proxied
+              name = "qbittorrent"; # Proxied
               port = 8080;
               priority = 10;
               middlewares = [ "authelia@file" ];
@@ -160,7 +161,7 @@ in
           ];
           labels =
             (containerLib.mkTraefikLabels {
-              name = "sabnzbd-secure";
+              name = "sabnzbd";
               port = environments.PORT;
               priority = 10;
               middlewares = [ "authelia@file" ];
@@ -187,7 +188,7 @@ in
           ];
           labels =
             (containerLib.mkTraefikLabels {
-              name = "prowlarr-secure";
+              name = "prowlarr";
               port = 9696;
               priority = 10;
               middlewares = [ "authelia@file" ];
@@ -213,7 +214,7 @@ in
           ];
           labels =
             (containerLib.mkTraefikLabels {
-              name = "sonarr-secure";
+              name = "sonarr";
               port = 8989;
               priority = 10;
               middlewares = [ "authelia@file" ];
@@ -244,7 +245,7 @@ in
           ];
           labels =
             (containerLib.mkTraefikLabels {
-              name = "radarr-secure";
+              name = "radarr";
               port = 7878;
               priority = 10;
               middlewares = [ "authelia@file" ];
@@ -319,9 +320,8 @@ in
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media" "/media")
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "jellyfin-secure";
+            name = "jellyfin";
             port = 8096;
-            entrypoints = [ "web-secure" ];
           };
           #  ++ [
           #   "traefik.udp.services.jellyfin-service-discovery.loadBalancer.server.port=1900"
@@ -358,7 +358,7 @@ in
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/podcasts" "/podcasts")
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "audiobookshelf-secure";
+            name = "audiobookshelf";
             port = 8080;
           };
           inherit networks;

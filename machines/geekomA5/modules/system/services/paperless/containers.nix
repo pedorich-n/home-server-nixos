@@ -88,7 +88,7 @@ in
             (containerLib.mkMappedVolumeForUser "${externalStoreRoot}/media/trash" "/usr/src/paperless/media/trash")
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "paperless-secure";
+            name = "paperless";
             port = 8000;
           };
           inherit networks;

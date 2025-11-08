@@ -119,7 +119,7 @@ in
           ];
 
           labels = containerLib.mkTraefikLabels {
-            name = "librechat-secure";
+            name = "librechat";
             slug = "chat";
             port = 3080;
           };

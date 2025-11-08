@@ -9,8 +9,9 @@
     mkTraefikLabels =
       {
         name,
-        slug ? lib.removeSuffix "-secure" name,
+        slug ? name,
         domain ? networkingLib.mkDomain slug,
+        traefikName ? "${name}-secure",
         entrypoints ? [ "web-secure" ],
         rule ? "Host(`${domain}`)",
         priority ? 0,
@@ -20,20 +21,20 @@
       }:
       [
         "traefik.enable=true"
-        "traefik.http.routers.${name}.rule=${rule}"
-        "traefik.http.routers.${name}.entrypoints=${lib.concatStringsSep "," entrypoints}"
-        "traefik.http.routers.${name}.priority=${builtins.toString priority}"
+        "traefik.http.routers.${traefikName}.rule=${rule}"
+        "traefik.http.routers.${traefikName}.entrypoints=${lib.concatStringsSep "," entrypoints}"
+        "traefik.http.routers.${traefikName}.priority=${builtins.toString priority}"
       ]
-      ++ lib.optional (middlewares != [ ]) "traefik.http.routers.${name}.middlewares=${lib.concatStringsSep "," middlewares}"
+      ++ lib.optional (middlewares != [ ]) "traefik.http.routers.${traefikName}.middlewares=${lib.concatStringsSep "," middlewares}"
       ++ (
         if (service == null) then
           [
-            "traefik.http.services.${name}.loadBalancer.server.port=${builtins.toString port}"
-            "traefik.http.routers.${name}.service=${name}"
+            "traefik.http.services.${traefikName}.loadBalancer.server.port=${builtins.toString port}"
+            "traefik.http.routers.${traefikName}.service=${traefikName}"
           ]
         else
           [
-            "traefik.http.routers.${name}.service=${service}"
+            "traefik.http.routers.${traefikName}.service=${service}"
           ]
       );
 

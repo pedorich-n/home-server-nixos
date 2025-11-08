@@ -116,7 +116,7 @@ in
           ];
           labels =
             (containerLib.mkTraefikLabels {
-              name = "immich-secure";
+              name = "immich";
               port = 2283;
             })
             ++ (containerLib.mkTraefikMetricsLabels {

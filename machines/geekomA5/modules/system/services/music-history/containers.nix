@@ -40,7 +40,7 @@ in
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/maloja.json".path "/config/maloja.json")
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "multiscrobbler-secure";
+            name = "multiscrobbler";
             port = 9078;
             middlewares = [ "authelia@file" ];
           };
@@ -73,7 +73,7 @@ in
             "${malojaArtistRules}:/data/rules/custom_rules.tsv"
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "maloja-secure";
+            name = "maloja";
             port = 42010;
             middlewares = [ "authelia@file" ];
           };

@@ -38,7 +38,7 @@ in
             "/dev/ttyZigbee:/dev/ttyZigbee"
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "zigbee2mqtt-secure";
+            name = "zigbee2mqtt";
             port = 8080;
             middlewares = [ "authelia@file" ];
           };
@@ -90,7 +90,7 @@ in
             "${inputs.homeassistant-docker-venv}/run:/etc/services.d/home-assistant/run"
           ];
           labels = containerLib.mkTraefikLabels {
-            name = "homeassistant-secure";
+            name = "homeassistant";
             port = 8123;
             priority = 10;
           };
