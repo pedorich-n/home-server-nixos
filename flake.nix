@@ -33,7 +33,6 @@
         flake-parts.follows = "flake-parts";
         flake-utils.follows = "flake-utils";
         home-manager.follows = "home-manager";
-        nixpkgs-cassandra.follows = "";
         nix-vscode-extensions.follows = "";
         rust-overlay.follows = "";
       };
