@@ -182,10 +182,10 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [radarr]
-digest = 'sha256:c984533510abe0219a70e80d15bd0d212b7df21baa0913759c4ce6cc9092240b'
+digest = 'sha256:e26fbfd3782520c0bb820666f041ca056acfe187a8b95214ee1f47512cc05a29'
 image = 'linuxserver/radarr'
 registry = 'docker.io'
-version = '5.28.0'
+version = '6.0.4'
 versioning = 'semver'
 
 [recyclarr]
