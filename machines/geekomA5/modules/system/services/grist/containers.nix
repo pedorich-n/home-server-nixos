@@ -30,6 +30,19 @@ in
         GRIST_OIDC_IDP_ISSUER = autheliaLib.issuerUrl;
         GRIST_OIDC_IDP_SKIP_END_SESSION_ENDPOINT = "true";
 
+        GRIST_DOCS_MINIO_ENDPOINT = networkingLib.mkDomain "storage";
+        GRIST_DOCS_MINIO_USE_SSL = "1";
+        GRIST_DOCS_MINIO_BUCKET_REGION = config.services.minio.region;
+
+        GRIST_SNAPSHOT_TIME_CAP = builtins.toJSON {
+          hour = 24;
+          day = 7;
+          isoWeek = 4;
+          month = 3;
+          year = 0;
+        };
+        GRIST_SNAPSHOT_KEEP = "5";
+
         # This function performs HTTP requests in a similar way to requests.request
         GRIST_ENABLE_REQUEST_FUNCTION = "1";
       };
