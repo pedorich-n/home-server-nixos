@@ -25,7 +25,10 @@ resource "minio_iam_policy" "buckets_policy" {
     {
       "Action": [
         "s3:GetBucketLocation",
-        "s3:ListBucket"
+        "s3:ListBucket",
+        "s3:GetBucketVersioning",
+        "s3:ListBucketVersions",
+        "s3:ListBucketMultipartUploads"
       ],
       "Effect": "Allow",
       "Resource": "${minio_s3_bucket.buckets[each.key].arn}"
@@ -33,8 +36,11 @@ resource "minio_iam_policy" "buckets_policy" {
     {
       "Action": [
         "s3:GetObject",
+        "s3:GetObjectVersion",
         "s3:PutObject",
-        "s3:DeleteObject"
+        "s3:DeleteObject",
+        "s3:AbortMultipartUpload",
+        "s3:ListMultipartUploadParts"
       ],
       "Effect": "Allow",
       "Resource": "${minio_s3_bucket.buckets[each.key].arn}/*"
@@ -59,4 +65,12 @@ resource "minio_accesskey" "access_keys" {
   secret_key         = module.onepassword.secrets.Minio_Buckets[each.key].secret_key
   secret_key_version = sha256(module.onepassword.secrets.Minio_Buckets[each.key].secret_key)
   status             = "enabled"
+}
+
+resource "minio_s3_bucket_versioning" "grist_versioning" {
+  bucket = module.onepassword.secrets.Minio_Buckets["Grist"].bucket_name
+
+  versioning_configuration {
+    status = "Enabled"
+  }
 }
