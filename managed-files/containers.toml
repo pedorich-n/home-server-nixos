@@ -62,10 +62,10 @@ version = '18.1-alpine'
 versioning = 'docker'
 
 [immich-machine-learning]
-digest = 'sha256:bf339cbb44af6c2ef25d9128e1da51b2bec0cfd524846a83e3017c21bd71ddb4'
+digest = 'sha256:379e31b8c75107b0af8141904baa8cc933d7454b88fdb204265ef11749d7d908'
 image = 'immich-app/immich-machine-learning'
 registry = 'ghcr.io'
-version = 'v2.2.3'
+version = 'v2.3.1'
 versioning = 'semver'
 
 [immich-postgresql]
@@ -76,10 +76,10 @@ version = '14-vectorchord0.4.3-pgvectors0.3.0'
 versioning = 'regex:^(?<major>14)-vectorchord(?<minor>0\.4\.\d+)'
 
 [immich-server]
-digest = 'sha256:4504d794123c3f5410cc45bbc61e4d7dbcacec1e1b0cd2e599691430c94e5849'
+digest = 'sha256:f8d06a32b1b2a81053d78e40bf8e35236b9faefb5c3903ce9ca8712c9ed78445'
 image = 'immich-app/immich-server'
 registry = 'ghcr.io'
-version = 'v2.2.3'
+version = 'v2.3.1'
 versioning = 'semver'
 
 [immich-valkey]
@@ -104,10 +104,10 @@ version = 'v0.8.1-rc1'
 versioning = 'semver'
 
 [librechat-mongodb]
-digest = 'sha256:e64a984d36b24419327c558b49a9100cf78191706222da6a7c8cf56a743ad3db'
+digest = 'sha256:7245ffb851d149dbfac67397caf91bae4974d899972f9fd1d8985fc6eea3c13d'
 image = 'library/mongo'
 registry = 'docker.io'
-version = '8.2.1'
+version = '8.2.2'
 versioning = 'semver'
 
 [librechat-rag]
@@ -196,7 +196,7 @@ version = '7.4.1'
 versioning = 'semver'
 
 [sabnzbd]
-digest = 'sha256:6e6e7abf7a87436ffccd7df41e64a28df9c530e2be5467339a3f5f0518922b49'
+digest = 'sha256:0b4be872c3d937a8b0ba99e801dbc968d285ec413fdc4797a110b227ee8b1e64'
 image = 'linuxserver/sabnzbd'
 registry = 'docker.io'
 version = '4.5.5'
