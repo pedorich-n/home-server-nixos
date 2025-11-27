@@ -17,7 +17,7 @@ locals {
       priority       = 15
       fields = [
         { name = "baseUrl", text_value = "https://nzbfinder.ws" },
-        { name = "vipExpiration", text_value = "2026-08-16" },
+        { name = "vipExpiration", text_value = "2027-08-16" },
         { name = "baseSettings.queryLimit", number_value = 5000 },
         { name = "baseSettings.grabLimit", number_value = 5000 },
         { name = "baseSettings.limitsUnit", number_value = 0 } # 0 means Day, 1 means Hour
@@ -32,6 +32,7 @@ resource "prowlarr_indexer" "nzb" {
 
   name            = each.value.name
   enable          = true
+  redirect        = true
   implementation  = "Newznab"
   config_contract = "NewznabSettings"
   protocol        = "usenet"
