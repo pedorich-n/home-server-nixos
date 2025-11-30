@@ -122,6 +122,11 @@ in
         };
 
         unitConfig = lib.mkMerge [
+          {
+            PartOf = [
+              containers.gluetun.ref
+            ];
+          }
           (systemdLib.bindsToAfter [
             containers.gluetun.ref
           ])
@@ -144,6 +149,16 @@ in
           networks = [ "gluetun.container" ];
           inherit (containerLib.containerIds) user;
         };
+        unitConfig = lib.mkMerge [
+          {
+            PartOf = [
+              containers.gluetun.ref
+            ];
+          }
+          (systemdLib.bindsToAfter [
+            containers.gluetun.ref
+          ])
+        ];
       };
 
       sabnzbd = {
