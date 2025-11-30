@@ -202,6 +202,13 @@ registry = 'docker.io'
 version = '4.5.5'
 versioning = 'semver'
 
+[searxng]
+digest = 'sha256:0124d32d77e0c7360d0b85f5d91882d1837e6ceb243c82e190f5d7e9f1401334'
+image = 'searxng/searxng'
+registry = 'docker.io'
+version = '2025.11.29-c954e71f8'
+versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
+
 [sonarr]
 digest = 'sha256:4b8a853b76337cd5de5f69961e23b7d0792ce7bf0a8be083dd7202ef670bfc34'
 image = 'linuxserver/sonarr'
