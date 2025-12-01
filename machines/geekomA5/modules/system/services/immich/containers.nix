@@ -24,13 +24,23 @@ let
   networks = [ "immich-internal.network" ];
 
   mkMappedVolumeForUserContainerRoot =
-    localPath: remotePath:
-    containerLib.mkIdmappedVolume {
-      uidNamespace = 0;
-      gidNamespace = 0;
-      uidHost = config.users.users.user.uid;
-      gidHost = config.users.groups.${config.users.users.user.group}.gid;
-    } localPath remotePath;
+    hostPath: containerPath:
+    containerLib.mkIdMappedVolume {
+      inherit hostPath containerPath;
+      uidMappings = [
+        {
+          idNamespace = 0;
+          idHost = config.users.users.user.uid;
+        }
+      ];
+
+      gidMappings = [
+        {
+          idNamespace = 0;
+          idHost = config.users.groups.${config.users.users.user.group}.gid;
+        }
+      ];
+    };
 in
 {
   virtualisation.quadlet = {
