@@ -3,18 +3,18 @@
 {
   cockpit-files = {
     pname = "cockpit-files";
-    version = "31.1";
+    version = "33";
     src = fetchurl {
-      url = "https://github.com/cockpit-project/cockpit-files/releases/download/31.1/cockpit-files-31.1.tar.xz";
-      sha256 = "sha256-ea/SCN7WGfTuHxwNilxItPTxFvo8WRcNG4SxKMPtbl8=";
+      url = "https://github.com/cockpit-project/cockpit-files/releases/download/33/cockpit-files-33.tar.xz";
+      sha256 = "sha256-alTMBjnILdAIFqNChlZoX58jdju48+nPwx4PQjz3XAw=";
     };
   };
   cockpit-podman = {
     pname = "cockpit-podman";
-    version = "116";
+    version = "118";
     src = fetchurl {
-      url = "https://github.com/cockpit-project/cockpit-podman/releases/download/116/cockpit-podman-116.tar.xz";
-      sha256 = "sha256-kKOn1lMfYgnELevq45UtxYwRb1foLZSVa76fGjwHvSc=";
+      url = "https://github.com/cockpit-project/cockpit-podman/releases/download/118/cockpit-podman-118.tar.xz";
+      sha256 = "sha256-k5UdKRNtKKzuCNa//OhSKJ+IDyuER/BNQ2+NWOZJ6GM=";
     };
   };
 }
