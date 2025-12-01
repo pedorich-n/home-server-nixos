@@ -88,41 +88,53 @@
       user = "${builtins.toString uid}:${builtins.toString gid}";
     };
 
-    # Creates a mapping like `"/home/user/test:/test:idmap=uids=@1000-0-1024;gids=@100-0-1024"`
-    # See https://docs.podman.io/en/stable/markdown/podman-run.1.html#mount-type-type-type-specific-option
-    mkIdmappedVolume =
-      {
-        uidNamespace ? containerIds.uid,
-        uidHost,
-        uidCount ? 1,
-        uidRelative ? true,
-        gidNamespace ? containerIds.gid,
-        gidHost,
-        gidCount ? 1,
-        gidRelative ? true,
-      }:
-      host: container:
-      let
-        uidPrefix = if uidRelative then "@" else "";
-        gidPrefix = if gidRelative then "@" else "";
-
-        uids = ''${uidPrefix}${builtins.toString uidHost}-${builtins.toString uidNamespace}-${builtins.toString uidCount}'';
-        gids = ''${gidPrefix}${builtins.toString gidHost}-${builtins.toString gidNamespace}-${builtins.toString gidCount}'';
-      in
-      "${host}:${container}:idmap=uids=${uids};gids=${gids}";
+    mkIdMappedVolume = {
+      # Inspired by https://github.com/viperML/wrapper-manager/blob/c936f9203217e654a6074d206505c16432edbc70/default.nix
+      evalMountBuilder =
+        args:
+        (lib.evalModules {
+          modules = [
+            ./podman/_volume-mount-builder-module.nix
+            args
+          ];
+        });
+      __functor = self: args: (self.evalMountBuilder args).config.result.mountString;
+    };
 
     mkMappedVolumeForUser =
-      localPath: remotePath:
-      mkIdmappedVolume {
-        uidHost = config.users.users.user.uid;
-        gidHost = config.users.groups.${config.users.users.user.group}.gid;
-      } localPath remotePath;
+      hostPath: containerPath:
+      mkIdMappedVolume {
+        inherit hostPath containerPath;
+        uidMappings = [
+          {
+            idNamespace = containerIds.uid;
+            idHost = config.users.users.user.uid;
+          }
+        ];
+        gidMappings = [
+          {
+            idNamespace = containerIds.gid;
+            idHost = config.users.groups.${config.users.users.user.group}.gid;
+          }
+        ];
+      };
 
     mkMappedVolumeForUserMedia =
-      localPath: remotePath:
-      mkIdmappedVolume {
-        uidHost = config.users.users.user.uid;
-        gidHost = config.users.groups.media.gid;
-      } localPath remotePath;
+      hostPath: containerPath:
+      mkIdMappedVolume {
+        inherit hostPath containerPath;
+        uidMappings = [
+          {
+            idNamespace = containerIds.uid;
+            idHost = config.users.users.user.uid;
+          }
+        ];
+        gidMappings = [
+          {
+            idNamespace = containerIds.gid;
+            idHost = config.users.groups.media.gid;
+          }
+        ];
+      };
   };
 }

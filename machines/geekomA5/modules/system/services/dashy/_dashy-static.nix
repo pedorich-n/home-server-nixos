@@ -120,6 +120,10 @@ let
             title = "LibreChat";
             iconName = "librechat";
           })
+          (mkEntry {
+            slug = "searxng";
+            title = "SearXNG";
+          })
         ];
       }
       {
