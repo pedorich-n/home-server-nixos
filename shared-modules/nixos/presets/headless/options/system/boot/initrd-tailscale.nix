@@ -123,7 +123,7 @@ in
         # Paths listed here will be copied to initrd's `/nix/store`
         # OpenSSL & certificates are needed for OAuth & HTTPS
         storePaths = [
-          "${pkgs.iptables}/lib"
+          "${pkgs.iptables.lib}/lib"
           "${pkgs.openssl.dev}/lib"
           "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
         ];

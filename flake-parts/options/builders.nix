@@ -84,7 +84,7 @@ let
     let
       nixosCfg = config.flake.nixosConfigurations.${name};
     in
-    withSystem nixosCfg.pkgs.system (
+    withSystem nixosCfg.pkgs.stdenv.hostPlatform.system (
       { deployPkgs, ... }:
       {
         hostname = name;

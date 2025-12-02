@@ -74,6 +74,7 @@ in
 
         ldap_user_email = "admin@server.lan";
         ldap_user_dn = "admin";
+        force_ldap_user_pass_reset = "always";
 
         ldap_base_dn = "DC=server";
 
