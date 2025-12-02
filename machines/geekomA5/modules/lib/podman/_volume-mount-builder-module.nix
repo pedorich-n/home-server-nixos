@@ -12,17 +12,17 @@ let
     lib.types.submodule {
       options = {
         idNamespace = lib.mkOption {
-          type = lib.types.int;
+          type = lib.types.ints.unsigned;
           description = "The starting ${type} in the container's user namespace.";
         };
 
         idHost = lib.mkOption {
-          type = lib.types.int;
+          type = lib.types.ints.unsigned;
           description = "The starting ${type} on the host to map to the container's ${type} namespace.";
         };
 
         idCount = lib.mkOption {
-          type = lib.types.int;
+          type = lib.types.ints.positive;
           default = 1;
           description = "The number of ${type}s to map.";
         };
@@ -48,12 +48,12 @@ in
 {
   options = {
     hostPath = lib.mkOption {
-      type = lib.types.str;
+      type = lib.types.path;
       description = "The host path for mount that need idmapping.";
     };
 
     containerPath = lib.mkOption {
-      type = lib.types.str;
+      type = lib.types.path;
       description = "The container path for mount that need idmapping.";
     };
 
