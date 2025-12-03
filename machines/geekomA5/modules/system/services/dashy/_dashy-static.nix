@@ -82,10 +82,25 @@ let
             iconName = "ente-photos";
           })
           (mkEntry {
+            slug = "maloja";
+          })
+        ];
+      }
+      {
+        name = "Tools";
+        icon = "mdi-cogs";
+        items = [
+          (mkEntry {
+            slug = "chat";
+            title = "LibreChat";
+            iconName = "librechat";
+          })
+          (mkEntry {
             slug = "copyparty";
           })
           (mkEntry {
-            slug = "maloja";
+            slug = "searxng";
+            title = "SearXNG";
           })
         ];
       }
@@ -114,15 +129,6 @@ let
           })
           (mkEntry {
             slug = "grist";
-          })
-          (mkEntry {
-            slug = "chat";
-            title = "LibreChat";
-            iconName = "librechat";
-          })
-          (mkEntry {
-            slug = "searxng";
-            title = "SearXNG";
           })
         ];
       }

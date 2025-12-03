@@ -75,7 +75,6 @@ in
           labels = containerLib.mkTraefikLabels {
             name = "maloja";
             port = 42010;
-            middlewares = [ "authelia@file" ];
           };
           inherit networks;
         };
