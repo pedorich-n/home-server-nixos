@@ -1,6 +1,14 @@
 { networkingLib, ... }:
+let
+  autheliaUrl = networkingLib.mkUrl "authelia";
+in
 {
   _module.args.autheliaLib = {
-    issuerUrl = "${networkingLib.mkUrl "authelia"}/.well-known/openid-configuration";
+    issuerUrl = "${autheliaUrl}/.well-known/openid-configuration";
+
+    authorizationUrl = "${autheliaUrl}/api/oidc/authorization";
+    tokenUrl = "${autheliaUrl}/api/oidc/token";
+    userInfoUrl = "${autheliaUrl}/api/oidc/userinfo";
+    jwksUrl = "${autheliaUrl}/jwks.json";
   };
 }

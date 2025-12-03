@@ -188,7 +188,7 @@ in
 
           (mkOidcProviderPrivate {
             name = "linkding";
-            redirectUris = [ "${networkingLib.mkUrl "linkding"}/oidc/callback" ];
+            redirectUris = [ "${networkingLib.mkUrl "linkding"}/oidc/callback/" ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
             };
