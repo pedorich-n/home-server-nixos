@@ -115,6 +115,9 @@ let
         "authelia/oidc/librechat/client_id"
         "authelia/oidc/librechat/client_secret_hashed"
 
+        "authelia/oidc/linkding/client_id"
+        "authelia/oidc/linkding/client_secret_hashed"
+
         "authelia/oidc/paperless/client_id"
         "authelia/oidc/paperless/client_secret_hashed"
         "authelia/oidc/paperless/client_secret_raw"
