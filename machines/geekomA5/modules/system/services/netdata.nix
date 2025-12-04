@@ -1,10 +1,9 @@
 {
-  inputs,
   config,
   networkingLib,
   lib,
   pkgs,
-  pkgs-unstable,
+  pkgs-netdata,
   ...
 }:
 let
@@ -40,8 +39,8 @@ let
   );
 in
 {
-  disabledModules = [ "services/monitoring/netdata.nix" ];
-  imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/monitoring/netdata.nix" ];
+  # disabledModules = [ "services/monitoring/netdata.nix" ];
+  # imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/monitoring/netdata.nix" ];
 
   custom.networking.ports.tcp.netdata = {
     port = 19999;
@@ -58,7 +57,7 @@ in
     netdata = {
       enable = true;
 
-      package = pkgs-unstable.netdataCloud.override {
+      package = pkgs-netdata.netdataCloud.override {
         withNdsudo = true;
         withIpmi = false;
       };
