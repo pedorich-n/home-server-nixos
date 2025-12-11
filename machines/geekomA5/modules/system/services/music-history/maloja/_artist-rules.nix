@@ -37,6 +37,8 @@ let
       "Harold Melvin & the Blue Notes"
       "Daryl Hall & John Oates"
       "Amadou & Mariam"
+      "TR/ST"
+      "Terror/Cactus"
     ];
 
     # Aliases / translations / transliteration
