@@ -21,13 +21,15 @@ let
       title ? capitalize slug,
       iconName ? slug,
       iconLink ? "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${iconName}.png",
+      args ? { },
     }:
     {
       inherit title;
       url = networkingLib.mkUrl slug;
       icon = iconLink;
       target = "newtab";
-    };
+    }
+    // args;
 
   # LINK - https://dashy.to/docs/configuring/
   dashySettings = {
@@ -116,6 +118,13 @@ let
           (mkEntry {
             slug = "zigbee2mqtt";
             title = "Zigbee2MQTT";
+          })
+          (mkEntry {
+            slug = "n8n";
+            title = "n8n";
+            args = {
+              displayData.showForKeycloakUsers.groups = [ "Admins" ];
+            };
           })
         ];
       }
