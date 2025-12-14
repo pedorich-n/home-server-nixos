@@ -13,6 +13,18 @@ in
     openFirewall = false;
   };
 
+  systemd.services.n8n = {
+    serviceConfig = {
+      ReadWritePaths = [
+        config.custom.manual-backup.root
+      ];
+
+      SupplementaryGroups = [
+        config.custom.manual-backup.owner.group
+      ];
+    };
+  };
+
   services = {
     n8n = {
       enable = true;
@@ -24,7 +36,6 @@ in
         N8N_PROTOCOL = "https";
         WEBHOOK_URL = networkingLib.mkUrl "n8n";
 
-        # N8N_USER_FOLDER = "/mnt/store/n8n";
         N8N_PROXY_HOPS = "1";
 
         NODE_ENV = "production";

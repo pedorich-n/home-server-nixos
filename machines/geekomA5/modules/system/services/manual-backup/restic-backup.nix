@@ -1,14 +1,11 @@
-_:
-let
-  backupFolder = "/mnt/store/grist/persist";
-in
+{ config, ... }:
 {
   #NOTE - See also global config at
   #LINK - machines/geekomA5/modules/system/services/restic/restic.nix
   services.restic.backups = {
-    grist = {
+    manual-backup = {
       paths = [
-        backupFolder
+        config.custom.manual-backup.root
       ];
 
       pruneOpts = [
