@@ -14,8 +14,8 @@ let
   };
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
-    "daylio"
-    "gymrun"
+    "android"
+    "android/apps"
   ];
 
   foldersToSetPermissions = [
