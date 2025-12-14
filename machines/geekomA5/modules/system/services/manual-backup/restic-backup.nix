@@ -8,6 +8,10 @@
         config.custom.manual-backup.root
       ];
 
+      exclude = [
+        "**/test"
+      ];
+
       pruneOpts = [
         "--keep-daily 14"
         "--keep-weekly 4"
