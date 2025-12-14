@@ -56,6 +56,7 @@ in
       paperless.timerConfig.OnCalendar = mkEveryDayAt "02:33:00";
       homeassistant.timerConfig.OnCalendar = mkEveryDayAt "02:34:00";
       manual-backup.timerConfig.OnCalendar = mkEveryDayAt "02:35:00";
+      n8n.timerConfig.OnCalendar = mkEveryDayAt "02:36:00";
     };
   };
 }
