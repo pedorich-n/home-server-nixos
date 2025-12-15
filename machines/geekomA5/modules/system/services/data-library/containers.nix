@@ -123,7 +123,7 @@ in
 
         unitConfig = lib.mkMerge [
           {
-            PartOf = [
+            Wants = [
               containers.gluetun.ref
             ];
           }
@@ -134,6 +134,10 @@ in
             "zfs.target"
           ])
         ];
+
+        serviceConfig = {
+          RestartSec = 5;
+        };
       };
 
       mamapi = {
@@ -159,6 +163,10 @@ in
             containers.gluetun.ref
           ])
         ];
+
+        serviceConfig = {
+          RestartSec = 5;
+        };
       };
 
       sabnzbd = {
