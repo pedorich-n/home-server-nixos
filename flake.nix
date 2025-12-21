@@ -137,6 +137,7 @@
 
     geekdo-sync = {
       url = "git+ssh://git@github.com/pedorich-n/geekdo-sync";
+      # url = "git+file:///home/pedorich_n/Projects/geekdo-sync";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
