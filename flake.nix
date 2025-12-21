@@ -73,16 +73,6 @@
       flake = false;
     };
 
-    airtable-telegram-bot = {
-      url = "git+ssh://git@github.com/pedorich-n/airtable-telegram-lessons";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-        systems.follows = "systems";
-        flake-utils.follows = "flake-utils";
-      };
-    };
-
     nix-minecraft = {
       url = "github:Infinidoge/nix-minecraft";
       inputs = {
@@ -113,6 +103,51 @@
       url = "github:tribut/homeassistant-docker-venv";
       flake = false;
     };
+
+    pyproject-nix = {
+      url = "github:pyproject-nix/pyproject.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    uv2nix = {
+      url = "github:pyproject-nix/uv2nix";
+      inputs.pyproject-nix.follows = "pyproject-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    pyproject-build-systems = {
+      url = "github:pyproject-nix/build-system-pkgs";
+      inputs.pyproject-nix.follows = "pyproject-nix";
+      inputs.uv2nix.follows = "uv2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    airtable-telegram-bot = {
+      url = "git+ssh://git@github.com/pedorich-n/airtable-telegram-lessons";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        systems.follows = "systems";
+        flake-utils.follows = "flake-utils";
+        pyproject-nix.follows = "pyproject-nix";
+        uv2nix.follows = "uv2nix";
+        pyproject-build-systems.follows = "pyproject-build-systems";
+      };
+    };
+
+    geekdo-sync = {
+      url = "git+ssh://git@github.com/pedorich-n/geekdo-sync";
+      # url = "git+file:///home/pedorich_n/Projects/geekdo-sync";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        systems.follows = "systems";
+        pyproject-nix.follows = "pyproject-nix";
+        uv2nix.follows = "uv2nix";
+        pyproject-build-systems.follows = "pyproject-build-systems";
+      };
+    };
+
   };
 
   outputs =

@@ -22,6 +22,7 @@
         inputs.playit-nixos-module.nixosModules.default
         inputs.quadlet-nix.nixosModules.quadlet
         inputs.copyparty.nixosModules.default
+        inputs.geekdo-sync.nixosModules.default
       ];
       deploySettings = {
         activationTimeout = 600;
