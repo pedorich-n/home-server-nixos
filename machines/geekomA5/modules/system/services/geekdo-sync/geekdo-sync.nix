@@ -4,12 +4,9 @@
   systemdLib,
   ...
 }:
-let
-  inherit (config.virtualisation.quadlet) containers;
-in
 {
   systemd.services.geekdo-sync.unitConfig = systemdLib.requiresAfter [
-    containers.grist.ref
+    "grist.service"
   ];
 
   services.geekdo-sync = {
