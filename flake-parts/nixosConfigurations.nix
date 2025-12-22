@@ -14,7 +14,6 @@
         inputs.disko.nixosModules.disko
         inputs.sops-nix.nixosModules.sops
         inputs.home-manager.nixosModules.default
-        inputs.airtable-telegram-bot.nixosModules.ngrok
         inputs.airtable-telegram-bot.nixosModules.calendar-loader
         inputs.airtable-telegram-bot.nixosModules.calendar-loader-scheduler-cron
         inputs.airtable-telegram-bot.nixosModules.telegram-lessons-bot

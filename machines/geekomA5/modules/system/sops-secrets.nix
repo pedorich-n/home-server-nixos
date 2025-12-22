@@ -24,25 +24,6 @@ let
     in
     lib.foldl' (acc: path: acc // mkEnv path) { } allEnvs;
 
-  ngrokSecrets =
-    let
-      paths = [
-        "ngrok/token"
-        "ngrok/tunnels/telegram-airtable-lessons/domain"
-        "ngrok/tunnels/telegram-airtable-lessons/allow_emails/1"
-        "ngrok/tunnels/telegram-airtable-lessons/allow_emails/2"
-      ];
-
-      mkNgrokSecret = path: {
-        ${path} = {
-          owner = config.services.ngrok.user;
-          inherit (config.services.ngrok) group;
-        };
-      };
-
-    in
-    lib.foldl' (acc: path: acc // (mkNgrokSecret path)) { } paths;
-
   resticSecrets =
     let
       services = builtins.attrNames config.services.restic.backups;
@@ -258,7 +239,6 @@ in
       (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
       (lib.mkIf config.services.redis.servers.authelia.enable redisAutheliaSecrets)
-      (lib.mkIf (config.services ? ngrok && config.services.ngrok.enable) ngrokSecrets)
       (lib.mkIf config.services.traefik.enable traefikSecrets)
     ];
   };
