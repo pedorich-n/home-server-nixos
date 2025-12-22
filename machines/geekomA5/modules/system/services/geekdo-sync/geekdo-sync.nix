@@ -1,9 +1,17 @@
 {
   config,
   networkingLib,
+  systemdLib,
   ...
 }:
+let
+  inherit (config.virtualisation.quadlet) containers;
+in
 {
+  systemd.services.geekdo-sync.unitConfig = systemdLib.requiresAfter [
+    containers.grist.ref
+  ];
+
   services.geekdo-sync = {
     enable = true;
     environment = {
