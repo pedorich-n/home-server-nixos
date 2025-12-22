@@ -40,6 +40,26 @@ in
     };
   };
 
+  n8n = _: prev: {
+    # Adapted from https://github.com/NixOS/nixpkgs/issues/435198#issuecomment-3349029131
+    n8n = prev.n8n.overrideAttrs (oldAttrs: {
+      passthru = oldAttrs.passthru // {
+        withPackages =
+          ps:
+          prev.symlinkJoin {
+            name = "n8n-with-packages";
+            paths = [ prev.n8n ];
+            nativeBuildInputs = [ prev.makeBinaryWrapper ];
+
+            postBuild = ''
+              makeWrapper $out/bin/n8n \
+                --set NODE_PATH ${prev.lib.makeSearchPath "lib/node_modules" (ps prev.nodePackages)}
+            '';
+          };
+      };
+    });
+  };
+
   authelia = _: prev: {
     authelia = prev.authelia.overrideAttrs (_: {
       version = "4.39.15";

@@ -15,6 +15,8 @@
       overlays.minecraft-modpacks
       overlays.lldap-bootstrap
       overlays.authelia
+      overlays.n8n-nodes
+      overlays.n8n
     ];
   };
 
