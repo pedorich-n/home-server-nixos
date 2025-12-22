@@ -13,7 +13,6 @@ in
   systemd.services = {
     renovate-prepare-token = {
       description = "Prepare Renovate GitHub App Installation Token";
-      wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
 
       serviceConfig = {

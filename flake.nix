@@ -4,7 +4,7 @@
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-netdata.url = "github:rhoriguchi/nixpkgs/netdata";
+    # nixpkgs-netdata.url = "github:rhoriguchi/nixpkgs/netdata";
 
     systems.url = "github:nix-systems/default-linux";
     flake-parts = {
@@ -128,7 +128,6 @@
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
         systems.follows = "systems";
-        flake-utils.follows = "flake-utils";
         pyproject-nix.follows = "pyproject-nix";
         uv2nix.follows = "uv2nix";
         pyproject-build-systems.follows = "pyproject-build-systems";

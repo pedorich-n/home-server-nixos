@@ -5,9 +5,6 @@
         "flake-parts": [
           "flake-parts"
         ],
-        "flake-utils": [
-          "flake-utils"
-        ],
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -25,11 +22,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1763984139,
-        "narHash": "sha256-PcZXQ32TKiIrjrdbFrNYkdIjLpAPgJ8GRI2iBFCimo0=",
+        "lastModified": 1766405006,
+        "narHash": "sha256-qZu+tr8N6GtJQfbnLz0UUvY/HY9fbtyvL+JFxRJLMro=",
         "ref": "refs/heads/main",
-        "rev": "6b282757b70e728fb23df74bf93e58d2534d0962",
-        "revCount": 126,
+        "rev": "f2304f203502f794477e873627c8620c9e720397",
+        "revCount": 132,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
@@ -49,11 +46,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764616981,
-        "narHash": "sha256-7vvXS29wlKl95VtYSG5p+sdEJiTnz3byRdXKNkt7rLM=",
+        "lastModified": 1766336878,
+        "narHash": "sha256-AaEZWS8eFziD4QDva0VQ5koveHmjUo90Mtv4q3sY014=",
         "owner": "9001",
         "repo": "copyparty",
-        "rev": "945b2276a0ab1c2c5e1784001590ddd68740b028",
+        "rev": "c82a3cb2262abb0ba70c960cd72f72f3f6de9e0b",
         "type": "github"
       },
       "original": {
@@ -75,11 +72,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762286984,
-        "narHash": "sha256-9I2H9x5We6Pl+DBYHjR1s3UT8wgwcpAH03kn9CqtdQc=",
+        "lastModified": 1766051518,
+        "narHash": "sha256-znKOwPXQnt3o7lDb3hdf19oDo0BLP4MfBOYiWkEHoik=",
         "owner": "serokell",
         "repo": "deploy-rs",
-        "rev": "9c870f63e28ec1e83305f7f6cb73c941e699f74f",
+        "rev": "d5eff7f948535b9c723d60cd8239f8f11ddc90fa",
         "type": "github"
       },
       "original": {
@@ -95,11 +92,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764627417,
-        "narHash": "sha256-D6xc3Rl8Ab6wucJWdvjNsGYGSxNjQHzRc2EZ6eeQ6l4=",
+        "lastModified": 1766150702,
+        "narHash": "sha256-P0kM+5o+DKnB6raXgFEk3azw8Wqg5FL6wyl9jD+G5a4=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "5a88a6eceb8fd732b983e72b732f6f4b8269bef3",
+        "rev": "916506443ecd0d0b4a0f4cf9d40a3c22ce39b378",
         "type": "github"
       },
       "original": {
@@ -111,11 +108,11 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1761588595,
-        "narHash": "sha256-XKUZz9zewJNUj46b4AJdiRZJAvSZ0Dqj2BNfXvFlJC4=",
+        "lastModified": 1765121682,
+        "narHash": "sha256-4VBOP18BFeiPkyhy9o4ssBNQEvfvv1kXkasAYd0+rrA=",
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "f387cd2afec9419c8ee37694406ca490c3f34ee5",
+        "rev": "65f23138d8d09a92e30f1e5c87611b23ef451bf3",
         "type": "github"
       },
       "original": {
@@ -131,11 +128,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1763759067,
-        "narHash": "sha256-LlLt2Jo/gMNYAwOgdRQBrsRoOz7BPRkzvNaI/fzXi2Q=",
+        "lastModified": 1765835352,
+        "narHash": "sha256-XswHlK/Qtjasvhd1nOa1e8MgZ8GS//jBoTqWtrS1Giw=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "2cccadc7357c0ba201788ae99c4dfa90728ef5e0",
+        "rev": "a34fae9c08a15ad73f295041fec82323541400a9",
         "type": "github"
       },
       "original": {
@@ -186,11 +183,12 @@
         ]
       },
       "locked": {
-        "lastModified": 1766287285,
-        "narHash": "sha256-JYh6dtKI+q4cXWvGt3YxGRcfOdaiwik19veKMfw4dPY=",
+        "lastModified": 1766407577,
+        "narHash": "sha256-40VKjvq3oJcz+pnoF9cWzz1AW7Nf5R3KWxodjKoFYYo=",
         "ref": "refs/heads/main",
-        "rev": "62c696a143f13645fe860648702a495ecbdaa0af",
-        "revCount": 19,
+        "rev": "16173a72699c1f3712321b008c1727ddfb727370",
+        "revCount": 24,
+        "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/geekdo-sync"
       },
@@ -206,11 +204,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764636297,
-        "narHash": "sha256-S41K55kw+hWgDfgKmZ9/fMZ3F0BQDMvqFfE120fMHeE=",
+        "lastModified": 1766387499,
+        "narHash": "sha256-AjK3/UKDzeXFeYNLVBaJ3+HLE9he1g5UrlNd4/BM3eA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "ff067cfc619fdf6f82d50344e7d19ff2323f0827",
+        "rev": "527ad07e6625302b648ed3b28c34b62a79bd103e",
         "type": "github"
       },
       "original": {
@@ -242,11 +240,11 @@
         "tomorrow-theme-source": "tomorrow-theme-source"
       },
       "locked": {
-        "lastModified": 1762113626,
-        "narHash": "sha256-+jmf5VcKM3GRnkLe21wWG+dnB0HbQTW3E/Q1lqR0PLM=",
+        "lastModified": 1765154543,
+        "narHash": "sha256-3sVy0wmX0gIK47O8D5iVFZPgL2eN7L5wF+Z1PNYZY+Q=",
         "ref": "refs/heads/main",
-        "rev": "06c61aaceeef1cb5f0b2f4ef1396f52e1abf41d7",
-        "revCount": 491,
+        "rev": "4fff2de4c7eb0531c979611a602edd3f3b8ee64c",
+        "revCount": 494,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-manager-config"
@@ -301,11 +299,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764641122,
-        "narHash": "sha256-qzuvrcqzMbVzGMcgYgvhbHjMZWQtPOKBtsPvU4bdN4I=",
+        "lastModified": 1766370062,
+        "narHash": "sha256-p0vPjxHNJMyVB6+EHWexF/llGIJ+Kp8D/DL+Tkngr4k=",
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "475bec95196841f3d94cc7a4d95c6e662cb99a7a",
+        "rev": "dec478b5d9e0bc500b17747dcd89c62fa98e7bf1",
         "type": "github"
       },
       "original": {
@@ -316,11 +314,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1764522689,
-        "narHash": "sha256-SqUuBFjhl/kpDiVaKLQBoD8TLD+/cTUzzgVFoaHrkqY=",
+        "lastModified": 1766201043,
+        "narHash": "sha256-eplAP+rorKKd0gNjV3rA6+0WMzb1X1i16F5m5pASnjA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "8bb5646e0bed5dbd3ab08c7a7cc15b75ab4e1d0f",
+        "rev": "b3aad468604d3e488d627c0b43984eb60e75e782",
         "type": "github"
       },
       "original": {
@@ -346,29 +344,13 @@
         "type": "github"
       }
     },
-    "nixpkgs-netdata": {
-      "locked": {
-        "lastModified": 1765844411,
-        "narHash": "sha256-17JTdcoOJykWZ4C90rrc75JiDATGmEbOuA68MzV/LTg=",
-        "owner": "rhoriguchi",
-        "repo": "nixpkgs",
-        "rev": "96fe96a74d207796405c9a7c8bdde4fc1eedf07f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rhoriguchi",
-        "ref": "netdata",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1764517877,
-        "narHash": "sha256-pp3uT4hHijIC8JUK5MEqeAWmParJrgBVzHLNfJDZxg4=",
+        "lastModified": 1766070988,
+        "narHash": "sha256-G/WVghka6c4bAzMhTwT2vjLccg/awmHkdKSd2JrycLc=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "2d293cbfa5a793b4c50d17c05ef9e385b90edf6c",
+        "rev": "c6245e83d836d0433170a16eb185cefe0572f8b8",
         "type": "github"
       },
       "original": {
@@ -498,7 +480,6 @@
         "homeassistant-docker-venv": "homeassistant-docker-venv",
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-netdata": "nixpkgs-netdata",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "playit-nixos-module": "playit-nixos-module",
         "pyproject-build-systems": "pyproject-build-systems",
@@ -516,11 +497,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764483358,
-        "narHash": "sha256-EyyvCzXoHrbL467YSsQBTWWg4sR96MH1sPpKoSOelB4=",
+        "lastModified": 1766289575,
+        "narHash": "sha256-BOKCwOQQIP4p9z8DasT5r+qjri3x7sPCOq+FTjY8Z+o=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "5aca6ff67264321d47856a2ed183729271107c9c",
+        "rev": "9836912e37aef546029e48c8749834735a6b9dad",
         "type": "github"
       },
       "original": {
