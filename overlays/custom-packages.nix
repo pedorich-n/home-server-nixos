@@ -15,6 +15,10 @@ let
     podman = ../pkgs/cockpit-plugins/podman.nix;
   };
 
+  n8n-nodes = {
+    imap = ../pkgs/n8n-community-nodes/n8n-nodes-imap.nix;
+  };
+
   mkOverlay = name: path: _: prev: {
     ${name} = prev.callPackage path { };
   };
@@ -28,6 +32,12 @@ in
 
   minecraft-modpacks = _: prev: {
     minecraft-modpacks = builtins.mapAttrs (_: path: prev.callPackage path { }) minecraft-modpacks;
+  };
+
+  n8n-nodes = _: prev: {
+    nodePackages = prev.nodePackages // {
+      n8n-nodes = builtins.mapAttrs (_: path: prev.callPackage path { }) n8n-nodes;
+    };
   };
 
   authelia = _: prev: {
