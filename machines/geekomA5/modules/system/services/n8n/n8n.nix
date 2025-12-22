@@ -1,6 +1,7 @@
 {
-  networkingLib,
   config,
+  lib,
+  networkingLib,
   ...
 }:
 let
@@ -14,6 +15,12 @@ in
   };
 
   systemd.services.n8n = {
+    environment = {
+      # Since services.n8n.environment is broken, see https://github.com/NixOS/nixpkgs/pull/460609
+      N8N_VERSION_NOTIFICATIONS_ENABLED = lib.mkForce "false";
+      N8N_DIAGNOSTICS_ENABLED = lib.mkForce "false";
+    };
+
     serviceConfig = {
       ReadWritePaths = [
         config.custom.manual-backup.root
