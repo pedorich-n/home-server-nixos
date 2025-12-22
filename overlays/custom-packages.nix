@@ -32,15 +32,15 @@ in
 
   authelia = _: prev: {
     authelia = prev.authelia.overrideAttrs (_: {
-      version = "4.39.14";
+      version = "4.39.15";
 
       src = prev.fetchFromGitHub {
         owner = "authelia";
         repo = "authelia";
-        rev = "v4.39.14";
-        hash = "sha256-CUtoyre1WLLzz0bo7L+JGFztSjx29ZciT5AleIFCPtk=";
+        rev = "v4.39.15";
+        hash = "sha256-o/gVJDahMBsczAMKt5kuA1SjtwASOd98aCiS7Tp32Dg=";
       };
-      vendorHash = "sha256-hPrXKq57K8ftLq1qLlUI8bt1/R1WCvYwUt0q8k/OOow=";
+      vendorHash = "sha256-iBQqBX+C/7/uAuzIFlNFo7oKzWn+CYADVWf3CDIr3aU=";
       pnpmDepsHash = "sha256-uRwSpy/aZA4hG2rEY8hlD8pXJ7lvNoIa6a3VSZuZgcs=";
     });
   };
