@@ -346,22 +346,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-netdata": {
-      "locked": {
-        "lastModified": 1765844411,
-        "narHash": "sha256-17JTdcoOJykWZ4C90rrc75JiDATGmEbOuA68MzV/LTg=",
-        "owner": "rhoriguchi",
-        "repo": "nixpkgs",
-        "rev": "96fe96a74d207796405c9a7c8bdde4fc1eedf07f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rhoriguchi",
-        "ref": "netdata",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1764517877,
@@ -498,7 +482,6 @@
         "homeassistant-docker-venv": "homeassistant-docker-venv",
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-netdata": "nixpkgs-netdata",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "playit-nixos-module": "playit-nixos-module",
         "pyproject-build-systems": "pyproject-build-systems",

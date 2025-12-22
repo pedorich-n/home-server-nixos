@@ -2,7 +2,6 @@
 {
   inputs,
   overlays,
-  pkgs,
   ...
 }:
 {
@@ -15,12 +14,11 @@
       overlays.cockpit-plugins
       overlays.minecraft-modpacks
       overlays.lldap-bootstrap
-      overlays.authelia
     ];
   };
 
-  _module.args.pkgs-netdata = import inputs.nixpkgs-netdata {
-    inherit (pkgs) config;
-    inherit (pkgs.stdenv.hostPlatform) system;
-  };
+  # _module.args.pkgs-netdata = import inputs.nixpkgs-netdata {
+  #   inherit (pkgs) config;
+  #   inherit (pkgs.stdenv.hostPlatform) system;
+  # };
 }
