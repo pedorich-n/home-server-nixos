@@ -15,10 +15,6 @@ let
     podman = ../pkgs/cockpit-plugins/podman.nix;
   };
 
-  n8n-nodes = {
-    imap = ../pkgs/n8n-community-nodes/n8n-nodes-imap.nix;
-  };
-
   mkOverlay = name: path: _: prev: {
     ${name} = prev.callPackage path { };
   };
@@ -32,32 +28,6 @@ in
 
   minecraft-modpacks = _: prev: {
     minecraft-modpacks = builtins.mapAttrs (_: path: prev.callPackage path { }) minecraft-modpacks;
-  };
-
-  n8n-nodes = _: prev: {
-    nodePackages = prev.nodePackages // {
-      n8n-nodes = builtins.mapAttrs (_: path: prev.callPackage path { }) n8n-nodes;
-    };
-  };
-
-  n8n = _: prev: {
-    # Adapted from https://github.com/NixOS/nixpkgs/issues/435198#issuecomment-3349029131
-    n8n = prev.n8n.overrideAttrs (oldAttrs: {
-      passthru = oldAttrs.passthru // {
-        withPackages =
-          ps:
-          prev.symlinkJoin {
-            name = "n8n-with-packages";
-            paths = [ prev.n8n ];
-            nativeBuildInputs = [ prev.makeBinaryWrapper ];
-
-            postBuild = ''
-              makeWrapper $out/bin/n8n \
-                --set NODE_PATH ${prev.lib.makeSearchPath "lib/node_modules" (ps prev.nodePackages)}
-            '';
-          };
-      };
-    });
   };
 
   authelia = _: prev: {
