@@ -105,6 +105,7 @@ in
       settingsFiles = [
         config.sops.templates."authelia/oidc-apps.yaml".path
         config.sops.templates."authelia/ldap.yaml".path
+        config.sops.templates."authelia/smtp.yaml".path
       ];
 
       environmentVariables = {
@@ -140,11 +141,6 @@ in
 
         storage = {
           local.path = "${stateRoot}/db.sqlite3";
-        };
-
-        notifier = {
-          disable_startup_check = false;
-          filesystem.filename = "${stateRoot}/notifier.log";
         };
 
         session = {

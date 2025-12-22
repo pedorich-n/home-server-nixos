@@ -86,6 +86,9 @@ let
         "authelia/ldap/password"
         "authelia/redis/password"
 
+        "authelia/smtp/username"
+        "authelia/smtp/password"
+
         "authelia/oidc/hmac_secret"
 
         "authelia/oidc/audiobookshelf/client_id"
