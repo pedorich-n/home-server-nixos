@@ -1,13 +1,22 @@
 {
+  inputs,
   config,
   lib,
   networkingLib,
+  pkgs,
   ...
 }:
 let
   portsCfg = config.custom.networking.ports.tcp.n8n;
+
+  node = pkgs.nodejs;
+  package = pkgs.n8n.override {
+    nodejs = node;
+  };
 in
 {
+  disabledModules = [ "services/misc/n8n.nix" ];
+  imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/n8n.nix" ];
 
   custom.networking.ports.tcp.n8n = {
     port = 5678;
@@ -20,6 +29,13 @@ in
       N8N_VERSION_NOTIFICATIONS_ENABLED = lib.mkForce "false";
       N8N_DIAGNOSTICS_ENABLED = lib.mkForce "false";
     };
+
+    # This allows n8n to install community nodes using `npm`
+    path = with pkgs; [
+      node
+      gnutar
+      gzip
+    ];
 
     serviceConfig = {
       ReadWritePaths = [
@@ -36,6 +52,7 @@ in
     n8n = {
       enable = true;
       inherit (portsCfg) openFirewall;
+      inherit package;
 
       environment = {
         N8N_HOST = networkingLib.mkDomain "n8n";
