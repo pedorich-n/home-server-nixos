@@ -70,15 +70,6 @@ let
     in
     lib.foldl' (acc: user: acc // (mkUserPasswordSecret user)) { } users;
 
-  playitSecrets = {
-    "playit/secret" = {
-      sopsFile = sopsFilePathFor "playit/secret.toml";
-      format = "binary";
-      owner = config.services.playit.user;
-      group = config.services.playit.group;
-    };
-  };
-
   traefikSecrets = {
     "cloudflare/api_tokens/traefik_acme" = {
       owner = config.users.users.traefik.name;
@@ -252,6 +243,11 @@ in
           owner = config.users.users.user.name;
           group = config.users.users.user.group;
         };
+
+        "playit/secret" = {
+          sopsFile = sopsFilePathFor "playit/secret.toml";
+          format = "binary";
+        };
       }
       osUserPasswords
       envSecrets
@@ -260,7 +256,6 @@ in
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
       (lib.mkIf config.services.redis.servers.authelia.enable redisAutheliaSecrets)
       (lib.mkIf (config.services ? ngrok && config.services.ngrok.enable) ngrokSecrets)
-      (lib.mkIf (config.services ? playit && config.services.playit.enable) playitSecrets)
       (lib.mkIf config.services.traefik.enable traefikSecrets)
     ];
   };

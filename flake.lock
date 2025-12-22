@@ -408,11 +408,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764598717,
-        "narHash": "sha256-sm+BBC+QeXhpUiZL+t8sH14hbQFrIRx3qRz8Tdv/jAI=",
+        "lastModified": 1766399567,
+        "narHash": "sha256-yzpYrUS1gbSotVW1L81nx2tzQtzXMZZ+8kBsDJJtMKM=",
         "owner": "pedorich-n",
         "repo": "playit-nixos-module",
-        "rev": "b5f072e7031e92063103711c041add8e3c8b58cb",
+        "rev": "0bcf163957224ca60f1ce7ec0849dba8628af3a0",
         "type": "github"
       },
       "original": {
