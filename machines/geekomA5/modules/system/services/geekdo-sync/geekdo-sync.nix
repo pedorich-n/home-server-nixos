@@ -17,7 +17,6 @@
       GRIST_SELF_MANAGED_SINGLE_ORG = "Y";
       GRIST_SELF_MANAGED_HOME = networkingLib.mkUrl "grist";
 
-      GRIST_WORKSPACE_ID = "2";
       GRIST_DOC_ID = "oZY1tkbiXKPZ";
 
       LOGGING_LEVEL = "DEBUG";
