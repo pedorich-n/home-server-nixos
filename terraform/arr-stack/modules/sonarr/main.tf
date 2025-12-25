@@ -42,10 +42,10 @@ resource "sonarr_download_client_qbittorrent" "qbittorrent" {
 resource "sonarr_delay_profile" "default" {
   enable_usenet                       = true
   enable_torrent                      = true
-  bypass_if_highest_quality           = true
+  bypass_if_highest_quality           = false
   bypass_if_above_custom_format_score = false
   usenet_delay                        = 15
-  torrent_delay                       = 60
+  torrent_delay                       = 90
   preferred_protocol                  = "usenet"
   tags                                = []
   order                               = 2147483647 # Copied from existing
