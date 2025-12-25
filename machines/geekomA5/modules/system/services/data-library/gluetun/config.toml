@@ -1,4 +1,4 @@
 [[roles]]
 name = "port-forwarder"
-routes = ["GET /v1/openvpn/status", "GET /v1/openvpn/portforwarded"]
+routes = ["GET /v1/portforward"]
 auth = "none"
