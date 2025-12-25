@@ -63,7 +63,6 @@ in
           devices = [ "/dev/net/tun:/dev/net/tun" ];
           environments = {
             BLOCK_MALICIOUS = "off";
-            DOT = "off";
 
             VPN_TYPE = "wireguard";
             SERVER_COUNTRIES = "Japan";
