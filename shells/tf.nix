@@ -3,10 +3,10 @@ pkgs.mkShellNoCC {
   name = "tf";
 
   packages = with pkgs; [
+    bashInteractive
     gitMinimal
     jq
     opentofu
-    tfupdate
   ];
 
   env = {
