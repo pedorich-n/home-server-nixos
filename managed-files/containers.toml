@@ -5,13 +5,6 @@ registry = 'ghcr.io'
 version = '2.32.1'
 versioning = 'semver'
 
-[core-keeper-server]
-digest = 'sha256:6531227708c06db6850731609e2df3e0940e63149395c743f12a0ce5f0c34ead'
-image = 'escaping/core-keeper-dedicated'
-registry = 'docker.io'
-version = 'v2.7.0'
-versioning = 'semver'
-
 [ente-museum]
 digest = 'sha256:980f69321bdda48b91fb86ce54a3060051a3c8da596e7dbea98488c190accac7'
 image = 'ente-io/server'
