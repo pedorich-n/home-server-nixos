@@ -103,8 +103,6 @@ in
             OPENID_ADMIN_ROLE_TOKEN_KIND = "userinfo";
             OPENID_ADMIN_ROLE_PARAMETER_PATH = "roles";
             OPENID_USE_END_SESSION_ENDPOINT = "false";
-
-            SEARXNG_INSTANCE_URL = networkingLib.mkUrl "searxng";
           };
           environmentFiles = [
             config.sops.secrets."librechat/server.env".path

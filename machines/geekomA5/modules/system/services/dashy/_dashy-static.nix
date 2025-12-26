@@ -100,10 +100,6 @@ let
           (mkEntry {
             slug = "copyparty";
           })
-          (mkEntry {
-            slug = "searxng";
-            title = "SearXNG";
-          })
         ];
       }
       {
