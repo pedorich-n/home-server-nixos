@@ -7,6 +7,7 @@ locals {
 
   categories = toset(["movies", "audiobooks", "prowlarr", "tv", "others"])
 
+  # See https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-(qBittorrent-4.1)#get-application-preferences
   preferences = {
     bypass_auth_subnet_whitelist         = "0.0.0.0/0"
     bypass_auth_subnet_whitelist_enabled = true
@@ -20,6 +21,7 @@ locals {
 
     excluded_file_names = join("\n", ["*.lnk"])
 
+    listen_port    = var.listen_port
     dht            = false
     pex            = false
     lsd            = false

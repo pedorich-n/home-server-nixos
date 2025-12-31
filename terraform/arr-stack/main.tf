@@ -1,11 +1,12 @@
 module "onepassword" {
   source = "../modules/onepassword"
-  items  = ["Prowlarr", "Prowlarr_Indexers", "Sonarr", "Radarr", "SABnzbd", "SABnzbd_Servers"]
+  items  = ["Prowlarr", "Prowlarr_Indexers", "Sonarr", "Radarr", "SABnzbd", "SABnzbd_Servers", "AirVPN"]
 }
 
 module "qbittorrent" {
-  source   = "./modules/qbittorrent"
-  base_url = local.base_urls.qbittorrent
+  source      = "./modules/qbittorrent"
+  base_url    = local.base_urls.qbittorrent
+  listen_port = local.forwarded_vpn_port
 }
 
 module "sabnzbd" {

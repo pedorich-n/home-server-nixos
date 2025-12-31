@@ -66,9 +66,7 @@ in
 
             VPN_TYPE = "wireguard";
             SERVER_COUNTRIES = "Japan";
-            VPN_SERVICE_PROVIDER = "protonvpn";
-            VPN_PORT_FORWARDING = "on";
-            VPN_PORT_FORWARDING_PROVIDER = "protonvpn";
+            VPN_SERVICE_PROVIDER = "airvpn";
 
             HTTP_CONTROL_SERVER_LOG = "off";
           };
@@ -105,12 +103,6 @@ in
         containerConfig = {
           environments = defaultEnvs // {
             inherit (containerLib.containerIds) PUID PGID;
-
-            # https://github.com/t-anc/GSP-Qbittorent-Gluetun-sync-port-mod
-            DOCKER_MODS = "ghcr.io/t-anc/gsp-qbittorent-gluetun-sync-port-mod:main";
-            GSP_SKIP_INIT_CHECKS = "warning";
-            GSP_SLEEP = "60";
-            GSP_RETRY_DELAY = "10";
           };
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/qbittorrent/config" "/config")

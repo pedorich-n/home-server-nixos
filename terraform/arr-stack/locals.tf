@@ -27,4 +27,6 @@ locals {
       use_ssl  = false
     }
   }
+
+  forwarded_vpn_port = tonumber(nonsensitive(module.onepassword.secrets.AirVPN.WireGuard.forwarded_port))
 }
