@@ -20,7 +20,7 @@ version = '15.15-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:e615dcf90212f14299601e881023bf82483fee287a77a4b9589abbfbeb5ab2ae'
+digest = 'sha256:401812c570425a9e3919417416e695722b3840715f4c0b62ab13cb51fe3a6877'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
@@ -41,10 +41,10 @@ version = '1.7.8'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:75ef6851d2e48d366764cdb6b569b7ad8be77dcc8e0d1b9aa508ac90e42d4c58'
+digest = 'sha256:9a5a3eb4a213dfb25932dee9dc6815c9305f78cecb5afa716fa2483163d8fb5b'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2025.12.4'
+version = '2025.12.5'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
@@ -104,7 +104,7 @@ version = '8.2.3'
 versioning = 'semver'
 
 [librechat-rag]
-digest = 'sha256:48415bc40cbe5c57764f053ef7dbaafcf22ebf5558bd16a1b8eb865d76e4aa96'
+digest = 'sha256:293ebcfdc7118a8e7b67e569ccc278bd07e999e9718ce3c8bfa5bdbcafa40e88'
 image = 'danny-avila/librechat-rag-api-dev-lite'
 registry = 'ghcr.io'
 version = 'latest'
@@ -132,10 +132,10 @@ version = 'v2.1.2'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:7e2709a4c06e2a8dc8ceeebb5f6d02cc43076b1a0b64bd68e8f868bebc989e19'
+digest = 'sha256:96d3f49e5a426f5088655610f2e066aee0c717c4e5d1052aedffb888c9626c6b'
 image = 'foxxmd/multi-scrobbler'
 registry = 'docker.io'
-version = '0.10.7'
+version = '0.10.8'
 versioning = 'semver'
 
 [paperless-postgresql]
@@ -167,7 +167,7 @@ version = '2.3.0'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:a68c4cfb7b07c39cf3f13e7f1d23d333c1e4a60304d37bc1eec7af3eacfe12d5'
+digest = 'sha256:1497b6e047ad47b738f94739219f0e5c5b2ad7a5953b7cf0050f2fedddd8c601'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.1.4'
