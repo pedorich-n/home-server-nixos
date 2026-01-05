@@ -19,7 +19,6 @@ in
         "--keep-daily 14"
         "--keep-weekly 4"
         "--keep-monthly 12"
-        "--keep-yearly 1"
       ];
 
       # NOTE: https://immich.app/docs/administration/backup-and-restore/
