@@ -8,7 +8,7 @@
   systemd.services.avahi-daemon.unitConfig = {
     # During boot, while podman containers are starting avahi gets restarted multiple times and eventually gets marked as failed.
     # This makes sure it gets restarted enough times to get going eventually.
-    StartLimitBurst = 15;
+    StartLimitBurst = 30;
     StartLimitIntervalSec = 300;
   };
 
