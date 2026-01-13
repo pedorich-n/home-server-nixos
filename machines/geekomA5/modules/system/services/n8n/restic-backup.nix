@@ -26,9 +26,8 @@ in
         pkgs.writeShellApplication {
           name = "n8n-backup-prepare";
 
-          # TODO: use `config.services.n8n.package` when available. See https://github.com/nixos/nixpkgs/pull/470146
-          runtimeInputs = with pkgs; [
-            n8n
+          runtimeInputs = [
+            config.services.n8n.package
           ];
           text = ''
             mkdir -p "${backupFolder}"
