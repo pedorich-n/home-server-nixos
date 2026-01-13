@@ -4,13 +4,14 @@
   lib,
   networkingLib,
   pkgs,
+  pkgs-unstable,
   ...
 }:
 let
   portsCfg = config.custom.networking.ports.tcp.n8n;
 
   node = pkgs.nodejs;
-  package = pkgs.n8n.override {
+  package = pkgs-unstable.n8n.override {
     nodejs = node;
   };
 in
@@ -61,6 +62,13 @@ in
         WEBHOOK_URL = networkingLib.mkUrl "n8n";
 
         N8N_PROXY_HOPS = "1";
+
+        N8N_RESTRICT_FILE_ACCESS_TO = lib.concatStringsSep ";" [
+          config.custom.manual-backup.root
+        ];
+
+        NODES_EXCLUDE = "[]";
+        N8N_SKIP_AUTH_ON_OAUTH_CALLBACK = "true";
 
         NODE_ENV = "production";
       };
