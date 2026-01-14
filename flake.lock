@@ -36,6 +36,42 @@
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
       }
     },
+    "book-sync": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "pyproject-build-systems": [
+          "pyproject-build-systems"
+        ],
+        "pyproject-nix": [
+          "pyproject-nix"
+        ],
+        "systems": [
+          "systems"
+        ],
+        "uv2nix": [
+          "uv2nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768402954,
+        "narHash": "sha256-9+vAbfRgYHxEsvM3B5PdlNWHhykA8cG4NLjHeGmxdYs=",
+        "ref": "refs/heads/main",
+        "rev": "d7ed91c77c794c7adfefa8fe1af13e695acab2f7",
+        "revCount": 25,
+        "submodules": true,
+        "type": "git",
+        "url": "ssh://git@github.com/pedorich-n/book-sync"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/pedorich-n/book-sync"
+      }
+    },
     "copyparty": {
       "inputs": {
         "flake-utils": [
@@ -257,11 +293,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1767329047,
-        "narHash": "sha256-AO7fEmDs7xO+u9RiAF1q6OE1cns4xEOCIhcuQBVaZA0=",
+        "lastModified": 1768402808,
+        "narHash": "sha256-VnC+fKXwBdHP5dS5hcECIMcC0D1uTLbBDtK/0eL3AKU=",
         "ref": "refs/heads/main",
-        "rev": "808e450e0187d64d5409832cb4ff3c10a76d7777",
-        "revCount": 171,
+        "rev": "75b4cc6b558b57e009c2ec0f17166c819b5e27f5",
+        "revCount": 172,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -467,6 +503,7 @@
     "root": {
       "inputs": {
         "airtable-telegram-bot": "airtable-telegram-bot",
+        "book-sync": "book-sync",
         "copyparty": "copyparty",
         "deploy-rs": "deploy-rs",
         "disko": "disko",

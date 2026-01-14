@@ -147,6 +147,19 @@
       };
     };
 
+    book-sync = {
+      url = "git+ssh://git@github.com/pedorich-n/book-sync";
+      # url = "git+file:///home/pedorich_n/Projects/book-sync";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        systems.follows = "systems";
+        pyproject-nix.follows = "pyproject-nix";
+        uv2nix.follows = "uv2nix";
+        pyproject-build-systems.follows = "pyproject-build-systems";
+      };
+    };
+
   };
 
   outputs =
