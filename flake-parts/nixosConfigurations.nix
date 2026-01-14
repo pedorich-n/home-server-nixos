@@ -22,6 +22,7 @@
         inputs.quadlet-nix.nixosModules.quadlet
         inputs.copyparty.nixosModules.default
         inputs.geekdo-sync.nixosModules.default
+        inputs.book-sync.nixosModules.default
       ];
       deploySettings = {
         activationTimeout = 600;
