@@ -17,7 +17,7 @@
       GRIST_SELF_MANAGED_SINGLE_ORG = "Y";
       GRIST_SELF_MANAGED_HOME = networkingLib.mkUrl "grist";
 
-      GRIST_DOC_ID = "oZY1tkbiXKPZ";
+      GRIST_DOC_ID = "oZY1tkbiXKPZGLjBFbbwBc";
 
       LOGGING_LEVEL = "DEBUG";
       LOGGING_FORMAT = "systemd";
