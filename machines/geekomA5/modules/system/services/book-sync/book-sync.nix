@@ -15,7 +15,7 @@
       ABS_BASE_URL = networkingLib.mkUrl "audiobookshelf";
 
       GRIST_BASE_URL = networkingLib.mkUrl "grist";
-      GRIST_DOC_ID = "4whJZFZnJwDfzSAvhqA4zH";
+      GRIST_DOC_ID = "9yk1ZQFq5UwDfxeyL1o3eX";
 
       LOGGING_LEVEL = "DEBUG";
     };

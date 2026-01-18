@@ -58,11 +58,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768402954,
-        "narHash": "sha256-9+vAbfRgYHxEsvM3B5PdlNWHhykA8cG4NLjHeGmxdYs=",
+        "lastModified": 1768708143,
+        "narHash": "sha256-BdYuKiJ7QjWQlSshygIikJLkMYIbxdZCk4ahk7vI48E=",
         "ref": "refs/heads/main",
-        "rev": "d7ed91c77c794c7adfefa8fe1af13e695acab2f7",
-        "revCount": 25,
+        "rev": "bae4af825477b4b8f34c36c39e7e0db31781ca23",
+        "revCount": 28,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/book-sync"
