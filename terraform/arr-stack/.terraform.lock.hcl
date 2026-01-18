@@ -38,21 +38,21 @@ provider "registry.opentofu.org/1password/onepassword" {
 }
 
 provider "registry.opentofu.org/devops-rob/terracurl" {
-  version     = "2.1.0"
-  constraints = "~> 2.1.0"
+  version     = "2.2.0"
+  constraints = "~> 2.2.0"
   hashes = [
-    "h1:/Fg3iZ+gSePNMeWFEm+VbHOWGNg9S82kGCg9o4c5xtw=",
-    "h1:RY+mLsFOrgzoEEle4uROwI6c3HVSyTTcK2lW0ZFPOVg=",
-    "h1:V3s4ogVeNcCt+7y49ZjszWC9dXoWbz5HZqcLWuYHefM=",
-    "h1:jGfLQCvC14pbbhQLAug7P2+v6NmnfWhWoh8rLAuYPuA=",
-    "h1:uHvOLcpr/lkCHjY6/0UQllB66gX3NAWA+XLXAh2MoKw=",
-    "h1:zI4QMfrQioCFX9PYlVEkq/rQOH5c/lFSE7KKKQZ/omE=",
-    "zh:1ae8588d83a3ee3f270788207643fb435f4bb7cbf194edfa8c5c1628c2bf7d76",
-    "zh:3bcc038010c63a00867d467494d328f821887b5c44e2eaaf54144184c4251ee1",
-    "zh:73eafa4d6aefc2fed5d430bfd779bfadc03722d68d65ffb276079696c4bc5529",
-    "zh:9752cd3280abb509be029c6190dc812fb43efa2f8c398ff30afcc27c3c8974da",
-    "zh:a49f5ab9f44dd1f3d94a8bd56c62c91074fd186f4a78d6f4655f27c9c5308751",
-    "zh:d31e4f4a473fde202efe426791b34d8342f6b1b984daaa48887b440ee6af96e8",
+    "h1:/g8tWUaOj7IUY6szahHYR3SUly9/zm6T4uIGkZHyLM4=",
+    "h1:1udXZFCgMmSRVnP5i2MVQGj31Y0HfKvusMUHsDWp3KY=",
+    "h1:P/4CnMTi1sqDLVqUoQPUOF9Ixxbskr7WdR+fY4CL8Bw=",
+    "h1:Rhrbkat9EVlKsua0zbgLMB95u2el3Yp2GgQ0hHtiog8=",
+    "h1:iXs+zVVfW4xWUZwd+s+hu6qzAzhAhxEANa2yQW3fIdg=",
+    "h1:iyWZMiVLQ2ueLGGb+QDsEl3cxHnJDMBMrzU4yLxIGBg=",
+    "zh:1cfdd3442df83e5ab5fb51e8a2557295f2505ed06735b606dbe3ed8aabe86672",
+    "zh:32b8553bbaa4a7eedecdadff4cfca3812727f6686216fb0f133f0f91cc4461a0",
+    "zh:3b80126922e6e6fca24b667b0fadd84a4a8b2227241a4dc3b351ab3f64f33474",
+    "zh:a4fb08bbb339a068324d10e814984d7ee94b64704ac3c6c7e58c3105f91f65f3",
+    "zh:bc7f58804559770740ff09e173b5aa83075bcbf44fda4151c51ba70582e72246",
+    "zh:efdb1c86896a888de75535bc008965aae3f4c98555e0411745789e51b930af2e",
   ]
 }
 
