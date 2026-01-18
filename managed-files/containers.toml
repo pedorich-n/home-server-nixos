@@ -41,10 +41,10 @@ version = '1.7.8'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:9a5a3eb4a213dfb25932dee9dc6815c9305f78cecb5afa716fa2483163d8fb5b'
+digest = 'sha256:3007eeeaf87d1e3a2047faeac6ff01dfef218b8a404bdff3ce421c1f4f363a43'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2025.12.5'
+version = '2026.1.2'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
