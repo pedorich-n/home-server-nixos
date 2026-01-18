@@ -6,7 +6,7 @@ version = '2.32.1'
 versioning = 'semver'
 
 [ente-museum]
-digest = 'sha256:980f69321bdda48b91fb86ce54a3060051a3c8da596e7dbea98488c190accac7'
+digest = 'sha256:04e9b1e2e9eacf1c4a2d5055ca4cdc23b7548ed74c45f3ef3487d97f327a419e'
 image = 'ente-io/server'
 registry = 'ghcr.io'
 version = 'latest'
@@ -20,7 +20,7 @@ version = '15.15-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:401812c570425a9e3919417416e695722b3840715f4c0b62ab13cb51fe3a6877'
+digest = 'sha256:501ea3bbcb3cf12090a4c8c07a1070b89a7daa66ecd59c7b1198a3c7496a5a8f'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
@@ -34,10 +34,10 @@ version = 'v3.41.0'
 versioning = 'semver'
 
 [grist]
-digest = 'sha256:5fb6d99b820c60cad9a334a63516ef7e7868aa089815190b95697b8b65db7ae7'
+digest = 'sha256:93dd0f7b97a7864cd0a9101a283385e30754dd5ee0e967ba95a8c19caae43056'
 image = 'gristlabs/grist'
 registry = 'docker.io'
-version = '1.7.8'
+version = '1.7.10'
 versioning = 'semver'
 
 [homeassistant]
@@ -97,7 +97,7 @@ version = 'v0.8.1'
 versioning = 'semver'
 
 [librechat-mongodb]
-digest = 'sha256:7f5bbdafebde7c42e42e33396d01c0eda3eb753da8dae99071a30e350568a0a4'
+digest = 'sha256:d6b569590880bca35e43318418133a426b024bcb649eeb63bb071bc1490bee41'
 image = 'library/mongo'
 registry = 'docker.io'
 version = '8.2.3'
@@ -132,10 +132,10 @@ version = 'v2.1.2'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:96d3f49e5a426f5088655610f2e066aee0c717c4e5d1052aedffb888c9626c6b'
+digest = 'sha256:489684af568507ab33de0befd1138cd5c815b2fa6c728ab968516053495d609f'
 image = 'foxxmd/multi-scrobbler'
 registry = 'docker.io'
-version = '0.10.8'
+version = '0.11.0'
 versioning = 'semver'
 
 [paperless-postgresql]
@@ -153,21 +153,21 @@ version = '8.4.0-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:57ad9565bff3bdf2378ab1dcc21ea649dfd68ee58e0eeca2bfba0120a26563e8'
+digest = 'sha256:06ca6a6c2a21cfebcc7c5f2e0d38f892dba4bcb090b8781a55d003c63cce386a'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '2.20.3'
+version = '2.20.4'
 versioning = 'semver'
 
 [prowlarr]
-digest = 'sha256:67a8aaedcfd6989f3030b937a6a07007310b1dfc7ee8df16d2cbfa48d1c1158c'
+digest = 'sha256:d3e9307b320b6772749a2cf8fc2712e9e824c4930b034680ad4d08a9e2f25884'
 image = 'linuxserver/prowlarr'
 registry = 'docker.io'
 version = '2.3.0'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:1497b6e047ad47b738f94739219f0e5c5b2ad7a5953b7cf0050f2fedddd8c601'
+digest = 'sha256:95114034a7f74672b76f795f6938921b0ca795f85b59b48691035dc66714f34c'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.1.4'
@@ -175,7 +175,7 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [radarr]
-digest = 'sha256:6c0948b42c149e36bb3dbc0b64d36c77b2d3c9dccf1b424c4f72af1e57ba0c21'
+digest = 'sha256:270f25698624b57b86ca119cc95399d7ff15be8297095b4e1223fd5b549b732c'
 image = 'linuxserver/radarr'
 registry = 'docker.io'
 version = '6.0.4'
@@ -189,22 +189,22 @@ version = '7.5.2'
 versioning = 'semver'
 
 [sabnzbd]
-digest = 'sha256:ed10a7e9fc019aded46f1591f236e9be6d75c99e7017b897b502667cd65afc4c'
+digest = 'sha256:a46e75d861e6b26d7ee263b22743d6fdaaa4a5ccd42168b6ea563a2f047d9438'
 image = 'linuxserver/sabnzbd'
 registry = 'docker.io'
 version = '4.5.5'
 versioning = 'semver'
 
 [sonarr]
-digest = 'sha256:8b9f2138ec50fc9e521960868f79d2ad0d529bc610aef19031ea8ff80b54c5e0'
+digest = 'sha256:02b4d538d351d6e35882a021c08e8600fe95d28860fb1dd724b597166e7221ca'
 image = 'linuxserver/sonarr'
 registry = 'docker.io'
 version = '4.0.16'
 versioning = 'semver'
 
 [zigbee2mqtt]
-digest = 'sha256:163e7351430a95d550d5b1bb958527edc1eff115eb013ca627f3545a192e853f'
+digest = 'sha256:60a295b40f4e7fb7ab4d995932369e50f2529837272fa4979e986ec1ffdb7fce'
 image = 'koenkk/zigbee2mqtt'
 registry = 'docker.io'
-version = '2.7.1'
+version = '2.7.2'
 versioning = 'semver'
