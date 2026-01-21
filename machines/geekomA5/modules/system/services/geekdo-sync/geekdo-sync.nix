@@ -12,15 +12,10 @@
   services.geekdo-sync = {
     enable = true;
     environment = {
-      # See https://pygrister.readthedocs.io/en/latest/conf.html#configuration-keys
-      GRIST_SELF_MANAGED = "Y";
-      GRIST_SELF_MANAGED_SINGLE_ORG = "Y";
-      GRIST_SELF_MANAGED_HOME = networkingLib.mkUrl "grist";
-
+      GRIST_BASE_URL = networkingLib.mkUrl "grist";
       GRIST_DOC_ID = "oZY1tkbiXKPZGLjBFbbwBc";
 
       LOGGING_LEVEL = "DEBUG";
-      LOGGING_FORMAT = "systemd";
     };
     environmentFiles = [ config.sops.secrets."geekdo-sync/main.env".path ];
 

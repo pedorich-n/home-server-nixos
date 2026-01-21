@@ -219,11 +219,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1766407577,
-        "narHash": "sha256-40VKjvq3oJcz+pnoF9cWzz1AW7Nf5R3KWxodjKoFYYo=",
+        "lastModified": 1769008855,
+        "narHash": "sha256-3bC+Twf/p1ld3zvOCkkjDWCSxoFs5kyamHrxZZJYRDI=",
         "ref": "refs/heads/main",
-        "rev": "16173a72699c1f3712321b008c1727ddfb727370",
-        "revCount": 24,
+        "rev": "9283d92998dc1dc88e39d072bafa69a9f4817198",
+        "revCount": 27,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/geekdo-sync"
@@ -293,11 +293,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1768402808,
-        "narHash": "sha256-VnC+fKXwBdHP5dS5hcECIMcC0D1uTLbBDtK/0eL3AKU=",
+        "lastModified": 1769009109,
+        "narHash": "sha256-SGc1XLO8y8yqRxuP7PzrR0S8dvwbtgelLfm/6gMC2Q0=",
         "ref": "refs/heads/main",
-        "rev": "75b4cc6b558b57e009c2ec0f17166c819b5e27f5",
-        "revCount": 172,
+        "rev": "6167e18f5573da6ce43d3f50c7f20f39832f6bad",
+        "revCount": 173,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
