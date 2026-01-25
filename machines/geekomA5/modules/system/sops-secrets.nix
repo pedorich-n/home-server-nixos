@@ -5,24 +5,26 @@
   ...
 }:
 let
-  secretsRoot = "${inputs.home-server-nixos-secrets}/sops/encrypted/geekomA5";
+  mapMergeAttrsList = f: list: lib.mergeAttrsList (lib.map f list);
 
-  sopsFilePathFor = filename: "${secretsRoot}/${filename}";
+  secretsRoot = "${inputs.home-server-nixos-secrets}/sops/encrypted/${config.networking.hostName}";
+  sopsFilePathFor = filePath: "${secretsRoot}/${filePath}";
 
+  # Decrypts all .env files recursively found in the secrets root as is, without extracting specific keys
   envSecrets =
     let
-      mkRelativePath = path: (lib.removePrefix "${secretsRoot}/" (builtins.unsafeDiscardStringContext path));
+      mkRelativePath = absPath: (lib.removePrefix "${secretsRoot}/" (builtins.unsafeDiscardStringContext absPath));
 
-      allEnvs = lib.filter (path: lib.hasSuffix ".env" path) (lib.filesystem.listFilesRecursive secretsRoot);
-      mkEnv = path: {
-        ${mkRelativePath path} = {
-          sopsFile = path;
+      allEnvPaths = lib.filter (p: lib.hasSuffix ".env" p) (lib.filesystem.listFilesRecursive secretsRoot);
+      mkEnv = absPath: {
+        ${mkRelativePath absPath} = {
+          sopsFile = absPath;
           format = "dotenv";
           key = "";
         };
       };
     in
-    lib.foldl' (acc: path: acc // mkEnv path) { } allEnvs;
+    mapMergeAttrsList mkEnv allEnvPaths;
 
   resticSecrets =
     let
@@ -33,7 +35,7 @@ let
         "restic/${service}/repository" = { };
       };
     in
-    lib.foldl' (acc: service: acc // (mkResticSecrets service)) { } services;
+    mapMergeAttrsList mkResticSecrets services;
 
   osUserPasswords =
     let
@@ -49,7 +51,7 @@ let
       };
 
     in
-    lib.foldl' (acc: user: acc // (mkUserPasswordSecret user)) { } users;
+    mapMergeAttrsList mkUserPasswordSecret users;
 
   traefikSecrets = {
     "cloudflare/api_tokens/traefik_acme" = {
@@ -60,7 +62,7 @@ let
 
   autheliaSecrets =
     let
-      paths = [
+      secrets = [
         "authelia/jwt_secret"
         "authelia/session_secret"
         "authelia/storage_encryption_key"
@@ -95,10 +97,10 @@ let
         "authelia/oidc/paperless/client_secret_raw"
       ];
 
-      mkSecret = path: {
-        ${path} = {
+      mkSecret = secret: {
+        ${secret} = {
           owner = config.services.authelia.instances.main.user;
-          inherit (config.services.authelia.instances.main) group;
+          group = config.services.authelia.instances.main.group;
         };
       };
 
@@ -107,16 +109,16 @@ let
           sopsFile = sopsFilePathFor "authelia/oidc/jwks.key";
           format = "binary";
           owner = config.services.authelia.instances.main.user;
-          inherit (config.services.authelia.instances.main) group;
+          group = config.services.authelia.instances.main.group;
         };
       };
 
     in
-    (lib.foldl' (acc: path: acc // (mkSecret path)) { } paths) // extraSecrets;
+    (mapMergeAttrsList mkSecret secrets) // extraSecrets;
 
   lldapSecrets =
     let
-      paths = [
+      secrets = [
         "lldap/key_seed"
         "lldap/jwt_secret"
         "lldap/users/admin/password"
@@ -128,43 +130,43 @@ let
         "lldap/users/user_1/password"
       ];
 
-      mkSecret = path: {
-        ${path} = {
+      mkSecret = secret: {
+        ${secret} = {
           owner = config.users.users.lldap.name;
           group = config.users.users.lldap.group;
         };
       };
 
     in
-    lib.foldl' (acc: path: acc // (mkSecret path)) { } paths;
+    mapMergeAttrsList mkSecret secrets;
 
   redisAutheliaSecrets =
     let
-      paths = [
+      secrets = [
         "redis/authelia/password"
       ];
 
-      mkSecret = path: {
-        ${path} = {
+      mkSecret = secret: {
+        ${secret} = {
           owner = config.services.redis.servers.authelia.user;
           group = config.services.redis.servers.authelia.group;
         };
       };
     in
-    lib.foldl' (acc: path: acc // (mkSecret path)) { } paths;
+    mapMergeAttrsList mkSecret secrets;
 
   mbsyncSecrets =
     let
-      mkSecret = name: {
-        "mbsync/accounts/${name}/email" = { };
-        "mbsync/accounts/${name}/password" = { };
-        "mbsync/accounts/${name}/imap" = { };
+      mkSecret = account: {
+        "mbsync/accounts/${account}/email" = { };
+        "mbsync/accounts/${account}/password" = { };
+        "mbsync/accounts/${account}/imap" = { };
       };
 
-      accountsCount = 4;
-      accounts = lib.genList (i: "email_${toString (i + 1)}") accountsCount;
+      # 4 accounts: email_1, email_2, ...
+      accounts = lib.map (i: "email_${toString i}") (lib.range 1 4);
     in
-    lib.foldl' (acc: name: acc // (mkSecret name)) { } accounts;
+    mapMergeAttrsList mkSecret accounts;
 in
 {
   sops = {
@@ -249,7 +251,7 @@ in
       osUserPasswords
       envSecrets
       resticSecrets
-      mbsyncSecrets
+      (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
       (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
       (lib.mkIf config.services.redis.servers.authelia.enable redisAutheliaSecrets)
