@@ -83,8 +83,8 @@ in
 
       services.mbsync = {
         description = "Mail synchronization using mbsync";
-        after = [ "network.target" ];
-        wants = [ "network.target" ];
+        after = [ "network-online.target" ];
+        wants = [ "network-online.target" ];
 
         environment = {
           "HOME" = "/run/mbsync";
