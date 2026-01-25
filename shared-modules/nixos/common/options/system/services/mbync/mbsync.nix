@@ -87,7 +87,7 @@ in
         wants = [ "network-online.target" ];
 
         environment = {
-          "HOME" = "/run/mbsync";
+          "HOME" = "/var/lib/mbsync";
         };
 
         serviceConfig = {
@@ -95,7 +95,7 @@ in
           ExecStart = ''
             ${lib.getExe' cfg.package "mbsync"} ${lib.concatStringsSep " " args}
           '';
-          RuntimeDirectory = "mbsync";
+          StateDirectory = "mbsync";
           Group = cfg.group;
           UMask = 0007; # Directories created with 770, files with 660
 
