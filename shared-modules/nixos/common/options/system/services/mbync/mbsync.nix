@@ -97,6 +97,7 @@ in
           '';
           RuntimeDirectory = "mbsync";
           Group = cfg.group;
+          UMask = 0007; # Directories created with 770, files with 660
 
           LoadCredential = [
             "config:${cfg.configFile}"
