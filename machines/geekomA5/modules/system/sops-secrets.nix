@@ -152,6 +152,19 @@ let
       };
     in
     lib.foldl' (acc: path: acc // (mkSecret path)) { } paths;
+
+  mbsyncSecrets =
+    let
+      mkSecret = name: {
+        "mbsync/accounts/${name}/email" = { };
+        "mbsync/accounts/${name}/password" = { };
+        "mbsync/accounts/${name}/imap" = { };
+      };
+
+      accountsCount = 4;
+      accounts = lib.genList (i: "email_${toString (i + 1)}") accountsCount;
+    in
+    lib.foldl' (acc: name: acc // (mkSecret name)) { } accounts;
 in
 {
   sops = {
@@ -236,6 +249,7 @@ in
       osUserPasswords
       envSecrets
       resticSecrets
+      mbsyncSecrets
       (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
       (lib.mkIf config.services.redis.servers.authelia.enable redisAutheliaSecrets)
