@@ -49,9 +49,10 @@ let
   gmailPatterns = [
     "*"
     "![Gmail]*"
-    "[Gmail]/Sent Mail"
-    "[Gmail]/Starred"
-    "[Gmail]/All Mail"
+    ''"[Gmail]/Sent Mail"''
+    ''"[Gmail]/Starred"''
+    ''"[Gmail]/All Mail"''
+    ''"[Gmail]/Trash"''
   ];
 
   accounts = [
@@ -73,7 +74,6 @@ let
         "*"
         "!Junk"
         "!Spam"
-        "!Trash"
       ];
       tlsType = "STARTTLS";
     }
