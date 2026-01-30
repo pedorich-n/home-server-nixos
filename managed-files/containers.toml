@@ -166,6 +166,13 @@ registry = 'docker.io'
 version = '2.3.0'
 versioning = 'semver'
 
+[shelfmark]
+digest = 'sha256:85adbbce1eb36ff32bd9ff36fbbd1720a7bd00ca1b592427b9a07b4b3f198a3d'
+image = 'calibrain/shelfmark-lite'
+registry = 'ghcr.io'
+version = '1.0.3'
+versioning = 'semver'
+
 [qbittorrent]
 digest = 'sha256:95114034a7f74672b76f795f6938921b0ca795f85b59b48691035dc66714f34c'
 image = 'linuxserver/qbittorrent'

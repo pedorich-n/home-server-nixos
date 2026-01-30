@@ -383,6 +383,71 @@ in
           "zfs.target"
         ];
       };
+
+      shelfmark = {
+        requiresTraefikNetwork = true;
+        useGlobalContainers = true;
+        wantsAuthelia = true;
+        usernsAuto = {
+          enable = true;
+          size = 65535;
+        };
+
+        containerConfig = {
+          environments = defaultEnvs // {
+            inherit (containerLib.containerIds) PUID PGID;
+            UMASK = "002"; # 664 for files, 775 for dirs
+
+            SESSION_COOKIE_SECURE = "true";
+            BOOK_LANGUAGE = "en,ru,uk";
+
+            AUDIOBOOK_LIBRARY_URL = networkingLib.mkUrl "audiobookshelf";
+
+            SEARCH_MODE = "universal";
+            DEFAULT_RELEASE_SOURCE = "prowlarr";
+
+            DESTINATION_AUDIOBOOK = "/data/media/audiobooks";
+            HARDLINK_TORRENTS_AUDIOBOOK = "true";
+            FILE_ORGANIZATION_AUDIOBOOK = "organize";
+            TEMPLATE_AUDIOBOOK_ORGANIZE = "{Author}/{Series}/{SeriesPosition - }{Title}/{Title}";
+
+            HARDCOVER_ENABLED = "true";
+            OPENLIBRARY_ENABLED = "true";
+
+            PROWLARR_ENABLED = "true";
+            PROWLARR_URL = "prowlarr:9696";
+
+            PROWLARR_TORRENT_CLIENT = "qbittorrent";
+            QBITTORRENT_URL = "gluetun:8080";
+            QBITTORRENT_CATEGORY_AUDIOBOOK = "audiobooks";
+
+            PROWLARR_USENET_CLIENT = "sabnzbd";
+            SABNZBD_URL = "sabnzbd:8080";
+            SABNZBD_CATEGORY_AUDIOBOOK = "audiobooks";
+            PROWLARR_USENET_ACTION = "move";
+          };
+          environmentFiles = [ config.sops.secrets."data-library/shelfmark.env".path ];
+          volumes = [
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/shelfmark/config" "/config")
+            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/audiobooks" "/data/media/audiobooks")
+            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
+            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
+          ];
+          labels = containerLib.mkTraefikLabels {
+            name = "shelfmark";
+            port = 8084;
+            middlewares = [ "authelia@file" ];
+          };
+          inherit networks;
+        };
+
+        unitConfig = lib.mkMerge [
+          afterDownloaders
+          (systemdLib.requisiteAfter [
+            "zfs.target"
+          ])
+        ];
+      };
     };
   };
 }
