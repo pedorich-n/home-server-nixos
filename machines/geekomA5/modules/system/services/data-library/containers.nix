@@ -409,7 +409,7 @@ in
             DESTINATION_AUDIOBOOK = "/data/media/audiobooks";
             HARDLINK_TORRENTS_AUDIOBOOK = "true";
             FILE_ORGANIZATION_AUDIOBOOK = "organize";
-            TEMPLATE_AUDIOBOOK_ORGANIZE = "{Author}/{Series}/{SeriesPosition - }{Title}/{Title}";
+            TEMPLATE_AUDIOBOOK_ORGANIZE = "{Author}/{Series/}{SeriesPosition - }{Title}/{PartNumber - }{Title}";
 
             HARDCOVER_ENABLED = "true";
             OPENLIBRARY_ENABLED = "true";
