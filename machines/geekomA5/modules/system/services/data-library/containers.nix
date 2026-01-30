@@ -389,16 +389,14 @@ in
         useGlobalContainers = true;
         wantsAuthelia = true;
         usernsAuto = {
-          enable = false;
-          size = containerLib.containerIds.uid + 500;
+          enable = true;
+          size = 65535;
         };
 
         containerConfig = {
           environments = defaultEnvs // {
-            # inherit (containerLib.containerIds) PUID PGID;
-            PUID = toString config.users.users.user.uid;
-            PGID = toString config.users.groups.media.gid;
-            UMASK = "007";
+            inherit (containerLib.containerIds) PUID PGID;
+            UMASK = "002"; # 664 for files, 775 for dirs
 
             SESSION_COOKIE_SECURE = "true";
             BOOK_LANGUAGE = "en,ru,uk";
@@ -414,6 +412,7 @@ in
             TEMPLATE_AUDIOBOOK_ORGANIZE = "{Author}/{Series}/{SeriesPosition - }{Title}/{Title}";
 
             HARDCOVER_ENABLED = "true";
+            OPENLIBRARY_ENABLED = "true";
 
             PROWLARR_ENABLED = "true";
             PROWLARR_URL = "prowlarr:9696";
@@ -429,14 +428,10 @@ in
           };
           environmentFiles = [ config.sops.secrets."data-library/shelfmark.env".path ];
           volumes = [
-            # (containerLib.mkMappedVolumeForUser "${storeRoot}/shelfmark/config" "/config")
-            # (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/audiobooks" "/data/media/audiobooks")
-            # (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
-            # (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
-            "${storeRoot}/shelfmark/config:/config"
-            "${externalStoreRoot}/media/audiobooks:/data/media/audiobooks"
-            "${externalStoreRoot}/downloads/torrent:/data/downloads/torrent"
-            "${externalStoreRoot}/downloads/usenet:/data/downloads/usenet"
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/shelfmark/config" "/config")
+            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/audiobooks" "/data/media/audiobooks")
+            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
+            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
           ];
           labels = containerLib.mkTraefikLabels {
             name = "shelfmark";
