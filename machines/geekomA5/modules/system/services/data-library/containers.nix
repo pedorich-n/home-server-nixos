@@ -383,6 +383,75 @@ in
           "zfs.target"
         ];
       };
+
+      shelfmark = {
+        requiresTraefikNetwork = true;
+        useGlobalContainers = true;
+        wantsAuthelia = true;
+        usernsAuto = {
+          enable = false;
+          size = containerLib.containerIds.uid + 500;
+        };
+
+        containerConfig = {
+          environments = defaultEnvs // {
+            inherit (containerLib.containerIds) PUID;
+            PGID = toString config.users.groups.media.gid;
+            UMASK = "007";
+
+            # SESSION_COOKIE_SECURE = "true"
+            BOOK_LANGUAGE = "en,ru,uk";
+
+            AUDIOBOOK_LIBRARY_URL = networkingLib.mkUrl "audiobookshelf";
+
+            SEARCH_MODE = "universal";
+            DEFAULT_RELEASE_SOURCE = "prowlarr";
+
+            DESTINATION_AUDIOBOOK = "/data/media/audiobooks";
+            HARDLINK_TORRENTS_AUDIOBOOK = "true";
+            FILE_ORGANIZATION_AUDIOBOOK = "organize";
+            TEMPLATE_AUDIOBOOK_ORGANIZE = "{Author}/{Series}/{SeriesPosition - }{Title}";
+
+            HARDCOVER_ENABLED = "true";
+
+            PROWLARR_ENABLED = "true";
+            PROWLARR_URL = networkingLib.mkUrl "prowlarr";
+
+            PROWLARR_TORRENT_CLIENT = "qbittorrent";
+            QBITTORRENT_URL = "gluetun:8080";
+            QBITTORRENT_CATEGORY_AUDIOBOOK = "audiobooks";
+
+            PROWLARR_USENET_CLIENT = "sabnzbd";
+            SABNZBD_URL = "sabnzbd:8080";
+            SABNZBD_CATEGORY_AUDIOBOOK = "audiobooks";
+            PROWLARR_USENET_ACTION = "move";
+          };
+          environmentFiles = [ config.sops.secrets."data-library/shelfmark.env".path ];
+          volumes = [
+            # (containerLib.mkMappedVolumeForUser "${storeRoot}/shelfmark/config" "/config")
+            # (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/audiobooks" "/data/media/audiobooks")
+            # (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
+            # (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
+            "${storeRoot}/shelfmark/config:/config"
+            "${externalStoreRoot}/media/audiobooks:/data/media/audiobooks"
+            "${externalStoreRoot}/downloads/torrent:/data/downloads/torrent"
+            "${externalStoreRoot}/downloads/usenet:/data/downloads/usenet"
+          ];
+          labels = containerLib.mkTraefikLabels {
+            name = "shelfmark";
+            port = 8084;
+            # middlewares = [ "authelia@file" ];
+          };
+          inherit networks;
+        };
+
+        unitConfig = lib.mkMerge [
+          afterDownloaders
+          (systemdLib.requisiteAfter [
+            "zfs.target"
+          ])
+        ];
+      };
     };
   };
 }

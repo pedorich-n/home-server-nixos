@@ -27,6 +27,8 @@ let
     "sonarr/config"
 
     "recyclarr/config"
+
+    "shelfmark/config"
   ];
 
   # foldersToCreateExternal = lib.map (folder: "${externalRoot}/${folder}") [
