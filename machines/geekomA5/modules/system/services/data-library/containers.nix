@@ -395,11 +395,12 @@ in
 
         containerConfig = {
           environments = defaultEnvs // {
-            inherit (containerLib.containerIds) PUID;
+            # inherit (containerLib.containerIds) PUID PGID;
+            PUID = toString config.users.users.user.uid;
             PGID = toString config.users.groups.media.gid;
             UMASK = "007";
 
-            # SESSION_COOKIE_SECURE = "true"
+            SESSION_COOKIE_SECURE = "true";
             BOOK_LANGUAGE = "en,ru,uk";
 
             AUDIOBOOK_LIBRARY_URL = networkingLib.mkUrl "audiobookshelf";
@@ -410,12 +411,12 @@ in
             DESTINATION_AUDIOBOOK = "/data/media/audiobooks";
             HARDLINK_TORRENTS_AUDIOBOOK = "true";
             FILE_ORGANIZATION_AUDIOBOOK = "organize";
-            TEMPLATE_AUDIOBOOK_ORGANIZE = "{Author}/{Series}/{SeriesPosition - }{Title}";
+            TEMPLATE_AUDIOBOOK_ORGANIZE = "{Author}/{Series}/{SeriesPosition - }{Title}/{Title}";
 
             HARDCOVER_ENABLED = "true";
 
             PROWLARR_ENABLED = "true";
-            PROWLARR_URL = networkingLib.mkUrl "prowlarr";
+            PROWLARR_URL = "prowlarr:9696";
 
             PROWLARR_TORRENT_CLIENT = "qbittorrent";
             QBITTORRENT_URL = "gluetun:8080";
@@ -440,7 +441,7 @@ in
           labels = containerLib.mkTraefikLabels {
             name = "shelfmark";
             port = 8084;
-            # middlewares = [ "authelia@file" ];
+            middlewares = [ "authelia@file" ];
           };
           inherit networks;
         };
