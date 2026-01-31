@@ -11,8 +11,8 @@ let
   portsCfg = config.custom.networking.ports.tcp.n8n;
 
   node = pkgs.nodejs;
-  package = pkgs-unstable.n8n.override {
-    nodejs = node;
+  package = pkgs-unstable.n8n.overrideAttrs {
+    NODE_OPTIONS = "--max-old-space-size=4096";
   };
 in
 {
