@@ -82,11 +82,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769809780,
-        "narHash": "sha256-4Q2f/wyj8cD1nRP8aUxwIcKXypksczZfnLbgBQD4tvY=",
+        "lastModified": 1769889994,
+        "narHash": "sha256-uEn3WcpPHe3sMJMgIJ0XW3f4/+TRzZpNgv4vu5/gjmA=",
         "owner": "9001",
         "repo": "copyparty",
-        "rev": "32c11f142e2b4c59b22e2e6df1cc85487c1d5999",
+        "rev": "9b436eb52e5cfe7a0a8e59dd9f1a37351f3a2abd",
         "type": "github"
       },
       "original": {
@@ -240,11 +240,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769813945,
-        "narHash": "sha256-9ABv9Lo9t6MrFjlnRnU8Zw1C6LVj2+R8PipQ/rxGLHk=",
+        "lastModified": 1769872935,
+        "narHash": "sha256-07HMIGQ/WJeAQJooA7Kkg1SDKxhAiV6eodvOwTX6WKI=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "475921375def3eb930e1f8883f619ff8609accb6",
+        "rev": "f4ad5068ee8e89e4a7c2e963e10dd35cd77b37b7",
         "type": "github"
       },
       "original": {
@@ -327,19 +327,17 @@
         "flake-compat": [
           "flake-compat"
         ],
-        "flake-utils": [
-          "flake-utils"
-        ],
         "nixpkgs": [
           "nixpkgs-unstable"
-        ]
+        ],
+        "systems": "systems"
       },
       "locked": {
-        "lastModified": 1769567010,
-        "narHash": "sha256-R4ESxjCluQQlSIPw4NaRYVvEtvsnKGRwmACcXU1at6g=",
+        "lastModified": 1769936216,
+        "narHash": "sha256-ezgoxbHXGQMufga7aaZNhYZYiXQhaGV4jLAZy0fBhzA=",
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "1c9c95fea177a4f8430c34dc1f974394e72bca1f",
+        "rev": "ff6604fa8d25c1e1c135a261ddd6b3dcc4443129",
         "type": "github"
       },
       "original": {
@@ -426,11 +424,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1767329060,
-        "narHash": "sha256-zJ74IbFsxc8AY3xYAyJpmveAGaV0oLkGcUk1/X/Bb/c=",
+        "lastModified": 1769928745,
+        "narHash": "sha256-dKpbQyRqPp2hjeqtIiX7GB/Ke6nJDqbpK1EWzHzDN7I=",
         "owner": "pedorich-n",
         "repo": "playit-nixos-module",
-        "rev": "ff369980f759a8968f39de792b8a2bf9e02d2535",
+        "rev": "a4226a1096cda036578d91d45047f1f858248c52",
         "type": "github"
       },
       "original": {
@@ -472,11 +470,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769116518,
-        "narHash": "sha256-M+etHAj3oI9zr+Cpj5u2kMAddvxcJCmnWRtH/SklYlY=",
+        "lastModified": 1769936401,
+        "narHash": "sha256-kwCOegKLZJM9v/e/7cqwg1p/YjjTAukKPqmxKnAZRgA=",
         "owner": "pyproject-nix",
         "repo": "pyproject.nix",
-        "rev": "ab521eddafb936498f18c86d83e1774a53b1cb8a",
+        "rev": "b0d513eeeebed6d45b4f2e874f9afba2021f7812",
         "type": "github"
       },
       "original": {
@@ -523,7 +521,7 @@
         "pyproject-nix": "pyproject-nix",
         "quadlet-nix": "quadlet-nix",
         "sops-nix": "sops-nix",
-        "systems": "systems",
+        "systems": "systems_2",
         "uv2nix": "uv2nix"
       }
     },
@@ -534,11 +532,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769469829,
-        "narHash": "sha256-wFcr32ZqspCxk4+FvIxIL0AZktRs6DuF8oOsLt59YBU=",
+        "lastModified": 1769921679,
+        "narHash": "sha256-twBMKGQvaztZQxFxbZnkg7y/50BW9yjtCBWwdjtOZew=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "c5eebd4eb2e3372fe12a8d70a248a6ee9dd02eff",
+        "rev": "1e89149dcfc229e7e2ae24a8030f124a31e4f24f",
         "type": "github"
       },
       "original": {
@@ -548,6 +546,21 @@
       }
     },
     "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
       "locked": {
         "lastModified": 1689347949,
         "narHash": "sha256-12tWmuL2zgBgZkdoB6qXZsgJEH9LR3oUgpaQq2RbI80=",
