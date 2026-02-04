@@ -43,7 +43,7 @@ let
         acc // { ${item.portStr} = (acc.${item.portStr} or [ ]) ++ [ name ]; }
       ) { } ports;
 
-      mkErrorMsg = port: names: ''Multiple definitions are trying to bind to port ${port}: ${builtins.concatStringsSep ", " names}'';
+      mkErrorMsg = port: names: "Multiple definitions are trying to bind to port ${port}: ${builtins.concatStringsSep ", " names}";
       assertions = lib.mapAttrsToList (port: names: {
         assertion = (builtins.length names) == 1;
         message = mkErrorMsg port names;

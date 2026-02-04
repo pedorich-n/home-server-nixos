@@ -73,7 +73,7 @@ in
         config.users.groups.media.name
       ];
 
-      ExecStart = ''${lib.getExe pkgs.rclone} mount mega: /mnt/rclone/mega ${lib.concatStringsSep " " arguments}'';
+      ExecStart = "${lib.getExe pkgs.rclone} mount mega: /mnt/rclone/mega ${lib.concatStringsSep " " arguments}";
       Restart = "on-failure";
 
       EnvironmentFile = config.sops.secrets."rclone/mega.env".path;

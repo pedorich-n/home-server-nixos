@@ -11,7 +11,7 @@ let
       sshOpts = mkOption {
         type = types.listOf types.str;
         default = [ ];
-        description = ''This is an optional list of arguments that will be passed to SSH. '';
+        description = "This is an optional list of arguments that will be passed to SSH. ";
       };
 
       sshUser = mkOption {
