@@ -55,7 +55,7 @@ in
           server-port = gamePortCfg.port;
           difficulty = 2;
           level-name = "the_best_1";
-          motd = ''🐒Leave society, be a monkey🐒'';
+          motd = "🐒Leave society, be a monkey🐒";
           max-players = 10;
           enable-status = true;
           enforce-secure-profile = false;

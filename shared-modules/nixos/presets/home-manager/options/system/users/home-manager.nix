@@ -37,7 +37,7 @@ in
     custom.users.homeManagerUsers = lib.mkOption {
       type = uniqueListOf lib.types.str;
       default = [ ];
-      description = ''Enables HM for these users.'';
+      description = "Enables HM for these users.";
     };
   };
 

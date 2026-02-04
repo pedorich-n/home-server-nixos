@@ -81,7 +81,7 @@ in
       '';
 
       serviceConfig = {
-        LoadCredential = ''api-key:${config.sops.secrets."immich/api/immich-go/key".path}'';
+        LoadCredential = "api-key:${config.sops.secrets."immich/api/immich-go/key".path}";
         Restart = "on-failure";
 
         LogsDirectory = "immich-cloud-dumper";

@@ -28,7 +28,7 @@ in
         dashy-top-level-redirect = {
           redirectRegex = {
             regex = "^https://${config.custom.networking.domain}(.*)";
-            replacement = ''${networkingLib.mkUrl "dashy"}'';
+            replacement = "${networkingLib.mkUrl "dashy"}";
             permanent = true;
           };
         };

@@ -42,7 +42,7 @@ let
       idCount,
       idRelative,
     }:
-    ''${if idRelative then "@" else ""}${builtins.toString idHost}-${builtins.toString idNamespace}-${builtins.toString idCount}'';
+    "${if idRelative then "@" else ""}${builtins.toString idHost}-${builtins.toString idNamespace}-${builtins.toString idCount}";
 
 in
 {
@@ -114,7 +114,7 @@ in
         let
           idmapPart = lib.optionalString (config.result.idsCombined != "") "idmap=${config.result.idsCombined}";
         in
-        ''${config.hostPath}:${config.containerPath}:${idmapPart}'';
+        "${config.hostPath}:${config.containerPath}:${idmapPart}";
     };
   };
 }
