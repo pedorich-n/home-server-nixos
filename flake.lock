@@ -219,11 +219,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769008855,
-        "narHash": "sha256-3bC+Twf/p1ld3zvOCkkjDWCSxoFs5kyamHrxZZJYRDI=",
+        "lastModified": 1770518414,
+        "narHash": "sha256-BNhP5GYnUssWxtS7dPwyg9znAJPdAcPzWN8shlfS33U=",
         "ref": "refs/heads/main",
-        "rev": "9283d92998dc1dc88e39d072bafa69a9f4817198",
-        "revCount": 27,
+        "rev": "c38694e9f05005059280b24a44a7a96707c3dd93",
+        "revCount": 30,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/geekdo-sync"
