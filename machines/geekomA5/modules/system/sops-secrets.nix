@@ -218,6 +218,8 @@ in
         "music-history/multiscrobbler/spotify/client_id" = { };
         "music-history/multiscrobbler/spotify/client_secret" = { };
 
+        "paperless/smtp/username" = { };
+
         "tailscale/oauth_clients/server/id" = { };
         "tailscale/oauth_clients/server/secret" = { };
         "tailscale/oauth_clients/initrd/id" = { };

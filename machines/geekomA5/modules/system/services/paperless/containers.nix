@@ -66,8 +66,8 @@ in
 
             PAPERLESS_TRASH_DIR = "/usr/src/paperless/media/trash";
 
-            PAPERLESS_OCR_LANGUAGES = "eng jpn jpn-vert ukr rus"; # Confusingly this only installs the language packs
-            PAPERLESS_OCR_LANGUAGE = "ukr+rus+eng+jpn+jpn_vert"; # And this hints the OCR engine which languages to try to detect
+            PAPERLESS_OCR_LANGUAGES = "eng jpn ukr rus"; # Confusingly this only installs the language packs
+            PAPERLESS_OCR_LANGUAGE = "ukr+rus+eng+jpn"; # And this hints the OCR engine which languages to try to detect
             # https://github.com/paperless-ngx/paperless-ngx/discussions/4047#discussioncomment-7019544
             PAPERLESS_OCR_USER_ARGS = "{\"invalidate_digital_signatures\": true}";
 
@@ -75,11 +75,18 @@ in
             PAPERLESS_ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https";
             PAPERLESS_APPS = "allauth.socialaccount.providers.openid_connect";
 
+            PAPERLESS_CONSUMER_DISABLE = "true"; # Disable consuming from a folder
+
+            PAPERLESS_EMAIL_HOST = "smtp.purelymail.com";
+            PAPERLESS_EMAIL_PORT = "465";
+            PAPERLESS_EMAIL_USE_SSL = "true";
+
             PAPERLESS_URL = networkingLib.mkUrl "paperless";
           };
           environmentFiles = [
             config.sops.secrets."paperless/main.env".path
             config.sops.templates."paperless/oidc.env".path
+            config.sops.templates."paperless/smtp.env".path
           ];
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/data" "/usr/src/paperless/data")

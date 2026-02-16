@@ -31,5 +31,13 @@ in
         };
       };
     };
+
+    "paperless/smtp.env" = {
+      owner = config.users.users.user.name;
+      group = config.users.users.user.group;
+      file = keyValueFomat.generate "paperless-smtp.env" {
+        PAPERLESS_EMAIL_FROM = "Paperless HomeLab <${config.sops.placeholder."paperless/smtp/username"}>";
+      };
+    };
   };
 }
