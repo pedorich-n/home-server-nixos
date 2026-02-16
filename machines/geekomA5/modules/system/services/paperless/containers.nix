@@ -75,11 +75,18 @@ in
             PAPERLESS_ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https";
             PAPERLESS_APPS = "allauth.socialaccount.providers.openid_connect";
 
+            PAPERLESS_CONSUMER_DISABLE = "true"; # Disable consuming from a folder
+
+            PAPERLESS_EMAIL_HOST = "smtp.purelymail.com";
+            PAPERLESS_EMAIL_PORT = "465";
+            PAPERLESS_EMAIL_USE_SSL = "true";
+
             PAPERLESS_URL = networkingLib.mkUrl "paperless";
           };
           environmentFiles = [
             config.sops.secrets."paperless/main.env".path
             config.sops.templates."paperless/oidc.env".path
+            config.sops.templates."paperless/smtp.env".path
           ];
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/data" "/usr/src/paperless/data")
