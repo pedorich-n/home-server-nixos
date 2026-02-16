@@ -293,16 +293,15 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1771240854,
+        "lastModified": 1771242065,
         "narHash": "sha256-mcpe2DmyQu/gz3HLA3VRgoR3A1S8JoKQD/Ajugmci2E=",
-        "ref": "paperless-mail",
-        "rev": "ec90441bf588c900c7ec9b1e34a008b0ea344e71",
-        "revCount": 179,
+        "ref": "refs/heads/main",
+        "rev": "604f17b57d40c8fb34203e1c25399dace7d790e1",
+        "revCount": 178,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
       "original": {
-        "ref": "paperless-mail",
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }
