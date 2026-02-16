@@ -153,8 +153,6 @@ let
           })
           (mkEntry {
             slug = "shelfmark";
-            # TODO: remove once icon is added to dashboard-icons
-            iconLink = "https://raw.githubusercontent.com/calibrain/shelfmark/afeae46821ed0de5eeb543447ddec618d0514052/src/frontend/public/logo.png";
           })
           (mkEntry {
             slug = "qbittorrent";
