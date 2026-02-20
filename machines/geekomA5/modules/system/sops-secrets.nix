@@ -95,6 +95,9 @@ let
         "authelia/oidc/paperless/client_id"
         "authelia/oidc/paperless/client_secret_hashed"
         "authelia/oidc/paperless/client_secret_raw"
+
+        "authelia/oidc/shelfmark/client_id"
+        "authelia/oidc/shelfmark/client_secret_hashed"
       ];
 
       mkSecret = secret: {
