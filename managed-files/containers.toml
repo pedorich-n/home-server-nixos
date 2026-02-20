@@ -6,7 +6,7 @@ version = '2.32.1'
 versioning = 'semver'
 
 [ente-museum]
-digest = 'sha256:04e9b1e2e9eacf1c4a2d5055ca4cdc23b7548ed74c45f3ef3487d97f327a419e'
+digest = 'sha256:691aa3344eb6698a6a6b00abad64bcb6bc97f939a92d78970d53a502db17a305'
 image = 'ente-io/server'
 registry = 'ghcr.io'
 version = 'latest'
@@ -20,7 +20,7 @@ version = '15.16-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:96a21e753aa428757c96f974d347346ab5554a3f978b9e589014d9c8f20a86f0'
+digest = 'sha256:3a36ff18d873946a29ff22b26bf0f8c0399e3dd08a9ed9ce8f0c01911f40e3e5'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
@@ -48,7 +48,7 @@ version = '2026.2.2'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
-digest = 'sha256:88f300be8635fe8a9ed4c18a68ba497fb6df1215fd2b074895afd027bd3e1006'
+digest = 'sha256:035b9ab53cfa147d7202b61f5f7782b939ae815b7d6bc81c96b7b42ff1fca950'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '18.2-alpine'
@@ -97,7 +97,7 @@ version = 'v0.8.2'
 versioning = 'semver'
 
 [librechat-mongodb]
-digest = 'sha256:9e52bf8768ae4f59b9ca734845d15cee0e523ced14b900cc3692d241eec9154c'
+digest = 'sha256:474f5c3bf0e355bb97dafda730e725169a4d51c5578abf7be9ec7ad3fdee4481'
 image = 'library/mongo'
 registry = 'docker.io'
 version = '8.2.5'
@@ -139,7 +139,7 @@ version = '0.11.4'
 versioning = 'semver'
 
 [paperless-postgresql]
-digest = 'sha256:88f300be8635fe8a9ed4c18a68ba497fb6df1215fd2b074895afd027bd3e1006'
+digest = 'sha256:035b9ab53cfa147d7202b61f5f7782b939ae815b7d6bc81c96b7b42ff1fca950'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '18.2-alpine'
@@ -153,10 +153,10 @@ version = '8.6.0-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:a28330462994b937938e02aaa5632a1effcc7f9acfba96c1bef9c50e1167a027'
+digest = 'sha256:7b937cb2fa2885ab0ecfceb8c7e8827e2312472d9d897a270097ba7f5522dcdc'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '2.20.6'
+version = '2.20.7'
 versioning = 'semver'
 
 [prowlarr]
@@ -167,14 +167,14 @@ version = '2.3.0'
 versioning = 'semver'
 
 [shelfmark]
-digest = 'sha256:b75a7db177b40d8d450c8717c0bdf5a90326db175e1df732ddedd828530b7338'
+digest = 'sha256:acdab66e8f2ec6820365be8fc17aa3218d3b28556e074633a9c381d317937418'
 image = 'calibrain/shelfmark-lite'
 registry = 'ghcr.io'
-version = 'v1.0.4'
+version = 'v1.1.0'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:dfa75bc534ad4f36262f75b5c1d4c4f0ddd5e7ed5711ebc581c70920cce204ee'
+digest = 'sha256:85eb27d2d09cd4cb748036a4c7f261321da516b6f88229176cf05a92ccd26815'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.1.4'
@@ -182,7 +182,7 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [radarr]
-digest = 'sha256:f08dda38e7d12e5a722d9a5cb6e54acaf63c8598fefeefec88effe0c0d0038dd'
+digest = 'sha256:6d3e68474ea146f995af98d3fb2cb1a14e2e4457ddaf035aa5426889e2f9249c'
 image = 'linuxserver/radarr'
 registry = 'docker.io'
 version = '6.0.4'
