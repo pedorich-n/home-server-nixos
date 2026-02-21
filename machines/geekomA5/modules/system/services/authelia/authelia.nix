@@ -32,7 +32,6 @@ let
     "qbittorrent"
     "radarr"
     "sabnzbd"
-    "shelfmark"
     "sonarr"
     "traefik"
     "zigbee2mqtt"
