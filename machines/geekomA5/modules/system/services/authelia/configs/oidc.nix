@@ -191,6 +191,11 @@ in
             redirectUris = [ "${networkingLib.mkUrl "paperless"}/accounts/oidc/authelia/login/callback/" ];
           })
 
+          (mkOidcProviderPrivate {
+            name = "shelfmark";
+            redirectUris = [ "${networkingLib.mkUrl "shelfmark"}/api/auth/oidc/callback" ];
+          })
+
           (mkOidcProviderPublic {
             name = "dashy";
             id = "dashy";

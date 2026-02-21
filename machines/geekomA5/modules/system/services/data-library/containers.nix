@@ -386,7 +386,7 @@ in
 
       shelfmark = {
         requiresTraefikNetwork = true;
-        useGlobalContainers = true;
+        useGlobalContainers = false;
         wantsAuthelia = true;
         usernsAuto = {
           enable = true;
@@ -394,6 +394,8 @@ in
         };
 
         containerConfig = {
+          # TODO: Switch to global containers once the numbered release is out
+          image = "ghcr.io/calibrain/shelfmark-lite:dev";
           environments = defaultEnvs // {
             inherit (containerLib.containerIds) PUID PGID;
             UMASK = "002"; # 664 for files, 775 for dirs
@@ -436,7 +438,6 @@ in
           labels = containerLib.mkTraefikLabels {
             name = "shelfmark";
             port = 8084;
-            middlewares = [ "authelia@file" ];
           };
           inherit networks;
         };
