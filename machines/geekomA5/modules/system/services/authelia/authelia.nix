@@ -34,6 +34,7 @@ let
     "sabnzbd"
     "sonarr"
     "traefik"
+    "shelfmark"
     "zigbee2mqtt"
   ];
 
