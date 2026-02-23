@@ -398,14 +398,14 @@ in
             inherit (containerLib.containerIds) PUID PGID;
             UMASK = "002"; # 664 for files, 775 for dirs
 
+            HIDE_LOCAL_AUTH = "true";
             SESSION_COOKIE_SECURE = "true";
+
             BOOK_LANGUAGE = "en,ru,uk";
-
-            AUDIOBOOK_LIBRARY_URL = networkingLib.mkUrl "audiobookshelf";
-
             SEARCH_MODE = "universal";
             DEFAULT_RELEASE_SOURCE = "prowlarr";
 
+            AUDIOBOOK_LIBRARY_URL = networkingLib.mkUrl "audiobookshelf";
             DESTINATION_AUDIOBOOK = "/data/media/audiobooks";
             HARDLINK_TORRENTS_AUDIOBOOK = "true";
             FILE_ORGANIZATION_AUDIOBOOK = "organize";
@@ -436,7 +436,6 @@ in
           labels = containerLib.mkTraefikLabels {
             name = "shelfmark";
             port = 8084;
-            middlewares = [ "authelia@file" ];
           };
           inherit networks;
         };

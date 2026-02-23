@@ -32,9 +32,9 @@ let
     "qbittorrent"
     "radarr"
     "sabnzbd"
-    "shelfmark"
     "sonarr"
     "traefik"
+    "shelfmark"
     "zigbee2mqtt"
   ];
 
