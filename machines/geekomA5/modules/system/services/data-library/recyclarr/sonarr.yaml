@@ -5,21 +5,14 @@ sonarr:
     base_url: http://sonarr:8989
     api_key: !env_var SONARR_API_KEY
 
-    include:
-      - template: sonarr-quality-definition-series
-      - template: sonarr-v4-quality-profile-web-1080p
-      - template: sonarr-v4-custom-formats-web-1080p
+    quality_definition:
+      type: series
 
     quality_profiles:
-      - name: WEB-1080p
-        quality_sort: top
-        qualities:
-          - name: WEB 1080p
-            qualities:
-              - WEBDL-1080p
-              - WEBRip-1080p
-          - name: Bluray-1080p
-          - name: HDTV-1080p
+      - trash_id: 9d142234e45d6143785ac55f5a9e8dc9 # WEB-1080p (Alternative)
+        name: WEB-1080p
+        reset_unmatched_scores:
+          enabled: true
 
     custom_formats:
       - trash_ids:
