@@ -177,14 +177,12 @@ let
   forgejoSecrets =
     let
       secrets = [
+        "forgejo/secrets/internal_token"
         "forgejo/secrets/secret_key"
-        "forgejo/secrets/jwt_secret"
       ];
 
       mkSecret = secret: {
         ${secret} = {
-          sopsFile = sopsFilePathFor secret;
-          format = "binary";
           owner = config.services.forgejo.user;
           group = config.services.forgejo.group;
         };
