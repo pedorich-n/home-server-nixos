@@ -196,6 +196,11 @@ in
             redirectUris = [ "${networkingLib.mkUrl "shelfmark"}/api/auth/oidc/callback" ];
           })
 
+          (mkOidcProviderPrivate {
+            name = "forgejo";
+            redirectUris = [ "${networkingLib.mkUrl "git"}/user/oauth2/authelia/callback" ];
+          })
+
           (mkOidcProviderPublic {
             name = "dashy";
             id = "dashy";
