@@ -102,6 +102,8 @@ in
             OPENID_ADMIN_ROLE = "admin";
             OPENID_ADMIN_ROLE_TOKEN_KIND = "userinfo";
             OPENID_ADMIN_ROLE_PARAMETER_PATH = "roles";
+            OPENID_USERNAME_CLAIM = "preferred_username";
+            OPENID_NAME_CLAIM = "name";
             OPENID_USE_END_SESSION_ENDPOINT = "false";
           };
           environmentFiles = [
