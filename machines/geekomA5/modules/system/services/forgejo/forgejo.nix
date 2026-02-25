@@ -7,6 +7,8 @@
 }:
 let
   portCfg = config.custom.networking.ports.tcp.forgejo;
+
+  package = pkgs.forgejo;
 in
 {
   custom.networking.ports.tcp.forgejo = {
@@ -17,7 +19,7 @@ in
   services = {
     forgejo = {
       enable = true;
-      package = pkgs.forgejo;
+      inherit package;
 
       useWizard = false;
 
@@ -46,6 +48,11 @@ in
         };
         oauth2 = {
           ENABLED = false;
+        };
+        oauth2_client = {
+          ENABLE_AUTO_REGISTRATION = true;
+          # Can be set to one of "nickname", "email" or "userid".
+          USERNAME = "nickname";
         };
       };
     };
