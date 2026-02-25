@@ -100,6 +100,11 @@ let
           (mkEntry {
             slug = "copyparty";
           })
+          (mkEntry {
+            slug = "git";
+            title = "Forgejo";
+            iconName = "forgejo";
+          })
         ];
       }
       {
