@@ -98,6 +98,9 @@ let
 
         "authelia/oidc/shelfmark/client_id"
         "authelia/oidc/shelfmark/client_secret_hashed"
+
+        "authelia/oidc/forgejo/client_id"
+        "authelia/oidc/forgejo/client_secret_hashed"
       ];
 
       mkSecret = secret: {
@@ -170,6 +173,24 @@ let
       accounts = lib.map (i: "email_${toString i}") (lib.range 1 4);
     in
     mapMergeAttrsList mkSecret accounts;
+
+  forgejoSecrets =
+    let
+      secrets = [
+        "forgejo/secrets/secret_key"
+        "forgejo/secrets/jwt_secret"
+      ];
+
+      mkSecret = secret: {
+        ${secret} = {
+          sopsFile = sopsFilePathFor secret;
+          format = "binary";
+          owner = config.services.forgejo.user;
+          group = config.services.forgejo.group;
+        };
+      };
+    in
+    mapMergeAttrsList mkSecret secrets;
 in
 {
   sops = {
@@ -261,6 +282,7 @@ in
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
       (lib.mkIf config.services.redis.servers.authelia.enable redisAutheliaSecrets)
       (lib.mkIf config.services.traefik.enable traefikSecrets)
+      (lib.mkIf config.services.forgejo.enable forgejoSecrets)
     ];
   };
 }
