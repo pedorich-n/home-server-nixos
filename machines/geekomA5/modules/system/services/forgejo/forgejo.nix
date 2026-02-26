@@ -57,6 +57,10 @@ in
           # Can be set to one of "nickname", "email" or "userid".
           USERNAME = "nickname";
         };
+        # Those have to be declared using string keys, because the INI converter doesn't support such level of nested attributes.
+        "cron.update_checker".ENABLED = false;
+        "cron.git_gc_repositories".ENABLED = true;
+        "cron.delete_old_system_notices".ENABLED = true;
       };
     };
 
