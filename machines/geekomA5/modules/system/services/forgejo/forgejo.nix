@@ -7,8 +7,6 @@
 }:
 let
   portCfg = config.custom.networking.ports.tcp.forgejo;
-
-  package = pkgs.forgejo;
 in
 {
   custom.networking.ports.tcp.forgejo = {
@@ -19,7 +17,7 @@ in
   services = {
     forgejo = {
       enable = true;
-      inherit package;
+      package = pkgs.forgejo;
 
       useWizard = false;
 
@@ -42,6 +40,10 @@ in
           DOMAIN = networkingLib.mkDomain "git";
           PROTOCOL = "http";
           HTTP_PORT = portCfg.port;
+          SSH_PORT = lib.head config.services.openssh.ports;
+        };
+        service = {
+          DISABLE_REGISTRATION = true;
         };
         session = {
           COOKIE_SECURE = true;
@@ -50,6 +52,7 @@ in
           ENABLED = false;
         };
         oauth2_client = {
+          ENABLE_OPENID_SIGNIN = true;
           ENABLE_AUTO_REGISTRATION = true;
           # Can be set to one of "nickname", "email" or "userid".
           USERNAME = "nickname";
