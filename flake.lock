@@ -345,16 +345,15 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1772202648,
+        "lastModified": 1772206843,
         "narHash": "sha256-UI5Tu2jgWinK41P80qt83yVYf8NJ9VsI1i9+dDVd9Ko=",
-        "ref": "gitea-mirror",
-        "rev": "9d1bfccb3df6a7fd747a1be28a6b8b8dc69a6559",
-        "revCount": 183,
+        "ref": "refs/heads/main",
+        "rev": "4ee36c2858c6aa33ebd1f2b5cedc444653ff010c",
+        "revCount": 182,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
       "original": {
-        "ref": "gitea-mirror",
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }
