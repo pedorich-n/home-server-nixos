@@ -99,6 +99,20 @@
       };
     };
 
+    gitea-mirror = {
+      url = "github:RayLabsHQ/gitea-mirror";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        flake-utils.follows = "flake-utils";
+        bun2nix.inputs = {
+          nixpkgs.follows = "nixpkgs-unstable";
+          flake-parts.follows = "flake-parts";
+          systems.follows = "systems";
+          treefmt-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
+        };
+      };
+    };
+
     homeassistant-docker-venv = {
       url = "github:tribut/homeassistant-docker-venv";
       flake = false;
