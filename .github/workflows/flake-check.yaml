@@ -5,6 +5,7 @@ jobs:
   nix-flake-check:
     uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@main
     with:
-      timeout-minutes: 20
+      timeout_minutes: 20
+      nix_version: "2.31.2"
     secrets:
       ssh_key: ${{ secrets.SSH_ACTION_KEY }}
