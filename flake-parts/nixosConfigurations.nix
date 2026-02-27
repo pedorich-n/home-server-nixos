@@ -23,6 +23,7 @@
         inputs.copyparty.nixosModules.default
         inputs.geekdo-sync.nixosModules.default
         inputs.book-sync.nixosModules.default
+        inputs.gitea-mirror.nixosModules.default
       ];
       deploySettings = {
         activationTimeout = 600;

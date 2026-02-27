@@ -94,6 +94,19 @@ in
               };
             };
           };
+
+          userinfo_in_id_token = {
+            # See https://www.authelia.com/integration/openid-connect/openid-connect-1.0-claims/#restore-functionality-prior-to-claims-parameter
+            id_token = [
+              "rat"
+              "groups"
+              "email"
+              "email_verified"
+              "alt_emails"
+              "preferred_username"
+              "name"
+            ];
+          };
         };
 
         scopes = {
@@ -199,6 +212,14 @@ in
           (mkOidcProviderPrivate {
             name = "forgejo";
             redirectUris = [ "${networkingLib.mkUrl "git"}/user/oauth2/authelia/callback" ];
+          })
+
+          (mkOidcProviderPrivate {
+            name = "gitea-mirror";
+            redirectUris = [ "${networkingLib.mkUrl "gitea-mirror"}/api/auth/sso/callback/Authelia" ];
+            extraArgs = {
+              claims_policy = "userinfo_in_id_token";
+            };
           })
 
           (mkOidcProviderPublic {

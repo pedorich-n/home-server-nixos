@@ -105,6 +105,12 @@ let
             title = "Forgejo";
             iconName = "forgejo";
           })
+          (mkEntry {
+            slug = "gitea-mirror";
+            title = "Gitea Mirror";
+            # TODO: Update this, once icon is added to dashboard-icons
+            iconLink = "https://raw.githubusercontent.com/RayLabsHQ/gitea-mirror/814be1e9d0b4b85925ad24a2f567eda50fc42739/.github/assets/logo.png";
+          })
         ];
       }
       {
