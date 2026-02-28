@@ -57,6 +57,7 @@ in
       homeassistant.timerConfig.OnCalendar = mkEveryDayAt "02:34:00";
       manual-backup.timerConfig.OnCalendar = mkEveryDayAt "02:35:00";
       n8n.timerConfig.OnCalendar = mkEveryDayAt "02:36:00";
+      forgejo.timerConfig.OnCalendar = mkEveryDayAt "02:37:00";
     };
   };
 }
