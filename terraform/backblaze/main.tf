@@ -37,7 +37,9 @@ resource "b2_application_key" "managed_keys" {
     "writeFiles"
   ]
 
-  bucket_id = b2_bucket.managed_buckets[each.key].bucket_id
+  bucket_ids = [
+    b2_bucket.managed_buckets[each.key].bucket_id
+  ]
 }
 
 resource "onepassword_item" "buckets_with_b2_info" {
