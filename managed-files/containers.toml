@@ -13,14 +13,14 @@ version = 'latest'
 versioning = 'docker'
 
 [ente-postgresql]
-digest = 'sha256:5fe8ca7fc662071188c30271cb870d1ce9a6ec4578c934b064697ae77a9241e1'
+digest = 'sha256:fceb6f86328c36f2438fae3b851b0cc57c4a7e69a58c866d9ce24281f2cf0c9c'
 image = 'library/postgres'
 registry = 'docker.io'
-version = '15.16-alpine'
+version = '15.17-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:3a36ff18d873946a29ff22b26bf0f8c0399e3dd08a9ed9ce8f0c01911f40e3e5'
+digest = 'sha256:8149899169cc819064a98cc6ad5f11c91d0ce2514e7bc43efb1696a2fbb4715c'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
@@ -34,10 +34,10 @@ version = 'v3.41.1'
 versioning = 'semver'
 
 [grist]
-digest = 'sha256:93dd0f7b97a7864cd0a9101a283385e30754dd5ee0e967ba95a8c19caae43056'
+digest = 'sha256:dd35c503929bb1a954afbd6845d4367be49803cb795524ac3618fed24acb2419'
 image = 'gristlabs/grist'
 registry = 'docker.io'
-version = '1.7.10'
+version = '1.7.11'
 versioning = 'semver'
 
 [homeassistant]
@@ -48,10 +48,10 @@ version = '2026.2.3'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
-digest = 'sha256:035b9ab53cfa147d7202b61f5f7782b939ae815b7d6bc81c96b7b42ff1fca950'
+digest = 'sha256:4da1a4828be12604092fa55311276f08f9224a74a62dcb4708bd7439e2a03911'
 image = 'library/postgres'
 registry = 'docker.io'
-version = '18.2-alpine'
+version = '18.3-alpine'
 versioning = 'docker'
 
 [immich-machine-learning]
@@ -104,17 +104,17 @@ version = '8.2.5'
 versioning = 'semver'
 
 [librechat-rag]
-digest = 'sha256:293ebcfdc7118a8e7b67e569ccc278bd07e999e9718ce3c8bfa5bdbcafa40e88'
+digest = 'sha256:4e5085d47187ec6e4215035988ce3b9cc243a1298ab03efbf33ab4cf9ebf7461'
 image = 'danny-avila/librechat-rag-api-dev-lite'
 registry = 'ghcr.io'
 version = 'latest'
 versioning = 'docker'
 
 [librechat-postgresql]
-digest = 'sha256:5de2adcfae90da9ad37304d1a5c9378b0a574b246aa2c2acda7ae5eee368f3bd'
+digest = 'sha256:73baaa709cd08ca631f516fa39949588ec5c82383d58746ea46aaf66cb1472a4'
 image = 'pgvector/pgvector'
 registry = 'docker.io'
-version = '0.8.1-pg15-trixie'
+version = '0.8.2-pg15-trixie'
 versioning = 'regex:^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-pg15-trixie$'
 
 [maloja]
@@ -132,31 +132,31 @@ version = 'v2.1.2'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:6138b1e2f7262e28c0d44548766cac05d6d60b1d8efc3279722629894c3b35f2'
+digest = 'sha256:9693b07fa8b333d2fd26aa04b5bc1fa53d827b117e4dd9a85b9aa8bdd0b79168'
 image = 'foxxmd/multi-scrobbler'
 registry = 'docker.io'
-version = '0.11.4'
+version = '0.11.5'
 versioning = 'semver'
 
 [paperless-postgresql]
-digest = 'sha256:035b9ab53cfa147d7202b61f5f7782b939ae815b7d6bc81c96b7b42ff1fca950'
+digest = 'sha256:4da1a4828be12604092fa55311276f08f9224a74a62dcb4708bd7439e2a03911'
 image = 'library/postgres'
 registry = 'docker.io'
-version = '18.2-alpine'
+version = '18.3-alpine'
 versioning = 'docker'
 
 [paperless-redis]
-digest = 'sha256:fd83658b0e40e2164617d262f13c02ca9ee9e1e6b276fd2fa06617e09bd5c780'
+digest = 'sha256:2afba59292f25f5d1af200496db41bea2c6c816b059f57ae74703a50a03a27d0'
 image = 'library/redis'
 registry = 'docker.io'
-version = '8.6.0-alpine'
+version = '8.6.1-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:e231ec11a1907bfdf172b4f120b4ef1994feb71e6cc624e8b88c53e2da3dfb62'
+digest = 'sha256:1d99ede700ffdf7aa44899b5fee29c8c279f175769b6cb295e91e9f15772728e'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '2.20.8'
+version = '2.20.9'
 versioning = 'semver'
 
 [prowlarr]
@@ -189,10 +189,10 @@ version = '6.0.4'
 versioning = 'semver'
 
 [recyclarr]
-digest = 'sha256:e28f8fd583b3175db64118ec006cc3436f6c8a7c9344520d314f91dc879f6607'
+digest = 'sha256:55afe316d3e4e4e3b9120cef7c79436b1b5311f6a18d4ef4b7653e720499c90a'
 image = 'recyclarr/recyclarr'
 registry = 'ghcr.io'
-version = '8.3.1'
+version = '8.3.2'
 versioning = 'semver'
 
 [sabnzbd]
