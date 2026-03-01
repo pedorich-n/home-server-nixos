@@ -10,7 +10,7 @@ let
   minecraftLib = inputs.nix-minecraft.lib;
   serverName = "monkey-guys-1";
 
-  modpack = pkgs.minecraft-modpacks.crying-obsidian;
+  modpack = pkgs.minecraft-modpacks.monkegeddoon;
 
   # https://docs.papermc.io/paper/aikars-flags
   aikarFlagsWith =
@@ -45,11 +45,11 @@ in
   config = lib.mkMerge [
     {
       services.minecraft-servers.servers.${serverName} = {
-        enable = false;
+        enable = true;
         autoStart = false;
         inherit (gamePortCfg) openFirewall;
 
-        package = pkgs.fabricServers.fabric-1_20_1;
+        package = pkgs.neoforgeServers.neoforge-1_21_1-21_1_219;
         serverProperties = {
           allow-flight = true;
           server-port = gamePortCfg.port;
@@ -69,7 +69,7 @@ in
         }
         // minecraftLib.collectFilesAt modpack "mods";
 
-        files = minecraftLib.collectFilesAt modpack "config";
+        # files = minecraftLib.collectFilesAt modpack "config";
       };
     }
     (lib.mkIf (config.services.minecraft-servers.enable && config.services.minecraft-servers.servers.${serverName}.enable) {
@@ -102,10 +102,6 @@ in
           };
           "minecraft-${serverName}-metrics" = {
             port = 25585;
-            openFirewall = false;
-          };
-          "minecraft-${serverName}-map" = {
-            port = 25595;
             openFirewall = false;
           };
         };
