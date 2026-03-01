@@ -26,9 +26,8 @@ in
 
   systemd.services.n8n = {
     environment = {
-      # Since services.n8n.environment is broken, see https://github.com/NixOS/nixpkgs/pull/460609
-      N8N_VERSION_NOTIFICATIONS_ENABLED = lib.mkForce "false";
-      N8N_DIAGNOSTICS_ENABLED = lib.mkForce "false";
+      # https://github.com/NixOS/nixpkgs/pull/494127 is not yet in unstable
+      N8N_RUNNERS_AUTH_TOKEN_FILE = lib.mkForce null;
     };
 
     # This allows n8n to install community nodes using `npm`
@@ -46,6 +45,9 @@ in
       SupplementaryGroups = [
         config.custom.manual-backup.owner.group
       ];
+
+      # https://github.com/NixOS/nixpkgs/pull/494127 is not yet in unstable
+      LoadCredential = lib.mkForce [ ];
     };
   };
 
@@ -72,6 +74,9 @@ in
         N8N_DISABLED_MODULES = lib.concatStringsSep "," [
           "chat-hub"
         ];
+
+        # https://github.com/NixOS/nixpkgs/pull/494127 is not yet in unstable
+        N8N_RUNNERS_AUTH_TOKEN_FILE = lib.mkForce null;
 
         NODE_ENV = "production";
       };
