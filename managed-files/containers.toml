@@ -26,6 +26,13 @@ registry = 'ghcr.io'
 version = 'latest'
 versioning = 'docker'
 
+[gitea-mirror]
+digest = 'sha256:87341854efd1a279cb3765c4b27fad720642368c117ee504beb6d99c9b568cf6'
+image = 'raylabshq/gitea-mirror'
+registry = 'ghcr.io'
+version = 'v3.10.1'
+versioning = 'semver'
+
 [gluetun]
 digest = 'sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab'
 image = 'qmcgaw/gluetun'
