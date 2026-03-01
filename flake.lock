@@ -72,34 +72,6 @@
         "url": "ssh://git@github.com/pedorich-n/book-sync"
       }
     },
-    "bun2nix": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "import-tree": "import-tree",
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ],
-        "systems": [
-          "systems"
-        ],
-        "treefmt-nix": "treefmt-nix"
-      },
-      "locked": {
-        "lastModified": 1770895533,
-        "narHash": "sha256-v3QaK9ugy9bN9RXDnjw0i2OifKmz2NnKM82agtqm/UY=",
-        "owner": "nix-community",
-        "repo": "bun2nix",
-        "rev": "c843f477b15f51151f8c6bcc886954699440a6e1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "bun2nix",
-        "type": "github"
-      }
-    },
     "copyparty": {
       "inputs": {
         "flake-utils": [
@@ -261,30 +233,6 @@
         "url": "ssh://git@github.com/pedorich-n/geekdo-sync"
       }
     },
-    "gitea-mirror": {
-      "inputs": {
-        "bun2nix": "bun2nix",
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1772176525,
-        "narHash": "sha256-+gcQxsRx9Y8NsdkrWyA3Kac1Vej8s7eaU1cv43dGrhI=",
-        "owner": "RayLabsHQ",
-        "repo": "gitea-mirror",
-        "rev": "61841dd7a580645160d20ea6ae0704f6eb0f78c0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "RayLabsHQ",
-        "repo": "gitea-mirror",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -372,21 +320,6 @@
       "original": {
         "owner": "tribut",
         "repo": "homeassistant-docker-venv",
-        "type": "github"
-      }
-    },
-    "import-tree": {
-      "locked": {
-        "lastModified": 1763762820,
-        "narHash": "sha256-ZvYKbFib3AEwiNMLsejb/CWs/OL/srFQ8AogkebEPF0=",
-        "owner": "vic",
-        "repo": "import-tree",
-        "rev": "3c23749d8013ec6daa1d7255057590e9ca726646",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vic",
-        "repo": "import-tree",
         "type": "github"
       }
     },
@@ -579,7 +512,6 @@
         "flake-parts": "flake-parts",
         "flake-utils": "flake-utils",
         "geekdo-sync": "geekdo-sync",
-        "gitea-mirror": "gitea-mirror",
         "home-manager": "home-manager",
         "home-manager-config": "home-manager-config",
         "home-server-nixos-secrets": "home-server-nixos-secrets",
@@ -644,26 +576,6 @@
       "original": {
         "owner": "chriskempson",
         "repo": "tomorrow-theme",
-        "type": "github"
-      }
-    },
-    "treefmt-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1770228511,
-        "narHash": "sha256-wQ6NJSuFqAEmIg2VMnLdCnUc0b7vslUohqqGGD+Fyxk=",
-        "owner": "numtide",
-        "repo": "treefmt-nix",
-        "rev": "337a4fe074be1042a35086f15481d763b8ddc0e7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "treefmt-nix",
         "type": "github"
       }
     },
