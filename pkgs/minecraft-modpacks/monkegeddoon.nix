@@ -1,12 +1,11 @@
 { pkgs, ... }:
 let
-  ref = "fix-hashes";
+  ref = "e7ca9aea96b9432bcc8c12106c4abd5a6d65ce68";
   version = "0.0.1-alpha";
 in
 pkgs.fetchPackwizModpack {
   pname = "monkegeddoon";
   inherit version;
-  # url = "https://gitlab.com/pablo_peraza/monke-abyss/-/raw/${commitHash}/pack.toml";
-  url = "https://gitlab.com/pedorich-n/monke-abyss/-/raw/${ref}/pack.toml";
-  packHash = "sha256-ewIQYYvLRJrMh4KGEWaK1yPuQfDE8qu1u9TfQ1G93kw=";
+  url = "https://gitlab.com/pablo_peraza/monke-abyss/-/raw/${ref}/pack.toml";
+  packHash = "sha256-5z8WEojGG2TF3HQ7ErHO5TxfNhIChpmhFV4/yRhNZ+c=";
 }
