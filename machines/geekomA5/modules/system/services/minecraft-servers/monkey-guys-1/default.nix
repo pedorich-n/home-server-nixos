@@ -46,7 +46,7 @@ in
     {
       services.minecraft-servers.servers.${serverName} = {
         enable = true;
-        autoStart = false;
+        autoStart = true;
         inherit (gamePortCfg) openFirewall;
 
         package = pkgs.neoforgeServers.neoforge-1_21_1-21_1_219;
@@ -59,7 +59,7 @@ in
           max-players = 10;
           enable-status = true;
           enforce-secure-profile = false;
-          max-world-size = 20000; # Value is a radius, so the world size is 40000x40000
+          max-world-size = 30000; # Value is a radius, so the world size is 60000x60000
           spawn-protection = 0;
         };
         jvmOpts = aikarFlagsWith { memory = "6144M"; };
@@ -69,7 +69,7 @@ in
         }
         // minecraftLib.collectFilesAt modpack "mods";
 
-        # files = minecraftLib.collectFilesAt modpack "config";
+        files = minecraftLib.collectFilesAt modpack "config";
       };
     }
     (lib.mkIf (config.services.minecraft-servers.enable && config.services.minecraft-servers.servers.${serverName}.enable) {
