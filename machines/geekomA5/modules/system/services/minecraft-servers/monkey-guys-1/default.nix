@@ -62,7 +62,7 @@ in
           max-world-size = 30000; # Value is a radius, so the world size is 60000x60000
           spawn-protection = 0;
         };
-        jvmOpts = aikarFlagsWith { memory = "6144M"; };
+        jvmOpts = aikarFlagsWith { memory = "7680M "; };
 
         symlinks = {
           "server-icon.png" = "${modpack}/server-icon.png";
