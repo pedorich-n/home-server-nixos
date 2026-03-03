@@ -25,11 +25,6 @@ in
   };
 
   systemd.services.n8n = {
-    environment = {
-      # https://github.com/NixOS/nixpkgs/pull/494127 is not yet in unstable
-      N8N_RUNNERS_AUTH_TOKEN_FILE = lib.mkForce null;
-    };
-
     # This allows n8n to install community nodes using `npm`
     path = with pkgs; [
       node
@@ -45,9 +40,6 @@ in
       SupplementaryGroups = [
         config.custom.manual-backup.owner.group
       ];
-
-      # https://github.com/NixOS/nixpkgs/pull/494127 is not yet in unstable
-      LoadCredential = lib.mkForce [ ];
     };
   };
 
@@ -74,9 +66,6 @@ in
         N8N_DISABLED_MODULES = lib.concatStringsSep "," [
           "chat-hub"
         ];
-
-        # https://github.com/NixOS/nixpkgs/pull/494127 is not yet in unstable
-        N8N_RUNNERS_AUTH_TOKEN_FILE = lib.mkForce null;
 
         NODE_ENV = "production";
       };
