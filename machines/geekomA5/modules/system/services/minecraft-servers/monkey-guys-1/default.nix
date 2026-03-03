@@ -68,8 +68,7 @@ in
         symlinks = {
           "server-icon.png" = "${modpack}/server-icon.png";
         }
-        // minecraftLib.collectFilesAt modpack "mods"
-        // minecraftLib.collectFilesAt modpack "datapacks";
+        // minecraftLib.collectFilesAt modpack "mods";
 
         files = minecraftLib.collectFilesAt modpack "config";
       };

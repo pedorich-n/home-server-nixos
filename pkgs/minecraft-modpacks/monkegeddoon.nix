@@ -1,11 +1,11 @@
 { pkgs, ... }:
 let
-  ref = "182993520cf22b7891dd249f892d34d959e08391";
-  version = "0.0.4-alpha";
+  ref = "77e42e2f6cd76ff27d010d9d013b2fef91b45771";
+  version = "0.0.6-alpha";
 in
 pkgs.fetchPackwizModpack {
   pname = "monkegeddoon";
   inherit version;
   url = "https://gitlab.com/pablo_peraza/monke-abyss/-/raw/${ref}/pack.toml";
-  packHash = "sha256-jeeiNS4XJ3P7LocXi3NuA2gqGOa3DqM7RYCAARcDGV8=";
+  packHash = "sha256-3fRzDIgGRKGyli0II+v0n/fTOLKSfKSS9A+TZDHCEC8=";
 }
