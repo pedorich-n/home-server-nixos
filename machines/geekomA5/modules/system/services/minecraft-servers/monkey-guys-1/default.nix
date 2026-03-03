@@ -61,13 +61,15 @@ in
           enforce-secure-profile = false;
           max-world-size = 30000; # Value is a radius, so the world size is 60000x60000
           spawn-protection = 0;
+          white-list = true;
         };
         jvmOpts = aikarFlagsWith { memory = "7680M "; };
 
         symlinks = {
           "server-icon.png" = "${modpack}/server-icon.png";
         }
-        // minecraftLib.collectFilesAt modpack "mods";
+        // minecraftLib.collectFilesAt modpack "mods"
+        // minecraftLib.collectFilesAt modpack "datapacks";
 
         files = minecraftLib.collectFilesAt modpack "config";
       };
