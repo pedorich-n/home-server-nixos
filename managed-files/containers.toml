@@ -20,17 +20,17 @@ version = '15.17-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:8149899169cc819064a98cc6ad5f11c91d0ce2514e7bc43efb1696a2fbb4715c'
+digest = 'sha256:27ae6174c8b90f9c33ebdebdfb83b1dbfb1037e176498dddf8b7137ed45c8eb9'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
 versioning = 'docker'
 
 [gitea-mirror]
-digest = 'sha256:87341854efd1a279cb3765c4b27fad720642368c117ee504beb6d99c9b568cf6'
+digest = 'sha256:c041552ed7eea4a1dd2ce1668427798d8447cbe1899278ddd1282fad92788160'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.10.1'
+version = 'v3.12.0'
 versioning = 'semver'
 
 [gluetun]
@@ -111,7 +111,7 @@ version = '8.2.5'
 versioning = 'semver'
 
 [librechat-rag]
-digest = 'sha256:4e5085d47187ec6e4215035988ce3b9cc243a1298ab03efbf33ab4cf9ebf7461'
+digest = 'sha256:201958505e21a1334234df6538713bac204b10d98a72d239b5318ce11f40f20b'
 image = 'danny-avila/librechat-rag-api-dev-lite'
 registry = 'ghcr.io'
 version = 'latest'
@@ -167,7 +167,7 @@ version = '2.20.9'
 versioning = 'semver'
 
 [prowlarr]
-digest = 'sha256:e74a1e093dcc223d671d4b7061e2b4946f1989a4d3059654ff4e623b731c9134'
+digest = 'sha256:a8fe7b9c502f979146b6d0f22438b825c38e068241bb8a708c473062dffdbb03'
 image = 'linuxserver/prowlarr'
 registry = 'docker.io'
 version = '2.3.0'
@@ -181,7 +181,7 @@ version = 'v1.1.2'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:065792d2b11f0facff340210fc1cf13623b029a94ecdf08b02d06d922205f618'
+digest = 'sha256:3ee43a4d08ce4a0108e4c8150f570544a8c4a4a11e2ca95b86d46006547f80d5'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.1.4'
@@ -189,7 +189,7 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [radarr]
-digest = 'sha256:6d3e68474ea146f995af98d3fb2cb1a14e2e4457ddaf035aa5426889e2f9249c'
+digest = 'sha256:a360633a3682d41e96f71a07ff36ecbdf2394a9628465b84b0a8437087715b41'
 image = 'linuxserver/radarr'
 registry = 'docker.io'
 version = '6.0.4'
@@ -217,8 +217,8 @@ version = '4.0.16'
 versioning = 'semver'
 
 [zigbee2mqtt]
-digest = 'sha256:89cf02f379aa743a68494388e3a26fba7b8c9101f8b452038cc07aeff3fc983c'
+digest = 'sha256:574b2bd0dcbb59fae6edbbb81a35b5563291d3825da0225f0078aa5575dac37f'
 image = 'koenkk/zigbee2mqtt'
 registry = 'docker.io'
-version = '2.8.0'
+version = '2.9.1'
 versioning = 'semver'
