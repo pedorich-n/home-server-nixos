@@ -10,7 +10,7 @@ let
   minecraftLib = inputs.nix-minecraft.lib;
   serverName = "monkey-guys-1";
 
-  modpack = pkgs.minecraft-modpacks.crying-obsidian;
+  modpack = pkgs.minecraft-modpacks.monkegeddoon;
 
   # https://docs.papermc.io/paper/aikars-flags
   aikarFlagsWith =
@@ -45,11 +45,11 @@ in
   config = lib.mkMerge [
     {
       services.minecraft-servers.servers.${serverName} = {
-        enable = false;
-        autoStart = false;
+        enable = true;
+        autoStart = true;
         inherit (gamePortCfg) openFirewall;
 
-        package = pkgs.fabricServers.fabric-1_20_1;
+        package = pkgs.neoforgeServers.neoforge-1_21_1-21_1_219;
         serverProperties = {
           allow-flight = true;
           server-port = gamePortCfg.port;
@@ -59,10 +59,11 @@ in
           max-players = 10;
           enable-status = true;
           enforce-secure-profile = false;
-          max-world-size = 20000; # Value is a radius, so the world size is 40000x40000
+          max-world-size = 30000; # Value is a radius, so the world size is 60000x60000
           spawn-protection = 0;
+          white-list = true;
         };
-        jvmOpts = aikarFlagsWith { memory = "6144M"; };
+        jvmOpts = aikarFlagsWith { memory = "7680M "; };
 
         symlinks = {
           "server-icon.png" = "${modpack}/server-icon.png";
@@ -102,10 +103,6 @@ in
           };
           "minecraft-${serverName}-metrics" = {
             port = 25585;
-            openFirewall = false;
-          };
-          "minecraft-${serverName}-map" = {
-            port = 25595;
             openFirewall = false;
           };
         };
