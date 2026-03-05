@@ -27,10 +27,10 @@ version = 'latest'
 versioning = 'docker'
 
 [gitea-mirror]
-digest = 'sha256:c041552ed7eea4a1dd2ce1668427798d8447cbe1899278ddd1282fad92788160'
+digest = 'sha256:4e70b90cce57818af6d740a424accf13a8c94c5730db5f6cd3aa13127c7389d7'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.12.0'
+version = 'v3.12.2'
 versioning = 'semver'
 
 [gluetun]
@@ -48,10 +48,10 @@ version = '1.7.11'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:96fa92d83fa8dae987fbbbcf58b1fea1140985ff6a8517b37f7b65c76ef20133'
+digest = 'sha256:4fb4ad85fad2250ccff6ec0670827bdcdc46b8bab2b9cbfb8ecdc28da7210630'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.2.3'
+version = '2026.3.0'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
@@ -160,10 +160,10 @@ version = '8.6.1-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:1d99ede700ffdf7aa44899b5fee29c8c279f175769b6cb295e91e9f15772728e'
+digest = 'sha256:07a0b4ba01ce377c82a0636e16c0c3d931fde5b7e9304de6601986cc42d9b6e6'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '2.20.9'
+version = '2.20.10'
 versioning = 'semver'
 
 [prowlarr]
@@ -203,7 +203,7 @@ version = '8.3.2'
 versioning = 'semver'
 
 [sabnzbd]
-digest = 'sha256:1a26f56dfc047b62d5ddc20bc92bdebfbe7c3cb58d2d3523958838a09182d77a'
+digest = 'sha256:9b6662d5871518346655bfd3acb4c94e11f31c79c103ef04154558dab927c852'
 image = 'linuxserver/sabnzbd'
 registry = 'docker.io'
 version = '4.5.5'
