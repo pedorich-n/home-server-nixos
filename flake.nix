@@ -99,11 +99,6 @@
       };
     };
 
-    homeassistant-docker-venv = {
-      url = "github:tribut/homeassistant-docker-venv";
-      flake = false;
-    };
-
     pyproject-nix = {
       url = "github:pyproject-nix/pyproject.nix";
       inputs.nixpkgs.follows = "nixpkgs";

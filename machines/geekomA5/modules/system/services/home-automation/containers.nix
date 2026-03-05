@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   containerLib,
@@ -12,6 +11,25 @@ let
   storeRoot = "/mnt/store/home-automation";
 
   networks = [ "home-automation-internal.network" ];
+
+  mkMappedVolumeForUserContainerRoot =
+    hostPath: containerPath:
+    containerLib.mkIdMappedVolume {
+      inherit hostPath containerPath;
+      uidMappings = [
+        {
+          idNamespace = 0;
+          idHost = config.users.users.user.uid;
+        }
+      ];
+
+      gidMappings = [
+        {
+          idNamespace = 0;
+          idHost = config.users.groups.${config.users.users.user.group}.gid;
+        }
+      ];
+    };
 in
 {
   virtualisation.quadlet = {
@@ -32,7 +50,7 @@ in
             (containerLib.mkMappedVolumeForUser config.sops.secrets."home-automation/zigbee2mqtt_secrets.yaml".path "/app/data/secrets.yaml")
           ];
           addGroups = [
-            (builtins.toString config.users.groups.zigbee.gid)
+            (toString config.users.groups.zigbee.gid)
           ];
           devices = [
             "/dev/ttyZigbee:/dev/ttyZigbee"
@@ -78,16 +96,12 @@ in
         containerConfig = {
           environments = {
             TZ = "${config.time.timeZone}";
-            inherit (containerLib.containerIds) PUID PGID;
-            UMASK = "007";
           };
           addCapabilities = [ "NET_RAW" ];
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/homeassistant" "/config")
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/homeassistant/local" "/.local")
-            (containerLib.mkMappedVolumeForUser config.sops.secrets."home-automation/homeassistant_secrets.yaml".path "/config/secrets.yaml")
-            # See https://github.com/tribut/homeassistant-docker-venv
-            "${inputs.homeassistant-docker-venv}/run:/etc/services.d/home-assistant/run"
+            (mkMappedVolumeForUserContainerRoot "${storeRoot}/homeassistant" "/config")
+            (mkMappedVolumeForUserContainerRoot "${storeRoot}/homeassistant/local" "/.local")
+            (mkMappedVolumeForUserContainerRoot config.sops.secrets."home-automation/homeassistant_secrets.yaml".path "/config/secrets.yaml")
           ];
           labels = containerLib.mkTraefikLabels {
             name = "homeassistant";

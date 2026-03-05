@@ -305,22 +305,6 @@
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }
     },
-    "homeassistant-docker-venv": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1730991426,
-        "narHash": "sha256-zxpmnzWIv4JIRftFZtnGDzA8uMSR4OiQLlEadfyDpoM=",
-        "owner": "tribut",
-        "repo": "homeassistant-docker-venv",
-        "rev": "5ffd91eb641a2ffeaef3a84aaa5b61eed169a8ef",
-        "type": "github"
-      },
-      "original": {
-        "owner": "tribut",
-        "repo": "homeassistant-docker-venv",
-        "type": "github"
-      }
-    },
     "nix-minecraft": {
       "inputs": {
         "flake-compat": [
@@ -497,7 +481,6 @@
         "home-manager": "home-manager",
         "home-manager-config": "home-manager-config",
         "home-server-nixos-secrets": "home-server-nixos-secrets",
-        "homeassistant-docker-venv": "homeassistant-docker-venv",
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
