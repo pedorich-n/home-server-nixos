@@ -27,10 +27,10 @@ version = 'latest'
 versioning = 'docker'
 
 [gitea-mirror]
-digest = 'sha256:4e70b90cce57818af6d740a424accf13a8c94c5730db5f6cd3aa13127c7389d7'
+digest = 'sha256:935c1d05c771045e4b8b04b8b7a39c0f6ea1396e1cf8f52029a83e02e6be5257'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.12.2'
+version = 'v3.12.5'
 versioning = 'semver'
 
 [gluetun]
@@ -48,10 +48,10 @@ version = '1.7.11'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:4fb4ad85fad2250ccff6ec0670827bdcdc46b8bab2b9cbfb8ecdc28da7210630'
+digest = 'sha256:0e091dfce3068339c3e1d14382e6c34141e05cd589a1972ebd4d9a8e6b5d8969'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.3.0'
+version = '2026.3.1'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
@@ -174,10 +174,10 @@ version = '2.3.0'
 versioning = 'semver'
 
 [shelfmark]
-digest = 'sha256:8381306cf51990be55b9e57bf4f133d646e57273d91c0e00c47f80e9b27cac93'
+digest = 'sha256:9db6adf0dc2d1b2459591e497ec8333a840cbfcaeeecd04b48f6e23383177ec9'
 image = 'calibrain/shelfmark-lite'
 registry = 'ghcr.io'
-version = 'v1.1.2'
+version = 'v1.2.0'
 versioning = 'semver'
 
 [qbittorrent]
@@ -196,10 +196,10 @@ version = '6.0.4'
 versioning = 'semver'
 
 [recyclarr]
-digest = 'sha256:55afe316d3e4e4e3b9120cef7c79436b1b5311f6a18d4ef4b7653e720499c90a'
+digest = 'sha256:cf1afc960655fb7a4b2b84eba851df95407e57efb71eed8d0a173254b48d8335'
 image = 'recyclarr/recyclarr'
 registry = 'ghcr.io'
-version = '8.3.2'
+version = '8.4.0'
 versioning = 'semver'
 
 [sabnzbd]
@@ -210,7 +210,7 @@ version = '4.5.5'
 versioning = 'semver'
 
 [sonarr]
-digest = 'sha256:37be832b78548e3f55f69c45b50e3b14d18df1b6def2a4994258217e67efb1a1'
+digest = 'sha256:21c1c3d52248589bb064f5adafec18cad45812d7a01d317472955eef051e619b'
 image = 'linuxserver/sonarr'
 registry = 'docker.io'
 version = '4.0.16'
