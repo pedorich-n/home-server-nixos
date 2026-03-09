@@ -429,9 +429,7 @@ in
           environmentFiles = [ config.sops.secrets."data-library/shelfmark.env".path ];
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/shelfmark/config" "/config")
-            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/audiobooks" "/data/media/audiobooks")
-            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
-            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
+            (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
           labels = containerLib.mkTraefikLabels {
             name = "shelfmark";
