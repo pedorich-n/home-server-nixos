@@ -1,3 +1,8 @@
+module "onepassword" {
+  source = "../modules/onepassword"
+  items  = ["Cloudflare", "Cloudflare_Tunnels", "Purelymail"]
+}
+
 data "cloudflare_zero_trust_tunnel_cloudflared_token" "telegram_webhook" {
   account_id = module.onepassword.secrets.Cloudflare.Account.id
   tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.telegram_webhook.id
