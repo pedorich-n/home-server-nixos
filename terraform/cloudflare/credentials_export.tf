@@ -12,13 +12,19 @@ resource "onepassword_item" "telegram_webhook_token" {
     label = "Access"
 
     field {
-      label = "Token"
+      label = "id"
+      type  = "STRING"
+      value = cloudflare_zero_trust_tunnel_cloudflared.telegram_webhook.id
+    }
+
+    field {
+      label = "token"
       type  = "CONCEALED"
       value = data.cloudflare_zero_trust_tunnel_cloudflared_token.telegram_webhook.token
     }
 
     field {
-      label = "CredentialsJSON"
+      label = "credentials_json"
       type  = "CONCEALED"
       value = jsonencode({
         AccountTag   = local.cf_account_id
