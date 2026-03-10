@@ -45,4 +45,12 @@ locals {
       content = "dmarcroot.purelymail.com"
     }
   }
+
+  telegram_webhook_subnets = toset([
+    # From https://core.telegram.org/bots/webhooks#the-short-version
+    "149.154.160.0/20",
+    "91.108.4.0/22"
+  ])
+
+  telegram_webhook_domain = "${module.onepassword.secrets.Cloudflare_Tunnels.Telegram_Webhook.subdomain}.${module.onepassword.secrets.Cloudflare.Zone_Main.domain}"
 }

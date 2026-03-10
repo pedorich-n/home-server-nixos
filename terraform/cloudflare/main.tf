@@ -1,4 +1,4 @@
 module "onepassword" {
   source = "../modules/onepassword"
-  items  = ["Cloudflare", "Purelymail"]
+  items  = ["Cloudflare", "Cloudflare_Tunnels", "Purelymail"]
 }
