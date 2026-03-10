@@ -1,7 +1,7 @@
 resource "cloudflare_zone" "main" {
   account = {
-    id = module.onepassword.secrets.Cloudflare.Account.id
+    id = local.cf_account_id
   }
-  name = module.onepassword.secrets.Cloudflare.Zone_Main.domain
+  name = local.cf_zone_domain
   type = "full"
 }

@@ -1,4 +1,8 @@
 locals {
+  # Cloudflare identifiers
+  cf_account_id  = module.onepassword.secrets.Cloudflare.Account.id
+  cf_zone_domain = module.onepassword.secrets.Cloudflare.Zone_Main.domain
+
   purelymail_subdomain = "mail"
 
   purelymail_records = {
@@ -52,5 +56,5 @@ locals {
     "91.108.4.0/22"
   ]
 
-  telegram_webhook_domain = "${module.onepassword.secrets.Cloudflare_Tunnels.Telegram_Webhook.subdomain}.${module.onepassword.secrets.Cloudflare.Zone_Main.domain}"
+  telegram_webhook_domain = "${module.onepassword.secrets.Cloudflare_Tunnels.Telegram_Webhook.subdomain}.${local.cf_zone_domain}"
 }

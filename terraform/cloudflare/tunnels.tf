@@ -1,12 +1,12 @@
 resource "cloudflare_zero_trust_tunnel_cloudflared" "telegram_webhook" {
-  account_id    = module.onepassword.secrets.Cloudflare.Account.id
+  account_id    = local.cf_account_id
   name          = "Telegram Webhook"
   config_src    = "cloudflare"
   tunnel_secret = module.onepassword.secrets.Cloudflare_Tunnels.Telegram_Webhook.secret
 }
 
 resource "cloudflare_zero_trust_tunnel_cloudflared_config" "telegram_webhook" {
-  account_id = module.onepassword.secrets.Cloudflare.Account.id
+  account_id = local.cf_account_id
   tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.telegram_webhook.id
 
   config = {
