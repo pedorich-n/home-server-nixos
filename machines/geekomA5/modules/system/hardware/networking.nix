@@ -1,15 +1,23 @@
 { config, lib, ... }:
 {
   options = {
-    custom.networking.domain = lib.mkOption {
-      type = lib.types.str;
-      readOnly = true;
+    custom.networking = {
+      domain = lib.mkOption {
+        type = lib.types.str;
+        readOnly = true;
+      };
+
+      tunneledDomain = lib.mkOption {
+        type = lib.types.str;
+        readOnly = true;
+      };
     };
   };
 
   config = {
     custom.networking = {
-      domain = config.custom.secrets.plaintext.variables.domain;
+      domain = config.custom.secrets.plaintext.variables.domainInternal;
+      tunneledDomain = config.custom.secrets.plaintext.variables.domainExternal;
     };
 
     networking = {

@@ -192,6 +192,13 @@ let
       };
     in
     mapMergeAttrsList mkSecret secrets;
+
+  cloudflaredSecrets = {
+    "cloudflared/tunnel_credentials" = {
+      sopsFile = sopsFilePathFor "cloudflared/credentials_json.txt";
+      format = "binary";
+    };
+  };
 in
 {
   sops = {
@@ -284,6 +291,7 @@ in
       (lib.mkIf config.services.redis.servers.authelia.enable redisAutheliaSecrets)
       (lib.mkIf config.services.traefik.enable traefikSecrets)
       (lib.mkIf config.services.forgejo.enable forgejoSecrets)
+      (lib.mkIf config.services.cloudflared.enable cloudflaredSecrets)
     ];
   };
 }
