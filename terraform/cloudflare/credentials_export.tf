@@ -8,6 +8,8 @@ resource "onepassword_item" "telegram_webhook_token" {
   title    = "Cloudflare_Tunnel_Telegram_Webhook"
   category = "secure_note"
 
+  tags = ["Managed By Terraform"]
+
   section {
     label = "Access"
 
