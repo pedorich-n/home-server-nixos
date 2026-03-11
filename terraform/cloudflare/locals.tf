@@ -1,10 +1,10 @@
 locals {
-  # Cloudflare identifiers
   cf_account_id  = module.onepassword.secrets.Cloudflare.Account.id
   cf_zone_domain = module.onepassword.secrets.Cloudflare.Zone_Main.domain
 
   purelymail_subdomain = "mail"
 
+  # From https://purelymail.com/docs/domainDocs#dnsrecords
   purelymail_records = {
     mx = {
       name     = local.purelymail_subdomain
@@ -17,12 +17,14 @@ locals {
       name    = local.purelymail_subdomain
       type    = "TXT"
       content = "\"v=spf1 include:_spf.purelymail.com ~all\""
+      # Cloudflare UI insists TXT records have to be wrapped in quotes
     }
 
     ownership = {
       name    = local.purelymail_subdomain
       type    = "TXT"
       content = "\"purelymail_ownership_proof=${module.onepassword.secrets.Purelymail.Domain.ownership_proof}\""
+      # Cloudflare UI insists TXT records have to be wrapped in quotes
     }
 
     dkim_1 = {
