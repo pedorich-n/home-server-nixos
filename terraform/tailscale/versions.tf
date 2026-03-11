@@ -7,7 +7,7 @@ terraform {
 
     onepassword = {
       source  = "1Password/onepassword"
-      version = "~> 2"
+      version = "~> 3"
     }
 
     assert = {
@@ -17,7 +17,7 @@ terraform {
 
     local = {
       source  = "hashicorp/local"
-      version = "~> 2.5"
+      version = "~> 2"
     }
   }
 }
