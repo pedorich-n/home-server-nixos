@@ -13,6 +13,7 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "telegram_webhook" {
     ingress = [
       {
         hostname = local.telegram_webhook_domain
+        path     = "/webhook(?:\\-test)?"
         service  = "https://n8n.${var.server_domain}"
         origin_request = {
           http_host_header = "n8n.${var.server_domain}"
