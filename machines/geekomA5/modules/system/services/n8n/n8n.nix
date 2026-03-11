@@ -53,7 +53,7 @@ in
         N8N_HOST = networkingLib.mkDomain "n8n";
         N8N_PORT = portsCfg.port;
         N8N_PROTOCOL = "https";
-        WEBHOOK_URL = networkingLib.mkTunneledUrl "telegram-webhook";
+        WEBHOOK_URL = networkingLib.mkTunneledUrl "n8n";
 
         N8N_PROXY_HOPS = "1";
 
