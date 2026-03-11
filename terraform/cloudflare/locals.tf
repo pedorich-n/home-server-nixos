@@ -50,11 +50,11 @@ locals {
     }
   }
 
-  telegram_webhook_subnets = [
+  telegram_subnets = [
     # From https://core.telegram.org/bots/webhooks#the-short-version
     "149.154.160.0/20",
     "91.108.4.0/22"
   ]
 
-  telegram_webhook_domain = "${module.onepassword.secrets.Cloudflare_Tunnels.Telegram_Webhook.subdomain}.${local.cf_zone_domain}"
+  n8n_webhook_domain = "n8n.${local.cf_zone_domain}"
 }

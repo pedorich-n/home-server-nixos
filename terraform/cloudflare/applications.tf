@@ -6,7 +6,7 @@ resource "cloudflare_zero_trust_access_policy" "bypass_telegram_ips" {
   session_duration = "0s"
 
   include = [
-    for subnet in local.telegram_webhook_subnets : {
+    for subnet in local.telegram_subnets : {
       ip = {
         ip = subnet
       }
@@ -26,11 +26,11 @@ resource "cloudflare_zero_trust_access_policy" "deny_all" {
 }
 
 # Cloudflare Zero Trust Access Applications
-resource "cloudflare_zero_trust_access_application" "telegram_webhook" {
+resource "cloudflare_zero_trust_access_application" "n8n_webhook" {
   zone_id          = cloudflare_zone.main.id
-  name             = "Telegram Webhook"
+  name             = "N8N Webhook"
   type             = "self_hosted"
-  domain           = local.telegram_webhook_domain
+  domain           = local.n8n_webhook_domain
   session_duration = "0s"
   policies = [
     {

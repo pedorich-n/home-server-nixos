@@ -10,12 +10,12 @@ resource "cloudflare_dns_record" "purelymail" {
   proxied  = false
 }
 
-resource "cloudflare_dns_record" "telegram_webhook" {
+resource "cloudflare_dns_record" "n8n_webhook" {
   zone_id = cloudflare_zone.main.id
-  name    = module.onepassword.secrets.Cloudflare_Tunnels.Telegram_Webhook.subdomain
-  content = "${cloudflare_zero_trust_tunnel_cloudflared.telegram_webhook.id}.cfargotunnel.com"
+  name    = local.n8n_webhook_domain
+  content = "${cloudflare_zero_trust_tunnel_cloudflared.n8n_webhook.id}.cfargotunnel.com"
   type    = "CNAME"
   ttl     = 1
   proxied = true
-  comment = "Telegram Webhook Tunnel"
+  comment = "N8N Webhook Tunnel"
 }
