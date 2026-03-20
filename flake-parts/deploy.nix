@@ -26,4 +26,8 @@
 
       # checks = lib.mkIf (flake.deploy or { } != { }) (deployPkgs.deploy-rs.lib.deployChecks flake.deploy);
     };
+
+  flake.deploy = {
+    remoteBuild = true;
+  };
 }
