@@ -268,6 +268,9 @@
         "nixpkgs": [
           "nixpkgs-unstable"
         ],
+        "otto-light-theme": "otto-light-theme",
+        "otto-theme": "otto-theme",
+        "plasma-manager": "plasma-manager",
         "rust-overlay": [],
         "systems": [
           "systems"
@@ -275,11 +278,11 @@
         "tomorrow-theme-source": "tomorrow-theme-source"
       },
       "locked": {
-        "lastModified": 1770875824,
-        "narHash": "sha256-ykQibRDQYVGtX6xUb38TCyoZ5SAE4lg9O7CLZLGvEIc=",
+        "lastModified": 1774878781,
+        "narHash": "sha256-98drBri0yI8HSX334p3eetEeR/NFoixq29IBBLR147g=",
         "ref": "refs/heads/main",
-        "rev": "57c72c8ec20248fcb8a7735115583896bdfd3020",
-        "revCount": 500,
+        "rev": "6d94f1b61ebc03800fb85e1b4d6ec2b8beb3eb5d",
+        "revCount": 512,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-manager-config"
@@ -360,6 +363,63 @@
         "owner": "NixOS",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "otto-light-theme": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1737124347,
+        "narHash": "sha256-rlFlmkS7gH9ekYBYWr/DEvr62cAv2s/7Qx3vsOUGso0=",
+        "owner": "jomada",
+        "repo": "otto-light",
+        "rev": "3ff655817ebccc2e4f27f66740235b84098a5644",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "jomada",
+        "repo": "otto-light",
+        "type": "gitlab"
+      }
+    },
+    "otto-theme": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1737124289,
+        "narHash": "sha256-58Aqiu/umLmedGldZJMWEkk/5bs05Pl4+rrKfAs4lyA=",
+        "owner": "jomada",
+        "repo": "otto",
+        "rev": "55a8dc6e2de4b7b2c8c171b4a36e87b71104da21",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "jomada",
+        "repo": "otto",
+        "type": "gitlab"
+      }
+    },
+    "plasma-manager": {
+      "inputs": {
+        "home-manager": [
+          "home-manager-config",
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "home-manager-config",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1772361940,
+        "narHash": "sha256-B1Cz+ydL1iaOnGlwOFld/C8lBECPtzhiy/pP93/CuyY=",
+        "owner": "nix-community",
+        "repo": "plasma-manager",
+        "rev": "a4b33606111c9c5dcd10009042bb710307174f51",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "plasma-manager",
         "type": "github"
       }
     },
