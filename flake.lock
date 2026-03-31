@@ -275,14 +275,15 @@
         "systems": [
           "systems"
         ],
-        "tomorrow-theme-source": "tomorrow-theme-source"
+        "tomorrow-theme-source": "tomorrow-theme-source",
+        "zsh-tab-title": "zsh-tab-title"
       },
       "locked": {
-        "lastModified": 1774878781,
-        "narHash": "sha256-98drBri0yI8HSX334p3eetEeR/NFoixq29IBBLR147g=",
+        "lastModified": 1774958071,
+        "narHash": "sha256-eKJZRoYoyQG6nDdW7gT5Ne7bS/v2QIvId9OC7SeiaH4=",
         "ref": "refs/heads/main",
-        "rev": "6d94f1b61ebc03800fb85e1b4d6ec2b8beb3eb5d",
-        "revCount": 512,
+        "rev": "6575d9386d5a3306b248dde06aa395a8298d67ba",
+        "revCount": 514,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-manager-config"
@@ -624,6 +625,22 @@
       "original": {
         "owner": "pyproject-nix",
         "repo": "uv2nix",
+        "type": "github"
+      }
+    },
+    "zsh-tab-title": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1774815182,
+        "narHash": "sha256-2mgK9fXRyiWWjy6TewqUmAZHaef+NEkCE4D0acNJ1jo=",
+        "owner": "trystan2k",
+        "repo": "zsh-tab-title",
+        "rev": "dfd469b704638dd596aba5695f1723a7c233fe4b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "trystan2k",
+        "repo": "zsh-tab-title",
         "type": "github"
       }
     }
