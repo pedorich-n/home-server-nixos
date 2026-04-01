@@ -20,17 +20,17 @@ version = '15.17-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:8e2613273bbe28716d38e1a1f23cac18c1e3be5eecf3c9319370d1de2da30ea8'
+digest = 'sha256:c74f9b7066db161f6b6fe5af6f6cd6e19d31f8324b57a2c7fee203a3fdebc451'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
 versioning = 'docker'
 
 [gitea-mirror]
-digest = 'sha256:9a68854d0a68ddfedfc7c653d9c61e95956b6dac28eed598c249b9722aa5b636'
+digest = 'sha256:2b6bcd5699c2190a6a327f98f5782bf5ae3754ce590b6f381d0f77945c8273b8'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.14.0'
+version = 'v3.14.2'
 versioning = 'semver'
 
 [gluetun]
@@ -41,17 +41,17 @@ version = 'v3.41.1'
 versioning = 'semver'
 
 [grist]
-digest = 'sha256:dd35c503929bb1a954afbd6845d4367be49803cb795524ac3618fed24acb2419'
+digest = 'sha256:e536e991fb1bd9a48db5262ca180bd978b8ffa2a34050fce80be9318ea3ad95c'
 image = 'gristlabs/grist'
 registry = 'docker.io'
-version = '1.7.11'
+version = '1.7.12'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:572a5d030f652e9ef6c6d4f6631169af83eb3b739c9b4b3965669f5e9d9f3858'
+digest = 'sha256:916682086154a7390114a9788782b8efb199852d4f7d47066722c2bc5d1829e6'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.3.2'
+version = '2026.3.4'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
@@ -62,10 +62,10 @@ version = '18.3-alpine'
 versioning = 'docker'
 
 [immich-machine-learning]
-digest = 'sha256:cafc1ff51b95a931d17d69226435bbb28ea314f151598b8b087391c232d00ab6'
+digest = 'sha256:33b17015c3d14f2565e9b8cd36b48a70027b14b5cd20da7fbfff21a370b0309c'
 image = 'immich-app/immich-machine-learning'
 registry = 'ghcr.io'
-version = 'v2.6.1'
+version = 'v2.6.3'
 versioning = 'semver'
 
 [immich-postgresql]
@@ -76,10 +76,10 @@ version = '14-vectorchord0.4.3-pgvectors0.3.0'
 versioning = 'regex:^(?<major>14)-vectorchord(?<minor>0\.4\.\d+)'
 
 [immich-server]
-digest = 'sha256:aa7fe8eec3130742d07498dac7e02baa2d32a903573810ba95ed11f155c7eac1'
+digest = 'sha256:0cc1f82953d9598eb9e9dd11cbde1f50fe54f9c46c4506b089e8ad7bfc9d1f0c'
 image = 'immich-app/immich-server'
 registry = 'ghcr.io'
-version = 'v2.6.1'
+version = 'v2.6.3'
 versioning = 'semver'
 
 [immich-valkey]
@@ -90,21 +90,21 @@ version = '8.1.3-bookworm'
 versioning = 'regex:^(?<major>8)\.(?<minor>\d+)\.(?<patch>\d+)-bookworm$'
 
 [jellyfin]
-digest = 'sha256:333b647716631443a43c7fabac4b0c46b4e2f036bad19547e00958f10f721b85'
+digest = 'sha256:17285f9cce63b3519ccad82b84497fc22482c20f8b8bbe0580d51fec5deaa6fd'
 image = 'jellyfin/jellyfin'
 registry = 'docker.io'
-version = '10.11.6'
+version = '10.11.7'
 versioning = 'semver'
 
 [librechat-server]
-digest = 'sha256:028dd86ddb436a22a2cf3d4a7fd54fc793065576675af146bf005826ab650692'
+digest = 'sha256:89b0008e610e1dad635d866c09e007e308a145ce764d1eba7c8c6de7414d934b'
 image = 'danny-avila/librechat'
 registry = 'ghcr.io'
-version = 'v0.8.3'
+version = 'v0.8.4'
 versioning = 'semver'
 
 [librechat-mongodb]
-digest = 'sha256:d343c378b5c6e2fe373174abcf4a877be0dfc721b5d0b9d582204dccb1c00b86'
+digest = 'sha256:eea8506335198f8b359865b32004036310854a935fbd317083817c614152818f'
 image = 'library/mongo'
 registry = 'docker.io'
 version = '8.2.6'
@@ -139,10 +139,10 @@ version = 'v2.1.2'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:2d5cd0325ab555625d048023012e1672a91dea65548289e6315910231109375c'
+digest = 'sha256:a01c01d7b2baf854e50f092325bf5110d02a832b6f2a639553990816742b073c'
 image = 'foxxmd/multi-scrobbler'
 registry = 'docker.io'
-version = '0.12.0'
+version = '0.12.1'
 versioning = 'semver'
 
 [paperless-postgresql]
@@ -153,35 +153,35 @@ version = '18.3-alpine'
 versioning = 'docker'
 
 [paperless-redis]
-digest = 'sha256:2afba59292f25f5d1af200496db41bea2c6c816b059f57ae74703a50a03a27d0'
+digest = 'sha256:81b6f81d6a6c5b9019231a2e8eb10085e3a139a34f833dcc965a8a959b040b72'
 image = 'library/redis'
 registry = 'docker.io'
-version = '8.6.1-alpine'
+version = '8.6.2-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:1919ba5edec278e81d2393efc82c97c9e3e18ef9dfcb43fdcfa7359dd3adfe99'
+digest = 'sha256:4b05bcd28e6923768000b5d247cbf2c66fd49bdc3f3b05955bd4f6790a638b01'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '2.20.11'
+version = '2.20.13'
 versioning = 'semver'
 
 [prowlarr]
-digest = 'sha256:9ef5d8bf832edcacb6082f9262cb36087854e78eb7b1c3e1d4375056055b2d82'
+digest = 'sha256:e50f3b188a7d1771b61f395c4203e35476bd3047683508740305e830e15bacf7'
 image = 'linuxserver/prowlarr'
 registry = 'docker.io'
 version = '2.3.0'
 versioning = 'semver'
 
 [shelfmark]
-digest = 'sha256:9db6adf0dc2d1b2459591e497ec8333a840cbfcaeeecd04b48f6e23383177ec9'
+digest = 'sha256:382a00d48f355845e9def23d78a135a062e62e07711ff7f505f8014eb2e02314'
 image = 'calibrain/shelfmark-lite'
 registry = 'ghcr.io'
-version = 'v1.2.0'
+version = 'v1.2.1'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:855e5f4805ac218f406a5ae989a62a77e03f7e5f70128335b7970550a58c96e1'
+digest = 'sha256:474ef1f1c63fc060236e85cd6ec4a3232aea5a0d7a033c6bab9911039933f147'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.1.4'
@@ -189,7 +189,7 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [radarr]
-digest = 'sha256:ca43905eaf2dd11425efdcfe184892e43806b1ae0a830440c825cecbc2629cfb'
+digest = 'sha256:c8a55bd83672d3b63dc20edf325277ce7dc3b69d4400568cc5bbc9e6a227ebf4'
 image = 'linuxserver/radarr'
 registry = 'docker.io'
 version = '6.0.4'
