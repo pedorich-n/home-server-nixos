@@ -279,11 +279,11 @@
         "zsh-tab-title": "zsh-tab-title"
       },
       "locked": {
-        "lastModified": 1774958071,
-        "narHash": "sha256-eKJZRoYoyQG6nDdW7gT5Ne7bS/v2QIvId9OC7SeiaH4=",
+        "lastModified": 1775050309,
+        "narHash": "sha256-AOaXNC16D1B8sDD8rfWPueuk+5/Rl9Yd9kXzMRftvnM=",
         "ref": "refs/heads/main",
-        "rev": "6575d9386d5a3306b248dde06aa395a8298d67ba",
-        "revCount": 514,
+        "rev": "b36688eb9a5b3a8ac5c1315808e3e5538d3c3120",
+        "revCount": 516,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-manager-config"
