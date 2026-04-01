@@ -132,6 +132,7 @@ in
       };
 
       mamapi = {
+        autoStart = false; # New VPN seems to be using the same ASN every time, so no need to dynamically update IP allowlist
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
