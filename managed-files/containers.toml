@@ -20,7 +20,7 @@ version = '15.17-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:c74f9b7066db161f6b6fe5af6f6cd6e19d31f8324b57a2c7fee203a3fdebc451'
+digest = 'sha256:fd033aabb93b2efb82f79ed926cd25f1134e60d4d7f7d25e0c095dd402d89530'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
