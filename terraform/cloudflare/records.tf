@@ -10,12 +10,12 @@ resource "cloudflare_dns_record" "purelymail" {
   proxied  = false
 }
 
-resource "cloudflare_dns_record" "n8n_webhook" {
+resource "cloudflare_dns_record" "n8n" {
   zone_id = cloudflare_zone.main.id
-  name    = local.n8n_webhook_domain
-  content = "${cloudflare_zero_trust_tunnel_cloudflared.n8n_webhook.id}.cfargotunnel.com"
+  name    = local.n8n_local_domain
+  content = "${cloudflare_zero_trust_tunnel_cloudflared.n8n.id}.cfargotunnel.com"
   type    = "CNAME"
   ttl     = 1
   proxied = true
-  comment = "N8N Webhook Tunnel"
+  comment = "N8N"
 }

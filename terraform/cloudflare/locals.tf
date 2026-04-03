@@ -58,5 +58,5 @@ locals {
     "91.108.4.0/22"
   ]
 
-  n8n_webhook_domain = "n8n.${local.cf_zone_domain}"
+  n8n_local_domain = "n8n.${local.cf_zone_domain}"
 }

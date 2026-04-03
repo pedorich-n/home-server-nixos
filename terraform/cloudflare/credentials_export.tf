@@ -1,11 +1,11 @@
-data "cloudflare_zero_trust_tunnel_cloudflared_token" "n8n_webhook" {
+data "cloudflare_zero_trust_tunnel_cloudflared_token" "n8n" {
   account_id = local.cf_account_id
-  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.n8n_webhook.id
+  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.n8n.id
 }
 
-resource "onepassword_item" "n8n_webhook_token" {
+resource "onepassword_item" "n8n_token" {
   vault    = module.onepassword.vault_homelab.uuid
-  title    = "Cloudflare_Tunnel_N8N_Webhook"
+  title    = "Cloudflare_Tunnel_N8N"
   category = "secure_note"
 
   tags = ["Managed By Terraform"]
@@ -16,13 +16,13 @@ resource "onepassword_item" "n8n_webhook_token" {
     field {
       label = "id"
       type  = "STRING"
-      value = cloudflare_zero_trust_tunnel_cloudflared.n8n_webhook.id
+      value = cloudflare_zero_trust_tunnel_cloudflared.n8n.id
     }
 
     field {
       label = "token"
       type  = "CONCEALED"
-      value = data.cloudflare_zero_trust_tunnel_cloudflared_token.n8n_webhook.token
+      value = data.cloudflare_zero_trust_tunnel_cloudflared_token.n8n.token
     }
 
     field {
@@ -30,8 +30,8 @@ resource "onepassword_item" "n8n_webhook_token" {
       type  = "CONCEALED"
       value = jsonencode({
         AccountTag   = local.cf_account_id
-        TunnelID     = cloudflare_zero_trust_tunnel_cloudflared.n8n_webhook.id
-        TunnelSecret = module.onepassword.secrets.Cloudflare_Tunnels.N8N_Webhook.secret
+        TunnelID     = cloudflare_zero_trust_tunnel_cloudflared.n8n.id
+        TunnelSecret = module.onepassword.secrets.Cloudflare_Tunnels.N8N.secret
       })
     }
   }
