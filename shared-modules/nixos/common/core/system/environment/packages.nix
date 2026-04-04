@@ -4,9 +4,11 @@
     # Internet
     curl
     wget
-    git
+    gitMinimal
 
     # Tools
+    dig # DNS lookup utility (dig, nslookup, etc.)
+    dysk # disk usage analyzer (df, but nicer)
     vim # text editor
     util-linux # mount, umount, etc.
     htop # interactive process viewer
