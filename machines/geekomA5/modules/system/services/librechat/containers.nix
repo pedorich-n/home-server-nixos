@@ -15,7 +15,7 @@ let
 
   networks = [ "librechat-internal.network" ];
 
-  settings = import ./_config.nix { inherit pkgs; };
+  settings = import ./_config.nix { inherit pkgs networkingLib; };
 in
 {
   virtualisation.quadlet = {
@@ -109,6 +109,7 @@ in
           environmentFiles = [
             config.sops.secrets."librechat/server.env".path
             config.sops.secrets."librechat/apis.env".path
+            config.sops.secrets."librechat/mcps.env".path
           ];
           volumes = [
             # (containerLib.mkMappedVolumeForUser "${storeRoot}/server/images" "/app/client/public/images")

@@ -1,5 +1,6 @@
 {
   pkgs,
+  networkingLib,
   ...
 }:
 let
@@ -43,14 +44,26 @@ yamlFormat.generate "librechat.yaml" {
     prioritize = true;
     list = [
       {
-        name = "default-gpt-4o";
-        label = "GPT-4o";
+        name = "default-gemini";
+        label = "Gemini 3 Flash";
         default = true;
         preset = {
-          endpoint = "openAI";
-          model = "gpt-4o";
+          endpoint = "google";
+          model = "gemini-3-flash-preview";
         };
       }
     ];
+  };
+
+  mcpServers = {
+    Grist = {
+      command = "uvx";
+      # https://pypi.org/project/mcp-server-grist/#history
+      args = [ "mcp-server-grist@0.2.1" ];
+      env = {
+        GRIST_API_KEY = "\${GRIST_API_KEY}";
+        GRIST_API_HOST = "${networkingLib.mkUrl "grist"}/api";
+      };
+    };
   };
 }
