@@ -240,8 +240,6 @@ in
 
         "immich/api/immich-go/key" = { };
 
-        "grist/api/key" = { };
-
         "mosquitto/users/homeassistant/password" = { };
         "mosquitto/users/zigbee2mqtt/password" = { };
         "mosquitto/users/iot-device/password" = { };
