@@ -65,5 +65,18 @@ yamlFormat.generate "librechat.yaml" {
         GRIST_API_HOST = "${networkingLib.mkUrl "grist"}/api";
       };
     };
+
+    Forgejo = {
+      command = "forgejo-mcp";
+      args = [
+        "--transport"
+        "stdio"
+      ];
+      env = {
+        FORGEJO_ACCESS_TOKEN = "\${FORGEJO_API_KEY}";
+        FORGEJO_URL = networkingLib.mkUrl "git";
+        FORGEJO_USER_AGENT = "forgejo-mcp/1.0.0";
+      };
+    };
   };
 }

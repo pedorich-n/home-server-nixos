@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  pkgs-unstable,
   containerLib,
   systemdLib,
   networkingLib,
@@ -119,6 +120,7 @@ in
             "${storeRoot}/server/uploads:/app/uploads"
             "${storeRoot}/server/logs:/app/logs"
             "${settings}:/app/librechat.yaml:ro"
+            "${lib.getExe pkgs-unstable.pkgsStatic.forgejo-mcp}:/usr/bin/forgejo-mcp:ro"
           ];
 
           labels = containerLib.mkTraefikLabels {
