@@ -112,6 +112,10 @@ let
               displayData.showForKeycloakUsers.groups = [ "Admins" ];
             };
           })
+          (mkEntry {
+            slug = "searxng";
+            title = "SearXNG";
+          })
         ];
       }
       {
