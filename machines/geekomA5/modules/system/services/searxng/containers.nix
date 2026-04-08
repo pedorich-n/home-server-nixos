@@ -7,6 +7,7 @@
 let
   storeRoot = "/mnt/store/searxng";
 
+  # SearXNG runs as 977:977 in the container, so we need to map the volume with the correct permissions.
   mkMappedVolumeForCustom =
     hostPath: containerPath:
     containerLib.mkIdMappedVolume {
