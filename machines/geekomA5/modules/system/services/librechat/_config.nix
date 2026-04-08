@@ -118,8 +118,7 @@ yamlFormat.generate "librechat.yaml" {
         (mkPackageWithVersionFor "searxng")
       ];
       env = {
-        # TODO: replace with a self-hosted instance
-        SEARXNG_URL = "https://searx.oloke.xyz";
+        SEARXNG_URL = networkingLib.mkUrl "searxng";
       };
     };
 
