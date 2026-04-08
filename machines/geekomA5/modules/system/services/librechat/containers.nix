@@ -16,7 +16,10 @@ let
 
   networks = [ "librechat-internal.network" ];
 
-  settings = import ./_config.nix { inherit pkgs networkingLib; };
+  settings = import ./_config.nix {
+    inherit pkgs networkingLib;
+    portsCfg = config.custom.networking.ports;
+  };
 in
 {
   virtualisation.quadlet = {

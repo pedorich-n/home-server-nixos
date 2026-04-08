@@ -1,6 +1,7 @@
 {
   pkgs,
   networkingLib,
+  portsCfg,
   ...
 }:
 let
@@ -55,6 +56,13 @@ yamlFormat.generate "librechat.yaml" {
     ];
   };
 
+  mcpSettings = {
+    allowedDomains = [
+      (networkingLib.mkDomain "*")
+      "host.containers.internal" # Host machine from within Podman containers
+    ];
+  };
+
   mcpServers = {
     Grist = {
       command = "uvx";
@@ -76,6 +84,14 @@ yamlFormat.generate "librechat.yaml" {
         FORGEJO_ACCESS_TOKEN = "\${FORGEJO_API_KEY}";
         FORGEJO_URL = networkingLib.mkUrl "git";
         FORGEJO_USER_AGENT = "forgejo-mcp/1.0.0";
+      };
+    };
+
+    Netadata = {
+      type = "streamable-http";
+      url = "http://host.containers.internal:${portsCfg.tcp.netdata.portStr}/mcp";
+      headers = {
+        Authorization = "Bearer \${NETDATA_MCP_API_KEY}";
       };
     };
   };
