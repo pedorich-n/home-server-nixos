@@ -71,8 +71,9 @@ yamlFormat.generate "librechat.yaml" {
     Grist = {
       command = "uvx";
       iconPath = mkDashboardIconUrl "grist";
-      # https://pypi.org/project/mcp-server-grist/#history
-      args = [ (mkPackageWithVersionFor "grist") ];
+      args = [
+        (mkPackageWithVersionFor "grist")
+      ];
       env = {
         GRIST_API_KEY = "\${GRIST_API_KEY}";
         GRIST_API_HOST = "${networkingLib.mkUrl "grist"}/api";
@@ -105,14 +106,12 @@ yamlFormat.generate "librechat.yaml" {
     NixOS = {
       command = "uvx";
       iconPath = mkDashboardIconUrl "nixos";
-      # https://pypi.org/project/mcp-nixos/#history
       args = [ (mkPackageWithVersionFor "nixos") ];
     };
 
     SearXNG = {
       command = "npx";
       iconPath = mkDashboardIconUrl "searxng";
-      # https://www.npmjs.com/package/mcp-searxng?activeTab=versions
       args = [
         "--yes"
         (mkPackageWithVersionFor "searxng")
@@ -125,15 +124,17 @@ yamlFormat.generate "librechat.yaml" {
     Time = {
       command = "uvx";
       iconPath = "https://img.icons8.com/?size=128&id=423";
-      # https://pypi.org/project/mcp-server-time/#history
-      args = [ (mkPackageWithVersionFor "time") ];
+      args = [
+        (mkPackageWithVersionFor "time")
+      ];
     };
 
     Fetch = {
       command = "uvx";
       iconPath = "https://img.icons8.com/?size=128&id=21339";
-      # https://pypi.org/project/mcp-server-fetch/#history
-      args = [ (mkPackageWithVersionFor "fetch") ];
+      args = [
+        (mkPackageWithVersionFor "fetch")
+      ];
     };
   };
 }
