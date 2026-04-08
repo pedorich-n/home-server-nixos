@@ -2,12 +2,14 @@
   pkgs,
   networkingLib,
   portsCfg,
-  ...
+  mcpServersCfg,
 }:
 let
   yamlFormat = pkgs.formats.yaml { };
 
   mkDashboardIconUrl = iconName: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${iconName}.png";
+
+  mkPackageWithVersionFor = name: "${mcpServersCfg.${name}.package}@${mcpServersCfg.${name}.version}";
 in
 yamlFormat.generate "librechat.yaml" {
   version = "1.2.1";
@@ -70,7 +72,7 @@ yamlFormat.generate "librechat.yaml" {
       command = "uvx";
       iconPath = mkDashboardIconUrl "grist";
       # https://pypi.org/project/mcp-server-grist/#history
-      args = [ "mcp-server-grist@0.2.1" ];
+      args = [ (mkPackageWithVersionFor "grist") ];
       env = {
         GRIST_API_KEY = "\${GRIST_API_KEY}";
         GRIST_API_HOST = "${networkingLib.mkUrl "grist"}/api";
@@ -104,7 +106,7 @@ yamlFormat.generate "librechat.yaml" {
       command = "uvx";
       iconPath = mkDashboardIconUrl "nixos";
       # https://pypi.org/project/mcp-nixos/#history
-      args = [ "mcp-nixos@2.3.1" ];
+      args = [ (mkPackageWithVersionFor "nixos") ];
     };
 
     SearXNG = {
@@ -113,7 +115,7 @@ yamlFormat.generate "librechat.yaml" {
       # https://www.npmjs.com/package/mcp-searxng?activeTab=versions
       args = [
         "--yes"
-        "mcp-searxng@1.0.3"
+        (mkPackageWithVersionFor "searxng")
       ];
       env = {
         # TODO: replace with a self-hosted instance
@@ -125,14 +127,14 @@ yamlFormat.generate "librechat.yaml" {
       command = "uvx";
       iconPath = "https://img.icons8.com/?size=128&id=423";
       # https://pypi.org/project/mcp-server-time/#history
-      args = [ "mcp-server-time@2026.1.26" ];
+      args = [ (mkPackageWithVersionFor "time") ];
     };
 
     Fetch = {
       command = "uvx";
       iconPath = "https://img.icons8.com/?size=128&id=21339";
       # https://pypi.org/project/mcp-server-fetch/#history
-      args = [ "mcp-server-fetch@2025.4.7" ];
+      args = [ (mkPackageWithVersionFor "fetch") ];
     };
   };
 }

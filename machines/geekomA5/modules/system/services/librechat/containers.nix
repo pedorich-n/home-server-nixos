@@ -19,6 +19,7 @@ let
   settings = import ./_config.nix {
     inherit pkgs networkingLib;
     portsCfg = config.custom.networking.ports;
+    mcpServersCfg = config.custom.managed-files.mcp-servers;
   };
 in
 {

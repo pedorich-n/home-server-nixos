@@ -10,7 +10,7 @@ let
   mkImage =
     name:
     let
-      container = config.custom.containers.${name} or (builtins.throw "Can't find container info for '${name}'");
+      container = config.custom.managed-files.containers.${name} or (builtins.throw "Can't find container info for '${name}'");
       version = if container.version == "latest" then "@${container.digest}" else ":${container.version}";
     in
     "${container.registry}/${container.image}${version}";
