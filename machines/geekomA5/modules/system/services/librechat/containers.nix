@@ -105,6 +105,8 @@ in
             OPENID_USERNAME_CLAIM = "preferred_username";
             OPENID_NAME_CLAIM = "name";
             OPENID_USE_END_SESSION_ENDPOINT = "false";
+
+            SEARXNG_INSTANCE_URL = networkingLib.mkUrl "searxng";
           };
           environmentFiles = [
             config.sops.secrets."librechat/server.env".path
