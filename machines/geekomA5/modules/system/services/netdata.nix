@@ -37,6 +37,8 @@ let
       ];
     }
   );
+
+  portsCfg = config.custom.networking.ports.tcp.netdata;
 in
 {
   # disabledModules = [ "services/monitoring/netdata.nix" ];
@@ -46,6 +48,11 @@ in
     port = 19999;
     openFirewall = false;
   };
+
+  # Allow access to Netdata through Podman network
+  networking.firewall.interfaces."podman+".allowedTCPPorts = [
+    portsCfg.port
+  ];
 
   systemd.services.netdata.serviceConfig = {
     CapabilityBoundingSet = [
@@ -199,7 +206,7 @@ in
       };
 
       services.netdata-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:19999"; } ];
+        loadBalancer.servers = [ { url = "http://localhost:${portsCfg.portStr}"; } ];
       };
     };
   };

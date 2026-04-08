@@ -1,8 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "local>pedorich-n/renovate-config"
-  ],
+  "extends": ["local>pedorich-n/renovate-config"],
   "nix": {
     "enabled": false
   },
@@ -10,14 +8,20 @@
     {
       "customType": "regex",
       "description": "Docker containers from a TOML file",
-      "managerFilePatterns": [
-        "/^managed-files/containers\\.toml$/"
-      ],
+      "managerFilePatterns": ["/^managed-files/containers\\.toml$/"],
       "matchStrings": [
         "\\[(?<depName>[^\\]]+)\\][^\\[]*?digest = '(?<currentDigest>[^']+)'[^\\[]*?image = '(?<packageName>[^']+)'[^\\[]*?registry = '(?<registry>[^']+)'[^\\[]*?version = '(?<currentValue>[^']+)'[^\\[]*?versioning = '(?<versioning>[^']+)'"
       ],
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://{{#if (equals registry 'docker.io')}}index.docker.io{{else}}{{registry}}{{/if}}"
+    },
+    {
+      "customType": "regex",
+      "description": "MCP servers from a TOML file",
+      "managerFilePatterns": ["/^managed-files/mcp-servers\\.toml$/"],
+      "matchStrings": [
+        "\\[(?<depName>[^\\]]+)\\][^\\[]*?datasource = '(?<datasource>[^']+)'[^\\[]*?package = '(?<packageName>[^']+)'[^\\[]*?version = '(?<currentValue>[^']+)'[^\\[]*?versioning = '(?<versioning>[^']+)'"
+      ]
     }
   ],
   "packageRules": [
@@ -25,9 +29,14 @@
       "groupName": "All Docker",
       "groupSlug": "all-docker",
       "description": "Group all Docker containers together",
-      "matchDatasources": [
-        "docker"
-      ],
+      "matchFileNames": ["managed-files/containers.toml"],
+      "separateMultipleMajor": true
+    },
+    {
+      "groupName": "All MCP servers",
+      "groupSlug": "all-mcp-servers",
+      "description": "Group all MCP servers together",
+      "matchFileNames": ["managed-files/mcp-servers.toml"],
       "separateMultipleMajor": true
     }
   ]

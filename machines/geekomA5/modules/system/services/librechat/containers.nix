@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  pkgs-unstable,
   containerLib,
   systemdLib,
   networkingLib,
@@ -15,7 +16,11 @@ let
 
   networks = [ "librechat-internal.network" ];
 
-  settings = import ./_config.nix { inherit pkgs; };
+  settings = import ./_config.nix {
+    inherit pkgs networkingLib;
+    portsCfg = config.custom.networking.ports;
+    mcpServersCfg = config.custom.managed-files.mcp-servers;
+  };
 in
 {
   virtualisation.quadlet = {
@@ -109,6 +114,7 @@ in
           environmentFiles = [
             config.sops.secrets."librechat/server.env".path
             config.sops.secrets."librechat/apis.env".path
+            config.sops.secrets."librechat/mcps.env".path
           ];
           volumes = [
             # (containerLib.mkMappedVolumeForUser "${storeRoot}/server/images" "/app/client/public/images")
@@ -118,6 +124,7 @@ in
             "${storeRoot}/server/uploads:/app/uploads"
             "${storeRoot}/server/logs:/app/logs"
             "${settings}:/app/librechat.yaml:ro"
+            "${lib.getExe pkgs-unstable.pkgsStatic.forgejo-mcp}:/usr/bin/forgejo-mcp:ro"
           ];
 
           labels = containerLib.mkTraefikLabels {
