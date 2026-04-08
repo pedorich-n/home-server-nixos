@@ -94,5 +94,30 @@ yamlFormat.generate "librechat.yaml" {
         Authorization = "Bearer \${NETDATA_MCP_API_KEY}";
       };
     };
+
+    NixOS = {
+      command = "uvx";
+      # https://pypi.org/project/mcp-nixos/#history
+      args = [ "mcp-nixos@2.3.1" ];
+    };
+
+    SearXNG = {
+      command = "npx";
+      # https://www.npmjs.com/package/mcp-searxng?activeTab=versions
+      args = [
+        "--yes"
+        "mcp-searxng@1.0.3"
+      ];
+      env = {
+        # TODO: replace with a self-hosted instance
+        SEARXNG_URL = "https://searx.oloke.xyz";
+      };
+    };
+
+    Time = {
+      command = "uvx";
+      # https://pypi.org/project/mcp-server-time/#history
+      args = [ "mcp-server-time@2026.1.26" ];
+    };
   };
 }
