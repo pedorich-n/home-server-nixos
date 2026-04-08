@@ -6,6 +6,8 @@
 }:
 let
   yamlFormat = pkgs.formats.yaml { };
+
+  mkDashboardIconUrl = iconName: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${iconName}.png";
 in
 yamlFormat.generate "librechat.yaml" {
   version = "1.2.1";
@@ -66,6 +68,7 @@ yamlFormat.generate "librechat.yaml" {
   mcpServers = {
     Grist = {
       command = "uvx";
+      iconPath = mkDashboardIconUrl "grist";
       # https://pypi.org/project/mcp-server-grist/#history
       args = [ "mcp-server-grist@0.2.1" ];
       env = {
@@ -76,6 +79,7 @@ yamlFormat.generate "librechat.yaml" {
 
     Forgejo = {
       command = "forgejo-mcp";
+      iconPath = mkDashboardIconUrl "git";
       args = [
         "--transport"
         "stdio"
@@ -87,8 +91,9 @@ yamlFormat.generate "librechat.yaml" {
       };
     };
 
-    Netadata = {
+    Netdata = {
       type = "streamable-http";
+      iconPath = mkDashboardIconUrl "netdata";
       url = "http://host.containers.internal:${portsCfg.tcp.netdata.portStr}/mcp";
       headers = {
         Authorization = "Bearer \${NETDATA_MCP_API_KEY}";
@@ -97,12 +102,14 @@ yamlFormat.generate "librechat.yaml" {
 
     NixOS = {
       command = "uvx";
+      iconPath = mkDashboardIconUrl "nixos";
       # https://pypi.org/project/mcp-nixos/#history
       args = [ "mcp-nixos@2.3.1" ];
     };
 
     SearXNG = {
       command = "npx";
+      iconPath = mkDashboardIconUrl "searxng";
       # https://www.npmjs.com/package/mcp-searxng?activeTab=versions
       args = [
         "--yes"
@@ -116,8 +123,16 @@ yamlFormat.generate "librechat.yaml" {
 
     Time = {
       command = "uvx";
+      iconPath = "https://img.icons8.com/?size=128&id=423";
       # https://pypi.org/project/mcp-server-time/#history
       args = [ "mcp-server-time@2026.1.26" ];
+    };
+
+    Fetch = {
+      command = "uvx";
+      iconPath = "https://img.icons8.com/?size=128&id=21339";
+      # https://pypi.org/project/mcp-server-fetch/#history
+      args = [ "mcp-server-fetch@2025.4.7" ];
     };
   };
 }
