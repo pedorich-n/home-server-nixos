@@ -69,7 +69,7 @@ in
           package
           version
           ;
-      }) (lib.importTOML "${flake}/managed-files/mcp-servers.toml");
+      }) (lib.importJSON "${flake}/managed-files/mcp-servers.json");
     };
 
   };

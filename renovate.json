@@ -16,11 +16,12 @@
       "registryUrlTemplate": "https://{{#if (equals registry 'docker.io')}}index.docker.io{{else}}{{registry}}{{/if}}"
     },
     {
-      "customType": "regex",
-      "description": "MCP servers from a TOML file",
-      "managerFilePatterns": ["/^managed-files/mcp-servers\\.toml$/"],
+      "customType": "jsonata",
+      "fileFormat": "json",
+      "description": "MCP servers from a JSON file",
+      "managerFilePatterns": ["/^managed-files/mcp-servers\\.json$/"],
       "matchStrings": [
-        "\\[(?<depName>[^\\]]+)\\][^\\[]*?datasource = '(?<datasource>[^']+)'[^\\[]*?package = '(?<packageName>[^']+)'[^\\[]*?version = '(?<currentValue>[^']+)'[^\\[]*?versioning = '(?<versioning>[^']+)'"
+        "$each(function($v, $k) { { \"depName\": $k, \"packageName\": $v.package , \"currentValue\": $v.version,  \"datasource\": $v.datasource,  \"versioning\": $v.versioning } })"
       ]
     }
   ],
@@ -36,7 +37,7 @@
       "groupName": "All MCP servers",
       "groupSlug": "all-mcp-servers",
       "description": "Group all MCP servers together",
-      "matchFileNames": ["managed-files/mcp-servers.toml"],
+      "matchFileNames": ["managed-files/mcp-servers.json"],
       "separateMultipleMajor": true
     }
   ]
