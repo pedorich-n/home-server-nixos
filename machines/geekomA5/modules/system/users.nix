@@ -6,6 +6,8 @@
 }:
 {
   users = {
+    manageLingering = true;
+
     groups = {
       zigbee = {
         gid = 992; # Was set by the activation script before I needed to know it in build-time
@@ -20,6 +22,7 @@
 
     users = {
       root = {
+        linger = true;
         password = lib.mkForce null;
         hashedPasswordFile = config.sops.secrets."os_passwords/root".path;
       };
@@ -34,8 +37,6 @@
           "media"
           "podman"
           "render"
-          "systemd-journal"
-          "wheel"
           "zigbee"
         ];
       };
