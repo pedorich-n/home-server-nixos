@@ -21,6 +21,26 @@ let
     portsCfg = config.custom.networking.ports;
     mcpServersCfg = config.custom.managed-files.mcp-servers;
   };
+
+  # LibreChat runs as 1000:1000 in the container, with no real way to remap it, so we need to map the volume with the correct permissions.
+  mkMappedVolumeForCustom =
+    hostPath: containerPath:
+    containerLib.mkIdMappedVolume {
+      inherit hostPath containerPath;
+      uidMappings = [
+        {
+          idNamespace = 1000;
+          idHost = config.users.users.user.uid;
+        }
+      ];
+
+      gidMappings = [
+        {
+          idNamespace = 1000;
+          idHost = config.users.groups.${config.users.users.user.group}.gid;
+        }
+      ];
+    };
 in
 {
   virtualisation.quadlet = {
@@ -78,16 +98,18 @@ in
       };
 
       librechat-server = {
-        # usernsAuto.enable = true;
+        # The container runs as 1000:1000 and there is no way to change it, basically.
+        # Setting `user` or `UID/GID` doesnt work. There are multiple issues raised in the repo about this:
+        # - https://github.com/danny-avila/LibreChat/discussions/2939
+        # - https://github.com/danny-avila/LibreChat/discussions/6846
+        # - https://github.com/danny-avila/LibreChat/discussions/4735
+        usernsAuto.enable = true;
         useGlobalContainers = true;
         requiresTraefikNetwork = true;
         wantsAuthelia = true;
 
         containerConfig = {
           environments = {
-            UID = containerLib.containerIds.PUID;
-            GID = containerLib.containerIds.PGID;
-
             MONGO_URI = "mongodb://librechat-mongodb:27017/LibreChat";
             RAG_API_URL = "http://librechat-rag:8000";
 
@@ -117,12 +139,9 @@ in
             config.sops.secrets."librechat/mcps.env".path
           ];
           volumes = [
-            # (containerLib.mkMappedVolumeForUser "${storeRoot}/server/images" "/app/client/public/images")
-            # (containerLib.mkMappedVolumeForUser "${storeRoot}/server/uploads" "/app/uploads")
-            # (containerLib.mkMappedVolumeForUser "${storeRoot}/server/logs" "/app/logs")
-            "${storeRoot}/server/images:/app/client/public/images"
-            "${storeRoot}/server/uploads:/app/uploads"
-            "${storeRoot}/server/logs:/app/logs"
+            (mkMappedVolumeForCustom "${storeRoot}/server/images" "/app/client/public/images")
+            (mkMappedVolumeForCustom "${storeRoot}/server/uploads" "/app/uploads")
+            (mkMappedVolumeForCustom "${storeRoot}/server/logs" "/app/logs")
             "${settings}:/app/librechat.yaml:ro"
             "${lib.getExe pkgs-unstable.pkgsStatic.forgejo-mcp}:/usr/bin/forgejo-mcp:ro"
           ];
@@ -133,7 +152,6 @@ in
             port = 3080;
           };
           inherit networks;
-          # inherit (containerLib.containerIds) user;
         };
 
         unitConfig = lib.mkMerge [
