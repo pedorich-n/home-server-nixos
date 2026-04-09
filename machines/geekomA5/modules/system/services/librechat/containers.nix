@@ -109,6 +109,9 @@ in
         wantsAuthelia = true;
 
         containerConfig = {
+          addGroups = [
+            config.users.users.podman-runner.group
+          ];
           environments = {
             MONGO_URI = "mongodb://librechat-mongodb:27017/LibreChat";
             RAG_API_URL = "http://librechat-rag:8000";
@@ -143,6 +146,7 @@ in
             (mkMappedVolumeForCustom "${storeRoot}/server/uploads" "/app/uploads")
             (mkMappedVolumeForCustom "${storeRoot}/server/logs" "/app/logs")
             "${settings}:/app/librechat.yaml:ro"
+            "/run/user/${toString config.users.users.podman-runner.uid}/podman/podman.sock:/run/podman.sock"
             "${lib.getExe pkgs-unstable.pkgsStatic.forgejo-mcp}:/usr/bin/forgejo-mcp:ro"
           ];
 

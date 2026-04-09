@@ -152,5 +152,22 @@ yamlFormat.generate "librechat.yaml" {
         (mkPackageWithVersionFor "fetch")
       ];
     };
+
+    LLMSandbox = {
+      command = "uvx";
+      args = [
+        "--with"
+        "llm-sandbox[mcp-podman]"
+        "python3"
+        "-m"
+        "llm_sandbox.mcp_server.server"
+      ];
+      env = {
+        BACKEND = "podman";
+        DOCKER_HOST = "unix:///run/podman.sock";
+        COMMIT_CONTAINER = "false";
+        KEEP_TEMPLATE = "false";
+      };
+    };
   };
 }
