@@ -11,6 +11,12 @@
     "version": "0.2.1",
     "versioning": "semver"
   },
+  "n8n": {
+    "datasource": "npm",
+    "package": "n8n-mcp",
+    "version": "2.47.6",
+    "versioning": "semver"
+  },
   "nixos": {
     "datasource": "pypi",
     "package": "mcp-nixos",

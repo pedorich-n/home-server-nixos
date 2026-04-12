@@ -94,6 +94,22 @@ yamlFormat.generate "librechat.yaml" {
       };
     };
 
+    N8N = {
+      command = "npx";
+      iconPath = mkDashboardIconUrl "n8n";
+      args = [
+        "--yes"
+        (mkPackageWithVersionFor "n8n")
+      ];
+      env = {
+        MCP_MODE = "stdio";
+        LOG_LEVEL = "error";
+        DISABLE_CONSOLE_OUTPUT = "true";
+        N8N_API_URL = networkingLib.mkUrl "n8n";
+        N8N_API_KEY = "\${N8N_API_KEY}";
+      };
+    };
+
     Netdata = {
       type = "streamable-http";
       iconPath = mkDashboardIconUrl "netdata";
