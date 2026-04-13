@@ -152,5 +152,26 @@ yamlFormat.generate "librechat.yaml" {
         (mkPackageWithVersionFor "fetch")
       ];
     };
+
+    LLMSandbox = {
+      command = "uvx";
+      args = [
+        "--from"
+        "${mcpServersCfg.llm_sandbox.package}[mcp-podman]==${mcpServersCfg.llm_sandbox.version}"
+        "python3"
+        "-m"
+        "llm_sandbox.mcp_server.server"
+      ];
+      iconPath = "https://img.icons8.com/?size=128&id=16230";
+      env = {
+        BACKEND = "podman";
+        DOCKER_HOST = "unix:///run/podman.sock";
+        COMMIT_CONTAINER = "false";
+        SANDBOX_CAP_DROP = "ALL";
+        SANDBOX_PRIVILEGED = "false";
+        SANDBOX_MEMORY = "4g";
+        SANDBOX_CPU_COUNT = "4";
+      };
+    };
   };
 }

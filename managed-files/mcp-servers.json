@@ -11,6 +11,12 @@
     "version": "0.2.1",
     "versioning": "semver"
   },
+  "llm_sandbox": {
+    "datasource": "pypi",
+    "package": "llm-sandbox",
+    "version": "0.3.38",
+    "versioning": "semver"
+  },
   "n8n": {
     "datasource": "npm",
     "package": "n8n-mcp",

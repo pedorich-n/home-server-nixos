@@ -40,6 +40,16 @@
           "zigbee"
         ];
       };
+
+      podman-runner = {
+        uid = 1001;
+        isNormalUser = true;
+        linger = true;
+        createHome = true;
+        extraGroups = [
+          "podman"
+        ];
+      };
     };
   };
 
@@ -47,5 +57,6 @@
   custom.users.homeManagerUsers = [
     "root"
     "user"
+    "podman-runner"
   ];
 }
