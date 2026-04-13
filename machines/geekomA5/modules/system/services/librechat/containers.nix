@@ -109,9 +109,6 @@ in
         wantsAuthelia = true;
 
         containerConfig = {
-          addGroups = [
-            config.users.users.podman-runner.group
-          ];
           environments = {
             MONGO_URI = "mongodb://librechat-mongodb:27017/LibreChat";
             RAG_API_URL = "http://librechat-rag:8000";
