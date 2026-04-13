@@ -156,8 +156,8 @@ yamlFormat.generate "librechat.yaml" {
     LLMSandbox = {
       command = "uvx";
       args = [
-        "--with"
-        "llm-sandbox[mcp-podman]"
+        "--from"
+        "${mcpServersCfg.llm_sandbox.package}[mcp-podman]==${mcpServersCfg.llm_sandbox.version}"
         "python3"
         "-m"
         "llm_sandbox.mcp_server.server"
