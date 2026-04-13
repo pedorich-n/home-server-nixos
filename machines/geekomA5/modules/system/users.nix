@@ -57,5 +57,6 @@
   custom.users.homeManagerUsers = [
     "root"
     "user"
+    "podman-runner"
   ];
 }
