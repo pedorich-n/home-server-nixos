@@ -30,8 +30,9 @@ yamlFormat.generate "librechat.yaml" {
         modelDisplayLabel = "OpenRouter";
         models = {
           default = [
-            "deepseek/deepseek-chat-v3.1"
-            "qwen/qwen3-235b-a22b"
+            "deepseek/deepseek-v3.2"
+            "qwen/qwen3.6-plus"
+            "z-ai/glm-5.1"
           ];
         };
       }
