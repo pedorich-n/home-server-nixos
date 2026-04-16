@@ -28,19 +28,4 @@ in
   minecraft-modpacks = _: prev: {
     minecraft-modpacks = builtins.mapAttrs (_: path: prev.callPackage path { }) minecraft-modpacks;
   };
-
-  authelia = _: prev: {
-    authelia = prev.authelia.overrideAttrs (_: {
-      version = "4.39.15";
-
-      src = prev.fetchFromGitHub {
-        owner = "authelia";
-        repo = "authelia";
-        rev = "v4.39.15";
-        hash = "sha256-o/gVJDahMBsczAMKt5kuA1SjtwASOd98aCiS7Tp32Dg=";
-      };
-      vendorHash = "sha256-iBQqBX+C/7/uAuzIFlNFo7oKzWn+CYADVWf3CDIr3aU=";
-      pnpmDepsHash = "sha256-uRwSpy/aZA4hG2rEY8hlD8pXJ7lvNoIa6a3VSZuZgcs=";
-    });
-  };
 }

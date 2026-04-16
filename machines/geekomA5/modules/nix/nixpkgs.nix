@@ -14,7 +14,6 @@
       overlays.cockpit-plugins
       overlays.minecraft-modpacks
       overlays.lldap-bootstrap
-      overlays.authelia
     ];
   };
 
