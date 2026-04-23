@@ -5,6 +5,13 @@
 }:
 let
   jsonFormat = pkgs.formats.json { };
+
+  mkUserFromSops = user: {
+    id = config.sops.placeholder."lldap/users/${user}/username";
+    displayName = config.sops.placeholder."lldap/users/${user}/displayname";
+    email = config.sops.placeholder."lldap/users/${user}/email";
+    password = config.sops.placeholder."lldap/users/${user}/password";
+  };
 in
 {
 
@@ -33,12 +40,21 @@ in
       ];
 
       path = "/var/lib/lldap/bootstrap/users/user_1.json";
-      file = jsonFormat.generate "lldap-user-1-template.json" {
-        id = config.sops.placeholder."lldap/users/user_1/username";
-        displayName = config.sops.placeholder."lldap/users/user_1/displayname";
-        email = config.sops.placeholder."lldap/users/user_1/email";
-        password = config.sops.placeholder."lldap/users/user_1/password";
+      file = jsonFormat.generate "lldap-user-1-template.json" (mkUserFromSops "user_1") // {
         groups = [ "Admins" ];
+      };
+    };
+
+    "lldap/bootstrap/users/service_jksv.json" = {
+      owner = config.users.users.lldap.name;
+      group = config.users.users.lldap.group;
+      restartUnits = [
+        config.systemd.services.lldap.name
+      ];
+
+      path = "/var/lib/lldap/bootstrap/users/jksv.json";
+      file = jsonFormat.generate "lldap-jksv-template.json" (mkUserFromSops "jksv") // {
+        groups = [ "Service" ];
       };
     };
   };

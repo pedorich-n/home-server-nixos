@@ -137,6 +137,11 @@ let
         "lldap/users/user_1/displayname"
         "lldap/users/user_1/email"
         "lldap/users/user_1/password"
+
+        "lldap/users/jksv/username"
+        "lldap/users/jksv/displayname"
+        "lldap/users/jksv/email"
+        "lldap/users/jksv/password"
       ];
 
       mkSecret = secret: {
