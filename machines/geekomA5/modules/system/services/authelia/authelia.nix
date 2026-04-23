@@ -127,6 +127,13 @@ in
           endpoints.authz = {
             forward-auth = {
               implementation = "ForwardAuth";
+              authn_strategies = [
+                {
+                  name = "HeaderAuthorization";
+                  schemes = [ "Basic" ];
+                }
+                { name = "CookieSession"; }
+              ];
             };
           };
         };
