@@ -14,19 +14,19 @@
   "llm_sandbox": {
     "datasource": "pypi",
     "package": "llm-sandbox",
-    "version": "0.3.38",
+    "version": "0.3.39",
     "versioning": "semver"
   },
   "n8n": {
     "datasource": "npm",
     "package": "n8n-mcp",
-    "version": "2.47.6",
+    "version": "2.47.12",
     "versioning": "semver"
   },
   "nixos": {
     "datasource": "pypi",
     "package": "mcp-nixos",
-    "version": "2.3.1",
+    "version": "2.4.2",
     "versioning": "semver"
   },
   "searxng": {
