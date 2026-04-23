@@ -40,8 +40,22 @@ let
   ];
 
   regularApps = [
+    "audiobookshelf"
+    "dashy"
+    "forgejo"
+    "gitea-mirror"
+    "grist"
     "homeassistant"
+    "immich"
+    "jellyfin"
+    "librechat"
     "maloja"
+    "paperless"
+    "shelfmark"
+  ];
+
+  serviceApps = [
+    "copyparty"
   ];
 
   stateRoot = "/var/lib/authelia-main";
@@ -202,7 +216,7 @@ in
               groups = [ shared.groups.Users ];
             })
             (mkAccessRule {
-              apps = [ "copyparty" ];
+              apps = serviceApps;
               groups = [
                 shared.groups.Users
                 shared.groups.Service
