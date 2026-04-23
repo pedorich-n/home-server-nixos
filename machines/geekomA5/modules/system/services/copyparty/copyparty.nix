@@ -62,8 +62,8 @@ in
         "/" = {
           path = root;
           access = {
-            # Read: all logged in users can read
-            "r" = "@acct";
+            # Read: all users in the Users group
+            "r" = "@Users";
             # Write, Delete, Admin: only users in the Admins group
             "wda" = "@Admins";
           };
@@ -72,10 +72,8 @@ in
         "/share" = {
           path = "${root}/share";
           access = {
-            # Read: all logged in users can read
-            "r" = "*";
-            # Write, Delete, Admin: only users in the Service group
-            "wd" = "@acct";
+            # Read, Write, Delete: all users in the Users group
+            "rwd" = "@Users";
             # Admin: only users in the Admins group
             "a" = "@Admins";
           };

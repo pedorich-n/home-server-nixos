@@ -6,12 +6,18 @@
 let
   jsonFormat = pkgs.formats.json { };
 
-  mkUserFromSops = user: {
-    id = config.sops.placeholder."lldap/users/${user}/username";
-    displayName = config.sops.placeholder."lldap/users/${user}/displayname";
-    email = config.sops.placeholder."lldap/users/${user}/email";
-    password = config.sops.placeholder."lldap/users/${user}/password";
-  };
+  mkUserFromSops =
+    {
+      user,
+      extraArgs ? { },
+    }:
+    {
+      id = config.sops.placeholder."lldap/users/${user}/username";
+      displayName = config.sops.placeholder."lldap/users/${user}/displayname";
+      email = config.sops.placeholder."lldap/users/${user}/email";
+      password = config.sops.placeholder."lldap/users/${user}/password";
+    }
+    // extraArgs;
 in
 {
 
@@ -40,9 +46,15 @@ in
       ];
 
       path = "/var/lib/lldap/bootstrap/users/user_1.json";
-      file = jsonFormat.generate "lldap-user-1-template.json" (mkUserFromSops "user_1") // {
-        groups = [ "Admins" ];
-      };
+      file = jsonFormat.generate "lldap-user-1-template.json" (mkUserFromSops {
+        user = "user_1";
+        extraArgs = {
+          groups = [
+            "Admins"
+            "Users"
+          ];
+        };
+      });
     };
 
     "lldap/bootstrap/users/service_jksv.json" = {
@@ -53,9 +65,12 @@ in
       ];
 
       path = "/var/lib/lldap/bootstrap/users/jksv.json";
-      file = jsonFormat.generate "lldap-jksv-template.json" (mkUserFromSops "jksv") // {
-        groups = [ "Service" ];
-      };
+      file = jsonFormat.generate "lldap-jksv-template.json" (mkUserFromSops {
+        user = "jksv";
+        extraArgs = {
+          groups = [ "Service" ];
+        };
+      });
     };
   };
 }

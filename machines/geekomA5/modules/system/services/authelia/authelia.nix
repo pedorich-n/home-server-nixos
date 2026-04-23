@@ -21,7 +21,8 @@ let
       policy = "one_factor";
     }
     // (lib.optionalAttrs (groups != [ ]) {
-      subject = lib.map (group: "group:${group}") groups;
+      # Subject can be either a single item or a list of items
+      subject = lib.map (group: if (lib.isList group) then (lib.map (g: "group:${g}") group) else "group:${group}") groups;
     });
 
   adminApps = [
@@ -39,7 +40,6 @@ let
   ];
 
   regularApps = [
-    "copyparty"
     "homeassistant"
     "maloja"
   ];
@@ -197,7 +197,17 @@ in
               apps = adminApps;
               groups = [ shared.groups.Admins ];
             })
-            (mkAccessRule { apps = regularApps; })
+            (mkAccessRule {
+              apps = regularApps;
+              groups = [ shared.groups.Users ];
+            })
+            (mkAccessRule {
+              apps = [ "copyparty" ];
+              groups = [
+                shared.groups.Users
+                shared.groups.Service
+              ];
+            })
           ];
         };
       };
