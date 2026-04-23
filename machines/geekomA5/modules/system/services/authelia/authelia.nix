@@ -14,14 +14,14 @@ let
   mkAccessRule =
     {
       apps,
-      group ? null,
+      groups ? [ ],
     }:
     {
       domain = lib.map networkingLib.mkDomain apps;
       policy = "one_factor";
     }
-    // (lib.optionalAttrs (group != null) {
-      subject = "group:${group}";
+    // (lib.optionalAttrs (groups != [ ]) {
+      subject = lib.map (group: "group:${group}") groups;
     });
 
   adminApps = [
@@ -195,7 +195,7 @@ in
           rules = [
             (mkAccessRule {
               apps = adminApps;
-              group = shared.groups.Admins;
+              groups = [ shared.groups.Admins ];
             })
             (mkAccessRule { apps = regularApps; })
           ];

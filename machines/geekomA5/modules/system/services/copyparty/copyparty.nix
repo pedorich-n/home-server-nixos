@@ -62,19 +62,36 @@ in
         "/" = {
           path = root;
           access = {
-            "r" = "*";
-            "w" = "@Admins";
-            "d" = "@Admins";
-            "a" = "@Admins";
+            # Read: all logged in users can read
+            "r" = "@acct";
+            # Write, Delete, Admin: only users in the Admins group
+            "wda" = "@Admins";
           };
         };
 
         "/share" = {
           path = "${root}/share";
           access = {
+            # Read: all logged in users can read
             "r" = "*";
-            "w" = "@acct";
-            "d" = "@acct";
+            # Write, Delete, Admin: only users in the Service group
+            "wd" = "@acct";
+            # Admin: only users in the Admins group
+            "a" = "@Admins";
+          };
+        };
+
+        "/switch-saves" = {
+          path = "/mnt/store/manual-backup/switch/saves/jksv";
+          access = {
+            # Read: all logged in users can read
+            "r" = "@acct";
+            # Write, Delete: only users in the Admins, Service groups
+            "wd" = [
+              "@Admins"
+              "@Service"
+            ];
+            # Admin: only users in the Admins group
             "a" = "@Admins";
           };
         };
