@@ -67,16 +67,31 @@ in
 
   services = {
     traefik.dynamicConfigOptions.http = {
-      middlewares.authelia = {
-        forwardAuth = {
-          address = "http://127.0.0.1:${portsCfg.portStr}/api/authz/forward-auth";
-          trustForwardHeader = true;
-          authResponseHeaders = [
-            "Remote-User"
-            "Remote-Groups"
-            "Remote-Email"
-            "Remote-Name"
-          ];
+      middlewares = {
+        authelia = {
+          forwardAuth = {
+            address = "http://127.0.0.1:${portsCfg.portStr}/api/authz/forward-auth";
+            trustForwardHeader = true;
+            authResponseHeaders = [
+              "Remote-User"
+              "Remote-Groups"
+              "Remote-Email"
+              "Remote-Name"
+            ];
+          };
+        };
+
+        authelia-basic = {
+          forwardAuth = {
+            address = "http://127.0.0.1:${portsCfg.portStr}/api/authz/forward-auth-basic";
+            trustForwardHeader = true;
+            authResponseHeaders = [
+              "Remote-User"
+              "Remote-Groups"
+              "Remote-Email"
+              "Remote-Name"
+            ];
+          };
         };
       };
 
@@ -126,6 +141,9 @@ in
           address = "tcp://127.0.0.1:${portsCfg.portStr}";
           endpoints.authz = {
             forward-auth = {
+              implementation = "ForwardAuth";
+            };
+            forward-auth-basic = {
               implementation = "ForwardAuth";
               authn_strategies = [
                 {

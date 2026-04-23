@@ -86,7 +86,7 @@ in
         entryPoints = [ "web-secure" ];
         rule = "Host(`${networkingLib.mkDomain "copyparty"}`)";
         service = "copyparty-secure";
-        middlewares = [ "authelia@file" ];
+        middlewares = [ "authelia-basic@file" ];
       };
 
       services.copyparty-secure = {
