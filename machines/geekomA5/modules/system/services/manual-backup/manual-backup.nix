@@ -16,7 +16,7 @@
 
       group = lib.mkOption {
         type = lib.types.str;
-        default = config.users.users.user.group;
+        default = config.users.groups.media.name;
         readOnly = true;
       };
     };

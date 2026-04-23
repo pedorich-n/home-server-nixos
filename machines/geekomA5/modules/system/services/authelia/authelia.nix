@@ -14,14 +14,15 @@ let
   mkAccessRule =
     {
       apps,
-      group ? null,
+      groups ? [ ],
     }:
     {
       domain = lib.map networkingLib.mkDomain apps;
       policy = "one_factor";
     }
-    // (lib.optionalAttrs (group != null) {
-      subject = "group:${group}";
+    // (lib.optionalAttrs (groups != [ ]) {
+      # Subject can be either a single item or a list of items
+      subject = lib.map (group: if (lib.isList group) then (lib.map (g: "group:${g}") group) else "group:${group}") groups;
     });
 
   adminApps = [
@@ -39,9 +40,22 @@ let
   ];
 
   regularApps = [
-    "copyparty"
+    "audiobookshelf"
+    "dashy"
+    "forgejo"
+    "gitea-mirror"
+    "grist"
     "homeassistant"
+    "immich"
+    "jellyfin"
+    "librechat"
     "maloja"
+    "paperless"
+    "shelfmark"
+  ];
+
+  serviceApps = [
+    "copyparty"
   ];
 
   stateRoot = "/var/lib/authelia-main";
@@ -67,16 +81,31 @@ in
 
   services = {
     traefik.dynamicConfigOptions.http = {
-      middlewares.authelia = {
-        forwardAuth = {
-          address = "http://127.0.0.1:${portsCfg.portStr}/api/authz/forward-auth";
-          trustForwardHeader = true;
-          authResponseHeaders = [
-            "Remote-User"
-            "Remote-Groups"
-            "Remote-Email"
-            "Remote-Name"
-          ];
+      middlewares = {
+        authelia = {
+          forwardAuth = {
+            address = "http://127.0.0.1:${portsCfg.portStr}/api/authz/forward-auth";
+            trustForwardHeader = true;
+            authResponseHeaders = [
+              "Remote-User"
+              "Remote-Groups"
+              "Remote-Email"
+              "Remote-Name"
+            ];
+          };
+        };
+
+        authelia-basic = {
+          forwardAuth = {
+            address = "http://127.0.0.1:${portsCfg.portStr}/api/authz/forward-auth-basic";
+            trustForwardHeader = true;
+            authResponseHeaders = [
+              "Remote-User"
+              "Remote-Groups"
+              "Remote-Email"
+              "Remote-Name"
+            ];
+          };
         };
       };
 
@@ -128,6 +157,16 @@ in
             forward-auth = {
               implementation = "ForwardAuth";
             };
+            forward-auth-basic = {
+              implementation = "ForwardAuth";
+              authn_strategies = [
+                {
+                  name = "HeaderAuthorization";
+                  schemes = [ "Basic" ];
+                }
+                { name = "CookieSession"; }
+              ];
+            };
           };
         };
 
@@ -170,9 +209,19 @@ in
           rules = [
             (mkAccessRule {
               apps = adminApps;
-              group = shared.groups.Admins;
+              groups = [ shared.groups.Admins ];
             })
-            (mkAccessRule { apps = regularApps; })
+            (mkAccessRule {
+              apps = regularApps;
+              groups = [ shared.groups.Users ];
+            })
+            (mkAccessRule {
+              apps = serviceApps;
+              groups = [
+                shared.groups.Users
+                shared.groups.Service
+              ];
+            })
           ];
         };
       };

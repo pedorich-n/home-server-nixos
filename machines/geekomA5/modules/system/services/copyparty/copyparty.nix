@@ -62,19 +62,34 @@ in
         "/" = {
           path = root;
           access = {
-            "r" = "*";
-            "w" = "@Admins";
-            "d" = "@Admins";
-            "a" = "@Admins";
+            # Read: all users in the Users group
+            "r" = "@Users";
+            # Write, Delete, Admin: only users in the Admins group
+            "wda" = "@Admins";
           };
         };
 
         "/share" = {
           path = "${root}/share";
           access = {
-            "r" = "*";
-            "w" = "@acct";
-            "d" = "@acct";
+            # Read, Write, Delete: all users in the Users group
+            "rwd" = "@Users";
+            # Admin: only users in the Admins group
+            "a" = "@Admins";
+          };
+        };
+
+        "/switch-saves" = {
+          path = "/mnt/store/manual-backup/switch/saves/jksv";
+          access = {
+            # Read: all logged in users can read
+            "r" = "@acct";
+            # Write, Delete: only users in the Admins, Service groups
+            "wd" = [
+              "@Admins"
+              "@Service"
+            ];
+            # Admin: only users in the Admins group
             "a" = "@Admins";
           };
         };
@@ -86,7 +101,7 @@ in
         entryPoints = [ "web-secure" ];
         rule = "Host(`${networkingLib.mkDomain "copyparty"}`)";
         service = "copyparty-secure";
-        middlewares = [ "authelia@file" ];
+        middlewares = [ "authelia-basic@file" ];
       };
 
       services.copyparty-secure = {

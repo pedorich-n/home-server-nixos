@@ -30,6 +30,18 @@ in
             argument = "${./groups/admins.json}";
           };
         };
+
+        "${root}/groups/users.json" = {
+          "L+" = rule // {
+            argument = "${./groups/users.json}";
+          };
+        };
+
+        "${root}/groups/service.json" = {
+          "L+" = rule // {
+            argument = "${./groups/service.json}";
+          };
+        };
       }
     ];
 
