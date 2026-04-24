@@ -81,10 +81,11 @@ in
 
   services = {
     traefik.dynamicConfigOptions.http = {
-      middlewares = {
-        authelia = {
-          forwardAuth = {
-            address = "http://127.0.0.1:${portsCfg.portStr}/api/authz/forward-auth";
+      middlewares =
+        let
+          # LINK - https://www.authelia.com/integration/proxies/traefik/
+          mkAutheliaForwardAuth = endpointName: {
+            address = "http://127.0.0.1:${portsCfg.portStr}/api/authz/${endpointName}";
             trustForwardHeader = true;
             authResponseHeaders = [
               "Remote-User"
@@ -93,21 +94,16 @@ in
               "Remote-Name"
             ];
           };
-        };
+        in
+        {
+          authelia = {
+            forwardAuth = mkAutheliaForwardAuth "forward-auth";
+          };
 
-        authelia-basic = {
-          forwardAuth = {
-            address = "http://127.0.0.1:${portsCfg.portStr}/api/authz/forward-auth-basic";
-            trustForwardHeader = true;
-            authResponseHeaders = [
-              "Remote-User"
-              "Remote-Groups"
-              "Remote-Email"
-              "Remote-Name"
-            ];
+          authelia-basic = {
+            forwardAuth = mkAutheliaForwardAuth "forward-auth-basic";
           };
         };
-      };
 
       routers.authelia-secure = {
         entryPoints = [ "web-secure" ];
@@ -153,16 +149,24 @@ in
 
         server = {
           address = "tcp://127.0.0.1:${portsCfg.portStr}";
+
+          #LINK - https://www.authelia.com/configuration/miscellaneous/server-endpoints-authz/
           endpoints.authz = {
             forward-auth = {
               implementation = "ForwardAuth";
+              # LINK - https://www.authelia.com/reference/guides/proxy-authorization/#authn-strategies
+              authn_strategies = [
+                { name = "CookieSession"; }
+              ];
             };
             forward-auth-basic = {
               implementation = "ForwardAuth";
+              # LINK - https://www.authelia.com/reference/guides/proxy-authorization/#authn-strategies
               authn_strategies = [
                 {
                   name = "HeaderAuthorization";
                   schemes = [ "Basic" ];
+                  scheme_basic_cache_lifespan = "5m";
                 }
                 { name = "CookieSession"; }
               ];
