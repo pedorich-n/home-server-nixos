@@ -20,7 +20,7 @@
   "n8n": {
     "datasource": "npm",
     "package": "n8n-mcp",
-    "version": "2.47.12",
+    "version": "2.47.13",
     "versioning": "semver"
   },
   "nixos": {
