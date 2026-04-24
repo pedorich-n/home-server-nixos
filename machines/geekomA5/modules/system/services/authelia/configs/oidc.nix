@@ -78,6 +78,7 @@ in
       };
 
       identity_providers.oidc = {
+        #LINK - https://www.authelia.com/integration/openid-connect/openid-connect-1.0-claims/
         claims_policies = {
           role = {
             custom_claims = {
@@ -95,6 +96,14 @@ in
             };
           };
 
+          # Getting the value from LDAP
+          #LINK - machines/geekomA5/modules/system/services/authelia/configs/ldap.nix:36
+          ssh_public_key = {
+            custom_claims = {
+              ssh_public_key = { };
+            };
+          };
+
           userinfo_in_id_token = {
             # See https://www.authelia.com/integration/openid-connect/openid-connect-1.0-claims/#restore-functionality-prior-to-claims-parameter
             id_token = [
@@ -107,6 +116,7 @@ in
               "name"
             ];
           };
+
         };
 
         scopes = {
@@ -116,6 +126,10 @@ in
 
           roles = {
             claims = [ "roles" ];
+          };
+
+          ssh_public_key = {
+            claims = [ "ssh_public_key" ];
           };
         };
 
@@ -212,6 +226,12 @@ in
           (mkOidcProviderPrivate {
             name = "forgejo";
             redirectUris = [ "${networkingLib.mkUrl "git"}/user/oauth2/authelia/callback" ];
+            extraArgs = {
+              claims_policy = "ssh_public_key";
+              scopes = defaultScopes ++ [
+                "ssh_public_key"
+              ];
+            };
           })
 
           (mkOidcProviderPrivate {

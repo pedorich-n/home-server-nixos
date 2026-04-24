@@ -2,6 +2,7 @@
   config,
   lib,
   tmpfilesLib,
+  pkgs,
   ...
 }:
 let
@@ -15,31 +16,27 @@ let
 
   foldersToCreate = [
     "${root}/users"
-    "${root}/groups"
+    "${root}/user-schemas"
   ];
 
   foldersToSet = [ root ];
+
+  groupFiles = pkgs.callPackage ./_groups.nix { };
+  schemaFile = pkgs.callPackage ./_user-schemas.nix { };
 in
 {
   systemd.tmpfiles.settings = {
     "90-lldap-create" = lib.mkMerge [
       (tmpfilesLib.applyRuleToFolders { "d" = rule; } foldersToCreate)
       {
-        "${root}/groups/admins.json" = {
+        "${root}/groups" = {
           "L+" = rule // {
-            argument = "${./groups/admins.json}";
+            argument = "${groupFiles}";
           };
         };
-
-        "${root}/groups/users.json" = {
+        "${root}/user-schemas/schemas.json" = {
           "L+" = rule // {
-            argument = "${./groups/users.json}";
-          };
-        };
-
-        "${root}/groups/service.json" = {
-          "L+" = rule // {
-            argument = "${./groups/service.json}";
+            argument = "${schemaFile}";
           };
         };
       }

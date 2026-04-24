@@ -2,13 +2,14 @@
   lldapHttpPort,
   lldapAdminPasswordFile,
 
-  pkgs,
+  writeShellApplication,
+  lldap-bootstrap,
 }:
-pkgs.writeShellApplication {
+writeShellApplication {
   name = "lldap-bootstrap-users-groups";
 
   runtimeInputs = [
-    pkgs.lldap-bootstrap
+    lldap-bootstrap
   ];
 
   text = ''
@@ -18,8 +19,8 @@ pkgs.writeShellApplication {
     export USER_CONFIGS_DIR="/var/lib/lldap/bootstrap/users"
     export GROUP_CONFIGS_DIR="/var/lib/lldap/bootstrap/groups"
 
-    export USER_SCHEMAS_DIR="/dev/null"
-    export GROUP_SCHEMAS_DIR="/dev/null"
+    export USER_SCHEMAS_DIR="/var/lib/lldap/bootstrap/user-schemas"
+    export GROUP_SCHEMAS_DIR="/var/lib/lldap/bootstrap/group-schemas"
     export DO_CLEANUP="false"
 
     lldap-bootstrap
