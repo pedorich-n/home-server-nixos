@@ -3,7 +3,7 @@ on: push
 
 jobs:
   nix-flake-check:
-    uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@main
+    uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@a43ffb5e5e261eb6d552774e84e690dbc7269405 # main
     with:
       timeout_minutes: 20
       nix_version: "2.31.2"
