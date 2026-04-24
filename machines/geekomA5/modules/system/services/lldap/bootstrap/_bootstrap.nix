@@ -2,13 +2,14 @@
   lldapHttpPort,
   lldapAdminPasswordFile,
 
-  pkgs,
+  writeShellApplication,
+  lldap-bootstrap,
 }:
-pkgs.writeShellApplication {
+writeShellApplication {
   name = "lldap-bootstrap-users-groups";
 
   runtimeInputs = [
-    pkgs.lldap-bootstrap
+    lldap-bootstrap
   ];
 
   text = ''
