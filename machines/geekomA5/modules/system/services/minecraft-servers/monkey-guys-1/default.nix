@@ -75,7 +75,7 @@ in
     }
     (lib.mkIf (config.services.minecraft-servers.enable && config.services.minecraft-servers.servers.${serverName}.enable) {
       # NOTE Should be the same as labels produced by
-      # LINK machines/geekomA5/modules/lib/container.nix:11
+      #LINK - machines/geekomA5/modules/lib/container.nix:11
       services.traefik.dynamicConfigOptions.http = {
         routers.metrics-minecraft = {
           entryPoints = [ "metrics" ];

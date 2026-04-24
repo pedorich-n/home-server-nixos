@@ -16,12 +16,13 @@ let
 
   foldersToCreate = [
     "${root}/users"
-    # "${root}/groups"
+    "${root}/user-schemas"
   ];
 
   foldersToSet = [ root ];
 
   groupFiles = pkgs.callPackage ./_groups.nix { };
+  schemaFile = pkgs.callPackage ./_user-schemas.nix { };
 in
 {
   systemd.tmpfiles.settings = {
@@ -31,6 +32,11 @@ in
         "${root}/groups" = {
           "L+" = rule // {
             argument = "${groupFiles}";
+          };
+        };
+        "${root}/user-schemas/schemas.json" = {
+          "L+" = rule // {
+            argument = "${schemaFile}";
           };
         };
       }

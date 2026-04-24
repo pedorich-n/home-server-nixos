@@ -26,10 +26,19 @@ in
           user = "UID=authelia,OU=people,DC=server";
           password = config.sops.placeholder."authelia/ldap/password";
 
-          # Disabled because of https://github.com/authelia/authelia/issues/9936
           pooling = {
             enable = true;
             count = 5;
+          };
+
+          attributes = {
+            extra = {
+              sshpubkey = {
+                name = "ssh_public_key";
+                multi_valued = true;
+                value_type = "string";
+              };
+            };
           };
         };
       };

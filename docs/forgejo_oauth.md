@@ -10,7 +10,8 @@
   --key="<CLIENT_ID>" \
   --secret="<CLIENT_SECRET>" \
   --auto-discover-url="https://authelia.<DOMAIN>/.well-known/openid-configuration" \
-  --scopes="openid email profile groups" \
+  --scopes="openid email profile groups ssh_public_key" \
+  --attribute-ssh-public-key="ssh_public_key" \
   --group-claim-name="groups" \
   --admin-group="Admins"
 
