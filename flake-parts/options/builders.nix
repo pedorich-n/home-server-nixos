@@ -55,7 +55,7 @@ let
 
   loadMachine = name: flake.lib.loaders.listFilesRecursively { src = "${flake}/machines/${name}"; };
 
-  overlays = import "${flake}/overlays/custom-packages.nix" { inherit lib; };
+  custom-overlays = flake.overlays.default;
 
   mkSystem =
     name: cfg:
@@ -63,7 +63,7 @@ let
       modules = [
         {
           _module.args = {
-            inherit flake overlays;
+            inherit flake custom-overlays;
           };
 
           networking.hostName = lib.mkDefault name;
