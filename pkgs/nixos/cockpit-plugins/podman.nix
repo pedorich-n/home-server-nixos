@@ -1,17 +1,12 @@
 {
+  sources,
   lib,
-  fetchurl,
   stdenv,
   gettext,
   nix-update-script,
 }:
-stdenv.mkDerivation (finalAttrs: {
-  pname = "cockpit-podman";
-  version = "125";
-  src = fetchurl {
-    url = "https://github.com/cockpit-project/cockpit-podman/releases/download/${finalAttrs.version}/cockpit-podman-${finalAttrs.version}.tar.xz";
-    sha256 = "sha256-6XathPDmpJ4g3zn0pKoagsDNBQ+9o3iPd2nVs615esw=";
-  };
+stdenv.mkDerivation {
+  inherit (sources.cockpit-podman) pname version src;
 
   nativeBuildInputs = [
     gettext
@@ -30,7 +25,7 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   passthru = {
-    updateScript = nix-update-script { };
+    updateScript = nix-update-script { extraArgs = [ "--flake" ]; };
   };
 
   meta = {
@@ -40,4 +35,4 @@ stdenv.mkDerivation (finalAttrs: {
     platforms = lib.platforms.linux;
     maintainers = [ ];
   };
-})
+}

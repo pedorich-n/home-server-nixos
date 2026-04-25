@@ -10,16 +10,18 @@
       ...
     }:
     let
+      sources = pkgs.callPackage ../pkgs/_sources/generated.nix { };
+
       loadPackages =
         dir:
         flake.lib.tools.flattenDerivationsTree (
           lib.filesystem.packagesFromDirectoryRecursive {
-            inherit (pkgs) callPackage;
+            callPackage = lib.callPackageWith (pkgs // { inherit sources; });
             directory = dir;
           }
         );
     in
     {
-      packages = (loadPackages ../pkgs/nixos) // (loadPackages ../pkgs/tools);
+      packages = loadPackages ../pkgs/nixos;
     };
 }

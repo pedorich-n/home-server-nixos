@@ -2,16 +2,22 @@
 {
   perSystem =
     {
-      config,
       pkgs,
       deployPkgs,
       lib,
       ...
     }:
+    let
+      tools = lib.filesystem.packagesFromDirectoryRecursive {
+        inherit (pkgs) callPackage;
+        directory = ../pkgs/tools;
+      };
+    in
     {
       apps = {
-        generate-host-keys.program = config.packages."nixos-bootstrap.generate-host-keys";
-        convert-host-keys.program = config.packages."nixos-bootstrap.convert-host-keys";
+        generate-host-keys.program = tools.nixos-bootstrap.generate-host-keys;
+        convert-host-keys.program = tools.nixos-bootstrap.convert-host-keys;
+        update-nvfetcher.program = tools.update-nvfetcher;
 
         deploy.program = pkgs.writeShellScriptBin "deploy-nixos" ''
           system=$1

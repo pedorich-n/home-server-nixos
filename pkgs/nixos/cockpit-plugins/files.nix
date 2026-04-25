@@ -1,18 +1,13 @@
 {
+  sources,
   lib,
   stdenv,
-  fetchurl,
   gettext,
   python3,
   nix-update-script,
 }:
-stdenv.mkDerivation (finalAttrs: {
-  pname = "cockpit-files";
-  version = "40";
-  src = fetchurl {
-    url = "https://github.com/cockpit-project/cockpit-files/releases/download/${finalAttrs.version}/cockpit-files-${finalAttrs.version}.tar.xz";
-    sha256 = "sha256-Yp6s9x0Vu8Lgcg71aImTLJ8YNKJkfxhbSOcPckJVAGI=";
-  };
+stdenv.mkDerivation {
+  inherit (sources.cockpit-files) pname version src;
 
   nativeBuildInputs = [
     gettext
@@ -39,7 +34,7 @@ stdenv.mkDerivation (finalAttrs: {
   dontBuild = true;
 
   passthru = {
-    updateScript = nix-update-script { };
+    updateScript = nix-update-script { extraArgs = [ "--flake" ]; };
   };
 
   meta = {
@@ -49,4 +44,4 @@ stdenv.mkDerivation (finalAttrs: {
     platforms = lib.platforms.linux;
     maintainers = [ ];
   };
-})
+}
