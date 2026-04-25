@@ -1,7 +1,18 @@
-{ lib, ... }:
 {
-  flake.overlays = {
-    # TODO: come up/find a function to load all overlays from a directory, similar to how it's done for modules with importApply
-    default = import ../overlays/custom-packages.nix { inherit lib; };
-  };
+  flake,
+  lib,
+  ...
+}:
+{
+  flake.overlays =
+    let
+      overlayFiles = flake.lib.loaders.listFilesRecursively {
+        src = ../overlays;
+      };
+
+      overlays = lib.map (path: import path) overlayFiles;
+    in
+    {
+      default = lib.composeManyExtensions overlays;
+    };
 }
