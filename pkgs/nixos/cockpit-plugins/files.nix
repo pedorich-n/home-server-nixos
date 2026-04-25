@@ -4,13 +4,14 @@
   fetchurl,
   gettext,
   python3,
+  nix-update-script,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "cockpit-files";
-  version = "39";
+  version = "40";
   src = fetchurl {
     url = "https://github.com/cockpit-project/cockpit-files/releases/download/${finalAttrs.version}/cockpit-files-${finalAttrs.version}.tar.xz";
-    sha256 = "sha256-2YpDSqWy83/eZ39T0ICqqzJyzJIbBlQbQQdWQdT9ebM=";
+    sha256 = "sha256-Yp6s9x0Vu8Lgcg71aImTLJ8YNKJkfxhbSOcPckJVAGI=";
   };
 
   nativeBuildInputs = [
@@ -36,6 +37,10 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   dontBuild = true;
+
+  passthru = {
+    updateScript = nix-update-script { };
+  };
 
   meta = {
     description = "Cockpit UI for local files";
