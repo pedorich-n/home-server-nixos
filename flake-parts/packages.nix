@@ -1,11 +1,14 @@
 {
   perSystem =
-    { pkgs, ... }:
     {
-      packages = {
-        update-nvfetcher = pkgs.callPackage ../pkgs/update-nvfetcher { };
-
-        modpack = pkgs.callPackage ../pkgs/minecraft-modpacks/monkegeddoon.nix { };
+      pkgs,
+      lib,
+      ...
+    }:
+    {
+      packages = lib.filesystem.packagesFromDirectoryRecursive {
+        inherit (pkgs) callPackage;
+        directory = ../pkgs;
       };
     };
 }

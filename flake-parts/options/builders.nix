@@ -55,7 +55,7 @@ let
 
   loadMachine = name: flake.lib.loaders.listFilesRecursively { src = "${flake}/machines/${name}"; };
 
-  overlays = import "${flake}/overlays/custom-packages.nix";
+  overlays = import "${flake}/overlays/custom-packages.nix" { inherit lib; };
 
   mkSystem =
     name: cfg:

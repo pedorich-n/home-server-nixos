@@ -1,14 +1,16 @@
 {
   lib,
-  callPackage,
+  fetchurl,
   stdenv,
   gettext,
 }:
-let
-  sources = callPackage ./_sources/generated.nix { };
-in
-stdenv.mkDerivation {
-  inherit (sources.cockpit-podman) pname version src;
+stdenv.mkDerivation (finalAttrs: {
+  pname = "cockpit-podman";
+  version = "124";
+  src = fetchurl {
+    url = "https://github.com/cockpit-project/cockpit-podman/releases/download/${finalAttrs.version}/cockpit-podman-${finalAttrs.version}.tar.xz";
+    sha256 = "sha256-g93+OH2YPF/b/llXz00DM7JiyfWpWYXEHAbgLoM6Fbo=";
+  };
 
   nativeBuildInputs = [
     gettext
@@ -33,4 +35,4 @@ stdenv.mkDerivation {
     platforms = lib.platforms.linux;
     maintainers = [ ];
   };
-}
+})
