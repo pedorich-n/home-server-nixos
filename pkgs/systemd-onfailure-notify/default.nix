@@ -1,11 +1,17 @@
-{ pkgs, ... }:
-pkgs.writeShellApplication {
+{
+  writeShellApplication,
+  apprise,
+  getopt,
+  ripgrep,
+  systemd,
+}:
+writeShellApplication {
   name = "systemd-onfailure-notify";
   runtimeInputs = [
-    pkgs.apprise
-    pkgs.getopt
-    pkgs.ripgrep
-    pkgs.systemd
+    apprise
+    getopt
+    ripgrep
+    systemd
   ];
   text = ''
     TEMP=$(getopt -o "" -l apprise-config:,unit:,lines: -- "$@") || exit 1

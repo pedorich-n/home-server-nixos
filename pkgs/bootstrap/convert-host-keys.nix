@@ -1,7 +1,12 @@
-{ pkgs, ... }:
-pkgs.writeShellApplication {
+{
+  writeShellApplication,
+  fd,
+  openssh,
+  ssh-to-age,
+}:
+writeShellApplication {
   name = "convert-host-keys";
-  runtimeInputs = with pkgs; [
+  runtimeInputs = [
     fd
     openssh
     ssh-to-age

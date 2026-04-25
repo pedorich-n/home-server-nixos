@@ -1,7 +1,12 @@
-{ pkgs, ... }:
-pkgs.writeShellApplication {
+{
+  writeShellApplication,
+  coreutils,
+  openssh,
+  ...
+}:
+writeShellApplication {
   name = "generate-host-keys";
-  runtimeInputs = with pkgs; [
+  runtimeInputs = [
     coreutils
     openssh
   ];
@@ -38,13 +43,13 @@ pkgs.writeShellApplication {
 
     for type in "''${types[@]}"; do
       for root in "''${roots[@]}"; do
-        # Create the directory where sshd expects to find the host keys  
+        # Create the directory where sshd expects to find the host keys
         install -d -m755 "''${root}"
 
         generate_key "''${root}" "''${type}"
 
       done
-    done        
+    done
 
     echo ""
     echo "Pass '--extra-files ''${temp}' to nixos-anywhere"

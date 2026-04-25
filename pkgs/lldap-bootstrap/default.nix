@@ -6,7 +6,6 @@
   makeWrapper,
   stdenvNoCC,
   lib,
-  ...
 }:
 stdenvNoCC.mkDerivation {
   pname = "lldap-bootrstrap";
