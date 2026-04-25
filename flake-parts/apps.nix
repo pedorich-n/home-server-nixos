@@ -2,6 +2,7 @@
 {
   perSystem =
     {
+      config,
       pkgs,
       deployPkgs,
       lib,
@@ -9,8 +10,8 @@
     }:
     {
       apps = {
-        generate-host-keys.program = pkgs.callPackage ../pkgs/bootstrap/generate-host-keys.nix { };
-        convert-host-keys.program = pkgs.callPackage ../pkgs/bootstrap/convert-host-keys.nix { };
+        generate-host-keys.program = config.packages."nixos-bootstrap.generate-host-keys";
+        convert-host-keys.program = config.packages."nixos-bootstrap.convert-host-keys";
 
         deploy.program = pkgs.writeShellScriptBin "deploy-nixos" ''
           system=$1

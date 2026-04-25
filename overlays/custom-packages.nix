@@ -5,5 +5,5 @@
 _: prev:
 lib.filesystem.packagesFromDirectoryRecursive {
   inherit (prev) callPackage;
-  directory = ../pkgs;
+  directory = ../pkgs/nixos;
 }
