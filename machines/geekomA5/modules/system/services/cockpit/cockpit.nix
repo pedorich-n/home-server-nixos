@@ -24,8 +24,8 @@ in
     };
   };
 
-  #LINK - pkgs/cockpit-plugins/files.nix
-  #LINK - pkgs/cockpit-plugins/podman.nix
+  #LINK - pkgs/nixos/cockpit-plugins/files.nix
+  #LINK - pkgs/nixos/cockpit-plugins/podman.nix
   environment.systemPackages = [
     pkgs.cockpit-plugins.files
     pkgs.cockpit-plugins.podman
