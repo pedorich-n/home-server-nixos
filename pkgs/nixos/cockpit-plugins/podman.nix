@@ -3,7 +3,6 @@
   lib,
   stdenv,
   gettext,
-  nix-update-script,
 }:
 stdenv.mkDerivation {
   inherit (sources.cockpit-podman) pname version src;
@@ -23,10 +22,6 @@ stdenv.mkDerivation {
     substituteInPlace $out/share/cockpit/podman/manifest.json \
       --replace-warn "/lib/systemd/system/podman.socket" "/run/podman/podman.sock"
   '';
-
-  passthru = {
-    updateScript = nix-update-script { extraArgs = [ "--flake" ]; };
-  };
 
   meta = {
     description = "Cockpit UI for podman containers";

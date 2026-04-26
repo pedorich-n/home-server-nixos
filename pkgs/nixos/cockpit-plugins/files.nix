@@ -4,7 +4,6 @@
   stdenv,
   gettext,
   python3,
-  nix-update-script,
 }:
 stdenv.mkDerivation {
   inherit (sources.cockpit-files) pname version src;
@@ -32,10 +31,6 @@ stdenv.mkDerivation {
   '';
 
   dontBuild = true;
-
-  passthru = {
-    updateScript = nix-update-script { extraArgs = [ "--flake" ]; };
-  };
 
   meta = {
     description = "Cockpit UI for local files";
