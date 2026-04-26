@@ -6,13 +6,15 @@
 {
   flake.overlays =
     let
+      dir = ../overlays;
       overlayFiles = flake.lib.loaders.listFilesRecursively {
-        src = ../overlays;
+        src = dir;
       };
 
-      overlays = lib.map (path: import path) overlayFiles;
+      getOverlayName = path: lib.removeSuffix ".nix" (baseNameOf path);
+      overlays = lib.foldl' (acc: path: acc // { "${getOverlayName path}" = import path; }) { } overlayFiles;
+
+      default = lib.composeManyExtensions (lib.attrValues overlays);
     in
-    {
-      default = lib.composeManyExtensions overlays;
-    };
+    overlays // { inherit default; };
 }
