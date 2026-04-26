@@ -1,7 +1,7 @@
-#LINK - overlays/custom-packages.nix
+#LINK - overlays/custom-nixos-packages.nix
 {
   inputs,
-  custom-overlays,
+  custom-packages-overlay,
   ...
 }:
 {
@@ -10,7 +10,7 @@
       inputs.nix-minecraft.overlays.default
       inputs.playit-nixos-module.overlays.default
       inputs.copyparty.overlays.default
-      custom-overlays
+      custom-packages-overlay
     ];
   };
 
