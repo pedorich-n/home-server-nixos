@@ -1,7 +1,7 @@
-#LINK - overlays/custom-packages.nix
+#LINK - overlays/custom-nixos-packages.nix
 {
   inputs,
-  overlays,
+  custom-packages-overlay,
   ...
 }:
 {
@@ -10,10 +10,7 @@
       inputs.nix-minecraft.overlays.default
       inputs.playit-nixos-module.overlays.default
       inputs.copyparty.overlays.default
-      overlays.github-app-installation-token
-      overlays.cockpit-plugins
-      overlays.minecraft-modpacks
-      overlays.lldap-bootstrap
+      custom-packages-overlay
     ];
   };
 

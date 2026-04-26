@@ -1,11 +1,14 @@
 {
+  flake,
+  ...
+}:
+{
   perSystem =
-    { pkgs, ... }:
     {
-      packages = {
-        update-nvfetcher = pkgs.callPackage ../pkgs/update-nvfetcher { };
-
-        modpack = pkgs.callPackage ../pkgs/minecraft-modpacks/monkegeddoon.nix { };
-      };
+      pkgs,
+      ...
+    }:
+    {
+      packages = flake.lib.tools.flattenDerivationsTree (flake.overlays.custom-nixos-packages pkgs pkgs);
     };
 }

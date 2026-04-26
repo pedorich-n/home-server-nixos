@@ -1,10 +1,16 @@
-{ pkgs, ... }:
-pkgs.writeShellApplication {
+{
+  writeShellApplication,
+  curl,
+  jq,
+  openssl,
+  ...
+}:
+writeShellApplication {
   name = "github-app-installation-token";
   runtimeInputs = [
-    pkgs.curl
-    pkgs.jq
-    pkgs.openssl
+    curl
+    jq
+    openssl
   ];
 
   text = builtins.readFile ./app_token.sh;

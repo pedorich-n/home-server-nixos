@@ -7,10 +7,17 @@
       lib,
       ...
     }:
+    let
+      tools = lib.filesystem.packagesFromDirectoryRecursive {
+        inherit (pkgs) callPackage;
+        directory = ../pkgs/tools;
+      };
+    in
     {
       apps = {
-        generate-host-keys.program = pkgs.callPackage ../pkgs/bootstrap/generate-host-keys.nix { };
-        convert-host-keys.program = pkgs.callPackage ../pkgs/bootstrap/convert-host-keys.nix { };
+        generate-host-keys.program = tools.nixos-bootstrap.generate-host-keys;
+        convert-host-keys.program = tools.nixos-bootstrap.convert-host-keys;
+        update-nvfetcher.program = tools.update-nvfetcher;
 
         deploy.program = pkgs.writeShellScriptBin "deploy-nixos" ''
           system=$1

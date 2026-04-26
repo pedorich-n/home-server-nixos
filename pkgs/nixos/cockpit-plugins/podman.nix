@@ -1,12 +1,9 @@
 {
+  sources,
   lib,
-  callPackage,
   stdenv,
   gettext,
 }:
-let
-  sources = callPackage ./_sources/generated.nix { };
-in
 stdenv.mkDerivation {
   inherit (sources.cockpit-podman) pname version src;
 

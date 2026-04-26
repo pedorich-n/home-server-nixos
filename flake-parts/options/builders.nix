@@ -8,34 +8,6 @@
   ...
 }:
 let
-  nixosConfigurationSubmodule = lib.types.submodule {
-    options = {
-      withSharedModules = lib.mkOption {
-        type = lib.types.bool;
-        default = true;
-      };
-
-      withPresets = lib.mkOption {
-        type = lib.types.functionTo (lib.types.listOf lib.types.deferredModule);
-        default = _: [ ];
-      };
-
-      extraModules = lib.mkOption {
-        type = lib.types.listOf lib.types.deferredModule;
-        default = [ ];
-      };
-
-      enableDeploy = lib.mkEnableOption "deploy" // {
-        default = true;
-      };
-
-      deploySettings = lib.mkOption {
-        type = lib.types.lazyAttrsOf lib.types.raw;
-        default = { };
-      };
-    };
-  };
-
   nixosCommonModules = flake.lib.loaders.listFilesRecursively {
     src = "${flake}/shared-modules/nixos/common";
   };
@@ -55,7 +27,7 @@ let
 
   loadMachine = name: flake.lib.loaders.listFilesRecursively { src = "${flake}/machines/${name}"; };
 
-  overlays = import "${flake}/overlays/custom-packages.nix";
+  custom-packages-overlay = flake.overlays.default;
 
   mkSystem =
     name: cfg:
@@ -63,7 +35,7 @@ let
       modules = [
         {
           _module.args = {
-            inherit flake overlays;
+            inherit flake custom-packages-overlay;
           };
 
           networking.hostName = lib.mkDefault name;
@@ -107,7 +79,40 @@ in
   options.flake = flake-parts-lib.mkSubmoduleOptions {
     builders = {
       nixosConfigurations = lib.mkOption {
-        type = lib.types.attrsOf nixosConfigurationSubmodule;
+        type = lib.types.attrsOf (
+          lib.types.submodule {
+            options = {
+              withSharedModules = lib.mkOption {
+                type = lib.types.bool;
+                description = "Whether to include the common shared modules";
+                default = true;
+              };
+
+              withPresets = lib.mkOption {
+                type = lib.types.functionTo (lib.types.listOf lib.types.deferredModule);
+                description = "Presets to include";
+                default = _: [ ];
+              };
+
+              extraModules = lib.mkOption {
+                type = lib.types.listOf lib.types.deferredModule;
+                description = "Additional modules to include";
+                default = [ ];
+              };
+
+              enableDeploy = lib.mkEnableOption "deploy" // {
+                description = "Whether to enable deployment with deploy-rs for this configuration";
+                default = true;
+              };
+
+              deploySettings = lib.mkOption {
+                type = lib.types.lazyAttrsOf lib.types.raw;
+                description = "Settings for deploy-rs";
+                default = { };
+              };
+            };
+          }
+        );
         default = { };
       };
     };

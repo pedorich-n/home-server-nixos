@@ -1,13 +1,10 @@
 {
+  sources,
   lib,
   stdenv,
-  callPackage,
   gettext,
   python3,
 }:
-let
-  sources = callPackage ./_sources/generated.nix { };
-in
 stdenv.mkDerivation {
   inherit (sources.cockpit-files) pname version src;
 
