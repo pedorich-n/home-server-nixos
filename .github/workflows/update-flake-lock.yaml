@@ -6,6 +6,9 @@ on:
 
 jobs:
   update-flake-lock:
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Setup job
@@ -14,7 +17,7 @@ jobs:
       - name: Rewrite SSH → HTTPS git URLs
         uses: ./.github/actions/git-url-rewrite
         with:
-          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          token: ${{ secrets.GH_ACCESS_TOKEN }} # This token is used to rewrite git URLs in the repository to use HTTPS instead of SSH, to access private repositories.
 
       - name: Configure Nix access tokens
         run: |
@@ -24,7 +27,7 @@ jobs:
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@834c491b2ece4de0bbd00d85214bb5e83b4da5c6 # v28
         with:
-          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }} # This token is used by the action to push changes and create PRs
           branch: update_flake_lock_action
           pr-title: "Update flake.lock"
           pr-labels: |
