@@ -1,3 +1,3 @@
 [submodule "dev"]
 	path = dev
-	url = git@github.com:pedorich-n/nix-dev-flake.git
+	url = https://github.com/pedorich-n/nix-dev-flake.git
