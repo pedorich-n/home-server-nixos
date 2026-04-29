@@ -6,6 +6,6 @@ on:
 
 jobs:
   update-flake-lock:
-    uses: pedorich-n/github-workflows/.github/workflows/update-flake-lock.yaml@https-instead-of-ssh
+    uses: pedorich-n/github-workflows/.github/workflows/update-flake-lock.yaml@main
     secrets:
       git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
