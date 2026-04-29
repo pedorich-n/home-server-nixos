@@ -19,10 +19,10 @@ jobs:
         with:
           token: ${{ secrets.GH_ACCESS_TOKEN }} # This token is used to rewrite git URLs in the repository to use HTTPS instead of SSH, to access private repositories.
 
-      - name: Configure Nix access tokens
-        run: |
-          mkdir -p ~/.config/nix
-          echo "access-tokens = github.com=${{ secrets.GH_ACCESS_TOKEN }}" > ~/.config/nix/access-tokens.conf
+      # - name: Configure Nix access tokens
+      #   run: |
+      #     mkdir -p ~/.config/nix
+      #     echo "access-tokens = github.com=${{ secrets.GH_ACCESS_TOKEN }}" > ~/.config/nix/access-tokens.conf
 
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@834c491b2ece4de0bbd00d85214bb5e83b4da5c6 # v28
