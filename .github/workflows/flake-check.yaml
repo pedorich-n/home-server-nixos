@@ -6,6 +6,6 @@ jobs:
     uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@https-instead-of-ssh
     with:
       timeout_minutes: 20
-      nix_version: "2.31.2"
+      # nix_version: "2.31.2"
     secrets:
       git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
