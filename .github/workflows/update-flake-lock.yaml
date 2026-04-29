@@ -6,9 +6,20 @@ on:
 
 jobs:
   update-flake-lock:
-    uses: pedorich-n/github-workflows/.github/workflows/update-flake-lock.yaml@a43ffb5e5e261eb6d552774e84e690dbc7269405 # main
-    with:
-      nix_version: "2.31.2"
-    secrets:
-      gh_access_token: ${{ secrets.GH_ACCESS_TOKEN }}
-      ssh_key: ${{ secrets.SSH_ACTION_KEY }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup job
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
+      - name: Rewrite SSH → HTTPS git URLs
+        uses: ./.github/actions/git-url-rewrite
+        with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+      - name: Update flake.lock
+        uses: DeterminateSystems/update-flake-lock@834c491b2ece4de0bbd00d85214bb5e83b4da5c6 # v28
+        with:
+          # token: ${{ secrets.GH_ACCESS_TOKEN }}
+          branch: update_flake_lock_action
+          pr-title: "Update flake.lock"
+          pr-labels: |
+            dependencies
+            automated

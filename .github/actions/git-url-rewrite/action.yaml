@@ -1,0 +1,24 @@
+name: Rewrite SSH → HTTPS git URLs
+description: Rewrites git URLs from SSH to HTTPS with a token for
+  authentication, to allow git operations in environments without SSH agent
+inputs:
+  token:
+    required: false
+    description:
+      Github Access Token to use in the rewritten URLs. If not provided,
+      it will rewrite to standard HTTPS URLs without authentication.
+
+runs:
+  using: composite
+  steps:
+    - name: Rewrite SSH → HTTPS git URLs
+      if: ${{ inputs.token }}
+      shell: bash
+      run: |
+        git config --global url."https://x-access-token:${{ inputs.token }}@github.com/".insteadOf "ssh://git@github.com/"
+
+    - name: Rewrite SSH → HTTPS git URLs (without token)
+      if: ${{ !inputs.token }}
+      shell: bash
+      run: |
+        git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
