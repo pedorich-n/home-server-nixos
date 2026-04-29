@@ -12,13 +12,14 @@ runs:
   using: composite
   steps:
     - name: Rewrite SSH → HTTPS git URLs
+      shell: bash
+      run: |
+        git config --global url."https://github.com/".insteadOf "git@github.com:"
+        git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+    - name: Setup credential helper for token authentication
       if: ${{ inputs.token }}
       shell: bash
       run: |
-        git config --global url."https://x-access-token:${{ inputs.token }}@github.com/".insteadOf "ssh://git@github.com/"
-
-    - name: Rewrite SSH → HTTPS git URLs (without token)
-      if: ${{ !inputs.token }}
-      shell: bash
-      run: |
-        git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+        git config --global credential.helper "store --file=$HOME/.git-credentials"
+        echo "https://x-access-token:${{ inputs.token }}@github.com" > $HOME/.git-credentials
