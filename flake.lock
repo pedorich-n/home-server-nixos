@@ -22,16 +22,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1776260907,
-        "narHash": "sha256-YlmYx5oV1Rezb3YnlxU+DDGjw8NRyig9M3MRhmCWrJM=",
+        "lastModified": 1777438777,
+        "narHash": "sha256-hVJ9P/0T0iCYjEporDgnPfplYjUwTeBBKc9GnEEdPuI=",
         "ref": "refs/heads/main",
-        "rev": "f9337f41e03595dca7fa8071a8f1bc8cc120fc40",
-        "revCount": 143,
+        "rev": "e87e17c6a73b5f737c4dc74e20c7a51198673a92",
+        "revCount": 145,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
       },
       "original": {
+        "ref": "refs/heads/main",
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
       }
@@ -58,16 +59,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1775747258,
-        "narHash": "sha256-Dii9gyu1rp2FSTkmZaocacZ9lHrv5846vqcmQ/VkBck=",
+        "lastModified": 1777437270,
+        "narHash": "sha256-V7O2UiIhQzK56fTaE4I6/BSxCA3Yg97MBAtlT+8t3aM=",
         "ref": "refs/heads/main",
-        "rev": "f140784ee2061891279ea2a4fe0de3dedd867a93",
-        "revCount": 35,
+        "rev": "a46cd3980de0087c6f3eba094bd166e883c96a81",
+        "revCount": 37,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/book-sync"
       },
       "original": {
+        "ref": "refs/heads/main",
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/book-sync"
       }
@@ -219,16 +221,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1775747276,
-        "narHash": "sha256-zsrC+S3khdsNr06u2ca3dGUGD0hdRSsYmPrEQ8E0lfs=",
+        "lastModified": 1777437857,
+        "narHash": "sha256-NPiIfVs/LOyi8kyTBFUajv9m/X3vYRrK7+oVeBo+E2o=",
         "ref": "refs/heads/main",
-        "rev": "d4b6699d1dc97b8cc076a2e081f2bf84749484cc",
-        "revCount": 37,
+        "rev": "7b1f5f645cb3facb53fbeab0c59110ab995d402f",
+        "revCount": 39,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/geekdo-sync"
       },
       "original": {
+        "ref": "refs/heads/main",
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/geekdo-sync"
       }
@@ -305,6 +308,7 @@
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
       "original": {
+        "ref": "refs/heads/main",
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }
