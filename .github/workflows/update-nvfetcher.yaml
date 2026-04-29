@@ -8,18 +8,31 @@ on:
 jobs:
   update-nvfetcher:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Setup job
-        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@a43ffb5e5e261eb6d552774e84e690dbc7269405 # main
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
         with:
-          ssh_key: ${{ secrets.SSH_ACTION_KEY }}
+          git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
 
       - name: Update nvfetcher sources
         run: nix run .#update-nvfetcher
 
-      - name: Create PR if changes detected
-        uses: ./.github/actions/pr-on-changes
+      - name: Check for changes
+        id: git-check
+        shell: bash
+        run: |
+          git diff --quiet || echo "changes_detected=true" >> "$GITHUB_OUTPUT"
+
+      - name: Create Pull Request
+        if: steps.git-check.outputs.changes_detected
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
+          commit-message: "Update nvfetcher sources"
           title: "Update nvfetcher sources"
           branch: "update_nvfetcher"
-          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          labels: |
+            dependencies
+            automated

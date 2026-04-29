@@ -68,7 +68,7 @@
     };
 
     home-server-nixos-secrets = {
-      url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets";
+      url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets?ref=refs/heads/main";
       # url = "git+file:///home/pedorich_n/Projects/home-server-nixos-secrets";
       flake = false;
     };
@@ -118,7 +118,7 @@
     };
 
     airtable-telegram-bot = {
-      url = "git+ssh://git@github.com/pedorich-n/airtable-telegram-lessons";
+      url = "git+ssh://git@github.com/pedorich-n/airtable-telegram-lessons?ref=refs/heads/main";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
@@ -130,7 +130,7 @@
     };
 
     geekdo-sync = {
-      url = "git+ssh://git@github.com/pedorich-n/geekdo-sync";
+      url = "git+ssh://git@github.com/pedorich-n/geekdo-sync?ref=refs/heads/main";
       # url = "git+file:///home/pedorich_n/Projects/geekdo-sync";
       inputs = {
         nixpkgs.follows = "nixpkgs";
@@ -143,7 +143,7 @@
     };
 
     book-sync = {
-      url = "git+ssh://git@github.com/pedorich-n/book-sync";
+      url = "git+ssh://git@github.com/pedorich-n/book-sync?ref=refs/heads/main";
       # url = "git+file:///home/pedorich_n/Projects/book-sync";
       inputs = {
         nixpkgs.follows = "nixpkgs";
