@@ -1,8 +1,8 @@
 [audiobookshelf]
-digest = 'sha256:a44ed89b3e845faa1f7d353f2cc89b2fcd8011737dd14075fa963cf9468da3a5'
+digest = 'sha256:4143292c530f6ac6700afd13360c04f477e4f1a81c1c97c4224b1c7e4330c5c4'
 image = 'advplyr/audiobookshelf'
 registry = 'ghcr.io'
-version = '2.33.2'
+version = '2.34.0'
 versioning = 'semver'
 
 [ente-museum]
@@ -20,17 +20,17 @@ version = '15.17-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:b042a654b9f34b3888070c93cc4da0ead6cb797655d62b14186071a492b18ec5'
+digest = 'sha256:763892fd6f91d3921dd98cfa231eb3b28acac9fb78f62fccf5fb5023d9922b21'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
 versioning = 'docker'
 
 [gitea-mirror]
-digest = 'sha256:9f83a25c47403abced58566f2393ea98fec2de578ee0aa68c39646bf7b6ab325'
+digest = 'sha256:ad2d7f59d2616edd7e0907c8feb07e6e08199b4818c711ee9c7b06df9600b442'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.15.5'
+version = 'v3.15.6'
 versioning = 'semver'
 
 [gluetun]
@@ -48,10 +48,10 @@ version = '1.7.12'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:ae0800c81fea16bc1241ce03bddb9c6260566e90f58b09d3e5a629e4f68bdc0b'
+digest = 'sha256:c1e5f0147f4cb51ccb05bb30b62a1269cc1bd48a6274792d3b38a77ab274dfd2'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.4.3'
+version = '2026.4.4'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
@@ -111,7 +111,7 @@ version = '8.2.7'
 versioning = 'semver'
 
 [librechat-rag]
-digest = 'sha256:f909923cea639f6a55880e3485cb4c7db71ca4396398374d2ad301b01035d098'
+digest = 'sha256:6dfb6832661ff9c26fa329c823ce266059e33567670a763e9ecb9b566b8daa68'
 image = 'danny-avila/librechat-rag-api-dev-lite'
 registry = 'ghcr.io'
 version = 'latest'
@@ -160,14 +160,14 @@ version = '8.6.2-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:b89f83345532cfba72690185257eb6c4f92fc2a782332a42abe19c07b7a6595f'
+digest = 'sha256:6c86cad803970ea782683a8e80e7403444c5bf3cf70de63b4d3c8e87500db92f'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '2.20.14'
+version = '2.20.15'
 versioning = 'semver'
 
 [prowlarr]
-digest = 'sha256:c5de2a8758a05594319263e7691c1dce56899442ed1720d6eca216c0958f4caf'
+digest = 'sha256:b4204e18666179472225935b443a99cf6c66dcb7bbc2d35034427a3851f13135'
 image = 'linuxserver/prowlarr'
 registry = 'docker.io'
 version = '2.3.5'
@@ -181,7 +181,7 @@ version = 'v1.2.1'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:8f7a1da9644340c737e3211ecc910a416d4295076e6b2824a4afcd1f4e3576e2'
+digest = 'sha256:3679a75dd2304b695525d83a4ff14c458708b5da4a7ce53044240932139590e1'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.1.4'
@@ -196,10 +196,10 @@ version = '6.1.1'
 versioning = 'semver'
 
 [recyclarr]
-digest = 'sha256:734cecf44ae9be7cf0cb05b2c1bc7da0abef9d938cc11b605e58b3146205e5c0'
+digest = 'sha256:3c38ceeb54438dd8327e4e65c9b48ba601a6d20fff833342d93c9b0bc4b1930b'
 image = 'recyclarr/recyclarr'
 registry = 'ghcr.io'
-version = '8.5.1'
+version = '8.6.0'
 versioning = 'semver'
 
 [sabnzbd]
@@ -210,14 +210,14 @@ version = '4.5.5'
 versioning = 'semver'
 
 [searxng]
-digest = 'sha256:37c616a774b90fb5df9239eb143f1b11866ddf7b830cd1ebcca6ba11b38cc2bf'
+digest = 'sha256:90ea6250fe543ccad61fddeb389032073c8362ce7e1a863d9ea6e2d36dc8e1da'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.4.22-74f1ca203'
+version = '2026.4.29-cba0cffa8'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [sonarr]
-digest = 'sha256:e6c9a091735fede0c2a205c69e7d4c2f0188eaf2bec7e42d8a26c017e5f2a910'
+digest = 'sha256:3580aec3802c915f0f819a88d5099abce61734b925732b8393d176b5dc561020'
 image = 'linuxserver/sonarr'
 registry = 'docker.io'
 version = '4.0.17'
