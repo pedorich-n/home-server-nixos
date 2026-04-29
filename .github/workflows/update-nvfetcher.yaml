@@ -8,6 +8,9 @@ on:
 jobs:
   update-nvfetcher:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Setup job
         uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@a43ffb5e5e261eb6d552774e84e690dbc7269405 # main
@@ -22,4 +25,4 @@ jobs:
         with:
           title: "Update nvfetcher sources"
           branch: "update_nvfetcher"
-          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
