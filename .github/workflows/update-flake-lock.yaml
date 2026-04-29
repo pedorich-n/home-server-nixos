@@ -6,30 +6,12 @@ on:
 
 jobs:
   update-flake-lock:
-    permissions:
-      contents: write
-      pull-requests: write
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup job
-        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
-
-      - name: Rewrite SSH → HTTPS git URLs
-        uses: ./.github/actions/git-url-rewrite
-        with:
-          token: ${{ secrets.GH_ACCESS_TOKEN }} # This token is used to rewrite git URLs in the repository to use HTTPS instead of SSH, to access private repositories.
-
-      # - name: Configure Nix access tokens
-      #   run: |
-      #     mkdir -p ~/.config/nix
-      #     echo "access-tokens = github.com=${{ secrets.GH_ACCESS_TOKEN }}" > ~/.config/nix/access-tokens.conf
-
-      - name: Update flake.lock
-        uses: DeterminateSystems/update-flake-lock@834c491b2ece4de0bbd00d85214bb5e83b4da5c6 # v28
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }} # This token is used by the action to push changes and create PRs
-          branch: update_flake_lock_action
-          pr-title: "Update flake.lock"
-          pr-labels: |
-            dependencies
-            automated
+    # permissions:
+    #   contents: write
+    #   pull-requests: write
+    uses: pedorich-n/github-workflows/.github/workflows/update-flake-lock.yaml@https-instead-of-ssh
+    with:
+      nix_version: "2.31.2"
+    secrets:
+      git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
+      # ssh_key: ${{ secrets.SSH_ACTION_KEY }}
