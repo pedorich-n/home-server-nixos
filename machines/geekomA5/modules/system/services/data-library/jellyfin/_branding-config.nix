@@ -1,4 +1,7 @@
-{ pkgs, networkingLib, ... }:
+{
+  pkgs,
+  networkingLib,
+}:
 let
   xmlFormat = pkgs.formats.xml { };
 in
@@ -17,7 +20,7 @@ xmlFormat.generate "branding.xml" {
       a.raised.emby-button,
       .loginDisclaimerContainer,
       .loginDisclaimer {
-          all: unset;    
+          all: unset;
       }
 
       .btnQuick,

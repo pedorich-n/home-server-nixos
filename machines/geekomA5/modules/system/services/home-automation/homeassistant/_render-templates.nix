@@ -1,17 +1,21 @@
-{ networkingLib, pkgs, ... }:
+{
+  networkingLib,
+  stdenv,
+  makejinja,
+  writers,
+  ...
+}:
 let
-  jsonFormat = pkgs.formats.json { };
-
   variables = {
     auth_url = networkingLib.mkUrl "authelia";
     url = networkingLib.mkUrl "homeassistant";
   };
 
 in
-pkgs.stdenv.mkDerivation {
+stdenv.mkDerivation {
   name = "homeassistant-blueprints";
 
-  nativeBuildInputs = [ pkgs.makejinja ];
+  nativeBuildInputs = [ makejinja ];
 
   dontConfigure = true;
   dontPatch = true;
@@ -20,7 +24,7 @@ pkgs.stdenv.mkDerivation {
   src = ./templates;
 
   env = {
-    variablesPath = jsonFormat.generate "variables.json" variables;
+    variablesPath = writers.writeJSON "variables.json" variables;
   };
 
   buildPhase = ''
@@ -41,7 +45,7 @@ pkgs.stdenv.mkDerivation {
     runHook preInstall
 
     mkdir $out
-    mv result/sources/* $out/  
+    mv result/sources/* $out/
 
     runHook postInstall
   '';

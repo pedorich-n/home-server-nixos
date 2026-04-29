@@ -1,10 +1,13 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 let
-  yamlFormat = pkgs.formats.yaml { };
   filename = "systemd-on-failure-notify.yaml";
 in
 {
-  sops.templates.${filename}.file = yamlFormat.generate filename {
+  sops.templates.${filename}.file = pkgs.writers.writeYAML filename {
     urls = [
       config.sops.placeholder."apprise/urls/telegram"
     ];

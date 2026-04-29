@@ -1,4 +1,3 @@
-_:
 let
   backupFolder = "/mnt/store/grist/persist";
 in

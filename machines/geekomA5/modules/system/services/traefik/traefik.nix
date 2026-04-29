@@ -1,4 +1,8 @@
-{ config, networkingLib, ... }:
+{
+  config,
+  networkingLib,
+  ...
+}:
 {
   custom.networking.ports.tcp = {
     traefik-dashboard = {

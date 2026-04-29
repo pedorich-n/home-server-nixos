@@ -1,4 +1,8 @@
-{ flake, lib, ... }:
+{
+  flake,
+  lib,
+  ...
+}:
 let
   containerSubmodule = lib.types.submodule {
     options = {

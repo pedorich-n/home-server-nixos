@@ -1,4 +1,7 @@
-{ config, ... }:
+{
+  config,
+  ...
+}:
 {
   systemd.tmpfiles.settings."90-copyparty-history" = {
     "/var/lib/copyparty/history" = {

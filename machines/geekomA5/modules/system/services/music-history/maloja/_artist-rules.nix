@@ -1,4 +1,7 @@
-{ pkgs, lib, ... }:
+{
+  writeText,
+  lib,
+}:
 let
   toTSV = parts: builtins.concatStringsSep "\t" parts;
 
@@ -78,4 +81,4 @@ let
     (lib.mapAttrsToList rules.replaceArtist artists.replaceArtist)
   ];
 in
-pkgs.writeText "maloja-custom-rules.tsv" (lib.concatLines allRulesTSV)
+writeText "maloja-custom-rules.tsv" (lib.concatLines allRulesTSV)

@@ -1,4 +1,8 @@
-{ inputs, lib, ... }:
+{
+  inputs,
+  lib,
+  ...
+}:
 let
   inputsToUse = {
     inherit (inputs) nixpkgs nixpkgs-unstable;

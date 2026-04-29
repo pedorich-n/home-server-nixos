@@ -4,15 +4,12 @@
   networkingLib,
   ...
 }:
-let
-  yamlFormat = pkgs.formats.yaml { };
-in
 {
   sops.templates = {
     "ente/museum.yaml" = {
       owner = config.users.users.user.name;
       group = config.users.users.user.group;
-      file = yamlFormat.generate "museum-config.yaml" {
+      file = pkgs.writers.writeYAML "museum-config.yaml" {
         internal = {
           admins = [ 1580559962386438 ];
           disable-registration = false;

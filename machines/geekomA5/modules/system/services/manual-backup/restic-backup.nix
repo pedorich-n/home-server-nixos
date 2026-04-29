@@ -1,4 +1,7 @@
-{ config, ... }:
+{
+  config,
+  ...
+}:
 {
   #NOTE - See also global config at
   #LINK - machines/geekomA5/modules/system/services/restic/restic.nix

@@ -1,4 +1,7 @@
-{ config, ... }:
+{
+  config,
+  ...
+}:
 let
   portsCfg = config.custom.networking.ports.tcp.iperf3;
 

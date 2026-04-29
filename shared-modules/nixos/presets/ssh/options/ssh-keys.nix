@@ -1,4 +1,7 @@
-{ lib, ... }:
+{
+  lib,
+  ...
+}:
 {
   options = {
     custom.ssh.keys = lib.mkOption {

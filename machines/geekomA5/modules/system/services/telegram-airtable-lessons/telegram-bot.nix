@@ -1,4 +1,7 @@
-{ config, ... }:
+{
+  config,
+  ...
+}:
 let
   user = config.users.users.user.name;
   group = config.users.users.user.group;

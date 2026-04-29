@@ -1,4 +1,8 @@
-{ lib, tmpfilesLib, ... }:
+{
+  lib,
+  tmpfilesLib,
+  ...
+}:
 let
   storeRoot = "/mnt/store/music-history";
 

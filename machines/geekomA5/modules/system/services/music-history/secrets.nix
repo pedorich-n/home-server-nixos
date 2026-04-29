@@ -1,14 +1,14 @@
-{ config, pkgs, ... }:
-let
-  jsonFormat = pkgs.formats.json { };
-  yamlFormat = pkgs.formats.yaml { };
-in
+{
+  config,
+  pkgs,
+  ...
+}:
 {
   sops.templates = {
     "music-history/multiscrobbler/maloja.json" = {
       owner = config.users.users.user.name;
       group = config.users.users.user.group;
-      file = jsonFormat.generate "multiscrobbler-maloja.json" [
+      file = pkgs.writers.writeJSON "multiscrobbler-maloja.json" [
         {
           name = "maloja";
           enable = true;
@@ -31,7 +31,7 @@ in
     "music-history/multiscrobbler/spotify.json" = {
       owner = config.users.users.user.name;
       group = config.users.users.user.group;
-      file = jsonFormat.generate "multiscrobbler-spotify.json" [
+      file = pkgs.writers.writeJSON "multiscrobbler-spotify.json" [
         {
           name = "spotify";
           enable = true;
@@ -49,7 +49,7 @@ in
     "music-history/maloja/api_keys.yaml" = {
       owner = config.users.users.user.name;
       group = config.users.users.user.group;
-      file = yamlFormat.generate "maloja-api-keys.yaml" {
+      file = pkgs.writers.writeYAML "maloja-api-keys.yaml" {
         multiscrobbler = config.sops.placeholder."music-history/maloja/api_keys/multiscrobbler";
       };
     };

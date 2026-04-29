@@ -8,10 +8,6 @@
       zfs = true;
     };
 
-    # NOTE: when updating, make sure ZFS is supported by the kernel version
-    # TODO: update this to 6.17 once OpenZFS supports it
-    # kernelPackages = pkgs.linuxPackages-rt_latest;
-
     kernelModules = [
       "amdgpu" # AMD GPU
       "kvm-amd" # KVM on AMD Cpus

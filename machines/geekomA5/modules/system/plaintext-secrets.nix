@@ -1,4 +1,8 @@
-{ inputs, lib, ... }:
+{
+  inputs,
+  lib,
+  ...
+}:
 let
   root = "${inputs.home-server-nixos-secrets}/plaintext/rendered";
 in

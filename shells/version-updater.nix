@@ -1,8 +1,13 @@
-{ pkgs, ... }:
-pkgs.mkShellNoCC {
+{
+  mkShellNoCC,
+  nvchecker,
+  nvfetcher,
+  ...
+}:
+mkShellNoCC {
   name = "version-updater";
 
-  packages = with pkgs; [
+  packages = [
     nvchecker
     nvfetcher
   ];

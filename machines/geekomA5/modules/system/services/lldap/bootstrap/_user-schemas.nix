@@ -1,9 +1,7 @@
 {
-  formats,
+  writers,
 }:
 let
-  jsonFormat = formats.json { };
-
   schemas = [
     {
       name = "sshpubkey";
@@ -14,4 +12,4 @@ let
     }
   ];
 in
-jsonFormat.generate "ldap-user-schemas.json" schemas
+writers.writeJSON "ldap-user-schemas.json" schemas

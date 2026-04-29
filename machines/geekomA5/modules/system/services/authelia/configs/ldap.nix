@@ -3,9 +3,6 @@
   pkgs,
   ...
 }:
-let
-  yamlFormat = pkgs.formats.yaml { };
-in
 {
 
   sops.templates."authelia/ldap.yaml" = {
@@ -15,7 +12,7 @@ in
       config.systemd.services.authelia-main.name
     ];
 
-    file = yamlFormat.generate "authelia-ldap-template.yaml" {
+    file = pkgs.writers.writeYAML "authelia-ldap-template.yaml" {
       authentication_backend = {
         refresh_interval = "5m";
 

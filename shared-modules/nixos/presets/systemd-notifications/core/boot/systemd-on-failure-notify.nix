@@ -1,4 +1,7 @@
-{ lib, ... }:
+{
+  lib,
+  ...
+}:
 {
   custom.systemd.on-failure-notify = {
     enable = lib.mkDefault true;

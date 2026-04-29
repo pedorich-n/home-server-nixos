@@ -1,17 +1,15 @@
 {
-  pkgs,
   networkingLib,
   portsCfg,
   mcpServersCfg,
+  writers,
 }:
 let
-  yamlFormat = pkgs.formats.yaml { };
-
   mkDashboardIconUrl = iconName: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${iconName}.png";
 
   mkPackageWithVersionFor = name: "${mcpServersCfg.${name}.package}@${mcpServersCfg.${name}.version}";
 in
-yamlFormat.generate "librechat.yaml" {
+writers.writeYAML "librechat.yaml" {
   version = "1.2.1";
   cache = true;
 

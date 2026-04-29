@@ -7,8 +7,6 @@
 let
   shared = import ../_shared.nix;
 
-  yamlFormat = pkgs.formats.yaml { };
-
   defaultScopes = [
     "openid"
     "profile"
@@ -66,7 +64,7 @@ in
       config.systemd.services.authelia-main.name
     ];
 
-    file = yamlFormat.generate "authelia-oidc-apps-template.yaml" {
+    file = pkgs.writers.writeYAML "authelia-oidc-apps-template.yaml" {
       definitions.user_attributes = {
         admin_or_user = {
           expression = ''"${shared.groups.Admins}" in groups ? "admin" : "user"'';

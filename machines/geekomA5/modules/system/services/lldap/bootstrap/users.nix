@@ -4,8 +4,6 @@
   ...
 }:
 let
-  jsonFormat = pkgs.formats.json { };
-
   mkUserFromSops =
     {
       user,
@@ -30,7 +28,7 @@ in
       ];
 
       path = "/var/lib/lldap/bootstrap/users/authelia.json";
-      file = jsonFormat.generate "lldap-user-authelia-template.json" {
+      file = pkgs.writers.writeJSON "lldap-user-authelia-template.json" {
         id = "authelia";
         email = "authelia@server.lan";
         password = config.sops.placeholder."lldap/users/authelia/password";
@@ -46,7 +44,7 @@ in
       ];
 
       path = "/var/lib/lldap/bootstrap/users/user_1.json";
-      file = jsonFormat.generate "lldap-user-1-template.json" (mkUserFromSops {
+      file = pkgs.writers.writeJSON "lldap-user-1-template.json" (mkUserFromSops {
         user = "user_1";
         extraArgs = {
           groups = [
@@ -65,7 +63,7 @@ in
       ];
 
       path = "/var/lib/lldap/bootstrap/users/jksv.json";
-      file = jsonFormat.generate "lldap-jksv-template.json" (mkUserFromSops {
+      file = pkgs.writers.writeJSON "lldap-jksv-template.json" (mkUserFromSops {
         user = "jksv";
         extraArgs = {
           groups = [ "Service" ];

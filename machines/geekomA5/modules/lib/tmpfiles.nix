@@ -1,4 +1,8 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 {
   _module.args.tmpfilesLib = rec {
     mkDefaultTmpFile = argument: {

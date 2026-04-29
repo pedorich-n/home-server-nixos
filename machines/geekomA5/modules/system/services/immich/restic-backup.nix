@@ -1,4 +1,8 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 let
   dbBackupFolder = "/mnt/store/immich/db-backup";
 in

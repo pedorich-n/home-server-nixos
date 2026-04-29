@@ -1,8 +1,15 @@
-{ pkgs, nixosConfig, ... }:
-pkgs.mkShellNoCC {
+{
+  nixosConfig,
+  mkShellNoCC,
+  bashInteractive,
+  gitMinimal,
+  jq,
+  opentofu,
+}:
+mkShellNoCC {
   name = "tf";
 
-  packages = with pkgs; [
+  packages = [
     bashInteractive
     gitMinimal
     jq

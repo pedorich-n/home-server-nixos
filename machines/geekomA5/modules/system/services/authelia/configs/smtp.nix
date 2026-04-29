@@ -3,9 +3,6 @@
   pkgs,
   ...
 }:
-let
-  yamlFormat = pkgs.formats.yaml { };
-in
 {
 
   sops.templates."authelia/smtp.yaml" = {
@@ -15,7 +12,7 @@ in
       config.systemd.services.authelia-main.name
     ];
 
-    file = yamlFormat.generate "authelia-smtp-template.yaml" {
+    file = pkgs.writers.writeYAML "authelia-smtp-template.yaml" {
       notifier.smtp = {
         address = "submissions://smtp.purelymail.com:465";
         username = config.sops.placeholder."authelia/smtp/username";

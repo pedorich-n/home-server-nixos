@@ -1,4 +1,8 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 {
   options.custom.manual-backup = {
     root = lib.mkOption {

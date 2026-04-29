@@ -1,4 +1,8 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 {
   custom.networking.ports.udp.avahi = {
     port = 5353;

@@ -1,4 +1,8 @@
-{ modulesPath, flake, ... }:
+{
+  modulesPath,
+  flake,
+  ...
+}:
 {
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-base.nix"

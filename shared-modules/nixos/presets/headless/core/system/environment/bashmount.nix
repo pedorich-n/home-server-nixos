@@ -1,7 +1,12 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 {
   environment = {
-    systemPackages = [ pkgs.bashmount ];
+    systemPackages = [
+      pkgs.bashmount
+    ];
 
     shellAliases.bm = "bashmount";
 

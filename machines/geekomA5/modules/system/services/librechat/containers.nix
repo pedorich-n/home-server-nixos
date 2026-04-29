@@ -16,8 +16,8 @@ let
 
   networks = [ "librechat-internal.network" ];
 
-  settings = import ./_config.nix {
-    inherit pkgs networkingLib;
+  settings = pkgs.callPackage ./_config.nix {
+    inherit networkingLib;
     portsCfg = config.custom.networking.ports;
     mcpServersCfg = config.custom.managed-files.mcp-servers;
   };
