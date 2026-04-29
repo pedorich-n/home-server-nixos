@@ -14,8 +14,6 @@ jobs:
     steps:
       - name: Setup job
         uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@a43ffb5e5e261eb6d552774e84e690dbc7269405 # main
-        with:
-          ssh_key: ${{ secrets.SSH_ACTION_KEY }}
 
       - name: Update nvfetcher sources
         run: nix run .#update-nvfetcher
