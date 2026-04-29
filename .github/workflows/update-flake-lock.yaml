@@ -10,10 +10,12 @@ jobs:
     steps:
       - name: Setup job
         uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
+
       - name: Rewrite SSH → HTTPS git URLs
         uses: ./.github/actions/git-url-rewrite
         with:
           token: ${{ secrets.GH_ACCESS_TOKEN }}
+
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@834c491b2ece4de0bbd00d85214bb5e83b4da5c6 # v28
         with:

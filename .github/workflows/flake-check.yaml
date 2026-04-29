@@ -5,11 +5,13 @@ jobs:
   nix-flake-check:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup job
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
+
       - name: Rewrite SSH → HTTPS git URLs
         uses: ./.github/actions/git-url-rewrite
         with:
           token: ${{ secrets.GH_ACCESS_TOKEN }}
-      - name: Setup job
-        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
+
       - name: Flake Check
         run: nix flake check
