@@ -25,7 +25,7 @@ provider "registry.opentofu.org/1password/onepassword" {
 
 provider "registry.opentofu.org/devops-rob/terracurl" {
   version     = "2.3.0"
-  constraints = ">= 2.0.0.2.0"
+  constraints = ">= 2.0.0"
   hashes = [
     "h1:8xbXGRpycHyaC7JpsgN7AOc4nPViE0fOpyJoBgPtYU4=",
     "h1:UVvZGI2Oy5F1ZxriZtRhF/4vxd7AJ2BiwKxL9ltxNH4=",
