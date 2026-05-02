@@ -70,7 +70,7 @@ jobs:
 
           readarray -t paths < <(echo "${{ steps.build.outputs.out_paths }}" | jq -r '.[]')
 
-          nix shell "nixpkgs-unstable#niks3" -c \
+          nix shell "github:Mic92/niks3#niks3" -c \
             niks3 push \
               --server-url "$NIKS3_SERVER_URL" \
               --auth-token "$NIKS3_AUTH_TOKEN" \
