@@ -43,10 +43,10 @@ jobs:
         shell: bash
         run: |
           build_result=$(nix build --accept-flake-config --json .#"${{ matrix.attr }}")
-          out_paths=$(echo "$build_result" | jq -r '.[].outputs.out')
+          out_paths=$(echo "$build_result" | jq '.[] | [.outputs.out]')
           echo "Going to push the following paths: $out_paths"
 
-          echo "$out_paths" >> "$GITHUB_OUTPUT"
+          echo "out_paths=$out_paths" >> "$GITHUB_OUTPUT"
 
       - name: Fetch OIDC token
         id: oidc
@@ -68,7 +68,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          readarray -t paths < <(echo "${{ steps.build.outputs.out_paths }}")
+          readarray -t paths < <(echo "${{ steps.build.outputs.out_paths }}" | jq -r '.[]')
 
           nix shell "nixpkgs-unstable#niks3" -c \
             niks3 push \
