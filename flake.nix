@@ -1,4 +1,11 @@
 {
+  nixConfig = {
+    extra-substituters = [ "https://nix-cache.ferretware.dev" ];
+    extra-trusted-public-keys = [
+      "nix-cache.ferretware.dev:K9KEc8q9XF+y26izWUFPHTJBGPrV9phy3JGyIUqP62E="
+    ];
+  };
+
   inputs = {
     self.submodules = true;
 

@@ -52,12 +52,11 @@ jobs:
         id: oidc
         shell: bash
         run: |
-          set -euo pipefail
-
-          token="$(curl -fsSL \
+          token=$(curl -s \
             -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
             "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=${NIKS3_SERVER_URL}" \
-            | jq -r '.value')"
+            | jq -r '.value')
+
           echo "::add-mask::${token}"
           echo "token=${token}" >> "$GITHUB_OUTPUT"
 
