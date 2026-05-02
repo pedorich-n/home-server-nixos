@@ -75,4 +75,5 @@ jobs:
             niks3 push \
               --server-url "$NIKS3_SERVER_URL" \
               --auth-token "$NIKS3_AUTH_TOKEN" \
+              --verify-s3-integrity \
               "${paths[@]}"
