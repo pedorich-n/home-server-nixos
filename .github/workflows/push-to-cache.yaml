@@ -43,7 +43,7 @@ jobs:
         shell: bash
         run: |
           build_result=$(nix build --accept-flake-config --json .#"${{ matrix.attr }}")
-          out_paths=$(echo "$build_result" | jq '.[] | [.outputs.out]')
+          out_paths=$(echo "$build_result" | jq -c '[.[].outputs.out]')
           echo "Going to push the following paths: $out_paths"
 
           echo "out_paths=$out_paths" >> "$GITHUB_OUTPUT"
