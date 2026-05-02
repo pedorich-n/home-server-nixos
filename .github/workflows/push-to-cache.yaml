@@ -1,7 +1,6 @@
 name: Push to Nix Cache
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   eval-matrix:
