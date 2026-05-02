@@ -65,12 +65,13 @@ jobs:
         shell: bash
         env:
           NIKS3_AUTH_TOKEN: ${{ steps.oidc.outputs.token }}
+          OUT_PATHS: ${{ steps.build.outputs.out_paths }}
         run: |
           set -euo pipefail
 
-          readarray -t paths < <(echo "${{ steps.build.outputs.out_paths }}" | jq -r '.[]')
+          readarray -t paths < <(echo "$OUT_PATHS" | jq -r '.[]')
 
-          nix shell "github:Mic92/niks3#niks3" -c \
+          nix shell "nixpkgs#niks3" -c \
             niks3 push \
               --server-url "$NIKS3_SERVER_URL" \
               --auth-token "$NIKS3_AUTH_TOKEN" \
