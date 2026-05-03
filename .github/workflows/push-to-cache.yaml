@@ -29,8 +29,6 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    env:
-      NIKS3_SERVER_URL: ${{ secrets.NIKS3_SERVER_URL }}
     steps:
       - name: Setup job
         uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
@@ -42,36 +40,19 @@ jobs:
         shell: bash
         run: |
           build_result=$(nix build --accept-flake-config --json .#"${{ matrix.attr }}")
-          out_paths=$(echo "$build_result" | jq -c '[.[].outputs.out]')
-          echo "Going to push the following paths: $out_paths"
+          out_paths=$(echo "$build_result" | jq -r '.[].outputs.out')
+          echo "Going to push the following paths:"
 
-          echo "out_paths=$out_paths" >> "$GITHUB_OUTPUT"
+          {
+            echo "out_paths<<EOF"
+            echo "$out_paths"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
-      - name: Fetch OIDC token
-        id: oidc
-        shell: bash
-        run: |
-          token=$(curl -s \
-            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=${NIKS3_SERVER_URL}" \
-            | jq -r '.value')
-
-          echo "::add-mask::${token}"
-          echo "token=${token}" >> "$GITHUB_OUTPUT"
-
-      - name: Push derivations to cache
-        shell: bash
-        env:
-          NIKS3_AUTH_TOKEN: ${{ steps.oidc.outputs.token }}
-          OUT_PATHS: ${{ steps.build.outputs.out_paths }}
-        run: |
-          set -euo pipefail
-
-          readarray -t paths < <(echo "$OUT_PATHS" | jq -r '.[]')
-
-          nix shell "nixpkgs#niks3" -c \
-            niks3 push \
-              --server-url "$NIKS3_SERVER_URL" \
-              --auth-token "$NIKS3_AUTH_TOKEN" \
-              --verify-s3-integrity \
-              "${paths[@]}"
+      - name: Push to niks3 cache
+        uses: pedorich-n/nix-cache/.github/actions/push-to-niks3@main
+        with:
+          niks3_server_url: ${{ env.NIKS3_SERVER_URL }}
+          oidc_audience: ${{ env.NIKS3_SERVER_URL }}
+          verify_s3_integrity: true
+          paths_to_push: ${{ steps.build.outputs.out_paths }}
