@@ -1,0 +1,59 @@
+name: Push to Nix Cache
+on:
+  # TODO: come up with a better trigger. Maybe only for update_flake_lock branch?
+  workflow_dispatch:
+
+jobs:
+  eval-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.eval-matrix.outputs.matrix }}
+    steps:
+      - name: Setup job
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
+        with:
+          git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
+
+      - name: Evaluate matrix
+        id: eval-matrix
+        shell: bash
+        run: |
+          matrix=$(nix eval --accept-flake-config --json .#ghaMatrices.cache)
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  build-and-push:
+    name: ${{ matrix.name }} (${{ matrix.system }})
+    needs: eval-matrix
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: ${{fromJSON(needs.eval-matrix.outputs.matrix)}}
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Setup job
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
+        with:
+          git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
+
+      - name: Build ${{ matrix.attr }}
+        id: build
+        shell: bash
+        run: |
+          build_result=$(nix build --accept-flake-config --json .#"${{ matrix.attr }}")
+          out_paths=$(echo "$build_result" | jq -r '.[].outputs.out')
+          echo "Going to push the following paths:"
+
+          {
+            echo "out_paths<<EOF"
+            echo "$out_paths"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Push to niks3 cache
+        uses: pedorich-n/nix-cache/.github/actions/push-to-niks3@main
+        with:
+          niks3_server_url: ${{ vars.NIKS3_SERVER_URL }}
+          oidc_audience: ${{ vars.NIKS3_SERVER_URL }}
+          verify_s3_integrity: true
+          paths_to_push: ${{ steps.build.outputs.out_paths }}

@@ -11,6 +11,11 @@ let
   serverName = "monkey-guys-1";
 
   modpack = pkgs.minecraft-modpacks.monkegeddoon;
+  package = pkgs.neoforgeServers.neoforge-1_21_1-21_1_219.overrideAttrs (oldAttrs: {
+    passthru = oldAttrs.passthru // {
+      inherit modpack; # Just for reference
+    };
+  });
 
   # https://docs.papermc.io/paper/aikars-flags
   aikarFlagsWith =
@@ -49,7 +54,7 @@ in
         autoStart = true;
         inherit (gamePortCfg) openFirewall;
 
-        package = pkgs.neoforgeServers.neoforge-1_21_1-21_1_219;
+        inherit package;
         serverProperties = {
           allow-flight = true;
           server-port = gamePortCfg.port;
