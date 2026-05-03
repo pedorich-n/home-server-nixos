@@ -52,7 +52,7 @@ jobs:
       - name: Push to niks3 cache
         uses: pedorich-n/nix-cache/.github/actions/push-to-niks3@main
         with:
-          niks3_server_url: ${{ env.NIKS3_SERVER_URL }}
-          oidc_audience: ${{ env.NIKS3_SERVER_URL }}
+          niks3_server_url: ${{ vars.NIKS3_SERVER_URL }}
+          oidc_audience: ${{ vars.NIKS3_SERVER_URL }}
           verify_s3_integrity: true
           paths_to_push: ${{ steps.build.outputs.out_paths }}
