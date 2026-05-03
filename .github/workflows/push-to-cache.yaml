@@ -1,5 +1,6 @@
 name: Push to Nix Cache
 on:
+  # TODO: come up with a better trigger. Maybe only for update_flake_lock branch?
   workflow_dispatch:
 
 jobs:
