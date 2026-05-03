@@ -203,10 +203,10 @@ version = '8.6.0'
 versioning = 'semver'
 
 [sabnzbd]
-digest = 'sha256:374051b90f64d107f8658dcd9b9065c28826afe14562647214f45057e119fc04'
+digest = 'sha256:87c97fa81966adb5cf511ae62b6681a37136c32f1ad7190b0b8b4d12d766ea9f'
 image = 'linuxserver/sabnzbd'
 registry = 'docker.io'
-version = '4.5.5'
+version = '5.0.1'
 versioning = 'semver'
 
 [searxng]
