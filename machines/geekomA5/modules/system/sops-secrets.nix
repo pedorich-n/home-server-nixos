@@ -53,10 +53,10 @@ let
     in
     mapMergeAttrsList mkUserPasswordSecret users;
 
-  traefikSecrets = {
-    "cloudflare/api_tokens/traefik_acme" = {
-      owner = config.users.users.traefik.name;
-      group = config.users.users.traefik.group;
+  acmeSecrets = {
+    "cloudflare/api_tokens/acme" = {
+      owner = config.users.users.acme.name;
+      group = config.security.acme.certs.local.group;
     };
   };
 
@@ -290,11 +290,11 @@ in
       osUserPasswords
       envSecrets
       resticSecrets
+      acmeSecrets
       (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
       (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
       (lib.mkIf config.services.redis.servers.authelia.enable redisAutheliaSecrets)
-      (lib.mkIf config.services.traefik.enable traefikSecrets)
       (lib.mkIf config.services.forgejo.enable forgejoSecrets)
       (lib.mkIf config.services.cloudflared.enable cloudflaredSecrets)
     ];

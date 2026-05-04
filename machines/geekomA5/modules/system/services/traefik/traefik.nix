@@ -25,9 +25,10 @@
 
   users.users.traefik.extraGroups = [ "podman" ];
 
-  systemd.services.traefik.environment = {
-    # See https://go-acme.github.io/lego/dns/cloudflare/
-    CLOUDFLARE_DNS_API_TOKEN_FILE = config.sops.secrets."cloudflare/api_tokens/traefik_acme".path;
+  systemd.services.traefik = {
+    serviceConfig.SupplementaryGroups = [
+      config.security.acme.certs.local.group
+    ];
   };
 
   services.traefik = {
@@ -69,15 +70,7 @@
         web-secure = {
           address = ":${config.custom.networking.ports.tcp.traefik-web-secure.portStr}";
           http.tls = {
-            certResolver = "cloudflare";
-            domains = [
-              {
-                main = config.custom.networking.domain;
-                sans = [
-                  (networkingLib.mkDomain "*")
-                ];
-              }
-            ];
+            # This tells Traefik to use TLS for this entry point, even without body
           };
 
           transport = {
@@ -92,24 +85,23 @@
         # jellyfin-service-discovery.address = ":${config.custom.networking.ports.udp.traefik-jellyfin-service-discovery.portStr}/udp";
         # jellyfin-client-discovery.address = ":${config.custom.networking.ports.udp.traefik-jellyfin-client-discovery.portStr}/udp";
       };
-
-      certificatesResolvers = {
-        cloudflare = {
-          acme = {
-            storage = "${config.services.traefik.dataDir}/acme.json"; # /var/lib/traefik/acme.json
-            dnsChallenge = {
-              provider = "cloudflare";
-              resolvers = [
-                "1.1.1.1:53"
-                "1.0.0.1:53"
-              ];
-            };
-          };
-        };
-      };
     };
 
     dynamicConfigOptions = {
+      tls = {
+        certificates = [
+          {
+            certFile = "${config.security.acme.certs.local.directory}/fullchain.pem";
+            keyFile = "${config.security.acme.certs.local.directory}/key.pem";
+          }
+        ];
+
+        stores.default.defaultCertificate = {
+          certFile = "${config.security.acme.certs.local.directory}/fullchain.pem";
+          keyFile = "${config.security.acme.certs.local.directory}/key.pem";
+        };
+      };
+
       http = {
         routers = {
           top-level = {
