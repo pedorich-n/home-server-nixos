@@ -23,6 +23,10 @@
         credentialFiles = {
           "CF_DNS_API_TOKEN_FILE" = config.sops.secrets."cloudflare/api_tokens/acme".path;
         };
+
+        reloadServices = [
+          config.systemd.services.traefik.name
+        ];
       };
     };
   };
