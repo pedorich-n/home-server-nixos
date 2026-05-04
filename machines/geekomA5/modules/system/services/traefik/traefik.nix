@@ -25,9 +25,15 @@
 
   users.users.traefik.extraGroups = [ "podman" ];
 
-  systemd.services.traefik.environment = {
-    # See https://go-acme.github.io/lego/dns/cloudflare/
-    CLOUDFLARE_DNS_API_TOKEN_FILE = config.sops.secrets."cloudflare/api_tokens/traefik_acme".path;
+  systemd.services.traefik = {
+    environment = {
+      # See https://go-acme.github.io/lego/dns/cloudflare/
+      CLOUDFLARE_DNS_API_TOKEN_FILE = config.sops.secrets."cloudflare/api_tokens/acme".path;
+    };
+
+    serviceConfig.SupplementaryGroups = [
+      config.security.acme.certs.local.group
+    ];
   };
 
   services.traefik = {
