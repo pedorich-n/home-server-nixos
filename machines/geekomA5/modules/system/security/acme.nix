@@ -19,7 +19,10 @@
         ];
         dnsProvider = "cloudflare";
 
-        environmentFile = config.sops.secrets."acme/cloudflare.env".path;
+        # See https://go-acme.github.io/lego/dns/cloudflare/index.html
+        credentialFiles = {
+          "CF_DNS_API_TOKEN_FILE" = config.sops.secrets."cloudflare/api_tokens/acme".path;
+        };
       };
     };
   };
