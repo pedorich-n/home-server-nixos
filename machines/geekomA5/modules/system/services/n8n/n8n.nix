@@ -10,10 +10,8 @@
 let
   portsCfg = config.custom.networking.ports.tcp.n8n;
 
-  node = pkgs.nodejs;
-  package = pkgs-unstable.n8n.overrideAttrs {
-    NODE_OPTIONS = "--max-old-space-size=4096";
-  };
+  package = pkgs-unstable.n8n;
+  node = lib.findFirst (d: d.pname == "nodejs") null package.buildInputs;
 in
 {
   disabledModules = [ "services/misc/n8n.nix" ];
@@ -26,10 +24,10 @@ in
 
   systemd.services.n8n = {
     # This allows n8n to install community nodes using `npm`
-    path = with pkgs; [
+    path = [
       node
-      gnutar
-      gzip
+      pkgs.gnutar
+      pkgs.gzip
     ];
 
     serviceConfig = {
