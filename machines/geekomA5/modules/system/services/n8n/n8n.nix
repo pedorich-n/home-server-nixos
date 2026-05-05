@@ -17,6 +17,13 @@ in
   disabledModules = [ "services/misc/n8n.nix" ];
   imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/n8n.nix" ];
 
+  assertions = [
+    {
+      assertion = node != null;
+      message = "Failed to find nodejs in n8n's build inputs!";
+    }
+  ];
+
   custom.networking.ports.tcp.n8n = {
     port = 5678;
     openFirewall = false;
