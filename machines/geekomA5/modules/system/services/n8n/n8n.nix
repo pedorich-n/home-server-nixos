@@ -10,14 +10,19 @@
 let
   portsCfg = config.custom.networking.ports.tcp.n8n;
 
-  node = pkgs.nodejs;
-  package = pkgs-unstable.n8n.overrideAttrs {
-    NODE_OPTIONS = "--max-old-space-size=4096";
-  };
+  package = pkgs-unstable.n8n;
+  node = lib.findFirst (d: d.pname == "nodejs") null package.buildInputs;
 in
 {
   disabledModules = [ "services/misc/n8n.nix" ];
   imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/n8n.nix" ];
+
+  assertions = [
+    {
+      assertion = node != null;
+      message = "Failed to find nodejs in n8n's build inputs!";
+    }
+  ];
 
   custom.networking.ports.tcp.n8n = {
     port = 5678;
@@ -26,10 +31,10 @@ in
 
   systemd.services.n8n = {
     # This allows n8n to install community nodes using `npm`
-    path = with pkgs; [
+    path = [
       node
-      gnutar
-      gzip
+      pkgs.gnutar
+      pkgs.gzip
     ];
 
     serviceConfig = {
