@@ -13,7 +13,7 @@ in
   custom.networking.ports.tcp = {
     caddy-admin = {
       port = 2019;
-      openFirewall = false;
+      openFirewall = false; # Caddy admin API should not be exposed to the network
     };
     caddy-http = {
       port = 8181;
@@ -23,6 +23,16 @@ in
       port = 8443;
       openFirewall = true;
     };
+    caddy-metrics = {
+      port = 9200;
+      openFirewall = false;
+    };
+  };
+
+  systemd.services.caddy = {
+    serviceConfig.SupplementaryGroups = [
+      config.security.acme.certs.local.group
+    ];
   };
 
   services.caddy = {
