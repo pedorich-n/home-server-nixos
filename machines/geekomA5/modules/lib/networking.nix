@@ -13,8 +13,9 @@
         scheme ? "https",
         service,
         domainFromService ? mkDomain,
+        port ? null,
       }:
-      "${scheme}://${domainFromService service}";
+      "${scheme}://${domainFromService service}${if port != null then ":${builtins.toString port}" else ""}";
 
     mkUrl = service: mkCustomUrl { inherit service; };
 
