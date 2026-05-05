@@ -17,10 +17,6 @@
       port = 443;
       openFirewall = true;
     };
-    traefik-metrics = {
-      port = 9100;
-      openFirewall = false;
-    };
   };
 
   users.users.traefik.extraGroups = [ "podman" ];
@@ -57,7 +53,6 @@
       };
 
       entryPoints = {
-        metrics.address = ":${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
         web = {
           address = ":${config.custom.networking.ports.tcp.traefik-web.portStr}";
           http.redirections = {
