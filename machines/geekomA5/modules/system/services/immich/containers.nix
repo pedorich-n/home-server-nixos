@@ -2,12 +2,12 @@
   config,
   containerLib,
   systemdLib,
-  networkingLib,
   lib,
   ...
 }:
 let
   inherit (config.virtualisation.quadlet) containers;
+  portsCfg = config.custom.networking.ports.tcp;
 
   storeRoot = "/mnt/store/immich";
   externalStoreRoot = "/mnt/external/immich-library";
@@ -18,7 +18,6 @@ let
     REDIS_HOSTNAME = "immich-valkey";
     DB_HOSTNAME = "immich-postgresql";
 
-    IMMICH_TELEMETRY_INCLUDE = "all"; # See https://immich.app/docs/features/monitoring#prometheus
   };
 
   networks = [ "immich-internal.network" ];
@@ -43,6 +42,26 @@ let
     };
 in
 {
+  custom.networking.ports.tcp = {
+    immich-metrics = {
+      port = 20081;
+      openFirewall = false;
+    };
+    immich-microservices-metrics = {
+      port = 20082;
+      openFirewall = false;
+    };
+  };
+
+  custom.caddy.metrics.routes = {
+    immich = {
+      url = "http://localhost:${portsCfg.immich-metrics.portStr}";
+    };
+    immich-microservices = {
+      url = "http://localhost:${portsCfg.immich-microservices-metrics.portStr}";
+    };
+  };
+
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "immich";
 
@@ -110,7 +129,13 @@ in
         };
 
         containerConfig = {
-          environments = sharedEnvs;
+          environments = sharedEnvs // {
+            # See https://immich.app/docs/features/monitoring#prometheus
+            IMMICH_TELEMETRY_INCLUDE = "all";
+            # See https://docs.immich.app/install/environment-variables#general
+            IMMICH_API_METRICS_PORT = portsCfg.immich-metrics.portStr;
+            IMMICH_MICROSERVICES_METRICS_PORT = portsCfg.immich-microservices-metrics.portStr;
+          };
           environmentFiles = [ config.sops.secrets."immich/main.env".path ];
           addGroups = [
             (builtins.toString config.users.groups.render.gid) # For HW Transcoding
@@ -124,23 +149,14 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/cache/profile" "/data/profile")
             (containerLib.mkMappedVolumeForUser externalStoreRoot "/data")
           ];
-          labels =
-            (containerLib.mkTraefikLabels {
-              name = "immich";
-              port = 2283;
-            })
-            ++ (containerLib.mkTraefikMetricsLabels {
-              name = "immich";
-              domain = networkingLib.mkDomain "metrics";
-              port = 8081;
-              addPath = "/metrics";
-            })
-            ++ (containerLib.mkTraefikMetricsLabels {
-              name = "immich-microservices";
-              domain = networkingLib.mkDomain "metrics";
-              port = 8082;
-              addPath = "/metrics";
-            });
+          labels = containerLib.mkTraefikLabels {
+            name = "immich";
+            port = 2283;
+          };
+          publishPorts = [
+            "127.0.0.1:${portsCfg.immich-metrics.portStr}:${portsCfg.immich-metrics.portStr}"
+            "127.0.0.1:${portsCfg.immich-microservices-metrics.portStr}:${portsCfg.immich-microservices-metrics.portStr}"
+          ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };

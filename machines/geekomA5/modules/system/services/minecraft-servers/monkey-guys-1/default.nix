@@ -2,7 +2,6 @@
   inputs,
   config,
   pkgs,
-  networkingLib,
   lib,
   ...
 }:
@@ -79,27 +78,6 @@ in
       };
     }
     (lib.mkIf (config.services.minecraft-servers.enable && config.services.minecraft-servers.servers.${serverName}.enable) {
-      # NOTE Should be the same as labels produced by
-      #LINK - machines/geekomA5/modules/lib/container.nix:11
-      services.traefik.dynamicConfigOptions.http = {
-        routers.metrics-minecraft = {
-          entryPoints = [ "metrics" ];
-          rule = "Host(`${networkingLib.mkDomain "metrics"}`) && Path(`/minecraft`)";
-          service = "metrics-minecraft";
-          middlewares = [ "metrics-replacepath-minecraft" ];
-        };
-
-        services.metrics-minecraft = {
-          loadBalancer.servers = [ { url = "http://localhost:${metricsPortCfg.portStr}"; } ];
-        };
-
-        middlewares.metrics-replacepath-minecraft = {
-          replacePath = {
-            path = "/metrics";
-          };
-        };
-      };
-
       custom = {
         networking.ports.tcp = {
           "minecraft-${serverName}-game" = {
@@ -110,6 +88,10 @@ in
             port = 25585;
             openFirewall = false;
           };
+        };
+
+        caddy.metrics.routes."minecraft" = {
+          url = "http://localhost:${metricsPortCfg.portStr}";
         };
       };
     })

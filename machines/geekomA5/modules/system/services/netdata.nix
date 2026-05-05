@@ -7,36 +7,14 @@
   ...
 }:
 let
-  metricsDomain = "http://${networkingLib.mkDomain "metrics"}:${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
+  metricsBaseUrl = config.custom.caddy.metrics.host;
 
   # https://learn.netdata.cloud/docs/collecting-metrics/generic-collecting-metrics/prometheus-endpoint#options
-  prometheusEndpoints = [
-    {
-      # https://github.com/immich-app/immich/blob/aac789f788c8eb0275201a895926c19625b2b54f/docker/prometheus.yml
-      name = "Immich Server";
-      url = "${metricsDomain}/immich";
-      autodetection_retry = 60;
-    }
-    {
-      name = "Immich Microservices";
-      url = "${metricsDomain}/immich-microservices";
-      autodetection_retry = 60;
-
-    }
-  ]
-  ++ (lib.optional
-    (config.services.minecraft-servers.enable && (lib.any (server: server.enable) (lib.attrValues config.services.minecraft-servers.servers)))
-    {
-      name = "Minecraft";
-      url = "${metricsDomain}/minecraft";
-      autodetection_retry = 60;
-      selector.deny = [
-        "jvm_buffer_pool*"
-        "minecraft_entities*"
-        ''jvm_memory_pool_*{pool=*"CodeHeap*"}''
-      ];
-    }
-  );
+  prometheusEndpoints = lib.mapAttrsToList (name: _route: {
+    name = lib.replaceString "-" "_" name;
+    url = "${metricsBaseUrl}/${name}";
+    autodetection_retry = 60;
+  }) config.custom.caddy.metrics.routes;
 
   portsCfg = config.custom.networking.ports.tcp.netdata;
 in
