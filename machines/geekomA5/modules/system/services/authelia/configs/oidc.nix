@@ -223,7 +223,9 @@ in
 
           (mkOidcProviderPrivate {
             name = "forgejo";
-            redirectUris = [ "${networkingLib.mkUrl "git"}/user/oauth2/authelia/callback" ];
+            redirectUris = [
+              "${networkingLib.mkCaddyUrl "git"}/user/oauth2/authelia/callback"
+            ];
             extraArgs = {
               claims_policy = "ssh_public_key";
               scopes = defaultScopes ++ [
