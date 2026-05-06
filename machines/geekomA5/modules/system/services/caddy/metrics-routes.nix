@@ -6,7 +6,7 @@
 }:
 let
   portsCfg = config.custom.networking.ports.tcp;
-  cfg = config.custom.caddy.metrics;
+  cfg = config.custom.services.caddy.metrics;
 
   host = networkingLib.mkCustomUrl {
     scheme = "http";
@@ -15,7 +15,7 @@ let
   };
 in
 {
-  options.custom.caddy.metrics = {
+  options.custom.services.caddy.metrics = {
     host = lib.mkOption {
       type = lib.types.str;
       default = host;

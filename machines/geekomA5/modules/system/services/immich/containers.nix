@@ -53,7 +53,7 @@ in
     };
   };
 
-  custom.caddy.metrics.routes = {
+  custom.services.caddy.metrics.routes = {
     immich = {
       url = "http://localhost:${portsCfg.immich-metrics.portStr}";
     };

@@ -7,14 +7,14 @@
   ...
 }:
 let
-  metricsBaseUrl = config.custom.caddy.metrics.host;
+  metricsBaseUrl = config.custom.services.caddy.metrics.host;
 
   # https://learn.netdata.cloud/docs/collecting-metrics/generic-collecting-metrics/prometheus-endpoint#options
   prometheusEndpoints = lib.mapAttrsToList (name: _route: {
     name = lib.replaceString "-" "_" name;
     url = "${metricsBaseUrl}/${name}";
     autodetection_retry = 60;
-  }) config.custom.caddy.metrics.routes;
+  }) config.custom.services.caddy.metrics.routes;
 
   portsCfg = config.custom.networking.ports.tcp.netdata;
 in
