@@ -10,9 +10,15 @@ let
   dashy-static = pkgs-unstable.callPackage ./_dashy-static.nix { inherit networkingLib; };
 in
 {
-  custom.networking.ports.tcp.dashy = {
-    port = 48000;
-    openFirewall = false;
+  custom = {
+    networking.ports.tcp.dashy = {
+      port = 48000;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts.dashy = {
+      upstream = "http://127.0.0.1:${portsCfg.portStr}";
+    };
   };
 
   services = {
@@ -21,6 +27,12 @@ in
 
       listen = "127.0.0.1:${portsCfg.portStr}";
       root = dashy-static;
+    };
+
+    # Top-level domain redirect: bare domain → dashy.
+    caddy.virtualHosts."${config.custom.networking.domain}" = {
+      useACMEHost = "local";
+      extraConfig = "redir ${networkingLib.mkUrl "dashy"}{uri} permanent";
     };
 
     traefik.dynamicConfigOptions.http = {

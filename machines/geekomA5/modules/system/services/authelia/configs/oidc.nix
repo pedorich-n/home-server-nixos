@@ -245,6 +245,7 @@ in
             id = "dashy";
             redirectUris = [
               (networkingLib.mkUrl "dashy")
+              (networkingLib.mkCaddyUrl "dashy")
             ];
             extraArgs = {
               claims_policy = "roles";
