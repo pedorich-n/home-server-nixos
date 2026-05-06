@@ -6,6 +6,7 @@
 }:
 let
   autheliaRef = config.systemd.services.authelia-main.name;
+  caddyRef = config.systemd.services.caddy.name;
 
   mkImage =
     name:
@@ -30,6 +31,10 @@ in
                 default = false;
               };
               wantsAuthelia = lib.mkOption {
+                type = lib.types.bool;
+                default = false;
+              };
+              wantsCaddy = lib.mkOption {
                 type = lib.types.bool;
                 default = false;
               };
@@ -74,6 +79,10 @@ in
 
               (lib.mkIf config.wantsAuthelia {
                 unitConfig = systemdLib.wantsAfter [ autheliaRef ];
+              })
+
+              (lib.mkIf config.wantsCaddy {
+                unitConfig = systemdLib.wantsAfter [ caddyRef ];
               })
 
               (lib.mkIf config.usernsAuto.enable {

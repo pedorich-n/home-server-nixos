@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.custom.caddy.hosts;
+  cfg = config.custom.services.caddy.hosts;
 
   portsCfg = config.custom.networking.ports.tcp;
 
@@ -61,7 +61,7 @@ let
     ];
 in
 {
-  options.custom.caddy.hosts = lib.mkOption {
+  options.custom.services.caddy.hosts = lib.mkOption {
     type = lib.types.attrsOf (
       lib.types.submodule (
         {
