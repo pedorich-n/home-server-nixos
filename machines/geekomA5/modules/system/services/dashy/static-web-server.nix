@@ -17,7 +17,7 @@ in
     };
 
     services.caddy.hosts.dashy = {
-      upstream = "http://127.0.0.1:${portsCfg.portStr}";
+      upstream = "http://localhost:${portsCfg.portStr}";
     };
   };
 
@@ -25,7 +25,7 @@ in
     static-web-server = {
       enable = true;
 
-      listen = "127.0.0.1:${portsCfg.portStr}";
+      listen = "localhost:${portsCfg.portStr}";
       root = dashy-static;
     };
 

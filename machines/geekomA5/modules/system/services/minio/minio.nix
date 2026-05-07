@@ -20,6 +20,10 @@ in
     };
   };
 
+  custom.services.caddy.hosts.storage = {
+    upstream = "http://localhost:${portsCfg.tcp.minio-s3.portStr}";
+  };
+
   systemd.services.minio = {
     environment = {
       MINIO_API_CORS_ALLOW_ORIGIN = "*";

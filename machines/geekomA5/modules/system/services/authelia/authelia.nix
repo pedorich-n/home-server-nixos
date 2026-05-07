@@ -66,6 +66,10 @@ in
     openFirewall = false;
   };
 
+  custom.services.caddy.hosts.authelia = {
+    upstream = "http://localhost:${portsCfg.portStr}";
+  };
+
   systemd.services.authelia-main = {
     unitConfig = systemdLib.requiresAfter [
       config.systemd.services.redis-authelia.name
