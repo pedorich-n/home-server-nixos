@@ -32,6 +32,7 @@ in
     # Top-level domain redirect: bare domain → dashy.
     caddy.virtualHosts."${config.custom.networking.domain}" = {
       useACMEHost = "local";
+      logFormat = null; # Disable access logs
       extraConfig = "redir ${networkingLib.mkUrl "dashy"}{uri} permanent";
     };
 

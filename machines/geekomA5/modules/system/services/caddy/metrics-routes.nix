@@ -45,6 +45,7 @@ in
 
   config = lib.mkIf (cfg.routes != { }) {
     services.caddy.virtualHosts."${cfg.host}" = {
+      logFormat = null; # Disable access logs for metrics host
       extraConfig = lib.concatStringsSep "\n" (
         lib.mapAttrsToList (name: route: ''
           handle /${name} {
