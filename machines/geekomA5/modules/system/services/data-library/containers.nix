@@ -60,6 +60,10 @@ in
         port = 31200;
         openFirewall = false;
       };
+      jellyfin = {
+        port = 31300;
+        openFirewall = false;
+      };
       shelfmark = {
         port = 31400;
         openFirewall = false;
@@ -95,6 +99,9 @@ in
         upstream = "http://localhost:${portsCfg.radarr.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
+      };
+      jellyfin = {
+        upstream = "http://localhost:${portsCfg.jellyfin.portStr}";
       };
       shelfmark = {
         upstream = "http://localhost:${portsCfg.shelfmark.portStr}";
@@ -385,6 +392,7 @@ in
 
       jellyfin = {
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         wantsAuthelia = true;
         usernsAuto = {
@@ -397,10 +405,9 @@ in
           addGroups = [
             (builtins.toString config.users.groups.render.gid) # For HW Transcoding
           ];
-          # publishPorts = [
-          #   "1900:1900/udp"
-          #   "7359:7359/udp"
-          # ];
+          publishPorts = [
+            "127.0.0.1:${portsCfg.jellyfin.portStr}:8096"
+          ];
           devices = [
             # HW Transcoding acceleration.
             # See https://jellyfin.org/docs/general/installation/container#with-hardware-acceleration
