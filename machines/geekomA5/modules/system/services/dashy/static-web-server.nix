@@ -12,7 +12,7 @@ in
 {
   custom = {
     networking.ports.tcp.dashy = {
-      port = 48000;
+      port = 30000;
       openFirewall = false;
     };
 

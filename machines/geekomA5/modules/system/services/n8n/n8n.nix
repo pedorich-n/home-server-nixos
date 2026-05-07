@@ -24,9 +24,15 @@ in
     }
   ];
 
-  custom.networking.ports.tcp.n8n = {
-    port = 5678;
-    openFirewall = false;
+  custom = {
+    networking.ports.tcp.n8n = {
+      port = 30100;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts.n8n = {
+      upstream = "http://localhost:${portsCfg.portStr}";
+    };
   };
 
   systemd.services.n8n = {

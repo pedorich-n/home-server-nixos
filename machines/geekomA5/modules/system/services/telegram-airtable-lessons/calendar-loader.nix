@@ -10,9 +10,15 @@ let
   portsCfg = config.custom.networking.ports.tcp.lessons-calendar-loader;
 in
 {
-  custom.networking.ports.tcp.lessons-calendar-loader = {
-    port = 9000;
-    openFirewall = false;
+  custom = {
+    networking.ports.tcp.lessons-calendar-loader = {
+      port = 9000;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts."calendar-loader" = {
+      upstream = "http://localhost:${portsCfg.portStr}";
+    };
   };
 
   services = {

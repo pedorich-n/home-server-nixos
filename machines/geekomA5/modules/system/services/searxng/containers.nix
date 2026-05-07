@@ -7,6 +7,8 @@
 let
   storeRoot = "/mnt/store/searxng";
 
+  portsCfg = config.custom.networking.ports.tcp.searxng;
+
   # SearXNG runs as 977:977 in the container, so we need to map the volume with the correct permissions.
   mkMappedVolumeForCustom =
     hostPath: containerPath:
@@ -36,6 +38,17 @@ let
     };
 in
 {
+  custom = {
+    networking.ports.tcp.searxng = {
+      port = 30300;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts.searxng = {
+      upstream = "http://localhost:${portsCfg.portStr}";
+    };
+  };
+
   virtualisation.quadlet.containers.searxng = {
     requiresTraefikNetwork = true;
     useGlobalContainers = true;
@@ -46,6 +59,7 @@ in
         SEARXNG_BASE_URL = networkingLib.mkUrl "searxng";
       };
       environmentFiles = [ config.sops.secrets."searxng/main.env".path ];
+      publishPorts = [ "127.0.0.1:${portsCfg.portStr}:8080" ];
       volumes = [
         (mkMappedVolumeForCustom "${storeRoot}/data" "/var/cache/searxng")
         (mkMappedVolumeForCustom "${storeRoot}/config" "/etc/searxng")

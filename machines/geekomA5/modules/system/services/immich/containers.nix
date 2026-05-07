@@ -44,11 +44,11 @@ in
 {
   custom.networking.ports.tcp = {
     immich-metrics = {
-      port = 20081;
+      port = 32101;
       openFirewall = false;
     };
     immich-microservices-metrics = {
-      port = 20082;
+      port = 32102;
       openFirewall = false;
     };
   };
@@ -132,9 +132,6 @@ in
           environments = sharedEnvs // {
             # See https://immich.app/docs/features/monitoring#prometheus
             IMMICH_TELEMETRY_INCLUDE = "all";
-            # See https://docs.immich.app/install/environment-variables#general
-            IMMICH_API_METRICS_PORT = portsCfg.immich-metrics.portStr;
-            IMMICH_MICROSERVICES_METRICS_PORT = portsCfg.immich-microservices-metrics.portStr;
           };
           environmentFiles = [ config.sops.secrets."immich/main.env".path ];
           addGroups = [
@@ -154,8 +151,9 @@ in
             port = 2283;
           };
           publishPorts = [
-            "127.0.0.1:${portsCfg.immich-metrics.portStr}:${portsCfg.immich-metrics.portStr}"
-            "127.0.0.1:${portsCfg.immich-microservices-metrics.portStr}:${portsCfg.immich-microservices-metrics.portStr}"
+            # See https://docs.immich.app/install/environment-variables#general
+            "127.0.0.1:${portsCfg.immich-metrics.portStr}:8081"
+            "127.0.0.1:${portsCfg.immich-microservices-metrics.portStr}:8082"
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
