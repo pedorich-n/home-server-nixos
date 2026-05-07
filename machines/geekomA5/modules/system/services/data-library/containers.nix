@@ -34,8 +34,63 @@ let
     containers.sabnzbd.ref
     containers.gluetun.ref
   ];
+
+  portsCfg = config.custom.networking.ports.tcp;
 in
 {
+  custom = {
+    networking.ports.tcp = {
+      qbittorrent = {
+        port = 30800;
+        openFirewall = false;
+      };
+      sabnzbd = {
+        port = 30900;
+        openFirewall = false;
+      };
+      prowlarr = {
+        port = 31000;
+        openFirewall = false;
+      };
+      sonarr = {
+        port = 31100;
+        openFirewall = false;
+      };
+      radarr = {
+        port = 31200;
+        openFirewall = false;
+      };
+    };
+
+    services.caddy.hosts = {
+      qbittorrent = {
+        upstream = "http://localhost:${portsCfg.qbittorrent.portStr}";
+        auth = "authelia";
+        authBypassPaths = [ "/api" ];
+      };
+      sabnzbd = {
+        upstream = "http://localhost:${portsCfg.sabnzbd.portStr}";
+        auth = "authelia";
+        authBypassPaths = [ "/api" ];
+      };
+      prowlarr = {
+        upstream = "http://localhost:${portsCfg.prowlarr.portStr}";
+        auth = "authelia";
+        authBypassPaths = [ "/api" ];
+      };
+      sonarr = {
+        upstream = "http://localhost:${portsCfg.sonarr.portStr}";
+        auth = "authelia";
+        authBypassPaths = [ "/api" ];
+      };
+      radarr = {
+        upstream = "http://localhost:${portsCfg.radarr.portStr}";
+        auth = "authelia";
+        authBypassPaths = [ "/api" ];
+      };
+    };
+  };
+
   custom.networking.ports.udp = {
     jellyfin-service-discovery = {
       port = 1900;
@@ -53,6 +108,7 @@ in
     containers = {
       gluetun = {
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
 
         containerConfig = {
@@ -89,6 +145,9 @@ in
               middlewares = [ "authelia@file" ];
             })
             ++ (mkApiSecureTraefikLabels "qbittorrent");
+          publishPorts = [
+            "127.0.0.1:${portsCfg.qbittorrent.portStr}:8080" # Qbittorrent Web UI
+          ];
           inherit networks;
         };
       };
@@ -163,6 +222,7 @@ in
 
       sabnzbd = {
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -182,6 +242,7 @@ in
               middlewares = [ "authelia@file" ];
             })
             ++ (mkApiSecureTraefikLabels "sabnzbd");
+          publishPorts = [ "127.0.0.1:${portsCfg.sabnzbd.portStr}:${environments.PORT}" ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -193,6 +254,7 @@ in
 
       prowlarr = {
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -201,6 +263,7 @@ in
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/prowlarr/config" "/config")
           ];
+          publishPorts = [ "127.0.0.1:${portsCfg.prowlarr.portStr}:9696" ];
           labels =
             (containerLib.mkTraefikLabels {
               name = "prowlarr";
@@ -218,6 +281,7 @@ in
 
       sonarr = {
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -227,6 +291,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/sonarr/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
+          publishPorts = [ "127.0.0.1:${portsCfg.sonarr.portStr}:8989" ];
           labels =
             (containerLib.mkTraefikLabels {
               name = "sonarr";
@@ -249,6 +314,7 @@ in
 
       radarr = {
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -258,6 +324,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/radarr/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
+          publishPorts = [ "127.0.0.1:${portsCfg.radarr.portStr}:7878" ];
           labels =
             (containerLib.mkTraefikLabels {
               name = "radarr";
