@@ -182,7 +182,9 @@ in
             name = "immich";
             redirectUris = [
               "${networkingLib.mkUrl "immich"}/auth/login"
+              "${networkingLib.mkCaddyUrl "immich"}/auth/login"
               "${networkingLib.mkUrl "immich"}/user-settings"
+              "${networkingLib.mkCaddyUrl "immich"}/user-settings"
               "app.immich:///oauth-callback"
             ];
             extraArgs = {

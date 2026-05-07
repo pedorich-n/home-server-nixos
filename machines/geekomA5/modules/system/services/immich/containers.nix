@@ -43,6 +43,10 @@ let
 in
 {
   custom.networking.ports.tcp = {
+    immich = {
+      port = 32100;
+      openFirewall = false;
+    };
     immich-metrics = {
       port = 32101;
       openFirewall = false;
@@ -51,6 +55,10 @@ in
       port = 32102;
       openFirewall = false;
     };
+  };
+
+  custom.services.caddy.hosts.immich = {
+    upstream = "http://localhost:${portsCfg.immich.portStr}";
   };
 
   custom.services.caddy.metrics.routes = {
@@ -121,6 +129,7 @@ in
 
       immich-server = {
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         wantsAuthelia = true;
         useGlobalContainers = true;
         usernsAuto = {
@@ -151,6 +160,7 @@ in
             port = 2283;
           };
           publishPorts = [
+            "127.0.0.1:${portsCfg.immich.portStr}:2283"
             # See https://docs.immich.app/install/environment-variables#general
             "127.0.0.1:${portsCfg.immich-metrics.portStr}:8081"
             "127.0.0.1:${portsCfg.immich-microservices-metrics.portStr}:8082"

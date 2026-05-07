@@ -22,7 +22,7 @@ in
     };
 
     lldap-http = {
-      port = 32100;
+      port = 32200;
       openFirewall = false;
     };
   };
