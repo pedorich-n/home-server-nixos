@@ -40,7 +40,7 @@ in
 {
   custom = {
     networking.ports.tcp.searxng = {
-      port = 30300;
+      port = 30500;
       openFirewall = false;
     };
 

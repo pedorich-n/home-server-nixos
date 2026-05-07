@@ -11,8 +11,21 @@ let
   malojaArtistRules = pkgs.callPackage ./maloja/_artist-rules.nix { };
 
   networks = [ "music-history-internal.network" ];
+
+  portsCfg = config.custom.networking.ports.tcp.maloja;
 in
 {
+  custom = {
+    networking.ports.tcp.maloja = {
+      port = 30200;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts.maloja = {
+      upstream = "http://localhost:${portsCfg.portStr}";
+    };
+  };
+
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "music-history";
 
@@ -67,6 +80,7 @@ in
             MALOJA_TIMEZONE = "9";
           };
           environmentFiles = [ config.sops.secrets."music-history/maloja.env".path ];
+          publishPorts = [ "127.0.0.1:${portsCfg.portStr}:42010" ];
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/maloja/data" "/data")
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/maloja/api_keys.yaml".path "/data/apikeys.yml")

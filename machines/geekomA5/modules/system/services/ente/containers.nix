@@ -8,11 +8,42 @@
 let
   inherit (config.virtualisation.quadlet) containers;
 
+  portsCfg = config.custom.networking.ports.tcp;
+
   storeRoot = "/mnt/store/ente";
 
   networks = [ "ente-internal.network" ];
 in
 {
+  custom = {
+    networking.ports.tcp = {
+      ente-museum = {
+        port = 30600;
+        openFirewall = false;
+      };
+      ente-photos = {
+        port = 30601;
+        openFirewall = false;
+      };
+      ente-accounts = {
+        port = 30602;
+        openFirewall = false;
+      };
+    };
+
+    services.caddy.hosts = {
+      "ente-api" = {
+        upstream = "http://localhost:${portsCfg.ente-museum.portStr}";
+      };
+      "ente" = {
+        upstream = "http://localhost:${portsCfg.ente-photos.portStr}";
+      };
+      "ente-accounts" = {
+        upstream = "http://localhost:${portsCfg.ente-accounts.portStr}";
+      };
+    };
+  };
+
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "ente";
 
@@ -48,6 +79,8 @@ in
             port = 8080;
           };
 
+          publishPorts = [ "127.0.0.1:${portsCfg.ente-museum.portStr}:8080" ];
+
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -78,6 +111,11 @@ in
               slug = "ente-accounts";
               port = 3001;
             });
+
+          publishPorts = [
+            "127.0.0.1:${portsCfg.ente-photos.portStr}:3000"
+            "127.0.0.1:${portsCfg.ente-accounts.portStr}:3001"
+          ];
 
           inherit networks;
           # inherit (containerLib.containerIds) user;
