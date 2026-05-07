@@ -22,9 +22,13 @@ in
     };
 
     lldap-http = {
-      port = 17170;
+      port = 32100;
       openFirewall = false;
     };
+  };
+
+  custom.services.caddy.hosts.lldap = {
+    upstream = "http://127.0.0.1:${portsCfg.lldap-http.portStr}";
   };
 
   users = {

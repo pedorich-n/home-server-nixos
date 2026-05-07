@@ -204,6 +204,7 @@ in
             name = "librechat";
             redirectUris = [
               "${networkingLib.mkUrl "chat"}/oauth/openid/callback"
+              "${networkingLib.mkCaddyUrl "chat"}/oauth/openid/callback"
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";

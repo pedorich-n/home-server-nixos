@@ -16,6 +16,8 @@ let
 
   networks = [ "librechat-internal.network" ];
 
+  portsCfg = config.custom.networking.ports.tcp.librechat;
+
   settings = pkgs.callPackage ./_config.nix {
     inherit networkingLib;
     mcpServersCfg = config.custom.managed-files.mcp-servers;
@@ -42,6 +44,17 @@ let
     };
 in
 {
+  custom = {
+    networking.ports.tcp.librechat = {
+      port = 31600;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts.chat = {
+      upstream = "http://localhost:${portsCfg.portStr}";
+    };
+  };
+
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "librechat";
 
@@ -105,6 +118,7 @@ in
         usernsAuto.enable = true;
         useGlobalContainers = true;
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         wantsAuthelia = true;
 
         containerConfig = {
@@ -146,6 +160,7 @@ in
             "${lib.getExe pkgs-unstable.pkgsStatic.forgejo-mcp}:/usr/bin/forgejo-mcp:ro"
           ];
 
+          publishPorts = [ "127.0.0.1:${portsCfg.portStr}:3080" ];
           labels = containerLib.mkTraefikLabels {
             name = "librechat";
             slug = "chat";
