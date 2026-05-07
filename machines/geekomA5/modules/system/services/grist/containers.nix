@@ -22,7 +22,6 @@ in
   };
 
   virtualisation.quadlet.containers.grist = {
-    requiresTraefikNetwork = true;
     wantsCaddy = true;
     wantsAuthelia = true;
     useGlobalContainers = true;

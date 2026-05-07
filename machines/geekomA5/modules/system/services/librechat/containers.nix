@@ -117,7 +117,6 @@ in
         # - https://github.com/danny-avila/LibreChat/discussions/4735
         usernsAuto.enable = true;
         useGlobalContainers = true;
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         wantsAuthelia = true;
 

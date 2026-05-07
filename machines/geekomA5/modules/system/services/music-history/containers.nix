@@ -43,7 +43,6 @@ in
 
     containers = {
       multiscrobbler = {
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto = {
@@ -76,7 +75,6 @@ in
       };
 
       maloja = {
-        requiresTraefikNetwork = true;
         useGlobalContainers = true;
         usernsAuto = {
           enable = true;

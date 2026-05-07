@@ -16,11 +16,11 @@ in
       openFirewall = false; # Caddy admin API should not be exposed to the network
     };
     caddy-http = {
-      port = 8181;
+      port = 80;
       openFirewall = true;
     };
     caddy-https = {
-      port = 8443;
+      port = 443;
       openFirewall = true;
     };
     caddy-metrics = {

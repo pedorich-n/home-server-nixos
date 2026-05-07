@@ -69,12 +69,7 @@ in
           scheme = "wss";
           service = "cockpit";
         })
-        (networkingLib.mkCaddyUrl "cockpit")
-        (networkingLib.mkCustomUrl {
-          scheme = "wss";
-          service = "cockpit";
-          port = config.services.caddy.httpsPort;
-        })
+
       ];
 
       settings = {

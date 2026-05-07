@@ -111,7 +111,7 @@ writers.writeYAML "librechat.yaml" {
     Netdata = {
       type = "streamable-http";
       iconPath = mkDashboardIconUrl "netdata";
-      url = "${networkingLib.mkCaddyUrl "netdata"}/mcp";
+      url = "${networkingLib.mkUrl "netdata"}/mcp";
       headers = {
         Authorization = "Bearer \${NETDATA_MCP_API_KEY}";
       };

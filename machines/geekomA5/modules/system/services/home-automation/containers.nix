@@ -60,7 +60,6 @@ in
 
     containers = {
       zigbee2mqtt = {
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
@@ -111,7 +110,6 @@ in
 
       homeassistant = {
         useGlobalContainers = true;
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         wantsAuthelia = true;
         usernsAuto = {

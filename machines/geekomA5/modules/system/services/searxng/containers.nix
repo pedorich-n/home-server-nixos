@@ -50,7 +50,6 @@ in
   };
 
   virtualisation.quadlet.containers.searxng = {
-    requiresTraefikNetwork = true;
     useGlobalContainers = true;
     usernsAuto.enable = true;
 

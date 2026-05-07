@@ -128,7 +128,6 @@ in
 
     containers = {
       gluetun = {
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         useGlobalContainers = true;
 
@@ -242,7 +241,6 @@ in
       };
 
       sabnzbd = {
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
@@ -274,7 +272,6 @@ in
       };
 
       prowlarr = {
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
@@ -301,7 +298,6 @@ in
       };
 
       sonarr = {
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
@@ -334,7 +330,6 @@ in
       };
 
       radarr = {
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
@@ -391,7 +386,6 @@ in
       };
 
       jellyfin = {
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         useGlobalContainers = true;
         wantsAuthelia = true;
@@ -445,7 +439,6 @@ in
       };
 
       audiobookshelf = {
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
@@ -476,7 +469,6 @@ in
       };
 
       shelfmark = {
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         useGlobalContainers = true;
         wantsAuthelia = true;

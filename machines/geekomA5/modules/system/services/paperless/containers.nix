@@ -60,7 +60,6 @@ in
       };
 
       paperless-server = {
-        requiresTraefikNetwork = true;
         wantsCaddy = true;
         wantsAuthelia = true;
         useGlobalContainers = true;

@@ -43,7 +43,7 @@ in
 
       settings = {
         server = {
-          ROOT_URL = networkingLib.mkCaddyUrl "git";
+          ROOT_URL = networkingLib.mkUrl "git";
           DOMAIN = networkingLib.mkDomain "git";
           PROTOCOL = "http+unix";
           HTTP_ADDR = socketPath;

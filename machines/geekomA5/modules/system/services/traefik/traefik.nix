@@ -5,21 +5,21 @@
 }:
 {
   custom.networking.ports.tcp = {
-    traefik-dashboard = {
-      port = 8080;
-      openFirewall = false;
-    };
-    traefik-web = {
-      port = 80;
-      openFirewall = true;
-    };
-    traefik-web-secure = {
-      port = 443;
-      openFirewall = true;
-    };
+    # traefik-dashboard = {
+    #   port = 8080;
+    #   openFirewall = false;
+    # };
+    # traefik-web = {
+    #   port = 80;
+    #   openFirewall = true;
+    # };
+    # traefik-web-secure = {
+    #   port = 443;
+    #   openFirewall = true;
+    # };
   };
 
-  users.users.traefik.extraGroups = [ "podman" ];
+  # users.users.traefik.extraGroups = [ "podman" ];
 
   systemd.services.traefik = {
     serviceConfig.SupplementaryGroups = [
@@ -28,7 +28,7 @@
   };
 
   services.traefik = {
-    enable = true;
+    enable = false;
 
     staticConfigOptions = {
       log = {

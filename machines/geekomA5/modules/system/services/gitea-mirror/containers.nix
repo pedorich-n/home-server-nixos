@@ -21,7 +21,6 @@ in
   };
 
   virtualisation.quadlet.containers.gitea-mirror = {
-    requiresTraefikNetwork = true;
     wantsCaddy = true;
     wantsAuthelia = true;
     useGlobalContainers = true;

@@ -26,10 +26,6 @@ in
           { name, config, ... }:
           {
             options = {
-              requiresTraefikNetwork = lib.mkOption {
-                type = lib.types.bool;
-                default = false;
-              };
               wantsAuthelia = lib.mkOption {
                 type = lib.types.bool;
                 default = false;
@@ -71,10 +67,6 @@ in
 
               (lib.mkIf config.useGlobalContainers {
                 containerConfig.image = mkImage name;
-              })
-
-              (lib.mkIf config.requiresTraefikNetwork {
-                containerConfig.networks = lib.mkAfter [ "traefik.network" ];
               })
 
               (lib.mkIf config.wantsAuthelia {

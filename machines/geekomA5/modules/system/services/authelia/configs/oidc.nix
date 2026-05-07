@@ -148,8 +148,6 @@ in
               "${networkingLib.mkUrl "audiobookshelf"}/auth/openid/mobile-redirect"
               "audiobookshelf://oauth"
               "lissen://oauth"
-              "${networkingLib.mkCaddyUrl "audiobookshelf"}/auth/openid/callback"
-              "${networkingLib.mkCaddyUrl "audiobookshelf"}/auth/openid/mobile-redirect"
             ];
             extraArgs = {
               claims_policy = "roles";
@@ -163,7 +161,6 @@ in
             name = "grist";
             redirectUris = [
               "${networkingLib.mkUrl "grist"}/oauth2/callback"
-              "${networkingLib.mkCaddyUrl "grist"}/oauth2/callback"
             ];
           })
 
@@ -171,7 +168,6 @@ in
             name = "homeassistant";
             redirectUris = [
               "${networkingLib.mkUrl "homeassistant"}/auth/oidc/callback"
-              "${networkingLib.mkCaddyUrl "homeassistant"}/auth/oidc/callback"
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
@@ -182,9 +178,7 @@ in
             name = "immich";
             redirectUris = [
               "${networkingLib.mkUrl "immich"}/auth/login"
-              "${networkingLib.mkCaddyUrl "immich"}/auth/login"
               "${networkingLib.mkUrl "immich"}/user-settings"
-              "${networkingLib.mkCaddyUrl "immich"}/user-settings"
               "app.immich:///oauth-callback"
             ];
             extraArgs = {
@@ -200,9 +194,7 @@ in
             name = "jellyfin";
             redirectUris = [
               "${networkingLib.mkUrl "jellyfin"}/sso/OID/redirect/Authelia"
-              "${networkingLib.mkCaddyUrl "jellyfin"}/sso/OID/redirect/Authelia"
               "${networkingLib.mkUrl "jellyfin"}/sso/OID/r/Authelia"
-              "${networkingLib.mkCaddyUrl "jellyfin"}/sso/OID/r/Authelia"
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
@@ -213,7 +205,6 @@ in
             name = "librechat";
             redirectUris = [
               "${networkingLib.mkUrl "chat"}/oauth/openid/callback"
-              "${networkingLib.mkCaddyUrl "chat"}/oauth/openid/callback"
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
@@ -228,7 +219,6 @@ in
             name = "paperless";
             redirectUris = [
               "${networkingLib.mkUrl "paperless"}/accounts/oidc/authelia/login/callback/"
-              "${networkingLib.mkCaddyUrl "paperless"}/accounts/oidc/authelia/login/callback/"
             ];
           })
 
@@ -236,14 +226,13 @@ in
             name = "shelfmark";
             redirectUris = [
               "${networkingLib.mkUrl "shelfmark"}/api/auth/oidc/callback"
-              "${networkingLib.mkCaddyUrl "shelfmark"}/api/auth/oidc/callback"
             ];
           })
 
           (mkOidcProviderPrivate {
             name = "forgejo";
             redirectUris = [
-              "${networkingLib.mkCaddyUrl "git"}/user/oauth2/authelia/callback"
+              "${networkingLib.mkUrl "git"}/user/oauth2/authelia/callback"
             ];
             extraArgs = {
               claims_policy = "ssh_public_key";
@@ -257,7 +246,6 @@ in
             name = "gitea-mirror";
             redirectUris = [
               "${networkingLib.mkUrl "gitea-mirror"}/api/auth/sso/callback/Authelia"
-              "${networkingLib.mkCaddyUrl "gitea-mirror"}/api/auth/sso/callback/Authelia"
             ];
             extraArgs = {
               claims_policy = "userinfo_in_id_token";
@@ -269,7 +257,6 @@ in
             id = "dashy";
             redirectUris = [
               (networkingLib.mkUrl "dashy")
-              (networkingLib.mkCaddyUrl "dashy")
             ];
             extraArgs = {
               claims_policy = "roles";

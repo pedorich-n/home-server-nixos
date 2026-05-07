@@ -64,7 +64,6 @@ in
 
       ente-museum = {
         useGlobalContainers = true;
-        requiresTraefikNetwork = true;
         usernsAuto.enable = true;
 
         containerConfig = {
@@ -92,7 +91,6 @@ in
 
       ente-web = {
         useGlobalContainers = true;
-        requiresTraefikNetwork = true;
         usernsAuto.enable = true;
 
         containerConfig = {
