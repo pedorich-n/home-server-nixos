@@ -159,7 +159,10 @@ in
 
           (mkOidcProviderPrivate {
             name = "grist";
-            redirectUris = [ "${networkingLib.mkUrl "grist"}/oauth2/callback" ];
+            redirectUris = [
+              "${networkingLib.mkUrl "grist"}/oauth2/callback"
+              "${networkingLib.mkCaddyUrl "grist"}/oauth2/callback"
+            ];
           })
 
           (mkOidcProviderPrivate {
@@ -213,12 +216,18 @@ in
 
           (mkOidcProviderPrivate {
             name = "paperless";
-            redirectUris = [ "${networkingLib.mkUrl "paperless"}/accounts/oidc/authelia/login/callback/" ];
+            redirectUris = [
+              "${networkingLib.mkUrl "paperless"}/accounts/oidc/authelia/login/callback/"
+              "${networkingLib.mkCaddyUrl "paperless"}/accounts/oidc/authelia/login/callback/"
+            ];
           })
 
           (mkOidcProviderPrivate {
             name = "shelfmark";
-            redirectUris = [ "${networkingLib.mkUrl "shelfmark"}/api/auth/oidc/callback" ];
+            redirectUris = [
+              "${networkingLib.mkUrl "shelfmark"}/api/auth/oidc/callback"
+              "${networkingLib.mkCaddyUrl "shelfmark"}/api/auth/oidc/callback"
+            ];
           })
 
           (mkOidcProviderPrivate {
@@ -236,7 +245,10 @@ in
 
           (mkOidcProviderPrivate {
             name = "gitea-mirror";
-            redirectUris = [ "${networkingLib.mkUrl "gitea-mirror"}/api/auth/sso/callback/Authelia" ];
+            redirectUris = [
+              "${networkingLib.mkUrl "gitea-mirror"}/api/auth/sso/callback/Authelia"
+              "${networkingLib.mkCaddyUrl "gitea-mirror"}/api/auth/sso/callback/Authelia"
+            ];
             extraArgs = {
               claims_policy = "userinfo_in_id_token";
             };

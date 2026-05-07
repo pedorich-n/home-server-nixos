@@ -6,10 +6,23 @@
 }:
 let
   storeRoot = "/mnt/store/gitea-mirror";
+  portsCfg = config.custom.networking.ports.tcp.gitea-mirror;
 in
 {
+  custom = {
+    networking.ports.tcp.gitea-mirror = {
+      port = 31900;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts.gitea-mirror = {
+      upstream = "http://localhost:${portsCfg.portStr}";
+    };
+  };
+
   virtualisation.quadlet.containers.gitea-mirror = {
     requiresTraefikNetwork = true;
+    wantsCaddy = true;
     wantsAuthelia = true;
     useGlobalContainers = true;
     usernsAuto = {
@@ -37,6 +50,7 @@ in
       volumes = [
         (containerLib.mkMappedVolumeForUser "${storeRoot}/data" "/app/data")
       ];
+      publishPorts = [ "127.0.0.1:${portsCfg.portStr}:4321" ];
       labels = containerLib.mkTraefikLabels {
         name = "gitea-mirror";
         port = 4321;

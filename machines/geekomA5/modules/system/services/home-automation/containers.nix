@@ -30,14 +30,29 @@ let
         }
       ];
     };
+
+  portsCfg = config.custom.networking.ports.tcp;
 in
 {
+  custom = {
+    networking.ports.tcp.zigbee2mqtt = {
+      port = 30300;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts.zigbee2mqtt = {
+      upstream = "http://localhost:${portsCfg.zigbee2mqtt.portStr}";
+      auth = "authelia";
+    };
+  };
+
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "home-automation";
 
     containers = {
       zigbee2mqtt = {
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -55,6 +70,7 @@ in
           devices = [
             "/dev/ttyZigbee:/dev/ttyZigbee"
           ];
+          publishPorts = [ "127.0.0.1:${portsCfg.zigbee2mqtt.portStr}:8080" ];
           labels = containerLib.mkTraefikLabels {
             name = "zigbee2mqtt";
             port = 8080;

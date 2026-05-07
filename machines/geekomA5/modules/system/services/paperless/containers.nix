@@ -13,8 +13,21 @@ let
   externalStoreRoot = "/mnt/external/paperless-library";
 
   networks = [ "paperless-internal.network" ];
+
+  portsCfg = config.custom.networking.ports.tcp.paperless;
 in
 {
+  custom = {
+    networking.ports.tcp.paperless = {
+      port = 31700;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts.paperless = {
+      upstream = "http://localhost:${portsCfg.portStr}";
+    };
+  };
+
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "paperless";
 
@@ -48,6 +61,7 @@ in
 
       paperless-server = {
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         wantsAuthelia = true;
         useGlobalContainers = true;
         usernsAuto = {
@@ -94,6 +108,7 @@ in
             (containerLib.mkMappedVolumeForUser "${externalStoreRoot}/media" "/usr/src/paperless/media")
             (containerLib.mkMappedVolumeForUser "${externalStoreRoot}/media/trash" "/usr/src/paperless/media/trash")
           ];
+          publishPorts = [ "127.0.0.1:${portsCfg.portStr}:8000" ];
           labels = containerLib.mkTraefikLabels {
             name = "paperless";
             port = 8000;

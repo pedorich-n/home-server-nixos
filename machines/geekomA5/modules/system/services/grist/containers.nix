@@ -7,10 +7,23 @@
 }:
 let
   storeRoot = "/mnt/store/grist";
+  portsCfg = config.custom.networking.ports.tcp.grist;
 in
 {
+  custom = {
+    networking.ports.tcp.grist = {
+      port = 31500;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts.grist = {
+      upstream = "http://localhost:${portsCfg.portStr}";
+    };
+  };
+
   virtualisation.quadlet.containers.grist = {
     requiresTraefikNetwork = true;
+    wantsCaddy = true;
     wantsAuthelia = true;
     useGlobalContainers = true;
     usernsAuto = {
@@ -50,6 +63,7 @@ in
       volumes = [
         (containerLib.mkMappedVolumeForUser "${storeRoot}/persist" "/persist")
       ];
+      publishPorts = [ "127.0.0.1:${portsCfg.portStr}:8484" ];
       labels = containerLib.mkTraefikLabels {
         name = "grist";
         port = 8484;

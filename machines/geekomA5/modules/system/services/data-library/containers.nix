@@ -60,6 +60,10 @@ in
         port = 31200;
         openFirewall = false;
       };
+      shelfmark = {
+        port = 31400;
+        openFirewall = false;
+      };
     };
 
     services.caddy.hosts = {
@@ -87,6 +91,9 @@ in
         upstream = "http://localhost:${portsCfg.radarr.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api" ];
+      };
+      shelfmark = {
+        upstream = "http://localhost:${portsCfg.shelfmark.portStr}";
       };
     };
   };
@@ -454,6 +461,7 @@ in
 
       shelfmark = {
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         wantsAuthelia = true;
         usernsAuto = {
@@ -499,6 +507,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/shelfmark/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
+          publishPorts = [ "127.0.0.1:${portsCfg.shelfmark.portStr}:8084" ];
           labels = containerLib.mkTraefikLabels {
             name = "shelfmark";
             port = 8084;
