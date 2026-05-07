@@ -18,7 +18,6 @@ let
 
   settings = pkgs.callPackage ./_config.nix {
     inherit networkingLib;
-    portsCfg = config.custom.networking.ports;
     mcpServersCfg = config.custom.managed-files.mcp-servers;
   };
 

@@ -1,6 +1,5 @@
 {
   config,
-  networkingLib,
   lib,
   pkgs,
   pkgs-unstable,
@@ -16,21 +15,19 @@ let
     autodetection_retry = 60;
   }) config.custom.services.caddy.metrics.routes;
 
-  portsCfg = config.custom.networking.ports.tcp.netdata;
+  socketPath = "/run/netdata/netdata.sock";
 in
 {
   # disabledModules = [ "services/monitoring/netdata.nix" ];
   # imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/monitoring/netdata.nix" ];
 
-  custom.networking.ports.tcp.netdata = {
-    port = 19999;
-    openFirewall = false;
+  custom.services.caddy.hosts.netdata = {
+    upstream = "unix/${socketPath}";
+    auth = "authelia";
+    authBypassPaths = [ "/mcp" ];
   };
 
-  # Allow access to Netdata through Podman network
-  networking.firewall.interfaces."podman+".allowedTCPPorts = [
-    portsCfg.port
-  ];
+  systemd.services.caddy.serviceConfig.SupplementaryGroups = [ "netdata" ];
 
   systemd.services.netdata.serviceConfig = {
     CapabilityBoundingSet = [
@@ -61,7 +58,7 @@ in
       config = {
         # https://learn.netdata.cloud/docs/configuring/daemon-configuration
         web = {
-          "default port" = config.custom.networking.ports.tcp.netdata.port;
+          "bind to" = "unix:${socketPath}";
         };
 
         plugins = {
@@ -175,18 +172,6 @@ in
       };
     };
 
-    traefik.dynamicConfigOptions.http = {
-      routers.netdata-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "netdata"}`)";
-        service = "netdata-secure";
-        middlewares = [ "authelia@file" ];
-      };
-
-      services.netdata-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:${portsCfg.portStr}"; } ];
-      };
-    };
   };
 
   # See https://stackoverflow.com/questions/66632408/what-capabilities-can-open-proc-pid-ns-net

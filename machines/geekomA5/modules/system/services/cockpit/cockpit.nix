@@ -14,13 +14,18 @@ in
   custom = {
     networking.ports.tcp = {
       cockpit-root = {
-        port = 9090;
+        port = 30700;
         openFirewall = false;
       };
       cockpit = {
         port = 45090;
         openFirewall = false;
       };
+    };
+
+    services.caddy.hosts.cockpit = {
+      upstream = "http://localhost:${portCfg.portStr}";
+      auth = "authelia";
     };
   };
 
@@ -63,6 +68,12 @@ in
         (networkingLib.mkCustomUrl {
           scheme = "wss";
           service = "cockpit";
+        })
+        (networkingLib.mkCaddyUrl "cockpit")
+        (networkingLib.mkCustomUrl {
+          scheme = "wss";
+          service = "cockpit";
+          port = config.services.caddy.httpsPort;
         })
       ];
 

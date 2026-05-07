@@ -1,7 +1,6 @@
 {
   config,
   pkgs-unstable,
-  networkingLib,
   systemdLib,
   lib,
   ...
@@ -9,15 +8,15 @@
 let
   root = "/mnt/external/data-library";
 
-  portsCfg = config.custom.networking.ports;
+  socketPath = "/run/copyparty/copyparty.sock";
 in
 {
-  custom.networking.ports.tcp = {
-    copyparty-web = {
-      port = 46000;
-      openFirewall = false;
-    };
+  custom.services.caddy.hosts.copyparty = {
+    upstream = "unix/${socketPath}";
+    auth = "authelia-basic";
   };
+
+  systemd.services.caddy.serviceConfig.SupplementaryGroups = [ "copyparty" ];
 
   systemd.services.copyparty = {
     unitConfig = systemdLib.requisiteAfter [
@@ -27,8 +26,10 @@ in
     serviceConfig = {
       SupplementaryGroups = [
         config.users.groups.media.gid
+        config.services.caddy.group
       ];
       UMask = lib.mkForce "002"; # rwx rwx r-x
+      RuntimeDirectoryMode = lib.mkForce "0750"; # Default is 0700, but we need caddy to acccess the socket.
     };
   };
 
@@ -41,8 +42,7 @@ in
       };
 
       settings = {
-        i = "127.0.0.1"; # Interface to bind to
-        p = portsCfg.tcp.copyparty-web.portStr; # Port to listen on
+        i = "unix:660:caddy:${socketPath}"; # Unix socket for Caddy
         http-only = true; # Disable TLS, use HTTP only since we are behind a reverse proxy
         no-crt = true; # Disable certificate generation
 
@@ -93,19 +93,6 @@ in
             "a" = "@Admins";
           };
         };
-      };
-    };
-
-    traefik.dynamicConfigOptions.http = {
-      routers.copyparty-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "copyparty"}`)";
-        service = "copyparty-secure";
-        middlewares = [ "authelia-basic@file" ];
-      };
-
-      services.copyparty-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:${portsCfg.tcp.copyparty-web.portStr}"; } ];
       };
     };
   };
