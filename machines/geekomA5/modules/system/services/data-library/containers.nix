@@ -74,27 +74,27 @@ in
       qbittorrent = {
         upstream = "http://localhost:${portsCfg.qbittorrent.portStr}";
         auth = "authelia";
-        authBypassPaths = [ "/api" ];
+        authBypassPaths = [ "/api*" ];
       };
       sabnzbd = {
         upstream = "http://localhost:${portsCfg.sabnzbd.portStr}";
         auth = "authelia";
-        authBypassPaths = [ "/api" ];
+        authBypassPaths = [ "/api*" ];
       };
       prowlarr = {
         upstream = "http://localhost:${portsCfg.prowlarr.portStr}";
         auth = "authelia";
-        authBypassPaths = [ "/api" ];
+        authBypassPaths = [ "/api*" ];
       };
       sonarr = {
         upstream = "http://localhost:${portsCfg.sonarr.portStr}";
         auth = "authelia";
-        authBypassPaths = [ "/api" ];
+        authBypassPaths = [ "/api*" ];
       };
       radarr = {
         upstream = "http://localhost:${portsCfg.radarr.portStr}";
         auth = "authelia";
-        authBypassPaths = [ "/api" ];
+        authBypassPaths = [ "/api*" ];
       };
       shelfmark = {
         upstream = "http://localhost:${portsCfg.shelfmark.portStr}";
