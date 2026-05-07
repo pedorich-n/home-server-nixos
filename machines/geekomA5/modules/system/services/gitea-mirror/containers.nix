@@ -11,7 +11,7 @@ in
 {
   custom = {
     networking.ports.tcp.gitea-mirror = {
-      port = 31900;
+      port = 32000;
       openFirewall = false;
     };
 

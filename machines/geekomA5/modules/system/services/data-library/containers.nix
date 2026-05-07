@@ -64,6 +64,10 @@ in
         port = 31400;
         openFirewall = false;
       };
+      audiobookshelf = {
+        port = 31900;
+        openFirewall = false;
+      };
     };
 
     services.caddy.hosts = {
@@ -94,6 +98,9 @@ in
       };
       shelfmark = {
         upstream = "http://localhost:${portsCfg.shelfmark.portStr}";
+      };
+      audiobookshelf = {
+        upstream = "http://localhost:${portsCfg.audiobookshelf.portStr}";
       };
     };
   };
@@ -432,6 +439,7 @@ in
 
       audiobookshelf = {
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
         wantsAuthelia = true;
@@ -446,6 +454,7 @@ in
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/audiobooks" "/audiobooks")
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/podcasts" "/podcasts")
           ];
+          publishPorts = [ "127.0.0.1:${portsCfg.audiobookshelf.portStr}:8080" ];
           labels = containerLib.mkTraefikLabels {
             name = "audiobookshelf";
             port = 8080;

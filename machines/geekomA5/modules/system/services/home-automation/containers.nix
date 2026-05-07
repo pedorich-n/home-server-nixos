@@ -40,9 +40,18 @@ in
       openFirewall = false;
     };
 
+    networking.ports.tcp.homeassistant = {
+      port = 31800;
+      openFirewall = false;
+    };
+
     services.caddy.hosts.zigbee2mqtt = {
       upstream = "http://localhost:${portsCfg.zigbee2mqtt.portStr}";
       auth = "authelia";
+    };
+
+    services.caddy.hosts.homeassistant = {
+      upstream = "http://localhost:${portsCfg.homeassistant.portStr}";
     };
   };
 
@@ -103,6 +112,7 @@ in
       homeassistant = {
         useGlobalContainers = true;
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         wantsAuthelia = true;
         usernsAuto = {
           enable = true;
@@ -119,6 +129,7 @@ in
             (mkMappedVolumeForUserContainerRoot "${storeRoot}/homeassistant/local" "/.local")
             (mkMappedVolumeForUserContainerRoot config.sops.secrets."home-automation/homeassistant_secrets.yaml".path "/config/secrets.yaml")
           ];
+          publishPorts = [ "127.0.0.1:${portsCfg.homeassistant.portStr}:8123" ];
           labels = containerLib.mkTraefikLabels {
             name = "homeassistant";
             port = 8123;

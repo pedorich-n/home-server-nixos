@@ -148,6 +148,8 @@ in
               "${networkingLib.mkUrl "audiobookshelf"}/auth/openid/mobile-redirect"
               "audiobookshelf://oauth"
               "lissen://oauth"
+              "${networkingLib.mkCaddyUrl "audiobookshelf"}/auth/openid/callback"
+              "${networkingLib.mkCaddyUrl "audiobookshelf"}/auth/openid/mobile-redirect"
             ];
             extraArgs = {
               claims_policy = "roles";
@@ -167,7 +169,10 @@ in
 
           (mkOidcProviderPrivate {
             name = "homeassistant";
-            redirectUris = [ "${networkingLib.mkUrl "homeassistant"}/auth/oidc/callback" ];
+            redirectUris = [
+              "${networkingLib.mkUrl "homeassistant"}/auth/oidc/callback"
+              "${networkingLib.mkCaddyUrl "homeassistant"}/auth/oidc/callback"
+            ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
             };
