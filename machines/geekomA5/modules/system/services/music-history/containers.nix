@@ -12,17 +12,29 @@ let
 
   networks = [ "music-history-internal.network" ];
 
-  portsCfg = config.custom.networking.ports.tcp.maloja;
+  portsCfg = config.custom.networking.ports.tcp;
 in
 {
   custom = {
-    networking.ports.tcp.maloja = {
-      port = 30200;
-      openFirewall = false;
+    networking.ports.tcp = {
+      maloja = {
+        port = 30200;
+        openFirewall = false;
+      };
+      multiscrobbler = {
+        port = 30201;
+        openFirewall = false;
+      };
     };
 
-    services.caddy.hosts.maloja = {
-      upstream = "http://localhost:${portsCfg.portStr}";
+    services.caddy.hosts = {
+      maloja = {
+        upstream = "http://localhost:${portsCfg.maloja.portStr}";
+      };
+      multiscrobbler = {
+        upstream = "http://localhost:${portsCfg.multiscrobbler.portStr}";
+        auth = "authelia";
+      };
     };
   };
 
@@ -32,6 +44,7 @@ in
     containers = {
       multiscrobbler = {
         requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto = {
           enable = true;
@@ -52,6 +65,7 @@ in
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/spotify.json".path "/config/spotify.json")
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/maloja.json".path "/config/maloja.json")
           ];
+          publishPorts = [ "127.0.0.1:${portsCfg.multiscrobbler.portStr}:9078" ];
           labels = containerLib.mkTraefikLabels {
             name = "multiscrobbler";
             port = 9078;
@@ -80,7 +94,7 @@ in
             MALOJA_TIMEZONE = "9";
           };
           environmentFiles = [ config.sops.secrets."music-history/maloja.env".path ];
-          publishPorts = [ "127.0.0.1:${portsCfg.portStr}:42010" ];
+          publishPorts = [ "127.0.0.1:${portsCfg.maloja.portStr}:42010" ];
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/maloja/data" "/data")
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/maloja/api_keys.yaml".path "/data/apikeys.yml")
