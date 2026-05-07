@@ -126,6 +126,7 @@ in
   config = lib.mkIf (cfg != { }) {
     services.caddy.virtualHosts = lib.mapAttrs' (_name: value: {
       name = if value.useTLS then value.domain else "http://${value.domain}";
+      logFormat = null; # Disable access logs
       value = {
         # Should be the same as `security.acme.certs.<name>`
         #LINK - machines/geekomA5/modules/system/security/acme.nix:15
