@@ -20,7 +20,7 @@ in
   };
 
   custom.services.caddy.hosts.storage = {
-    upstream = "http://localhost:${portsCfg.tcp.minio-s3.portStr}";
+    upstream = "http://127.0.0.1:${portsCfg.tcp.minio-s3.portStr}";
   };
 
   systemd.services.minio = {

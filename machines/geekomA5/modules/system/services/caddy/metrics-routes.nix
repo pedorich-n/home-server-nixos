@@ -28,7 +28,7 @@ in
           options = {
             url = lib.mkOption {
               type = lib.types.str;
-              description = "Backend base URL, e.g. http://localhost:8081";
+              description = "Backend base URL, e.g. http://127.0.0.1:8081";
             };
             metricsPath = lib.mkOption {
               type = lib.types.str;

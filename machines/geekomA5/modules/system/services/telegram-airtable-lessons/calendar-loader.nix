@@ -16,7 +16,7 @@ in
     };
 
     services.caddy.hosts."calendar-loader" = {
-      upstream = "http://localhost:${portsCfg.portStr}";
+      upstream = "http://127.0.0.1:${portsCfg.portStr}";
     };
   };
 
@@ -31,7 +31,7 @@ in
       enable = true;
       username = user;
 
-      baseUrl = "http://localhost:${portsCfg.portStr}";
+      baseUrl = "http://127.0.0.1:${portsCfg.portStr}";
 
       schedules = {
         "3fde21a1-f908-420c-bba4-255446e89fab" = {

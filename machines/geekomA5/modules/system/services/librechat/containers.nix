@@ -51,7 +51,7 @@ in
     };
 
     services.caddy.hosts.chat = {
-      upstream = "http://localhost:${portsCfg.portStr}";
+      upstream = "http://127.0.0.1:${portsCfg.portStr}";
     };
   };
 

@@ -91,7 +91,7 @@ in
         };
 
         services.caddy.metrics.routes."minecraft" = {
-          url = "http://localhost:${metricsPortCfg.portStr}";
+          url = "http://127.0.0.1:${metricsPortCfg.portStr}";
         };
       };
     })

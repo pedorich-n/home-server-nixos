@@ -77,7 +77,7 @@ in
 
             upstream = lib.mkOption {
               type = lib.types.nonEmptyStr;
-              description = "Caddy upstream address, e.g. http://localhost:8080 or unix//run/app/app.sock";
+              description = "Caddy upstream address, e.g. http://127.0.0.1:8080 or unix//run/app/app.sock";
             };
 
             auth = lib.mkOption {

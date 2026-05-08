@@ -24,7 +24,7 @@ in
     };
 
     services.caddy.hosts.cockpit = {
-      upstream = "http://localhost:${portCfg.portStr}";
+      upstream = "http://127.0.0.1:${portCfg.portStr}";
       auth = "authelia";
     };
   };

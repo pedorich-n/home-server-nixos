@@ -29,10 +29,10 @@ in
 
     services.caddy.hosts = {
       maloja = {
-        upstream = "http://localhost:${portsCfg.maloja.portStr}";
+        upstream = "http://127.0.0.1:${portsCfg.maloja.portStr}";
       };
       multiscrobbler = {
-        upstream = "http://localhost:${portsCfg.multiscrobbler.portStr}";
+        upstream = "http://127.0.0.1:${portsCfg.multiscrobbler.portStr}";
         auth = "authelia";
       };
     };

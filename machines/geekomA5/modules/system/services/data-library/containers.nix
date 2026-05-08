@@ -65,38 +65,38 @@ in
 
     services.caddy.hosts = {
       qbittorrent = {
-        upstream = "http://localhost:${portsCfg.qbittorrent.portStr}";
+        upstream = "http://127.0.0.1:${portsCfg.qbittorrent.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
       sabnzbd = {
-        upstream = "http://localhost:${portsCfg.sabnzbd.portStr}";
+        upstream = "http://127.0.0.1:${portsCfg.sabnzbd.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
       prowlarr = {
-        upstream = "http://localhost:${portsCfg.prowlarr.portStr}";
+        upstream = "http://127.0.0.1:${portsCfg.prowlarr.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
       sonarr = {
-        upstream = "http://localhost:${portsCfg.sonarr.portStr}";
+        upstream = "http://127.0.0.1:${portsCfg.sonarr.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
       radarr = {
-        upstream = "http://localhost:${portsCfg.radarr.portStr}";
+        upstream = "http://127.0.0.1:${portsCfg.radarr.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
       jellyfin = {
-        upstream = "http://localhost:${portsCfg.jellyfin.portStr}";
+        upstream = "http://127.0.0.1:${portsCfg.jellyfin.portStr}";
       };
       shelfmark = {
-        upstream = "http://localhost:${portsCfg.shelfmark.portStr}";
+        upstream = "http://127.0.0.1:${portsCfg.shelfmark.portStr}";
       };
       audiobookshelf = {
-        upstream = "http://localhost:${portsCfg.audiobookshelf.portStr}";
+        upstream = "http://127.0.0.1:${portsCfg.audiobookshelf.portStr}";
       };
     };
   };

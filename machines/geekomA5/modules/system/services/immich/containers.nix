@@ -58,15 +58,15 @@ in
   };
 
   custom.services.caddy.hosts.immich = {
-    upstream = "http://localhost:${portsCfg.immich.portStr}";
+    upstream = "http://127.0.0.1:${portsCfg.immich.portStr}";
   };
 
   custom.services.caddy.metrics.routes = {
     immich = {
-      url = "http://localhost:${portsCfg.immich-metrics.portStr}";
+      url = "http://127.0.0.1:${portsCfg.immich-metrics.portStr}";
     };
     immich-microservices = {
-      url = "http://localhost:${portsCfg.immich-microservices-metrics.portStr}";
+      url = "http://127.0.0.1:${portsCfg.immich-microservices-metrics.portStr}";
     };
   };
 

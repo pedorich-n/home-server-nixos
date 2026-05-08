@@ -46,12 +46,12 @@ in
     };
 
     services.caddy.hosts.zigbee2mqtt = {
-      upstream = "http://localhost:${portsCfg.zigbee2mqtt.portStr}";
+      upstream = "http://127.0.0.1:${portsCfg.zigbee2mqtt.portStr}";
       auth = "authelia";
     };
 
     services.caddy.hosts.homeassistant = {
-      upstream = "http://localhost:${portsCfg.homeassistant.portStr}";
+      upstream = "http://127.0.0.1:${portsCfg.homeassistant.portStr}";
     };
   };
 

@@ -17,7 +17,7 @@ in
     };
 
     services.caddy.hosts.grist = {
-      upstream = "http://localhost:${portsCfg.portStr}";
+      upstream = "http://127.0.0.1:${portsCfg.portStr}";
     };
   };
 
