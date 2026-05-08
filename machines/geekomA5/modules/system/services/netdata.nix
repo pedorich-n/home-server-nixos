@@ -1,58 +1,33 @@
 {
   config,
-  networkingLib,
   lib,
   pkgs,
   pkgs-unstable,
   ...
 }:
 let
-  metricsDomain = "http://${networkingLib.mkDomain "metrics"}:${config.custom.networking.ports.tcp.traefik-metrics.portStr}";
+  metricsBaseUrl = config.custom.services.caddy.metrics.host;
 
   # https://learn.netdata.cloud/docs/collecting-metrics/generic-collecting-metrics/prometheus-endpoint#options
-  prometheusEndpoints = [
-    {
-      # https://github.com/immich-app/immich/blob/aac789f788c8eb0275201a895926c19625b2b54f/docker/prometheus.yml
-      name = "Immich Server";
-      url = "${metricsDomain}/immich";
-      autodetection_retry = 60;
-    }
-    {
-      name = "Immich Microservices";
-      url = "${metricsDomain}/immich-microservices";
-      autodetection_retry = 60;
+  prometheusEndpoints = lib.mapAttrsToList (name: _route: {
+    name = lib.replaceString "-" "_" name;
+    url = "${metricsBaseUrl}/${name}";
+    autodetection_retry = 60;
+  }) config.custom.services.caddy.metrics.routes;
 
-    }
-  ]
-  ++ (lib.optional
-    (config.services.minecraft-servers.enable && (lib.any (server: server.enable) (lib.attrValues config.services.minecraft-servers.servers)))
-    {
-      name = "Minecraft";
-      url = "${metricsDomain}/minecraft";
-      autodetection_retry = 60;
-      selector.deny = [
-        "jvm_buffer_pool*"
-        "minecraft_entities*"
-        ''jvm_memory_pool_*{pool=*"CodeHeap*"}''
-      ];
-    }
-  );
-
-  portsCfg = config.custom.networking.ports.tcp.netdata;
+  socketPath = "/run/netdata/netdata.sock";
 in
 {
   # disabledModules = [ "services/monitoring/netdata.nix" ];
   # imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/monitoring/netdata.nix" ];
 
-  custom.networking.ports.tcp.netdata = {
-    port = 19999;
-    openFirewall = false;
+  custom.services.caddy.hosts.netdata = {
+    upstream = "unix/${socketPath}";
+    auth = "authelia";
+    authBypassPaths = [ "/mcp" ];
   };
 
-  # Allow access to Netdata through Podman network
-  networking.firewall.interfaces."podman+".allowedTCPPorts = [
-    portsCfg.port
-  ];
+  systemd.services.caddy.serviceConfig.SupplementaryGroups = [ "netdata" ];
 
   systemd.services.netdata.serviceConfig = {
     CapabilityBoundingSet = [
@@ -83,7 +58,7 @@ in
       config = {
         # https://learn.netdata.cloud/docs/configuring/daemon-configuration
         web = {
-          "default port" = config.custom.networking.ports.tcp.netdata.port;
+          "bind to" = "unix:${socketPath}";
         };
 
         plugins = {
@@ -173,7 +148,6 @@ in
           modules:
             dnsmasq: no
             logind: no
-            traefik: no
 
             nvme: yes
             smartctl: yes
@@ -197,18 +171,6 @@ in
       };
     };
 
-    traefik.dynamicConfigOptions.http = {
-      routers.netdata-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "netdata"}`)";
-        service = "netdata-secure";
-        middlewares = [ "authelia@file" ];
-      };
-
-      services.netdata-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:${portsCfg.portStr}"; } ];
-      };
-    };
   };
 
   # See https://stackoverflow.com/questions/66632408/what-capabilities-can-open-proc-pid-ns-net

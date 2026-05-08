@@ -1,5 +1,6 @@
 {
   networkingLib,
+  trustedProxies,
   stdenv,
   makejinja,
   writers,
@@ -9,6 +10,7 @@ let
   variables = {
     auth_url = networkingLib.mkUrl "authelia";
     url = networkingLib.mkUrl "homeassistant";
+    inherit trustedProxies;
   };
 
 in

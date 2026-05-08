@@ -159,12 +159,16 @@ in
 
           (mkOidcProviderPrivate {
             name = "grist";
-            redirectUris = [ "${networkingLib.mkUrl "grist"}/oauth2/callback" ];
+            redirectUris = [
+              "${networkingLib.mkUrl "grist"}/oauth2/callback"
+            ];
           })
 
           (mkOidcProviderPrivate {
             name = "homeassistant";
-            redirectUris = [ "${networkingLib.mkUrl "homeassistant"}/auth/oidc/callback" ];
+            redirectUris = [
+              "${networkingLib.mkUrl "homeassistant"}/auth/oidc/callback"
+            ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
             };
@@ -213,17 +217,23 @@ in
 
           (mkOidcProviderPrivate {
             name = "paperless";
-            redirectUris = [ "${networkingLib.mkUrl "paperless"}/accounts/oidc/authelia/login/callback/" ];
+            redirectUris = [
+              "${networkingLib.mkUrl "paperless"}/accounts/oidc/authelia/login/callback/"
+            ];
           })
 
           (mkOidcProviderPrivate {
             name = "shelfmark";
-            redirectUris = [ "${networkingLib.mkUrl "shelfmark"}/api/auth/oidc/callback" ];
+            redirectUris = [
+              "${networkingLib.mkUrl "shelfmark"}/api/auth/oidc/callback"
+            ];
           })
 
           (mkOidcProviderPrivate {
             name = "forgejo";
-            redirectUris = [ "${networkingLib.mkUrl "git"}/user/oauth2/authelia/callback" ];
+            redirectUris = [
+              "${networkingLib.mkUrl "git"}/user/oauth2/authelia/callback"
+            ];
             extraArgs = {
               claims_policy = "ssh_public_key";
               scopes = defaultScopes ++ [
@@ -234,7 +244,9 @@ in
 
           (mkOidcProviderPrivate {
             name = "gitea-mirror";
-            redirectUris = [ "${networkingLib.mkUrl "gitea-mirror"}/api/auth/sso/callback/Authelia" ];
+            redirectUris = [
+              "${networkingLib.mkUrl "gitea-mirror"}/api/auth/sso/callback/Authelia"
+            ];
             extraArgs = {
               claims_policy = "userinfo_in_id_token";
             };

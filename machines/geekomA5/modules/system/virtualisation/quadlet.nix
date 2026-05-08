@@ -6,6 +6,7 @@
 }:
 let
   autheliaRef = config.systemd.services.authelia-main.name;
+  caddyRef = config.systemd.services.caddy.name;
 
   mkImage =
     name:
@@ -25,11 +26,11 @@ in
           { name, config, ... }:
           {
             options = {
-              requiresTraefikNetwork = lib.mkOption {
+              wantsAuthelia = lib.mkOption {
                 type = lib.types.bool;
                 default = false;
               };
-              wantsAuthelia = lib.mkOption {
+              wantsCaddy = lib.mkOption {
                 type = lib.types.bool;
                 default = false;
               };
@@ -68,12 +69,12 @@ in
                 containerConfig.image = mkImage name;
               })
 
-              (lib.mkIf config.requiresTraefikNetwork {
-                containerConfig.networks = lib.mkAfter [ "traefik.network" ];
-              })
-
               (lib.mkIf config.wantsAuthelia {
                 unitConfig = systemdLib.wantsAfter [ autheliaRef ];
+              })
+
+              (lib.mkIf config.wantsCaddy {
+                unitConfig = systemdLib.wantsAfter [ caddyRef ];
               })
 
               (lib.mkIf config.usernsAuto.enable {

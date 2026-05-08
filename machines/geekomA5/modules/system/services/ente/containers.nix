@@ -8,11 +8,42 @@
 let
   inherit (config.virtualisation.quadlet) containers;
 
+  portsCfg = config.custom.networking.ports.tcp;
+
   storeRoot = "/mnt/store/ente";
 
   networks = [ "ente-internal.network" ];
 in
 {
+  custom = {
+    networking.ports.tcp = {
+      ente-museum = {
+        port = 30600;
+        openFirewall = false;
+      };
+      ente-photos = {
+        port = 30601;
+        openFirewall = false;
+      };
+      ente-accounts = {
+        port = 30602;
+        openFirewall = false;
+      };
+    };
+
+    services.caddy.hosts = {
+      "ente-api" = {
+        upstream = "http://127.0.0.1:${portsCfg.ente-museum.portStr}";
+      };
+      "ente" = {
+        upstream = "http://127.0.0.1:${portsCfg.ente-photos.portStr}";
+      };
+      "ente-accounts" = {
+        upstream = "http://127.0.0.1:${portsCfg.ente-accounts.portStr}";
+      };
+    };
+  };
+
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "ente";
 
@@ -33,7 +64,6 @@ in
 
       ente-museum = {
         useGlobalContainers = true;
-        requiresTraefikNetwork = true;
         usernsAuto.enable = true;
 
         containerConfig = {
@@ -42,11 +72,7 @@ in
             (containerLib.mkMappedVolumeForUser config.sops.templates."ente/museum.yaml".path "/museum.yaml")
           ];
 
-          labels = containerLib.mkTraefikLabels {
-            name = "ente-museum";
-            slug = "ente-api";
-            port = 8080;
-          };
+          publishPorts = [ "127.0.0.1:${portsCfg.ente-museum.portStr}:8080" ];
 
           inherit networks;
           inherit (containerLib.containerIds) user;
@@ -59,7 +85,6 @@ in
 
       ente-web = {
         useGlobalContainers = true;
-        requiresTraefikNetwork = true;
         usernsAuto.enable = true;
 
         containerConfig = {
@@ -67,17 +92,10 @@ in
             ENTE_API_ORIGIN = networkingLib.mkUrl "ente-api";
           };
 
-          labels =
-            (containerLib.mkTraefikLabels {
-              name = "ente-photos-web";
-              slug = "ente";
-              port = 3000;
-            })
-            ++ (containerLib.mkTraefikLabels {
-              name = "ente-accounts-web";
-              slug = "ente-accounts";
-              port = 3001;
-            });
+          publishPorts = [
+            "127.0.0.1:${portsCfg.ente-photos.portStr}:3000"
+            "127.0.0.1:${portsCfg.ente-accounts.portStr}:3001"
+          ];
 
           inherit networks;
           # inherit (containerLib.containerIds) user;

@@ -1,6 +1,5 @@
 {
   networkingLib,
-  portsCfg,
   mcpServersCfg,
   writers,
 }:
@@ -112,7 +111,7 @@ writers.writeYAML "librechat.yaml" {
     Netdata = {
       type = "streamable-http";
       iconPath = mkDashboardIconUrl "netdata";
-      url = "http://host.containers.internal:${portsCfg.tcp.netdata.portStr}/mcp";
+      url = "${networkingLib.mkUrl "netdata"}/mcp";
       headers = {
         Authorization = "Bearer \${NETDATA_MCP_API_KEY}";
       };

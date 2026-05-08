@@ -25,7 +25,7 @@
         };
 
         reloadServices = [
-          config.systemd.services.traefik.name
+          config.systemd.services.caddy.name
         ];
       };
     };

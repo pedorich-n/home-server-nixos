@@ -6,13 +6,20 @@
   ...
 }:
 let
-  portCfg = config.custom.networking.ports.tcp.forgejo;
+  socketPath = "/run/forgejo/forgejo.sock";
 in
 {
-  custom.networking.ports.tcp.forgejo = {
-    port = 45100;
-    openFirewall = false;
+  custom = {
+    services.caddy.hosts.forgejo = {
+      domain = networkingLib.mkDomain "git";
+      upstream = "unix/${socketPath}";
+    };
   };
+
+  # Needed to access the socket file
+  systemd.services.caddy.serviceConfig.SupplementaryGroups = [
+    config.services.forgejo.group
+  ];
 
   services = {
     forgejo = {
@@ -38,8 +45,9 @@ in
         server = {
           ROOT_URL = networkingLib.mkUrl "git";
           DOMAIN = networkingLib.mkDomain "git";
-          PROTOCOL = "http";
-          HTTP_PORT = portCfg.port;
+          PROTOCOL = "http+unix";
+          HTTP_ADDR = socketPath;
+          UNIX_SOCKET_PERMISSION = "660";
           SSH_PORT = lib.head config.services.openssh.ports;
         };
         service = {
@@ -64,16 +72,5 @@ in
       };
     };
 
-    traefik.dynamicConfigOptions.http = {
-      routers.forgejo = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "git"}`)";
-        service = "forgejo-secure";
-      };
-
-      services.forgejo-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:${portCfg.portStr}"; } ];
-      };
-    };
   };
 }

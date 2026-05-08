@@ -1,11 +1,15 @@
 {
   networkingLib,
   tmpfilesLib,
+  config,
   pkgs,
   ...
 }:
 let
-  rendered-templates = pkgs.callPackage ./_render-templates.nix { inherit networkingLib; };
+  rendered-templates = pkgs.callPackage ./_render-templates.nix {
+    inherit networkingLib;
+    trustedProxies = config.virtualisation.quadlet.networks."home-automation-internal".networkConfig.subnets;
+  };
 in
 {
   systemd.tmpfiles.settings."90-homeassistant" = {

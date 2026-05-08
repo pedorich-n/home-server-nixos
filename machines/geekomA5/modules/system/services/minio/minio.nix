@@ -1,7 +1,6 @@
 {
   config,
   pkgs-unstable,
-  networkingLib,
   systemdLib,
   ...
 }:
@@ -18,6 +17,10 @@ in
       port = 45001;
       openFirewall = false;
     };
+  };
+
+  custom.services.caddy.hosts.storage = {
+    upstream = "http://127.0.0.1:${portsCfg.tcp.minio-s3.portStr}";
   };
 
   systemd.services.minio = {
@@ -48,16 +51,5 @@ in
       ];
     };
 
-    traefik.dynamicConfigOptions.http = {
-      routers.minio-s3-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "storage"}`)";
-        service = "minio-s3-secure";
-      };
-
-      services.minio-s3-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:${portsCfg.tcp.minio-s3.portStr}"; } ];
-      };
-    };
   };
 }

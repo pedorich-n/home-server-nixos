@@ -14,13 +14,18 @@ in
   custom = {
     networking.ports.tcp = {
       cockpit-root = {
-        port = 9090;
+        port = 30700;
         openFirewall = false;
       };
       cockpit = {
         port = 45090;
         openFirewall = false;
       };
+    };
+
+    services.caddy.hosts.cockpit = {
+      upstream = "http://127.0.0.1:${portCfg.portStr}";
+      auth = "authelia";
     };
   };
 
@@ -64,6 +69,7 @@ in
           scheme = "wss";
           service = "cockpit";
         })
+
       ];
 
       settings = {
@@ -75,18 +81,6 @@ in
       };
     };
 
-    traefik.dynamicConfigOptions.http = {
-      routers.cockpit-root-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "cockpit"}`)";
-        service = "cockpit-root-secure";
-        middlewares = [ "authelia@file" ];
-      };
-
-      services.cockpit-root-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:${portCfg.portStr}"; } ];
-      };
-    };
   };
 
 }

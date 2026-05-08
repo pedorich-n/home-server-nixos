@@ -11,17 +11,6 @@ let
 
   networks = [ "data-library-internal.network" ];
 
-  mkApiSecureTraefikLabels =
-    name:
-    containerLib.mkTraefikLabels {
-      name = "${name}-api";
-      traefikName = "${name}-api-secure";
-      rule = "Host(`${networkingLib.mkDomain name}`) && PathPrefix(`/api`)";
-      service = "${name}-secure";
-      entrypoints = [ "web-secure" ];
-      priority = 15;
-    };
-
   defaultEnvs = {
     TZ = "${config.time.timeZone}";
   };
@@ -34,8 +23,84 @@ let
     containers.sabnzbd.ref
     containers.gluetun.ref
   ];
+
+  portsCfg = config.custom.networking.ports.tcp;
 in
 {
+  custom = {
+    networking.ports.tcp = {
+      qbittorrent = {
+        port = 30800;
+        openFirewall = false;
+      };
+      sabnzbd = {
+        port = 30900;
+        openFirewall = false;
+      };
+      prowlarr = {
+        port = 31000;
+        openFirewall = false;
+      };
+      sonarr = {
+        port = 31100;
+        openFirewall = false;
+      };
+      radarr = {
+        port = 31200;
+        openFirewall = false;
+      };
+      jellyfin = {
+        port = 31300;
+        openFirewall = false;
+      };
+      shelfmark = {
+        port = 31400;
+        openFirewall = false;
+      };
+      audiobookshelf = {
+        port = 31900;
+        openFirewall = false;
+      };
+    };
+
+    services.caddy.hosts = {
+      qbittorrent = {
+        upstream = "http://127.0.0.1:${portsCfg.qbittorrent.portStr}";
+        auth = "authelia";
+        authBypassPaths = [ "/api*" ];
+      };
+      sabnzbd = {
+        upstream = "http://127.0.0.1:${portsCfg.sabnzbd.portStr}";
+        auth = "authelia";
+        authBypassPaths = [ "/api*" ];
+      };
+      prowlarr = {
+        upstream = "http://127.0.0.1:${portsCfg.prowlarr.portStr}";
+        auth = "authelia";
+        authBypassPaths = [ "/api*" ];
+      };
+      sonarr = {
+        upstream = "http://127.0.0.1:${portsCfg.sonarr.portStr}";
+        auth = "authelia";
+        authBypassPaths = [ "/api*" ];
+      };
+      radarr = {
+        upstream = "http://127.0.0.1:${portsCfg.radarr.portStr}";
+        auth = "authelia";
+        authBypassPaths = [ "/api*" ];
+      };
+      jellyfin = {
+        upstream = "http://127.0.0.1:${portsCfg.jellyfin.portStr}";
+      };
+      shelfmark = {
+        upstream = "http://127.0.0.1:${portsCfg.shelfmark.portStr}";
+      };
+      audiobookshelf = {
+        upstream = "http://127.0.0.1:${portsCfg.audiobookshelf.portStr}";
+      };
+    };
+  };
+
   custom.networking.ports.udp = {
     jellyfin-service-discovery = {
       port = 1900;
@@ -52,7 +117,7 @@ in
 
     containers = {
       gluetun = {
-        requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
 
         containerConfig = {
@@ -81,14 +146,9 @@ in
           volumes = [
             "${./gluetun/config.toml}:/gluetun/auth/config.toml"
           ];
-          labels =
-            (containerLib.mkTraefikLabels {
-              name = "qbittorrent"; # Proxied
-              port = 8080;
-              priority = 10;
-              middlewares = [ "authelia@file" ];
-            })
-            ++ (mkApiSecureTraefikLabels "qbittorrent");
+          publishPorts = [
+            "127.0.0.1:${portsCfg.qbittorrent.portStr}:8080" # Qbittorrent Web UI
+          ];
           inherit networks;
         };
       };
@@ -162,7 +222,7 @@ in
       };
 
       sabnzbd = {
-        requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -174,14 +234,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/sabnzbd/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
           ];
-          labels =
-            (containerLib.mkTraefikLabels {
-              name = "sabnzbd";
-              port = environments.PORT;
-              priority = 10;
-              middlewares = [ "authelia@file" ];
-            })
-            ++ (mkApiSecureTraefikLabels "sabnzbd");
+          publishPorts = [ "127.0.0.1:${portsCfg.sabnzbd.portStr}:${environments.PORT}" ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -192,7 +245,7 @@ in
       };
 
       prowlarr = {
-        requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -201,14 +254,7 @@ in
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/prowlarr/config" "/config")
           ];
-          labels =
-            (containerLib.mkTraefikLabels {
-              name = "prowlarr";
-              port = 9696;
-              priority = 10;
-              middlewares = [ "authelia@file" ];
-            })
-            ++ (mkApiSecureTraefikLabels "prowlarr");
+          publishPorts = [ "127.0.0.1:${portsCfg.prowlarr.portStr}:9696" ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -217,7 +263,7 @@ in
       };
 
       sonarr = {
-        requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -227,14 +273,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/sonarr/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
-          labels =
-            (containerLib.mkTraefikLabels {
-              name = "sonarr";
-              port = 8989;
-              priority = 10;
-              middlewares = [ "authelia@file" ];
-            })
-            ++ (mkApiSecureTraefikLabels "sonarr");
+          publishPorts = [ "127.0.0.1:${portsCfg.sonarr.portStr}:8989" ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -248,7 +287,7 @@ in
       };
 
       radarr = {
-        requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -258,14 +297,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/radarr/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
-          labels =
-            (containerLib.mkTraefikLabels {
-              name = "radarr";
-              port = 7878;
-              priority = 10;
-              middlewares = [ "authelia@file" ];
-            })
-            ++ (mkApiSecureTraefikLabels "radarr");
+          publishPorts = [ "127.0.0.1:${portsCfg.radarr.portStr}:7878" ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -303,7 +335,7 @@ in
       };
 
       jellyfin = {
-        requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         wantsAuthelia = true;
         usernsAuto = {
@@ -316,10 +348,9 @@ in
           addGroups = [
             (builtins.toString config.users.groups.render.gid) # For HW Transcoding
           ];
-          # publishPorts = [
-          #   "1900:1900/udp"
-          #   "7359:7359/udp"
-          # ];
+          publishPorts = [
+            "127.0.0.1:${portsCfg.jellyfin.portStr}:8096"
+          ];
           devices = [
             # HW Transcoding acceleration.
             # See https://jellyfin.org/docs/general/installation/container#with-hardware-acceleration
@@ -334,19 +365,6 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/jellyfin/cache" "/cache")
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media" "/media")
           ];
-          labels = containerLib.mkTraefikLabels {
-            name = "jellyfin";
-            port = 8096;
-          };
-          #  ++ [
-          #   "traefik.udp.services.jellyfin-service-discovery.loadBalancer.server.port=1900"
-          #   "traefik.udp.routers.jellyfin-service-discovery.entrypoints=jellyfin-service-discovery"
-          #   "traefik.udp.routers.jellyfin-service-discovery.service=jellyfin-service-discovery"
-
-          #   "traefik.udp.services.jellyfin-client-discovery.loadBalancer.server.port=7359"
-          #   "traefik.udp.routers.jellyfin-client-discovery.entrypoints=jellyfin-client-discovery"
-          #   "traefik.udp.routers.jellyfin-client-discovery.service=jellyfin-client-discovery"
-          # ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -357,7 +375,7 @@ in
       };
 
       audiobookshelf = {
-        requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
         wantsAuthelia = true;
@@ -372,10 +390,7 @@ in
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/audiobooks" "/audiobooks")
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media/podcasts" "/podcasts")
           ];
-          labels = containerLib.mkTraefikLabels {
-            name = "audiobookshelf";
-            port = 8080;
-          };
+          publishPorts = [ "127.0.0.1:${portsCfg.audiobookshelf.portStr}:8080" ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -386,7 +401,7 @@ in
       };
 
       shelfmark = {
-        requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         wantsAuthelia = true;
         usernsAuto = {
@@ -432,10 +447,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/shelfmark/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
-          labels = containerLib.mkTraefikLabels {
-            name = "shelfmark";
-            port = 8084;
-          };
+          publishPorts = [ "127.0.0.1:${portsCfg.shelfmark.portStr}:8084" ];
           inherit networks;
         };
 

@@ -30,14 +30,45 @@ let
         }
       ];
     };
+
+  portsCfg = config.custom.networking.ports.tcp;
 in
 {
+  custom = {
+    networking.ports.tcp.zigbee2mqtt = {
+      port = 30300;
+      openFirewall = false;
+    };
+
+    networking.ports.tcp.homeassistant = {
+      port = 31800;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts.zigbee2mqtt = {
+      upstream = "http://127.0.0.1:${portsCfg.zigbee2mqtt.portStr}";
+      auth = "authelia";
+    };
+
+    services.caddy.hosts.homeassistant = {
+      upstream = "http://127.0.0.1:${portsCfg.homeassistant.portStr}";
+    };
+  };
+
   virtualisation.quadlet = {
-    networks = containerLib.mkDefaultNetwork "home-automation";
+    networks."home-automation-internal" = {
+      networkConfig = {
+        name = "home-automation-internal";
+        driver = "bridge";
+        # Hard-coded because HomeAssistant needs to know the trusted proxies subnet
+        subnets = [ "172.32.0.0/24" ];
+        gateways = [ "172.32.0.1" ];
+      };
+    };
 
     containers = {
       zigbee2mqtt = {
-        requiresTraefikNetwork = true;
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -55,11 +86,7 @@ in
           devices = [
             "/dev/ttyZigbee:/dev/ttyZigbee"
           ];
-          labels = containerLib.mkTraefikLabels {
-            name = "zigbee2mqtt";
-            port = 8080;
-            middlewares = [ "authelia@file" ];
-          };
+          publishPorts = [ "127.0.0.1:${portsCfg.zigbee2mqtt.portStr}:8080" ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -86,7 +113,7 @@ in
 
       homeassistant = {
         useGlobalContainers = true;
-        requiresTraefikNetwork = true;
+        wantsCaddy = true;
         wantsAuthelia = true;
         usernsAuto = {
           enable = true;
@@ -103,11 +130,7 @@ in
             (mkMappedVolumeForUserContainerRoot "${storeRoot}/homeassistant/local" "/.local")
             (mkMappedVolumeForUserContainerRoot config.sops.secrets."home-automation/homeassistant_secrets.yaml".path "/config/secrets.yaml")
           ];
-          labels = containerLib.mkTraefikLabels {
-            name = "homeassistant";
-            port = 8123;
-            priority = 10;
-          };
+          publishPorts = [ "127.0.0.1:${portsCfg.homeassistant.portStr}:8123" ];
           inherit networks;
         };
 

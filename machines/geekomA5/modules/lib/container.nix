@@ -1,76 +1,11 @@
 {
   config,
   lib,
-  networkingLib,
+
   ...
 }:
 {
   _module.args.containerLib = rec {
-    mkTraefikLabels =
-      {
-        name,
-        slug ? name,
-        domain ? networkingLib.mkDomain slug,
-        traefikName ? "${name}-secure",
-        entrypoints ? [ "web-secure" ],
-        rule ? "Host(`${domain}`)",
-        priority ? 0,
-        middlewares ? [ ],
-        service ? null,
-        port ? null,
-      }:
-      [
-        "traefik.enable=true"
-        "traefik.http.routers.${traefikName}.rule=${rule}"
-        "traefik.http.routers.${traefikName}.entrypoints=${lib.concatStringsSep "," entrypoints}"
-        "traefik.http.routers.${traefikName}.priority=${builtins.toString priority}"
-      ]
-      ++ lib.optional (middlewares != [ ]) "traefik.http.routers.${traefikName}.middlewares=${lib.concatStringsSep "," middlewares}"
-      ++ (
-        if (service == null) then
-          [
-            "traefik.http.services.${traefikName}.loadBalancer.server.port=${builtins.toString port}"
-            "traefik.http.routers.${traefikName}.service=${traefikName}"
-          ]
-        else
-          [
-            "traefik.http.routers.${traefikName}.service=${service}"
-          ]
-      );
-
-    mkTraefikMetricsLabels =
-      {
-        name,
-        port,
-        addPath ? null,
-        domain ? "metrics.${config.custom.networking.domain}",
-      }:
-      let
-        entityName = "metrics-${name}";
-        stripPrefixMiddlewareName = "metrics-stripprefix-${name}";
-        replacePathMiddlewareName = "metrics-replacepath-${name}";
-      in
-      [
-        "traefik.enable=true"
-        "traefik.http.routers.${entityName}.rule=Host(`${domain}`) && Path(`/${name}`)"
-        "traefik.http.routers.${entityName}.entrypoints=metrics"
-        "traefik.http.routers.${entityName}.service=${entityName}"
-
-        "traefik.http.services.${entityName}.loadBalancer.server.port=${builtins.toString port}"
-      ]
-      ++ (
-        if (addPath != null) then
-          [
-            "traefik.http.middlewares.${replacePathMiddlewareName}.replacepath.path=${addPath}"
-            "traefik.http.routers.${entityName}.middlewares=${replacePathMiddlewareName}"
-          ]
-        else
-          [
-            "traefik.http.middlewares.${stripPrefixMiddlewareName}.stripprefix.prefixes=/${name}"
-            "traefik.http.routers.${entityName}.middlewares=${stripPrefixMiddlewareName}"
-          ]
-      );
-
     mkDefaultNetwork = name: {
       "${name}-internal" = {
         networkConfig.name = "${name}-internal";

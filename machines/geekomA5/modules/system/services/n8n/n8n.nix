@@ -24,9 +24,15 @@ in
     }
   ];
 
-  custom.networking.ports.tcp.n8n = {
-    port = 5678;
-    openFirewall = false;
+  custom = {
+    networking.ports.tcp.n8n = {
+      port = 30100;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts.n8n = {
+      upstream = "http://127.0.0.1:${portsCfg.portStr}";
+    };
   };
 
   systemd.services.n8n = {
@@ -73,18 +79,6 @@ in
         ];
 
         NODE_ENV = "production";
-      };
-    };
-
-    traefik.dynamicConfigOptions.http = {
-      routers.n8n-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "n8n"}`)";
-        service = "n8n-secure";
-      };
-
-      services.n8n-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:${portsCfg.portStr}"; } ];
       };
     };
   };

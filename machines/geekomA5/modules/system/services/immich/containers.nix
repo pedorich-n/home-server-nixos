@@ -2,12 +2,12 @@
   config,
   containerLib,
   systemdLib,
-  networkingLib,
   lib,
   ...
 }:
 let
   inherit (config.virtualisation.quadlet) containers;
+  portsCfg = config.custom.networking.ports.tcp;
 
   storeRoot = "/mnt/store/immich";
   externalStoreRoot = "/mnt/external/immich-library";
@@ -18,7 +18,6 @@ let
     REDIS_HOSTNAME = "immich-valkey";
     DB_HOSTNAME = "immich-postgresql";
 
-    IMMICH_TELEMETRY_INCLUDE = "all"; # See https://immich.app/docs/features/monitoring#prometheus
   };
 
   networks = [ "immich-internal.network" ];
@@ -43,6 +42,34 @@ let
     };
 in
 {
+  custom.networking.ports.tcp = {
+    immich = {
+      port = 32100;
+      openFirewall = false;
+    };
+    immich-metrics = {
+      port = 32101;
+      openFirewall = false;
+    };
+    immich-microservices-metrics = {
+      port = 32102;
+      openFirewall = false;
+    };
+  };
+
+  custom.services.caddy.hosts.immich = {
+    upstream = "http://127.0.0.1:${portsCfg.immich.portStr}";
+  };
+
+  custom.services.caddy.metrics.routes = {
+    immich = {
+      url = "http://127.0.0.1:${portsCfg.immich-metrics.portStr}";
+    };
+    immich-microservices = {
+      url = "http://127.0.0.1:${portsCfg.immich-microservices-metrics.portStr}";
+    };
+  };
+
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "immich";
 
@@ -101,7 +128,7 @@ in
       };
 
       immich-server = {
-        requiresTraefikNetwork = true;
+        wantsCaddy = true;
         wantsAuthelia = true;
         useGlobalContainers = true;
         usernsAuto = {
@@ -110,7 +137,10 @@ in
         };
 
         containerConfig = {
-          environments = sharedEnvs;
+          environments = sharedEnvs // {
+            # See https://immich.app/docs/features/monitoring#prometheus
+            IMMICH_TELEMETRY_INCLUDE = "all";
+          };
           environmentFiles = [ config.sops.secrets."immich/main.env".path ];
           addGroups = [
             (builtins.toString config.users.groups.render.gid) # For HW Transcoding
@@ -124,23 +154,12 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/cache/profile" "/data/profile")
             (containerLib.mkMappedVolumeForUser externalStoreRoot "/data")
           ];
-          labels =
-            (containerLib.mkTraefikLabels {
-              name = "immich";
-              port = 2283;
-            })
-            ++ (containerLib.mkTraefikMetricsLabels {
-              name = "immich";
-              domain = networkingLib.mkDomain "metrics";
-              port = 8081;
-              addPath = "/metrics";
-            })
-            ++ (containerLib.mkTraefikMetricsLabels {
-              name = "immich-microservices";
-              domain = networkingLib.mkDomain "metrics";
-              port = 8082;
-              addPath = "/metrics";
-            });
+          publishPorts = [
+            "127.0.0.1:${portsCfg.immich.portStr}:2283"
+            # See https://docs.immich.app/install/environment-variables#general
+            "127.0.0.1:${portsCfg.immich-metrics.portStr}:8081"
+            "127.0.0.1:${portsCfg.immich-microservices-metrics.portStr}:8082"
+          ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };

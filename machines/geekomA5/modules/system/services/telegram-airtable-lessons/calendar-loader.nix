@@ -1,6 +1,5 @@
 {
   config,
-  networkingLib,
   ...
 }:
 let
@@ -10,9 +9,15 @@ let
   portsCfg = config.custom.networking.ports.tcp.lessons-calendar-loader;
 in
 {
-  custom.networking.ports.tcp.lessons-calendar-loader = {
-    port = 9000;
-    openFirewall = false;
+  custom = {
+    networking.ports.tcp.lessons-calendar-loader = {
+      port = 9000;
+      openFirewall = false;
+    };
+
+    services.caddy.hosts."calendar-loader" = {
+      upstream = "http://127.0.0.1:${portsCfg.portStr}";
+    };
   };
 
   services = {
@@ -26,7 +31,7 @@ in
       enable = true;
       username = user;
 
-      baseUrl = "http://localhost:${portsCfg.portStr}";
+      baseUrl = "http://127.0.0.1:${portsCfg.portStr}";
 
       schedules = {
         "3fde21a1-f908-420c-bba4-255446e89fab" = {
@@ -36,16 +41,5 @@ in
       };
     };
 
-    traefik.dynamicConfigOptions.http = {
-      routers.calendar-loader-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "calendar-loader"}`)";
-        service = "calendar-loader-secure";
-      };
-
-      services.calendar-loader-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:${portsCfg.portStr}"; } ];
-      };
-    };
   };
 }
