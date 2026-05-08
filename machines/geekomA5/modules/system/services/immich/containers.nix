@@ -154,10 +154,6 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/cache/profile" "/data/profile")
             (containerLib.mkMappedVolumeForUser externalStoreRoot "/data")
           ];
-          labels = containerLib.mkTraefikLabels {
-            name = "immich";
-            port = 2283;
-          };
           publishPorts = [
             "127.0.0.1:${portsCfg.immich.portStr}:2283"
             # See https://docs.immich.app/install/environment-variables#general

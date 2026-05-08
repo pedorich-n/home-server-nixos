@@ -1,7 +1,6 @@
 {
   config,
   pkgs-unstable,
-  networkingLib,
   systemdLib,
   ...
 }:
@@ -52,16 +51,5 @@ in
       ];
     };
 
-    traefik.dynamicConfigOptions.http = {
-      routers.minio-s3-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "storage"}`)";
-        service = "minio-s3-secure";
-      };
-
-      services.minio-s3-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:${portsCfg.tcp.minio-s3.portStr}"; } ];
-      };
-    };
   };
 }

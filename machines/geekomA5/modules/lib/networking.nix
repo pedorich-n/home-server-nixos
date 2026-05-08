@@ -19,13 +19,6 @@
 
     mkUrl = service: mkCustomUrl { inherit service; };
 
-    mkCaddyUrl =
-      service:
-      mkCustomUrl {
-        inherit service;
-        port = config.services.caddy.httpsPort;
-      };
-
     mkTunneledUrl =
       service:
       mkCustomUrl {

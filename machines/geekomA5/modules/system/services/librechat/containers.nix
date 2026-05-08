@@ -160,11 +160,6 @@ in
           ];
 
           publishPorts = [ "127.0.0.1:${portsCfg.portStr}:3080" ];
-          labels = containerLib.mkTraefikLabels {
-            name = "librechat";
-            slug = "chat";
-            port = 3080;
-          };
           inherit networks;
         };
 

@@ -1,6 +1,5 @@
 {
   config,
-  networkingLib,
   ...
 }:
 let
@@ -42,16 +41,5 @@ in
       };
     };
 
-    traefik.dynamicConfigOptions.http = {
-      routers.calendar-loader-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "calendar-loader"}`)";
-        service = "calendar-loader-secure";
-      };
-
-      services.calendar-loader-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:${portsCfg.portStr}"; } ];
-      };
-    };
   };
 }

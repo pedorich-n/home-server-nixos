@@ -148,7 +148,6 @@ in
           modules:
             dnsmasq: no
             logind: no
-            traefik: no
 
             nvme: yes
             smartctl: yes

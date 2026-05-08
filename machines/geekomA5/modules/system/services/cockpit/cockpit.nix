@@ -81,18 +81,6 @@ in
       };
     };
 
-    traefik.dynamicConfigOptions.http = {
-      routers.cockpit-root-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "cockpit"}`)";
-        service = "cockpit-root-secure";
-        middlewares = [ "authelia@file" ];
-      };
-
-      services.cockpit-root-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:${portCfg.portStr}"; } ];
-      };
-    };
   };
 
 }

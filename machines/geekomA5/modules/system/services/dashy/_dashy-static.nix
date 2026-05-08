@@ -198,9 +198,6 @@ let
             slug = "netdata";
           })
           (mkEntry {
-            slug = "traefik";
-          })
-          (mkEntry {
             slug = "lldap";
             title = "LLDAP";
             iconName = "lldap-dark";

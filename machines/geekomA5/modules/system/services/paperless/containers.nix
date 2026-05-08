@@ -108,10 +108,6 @@ in
             (containerLib.mkMappedVolumeForUser "${externalStoreRoot}/media/trash" "/usr/src/paperless/media/trash")
           ];
           publishPorts = [ "127.0.0.1:${portsCfg.portStr}:8000" ];
-          labels = containerLib.mkTraefikLabels {
-            name = "paperless";
-            port = 8000;
-          };
           inherit networks;
         };
 

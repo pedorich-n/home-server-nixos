@@ -87,11 +87,6 @@ in
             "/dev/ttyZigbee:/dev/ttyZigbee"
           ];
           publishPorts = [ "127.0.0.1:${portsCfg.zigbee2mqtt.portStr}:8080" ];
-          labels = containerLib.mkTraefikLabels {
-            name = "zigbee2mqtt";
-            port = 8080;
-            middlewares = [ "authelia@file" ];
-          };
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
@@ -136,11 +131,6 @@ in
             (mkMappedVolumeForUserContainerRoot config.sops.secrets."home-automation/homeassistant_secrets.yaml".path "/config/secrets.yaml")
           ];
           publishPorts = [ "127.0.0.1:${portsCfg.homeassistant.portStr}:8123" ];
-          labels = containerLib.mkTraefikLabels {
-            name = "homeassistant";
-            port = 8123;
-            priority = 10;
-          };
           inherit networks;
         };
 

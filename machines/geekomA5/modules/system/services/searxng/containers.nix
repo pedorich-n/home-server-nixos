@@ -63,10 +63,6 @@ in
         (mkMappedVolumeForCustom "${storeRoot}/data" "/var/cache/searxng")
         (mkMappedVolumeForCustom "${storeRoot}/config" "/etc/searxng")
       ];
-      labels = containerLib.mkTraefikLabels {
-        name = "searxng";
-        port = 8080;
-      };
     };
   };
 

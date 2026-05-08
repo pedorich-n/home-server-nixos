@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  networkingLib,
   pkgs,
   pkgs-unstable,
   ...
@@ -49,18 +48,6 @@ in
   };
 
   services = {
-    traefik.dynamicConfigOptions.http = {
-      routers.lldap-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "lldap"}`)";
-        service = "lldap-secure";
-      };
-
-      services.lldap-secure = {
-        loadBalancer.servers = [ { url = "http://127.0.0.1:${portsCfg.lldap-http.portStr}"; } ];
-      };
-    };
-
     lldap = {
       enable = true;
 

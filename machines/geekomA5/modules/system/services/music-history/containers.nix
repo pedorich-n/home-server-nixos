@@ -65,11 +65,6 @@ in
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/maloja.json".path "/config/maloja.json")
           ];
           publishPorts = [ "127.0.0.1:${portsCfg.multiscrobbler.portStr}:9078" ];
-          labels = containerLib.mkTraefikLabels {
-            name = "multiscrobbler";
-            port = 9078;
-            middlewares = [ "authelia@file" ];
-          };
           inherit networks;
         };
       };
@@ -98,10 +93,6 @@ in
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/maloja/api_keys.yaml".path "/data/apikeys.yml")
             "${malojaArtistRules}:/data/rules/custom_rules.tsv"
           ];
-          labels = containerLib.mkTraefikLabels {
-            name = "maloja";
-            port = 42010;
-          };
           inherit networks;
         };
       };

@@ -81,17 +81,5 @@ in
         NODE_ENV = "production";
       };
     };
-
-    traefik.dynamicConfigOptions.http = {
-      routers.n8n-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "n8n"}`)";
-        service = "n8n-secure";
-      };
-
-      services.n8n-secure = {
-        loadBalancer.servers = [ { url = "http://localhost:${portsCfg.portStr}"; } ];
-      };
-    };
   };
 }

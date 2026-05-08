@@ -50,10 +50,6 @@ in
         (containerLib.mkMappedVolumeForUser "${storeRoot}/data" "/app/data")
       ];
       publishPorts = [ "127.0.0.1:${portsCfg.portStr}:4321" ];
-      labels = containerLib.mkTraefikLabels {
-        name = "gitea-mirror";
-        port = 4321;
-      };
       inherit (containerLib.containerIds) user;
     };
   };

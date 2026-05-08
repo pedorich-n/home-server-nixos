@@ -63,10 +63,6 @@ in
         (containerLib.mkMappedVolumeForUser "${storeRoot}/persist" "/persist")
       ];
       publishPorts = [ "127.0.0.1:${portsCfg.portStr}:8484" ];
-      labels = containerLib.mkTraefikLabels {
-        name = "grist";
-        port = 8484;
-      };
       inherit (containerLib.containerIds) user;
     };
   };

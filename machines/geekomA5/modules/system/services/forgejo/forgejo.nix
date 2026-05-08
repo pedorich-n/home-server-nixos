@@ -72,16 +72,5 @@ in
       };
     };
 
-    # traefik.dynamicConfigOptions.http = {
-    #   routers.forgejo = {
-    #     entryPoints = [ "web-secure" ];
-    #     rule = "Host(`${networkingLib.mkDomain "git"}`)";
-    #     service = "forgejo-secure";
-    #   };
-
-    #   services.forgejo-secure = {
-    #     loadBalancer.servers = [ { url = "http://localhost:${portCfg.portStr}"; } ];
-    #   };
-    # };
   };
 }

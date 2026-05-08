@@ -72,12 +72,6 @@ in
             (containerLib.mkMappedVolumeForUser config.sops.templates."ente/museum.yaml".path "/museum.yaml")
           ];
 
-          labels = containerLib.mkTraefikLabels {
-            name = "ente-museum";
-            slug = "ente-api";
-            port = 8080;
-          };
-
           publishPorts = [ "127.0.0.1:${portsCfg.ente-museum.portStr}:8080" ];
 
           inherit networks;
@@ -97,18 +91,6 @@ in
           environments = {
             ENTE_API_ORIGIN = networkingLib.mkUrl "ente-api";
           };
-
-          labels =
-            (containerLib.mkTraefikLabels {
-              name = "ente-photos-web";
-              slug = "ente";
-              port = 3000;
-            })
-            ++ (containerLib.mkTraefikLabels {
-              name = "ente-accounts-web";
-              slug = "ente-accounts";
-              port = 3001;
-            });
 
           publishPorts = [
             "127.0.0.1:${portsCfg.ente-photos.portStr}:3000"
