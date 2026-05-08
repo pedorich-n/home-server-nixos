@@ -10,9 +10,9 @@ writeShellApplication {
     deploy-rs
   ];
   text = ''
-    system=$1
+    nixos_config=$1
     shift 1
 
-    deploy "${flake}#$system" "$@"
+    deploy "${flake}#''${nixos_config}" "$@"
   '';
 }

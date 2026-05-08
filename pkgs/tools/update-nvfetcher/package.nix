@@ -16,6 +16,6 @@ writeShellApplication {
   text = ''
     ROOT="$(git rev-parse --show-toplevel)"
 
-    fd 'nvfetcher.toml' "$ROOT" --exec nvfetcher --config {} --build-dir "{//}/_sources" --verbose
+    fd 'nvfetcher.toml' "''${ROOT}" --exec nvfetcher --config {} --build-dir "{//}/_sources" --verbose
   '';
 }
