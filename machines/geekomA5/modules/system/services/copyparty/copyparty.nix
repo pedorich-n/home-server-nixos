@@ -16,7 +16,9 @@ in
     auth = "authelia-basic";
   };
 
-  systemd.services.caddy.serviceConfig.SupplementaryGroups = [ "copyparty" ];
+  systemd.services.caddy.serviceConfig.SupplementaryGroups = [
+    config.services.copyparty.group
+  ];
 
   systemd.services.copyparty = {
     unitConfig = systemdLib.requisiteAfter [

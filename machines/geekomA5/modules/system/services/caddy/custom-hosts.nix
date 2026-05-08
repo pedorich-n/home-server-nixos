@@ -7,9 +7,8 @@
 let
   cfg = config.custom.services.caddy.hosts;
 
-  portsCfg = config.custom.networking.ports.tcp;
-
-  autheliaAddress = "http://127.0.0.1:${portsCfg.authelia-main.portStr}";
+  #LINK - machines/geekomA5/modules/system/services/authelia/authelia.nix:63
+  autheliaAddress = "unix//run/authelia-main/authelia.sock";
 
   autheliaUris = {
     "authelia" = "/api/authz/forward-auth";

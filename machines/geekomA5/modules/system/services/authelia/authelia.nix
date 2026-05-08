@@ -9,8 +9,6 @@
 let
   shared = import ./_shared.nix;
 
-  portsCfg = config.custom.networking.ports.tcp.authelia-main;
-
   mkAccessRule =
     {
       apps,
@@ -34,7 +32,6 @@ let
     "radarr"
     "sabnzbd"
     "sonarr"
-    "traefik"
     "shelfmark"
     "zigbee2mqtt"
   ];
@@ -59,67 +56,36 @@ let
   ];
 
   stateRoot = "/var/lib/authelia-main";
+
+  socketPath = "/run/authelia-main/authelia.sock";
 in
 {
-  custom.networking.ports.tcp.authelia-main = {
-    port = 9091;
-    openFirewall = false;
-  };
-
   custom.services.caddy.hosts.authelia = {
-    upstream = "http://localhost:${portsCfg.portStr}";
+    upstream = "unix/${socketPath}";
   };
 
-  systemd.services.authelia-main = {
-    unitConfig = systemdLib.requiresAfter [
-      config.systemd.services.redis-authelia.name
-      config.systemd.services.lldap.name
+  systemd.services = {
+    caddy.serviceConfig.SupplementaryGroups = [
+      config.services.authelia.instances.main.group
     ];
 
-    serviceConfig = {
-      SupplementaryGroups = [
-        config.services.redis.servers.authelia.group
+    authelia-main = {
+      unitConfig = systemdLib.requiresAfter [
+        config.systemd.services.redis-authelia.name
+        config.systemd.services.lldap.name
       ];
+
+      serviceConfig = {
+        RuntimeDirectory = "authelia-main";
+        RuntimeDirectoryMode = "0750";
+        SupplementaryGroups = [
+          config.services.redis.servers.authelia.group
+        ];
+      };
     };
   };
 
   services = {
-    traefik.dynamicConfigOptions.http = {
-      middlewares =
-        let
-          # LINK - https://www.authelia.com/integration/proxies/traefik/
-          mkAutheliaForwardAuth = endpointName: {
-            address = "http://127.0.0.1:${portsCfg.portStr}/api/authz/${endpointName}";
-            trustForwardHeader = true;
-            authResponseHeaders = [
-              "Remote-User"
-              "Remote-Groups"
-              "Remote-Email"
-              "Remote-Name"
-            ];
-          };
-        in
-        {
-          authelia = {
-            forwardAuth = mkAutheliaForwardAuth "forward-auth";
-          };
-
-          authelia-basic = {
-            forwardAuth = mkAutheliaForwardAuth "forward-auth-basic";
-          };
-        };
-
-      routers.authelia-secure = {
-        entryPoints = [ "web-secure" ];
-        rule = "Host(`${networkingLib.mkDomain "authelia"}`)";
-        service = "authelia-secure";
-      };
-
-      services.authelia-secure = {
-        loadBalancer.servers = [ { url = "http://127.0.0.1:${portsCfg.portStr}"; } ];
-      };
-    };
-
     authelia.instances.main = {
       enable = true;
       package = pkgs-unstable.authelia;
@@ -152,7 +118,7 @@ in
         };
 
         server = {
-          address = "tcp://127.0.0.1:${portsCfg.portStr}";
+          address = "unix://${socketPath}?umask=0117"; # 660 permissions
 
           #LINK - https://www.authelia.com/configuration/miscellaneous/server-endpoints-authz/
           endpoints.authz = {
