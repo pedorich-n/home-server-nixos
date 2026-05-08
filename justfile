@@ -1,7 +1,7 @@
 import "dev/justfile.default"
 
 _deploy hostname *args:
-    just _run "deploy" {{ hostname }} {{ args }}
+    just _run "deploy-nixos" {{ hostname }} {{ args }}
 
 _dry_deploy hostname *args:
     just _deploy "{{ hostname }}" "--dry-activate {{ args }}"

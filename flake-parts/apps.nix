@@ -29,14 +29,10 @@
           program = pkg;
         }
         // (lib.optionalAttrs (pkg ? meta.description) { meta.description = pkg.meta.description; });
+
+      apps = lib.mapAttrs (_name: pkg: mkApp pkg) tools;
     in
     {
-      apps = {
-        generate-host-keys = mkApp tools.nixos-bootstrap.generate-host-keys;
-        convert-host-keys = mkApp tools.nixos-bootstrap.convert-host-keys;
-        update-nvfetcher = mkApp tools.update-nvfetcher;
-        deploy = mkApp tools.deploy-nixos;
-        build-iso = mkApp tools.build-iso;
-      };
+      inherit apps;
     };
 }
