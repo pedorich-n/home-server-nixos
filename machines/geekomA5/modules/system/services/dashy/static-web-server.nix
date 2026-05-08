@@ -25,7 +25,7 @@ in
     static-web-server = {
       enable = true;
 
-      listen = "localhost:${portsCfg.portStr}";
+      listen = "127.0.0.1:${portsCfg.portStr}";
       root = dashy-static;
     };
 
