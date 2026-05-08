@@ -1,4 +1,7 @@
-{ flake, ... }:
+{
+  flake,
+  ...
+}:
 {
   perSystem =
     {
@@ -9,29 +12,27 @@
     }:
     let
       tools = lib.filesystem.packagesFromDirectoryRecursive {
-        inherit (pkgs) callPackage;
+        callPackage = lib.callPackageWith (
+          pkgs
+          // {
+            inherit flake;
+            inherit (deployPkgs.deploy-rs) deploy-rs;
+          }
+        );
         directory = ../pkgs/tools;
       };
+
+      mkApp =
+        pkg:
+        {
+          type = "app";
+          program = pkg;
+        }
+        // (lib.optionalAttrs (pkg ? meta.description) { meta.description = pkg.meta.description; });
+
+      apps = lib.mapAttrs (_name: pkg: mkApp pkg) tools;
     in
     {
-      apps = {
-        generate-host-keys.program = tools.nixos-bootstrap.generate-host-keys;
-        convert-host-keys.program = tools.nixos-bootstrap.convert-host-keys;
-        update-nvfetcher.program = tools.update-nvfetcher;
-
-        deploy.program = pkgs.writeShellScriptBin "deploy-nixos" ''
-          system=$1
-          shift 1
-
-          ${lib.getExe deployPkgs.deploy-rs.deploy-rs} "${flake}#$system" "$@"
-        '';
-
-        build-iso.program = pkgs.writeShellScriptBin "build-iso" ''
-          system=$1
-          shift 1
-
-          nix build "${flake}#nixosConfigurations.''${system}.config.system.build.isoImage" "$@"
-        '';
-      };
+      inherit apps;
     };
 }

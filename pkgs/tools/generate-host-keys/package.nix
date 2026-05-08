@@ -6,6 +6,7 @@
 }:
 writeShellApplication {
   name = "generate-host-keys";
+  meta.description = "Generate SSH host keys for use with nixos-anywhere";
   runtimeInputs = [
     coreutils
     openssh
