@@ -56,7 +56,15 @@ in
   };
 
   virtualisation.quadlet = {
-    networks = containerLib.mkDefaultNetwork "home-automation";
+    networks."home-automation-internal" = {
+      networkConfig = {
+        name = "home-automation-internal";
+        driver = "bridge";
+        # Hard-coded because HomeAssistant needs to know the trusted proxies subnet
+        subnets = [ "172.32.0.0/24" ];
+        gateways = [ "172.32.0.1" ];
+      };
+    };
 
     containers = {
       zigbee2mqtt = {
