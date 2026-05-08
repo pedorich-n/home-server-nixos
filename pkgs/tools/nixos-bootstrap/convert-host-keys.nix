@@ -6,6 +6,7 @@
 }:
 writeShellApplication {
   name = "convert-host-keys";
+  meta.description = "Convert OpenSSH public keys to age format, for use with sops";
   runtimeInputs = [
     fd
     openssh

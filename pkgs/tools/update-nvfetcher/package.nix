@@ -6,7 +6,7 @@
 }:
 writeShellApplication {
   name = "update-nvfetcher";
-
+  meta.description = "Update sources fetched by nvfetcher";
   runtimeInputs = [
     fd
     gitMinimal
