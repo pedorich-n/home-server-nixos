@@ -36,24 +36,12 @@ jobs:
         with:
           git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
 
+      - name: Setup niks3
+        uses: Mic92/niks3-action@v1
+        with:
+          server-url: ${{ vars.NIKS3_SERVER_URL }}
+
       - name: Build ${{ matrix.attr }}
         id: build
         shell: bash
-        run: |
-          build_result=$(nix build --accept-flake-config --json .#"${{ matrix.attr }}")
-          out_paths=$(echo "$build_result" | jq -r '.[].outputs.out')
-          echo "Going to push the following paths:"
-
-          {
-            echo "out_paths<<EOF"
-            echo "$out_paths"
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Push to niks3 cache
-        uses: pedorich-n/nix-cache/.github/actions/push-to-niks3@c3b5f966c6489392c501f598a154c8e2f852de76 # main
-        with:
-          niks3_server_url: ${{ vars.NIKS3_SERVER_URL }}
-          oidc_audience: ${{ vars.NIKS3_SERVER_URL }}
-          verify_s3_integrity: true
-          paths_to_push: ${{ steps.build.outputs.out_paths }}
+        run: nix build --accept-flake-config --json .#"${{ matrix.attr }}"
