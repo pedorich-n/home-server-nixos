@@ -2,7 +2,8 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable,
+  # pkgs-unstable,
+  pkgs-netdata,
   ...
 }:
 let
@@ -41,7 +42,7 @@ in
     netdata = {
       enable = true;
 
-      package = pkgs-unstable.netdataCloud.override {
+      package = pkgs-netdata.netdataCloud.override {
         withNdsudo = true;
         withIpmi = false;
       };
