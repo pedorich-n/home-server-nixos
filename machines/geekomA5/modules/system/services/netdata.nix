@@ -27,7 +27,9 @@ in
     authBypassPaths = [ "/mcp" ];
   };
 
-  systemd.services.caddy.serviceConfig.SupplementaryGroups = [ "netdata" ];
+  systemd.services.caddy.serviceConfig.SupplementaryGroups = [
+    config.services.netdata.group
+  ];
 
   systemd.services.netdata.serviceConfig = {
     CapabilityBoundingSet = [
@@ -55,8 +57,8 @@ in
         ps.numpy
       ];
 
+      # https://learn.netdata.cloud/docs/configuring/daemon-configuration
       config = {
-        # https://learn.netdata.cloud/docs/configuring/daemon-configuration
         web = {
           "bind to" = "unix:${socketPath}";
         };
