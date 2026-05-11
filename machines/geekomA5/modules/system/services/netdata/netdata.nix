@@ -27,7 +27,9 @@ in
     authBypassPaths = [ "/mcp" ];
   };
 
-  systemd.services.caddy.serviceConfig.SupplementaryGroups = [ "netdata" ];
+  systemd.services.caddy.serviceConfig.SupplementaryGroups = [
+    config.services.netdata.group
+  ];
 
   systemd.services.netdata.serviceConfig = {
     CapabilityBoundingSet = [
@@ -55,8 +57,8 @@ in
         ps.numpy
       ];
 
+      # https://learn.netdata.cloud/docs/configuring/daemon-configuration
       config = {
-        # https://learn.netdata.cloud/docs/configuring/daemon-configuration
         web = {
           "bind to" = "unix:${socketPath}";
         };
@@ -172,6 +174,10 @@ in
     };
 
   };
+
+  # alarm-notify script reads the config from /etc/netdata/health_alarm_notify.conf,
+  # not from /etc/netdata/conf.d/health_alarm_notify.conf, so we can't use `configDir` option for it.
+  environment.etc."netdata/health_alarm_notify.conf".source = config.sops.templates."netdata/health_alarm_notify.conf".path;
 
   # See https://stackoverflow.com/questions/66632408/what-capabilities-can-open-proc-pid-ns-net
   # security.wrappers."cgroup-network".capabilities = lib.mkForce "cap_sys_admin+ep cap_sys_ptrace+ep cap_setuid+ep cap_sys_chroot+ep";

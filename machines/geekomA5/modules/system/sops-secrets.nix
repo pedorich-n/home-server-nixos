@@ -204,6 +204,22 @@ let
       format = "binary";
     };
   };
+
+  netdataSecrets =
+    let
+      secrets = [
+        "netdata/notifications/telegram/bot_token"
+        "netdata/notifications/telegram/recipient"
+      ];
+
+      mkSecret = secret: {
+        ${secret} = {
+          owner = config.services.netdata.user;
+          group = config.services.netdata.group;
+        };
+      };
+    in
+    mapMergeAttrsList mkSecret secrets;
 in
 {
   sops = {
@@ -297,6 +313,7 @@ in
       (lib.mkIf config.services.redis.servers.authelia.enable redisAutheliaSecrets)
       (lib.mkIf config.services.forgejo.enable forgejoSecrets)
       (lib.mkIf config.services.cloudflared.enable cloudflaredSecrets)
+      (lib.mkIf config.services.netdata.enable netdataSecrets)
     ];
   };
 }
