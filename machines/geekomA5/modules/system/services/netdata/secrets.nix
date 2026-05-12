@@ -28,18 +28,26 @@ in
     "netdata/prometheus.conf" = {
       owner = config.services.netdata.user;
       group = config.services.netdata.group;
-      # https://learn.netdata.cloud/docs/collecting-metrics/generic-collecting-metrics/prometheus-endpoint#options
+      # See https://learn.netdata.cloud/docs/collecting-metrics/generic-collecting-metrics/prometheus-endpoint#options
       file = pkgs.writers.writeYAML "netdata-prometheus.conf" {
-        jobs = localPrometheusEndpoints ++ [
-          {
-            name = "fly_io";
-            # Copied from https://github.com/DataDog/integrations-core/blob/cc7e7b52d27ba978e754c/fly_io/datadog_checks/fly_io/check.py#L41-L43
-            url = "https://api.fly.io/prometheus/personal/federate?match[]=${lib.escapeURL ''{__name__=~".+"}''}";
-            autodetection_retry = 60;
-            headers = {
-              Authorization = config.sops.placeholder."netdata/prometheus/flyio/token";
-            };
-          }
+        jobs = lib.lists.flatten [
+          localPrometheusEndpoints
+          [
+            {
+              name = "fly_io";
+              # Copied from https://github.com/DataDog/integrations-core/blob/cc7e7b52d27ba978e754c/fly_io/datadog_checks/fly_io/check.py#L41-L43
+              url = "https://api.fly.io/prometheus/personal/federate?match[]=${lib.escapeURL ''{__name__=~".+"}''}";
+              autodetection_retry = 60;
+              headers = {
+                Authorization = config.sops.placeholder."netdata/prometheus/flyio/token";
+              };
+            }
+          ]
+          (lib.optional config.services.tailscale.enable {
+            # See https://tailscale.com/docs/reference/tailscale-client-metrics
+            name = "tailscale";
+            url = "http://100.100.100.100/metrics";
+          })
         ];
       };
     };

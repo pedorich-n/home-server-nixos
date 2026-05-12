@@ -42,6 +42,12 @@ lib.mkMerge [
           web = {
             "bind to" = "unix:${socketPath}";
           };
+          health = {
+            "enabled alarms" = lib.concatStringsSep " " [
+              "!*fly_io_data_collection*" # Disable fly.io data collection alarm due to sparse metrics availability
+              "*"
+            ];
+          };
 
           plugins = {
             "timex" = "no";
@@ -198,7 +204,7 @@ lib.mkMerge [
     users.users.${config.services.netdata.user}.extraGroups = lib.unique (lib.map (cert: cert.group) (lib.attrValues cfgCerts));
 
     services.netdata.configDir."go.d/x509check.conf" = pkgs.writers.writeYAML "netdata-x509check.conf" {
-      update_every = 600; # 10 minutes
+      update_every = 60;
       jobs = lib.map (cert: {
         name = lib.replaceStrings [ "." ] [ "_" ] cert.name;
         source = "file://${cert.value.directory}/cert.pem";
