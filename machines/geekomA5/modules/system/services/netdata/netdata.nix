@@ -1,20 +1,11 @@
 {
   config,
-  lib,
   pkgs,
   # pkgs-unstable,
   pkgs-netdata,
   ...
 }:
 let
-  metricsBaseUrl = config.custom.services.caddy.metrics.host;
-
-  # https://learn.netdata.cloud/docs/collecting-metrics/generic-collecting-metrics/prometheus-endpoint#options
-  prometheusEndpoints = lib.mapAttrsToList (name: _route: {
-    name = lib.replaceString "-" "_" name;
-    url = "${metricsBaseUrl}/${name}";
-    autodetection_retry = 60;
-  }) config.custom.services.caddy.metrics.routes;
 
   socketPath = "/run/netdata/netdata.sock";
 in
@@ -143,9 +134,7 @@ in
       };
 
       configDir = {
-        "go.d/prometheus.conf" = pkgs.writers.writeYAML "netdata-prometheus.conf" {
-          jobs = prometheusEndpoints;
-        };
+        "go.d/prometheus.conf" = config.sops.templates."netdata/prometheus.conf".path;
 
         "go.d.conf" = pkgs.writeText "netdata-go.d.conf" ''
           modules:
