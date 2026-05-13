@@ -210,6 +210,7 @@ let
       secrets = [
         "netdata/notifications/telegram/bot_token"
         "netdata/notifications/telegram/recipient"
+        "netdata/prometheus/flyio/token"
       ];
 
       mkSecret = secret: {

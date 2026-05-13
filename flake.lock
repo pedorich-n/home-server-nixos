@@ -299,11 +299,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1778488793,
-        "narHash": "sha256-WtZl4nbjZsGyihp58CWfslmJ/DlWoQOGZ5uITC2darY=",
+        "lastModified": 1778583910,
+        "narHash": "sha256-KLymrBPVy7Px4snCC3uJOQtWt2JD17DeP0VdIba9eGM=",
         "ref": "refs/heads/main",
-        "rev": "08efc0c6ea57b2b0970958298cd02070bd2f41f2",
-        "revCount": 198,
+        "rev": "66c8f11497b9f797bf95a5e69300457b18aed471",
+        "revCount": 199,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -371,6 +371,22 @@
       "original": {
         "owner": "NixOS",
         "ref": "nixos-25.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-netdata": {
+      "locked": {
+        "lastModified": 1778445566,
+        "narHash": "sha256-/lu7YeE20O/RtToa1J3NFFeSIgXqqe9OE2hNiHH76WI=",
+        "owner": "rhoriguchi",
+        "repo": "nixpkgs",
+        "rev": "0316d482c5909f83e7653bd00f8891ae42359671",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rhoriguchi",
+        "ref": "netdata",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -569,6 +585,7 @@
         "nix-github-actions": "nix-github-actions",
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-netdata": "nixpkgs-netdata",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "playit-nixos-module": "playit-nixos-module",
         "pyproject-build-systems": "pyproject-build-systems",
