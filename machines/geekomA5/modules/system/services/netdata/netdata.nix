@@ -44,7 +44,7 @@ lib.mkMerge [
           };
           health = {
             "enabled alarms" = lib.concatStringsSep " " [
-              "!*fly_io_data_collection*" # Disable fly.io data collection alarm due to sparse metrics availability
+              "!*fly_io_data_collection_status*" # Disable fly.io data collection alarm due to sparse metrics availability
               "*"
             ];
           };
