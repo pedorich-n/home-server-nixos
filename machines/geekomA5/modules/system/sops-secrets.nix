@@ -221,6 +221,31 @@ let
       };
     in
     mapMergeAttrsList mkSecret secrets;
+
+  seaweedfsSecrets =
+    let
+      mkS3Credentials = user: [
+        "seaweedfs/${user}/access_key"
+        "seaweedfs/${user}/secret_key"
+      ];
+
+      s3Users = [
+        "admin"
+        "ente"
+        "grist"
+      ];
+
+      secrets = lib.flatten (lib.map mkS3Credentials s3Users);
+
+      mkSecret = secret: {
+        ${secret} = {
+          # TODO: uncomment once there's actually a seaweedfs user
+          # owner = config.services.seaweedfs.user;
+          # group = config.services.seaweedfs.group;
+        };
+      };
+    in
+    mapMergeAttrsList mkSecret secrets;
 in
 {
   sops = {
@@ -308,6 +333,7 @@ in
       envSecrets
       resticSecrets
       acmeSecrets
+      seaweedfsSecrets
       (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
       (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
