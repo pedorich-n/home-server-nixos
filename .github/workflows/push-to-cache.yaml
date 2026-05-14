@@ -10,7 +10,7 @@ jobs:
       matrix: ${{ steps.eval-matrix.outputs.matrix }}
     steps:
       - name: Setup job
-        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@4574905ea0c10728187de51f08d8729574413932 # main
         with:
           git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
 
@@ -32,12 +32,12 @@ jobs:
       id-token: write
     steps:
       - name: Setup job
-        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@4574905ea0c10728187de51f08d8729574413932 # main
         with:
           git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
 
       - name: Setup niks3
-        uses: Mic92/niks3-action@v1
+        uses: Mic92/niks3-action@bc010bf9dbc79ec59de6c79b1e7a167977d3978b # v1
         with:
           server-url: ${{ vars.NIKS3_SERVER_URL }}
 
