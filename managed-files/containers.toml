@@ -20,17 +20,17 @@ version = '15.17-alpine'
 versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
 
 [ente-web]
-digest = 'sha256:763892fd6f91d3921dd98cfa231eb3b28acac9fb78f62fccf5fb5023d9922b21'
+digest = 'sha256:848cdccdf7081b6c2f37f5233bb2a589d25df8b369359a5833fefd49306055f0'
 image = 'ente-io/web'
 registry = 'ghcr.io'
 version = 'latest'
 versioning = 'docker'
 
 [gitea-mirror]
-digest = 'sha256:ad2d7f59d2616edd7e0907c8feb07e6e08199b4818c711ee9c7b06df9600b442'
+digest = 'sha256:2d97c98fd6f32915bbcc247373b9b39606d337cb3fb576980673d842dcaea291'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.15.6'
+version = 'v3.15.10'
 versioning = 'semver'
 
 [gluetun]
@@ -48,10 +48,10 @@ version = '1.7.13'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:c1e5f0147f4cb51ccb05bb30b62a1269cc1bd48a6274792d3b38a77ab274dfd2'
+digest = 'sha256:d4fbec16196d5c8bedf32647f0ca7165f654d92a2e81f35a373508d3226cb867'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.4.4'
+version = '2026.5.1'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
@@ -104,10 +104,10 @@ version = 'v0.8.5'
 versioning = 'semver'
 
 [librechat-mongodb]
-digest = 'sha256:7abfba0d07c9330373f8173981ea4d09cd8a82cdf0e86ccaf7008848d1d24f62'
+digest = 'sha256:94b405c5aa83d5160e6dd97383c4687d471f8a6bd247ed3ff6463c092ebf7a8c'
 image = 'library/mongo'
 registry = 'docker.io'
-version = '8.2.7'
+version = '8.3.2'
 versioning = 'semver'
 
 [librechat-rag]
@@ -139,10 +139,10 @@ version = 'v2.1.2'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:1d9d3fd20c311016aa2daf10af2a17f56c1c9c9f1c5ee63792babb9b6d431447'
+digest = 'sha256:aecbf754a18c2ddc5d9bcf6385316a63aeae685f4106e76c25ab9d2c26c0f550'
 image = 'foxxmd/multi-scrobbler'
 registry = 'docker.io'
-version = '0.13.1'
+version = '0.13.3'
 versioning = 'semver'
 
 [paperless-postgresql]
@@ -153,10 +153,10 @@ version = '18.3-alpine'
 versioning = 'docker'
 
 [paperless-redis]
-digest = 'sha256:c5e375abb885e6b2021c0377879e4890bf76f9065b8922ffc113f2b226b9fc17'
+digest = 'sha256:d146f83b1e0f02fc27c26a50cee39338c736674c5959db84363e6ae3cd9e02d2'
 image = 'library/redis'
 registry = 'docker.io'
-version = '8.6.2-alpine'
+version = '8.6.3-alpine'
 versioning = 'docker'
 
 [paperless-server]
@@ -167,17 +167,17 @@ version = '2.20.15'
 versioning = 'semver'
 
 [prowlarr]
-digest = 'sha256:b4204e18666179472225935b443a99cf6c66dcb7bbc2d35034427a3851f13135'
+digest = 'sha256:a89f252d6a22bd25af14a5380aec0adcc3c3af2e3282164f981680e6844070f3'
 image = 'linuxserver/prowlarr'
 registry = 'docker.io'
 version = '2.3.5'
 versioning = 'semver'
 
 [shelfmark]
-digest = 'sha256:382a00d48f355845e9def23d78a135a062e62e07711ff7f505f8014eb2e02314'
+digest = 'sha256:655168ef4dd1af939d368f9a8448bf2606888f8221b014f219a3a8eab1c4b307'
 image = 'calibrain/shelfmark-lite'
 registry = 'ghcr.io'
-version = 'v1.2.1'
+version = 'v1.3.0'
 versioning = 'semver'
 
 [qbittorrent]
@@ -189,7 +189,7 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [radarr]
-digest = 'sha256:b01097ad2d948c9f5eca39eb60bb529e2e55b0738c4bf7db09383bef0abab59d'
+digest = 'sha256:15417a594ebda4c660a9fa9748e7199d33e2d17b31bbc5ad7ba2e86f0b414763'
 image = 'linuxserver/radarr'
 registry = 'docker.io'
 version = '6.1.1'
@@ -203,29 +203,29 @@ version = '8.6.0'
 versioning = 'semver'
 
 [sabnzbd]
-digest = 'sha256:87c97fa81966adb5cf511ae62b6681a37136c32f1ad7190b0b8b4d12d766ea9f'
+digest = 'sha256:c65265edbfb42a1e4b6c68d3926e4aab4cf9cf185be1fafd1a692cb195cc9b0e'
 image = 'linuxserver/sabnzbd'
 registry = 'docker.io'
 version = '5.0.1'
 versioning = 'semver'
 
 [searxng]
-digest = 'sha256:90ea6250fe543ccad61fddeb389032073c8362ce7e1a863d9ea6e2d36dc8e1da'
+digest = 'sha256:6868f987196cc87a3535fd08d17a31589ecfb696ab94b894aa2d89477c9eda2e'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.4.29-cba0cffa8'
+version = '2026.5.13-09829b1cc'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [sonarr]
-digest = 'sha256:3580aec3802c915f0f819a88d5099abce61734b925732b8393d176b5dc561020'
+digest = 'sha256:60f3b6b5c7647ba2bafd81163acfe34b11117b9b834ebd7fbcc3e5f1b309c7ef'
 image = 'linuxserver/sonarr'
 registry = 'docker.io'
 version = '4.0.17'
 versioning = 'semver'
 
 [zigbee2mqtt]
-digest = 'sha256:2a21bbf7a664a149024bbe1f776e3151f28ed9db15948270dcbffb89544a41f0'
+digest = 'sha256:67c26dcf8346aced02fe1380a6afd1b57268bcef10faae3f6057c13d5d3dfa80'
 image = 'koenkk/zigbee2mqtt'
 registry = 'docker.io'
-version = '2.9.2'
+version = '2.10.1'
 versioning = 'semver'
