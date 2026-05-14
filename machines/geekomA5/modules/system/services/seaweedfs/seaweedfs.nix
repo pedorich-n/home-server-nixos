@@ -8,7 +8,7 @@
 let
   portsCfg = config.custom.networking.ports.tcp;
   volumeDataRoot = "/mnt/external/seaweedfs/volumes";
-  weed = lib.getExe pkgs-unstable.seaweedfs;
+  package = pkgs-unstable.seaweedfs;
 
   commonServiceConfig = {
     User = config.users.users.seaweedfs.name;
@@ -91,6 +91,10 @@ in
     groups.seaweedfs = { };
   };
 
+  environment.systemPackages = [
+    package
+  ];
+
   systemd.services = {
     seaweedfs-master = withCommonConfig {
       description = "SeaweedFS Master";
@@ -105,7 +109,7 @@ in
         StateDirectory = "seaweedfs/master";
         WorkingDirectory = "/var/lib/seaweedfs/master";
         ExecStart = lib.concatStringsSep " " [
-          weed
+          (lib.getExe package)
           "master"
           "-ip=127.0.0.1"
           "-ip.bind=127.0.0.1"
@@ -136,8 +140,9 @@ in
         ];
         WorkingDirectory = volumeDataRoot;
         ExecStart = lib.concatStringsSep " " [
-          weed
+          (lib.getExe package)
           "volume"
+          "-max=50"
           "-ip=127.0.0.1"
           "-ip.bind=127.0.0.1"
           "-dir=${volumeDataRoot}"
@@ -168,7 +173,7 @@ in
         WorkingDirectory = "/var/lib/seaweedfs/filer";
         LoadCredential = "s3-config.json:${config.sops.templates."seaweedfs/s3-config.json".path}";
         ExecStart = lib.concatStringsSep " " [
-          weed
+          (lib.getExe package)
           "filer"
           "-ip=127.0.0.1"
           "-ip.bind=127.0.0.1"
