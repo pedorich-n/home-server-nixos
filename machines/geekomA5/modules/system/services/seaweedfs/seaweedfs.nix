@@ -105,9 +105,6 @@ in
       wantedBy = [
         "multi-user.target"
       ];
-      unitConfig = systemdLib.requisiteAfter [
-        "zfs.target"
-      ];
 
       serviceConfig = {
         StateDirectory = "seaweedfs/master";
@@ -130,12 +127,10 @@ in
       wantedBy = [
         "multi-user.target"
       ];
-      after = [
-        config.systemd.services.seaweedfs-master.name
-      ];
 
-      unitConfig = systemdLib.requisiteAfter [
-        "zfs.target"
+      unitConfig = lib.mkMerge [
+        (systemdLib.requisiteAfter [ "zfs.target" ])
+        (systemdLib.requiresAfter [ config.systemd.services.seaweedfs-master.name ])
       ];
 
       serviceConfig = {
@@ -161,11 +156,11 @@ in
       wantedBy = [
         "multi-user.target"
       ];
-      after = [
-        config.systemd.services.seaweedfs-volume.name
-      ];
-      unitConfig = systemdLib.requisiteAfter [
-        "zfs.target"
+
+      unitConfig = lib.mkMerge [
+        (systemdLib.requiresAfter [
+          config.systemd.services.seaweedfs-master.name
+        ])
       ];
 
       environment = {
