@@ -181,10 +181,10 @@ version = 'v1.3.0'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:f76c4363cce0834df43b097682928d217f9f0e0fa1d13781c0934848d543e4ab'
+digest = 'sha256:3679a75dd2304b695525d83a4ff14c458708b5da4a7ce53044240932139590e1'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
-version = '5.2.0'
+version = '5.1.4'
 versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
