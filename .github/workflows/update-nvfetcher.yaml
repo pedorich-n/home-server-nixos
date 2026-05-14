@@ -13,7 +13,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Setup job
-        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@main
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@4574905ea0c10728187de51f08d8729574413932 # main
         with:
           git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
 
