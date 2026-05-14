@@ -43,8 +43,9 @@
             key = config.sops.placeholder."ente/storage/key_id";
             secret = config.sops.placeholder."ente/storage/key_secret";
             endpoint = networkingLib.mkUrl "storage";
-            region = config.services.minio.region;
-            bucket = config.sops.placeholder."ente/storage/bucket_name";
+            region = "auto";
+            #LINK - machines/geekomA5/modules/system/services/seaweedfs/_bootstrap.nix:43
+            bucket = "ente";
           };
         };
       };

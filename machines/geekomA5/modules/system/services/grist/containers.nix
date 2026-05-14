@@ -44,7 +44,8 @@ in
 
         GRIST_DOCS_MINIO_ENDPOINT = networkingLib.mkDomain "storage";
         GRIST_DOCS_MINIO_USE_SSL = "1";
-        GRIST_DOCS_MINIO_BUCKET_REGION = config.services.minio.region;
+        GRIST_DOCS_MINIO_BUCKET = "grist";
+        GRIST_DOCS_MINIO_BUCKET_REGION = "auto";
 
         GRIST_SNAPSHOT_TIME_CAP = builtins.toJSON {
           hour = 24;

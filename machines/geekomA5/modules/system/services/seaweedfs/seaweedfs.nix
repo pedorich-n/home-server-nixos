@@ -1,0 +1,190 @@
+{
+  config,
+  lib,
+  pkgs-unstable,
+  systemdLib,
+  ...
+}:
+let
+  portsCfg = config.custom.networking.ports.tcp;
+  volumeDataRoot = "/mnt/external/seaweedfs/volumes";
+  package = pkgs-unstable.seaweedfs;
+
+  commonServiceConfig = {
+    User = config.users.users.seaweedfs.name;
+    Group = config.users.users.seaweedfs.group;
+    Restart = "on-failure";
+    RestartSec = "30s";
+
+    # Hardening
+    NoNewPrivileges = true;
+    PrivateTmp = true;
+    PrivateDevices = true;
+    ProtectHome = true;
+    ProtectSystem = "strict";
+    ProtectKernelTunables = true;
+    ProtectKernelModules = true;
+    ProtectKernelLogs = true;
+    ProtectControlGroups = true;
+    LockPersonality = true;
+    RestrictSUIDSGID = true;
+    RestrictRealtime = true;
+    RestrictNamespaces = true;
+    RestrictAddressFamilies = [
+      "AF_INET"
+      "AF_INET6"
+      "AF_UNIX"
+    ];
+  };
+
+  withCommonConfig =
+    service:
+    lib.mkMerge [
+      {
+        serviceConfig = commonServiceConfig;
+      }
+      service
+    ];
+
+  bootstrapBucketsScript = pkgs-unstable.callPackage ./_bootstrap.nix {
+    s3Port = portsCfg.seaweedfs-s3.portStr;
+  };
+in
+{
+  custom.networking.ports.tcp = {
+    seaweedfs-s3 = {
+      port = 45000;
+      openFirewall = false;
+    };
+    seaweedfs-master = {
+      port = 45010;
+      openFirewall = false;
+    };
+    seaweedfs-master-grpc = {
+      port = 55010; # 10000 + seaweedfs-master (SeaweedFS default formula)
+      openFirewall = false;
+    };
+    seaweedfs-volume = {
+      port = 45012;
+      openFirewall = false;
+    };
+    seaweedfs-volume-grpc = {
+      port = 55012; # 10000 + seaweedfs-volume
+      openFirewall = false;
+    };
+    seaweedfs-filer = {
+      port = 45014;
+      openFirewall = false;
+    };
+    seaweedfs-filer-grpc = {
+      port = 55014; # 10000 + seaweedfs-filer
+      openFirewall = false;
+    };
+  };
+
+  custom.services.caddy.hosts.storage = {
+    upstream = "http://127.0.0.1:${portsCfg.seaweedfs-s3.portStr}";
+  };
+
+  users = {
+    users.seaweedfs = {
+      isSystemUser = true;
+      group = "seaweedfs";
+    };
+
+    groups.seaweedfs = { };
+  };
+
+  environment.systemPackages = [
+    package
+  ];
+
+  systemd.services = {
+    seaweedfs-master = withCommonConfig {
+      description = "SeaweedFS Master";
+      wantedBy = [
+        "multi-user.target"
+      ];
+
+      serviceConfig = {
+        StateDirectory = "seaweedfs/master";
+        WorkingDirectory = "/var/lib/seaweedfs/master";
+        ExecStart = lib.concatStringsSep " " [
+          (lib.getExe package)
+          "master"
+          "-ip=127.0.0.1"
+          "-ip.bind=127.0.0.1"
+          "-mdir=/var/lib/seaweedfs/master"
+          "-port=${portsCfg.seaweedfs-master.portStr}"
+          "-peers=none"
+          "-volumeSizeLimitMB=30000"
+        ];
+      };
+    };
+
+    seaweedfs-volume = withCommonConfig {
+      description = "SeaweedFS Volume";
+      wantedBy = [
+        "multi-user.target"
+      ];
+
+      unitConfig = lib.mkMerge [
+        (systemdLib.requisiteAfter [ "zfs.target" ])
+        (systemdLib.requiresAfter [ config.systemd.services.seaweedfs-master.name ])
+      ];
+
+      serviceConfig = {
+        ReadWritePaths = [
+          volumeDataRoot
+        ];
+        WorkingDirectory = volumeDataRoot;
+        ExecStart = lib.concatStringsSep " " [
+          (lib.getExe package)
+          "volume"
+          "-max=50"
+          "-ip=127.0.0.1"
+          "-ip.bind=127.0.0.1"
+          "-dir=${volumeDataRoot}"
+          "-mserver=127.0.0.1:${portsCfg.seaweedfs-master.portStr}"
+          "-port=${portsCfg.seaweedfs-volume.portStr}"
+        ];
+      };
+    };
+
+    seaweedfs-filer = withCommonConfig {
+      description = "SeaweedFS Filer (S3 API)";
+      wantedBy = [
+        "multi-user.target"
+      ];
+
+      unitConfig = lib.mkMerge [
+        (systemdLib.requiresAfter [
+          config.systemd.services.seaweedfs-master.name
+        ])
+      ];
+
+      environment = {
+        CREDENTIALS_FILE = "%d/s3-config.json";
+      };
+
+      serviceConfig = {
+        StateDirectory = "seaweedfs/filer";
+        WorkingDirectory = "/var/lib/seaweedfs/filer";
+        LoadCredential = "s3-config.json:${config.sops.templates."seaweedfs/s3-config.json".path}";
+        ExecStart = lib.concatStringsSep " " [
+          (lib.getExe package)
+          "filer"
+          "-ip=127.0.0.1"
+          "-ip.bind=127.0.0.1"
+          "-defaultStoreDir=/var/lib/seaweedfs/filer"
+          "-master=127.0.0.1:${portsCfg.seaweedfs-master.portStr}"
+          "-port=${portsCfg.seaweedfs-filer.portStr}"
+          "-s3"
+          "-s3.port=${portsCfg.seaweedfs-s3.portStr}"
+          "-s3.config=\${CREDENTIALS_FILE}"
+        ];
+        ExecStartPost = "-${lib.getExe bootstrapBucketsScript} \${CREDENTIALS_FILE}";
+      };
+    };
+  };
+}

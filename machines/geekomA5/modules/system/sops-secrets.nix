@@ -221,6 +221,30 @@ let
       };
     in
     mapMergeAttrsList mkSecret secrets;
+
+  seaweedfsSecrets =
+    let
+      mkS3Credentials = user: [
+        "seaweedfs/${user}/access_key"
+        "seaweedfs/${user}/secret_key"
+      ];
+
+      s3Users = [
+        "admin"
+        "ente"
+        "grist"
+      ];
+
+      secrets = lib.flatten (lib.map mkS3Credentials s3Users);
+
+      mkSecret = secret: {
+        ${secret} = {
+          owner = config.users.users.seaweedfs.name;
+          group = config.users.users.seaweedfs.group;
+        };
+      };
+    in
+    mapMergeAttrsList mkSecret secrets;
 in
 {
   sops = {
@@ -240,7 +264,6 @@ in
         "ente/encryption/key" = { };
         "ente/encryption/hash" = { };
         "ente/jwt/secret" = { };
-        "ente/storage/bucket_name" = { };
         "ente/storage/key_id" = { };
         "ente/storage/key_secret" = { };
         "ente/database/name" = { };
@@ -308,6 +331,7 @@ in
       envSecrets
       resticSecrets
       acmeSecrets
+      seaweedfsSecrets
       (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
       (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
