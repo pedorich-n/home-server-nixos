@@ -47,13 +47,13 @@ let
     ];
 
   bootstrapBucketsScript = pkgs-unstable.callPackage ./_bootstrap.nix {
-    s3Port = portsCfg.seaweedfs-s3-staging.portStr;
+    s3Port = portsCfg.seaweedfs-s3.portStr;
   };
 in
 {
   custom.networking.ports.tcp = {
-    seaweedfs-s3-staging = {
-      port = 45002;
+    seaweedfs-s3 = {
+      port = 45000;
       openFirewall = false;
     };
     seaweedfs-master = {
@@ -80,6 +80,10 @@ in
       port = 55014; # 10000 + seaweedfs-filer
       openFirewall = false;
     };
+  };
+
+  custom.services.caddy.hosts.storage = {
+    upstream = "http://127.0.0.1:${portsCfg.seaweedfs-s3.portStr}";
   };
 
   users = {
@@ -181,7 +185,7 @@ in
           "-master=127.0.0.1:${portsCfg.seaweedfs-master.portStr}"
           "-port=${portsCfg.seaweedfs-filer.portStr}"
           "-s3"
-          "-s3.port=${portsCfg.seaweedfs-s3-staging.portStr}"
+          "-s3.port=${portsCfg.seaweedfs-s3.portStr}"
           "-s3.config=\${CREDENTIALS_FILE}"
         ];
         ExecStartPost = "-${lib.getExe bootstrapBucketsScript} \${CREDENTIALS_FILE}";

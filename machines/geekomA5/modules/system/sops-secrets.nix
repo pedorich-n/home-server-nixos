@@ -261,7 +261,6 @@ in
         "ente/encryption/key" = { };
         "ente/encryption/hash" = { };
         "ente/jwt/secret" = { };
-        "ente/storage/bucket_name" = { };
         "ente/storage/key_id" = { };
         "ente/storage/key_secret" = { };
         "ente/database/name" = { };

@@ -1,37 +1,33 @@
 {
   config,
   pkgs-unstable,
-  systemdLib,
   ...
 }:
-let
-  portsCfg = config.custom.networking.ports;
-in
 {
-  custom.networking.ports.tcp = {
-    minio-s3 = {
-      port = 45000;
-      openFirewall = false;
-    };
-    minio-console = {
-      port = 45001;
-      openFirewall = false;
-    };
-  };
+  # custom.networking.ports.tcp = {
+  #   minio-s3 = {
+  #     port = 45000;
+  #     openFirewall = false;
+  #   };
+  #   minio-console = {
+  #     port = 45001;
+  #     openFirewall = false;
+  #   };
+  # };
 
-  custom.services.caddy.hosts.storage = {
-    upstream = "http://127.0.0.1:${portsCfg.tcp.minio-s3.portStr}";
-  };
+  # custom.services.caddy.hosts.storage = {
+  #   upstream = "http://127.0.0.1:${portsCfg.tcp.minio-s3.portStr}";
+  # };
 
-  systemd.services.minio = {
-    environment = {
-      MINIO_API_CORS_ALLOW_ORIGIN = "*";
-    };
+  # systemd.services.minio = {
+  #   environment = {
+  #     MINIO_API_CORS_ALLOW_ORIGIN = "*";
+  #   };
 
-    unitConfig = systemdLib.requisiteAfter [
-      "zfs.target"
-    ];
-  };
+  #   unitConfig = systemdLib.requisiteAfter [
+  #     "zfs.target"
+  #   ];
+  # };
 
   environment.systemPackages = [
     pkgs-unstable.minio-client
@@ -39,12 +35,12 @@ in
 
   services = {
     minio = {
-      enable = true;
+      enable = false;
       package = pkgs-unstable.minio;
       rootCredentialsFile = config.sops.secrets."minio/main.env".path;
       region = "ap-northeast-1";
-      listenAddress = "127.0.0.1:${portsCfg.tcp.minio-s3.portStr}";
-      consoleAddress = "127.0.0.1:${portsCfg.tcp.minio-console.portStr}";
+      listenAddress = "127.0.0.1:45000";
+      consoleAddress = "127.0.0.1:45001";
       browser = false; # Disable the web browser interface
       dataDir = [
         "/mnt/external/object-storage/minio"
