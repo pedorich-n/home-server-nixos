@@ -238,11 +238,7 @@ let
       secrets = lib.flatten (lib.map mkS3Credentials s3Users);
 
       mkSecret = secret: {
-        ${secret} = {
-          # TODO: uncomment once there's actually a seaweedfs user
-          # owner = config.services.seaweedfs.user;
-          # group = config.services.seaweedfs.group;
-        };
+        ${secret} = { };
       };
     in
     mapMergeAttrsList mkSecret secrets;
