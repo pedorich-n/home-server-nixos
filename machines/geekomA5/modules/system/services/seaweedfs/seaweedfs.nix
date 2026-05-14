@@ -45,6 +45,10 @@ let
       }
       service
     ];
+
+  bootstrapBucketsScript = pkgs-unstable.callPackage ./_bootstrap.nix {
+    s3Port = portsCfg.seaweedfs-s3-staging.portStr;
+  };
 in
 {
   custom.networking.ports.tcp = {
@@ -155,6 +159,10 @@ in
         "zfs.target"
       ];
 
+      environment = {
+        CREDENTIALS_FILE = "%d/s3-config.json";
+      };
+
       serviceConfig = {
         StateDirectory = "seaweedfs/filer";
         WorkingDirectory = "/var/lib/seaweedfs/filer";
@@ -169,8 +177,9 @@ in
           "-port=${portsCfg.seaweedfs-filer.portStr}"
           "-s3"
           "-s3.port=${portsCfg.seaweedfs-s3-staging.portStr}"
-          "-s3.config=%d/s3-config.json"
+          "-s3.config=\${CREDENTIALS_FILE}"
         ];
+        ExecStartPost = "-${lib.getExe bootstrapBucketsScript} \${CREDENTIALS_FILE}";
       };
     };
   };
