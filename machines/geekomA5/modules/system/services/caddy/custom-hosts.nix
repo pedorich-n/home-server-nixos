@@ -9,12 +9,6 @@ let
 
   #LINK - machines/geekomA5/modules/system/services/authelia/authelia.nix:63
   autheliaAddress = "unix//run/authelia-main/authelia.sock";
-
-  autheliaUris = {
-    "authelia" = "/api/authz/forward-auth";
-    "authelia-basic" = "/api/authz/forward-auth-basic";
-  };
-
   copyHeaders = "Remote-User Remote-Groups Remote-Email Remote-Name";
 
   mkVirtualHostConfig =
@@ -35,19 +29,13 @@ let
           # so it only applies to paths not matched above.
           ''
             handle {
-              forward_auth ${autheliaAddress} {
-                uri ${autheliaUris.${host.auth}}
-                copy_headers ${copyHeaders}
-              }
+              import forward-auth-${host.auth}
               reverse_proxy ${host.upstream}
             }
           ''
         else if host.auth != null then
           ''
-            forward_auth ${autheliaAddress} {
-              uri ${autheliaUris.${host.auth}}
-              copy_headers ${copyHeaders}
-            }
+            import forward-auth-${host.auth}
             reverse_proxy ${host.upstream}
           ''
         else
@@ -83,7 +71,11 @@ in
             };
 
             auth = lib.mkOption {
-              type = lib.types.enum ([ null ] ++ (lib.attrNames autheliaUris));
+              type = lib.types.enum [
+                null
+                "authelia"
+                "authelia-basic"
+              ];
               default = null;
               description = ''
                 Forward auth variant to apply:
@@ -125,15 +117,34 @@ in
   };
 
   config = lib.mkIf (cfg != { }) {
-    services.caddy.virtualHosts = lib.mapAttrs' (_name: value: {
-      name = if value.useTLS then value.domain else "http://${value.domain}";
-      value = {
-        # Should be the same as `security.acme.certs.<name>`
-        #LINK - machines/geekomA5/modules/system/security/acme.nix:15
-        logFormat = null; # Disable access logs
-        useACMEHost = if value.useTLS then "local" else null;
-        extraConfig = mkVirtualHostConfig value;
-      };
-    }) cfg;
+    services.caddy = {
+      # mkBefore so that the snippet is included before any virtual host configs
+      extraConfig = lib.mkBefore ''
+        (forward-auth-authelia) {
+          forward_auth ${autheliaAddress} {
+            uri /api/authz/forward-auth
+            copy_headers ${copyHeaders}
+          }
+        }
+
+        (forward-auth-authelia-basic) {
+          forward_auth ${autheliaAddress} {
+            uri /api/authz/forward-auth-basic
+            copy_headers ${copyHeaders}
+          }
+        }
+      '';
+
+      virtualHosts = lib.mapAttrs' (_name: value: {
+        name = if value.useTLS then value.domain else "http://${value.domain}";
+        value = {
+          # Should be the same as `security.acme.certs.<name>`
+          #LINK - machines/geekomA5/modules/system/security/acme.nix:15
+          logFormat = null; # Disable access logs
+          useACMEHost = if value.useTLS then "local" else null;
+          extraConfig = mkVirtualHostConfig value;
+        };
+      }) cfg;
+    };
   };
 }

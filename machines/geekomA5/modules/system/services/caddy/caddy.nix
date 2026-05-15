@@ -61,7 +61,7 @@ in
       }
     '';
 
-    # Top-level domain redirect: bare domain → dashy.
+    # Top-level catch-all for unmatched hosts to serve the error page.
     virtualHosts."${networkingLib.mkDomain "*"}" = {
       useACMEHost = "local";
       logFormat = null; # Disable access logs
