@@ -15,6 +15,7 @@ let
 in
 writeShellApplication {
   name = "update-packages";
+  meta.description = "Update packages' sources using nix-update";
 
   runtimeInputs = [
     nix-update

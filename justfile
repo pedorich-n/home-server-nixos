@@ -27,8 +27,5 @@ convert-host-keys root:
 shell-tf:
     just _develop tf
 
-shell-updater:
-    just _develop version-updater
-
-nvfetcher:
-    just _run update-nvfetcher
+update-packages:
+    just _run update-packages
