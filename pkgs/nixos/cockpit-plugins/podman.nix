@@ -1,11 +1,16 @@
 {
-  sources,
-  lib,
+  fetchurl,
   stdenv,
   gettext,
+  lib,
 }:
-stdenv.mkDerivation {
-  inherit (sources.cockpit-podman) pname version src;
+stdenv.mkDerivation (finalAttrs: {
+  pname = "cockpit-podman";
+  version = "125";
+  src = fetchurl {
+    url = "https://github.com/cockpit-project/cockpit-podman/releases/download/${finalAttrs.version}/cockpit-podman-${finalAttrs.version}.tar.xz";
+    sha256 = "sha256-6XathPDmpJ4g3zn0pKoagsDNBQ+9o3iPd2nVs615esw=";
+  };
 
   nativeBuildInputs = [
     gettext
@@ -23,6 +28,10 @@ stdenv.mkDerivation {
       --replace-warn "/lib/systemd/system/podman.socket" "/run/podman/podman.sock"
   '';
 
+  passthru = {
+    useNixUpdate = true;
+  };
+
   meta = {
     description = "Cockpit UI for podman containers";
     license = lib.licenses.lgpl21;
@@ -30,4 +39,5 @@ stdenv.mkDerivation {
     platforms = lib.platforms.linux;
     maintainers = [ ];
   };
-}
+
+})

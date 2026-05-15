@@ -1,12 +1,18 @@
 {
-  sources,
-  lib,
+  fetchurl,
   stdenv,
   gettext,
   python3,
+  lib,
 }:
-stdenv.mkDerivation {
-  inherit (sources.cockpit-files) pname version src;
+stdenv.mkDerivation (finalAttrs: {
+  pname = "cockpit-files";
+  version = "40";
+
+  src = fetchurl {
+    url = "https://github.com/cockpit-project/cockpit-files/releases/download/${finalAttrs.version}/cockpit-files-${finalAttrs.version}.tar.xz";
+    sha256 = "sha256-Yp6s9x0Vu8Lgcg71aImTLJ8YNKJkfxhbSOcPckJVAGI=";
+  };
 
   nativeBuildInputs = [
     gettext
@@ -32,6 +38,10 @@ stdenv.mkDerivation {
 
   dontBuild = true;
 
+  passthru = {
+    useNixUpdate = true;
+  };
+
   meta = {
     description = "Cockpit UI for local files";
     license = lib.licenses.lgpl21;
@@ -39,4 +49,4 @@ stdenv.mkDerivation {
     platforms = lib.platforms.linux;
     maintainers = [ ];
   };
-}
+})
