@@ -5,6 +5,7 @@
 {
   perSystem =
     {
+      config,
       pkgs,
       deployPkgs,
       lib,
@@ -17,6 +18,7 @@
           // {
             inherit flake;
             inherit (deployPkgs.deploy-rs) deploy-rs;
+            inherit (config) packages;
           }
         );
         directory = ../pkgs/tools;

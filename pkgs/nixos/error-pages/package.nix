@@ -1,11 +1,19 @@
 {
-  sources,
-  lib,
+  fetchFromGitHub,
   buildGoModule,
+  lib,
 }:
 buildGoModule (finalAttrs: {
-  inherit (sources.error-pages) pname src;
-  version = lib.removePrefix "v" sources.error-pages.version;
+  pname = "error-pages";
+  version = "4.2.0";
+
+  src = fetchFromGitHub {
+    owner = "tarampampam";
+    repo = "error-pages";
+    rev = "v${finalAttrs.version}";
+    sha256 = "sha256-CLl8SnZTT6siYJWCr+Bd+5vPqXeDi+qYW905GjFhDEY=";
+  };
+
   vendorHash = null;
 
   env.CGO_ENABLED = "0";
@@ -26,6 +34,10 @@ buildGoModule (finalAttrs: {
 
     "''${GOPATH}/bin/builder" --index --target-dir $static_target
   '';
+
+  passthru = {
+    useNixUpdate = true;
+  };
 
   meta = {
     description = "Static error pages generator for HTTP servers";

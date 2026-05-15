@@ -1,4 +1,4 @@
-name: Nvfetcher Update Check
+name: Update Packages' Sources
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     - cron: "0 10 1 * *"
 
 jobs:
-  update-nvfetcher:
+  update-packages:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -17,8 +17,8 @@ jobs:
         with:
           git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
 
-      - name: Update nvfetcher sources
-        run: nix run .#update-nvfetcher
+      - name: Update packages' sources
+        run: nix run .#update-packages
 
       - name: Check for changes
         id: git-check
@@ -30,9 +30,9 @@ jobs:
         if: steps.git-check.outputs.changes_detected
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
-          commit-message: "Update nvfetcher sources"
-          title: "Update nvfetcher sources"
-          branch: "update_nvfetcher"
+          commit-message: "Update packages' sources"
+          title: "Update packages' sources"
+          branch: "update_packages"
           labels: |
             dependencies
             automated
