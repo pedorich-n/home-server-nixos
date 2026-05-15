@@ -56,6 +56,8 @@ let
           ''
       )
 
+      "import error-handler"
+
       host.extraConfig
     ];
 in
