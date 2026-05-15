@@ -37,7 +37,7 @@ jobs:
           git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
 
       - name: Setup niks3
-        uses: Mic92/niks3-action@bc010bf9dbc79ec59de6c79b1e7a167977d3978b # v1
+        uses: Mic92/niks3-action@74d07d8646174756fd49c870b1c26998f4521f81 # v1
         with:
           server-url: ${{ vars.NIKS3_SERVER_URL }}
 
