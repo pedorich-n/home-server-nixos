@@ -28,5 +28,26 @@
             "url": "https://github.com/cockpit-project/cockpit-podman/releases/download/125/cockpit-podman-125.tar.xz"
         },
         "version": "125"
+    },
+    "error-pages": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "error-pages",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "tarampampam",
+            "repo": "error-pages",
+            "rev": "v4.2.0",
+            "sha256": "sha256-CLl8SnZTT6siYJWCr+Bd+5vPqXeDi+qYW905GjFhDEY=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v4.2.0"
     }
 }

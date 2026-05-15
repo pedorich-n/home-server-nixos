@@ -29,3 +29,6 @@ shell-tf:
 
 shell-updater:
     just _develop version-updater
+
+nvfetcher:
+    just _run update-nvfetcher

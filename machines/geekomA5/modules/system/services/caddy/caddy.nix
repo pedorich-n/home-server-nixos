@@ -1,6 +1,9 @@
 {
   inputs,
   config,
+  networkingLib,
+  pkgs-unstable,
+  lib,
   ...
 }:
 let
@@ -46,5 +49,27 @@ in
       format console
       level INFO
     '';
+
+    # mkBefore so that the snippet is included before any virtual host configs
+    extraConfig = lib.mkBefore ''
+      (error-handler) {
+        handle_errors {
+          root * ${pkgs-unstable.error-pages}/share/error-pages/app-down
+          rewrite * /{err.status_code}.html
+          file_server
+        }
+      }
+    '';
+
+    # Top-level catch-all for unmatched hosts to serve the error page.
+    virtualHosts."${networkingLib.mkDomain "*"}" = {
+      useACMEHost = "local";
+      logFormat = null; # Disable access logs
+      extraConfig = ''
+        import error-handler
+
+        error * 404  # Trigger 404 error to invoke handle_errors
+      '';
+    };
   };
 }

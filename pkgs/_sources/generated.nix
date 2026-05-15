@@ -17,4 +17,15 @@
       sha256 = "sha256-6XathPDmpJ4g3zn0pKoagsDNBQ+9o3iPd2nVs615esw=";
     };
   };
+  error-pages = {
+    pname = "error-pages";
+    version = "v4.2.0";
+    src = fetchFromGitHub {
+      owner = "tarampampam";
+      repo = "error-pages";
+      rev = "v4.2.0";
+      fetchSubmodules = false;
+      sha256 = "sha256-CLl8SnZTT6siYJWCr+Bd+5vPqXeDi+qYW905GjFhDEY=";
+    };
+  };
 }
