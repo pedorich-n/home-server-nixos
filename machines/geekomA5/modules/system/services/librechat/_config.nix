@@ -104,6 +104,7 @@ writers.writeYAML "librechat.yaml" {
         LOG_LEVEL = "error";
         DISABLE_CONSOLE_OUTPUT = "true";
         N8N_API_URL = networkingLib.mkUrl "n8n";
+        WEBHOOK_SECURITY_MODE = "permissive";
         N8N_API_KEY = "\${N8N_API_KEY}";
       };
     };
