@@ -132,8 +132,9 @@ lib.mkMerge [
 
           "go.d.conf" = pkgs.writers.writeYAML "netdata-go.d.conf" {
             modules = {
-              dnsmasq = "no";
-              logind = "no";
+              dnsmasq = false;
+              logind = false;
+              sensors = true;
             };
           };
 
