@@ -1,5 +1,7 @@
 name: Nix Flake Check
-on: push
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   nix-flake-check:
