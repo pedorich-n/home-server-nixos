@@ -22,13 +22,19 @@ jobs:
         with:
           git_https_token: ${{ steps.app_auth.outputs.token }}
 
+      - name: Get packages list
+        id: get_packages
+        run: |
+          {
+            echo 'packages<<EOF'
+            nix eval --json .#nixUpdatePackages | jq -r '.[]'
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+
       - name: Run nix-update
         uses: pedorich-n/github-workflows/.github/actions/nix-update@ab0b55f0c919123865d500485c7a275c487e6466 # main
         with:
           token: ${{ steps.app_auth.outputs.token }}
           committer: ${{ steps.app_auth.outputs.committer }}
           author: ${{ steps.app_auth.outputs.committer }}
-          packages: |
-            error-pages
-            \"cockpit-plugins.podman\"
-            \"cockpit-plugins.files\"
+          packages: ${{ steps.get_packages.outputs.packages }}
