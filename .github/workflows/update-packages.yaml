@@ -23,7 +23,7 @@ jobs:
           git_https_token: ${{ steps.app_auth.outputs.token }}
 
       - name: Run nix-update
-        uses: pedorich-n/github-workflows/.github/actions/run-nix-update@nix-update # main
+        uses: pedorich-n/github-workflows/.github/actions/nix-update@nix-update # main
         with:
           token: ${{ steps.app_auth.outputs.token }}
           committer: ${{ steps.app_auth.outputs.committer }}
