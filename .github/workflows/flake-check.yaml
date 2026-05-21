@@ -8,6 +8,6 @@ jobs:
     uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@rework-flows # main
     with:
       timeout_minutes: 20
-    secrets:
       app_client_id: ${{ vars.APP_CLIENT_ID }}
+    secrets:
       app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
