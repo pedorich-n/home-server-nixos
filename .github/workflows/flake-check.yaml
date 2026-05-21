@@ -7,5 +7,5 @@ jobs:
     with:
       timeout_minutes: 20
     secrets:
-      client_id: ${{ vars.APP_CLIENT_ID }}
-      private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      app_client_id: ${{ vars.APP_CLIENT_ID }}
+      app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
