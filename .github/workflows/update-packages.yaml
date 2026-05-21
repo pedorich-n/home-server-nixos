@@ -8,9 +8,6 @@ on:
 jobs:
   update-packages:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
       - name: Get Github App info
         id: app_auth
@@ -38,9 +35,11 @@ jobs:
         if: steps.git-check.outputs.changes_detected
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
-          commit-message: "Update packages' sources"
-          title: "Update packages' sources"
-          branch: "update_packages"
+          token: ${{ steps.app-auth.outputs.token }}
+          committer: ${{ steps.app-auth.outputs.committer }}
+          commit-message: "Update package sources"
+          title: "Update package sources"
+          branch: "update_package"
           labels: |
             dependencies
             automated

@@ -35,9 +35,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix: ${{fromJSON(needs.eval-matrix.outputs.matrix)}}
-    permissions:
-      contents: read
-      id-token: write
     steps:
       - name: Get Github App info
         id: app_auth
