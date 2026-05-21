@@ -9,10 +9,18 @@ jobs:
     outputs:
       matrix: ${{ steps.eval-matrix.outputs.matrix }}
     steps:
+      - name: Get Github App info
+        id: app_auth
+        uses: pedorich-n/github-workflows/.github/actions/app-token@cf613deb566fa8765012e4de2af9eacf72874da2 # main
+        with:
+          app_client_id: ${{ vars.APP_CLIENT_ID }}
+          app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          app_owner: ${{ github.repository_owner }}
+
       - name: Setup job
         uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@4574905ea0c10728187de51f08d8729574413932 # main
         with:
-          git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
+          git_https_token: ${{ steps.app_auth.outputs.token }}
 
       - name: Evaluate matrix
         id: eval-matrix
@@ -31,10 +39,18 @@ jobs:
       contents: read
       id-token: write
     steps:
+      - name: Get Github App info
+        id: app_auth
+        uses: pedorich-n/github-workflows/.github/actions/app-token@cf613deb566fa8765012e4de2af9eacf72874da2 # main
+        with:
+          app_client_id: ${{ vars.APP_CLIENT_ID }}
+          app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          app_owner: ${{ github.repository_owner }}
+
       - name: Setup job
         uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@4574905ea0c10728187de51f08d8729574413932 # main
         with:
-          git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
+          git_https_token: ${{ steps.app_auth.outputs.token }}
 
       - name: Setup niks3
         uses: Mic92/niks3-action@74d07d8646174756fd49c870b1c26998f4521f81 # v1
