@@ -9,6 +9,6 @@ jobs:
     with:
       timeout_minutes: 20
       app_client_id: ${{ vars.APP_CLIENT_ID }}
-      owner: ${{ github.repository_owner }}
+      app_owner: ${{ github.repository_owner }}
     secrets:
       app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
