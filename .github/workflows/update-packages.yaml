@@ -37,6 +37,7 @@ jobs:
         with:
           token: ${{ steps.app_auth.outputs.token }}
           committer: ${{ steps.app_auth.outputs.committer }}
+          author: ${{ steps.app_auth.outputs.committer }}
           commit-message: "Update packages' sources"
           title: "Update packages' sources"
           branch: "update_packages"
