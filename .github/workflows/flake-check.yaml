@@ -3,8 +3,9 @@ on: push
 
 jobs:
   nix-flake-check:
-    uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@4574905ea0c10728187de51f08d8729574413932 # main
+    uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@rework-flows # main
     with:
       timeout_minutes: 20
     secrets:
-      git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
+      client_id: ${{ vars.APP_CLIENT_ID }}
+      private_key: ${{ secrets.APP_PRIVATE_KEY }}
