@@ -11,14 +11,14 @@ jobs:
     steps:
       - name: Get Github App info
         id: app_auth
-        uses: pedorich-n/github-workflows/.github/actions/app-token@4d50a53f6c21f611aff2bc80ac245b5368f4ff95 # main
+        uses: pedorich-n/github-workflows/.github/actions/app-token@c11430aa47a83010ed51a50a6bc5104411cbe00b # main
         with:
           client_id: ${{ vars.APP_CLIENT_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
       - name: Setup job
-        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@4d50a53f6c21f611aff2bc80ac245b5368f4ff95 # main
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@c11430aa47a83010ed51a50a6bc5104411cbe00b # main
         with:
           git_https_token: ${{ steps.app_auth.outputs.token }}
 
@@ -38,14 +38,14 @@ jobs:
     steps:
       - name: Get Github App info
         id: app_auth
-        uses: pedorich-n/github-workflows/.github/actions/app-token@4d50a53f6c21f611aff2bc80ac245b5368f4ff95 # main
+        uses: pedorich-n/github-workflows/.github/actions/app-token@c11430aa47a83010ed51a50a6bc5104411cbe00b # main
         with:
           client_id: ${{ vars.APP_CLIENT_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
       - name: Setup job
-        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@4d50a53f6c21f611aff2bc80ac245b5368f4ff95 # main
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@c11430aa47a83010ed51a50a6bc5104411cbe00b # main
         with:
           git_https_token: ${{ steps.app_auth.outputs.token }}
 
