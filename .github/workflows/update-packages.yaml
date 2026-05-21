@@ -16,9 +16,9 @@ jobs:
         id: app_auth
         uses: pedorich-n/github-workflows/.github/actions/app-token@62dc3beeb539fd74b6889aa7de186bdddcc742bb # main
         with:
-          app_client_id: ${{ vars.APP_CLIENT_ID }}
-          app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
-          app_owner: ${{ github.repository_owner }}
+          client_id: ${{ vars.APP_CLIENT_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
 
       - name: Setup job
         uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@62dc3beeb539fd74b6889aa7de186bdddcc742bb # main
