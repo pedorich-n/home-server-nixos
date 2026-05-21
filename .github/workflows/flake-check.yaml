@@ -1,10 +1,14 @@
 name: Nix Flake Check
-on: push
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   nix-flake-check:
-    uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@4574905ea0c10728187de51f08d8729574413932 # main
+    uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@ab0b55f0c919123865d500485c7a275c487e6466 # main
     with:
       timeout_minutes: 20
+      app_client_id: ${{ vars.APP_CLIENT_ID }}
+      app_owner: ${{ github.repository_owner }}
     secrets:
-      git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
+      app_private_key: ${{ secrets.APP_PRIVATE_KEY }}

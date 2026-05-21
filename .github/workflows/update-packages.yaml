@@ -8,31 +8,33 @@ on:
 jobs:
   update-packages:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
+      - name: Get Github App info
+        id: app_auth
+        uses: pedorich-n/github-workflows/.github/actions/app-token@ab0b55f0c919123865d500485c7a275c487e6466 # main
+        with:
+          client_id: ${{ vars.APP_CLIENT_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
       - name: Setup job
-        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@4574905ea0c10728187de51f08d8729574413932 # main
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@ab0b55f0c919123865d500485c7a275c487e6466 # main
         with:
-          git_https_token: ${{ secrets.GH_ACCESS_TOKEN }}
+          git_https_token: ${{ steps.app_auth.outputs.token }}
 
-      - name: Update packages' sources
-        run: nix run .#update-packages
-
-      - name: Check for changes
-        id: git-check
-        shell: bash
+      - name: Get packages list
+        id: get_packages
         run: |
-          git diff --quiet || echo "changes_detected=true" >> "$GITHUB_OUTPUT"
+          {
+            echo 'packages<<EOF'
+            nix eval --json .#nixUpdatePackages | jq -r '.[]'
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
 
-      - name: Create Pull Request
-        if: steps.git-check.outputs.changes_detected
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
+      - name: Run nix-update
+        uses: pedorich-n/github-workflows/.github/actions/nix-update@ab0b55f0c919123865d500485c7a275c487e6466 # main
         with:
-          commit-message: "Update packages' sources"
-          title: "Update packages' sources"
-          branch: "update_packages"
-          labels: |
-            dependencies
-            automated
+          token: ${{ steps.app_auth.outputs.token }}
+          committer: ${{ steps.app_auth.outputs.committer }}
+          author: ${{ steps.app_auth.outputs.committer }}
+          packages: ${{ steps.get_packages.outputs.packages }}

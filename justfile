@@ -26,6 +26,3 @@ convert-host-keys root:
 
 shell-tf:
     just _develop tf
-
-update-packages:
-    just _run update-packages

@@ -12,7 +12,7 @@
           op =
             sum: path: val:
             let
-              pathStr = builtins.concatStringsSep "." path; # dot-based reverse DNS notation
+              pathStr = builtins.concatStringsSep "_" path;
             in
             if lib.isDerivation val then # Original was `builtins.isPath`
               # builtins.trace "${toString val} is a derivation"
