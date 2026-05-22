@@ -66,16 +66,16 @@ in
           access = {
             # Read: all users in the Users group
             "r" = "@Users";
-            # Write, Delete, Admin: only users in the Admins group
-            "wda" = "@Admins";
+            # Read, Write, Move, Delete, Admin: only users in the Admins group
+            "A" = "@Admins";
           };
         };
 
         "/share" = {
           path = "${root}/share";
           access = {
-            # Read, Write, Delete: all users in the Users group
-            "rwd" = "@Users";
+            # Read, Write, Move, Delete: all users in the Users group
+            "rwmd" = "@Users";
             # Admin: only users in the Admins group
             "a" = "@Admins";
           };
@@ -86,13 +86,21 @@ in
           access = {
             # Read: all logged in users can read
             "r" = "@acct";
-            # Write, Delete: only users in the Admins, Service groups
-            "wd" = [
+            # Write, Move, Delete: only users in the Admins, Service groups
+            "wmd" = [
               "@Admins"
               "@Service"
             ];
             # Admin: only users in the Admins group
             "a" = "@Admins";
+          };
+        };
+
+        "/tomb" = {
+          path = "/mnt/tomb";
+          access = {
+            # Read, Write, Move, Delete, Admin: only users in the Admins group
+            "A" = "@Admins";
           };
         };
       };
