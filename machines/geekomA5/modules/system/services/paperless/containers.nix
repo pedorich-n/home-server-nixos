@@ -45,19 +45,19 @@ in
         };
       };
 
-      paperless-postgresql = {
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
+      # paperless-postgresql = {
+      #   useGlobalContainers = true;
+      #   usernsAuto.enable = true;
 
-        containerConfig = {
-          environmentFiles = [ config.sops.secrets."paperless/postgresql.env".path ];
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql")
-          ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-      };
+      #   containerConfig = {
+      #     environmentFiles = [ config.sops.secrets."paperless/postgresql.env".path ];
+      #     volumes = [
+      #       (containerLib.mkMappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql")
+      #     ];
+      #     inherit networks;
+      #     inherit (containerLib.containerIds) user;
+      #   };
+      # };
 
       paperless-server = {
         wantsCaddy = true;
@@ -73,8 +73,8 @@ in
             USERMAP_UID = containerLib.containerIds.PUID;
             USERMAP_GID = containerLib.containerIds.PGID;
 
-            PAPERLESS_DBHOST = "paperless-postgresql";
-            PAPERLESS_DBENGINE = "postgres";
+            # PAPERLESS_DBHOST = "paperless-postgresql";
+            # PAPERLESS_DBENGINE = "postgres";
             PAPERLESS_REDIS = "redis://paperless-redis:6379";
 
             PAPERLESS_TRASH_DIR = "/usr/src/paperless/media/trash";
@@ -114,7 +114,7 @@ in
         unitConfig = lib.mkMerge [
           (systemdLib.requiresAfter [
             containers.paperless-redis.ref
-            containers.paperless-postgresql.ref
+            # containers.paperless-postgresql.ref
           ])
           (systemdLib.requisiteAfter [
             "zfs.target"
