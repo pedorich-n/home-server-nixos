@@ -63,6 +63,7 @@ in
 
         OIDC_ISSUER = networkingLib.mkUrl "authelia";
         OIDC_DISCOVERY_URL = autheliaLib.issuerUrl;
+        OIDC_SCOPE = "openid profile email groups";
         OIDC_DISPLAY_NAME = "Authelia";
         OIDC_ONLY = "true";
         OIDC_ADMIN_CLAIM = "groups";
