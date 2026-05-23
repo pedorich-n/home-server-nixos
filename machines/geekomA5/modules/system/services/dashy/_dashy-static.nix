@@ -20,7 +20,7 @@ let
       slug,
       title ? capitalize slug,
       iconName ? slug,
-      iconLink ? "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${iconName}.png",
+      iconLink ? "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/${iconName}.png",
       args ? { },
     }:
     {
@@ -96,6 +96,11 @@ let
             slug = "chat";
             title = "LibreChat";
             iconName = "librechat";
+          })
+          (mkEntry {
+            slug = "trek";
+            title = "TREK";
+            iconName = "trek-light";
           })
           (mkEntry {
             slug = "copyparty";
@@ -200,7 +205,7 @@ let
           (mkEntry {
             slug = "lldap";
             title = "LLDAP";
-            iconName = "lldap-dark";
+            iconName = "lldap-light";
           })
           (mkEntry {
             slug = "authelia";
