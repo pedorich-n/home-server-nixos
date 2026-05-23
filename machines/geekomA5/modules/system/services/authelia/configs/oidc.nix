@@ -265,6 +265,16 @@ in
               ];
             };
           })
+
+          (mkOidcProviderPrivate {
+            name = "trek";
+            redirectUris = [
+              "${networkingLib.mkUrl "trek"}/api/auth/oidc/callback"
+            ];
+            extraArgs = {
+              token_endpoint_auth_method = "client_secret_post";
+            };
+          })
         ];
       };
     };
