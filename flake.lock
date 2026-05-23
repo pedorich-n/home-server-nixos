@@ -299,16 +299,16 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1779461951,
-        "narHash": "sha256-yaGNhKRXweLMZGgZ/sFKiKSpGmdshBnvnx0XSQV/kCg=",
-        "ref": "refs/heads/paperless-sqlite",
-        "rev": "d0d2db0c6a23e9735ad21d69b3bbe5b5cab88338",
+        "lastModified": 1779500929,
+        "narHash": "sha256-BddoItLnuDJbK2BhYz0LkoN1TgNto2WE/YM1ou4/qOM=",
+        "ref": "refs/heads/main",
+        "rev": "4a0fdc684c0ab6e297b787e7d9c819de9d6ff4b7",
         "revCount": 205,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
       "original": {
-        "ref": "refs/heads/paperless-sqlite",
+        "ref": "refs/heads/main",
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }
