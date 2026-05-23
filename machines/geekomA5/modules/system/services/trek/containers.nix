@@ -67,6 +67,9 @@ in
         OIDC_ONLY = "true";
         OIDC_ADMIN_CLAIM = "groups";
         OIDC_ADMIN_VALUE = "Admins";
+
+        SMTP_HOST = "smtp.purelymail.com";
+        SMTP_PORT = "465";
       };
       environmentFiles = [ config.sops.secrets."trek/main.env".path ];
       volumes = [
