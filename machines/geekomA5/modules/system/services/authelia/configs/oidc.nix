@@ -1,11 +1,11 @@
 {
   config,
   pkgs,
+  autheliaLib,
   networkingLib,
   ...
 }:
 let
-  shared = import ../_shared.nix;
 
   defaultScopes = [
     "openid"
@@ -67,11 +67,11 @@ in
     file = pkgs.writers.writeYAML "authelia-oidc-apps-template.yaml" {
       definitions.user_attributes = {
         admin_or_user = {
-          expression = ''"${shared.groups.Admins}" in groups ? "admin" : "user"'';
+          expression = ''"${autheliaLib.groups.Admins}" in groups ? "admin" : "user"'';
         };
 
         admin_or_user_list = {
-          expression = ''"${shared.groups.Admins}" in groups ? ["admin"] : ["user"]'';
+          expression = ''"${autheliaLib.groups.Admins}" in groups ? ["admin"] : ["user"]'';
         };
       };
 

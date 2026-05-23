@@ -1,5 +1,6 @@
 {
   config,
+  autheliaLib,
   pkgs,
   ...
 }:
@@ -48,8 +49,8 @@ in
         user = "user_1";
         extraArgs = {
           groups = [
-            "Admins"
-            "Users"
+            autheliaLib.groups.Admins
+            autheliaLib.groups.Users
           ];
         };
       });
@@ -66,7 +67,9 @@ in
       file = pkgs.writers.writeJSON "lldap-jksv-template.json" (mkUserFromSops {
         user = "jksv";
         extraArgs = {
-          groups = [ "Service" ];
+          groups = [
+            autheliaLib.groups.Service
+          ];
         };
       });
     };

@@ -1,15 +1,10 @@
 {
+  autheliaLib,
   runCommand,
   lib,
 }:
 let
-  # Should be the same as
-  #LINK - machines/geekomA5/modules/system/services/authelia/_shared.nix
-  groups = [
-    "Users"
-    "Admins"
-    "Service"
-  ];
+  groups = lib.attrValues autheliaLib.groups;
 in
 runCommand "generate-ldap-groups" { } ''
   mkdir -p $out

@@ -1,5 +1,6 @@
 {
   config,
+  autheliaLib,
   networkingLib,
   systemdLib,
   lib,
@@ -7,8 +8,6 @@
   ...
 }:
 let
-  shared = import ./_shared.nix;
-
   mkAccessRule =
     {
       apps,
@@ -183,17 +182,17 @@ in
           rules = [
             (mkAccessRule {
               apps = adminApps;
-              groups = [ shared.groups.Admins ];
+              groups = [ autheliaLib.groups.Admins ];
             })
             (mkAccessRule {
               apps = regularApps;
-              groups = [ shared.groups.Users ];
+              groups = [ autheliaLib.groups.Users ];
             })
             (mkAccessRule {
               apps = serviceApps;
               groups = [
-                shared.groups.Users
-                shared.groups.Service
+                autheliaLib.groups.Users
+                autheliaLib.groups.Service
               ];
             })
           ];

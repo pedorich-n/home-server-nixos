@@ -1,5 +1,6 @@
 {
   config,
+  autheliaLib,
   networkingLib,
   pkgs-unstable,
   ...
@@ -7,7 +8,9 @@
 let
   portsCfg = config.custom.networking.ports.tcp.dashy;
 
-  dashy-static = pkgs-unstable.callPackage ./_dashy-static.nix { inherit networkingLib; };
+  dashy-static = pkgs-unstable.callPackage ./_dashy-static.nix {
+    inherit networkingLib autheliaLib;
+  };
 in
 {
   custom = {

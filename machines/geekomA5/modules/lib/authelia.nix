@@ -6,5 +6,13 @@
   _module.args.autheliaLib = {
     issuerUrl = networkingLib.mkUrl "authelia";
     discoveryUrl = "${networkingLib.mkUrl "authelia"}/.well-known/openid-configuration";
+
+    # Should be the same as
+    #LINK - machines/geekomA5/modules/system/services/lldap/bootstrap/_groups.nix
+    groups = {
+      Admins = "Admins";
+      Users = "Users";
+      Service = "Service";
+    };
   };
 }

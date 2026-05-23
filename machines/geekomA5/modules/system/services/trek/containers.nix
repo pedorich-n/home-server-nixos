@@ -67,7 +67,7 @@ in
         OIDC_DISPLAY_NAME = "Authelia";
         OIDC_ONLY = "true";
         OIDC_ADMIN_CLAIM = "groups";
-        OIDC_ADMIN_VALUE = "Admins";
+        OIDC_ADMIN_VALUE = autheliaLib.groups.Admins;
 
         SMTP_HOST = "smtp.purelymail.com";
         SMTP_PORT = "465";
