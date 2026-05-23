@@ -22,7 +22,7 @@ in
                 client_id = config.sops.placeholder."authelia/oidc/paperless/client_id";
                 secret = config.sops.placeholder."authelia/oidc/paperless/client_secret_raw";
                 settings = {
-                  server_url = autheliaLib.issuerUrl;
+                  server_url = autheliaLib.discoveryUrl;
                 };
               }
             ];

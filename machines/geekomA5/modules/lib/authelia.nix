@@ -4,6 +4,7 @@
 }:
 {
   _module.args.autheliaLib = {
-    issuerUrl = "${networkingLib.mkUrl "authelia"}/.well-known/openid-configuration";
+    issuerUrl = networkingLib.mkUrl "authelia";
+    discoveryUrl = "${networkingLib.mkUrl "authelia"}/.well-known/openid-configuration";
   };
 }

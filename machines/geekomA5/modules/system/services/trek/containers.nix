@@ -61,8 +61,8 @@ in
         ALLOWED_ORIGINS = networkingLib.mkUrl "trek";
         APP_URL = networkingLib.mkUrl "trek";
 
-        OIDC_ISSUER = networkingLib.mkUrl "authelia";
-        OIDC_DISCOVERY_URL = autheliaLib.issuerUrl;
+        OIDC_ISSUER = autheliaLib.issuerUrl;
+        OIDC_DISCOVERY_URL = autheliaLib.discoveryUrl;
         OIDC_SCOPE = "openid profile email groups";
         OIDC_DISPLAY_NAME = "Authelia";
         OIDC_ONLY = "true";
