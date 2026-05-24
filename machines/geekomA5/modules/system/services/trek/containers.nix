@@ -60,6 +60,7 @@ in
 
         ALLOWED_ORIGINS = networkingLib.mkUrl "trek";
         APP_URL = networkingLib.mkUrl "trek";
+        ALLOW_INTERNAL_NETWORK = "true";
 
         OIDC_ISSUER = autheliaLib.issuerUrl;
         OIDC_DISCOVERY_URL = autheliaLib.discoveryUrl;
