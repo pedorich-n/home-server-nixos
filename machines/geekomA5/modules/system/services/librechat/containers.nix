@@ -23,7 +23,8 @@ let
     mcpServersCfg = config.custom.managed-files.mcp-servers;
   };
 
-  # LibreChat runs as 1000:1000 in the container, with no real way to remap it, so we need to map the volume with the correct permissions.
+  # LibreChat runs as 1000:1000 in the container, with no real way to remap it,
+  # so we need to map the volume with the correct permissions.
   mkMappedVolumeForCustom =
     hostPath: containerPath:
     containerLib.mkIdMappedVolume {
@@ -110,7 +111,7 @@ in
       };
 
       librechat-server = {
-        # The container runs as 1000:1000 and there is no way to change it, basically.
+        # The container runs as 1000:1000 (node:node) and there is no way to change it, basically.
         # Setting `user` or `UID/GID` doesnt work. There are multiple issues raised in the repo about this:
         # - https://github.com/danny-avila/LibreChat/discussions/2939
         # - https://github.com/danny-avila/LibreChat/discussions/6846

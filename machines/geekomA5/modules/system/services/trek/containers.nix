@@ -9,7 +9,9 @@ let
   storeRoot = "/mnt/store/trek";
   portsCfg = config.custom.networking.ports.tcp.trek;
 
-  # Trek runs as 1000:1000 in the container, with no real way to remap it, so we need to map the volume with the correct permissions.
+  # Trek runs as 1000:1000 (node:node) in the container, with no real way to remap it,
+  # so we need to map the volume with the correct permissions.
+  # See https://github.com/mauriceboe/TREK/discussions/1021
   mkMappedVolumeForCustom =
     hostPath: containerPath:
     containerLib.mkIdMappedVolume {
@@ -79,7 +81,6 @@ in
         (mkMappedVolumeForCustom "${storeRoot}/uploads" "/app/uploads")
       ];
       publishPorts = [ "127.0.0.1:${portsCfg.portStr}:3000" ];
-      # inherit (containerLib.containerIds) user;
     };
   };
 
