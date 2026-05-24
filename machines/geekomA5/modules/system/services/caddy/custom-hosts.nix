@@ -44,7 +44,9 @@ let
           ''
       )
 
-      "import error-handler"
+      ''
+        import error-handler
+      ''
 
       host.extraConfig
     ];

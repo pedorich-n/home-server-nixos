@@ -4,7 +4,7 @@
   writers,
 }:
 let
-  mkDashboardIconUrl = iconName: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${iconName}.png";
+  mkDashboardIconUrl = iconName: "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/${iconName}.png";
 
   mkPackageWithVersionFor = name: "${mcpServersCfg.${name}.package}@${mcpServersCfg.${name}.version}";
 in
@@ -171,6 +171,12 @@ writers.writeYAML "librechat.yaml" {
         SANDBOX_MEMORY = "4g";
         SANDBOX_CPU_COUNT = "4";
       };
+    };
+
+    Trek = {
+      type = "streamable-http";
+      url = "${networkingLib.mkUrl "trek"}/mcp";
+      iconPath = mkDashboardIconUrl "trek";
     };
   };
 }

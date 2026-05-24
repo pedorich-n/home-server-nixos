@@ -1,6 +1,7 @@
 {
   dashy-ui,
   lib,
+  autheliaLib,
   networkingLib,
   ...
 }:
@@ -20,7 +21,7 @@ let
       slug,
       title ? capitalize slug,
       iconName ? slug,
-      iconLink ? "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${iconName}.png",
+      iconLink ? "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/${iconName}.png",
       args ? { },
     }:
     {
@@ -60,7 +61,7 @@ let
           clientId = "dashy";
           endpoint = networkingLib.mkUrl "authelia";
           scope = "openid profile email groups";
-          adminGroup = "Admins";
+          adminGroup = autheliaLib.groups.Admins;
         };
       };
     };
@@ -98,6 +99,11 @@ let
             iconName = "librechat";
           })
           (mkEntry {
+            slug = "trek";
+            title = "TREK";
+            iconName = "trek-light";
+          })
+          (mkEntry {
             slug = "copyparty";
           })
           (mkEntry {
@@ -109,7 +115,7 @@ let
             slug = "gitea-mirror";
             title = "Gitea Mirror";
             args = {
-              displayData.showForKeycloakUsers.groups = [ "Admins" ];
+              displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
             };
           })
           (mkEntry {
@@ -135,7 +141,7 @@ let
             slug = "n8n";
             title = "n8n";
             args = {
-              displayData.showForKeycloakUsers.groups = [ "Admins" ];
+              displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
             };
           })
         ];
@@ -156,7 +162,7 @@ let
       {
         name = "Media Management";
         icon = "mdi-movie-open-settings";
-        displayData.showForKeycloakUsers.groups = [ "Admins" ];
+        displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
         items = [
           (mkEntry {
             slug = "sonarr";
@@ -188,7 +194,7 @@ let
       {
         name = "Server Management";
         icon = "mdi-server";
-        displayData.showForKeycloakUsers.groups = [ "Admins" ];
+        displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
         items = [
           (mkEntry {
             slug = "cockpit";
@@ -200,7 +206,7 @@ let
           (mkEntry {
             slug = "lldap";
             title = "LLDAP";
-            iconName = "lldap-dark";
+            iconName = "lldap-light";
           })
           (mkEntry {
             slug = "authelia";

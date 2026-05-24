@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  autheliaLib,
   tmpfilesLib,
   pkgs,
   ...
@@ -21,7 +22,7 @@ let
 
   foldersToSet = [ root ];
 
-  groupFiles = pkgs.callPackage ./_groups.nix { };
+  groupFiles = pkgs.callPackage ./_groups.nix { inherit autheliaLib; };
   schemaFile = pkgs.callPackage ./_user-schemas.nix { };
 in
 {
