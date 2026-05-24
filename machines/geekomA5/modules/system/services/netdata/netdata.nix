@@ -1,8 +1,7 @@
 {
   config,
   pkgs,
-  # pkgs-unstable,
-  pkgs-netdata,
+  pkgs-unstable,
   lib,
   ...
 }:
@@ -32,7 +31,7 @@ lib.mkMerge [
       netdata = {
         enable = true;
 
-        package = pkgs-netdata.netdataCloud.override {
+        package = pkgs-unstable.netdataCloud.override {
           withNdsudo = true;
           withIpmi = false;
         };
