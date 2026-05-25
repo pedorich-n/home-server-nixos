@@ -141,6 +141,10 @@ let
         "lldap/users/authelia/email"
         "lldap/users/authelia/password"
 
+        "lldap/users/jellyfin/username"
+        "lldap/users/jellyfin/email"
+        "lldap/users/jellyfin/password"
+
         "lldap/users/user_1/username"
         "lldap/users/user_1/displayname"
         "lldap/users/user_1/email"

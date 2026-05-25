@@ -39,6 +39,19 @@ in
       });
     };
 
+    "lldap/bootstrap/users/jellyfin.json" = {
+      owner = config.users.users.lldap.name;
+      group = config.users.users.lldap.group;
+      restartUnits = [
+        config.systemd.services.lldap.name
+      ];
+
+      path = "/var/lib/lldap/bootstrap/users/jellyfin.json";
+      file = pkgs.writers.writeJSON "lldap-user-jellyfin-template.json" (mkUserFromSops {
+        user = "jellyfin";
+      });
+    };
+
     "lldap/bootstrap/users/user_1.json" = {
       owner = config.users.users.lldap.name;
       group = config.users.users.lldap.group;
