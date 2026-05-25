@@ -66,7 +66,6 @@ let
         "authelia/jwt_secret"
         "authelia/session_secret"
         "authelia/storage_encryption_key"
-        "authelia/ldap/password"
         "authelia/redis/password"
 
         "authelia/smtp/username"
@@ -133,7 +132,13 @@ let
       secrets = [
         "lldap/key_seed"
         "lldap/jwt_secret"
+
+        "lldap/users/admin/username"
+        "lldap/users/admin/email"
         "lldap/users/admin/password"
+
+        "lldap/users/authelia/username"
+        "lldap/users/authelia/email"
         "lldap/users/authelia/password"
 
         "lldap/users/user_1/username"
@@ -142,7 +147,6 @@ let
         "lldap/users/user_1/password"
 
         "lldap/users/jksv/username"
-        "lldap/users/jksv/displayname"
         "lldap/users/jksv/email"
         "lldap/users/jksv/password"
       ];

@@ -1,8 +1,12 @@
 {
   config,
+  networkingLib,
   pkgs,
   ...
 }:
+let
+  baseDN = config.services.lldap.settings.ldap_base_dn;
+in
 {
 
   sops.templates."authelia/ldap.yaml" = {
@@ -18,10 +22,10 @@
 
         ldap = {
           implementation = "lldap";
-          address = "ldap://127.0.0.1:${config.custom.networking.ports.tcp.lldap-ldap.portStr}";
-          base_dn = "DC=server";
-          user = "UID=authelia,OU=people,DC=server";
-          password = config.sops.placeholder."authelia/ldap/password";
+          address = "ldaps://${networkingLib.mkDomain "lldap"}:${config.custom.networking.ports.tcp.lldap-ldaps.portStr}";
+          base_dn = baseDN;
+          user = "UID=${config.sops.placeholder."lldap/users/authelia/username"},OU=people,${baseDN}";
+          password = config.sops.placeholder."lldap/users/authelia/password";
 
           pooling = {
             enable = true;

@@ -23,6 +23,7 @@ lib.mkMerge [
       authBypassPaths = [ "/mcp" ];
     };
 
+    # Required for Caddy to bind to Netdata's socket file
     systemd.services.caddy.serviceConfig.SupplementaryGroups = [
       config.services.netdata.group
     ];
@@ -201,7 +202,7 @@ lib.mkMerge [
   })
 
   (lib.mkIf (cfgCerts != { }) {
-    users.users.${config.services.netdata.user}.extraGroups = lib.unique (lib.map (cert: cert.group) (lib.attrValues cfgCerts));
+    systemd.services.netdata.serviceConfig.SupplementaryGroups = lib.unique (lib.map (cert: cert.group) (lib.attrValues cfgCerts));
 
     services.netdata.configDir."go.d/x509check.conf" = pkgs.writers.writeYAML "netdata-x509check.conf" {
       update_every = 60;

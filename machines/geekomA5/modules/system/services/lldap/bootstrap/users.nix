@@ -12,7 +12,7 @@ let
     }:
     {
       id = config.sops.placeholder."lldap/users/${user}/username";
-      displayName = config.sops.placeholder."lldap/users/${user}/displayname";
+      displayName = config.sops.placeholder."lldap/users/${user}/displayname" or null;
       email = config.sops.placeholder."lldap/users/${user}/email";
       password = config.sops.placeholder."lldap/users/${user}/password";
     }
@@ -29,12 +29,14 @@ in
       ];
 
       path = "/var/lib/lldap/bootstrap/users/authelia.json";
-      file = pkgs.writers.writeJSON "lldap-user-authelia-template.json" {
-        id = "authelia";
-        email = "authelia@server.lan";
-        password = config.sops.placeholder."lldap/users/authelia/password";
-        groups = [ "lldap_admin" ];
-      };
+      file = pkgs.writers.writeJSON "lldap-user-authelia-template.json" (mkUserFromSops {
+        user = "authelia";
+        extraArgs = {
+          groups = [
+            "lldap_admin"
+          ];
+        };
+      });
     };
 
     "lldap/bootstrap/users/user_1.json" = {

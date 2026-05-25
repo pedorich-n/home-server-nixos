@@ -12,12 +12,19 @@ let
     lldapHttpPort = portsCfg.lldap-http.portStr;
     lldapAdminPasswordFile = config.sops.secrets."lldap/users/admin/password".path;
   };
+
+  certCfg = config.security.acme.certs.local;
 in
 {
   custom.networking.ports.tcp = {
     lldap-ldap = {
       port = 3890;
       openFirewall = false;
+    };
+
+    lldap-ldaps = {
+      port = 636;
+      openFirewall = true;
     };
 
     lldap-http = {
@@ -42,6 +49,15 @@ in
   systemd.services.lldap = {
     serviceConfig = {
       DynamicUser = lib.mkForce false;
+
+      # Allow non-root lldap user to bind LDAPS on privileged port <1024.
+      AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+      CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
+
+      # Required for LLDAP to read TLS cert and key for LDAPS
+      SupplementaryGroups = [
+        certCfg.group
+      ];
 
       ExecStartPost = "-${lib.getExe bootstrap}";
     };
@@ -71,6 +87,13 @@ in
 
         database_url = "sqlite:///var/lib/lldap/users.db?mode=rwc";
         key_file = ""; # I am using key seed, so there's no need for a file
+
+        ldaps_options = {
+          enabled = true;
+          port = portsCfg.lldap-ldaps.port;
+          cert_file = "${certCfg.directory}/cert.pem";
+          key_file = "${certCfg.directory}/key.pem";
+        };
       };
     };
   };

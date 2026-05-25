@@ -299,11 +299,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1779592810,
-        "narHash": "sha256-5u9DIx8omW2QiGXJe/990u9PkoV+m1qg3OXnsnlWvms=",
+        "lastModified": 1779779981,
+        "narHash": "sha256-pGZHIcvL5jNMfUZa1YNNBg5cgNoJjrpIAEObuBPWy4Y=",
         "ref": "refs/heads/main",
-        "rev": "064cd274758fae5970dad67f74a2ebe7ff98dd01",
-        "revCount": 206,
+        "rev": "caa7ab17520234c070807af28cdf3ca0ac9268b4",
+        "revCount": 208,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
