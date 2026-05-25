@@ -101,16 +101,16 @@ in
     };
   };
 
-  custom.networking.ports.udp = {
-    jellyfin-service-discovery = {
-      port = 1900;
-      openFirewall = true;
-    };
-    jellyfin-client-discovery = {
-      port = 7359;
-      openFirewall = true;
-    };
-  };
+  # custom.networking.ports.udp = {
+  #   jellyfin-service-discovery = {
+  #     port = 1900;
+  #     openFirewall = true;
+  #   };
+  #   jellyfin-client-discovery = {
+  #     port = 7359;
+  #     openFirewall = true;
+  #   };
+  # };
 
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "data-library";
@@ -334,7 +334,7 @@ in
         ];
       };
 
-      jellyfin = {
+      jellyfin-old = {
         wantsCaddy = true;
         useGlobalContainers = true;
         wantsAuthelia = true;
