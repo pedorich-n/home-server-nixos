@@ -49,6 +49,11 @@ in
       path = "/var/lib/lldap/bootstrap/users/jellyfin.json";
       file = pkgs.writers.writeJSON "lldap-user-jellyfin-template.json" (mkUserFromSops {
         user = "jellyfin";
+        extraArgs = {
+          groups = [
+            "lldap_strict_readonly"
+          ];
+        };
       });
     };
 

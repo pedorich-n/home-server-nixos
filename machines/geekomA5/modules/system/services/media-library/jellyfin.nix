@@ -43,7 +43,7 @@ in
   };
 
   systemd.services.jellyfin = {
-    serviceConfig.SupplemmentaryGroups = [
+    serviceConfig.SupplementaryGroups = [
       config.users.groups.render.name
       config.users.groups.video.name
     ];
