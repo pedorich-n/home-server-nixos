@@ -11,9 +11,6 @@ let
     "audiobookshelf/config"
     "audiobookshelf/metadata"
 
-    "jellyfin/cache"
-    "jellyfin/config"
-
     "prowlarr/config"
 
     "mamapi/data"

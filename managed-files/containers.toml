@@ -89,13 +89,6 @@ registry = 'docker.io'
 version = '8.1.3-bookworm'
 versioning = 'regex:^(?<major>8)\.(?<minor>\d+)\.(?<patch>\d+)-bookworm$'
 
-[jellyfin-old]
-digest = 'sha256:1694ff069f0c9dafb283c36765175606866769f5d72f2ed56b6a0f1be922fc37'
-image = 'jellyfin/jellyfin'
-registry = 'docker.io'
-version = '10.11.8'
-versioning = 'semver'
-
 [librechat-server]
 digest = 'sha256:a46254938507971e0d4f7ed3f9d116bd9b118f4810b5b75eb716baf575645068'
 image = 'danny-avila/librechat'
