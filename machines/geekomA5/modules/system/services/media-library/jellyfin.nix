@@ -8,6 +8,9 @@
 }:
 let
   portsCfg = config.custom.networking.ports.tcp;
+
+  #LINK - machines/geekomA5/modules/system/services/media-library/jellyfin/secrets.nix:12
+  generatedLdapConfig = config.sops.templates."media-library/jellyfin/ldap-auth.xml".path;
 in
 {
   disabledModules = [ "services/misc/jellyfin.nix" ];
@@ -15,7 +18,7 @@ in
     "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/jellyfin.nix"
   ];
 
-  warnings = lib.optional (lib.versionAtLeast "26.05" config.system.nixos.release) "The updated Jellyfin module now available in stable";
+  warnings = lib.optional (lib.versionAtLeast config.system.nixos.release "26.05") "The updated Jellyfin module now available in stable";
 
   custom = {
     networking.ports = {
@@ -43,6 +46,24 @@ in
   };
 
   systemd.services.jellyfin = {
+    # Similar to https://github.com/NixOS/nixpkgs/blob/64c08a7ca051951c8eae34e3e3cb1e202fe36786/nixos/modules/services/misc/jellyfin.nix#L387
+    preStart = lib.mkAfter ''
+      dataDir="${lib.escapeShellArg config.services.jellyfin.dataDir}"
+      ldapConfigXml="''${dataDir}/plugins/configurations/LDAP-Auth.xml"
+
+      if [[ -e $ldapConfigXml ]]; then
+        # this intentionally removes trailing newlines
+        currentText="$(<"$ldapConfigXml")"
+        configuredText="$(<${generatedLdapConfig})"
+        if [[ $currentText != "$configuredText" ]]; then
+          echo "WARN: $ldapConfigXml already exists and is different from the configured settings. Settings NOT applied." >&2
+        fi
+      else
+        cp --update=none-fail -T ${generatedLdapConfig} "$ldapConfigXml"
+        chmod u+w "$ldapConfigXml"
+      fi
+    '';
+
     serviceConfig.SupplementaryGroups = [
       config.users.groups.render.name
       config.users.groups.video.name
