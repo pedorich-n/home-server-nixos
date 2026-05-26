@@ -49,7 +49,7 @@ in
         port = 31200;
         openFirewall = false;
       };
-      jellyfin = {
+      jellyfin-container = {
         port = 31300;
         openFirewall = false;
       };
@@ -89,8 +89,8 @@ in
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
-      jellyfin = {
-        upstream = "http://127.0.0.1:${portsCfg.jellyfin.portStr}";
+      jellyfin-container = {
+        upstream = "http://127.0.0.1:${portsCfg.jellyfin-container.portStr}";
       };
       shelfmark = {
         upstream = "http://127.0.0.1:${portsCfg.shelfmark.portStr}";
@@ -100,17 +100,6 @@ in
       };
     };
   };
-
-  # custom.networking.ports.udp = {
-  #   jellyfin-service-discovery = {
-  #     port = 1900;
-  #     openFirewall = true;
-  #   };
-  #   jellyfin-client-discovery = {
-  #     port = 7359;
-  #     openFirewall = true;
-  #   };
-  # };
 
   virtualisation.quadlet = {
     networks = containerLib.mkDefaultNetwork "data-library";
@@ -349,7 +338,7 @@ in
             (builtins.toString config.users.groups.render.gid) # For HW Transcoding
           ];
           publishPorts = [
-            "127.0.0.1:${portsCfg.jellyfin.portStr}:8096"
+            "127.0.0.1:${portsCfg.jellyfin-container.portStr}:8096"
           ];
           devices = [
             # HW Transcoding acceleration.

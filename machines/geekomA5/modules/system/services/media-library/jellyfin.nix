@@ -20,7 +20,7 @@ in
   custom = {
     networking.ports = {
       tcp = {
-        jellyfin-native = {
+        jellyfin = {
           port = 8096; # Configurable through Web UI
           openFirewall = false;
         };
@@ -28,7 +28,7 @@ in
 
       udp = {
         jellyfin-client-discovery = {
-          port = 1900; # Non-configurable
+          port = 7359; # Non-configurable
           openFirewall = true;
         };
 
@@ -36,8 +36,8 @@ in
     };
 
     services.caddy.hosts = {
-      jellyfin-native = {
-        upstream = "http://127.0.0.1:${portsCfg.jellyfin-native.portStr}";
+      jellyfin = {
+        upstream = "http://127.0.0.1:${portsCfg.jellyfin.portStr}";
       };
     };
   };
