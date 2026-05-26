@@ -48,20 +48,22 @@ in
   systemd.services.jellyfin = {
     # Similar to https://github.com/NixOS/nixpkgs/blob/64c08a7ca051951c8eae34e3e3cb1e202fe36786/nixos/modules/services/misc/jellyfin.nix#L387
     preStart = lib.mkAfter ''
-      dataDir="${lib.escapeShellArg config.services.jellyfin.dataDir}"
-      ldapConfigXml="''${dataDir}/plugins/configurations/LDAP-Auth.xml"
+      {
+        dataDir=${lib.escapeShellArg config.services.jellyfin.dataDir}
+        ldapConfigXml="''${dataDir}/plugins/configurations/LDAP-Auth.xml"
 
-      if [[ -e $ldapConfigXml ]]; then
-        # this intentionally removes trailing newlines
-        currentText="$(<"$ldapConfigXml")"
-        configuredText="$(<${generatedLdapConfig})"
-        if [[ $currentText != "$configuredText" ]]; then
-          echo "WARN: $ldapConfigXml already exists and is different from the configured settings. Settings NOT applied." >&2
+        if [[ -e $ldapConfigXml ]]; then
+          # this intentionally removes trailing newlines
+          currentText="$(<"$ldapConfigXml")"
+          configuredText="$(<${generatedLdapConfig})"
+          if [[ $currentText != "$configuredText" ]]; then
+            echo "WARN: $ldapConfigXml already exists and is different from the configured settings. Settings NOT applied." >&2
+          fi
+        else
+          cp --update=none-fail -T ${generatedLdapConfig} "$ldapConfigXml"
+          chmod u+w "$ldapConfigXml"
         fi
-      else
-        cp --update=none-fail -T ${generatedLdapConfig} "$ldapConfigXml"
-        chmod u+w "$ldapConfigXml"
-      fi
+      }
     '';
 
     serviceConfig.SupplementaryGroups = [
