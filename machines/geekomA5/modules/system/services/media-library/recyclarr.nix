@@ -1,6 +1,7 @@
 {
   inputs,
   config,
+  systemdLib,
   pkgs-unstable,
   ...
 }:
@@ -12,6 +13,14 @@ in
   imports = [
     "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/recyclarr.nix"
   ];
+
+  systemd.services.recyclarr = {
+    # TODO: Use systemd.services.<name>.name once migrated to native services
+    unitConfig = systemdLib.requiresAfter [
+      "sonarr.service"
+      "radarr.service"
+    ];
+  };
 
   services.recyclarr = {
     enable = true;
