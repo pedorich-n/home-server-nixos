@@ -191,17 +191,6 @@ in
           })
 
           (mkOidcProviderPrivate {
-            name = "jellyfin";
-            redirectUris = [
-              "${networkingLib.mkUrl "jellyfin"}/sso/OID/redirect/Authelia"
-              "${networkingLib.mkUrl "jellyfin"}/sso/OID/r/Authelia"
-            ];
-            extraArgs = {
-              token_endpoint_auth_method = "client_secret_post";
-            };
-          })
-
-          (mkOidcProviderPrivate {
             name = "librechat";
             redirectUris = [
               "${networkingLib.mkUrl "chat"}/oauth/openid/callback"

@@ -49,10 +49,6 @@ in
         port = 31200;
         openFirewall = false;
       };
-      jellyfin = {
-        port = 31300;
-        openFirewall = false;
-      };
       shelfmark = {
         port = 31400;
         openFirewall = false;
@@ -89,26 +85,12 @@ in
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
-      jellyfin = {
-        upstream = "http://127.0.0.1:${portsCfg.jellyfin.portStr}";
-      };
       shelfmark = {
         upstream = "http://127.0.0.1:${portsCfg.shelfmark.portStr}";
       };
       audiobookshelf = {
         upstream = "http://127.0.0.1:${portsCfg.audiobookshelf.portStr}";
       };
-    };
-  };
-
-  custom.networking.ports.udp = {
-    jellyfin-service-discovery = {
-      port = 1900;
-      openFirewall = true;
-    };
-    jellyfin-client-discovery = {
-      port = 7359;
-      openFirewall = true;
     };
   };
 
@@ -331,46 +313,6 @@ in
         unitConfig = systemdLib.requiresAfter [
           containers.sonarr.ref
           containers.radarr.ref
-        ];
-      };
-
-      jellyfin = {
-        wantsCaddy = true;
-        useGlobalContainers = true;
-        wantsAuthelia = true;
-        usernsAuto = {
-          enable = true;
-          size = 65535;
-        };
-
-        containerConfig = {
-          notify = "healthy"; # This image has working healthcheck already, so I just need to connect it to systemd
-          addGroups = [
-            (builtins.toString config.users.groups.render.gid) # For HW Transcoding
-          ];
-          publishPorts = [
-            "127.0.0.1:${portsCfg.jellyfin.portStr}:8096"
-          ];
-          devices = [
-            # HW Transcoding acceleration.
-            # See https://jellyfin.org/docs/general/installation/container#with-hardware-acceleration
-            # See https://jellyfin.org/docs/general/administration/hardware-acceleration/amd#linux-setups
-            "/dev/dri:/dev/dri"
-          ];
-          environments = defaultEnvs // {
-            JELLYFIN_PublishedServerUrl = networkingLib.mkUrl "jellyfin";
-          };
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/jellyfin/config" "/config")
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/jellyfin/cache" "/cache")
-            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/media" "/media")
-          ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-
-        unitConfig = systemdLib.requisiteAfter [
-          "zfs.target"
         ];
       };
 
