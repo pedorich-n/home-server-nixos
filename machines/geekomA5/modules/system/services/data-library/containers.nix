@@ -292,30 +292,6 @@ in
         ];
       };
 
-      recyclarr = {
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
-
-        containerConfig = {
-          environments = defaultEnvs // {
-            CRON_SCHEDULE = "0 6 * * *"; # Run daily at 6 AM
-          };
-          environmentFiles = [
-            config.sops.secrets."data-library/recyclarr.env".path
-          ];
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/recyclarr/config" "/config")
-          ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-
-        unitConfig = systemdLib.requiresAfter [
-          containers.sonarr.ref
-          containers.radarr.ref
-        ];
-      };
-
       audiobookshelf = {
         wantsCaddy = true;
         useGlobalContainers = true;

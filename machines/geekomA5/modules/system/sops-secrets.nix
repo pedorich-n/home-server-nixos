@@ -339,6 +339,9 @@ in
         };
 
         "jellyfin/api/restic_key" = { };
+
+        "sonarr/api/key" = { };
+        "radarr/api/key" = { };
       }
       osUserPasswords
       envSecrets
