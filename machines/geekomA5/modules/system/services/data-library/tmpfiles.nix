@@ -23,8 +23,6 @@ let
 
     "sonarr/config"
 
-    "recyclarr/config"
-
     "shelfmark/config"
   ];
 
@@ -58,18 +56,12 @@ let
   #   externalRoot
   # ];
 
-  extraCreateRules = {
-    "${storeRoot}/recyclarr/config/configs" = {
-      "C+" = tmpfilesLib.mkDefaultTmpDirectory "${./recyclarr}";
-    };
-  };
 in
 {
   systemd.tmpfiles.settings = {
     "90-data-library-create" = lib.mkMerge [
       (tmpfilesLib.createFoldersUsingDefaultRule foldersToCreate)
       # (tmpfilesLib.createFoldersUsingDefaultMediaRule foldersToCreateExternal)
-      extraCreateRules
     ];
     "91-data-library-set" = lib.mkMerge [
       (tmpfilesLib.setPermissionsUsingDefaultRule foldersToSetPermissions)

@@ -181,13 +181,6 @@ registry = 'docker.io'
 version = '6.1.1'
 versioning = 'semver'
 
-[recyclarr]
-digest = 'sha256:3c38ceeb54438dd8327e4e65c9b48ba601a6d20fff833342d93c9b0bc4b1930b'
-image = 'recyclarr/recyclarr'
-registry = 'ghcr.io'
-version = '8.6.0'
-versioning = 'semver'
-
 [sabnzbd]
 digest = 'sha256:c65265edbfb42a1e4b6c68d3926e4aab4cf9cf185be1fafd1a692cb195cc9b0e'
 image = 'linuxserver/sabnzbd'
