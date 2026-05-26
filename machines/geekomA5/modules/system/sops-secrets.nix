@@ -337,6 +337,8 @@ in
           sopsFile = sopsFilePathFor "playit/secret.toml";
           format = "binary";
         };
+
+        "jellyfin/api/restic_key" = { };
       }
       osUserPasswords
       envSecrets
