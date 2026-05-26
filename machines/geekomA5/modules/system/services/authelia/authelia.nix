@@ -43,7 +43,6 @@ let
     "grist"
     "homeassistant"
     "immich"
-    "jellyfin"
     "librechat"
     "maloja"
     "paperless"
