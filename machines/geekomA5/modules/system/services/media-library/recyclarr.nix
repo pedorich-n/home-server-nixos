@@ -15,10 +15,9 @@ in
   ];
 
   systemd.services.recyclarr = {
-    # TODO: Use systemd.services.<name>.name once migrated to native services
     unitConfig = systemdLib.requiresAfter [
-      "sonarr.service"
-      "radarr.service"
+      config.systemd.services.radarr.name
+      config.systemd.services.sonarr.name
     ];
   };
 
