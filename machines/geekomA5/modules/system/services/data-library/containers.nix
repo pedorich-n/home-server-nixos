@@ -65,7 +65,10 @@ in
       prowlarr = {
         upstream = "http://127.0.0.1:${portsCfg.prowlarr.portStr}";
         auth = "authelia";
-        authBypassPaths = [ "/api*" ];
+        authBypassPaths = [ "@api" ];
+        extraConfig = ''
+          @api path */api* /api*
+        '';
       };
       shelfmark = {
         upstream = "http://127.0.0.1:${portsCfg.shelfmark.portStr}";
