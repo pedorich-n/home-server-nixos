@@ -41,8 +41,8 @@ in
         port = 31000;
         openFirewall = false;
       };
-      radarr = {
-        port = 31200;
+      radarr-old = {
+        port = 31201;
         openFirewall = false;
       };
       shelfmark = {
@@ -71,8 +71,8 @@ in
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
-      radarr = {
-        upstream = "http://127.0.0.1:${portsCfg.radarr.portStr}";
+      radarr-old = {
+        upstream = "http://127.0.0.1:${portsCfg.radarr-old.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
@@ -235,7 +235,7 @@ in
         unitConfig = afterDownloaders;
       };
 
-      radarr = {
+      radarr-old = {
         wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
@@ -246,7 +246,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/radarr/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
-          publishPorts = [ "127.0.0.1:${portsCfg.radarr.portStr}:7878" ];
+          publishPorts = [ "127.0.0.1:${portsCfg.radarr-old.portStr}:7878" ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };

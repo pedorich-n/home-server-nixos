@@ -29,6 +29,7 @@ let
     "prowlarr"
     "qbittorrent"
     "radarr"
+    "radarr-old"
     "sabnzbd"
     "sonarr"
     "shelfmark"
