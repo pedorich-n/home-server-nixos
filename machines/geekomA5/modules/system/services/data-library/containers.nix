@@ -37,10 +37,6 @@ in
         port = 30900;
         openFirewall = false;
       };
-      prowlarr-old = {
-        port = 31001;
-        openFirewall = false;
-      };
       shelfmark = {
         port = 31400;
         openFirewall = false;
@@ -61,14 +57,6 @@ in
         upstream = "http://127.0.0.1:${portsCfg.sabnzbd.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
-      };
-      prowlarr-old = {
-        upstream = "http://127.0.0.1:${portsCfg.prowlarr-old.portStr}";
-        auth = "authelia";
-        authBypassPaths = [ "@api" ];
-        extraConfig = ''
-          @api path */api* /api*
-        '';
       };
       shelfmark = {
         upstream = "http://127.0.0.1:${portsCfg.shelfmark.portStr}";
@@ -211,24 +199,6 @@ in
         ];
       };
 
-      prowlarr-old = {
-        wantsCaddy = true;
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
-
-        containerConfig = {
-          environments = defaultEnvs;
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/prowlarr/config" "/config")
-          ];
-          publishPorts = [ "127.0.0.1:${portsCfg.prowlarr-old.portStr}:9696" ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-
-        unitConfig = afterDownloaders;
-      };
-
       audiobookshelf = {
         wantsCaddy = true;
         useGlobalContainers = true;
@@ -286,14 +256,14 @@ in
             OPENLIBRARY_ENABLED = "true";
 
             PROWLARR_ENABLED = "true";
-            PROWLARR_URL = "prowlarr:9696";
+            PROWLARR_URL = networkingLib.mkUrl "prowlarr";
 
             PROWLARR_TORRENT_CLIENT = "qbittorrent";
-            QBITTORRENT_URL = "gluetun:8080";
+            QBITTORRENT_URL = networkingLib.mkUrl "qbittorrent";
             QBITTORRENT_CATEGORY_AUDIOBOOK = "audiobooks";
 
             PROWLARR_USENET_CLIENT = "sabnzbd";
-            SABNZBD_URL = "sabnzbd:8080";
+            SABNZBD_URL = networkingLib.mkUrl "sabnzbd";
             SABNZBD_CATEGORY_AUDIOBOOK = "audiobooks";
             PROWLARR_USENET_ACTION = "move";
           };

@@ -152,13 +152,6 @@ registry = 'ghcr.io'
 version = '2.20.15'
 versioning = 'semver'
 
-[prowlarr-old]
-digest = 'sha256:a89f252d6a22bd25af14a5380aec0adcc3c3af2e3282164f981680e6844070f3'
-image = 'linuxserver/prowlarr'
-registry = 'docker.io'
-version = '2.3.5'
-versioning = 'semver'
-
 [shelfmark]
 digest = 'sha256:655168ef4dd1af939d368f9a8448bf2606888f8221b014f219a3a8eab1c4b307'
 image = 'calibrain/shelfmark-lite'

@@ -27,7 +27,6 @@ let
     "multiscrobbler"
     "netdata"
     "prowlarr"
-    "prowlarr-old"
     "qbittorrent"
     "radarr"
     "sabnzbd"
