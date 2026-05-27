@@ -21,8 +21,6 @@ let
 
     "sabnzbd/config"
 
-    "sonarr/config"
-
     "shelfmark/config"
   ];
 
