@@ -195,7 +195,7 @@ registry = 'docker.io'
 version = '2026.5.13-09829b1cc'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
-[sonarr]
+[sonarr-old]
 digest = 'sha256:60f3b6b5c7647ba2bafd81163acfe34b11117b9b834ebd7fbcc3e5f1b309c7ef'
 image = 'linuxserver/sonarr'
 registry = 'docker.io'

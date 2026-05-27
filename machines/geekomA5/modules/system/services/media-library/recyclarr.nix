@@ -79,7 +79,7 @@ in
       sonarr = {
         # From https://recyclarr.dev/wiki/guide-configs/ WEB 1080p
         sonarr-main = {
-          base_url = "http://127.0.0.1:${portsCfg.sonarr.portStr}";
+          base_url = "http://127.0.0.1:${portsCfg.sonarr-container.portStr}";
           api_key._secret = config.sops.secrets."sonarr/api/key".path;
 
           quality_definition = {

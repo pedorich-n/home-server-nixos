@@ -31,6 +31,7 @@ let
     "radarr"
     "sabnzbd"
     "sonarr"
+    "sonarr-container"
     "shelfmark"
     "zigbee2mqtt"
   ];

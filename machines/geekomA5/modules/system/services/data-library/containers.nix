@@ -41,8 +41,8 @@ in
         port = 31000;
         openFirewall = false;
       };
-      sonarr = {
-        port = 31100;
+      sonarr-container = {
+        port = 31101;
         openFirewall = false;
       };
       radarr = {
@@ -75,8 +75,8 @@ in
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
-      sonarr = {
-        upstream = "http://127.0.0.1:${portsCfg.sonarr.portStr}";
+      sonarr-container = {
+        upstream = "http://127.0.0.1:${portsCfg.sonarr-container.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
@@ -244,7 +244,7 @@ in
         unitConfig = afterDownloaders;
       };
 
-      sonarr = {
+      sonarr-old = {
         wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
@@ -255,7 +255,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/sonarr/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
           ];
-          publishPorts = [ "127.0.0.1:${portsCfg.sonarr.portStr}:8989" ];
+          publishPorts = [ "127.0.0.1:${portsCfg.sonarr-container.portStr}:8989" ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
