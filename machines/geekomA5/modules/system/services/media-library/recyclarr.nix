@@ -18,7 +18,7 @@ in
     # TODO: Use systemd.services.<name>.name once migrated to native services
     unitConfig = systemdLib.requiresAfter [
       "sonarr.service"
-      # "radarr.service"
+      "radarr.service"
     ];
   };
 
@@ -34,7 +34,7 @@ in
 
         # From https://recyclarr.dev/wiki/guide-configs/ HD Bluray + WEB
         radarr-main = {
-          base_url = "http://127.0.0.1:${portsCfg.radarr-old.portStr}";
+          base_url = "http://127.0.0.1:${portsCfg.radarr.portStr}";
           api_key._secret = config.sops.secrets."radarr/api/key".path;
 
           quality_definition = {
