@@ -41,10 +41,6 @@ in
         port = 31000;
         openFirewall = false;
       };
-      radarr-old = {
-        port = 31201;
-        openFirewall = false;
-      };
       shelfmark = {
         port = 31400;
         openFirewall = false;
@@ -68,11 +64,6 @@ in
       };
       prowlarr = {
         upstream = "http://127.0.0.1:${portsCfg.prowlarr.portStr}";
-        auth = "authelia";
-        authBypassPaths = [ "/api*" ];
-      };
-      radarr-old = {
-        upstream = "http://127.0.0.1:${portsCfg.radarr-old.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
@@ -233,30 +224,6 @@ in
         };
 
         unitConfig = afterDownloaders;
-      };
-
-      radarr-old = {
-        wantsCaddy = true;
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
-
-        containerConfig = {
-          environments = defaultEnvs;
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/radarr/config" "/config")
-            (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
-          ];
-          publishPorts = [ "127.0.0.1:${portsCfg.radarr-old.portStr}:7878" ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-
-        unitConfig = lib.mkMerge [
-          afterDownloaders
-          (systemdLib.requisiteAfter [
-            "zfs.target"
-          ])
-        ];
       };
 
       audiobookshelf = {

@@ -17,8 +17,6 @@ let
 
     "qbittorrent/config"
 
-    "radarr/config"
-
     "sabnzbd/config"
 
     "shelfmark/config"
