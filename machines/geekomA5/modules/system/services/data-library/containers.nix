@@ -37,8 +37,8 @@ in
         port = 30900;
         openFirewall = false;
       };
-      prowlarr = {
-        port = 31000;
+      prowlarr-old = {
+        port = 31001;
         openFirewall = false;
       };
       shelfmark = {
@@ -62,8 +62,8 @@ in
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
-      prowlarr = {
-        upstream = "http://127.0.0.1:${portsCfg.prowlarr.portStr}";
+      prowlarr-old = {
+        upstream = "http://127.0.0.1:${portsCfg.prowlarr-old.portStr}";
         auth = "authelia";
         authBypassPaths = [ "@api" ];
         extraConfig = ''
@@ -211,7 +211,7 @@ in
         ];
       };
 
-      prowlarr = {
+      prowlarr-old = {
         wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
@@ -221,7 +221,7 @@ in
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/prowlarr/config" "/config")
           ];
-          publishPorts = [ "127.0.0.1:${portsCfg.prowlarr.portStr}:9696" ];
+          publishPorts = [ "127.0.0.1:${portsCfg.prowlarr-old.portStr}:9696" ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
