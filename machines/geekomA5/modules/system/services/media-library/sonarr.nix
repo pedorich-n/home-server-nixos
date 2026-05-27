@@ -1,5 +1,7 @@
 {
   config,
+  systemdLib,
+  lib,
   ...
 }:
 let
@@ -17,6 +19,19 @@ in
       auth = "authelia";
       authBypassPaths = [ "/api*" ];
     };
+  };
+
+  systemd.services.sonarr = {
+    unitConfig = lib.mkMerge [
+      # TODO: Use systemd.services.<name>.name once migrated to native services
+      (systemdLib.wantsAfter [
+        "qbittorrent.service"
+        "sabnzbd.service"
+      ])
+      (systemdLib.requisiteAfter [
+        "zfs.target"
+      ])
+    ];
   };
 
   services.sonarr = {
