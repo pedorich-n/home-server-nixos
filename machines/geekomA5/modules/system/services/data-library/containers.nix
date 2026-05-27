@@ -37,18 +37,6 @@ in
         port = 30900;
         openFirewall = false;
       };
-      prowlarr = {
-        port = 31000;
-        openFirewall = false;
-      };
-      sonarr = {
-        port = 31100;
-        openFirewall = false;
-      };
-      radarr = {
-        port = 31200;
-        openFirewall = false;
-      };
       shelfmark = {
         port = 31400;
         openFirewall = false;
@@ -67,21 +55,6 @@ in
       };
       sabnzbd = {
         upstream = "http://127.0.0.1:${portsCfg.sabnzbd.portStr}";
-        auth = "authelia";
-        authBypassPaths = [ "/api*" ];
-      };
-      prowlarr = {
-        upstream = "http://127.0.0.1:${portsCfg.prowlarr.portStr}";
-        auth = "authelia";
-        authBypassPaths = [ "/api*" ];
-      };
-      sonarr = {
-        upstream = "http://127.0.0.1:${portsCfg.sonarr.portStr}";
-        auth = "authelia";
-        authBypassPaths = [ "/api*" ];
-      };
-      radarr = {
-        upstream = "http://127.0.0.1:${portsCfg.radarr.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
@@ -226,72 +199,6 @@ in
         ];
       };
 
-      prowlarr = {
-        wantsCaddy = true;
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
-
-        containerConfig = {
-          environments = defaultEnvs;
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/prowlarr/config" "/config")
-          ];
-          publishPorts = [ "127.0.0.1:${portsCfg.prowlarr.portStr}:9696" ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-
-        unitConfig = afterDownloaders;
-      };
-
-      sonarr = {
-        wantsCaddy = true;
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
-
-        containerConfig = {
-          environments = defaultEnvs;
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/sonarr/config" "/config")
-            (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
-          ];
-          publishPorts = [ "127.0.0.1:${portsCfg.sonarr.portStr}:8989" ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-
-        unitConfig = lib.mkMerge [
-          afterDownloaders
-          (systemdLib.requisiteAfter [
-            "zfs.target"
-          ])
-        ];
-      };
-
-      radarr = {
-        wantsCaddy = true;
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
-
-        containerConfig = {
-          environments = defaultEnvs;
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/radarr/config" "/config")
-            (containerLib.mkMappedVolumeForUserMedia externalStoreRoot "/data")
-          ];
-          publishPorts = [ "127.0.0.1:${portsCfg.radarr.portStr}:7878" ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-
-        unitConfig = lib.mkMerge [
-          afterDownloaders
-          (systemdLib.requisiteAfter [
-            "zfs.target"
-          ])
-        ];
-      };
-
       audiobookshelf = {
         wantsCaddy = true;
         useGlobalContainers = true;
@@ -349,14 +256,14 @@ in
             OPENLIBRARY_ENABLED = "true";
 
             PROWLARR_ENABLED = "true";
-            PROWLARR_URL = "prowlarr:9696";
+            PROWLARR_URL = networkingLib.mkUrl "prowlarr";
 
             PROWLARR_TORRENT_CLIENT = "qbittorrent";
-            QBITTORRENT_URL = "gluetun:8080";
+            QBITTORRENT_URL = networkingLib.mkUrl "qbittorrent";
             QBITTORRENT_CATEGORY_AUDIOBOOK = "audiobooks";
 
             PROWLARR_USENET_CLIENT = "sabnzbd";
-            SABNZBD_URL = "sabnzbd:8080";
+            SABNZBD_URL = networkingLib.mkUrl "sabnzbd";
             SABNZBD_CATEGORY_AUDIOBOOK = "audiobooks";
             PROWLARR_USENET_ACTION = "move";
           };

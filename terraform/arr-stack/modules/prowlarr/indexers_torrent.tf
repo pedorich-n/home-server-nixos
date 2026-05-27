@@ -6,6 +6,7 @@ locals {
       priority       = 10
       fields = [
         { name = "baseUrl", text_value = "https://tpb.proxyninja.org/" },
+        { name = "apiurl", text_value = "apibay.org" },
         { name = "definitionFile", text_value = "thepiratebay" },
         { name = "torrentBaseSettings.appMinimumSeeders", number_value = 10 }
       ]

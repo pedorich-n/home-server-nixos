@@ -54,6 +54,11 @@ module "prowlarr" {
   sonarr_api_key                     = module.onepassword.secrets.Sonarr.API.key
   sabnzbd_download_client_fields     = local.download_clients.sabnzbd
   qbittorrent_download_client_fields = local.download_clients.qbittorrent
+  base_urls = {
+    prowlarr = local.base_urls.prowlarr
+    sonarr   = local.base_urls.sonarr
+    radarr   = local.base_urls.radarr
+  }
 
   providers = {
     prowlarr = prowlarr

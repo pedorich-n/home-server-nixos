@@ -17,11 +17,7 @@ let
 
     "qbittorrent/config"
 
-    "radarr/config"
-
     "sabnzbd/config"
-
-    "sonarr/config"
 
     "shelfmark/config"
   ];

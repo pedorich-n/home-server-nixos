@@ -4,10 +4,5 @@ terraform {
       source  = "devopsarr/sonarr"
       version = "~> 3"
     }
-
-    terracurl = {
-      source  = "devops-rob/terracurl"
-      version = ">= 2"
-    }
   }
 }

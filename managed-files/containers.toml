@@ -152,13 +152,6 @@ registry = 'ghcr.io'
 version = '2.20.15'
 versioning = 'semver'
 
-[prowlarr]
-digest = 'sha256:a89f252d6a22bd25af14a5380aec0adcc3c3af2e3282164f981680e6844070f3'
-image = 'linuxserver/prowlarr'
-registry = 'docker.io'
-version = '2.3.5'
-versioning = 'semver'
-
 [shelfmark]
 digest = 'sha256:655168ef4dd1af939d368f9a8448bf2606888f8221b014f219a3a8eab1c4b307'
 image = 'calibrain/shelfmark-lite'
@@ -174,13 +167,6 @@ version = '5.1.4'
 versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
-[radarr]
-digest = 'sha256:15417a594ebda4c660a9fa9748e7199d33e2d17b31bbc5ad7ba2e86f0b414763'
-image = 'linuxserver/radarr'
-registry = 'docker.io'
-version = '6.1.1'
-versioning = 'semver'
-
 [sabnzbd]
 digest = 'sha256:c65265edbfb42a1e4b6c68d3926e4aab4cf9cf185be1fafd1a692cb195cc9b0e'
 image = 'linuxserver/sabnzbd'
@@ -194,13 +180,6 @@ image = 'searxng/searxng'
 registry = 'docker.io'
 version = '2026.5.13-09829b1cc'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
-
-[sonarr]
-digest = 'sha256:60f3b6b5c7647ba2bafd81163acfe34b11117b9b834ebd7fbcc3e5f1b309c7ef'
-image = 'linuxserver/sonarr'
-registry = 'docker.io'
-version = '4.0.17'
-versioning = 'semver'
 
 [trek]
 digest = 'sha256:79f88110b76980b261b81d1313ec82ee393149d97ae672e87a83e0b158e361a0'

@@ -3,6 +3,7 @@
   config,
   systemdLib,
   pkgs-unstable,
+  lib,
   ...
 }:
 let
@@ -14,11 +15,12 @@ in
     "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/recyclarr.nix"
   ];
 
+  warnings = lib.optional (lib.versionAtLeast config.system.nixos.release "26.05") "The updated Recyclarr module now available in stable";
+
   systemd.services.recyclarr = {
-    # TODO: Use systemd.services.<name>.name once migrated to native services
     unitConfig = systemdLib.requiresAfter [
-      "sonarr.service"
-      "radarr.service"
+      config.systemd.services.radarr.name
+      config.systemd.services.sonarr.name
     ];
   };
 
@@ -36,6 +38,15 @@ in
         radarr-main = {
           base_url = "http://127.0.0.1:${portsCfg.radarr.portStr}";
           api_key._secret = config.sops.secrets."radarr/api/key".path;
+
+          # Names from `recyclarr list naming radarr`
+          media_naming = {
+            folder = "jellyfin-tmdb";
+            movie = {
+              rename = true;
+              standard = "jellyfin-tmdb";
+            };
+          };
 
           quality_definition = {
             type = "movie";
@@ -81,6 +92,18 @@ in
         sonarr-main = {
           base_url = "http://127.0.0.1:${portsCfg.sonarr.portStr}";
           api_key._secret = config.sops.secrets."sonarr/api/key".path;
+
+          # Names from `recyclarr list naming sonarr`
+          media_naming = {
+            series = "jellyfin-tvdb";
+            season = "default";
+            episodes = {
+              rename = true;
+              standard = "default";
+              daily = "default";
+              anime = "default";
+            };
+          };
 
           quality_definition = {
             type = "series";

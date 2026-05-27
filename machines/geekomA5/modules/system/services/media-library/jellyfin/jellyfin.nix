@@ -92,7 +92,7 @@ in
 
     transcoding = {
       enableHardwareEncoding = true;
-      enableSubtitleExtraction = true;
+      enableSubtitleExtraction = false; # Breaks some ASS subtitles
 
       hardwareEncodingCodecs = {
         hevc = true;

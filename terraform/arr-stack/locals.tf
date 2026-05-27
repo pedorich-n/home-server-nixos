@@ -12,19 +12,19 @@ locals {
       enable   = true
       priority = 1
       name     = "SABnzbd"
-      host     = "sabnzbd"
-      port     = 8080
+      host     = "sabnzbd.${var.server_domain}"
+      port     = 443
       api_key  = module.onepassword.secrets.SABnzbd.API.key
-      use_ssl  = false
+      use_ssl  = true
     }
 
     qbittorrent = {
       enable   = true
       priority = 1
       name     = "qBittorrent"
-      host     = "gluetun"
-      port     = 8080
-      use_ssl  = false
+      host     = "qbittorrent.${var.server_domain}"
+      port     = 443
+      use_ssl  = true
     }
   }
 
