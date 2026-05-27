@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   systemdLib,
   lib,
@@ -8,6 +9,13 @@ let
   portsCfg = config.custom.networking.ports.tcp.prowlarr;
 in
 {
+  disabledModules = [ "services/misc/servarr/prowlarr.nix" ];
+  imports = [
+    "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/servarr/prowlarr.nix"
+  ];
+
+  warnings = lib.optional (lib.versionAtLeast config.system.nixos.release "26.05") "The updated Prowlarr module now available in stable";
+
   custom = {
     networking.ports.tcp.prowlarr = {
       port = 31000;

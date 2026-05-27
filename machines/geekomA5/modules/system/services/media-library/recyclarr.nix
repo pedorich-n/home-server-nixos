@@ -3,6 +3,7 @@
   config,
   systemdLib,
   pkgs-unstable,
+  lib,
   ...
 }:
 let
@@ -13,6 +14,8 @@ in
   imports = [
     "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/recyclarr.nix"
   ];
+
+  warnings = lib.optional (lib.versionAtLeast config.system.nixos.release "26.05") "The updated Recyclarr module now available in stable";
 
   systemd.services.recyclarr = {
     unitConfig = systemdLib.requiresAfter [
