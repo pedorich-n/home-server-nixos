@@ -39,6 +39,15 @@ in
           base_url = "http://127.0.0.1:${portsCfg.radarr.portStr}";
           api_key._secret = config.sops.secrets."radarr/api/key".path;
 
+          # Names from `recyclarr list naming radarr`
+          media_naming = {
+            folder = "jellyfin-tmdb";
+            movie = {
+              rename = true;
+              standard = "jellyfin-tmdb";
+            };
+          };
+
           quality_definition = {
             type = "movie";
           };
@@ -83,6 +92,18 @@ in
         sonarr-main = {
           base_url = "http://127.0.0.1:${portsCfg.sonarr.portStr}";
           api_key._secret = config.sops.secrets."sonarr/api/key".path;
+
+          # Names from `recyclarr list naming sonarr`
+          media_naming = {
+            series = "jellyfin-tvdb";
+            season = "default";
+            episodes = {
+              rename = true;
+              standard = "default";
+              daily = "default";
+              anime = "default";
+            };
+          };
 
           quality_definition = {
             type = "series";

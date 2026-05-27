@@ -2,22 +2,6 @@ resource "sonarr_root_folder" "root" {
   path = "/mnt/external/data-library/media/tv"
 }
 
-# See https://trash-guides.info/Sonarr/Sonarr-recommended-naming-scheme/
-# Using Jellyfin TVDB recommendation
-resource "sonarr_naming" "naming" {
-  rename_episodes            = true
-  replace_illegal_characters = true
-  colon_replacement_format   = 4 # Smart
-  multi_episode_style        = 5 # Prefixed Range
-
-  standard_episode_format = local.naming_trash.episodes.standard.default
-  daily_episode_format    = local.naming_trash.episodes.daily.default
-  anime_episode_format    = local.naming_trash.episodes.anime.default
-  series_folder_format    = local.naming_trash.series["jellyfin-tvdb"]
-  season_folder_format    = local.naming_trash.season.default
-  specials_folder_format  = "Specials"
-}
-
 resource "sonarr_download_client_sabnzbd" "sabnzbd" {
   enable      = var.sabnzbd_download_client_fields.enable
   priority    = var.sabnzbd_download_client_fields.priority

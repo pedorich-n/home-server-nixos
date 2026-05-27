@@ -2,16 +2,6 @@ resource "radarr_root_folder" "root" {
   path = "/mnt/external/data-library/media/movies"
 }
 
-# See https://trash-guides.info/Radarr/Radarr-recommended-naming-scheme/#jellyfin
-# Using Jellyfin TMDB recommendation
-resource "radarr_naming" "naming" {
-  rename_movies              = true
-  replace_illegal_characters = true
-  colon_replacement_format   = "smart"
-  standard_movie_format      = local.naming_trash.file["jellyfin-tmdb"]
-  movie_folder_format        = local.naming_trash.folder["jellyfin-tmdb"]
-}
-
 resource "radarr_download_client_sabnzbd" "sabnzbd" {
   enable         = var.sabnzbd_download_client_fields.enable
   priority       = var.sabnzbd_download_client_fields.priority
