@@ -31,6 +31,14 @@ variable "qbittorrent_download_client_fields" {
   })
 }
 
+variable "base_urls" {
+  type = object({
+    prowlarr = string
+    sonarr   = string
+    radarr   = string
+  })
+}
+
 variable "indexer_credentials" {
   type      = map(any)
   sensitive = true

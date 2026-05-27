@@ -1,5 +1,5 @@
 resource "radarr_root_folder" "root" {
-  path = "/data/media/movies"
+  path = "/mnt/external/data-library/media/movies"
 }
 
 # See https://trash-guides.info/Radarr/Radarr-recommended-naming-scheme/#jellyfin

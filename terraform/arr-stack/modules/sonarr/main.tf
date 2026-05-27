@@ -1,5 +1,5 @@
 resource "sonarr_root_folder" "root" {
-  path = "/data/media/tv"
+  path = "/mnt/external/data-library/media/tv"
 }
 
 # See https://trash-guides.info/Sonarr/Sonarr-recommended-naming-scheme/
