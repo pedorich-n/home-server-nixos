@@ -109,6 +109,7 @@ let
 
         "authelia/oidc/olivetin/client_id"
         "authelia/oidc/olivetin/client_secret_hashed"
+        "authelia/oidc/olivetin/client_secret_raw"
       ];
 
       mkSecret = secret: {
