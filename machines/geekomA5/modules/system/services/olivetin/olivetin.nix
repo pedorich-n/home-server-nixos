@@ -43,6 +43,10 @@ in
       config.systemd.package
     ];
 
+    extraConfigFiles = [
+      config.sops.templates."olivetin/oidc.yaml".path
+    ];
+
     settings = {
       ListenAddressSingleHTTPFrontend = "127.0.0.1:${portsCfg.portStr}";
     };

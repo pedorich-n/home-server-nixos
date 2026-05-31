@@ -73,6 +73,10 @@ in
         admin_or_user_list = {
           expression = ''"${autheliaLib.groups.Admins}" in groups ? ["admin"] : ["user"]'';
         };
+
+        admins_or_nothing = {
+          expression = ''"${autheliaLib.groups.Admins}" in groups ? "${autheliaLib.groups.Admins}" : ""'';
+        };
       };
 
       identity_providers.oidc = {
@@ -90,6 +94,14 @@ in
             custom_claims = {
               roles = {
                 attribute = "admin_or_user_list";
+              };
+            };
+          };
+
+          group = {
+            custom_claims = {
+              group = {
+                attribute = "admins_or_nothing";
               };
             };
           };
@@ -124,6 +136,10 @@ in
 
           roles = {
             claims = [ "roles" ];
+          };
+
+          group = {
+            claims = [ "group" ];
           };
 
           ssh_public_key = {
@@ -262,6 +278,19 @@ in
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
+            };
+          })
+
+          (mkOidcProviderPrivate {
+            name = "olivetin";
+            redirectUris = [
+              "${networkingLib.mkUrl "olivetin"}/oauth/callback"
+            ];
+            extraArgs = {
+              claims_policy = "group";
+              scopes = defaultScopes ++ [
+                "group"
+              ];
             };
           })
         ];
