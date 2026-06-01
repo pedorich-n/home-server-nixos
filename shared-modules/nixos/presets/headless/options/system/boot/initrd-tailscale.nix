@@ -91,7 +91,7 @@ in
       ];
 
       availableKernelModules = [
-        "ip_tables"
+        # "ip_tables"
         "nf_conntrack"
         "nf_nat"
         "nft_chain_nat"

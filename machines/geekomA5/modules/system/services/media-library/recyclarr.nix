@@ -1,22 +1,13 @@
 {
-  inputs,
   config,
   systemdLib,
   pkgs-unstable,
-  lib,
   ...
 }:
 let
   portsCfg = config.custom.networking.ports.tcp;
 in
 {
-  disabledModules = [ "services/misc/recyclarr.nix" ];
-  imports = [
-    "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/recyclarr.nix"
-  ];
-
-  warnings = lib.optional (lib.versionAtLeast config.system.nixos.release "26.05") "The updated Recyclarr module now available in stable";
-
   systemd.services.recyclarr = {
     unitConfig = systemdLib.requiresAfter [
       config.systemd.services.radarr.name

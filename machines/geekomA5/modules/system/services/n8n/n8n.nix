@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   networkingLib,
@@ -14,9 +13,6 @@ let
   node = lib.findFirst (d: d.pname == "nodejs") null package.buildInputs;
 in
 {
-  disabledModules = [ "services/misc/n8n.nix" ];
-  imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/n8n.nix" ];
-
   assertions = [
     {
       assertion = node != null;

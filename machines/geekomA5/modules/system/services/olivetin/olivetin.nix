@@ -1,9 +1,7 @@
 {
-  inputs,
   autheliaLib,
   config,
   pkgs-unstable,
-  lib,
   ...
 }:
 let
@@ -16,13 +14,6 @@ let
   };
 in
 {
-  disabledModules = [ "services/web-apps/olivetin.nix" ];
-  imports = [
-    "${inputs.nixpkgs-unstable}/nixos/modules/services/web-apps/olivetin.nix"
-  ];
-
-  warnings = lib.optional (lib.versionAtLeast config.system.nixos.release "26.05") "The updated Olivetin module now available in stable";
-
   custom = {
     networking.ports.tcp.olivetin = {
       port = 32400;

@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   systemdLib,
   lib,
@@ -13,13 +12,6 @@ let
   generatedLdapConfig = config.sops.templates."media-library/jellyfin/ldap-auth.xml".path;
 in
 {
-  disabledModules = [ "services/misc/jellyfin.nix" ];
-  imports = [
-    "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/jellyfin.nix"
-  ];
-
-  warnings = lib.optional (lib.versionAtLeast config.system.nixos.release "26.05") "The updated Jellyfin module now available in stable";
-
   custom = {
     networking.ports = {
       tcp = {
