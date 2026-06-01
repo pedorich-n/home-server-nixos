@@ -3,6 +3,7 @@
   pkgs,
   autheliaLib,
   networkingLib,
+  lib,
   ...
 }:
 let
@@ -57,6 +58,8 @@ let
 
 in
 {
+  warnings = lib.optional (lib.versionAtLeast config.services.authelia.instances.main.package.version "4.39.20") "Fix the Authelia OIDC groups_concatenated claim to actually concatenate groups";
+
   sops.templates."authelia/oidc-apps.yaml" = {
     owner = config.services.authelia.instances.main.user;
     group = config.services.authelia.instances.main.group;
@@ -72,6 +75,11 @@ in
 
         admin_or_user_list = {
           expression = ''"${autheliaLib.groups.Admins}" in groups ? ["admin"] : ["user"]'';
+        };
+
+        groups_concatenated = {
+          # TODO: use `groups.join(",")` once Authelia is updated
+          expression = "groups[0]";
         };
       };
 
@@ -90,6 +98,14 @@ in
             custom_claims = {
               roles = {
                 attribute = "admin_or_user_list";
+              };
+            };
+          };
+
+          groups_concatenated = {
+            custom_claims = {
+              groups_concatenated = {
+                attribute = "groups_concatenated";
               };
             };
           };
@@ -124,6 +140,10 @@ in
 
           roles = {
             claims = [ "roles" ];
+          };
+
+          groups_concatenated = {
+            claims = [ "groups_concatenated" ];
           };
 
           ssh_public_key = {
@@ -262,6 +282,19 @@ in
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
+            };
+          })
+
+          (mkOidcProviderPrivate {
+            name = "olivetin";
+            redirectUris = [
+              "${networkingLib.mkUrl "olivetin"}/oauth/callback"
+            ];
+            extraArgs = {
+              claims_policy = "groups_concatenated";
+              scopes = defaultScopes ++ [
+                "groups_concatenated"
+              ];
             };
           })
         ];

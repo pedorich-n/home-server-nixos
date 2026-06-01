@@ -204,6 +204,9 @@ let
             slug = "netdata";
           })
           (mkEntry {
+            slug = "olivetin";
+          })
+          (mkEntry {
             slug = "lldap";
             title = "LLDAP";
             iconName = "lldap-light";
