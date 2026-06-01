@@ -22,11 +22,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779704053,
-        "narHash": "sha256-gWRz2cVw7XVWdFoUyWoWlNXIXFMyHkn+ZuQYjeeWlC0=",
+        "lastModified": 1780318637,
+        "narHash": "sha256-jKI4Hh1vvuiOrf6ZdD691p5R5IY8qgqPXwKUEdg9K3M=",
         "ref": "refs/heads/main",
-        "rev": "c32ea5605f6c2b314fcc40f1a3da8b16dec65381",
-        "revCount": 155,
+        "rev": "2c3095d99049e9935fdffdbdb77bbe19242a7e30",
+        "revCount": 157,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
@@ -59,11 +59,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779704210,
-        "narHash": "sha256-DtOWxA1FwR7/o3hPooWtrkLa9FRW7eYzfcL3AyXPfJw=",
+        "lastModified": 1780318692,
+        "narHash": "sha256-4KxX6gyGaoFg2bMNH28ei3r5ZPL6qpbcvgRzVP91r6E=",
         "ref": "refs/heads/main",
-        "rev": "a2f105b1206621168bb5c6ee0d31c75baf04e301",
-        "revCount": 44,
+        "rev": "93caa1d62148f856b42d9852fdc42eccaf57c214",
+        "revCount": 46,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/book-sync"
@@ -221,11 +221,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779704125,
-        "narHash": "sha256-VWMazlKava+Mk+u1HyGaqRRd8j4uHnCajAAmsGid3gk=",
+        "lastModified": 1780318725,
+        "narHash": "sha256-9jzD+px/vY1wuX3o4VvMpuvqyIHjGrR5L+OuR53PoW4=",
         "ref": "refs/heads/main",
-        "rev": "4714b73fd273ed23a9a6f4b8b263ca9813f77dbc",
-        "revCount": 46,
+        "rev": "ebfbc55e210d3eefe0d14b61585a9e5312c8ef2d",
+        "revCount": 48,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/geekdo-sync"
@@ -282,11 +282,11 @@
         "zsh-tab-title": "zsh-tab-title"
       },
       "locked": {
-        "lastModified": 1779704356,
-        "narHash": "sha256-XflrcK/A1kmyWcw3bGStDI/RgdjveziZKDS1FC1N8pU=",
+        "lastModified": 1780320084,
+        "narHash": "sha256-Bx0RkP82YQoGOe45cNGXa8NqSWDFGZMvA101ch2gtH8=",
         "ref": "refs/heads/main",
-        "rev": "bc4986621d2a5d17da1df32259f96004bc26e07e",
-        "revCount": 531,
+        "rev": "5a76f358fcf128f1c7782ceea8d4f188588a7dd8",
+        "revCount": 533,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-manager-config"
@@ -361,16 +361,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1779796641,
-        "narHash": "sha256-ZsIrKmhp4vbBXoXXmR/tBXA/UCsAQiJL9vsgZEduhVY=",
+        "lastModified": 1780203844,
+        "narHash": "sha256-K5sT4jTpGs15ADhviMKNBH38REpPf5Q6mM1+N6cArVE=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "25f538306313eae3927264466c70d7001dcea1df",
+        "rev": "b51242d7d43689db2f3be91bd05d5b24fbb469c4",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-25.11",
+        "ref": "nixos-26.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -461,11 +461,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779802740,
-        "narHash": "sha256-29WjPcJLEyElJDr3ze1c0uAwk2TCSur2ft3PYL+PD7w=",
+        "lastModified": 1780318576,
+        "narHash": "sha256-k2LNd+nhwMQRBcsrsxLkmfvFJm52u6mCM/mc4kVUq4s=",
         "owner": "pedorich-n",
         "repo": "playit-nixos-module",
-        "rev": "8dab4cab7fa741b1e03d734d970131ad2cbd84ec",
+        "rev": "8fb225bc4fc529d4351357ee89768e71457d9e49",
         "type": "github"
       },
       "original": {
@@ -639,11 +639,11 @@
     "zsh-tab-title": {
       "flake": false,
       "locked": {
-        "lastModified": 1775801344,
-        "narHash": "sha256-35jtxlSjDmrt5LEexSXWUy92V4fuL34jSqRc+OjkfuM=",
+        "lastModified": 1779948282,
+        "narHash": "sha256-LJS52CXzSkL9aPzfMc/6aUbiaXRd6IvT6E2j0uxnO9w=",
         "owner": "trystan2k",
         "repo": "zsh-tab-title",
-        "rev": "e0148ca426cbba68e7a6c7266cb44592385e57f8",
+        "rev": "2f49c67742faa31a889c1caa9356746857f5c289",
         "type": "github"
       },
       "original": {
