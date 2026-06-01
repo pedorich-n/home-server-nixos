@@ -1,21 +1,14 @@
 {
-  inputs,
   config,
   systemdLib,
   lib,
+  pkgs-unstable,
   ...
 }:
 let
   portsCfg = config.custom.networking.ports.tcp.sonarr;
 in
 {
-  disabledModules = [ "services/misc/servarr/sonarr.nix" ];
-  imports = [
-    "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/servarr/sonarr.nix"
-  ];
-
-  warnings = lib.optional (lib.versionAtLeast config.system.nixos.release "26.05") "The updated Sonarr module now available in stable";
-
   custom = {
     networking.ports.tcp.sonarr = {
       port = 31100;
@@ -44,6 +37,7 @@ in
 
   services.sonarr = {
     enable = true;
+    package = pkgs-unstable.sonarr;
     group = "media";
     dataDir = "/mnt/store/media-library/sonarr";
 

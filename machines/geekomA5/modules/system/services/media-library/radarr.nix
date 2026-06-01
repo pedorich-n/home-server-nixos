@@ -1,21 +1,14 @@
 {
-  inputs,
   config,
   systemdLib,
   lib,
+  pkgs-unstable,
   ...
 }:
 let
   portsCfg = config.custom.networking.ports.tcp.radarr;
 in
 {
-  disabledModules = [ "services/misc/servarr/radarr.nix" ];
-  imports = [
-    "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/servarr/radarr.nix"
-  ];
-
-  warnings = lib.optional (lib.versionAtLeast config.system.nixos.release "26.05") "The updated Radarr module now available in stable";
-
   custom = {
     networking.ports.tcp.radarr = {
       port = 31200;
@@ -44,6 +37,7 @@ in
 
   services.radarr = {
     enable = true;
+    package = pkgs-unstable.radarr;
     group = "media";
     dataDir = "/mnt/store/media-library/radarr";
 
