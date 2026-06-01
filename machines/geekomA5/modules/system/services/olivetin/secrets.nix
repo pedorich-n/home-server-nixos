@@ -12,6 +12,9 @@
       group = config.services.olivetin.group;
       file = pkgs.writers.writeYAML "olivetin-oidc.yaml" {
         authOAuth2RedirectURL = "${networkingLib.mkUrl "olivetin"}/oauth/callback";
+        # Despite this being called authHeader it actually also applies to OIDC.
+        # This indicates that multiple Olivetin should try to split the groups by comma.
+        authHttpHeaderUserGroupSep = ",";
         authOAuth2Providers = {
           authelia = {
             name = "authelia";
@@ -25,10 +28,10 @@
               "openid"
               "profile"
               "email"
-              "group"
+              "groups_concatenated"
             ];
             usernameField = "preferred_username";
-            userGroupField = "group";
+            userGroupField = "groups_concatenated";
             icon = ''<iconify-icon icon="simple-icons:authelia"></iconify-icon>'';
           };
         };
