@@ -130,7 +130,6 @@ in
         {
           title = "Systemctl start";
           icon = ''<iconify-icon icon="bi:play-circle"></iconify-icon>'';
-          popupOnStart = "execution-dialog-stdout-only";
           exec = [
             "systemctl"
             "--no-block"
@@ -144,7 +143,6 @@ in
         {
           title = "Systemctl stop";
           icon = ''<iconify-icon icon="bi:stop-circle"></iconify-icon>'';
-          popupOnStart = "execution-dialog-stdout-only";
           exec = [
             "systemctl"
             "--no-block"
@@ -158,7 +156,6 @@ in
         {
           title = "Systemctl restart";
           icon = ''<iconify-icon icon="bi:arrow-repeat"></iconify-icon>'';
-          popupOnStart = "execution-dialog-stdout-only";
           exec = [
             "systemctl"
             "--no-block"
