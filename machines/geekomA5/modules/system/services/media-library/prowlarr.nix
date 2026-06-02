@@ -18,10 +18,17 @@ in
     services.caddy.hosts.prowlarr = {
       upstream = "http://127.0.0.1:${portsCfg.portStr}";
       auth = "authelia";
-      authBypassPaths = [ "@api" ];
-      # Bypass paths that contain /api in them.
+      authBypassPaths = [
+        "@api"
+        "@api_download"
+      ];
+      # Bypass API calls
       extraConfig = ''
         @api path */api* /api*
+        @api_download {
+          path */download
+          expression {http.request.uri.query}.matches("(?i)(^|&)apikey=")
+        }
       '';
     };
   };
