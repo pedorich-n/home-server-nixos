@@ -193,10 +193,6 @@ let
         displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
         items = [
           (mkEntry {
-            slug = "cockpit";
-            iconName = "cockpit-light";
-          })
-          (mkEntry {
             slug = "netdata";
           })
           (mkEntry {
