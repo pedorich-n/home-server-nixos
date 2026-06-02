@@ -80,8 +80,6 @@ in
         logs = false;
       };
 
-      logLevel = "trace";
-
       authLocalUsers = {
         enabled = true;
         users = [
