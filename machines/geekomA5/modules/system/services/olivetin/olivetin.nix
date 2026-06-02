@@ -84,9 +84,9 @@ in
         enabled = true;
         users = [
           {
-            username = "n8n";
+            username = "automation";
             usergroup = "admins";
-            apiKey = "{{ .Env.N8N_API_KEY }}";
+            apiKey = "{{ .Env.AUTOMATION_API_KEY }}";
           }
         ];
       };
