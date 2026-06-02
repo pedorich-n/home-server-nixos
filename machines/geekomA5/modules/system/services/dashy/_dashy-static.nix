@@ -81,10 +81,6 @@ let
             slug = "immich";
           })
           (mkEntry {
-            slug = "ente";
-            iconName = "ente-photos";
-          })
-          (mkEntry {
             slug = "maloja";
           })
         ];

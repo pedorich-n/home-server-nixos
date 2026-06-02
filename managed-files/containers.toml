@@ -5,27 +5,6 @@ registry = 'ghcr.io'
 version = '2.35.1'
 versioning = 'semver'
 
-[ente-museum]
-digest = 'sha256:6a1a76df708c29affb833cf2a89f1b4b318f58f15e64cb0249e76cd8cd1df304'
-image = 'ente-io/server'
-registry = 'ghcr.io'
-version = 'latest'
-versioning = 'docker'
-
-[ente-postgresql]
-digest = 'sha256:df7bca0066e6f60cc3dd32faa70caddec20e2c22b58932f79498e5704b23854a'
-image = 'library/postgres'
-registry = 'docker.io'
-version = '15.18-alpine'
-versioning = 'regex:^(?<major>15)\.(?<minor>\d+)-alpine$'
-
-[ente-web]
-digest = 'sha256:e1ec302a5c05c3ebc2eb2633c24d0c9226e47c26b8cacd3a306cee6785f0cffa'
-image = 'ente-io/web'
-registry = 'ghcr.io'
-version = 'latest'
-versioning = 'docker'
-
 [gitea-mirror]
 digest = 'sha256:b4d9bcfb6fdd898ad4aa2e640b07b9cf27a9fb88eec980371d24d25422353e3a'
 image = 'raylabshq/gitea-mirror'

@@ -40,7 +40,6 @@ writeShellApplication {
     }
 
     ensure_bucket grist
-    ensure_bucket ente
 
     # Enable versioning on grist (idempotent — Enabled is a no-op if already set)
     aws s3api put-bucket-versioning --bucket grist \
