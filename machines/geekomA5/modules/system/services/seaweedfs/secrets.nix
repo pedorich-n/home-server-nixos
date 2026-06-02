@@ -35,21 +35,6 @@
               "Versioning:grist"
             ];
           }
-          {
-            name = "ente";
-            credentials = [
-              {
-                accessKey = config.sops.placeholder."seaweedfs/ente/access_key";
-                secretKey = config.sops.placeholder."seaweedfs/ente/secret_key";
-              }
-            ];
-            actions = [
-              "Read:ente"
-              "Write:ente"
-              "List:ente"
-              "Tagging:ente"
-            ];
-          }
         ];
       };
     };

@@ -246,7 +246,6 @@ let
 
       s3Users = [
         "admin"
-        "ente"
         "grist"
       ];
 
@@ -275,15 +274,6 @@ in
     secrets = lib.mkMerge [
       {
         "apprise/urls/telegram" = { };
-
-        "ente/encryption/key" = { };
-        "ente/encryption/hash" = { };
-        "ente/jwt/secret" = { };
-        "ente/storage/key_id" = { };
-        "ente/storage/key_secret" = { };
-        "ente/database/name" = { };
-        "ente/database/username" = { };
-        "ente/database/password" = { };
 
         "home-automation/homeassistant_secrets.yaml" = {
           sopsFile = sopsFilePathFor "home-automation/homeassistant_secrets.yaml";
