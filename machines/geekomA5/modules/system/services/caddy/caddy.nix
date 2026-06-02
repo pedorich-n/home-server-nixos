@@ -1,8 +1,7 @@
 {
-  inputs,
   config,
   networkingLib,
-  pkgs-unstable,
+  pkgs,
   lib,
   ...
 }:
@@ -10,9 +9,6 @@ let
   portsCfg = config.custom.networking.ports.tcp;
 in
 {
-  disabledModules = [ "services/web-servers/caddy/default.nix" ];
-  imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/web-servers/caddy/default.nix" ];
-
   custom.networking.ports.tcp = {
     caddy-admin = {
       port = 2019;
@@ -54,7 +50,7 @@ in
     extraConfig = lib.mkBefore ''
       (error-handler) {
         handle_errors {
-          root * ${pkgs-unstable.error-pages}/share/error-pages/app-down
+          root * ${pkgs.error-pages}/share/error-pages/app-down
           rewrite * /{err.status_code}.html
           file_server
         }
