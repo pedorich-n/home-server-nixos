@@ -30,6 +30,8 @@ in
       SupplementaryGroups = [
         config.users.groups.systemd-journal.name
       ];
+
+      EnvironmentFile = config.sops.secrets."olivetin/main.env".path;
     };
   };
 
@@ -76,6 +78,19 @@ in
         view = false;
         exec = false;
         logs = false;
+      };
+
+      logLevel = "trace";
+
+      authLocalUsers = {
+        enabled = true;
+        users = [
+          {
+            username = "n8n";
+            usergroup = "admins";
+            apiKey = "{{ .Env.N8N_API_KEY }}";
+          }
+        ];
       };
 
       actions = [

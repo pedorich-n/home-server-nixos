@@ -299,16 +299,16 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1780318145,
-        "narHash": "sha256-QdMAh1UYO5d/B6KyMISxaKO2ek+DpHRVBO3I4ZvuFRc=",
-        "ref": "refs/heads/main",
-        "rev": "68e33c1b7fe0339caff9d552ff4d4a00b684763f",
-        "revCount": 214,
+        "lastModified": 1780358654,
+        "narHash": "sha256-Gs2H5VW3qNSJHM8KfRzi8BTZL4TnJ2dnjSGpmeMlBNk=",
+        "ref": "refs/heads/olivetin-api",
+        "rev": "d885adbccbb277e5e1ab78ccffc77df956d20c78",
+        "revCount": 215,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
       "original": {
-        "ref": "refs/heads/main",
+        "ref": "refs/heads/olivetin-api",
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }
