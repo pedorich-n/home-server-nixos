@@ -199,7 +199,7 @@ in
             }
             {
               name = "tomb_key_pass";
-              description = "Tomb key passphrase (will be passed via TOMB_KEY_PASS env variable)";
+              description = "Tomb key passphrase";
               type = "password";
             }
             {
