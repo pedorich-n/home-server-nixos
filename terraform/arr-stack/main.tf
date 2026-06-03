@@ -1,20 +1,12 @@
 module "onepassword" {
   source = "../modules/onepassword"
-  items  = ["Prowlarr", "Prowlarr_Indexers", "Sonarr", "Radarr", "SABnzbd", "SABnzbd_Servers", "AirVPN"]
+  items  = ["Prowlarr", "Prowlarr_Indexers", "Sonarr", "Radarr", "SABnzbd", "AirVPN"]
 }
 
 module "qbittorrent" {
   source      = "./modules/qbittorrent"
   base_url    = local.base_urls.qbittorrent
   listen_port = local.forwarded_vpn_port
-}
-
-module "sabnzbd" {
-  source          = "./modules/sabnzbd"
-  base_url        = local.base_urls.sabnzbd
-  api_key         = module.onepassword.secrets.SABnzbd.API.key
-  sabnzbd_servers = module.onepassword.secrets.SABnzbd_Servers
-  server_domain   = var.server_domain
 }
 
 module "radarr" {
@@ -28,7 +20,6 @@ module "radarr" {
 
   depends_on = [
     module.qbittorrent,
-    module.sabnzbd
   ]
 }
 
@@ -43,7 +34,6 @@ module "sonarr" {
 
   depends_on = [
     module.qbittorrent,
-    module.sabnzbd
   ]
 }
 
@@ -66,7 +56,6 @@ module "prowlarr" {
 
   depends_on = [
     module.qbittorrent,
-    module.sabnzbd,
     module.radarr,
     module.sonarr
   ]

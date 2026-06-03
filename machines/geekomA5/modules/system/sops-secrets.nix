@@ -259,6 +259,25 @@ let
       };
     in
     mapMergeAttrsList mkSecret secrets;
+
+  sabnzbdSecrets =
+    let
+      mkSecret = secret: {
+        ${secret} = {
+          owner = config.services.sabnzbd.user;
+          group = config.services.sabnzbd.group;
+        };
+      };
+      secrets = [
+        "sabnzbd/api_key"
+        "sabnzbd/nzb_key"
+        "sabnzbd/servers/blocknews/username"
+        "sabnzbd/servers/blocknews/password"
+        "sabnzbd/servers/thundernews/username"
+        "sabnzbd/servers/thundernews/password"
+      ];
+    in
+    mapMergeAttrsList mkSecret secrets;
 in
 {
   sops = {
@@ -349,6 +368,7 @@ in
       (lib.mkIf config.services.forgejo.enable forgejoSecrets)
       (lib.mkIf config.services.cloudflared.enable cloudflaredSecrets)
       (lib.mkIf config.services.netdata.enable netdataSecrets)
+      (lib.mkIf config.services.sabnzbd.enable sabnzbdSecrets)
     ];
   };
 }

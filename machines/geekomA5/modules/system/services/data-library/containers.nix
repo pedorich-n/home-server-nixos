@@ -20,8 +20,8 @@ let
 
   afterDownloaders = systemdLib.wantsAfter [
     containers.qbittorrent.ref
-    containers.sabnzbd.ref
     containers.gluetun.ref
+    config.systemd.services.sabnzbd.name
   ];
 
   portsCfg = config.custom.networking.ports.tcp;
@@ -31,10 +31,6 @@ in
     networking.ports.tcp = {
       qbittorrent = {
         port = 30800;
-        openFirewall = false;
-      };
-      sabnzbd = {
-        port = 30900;
         openFirewall = false;
       };
       shelfmark = {
@@ -50,11 +46,6 @@ in
     services.caddy.hosts = {
       qbittorrent = {
         upstream = "http://127.0.0.1:${portsCfg.qbittorrent.portStr}";
-        auth = "authelia";
-        authBypassPaths = [ "/api*" ];
-      };
-      sabnzbd = {
-        upstream = "http://127.0.0.1:${portsCfg.sabnzbd.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
@@ -174,29 +165,6 @@ in
         serviceConfig = {
           RestartSec = 5;
         };
-      };
-
-      sabnzbd = {
-        wantsCaddy = true;
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
-
-        containerConfig = rec {
-          environments = defaultEnvs // {
-            PORT = "8080";
-          };
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/sabnzbd/config" "/config")
-            (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
-          ];
-          publishPorts = [ "127.0.0.1:${portsCfg.sabnzbd.portStr}:${environments.PORT}" ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-
-        unitConfig = systemdLib.requisiteAfter [
-          "zfs.target"
-        ];
       };
 
       audiobookshelf = {

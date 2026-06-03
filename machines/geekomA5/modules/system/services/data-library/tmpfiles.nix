@@ -17,8 +17,6 @@ let
 
     "qbittorrent/config"
 
-    "sabnzbd/config"
-
     "shelfmark/config"
   ];
 
