@@ -35,10 +35,9 @@ in
 
   systemd.services.prowlarr = {
     unitConfig = lib.mkMerge [
-      # TODO: Use systemd.services.<name>.name once migrated to native services
       (systemdLib.wantsAfter [
+        config.systemd.services.sabnzbd.name
         "qbittorrent.service"
-        "sabnzbd.service"
       ])
     ];
   };

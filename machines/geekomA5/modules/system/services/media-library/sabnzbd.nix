@@ -1,6 +1,7 @@
 {
   config,
   pkgs-unstable,
+  systemdLib,
   networkingLib,
   ...
 }:
@@ -22,6 +23,12 @@ in
       auth = "authelia";
       authBypassPaths = [ "/api*" ];
     };
+  };
+
+  systemd.services.sabnzbd = {
+    unitConfig = systemdLib.requisiteAfter [
+      "zfs.target"
+    ];
   };
 
   services.sabnzbd = {

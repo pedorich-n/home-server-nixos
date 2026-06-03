@@ -29,7 +29,6 @@ let
     "qbittorrent"
     "radarr"
     "sabnzbd"
-    "sabnzbd-old"
     "sonarr"
     "shelfmark"
     "zigbee2mqtt"

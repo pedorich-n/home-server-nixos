@@ -24,10 +24,9 @@ in
 
   systemd.services.sonarr = {
     unitConfig = lib.mkMerge [
-      # TODO: Use systemd.services.<name>.name once migrated to native services
       (systemdLib.wantsAfter [
         "qbittorrent.service"
-        "sabnzbd.service"
+        config.systemd.services.sabnzbd.name
       ])
       (systemdLib.requisiteAfter [
         "zfs.target"
