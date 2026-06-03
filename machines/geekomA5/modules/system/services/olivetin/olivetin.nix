@@ -1,6 +1,8 @@
 {
   autheliaLib,
   config,
+  lib,
+  pkgs,
   pkgs-unstable,
   ...
 }:
@@ -29,6 +31,7 @@ in
     serviceConfig = {
       SupplementaryGroups = [
         config.users.groups.systemd-journal.name
+        config.users.groups.tomb.name
       ];
 
       EnvironmentFile = config.sops.secrets."olivetin/main.env".path;
@@ -41,6 +44,7 @@ in
 
     path = [
       config.systemd.package
+      "/run/wrappers"
     ];
 
     extraConfigFiles = [
@@ -168,6 +172,41 @@ in
           ];
           arguments = [
             systemdUnitArg
+          ];
+        }
+        {
+          title = "Tomb open";
+          icon = ''<iconify-icon icon="bi:unlock"></iconify-icon>'';
+          exec = [
+            "sudo"
+            (lib.getExe pkgs.custom-tomb.open)
+            "{{ tomb_file }}"
+            "{{ key_file }}"
+            "{{ mount_point }}"
+          ];
+          timout = 10;
+          popupOnStart = "execution-dialog";
+          arguments = [
+            {
+              name = "tomb_file";
+              description = "Path to the tomb file";
+              type = "very_dangerous_raw_string";
+            }
+            {
+              name = "key_file";
+              description = "Path to the key file";
+              type = "very_dangerous_raw_string";
+            }
+            {
+              name = "tomb_key_pass";
+              description = "Tomb key passphrase (will be passed via TOMB_KEY_PASS env variable)";
+              type = "password";
+            }
+            {
+              name = "mount_point";
+              description = "Path to the mount point";
+              type = "very_dangerous_raw_string";
+            }
           ];
         }
       ];
