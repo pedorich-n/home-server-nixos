@@ -20,7 +20,7 @@ let
 
   afterDownloaders = systemdLib.wantsAfter [
     containers.qbittorrent.ref
-    containers.sabnzbd.ref
+    containers.sabnzbd-old.ref
     containers.gluetun.ref
   ];
 
@@ -33,8 +33,8 @@ in
         port = 30800;
         openFirewall = false;
       };
-      sabnzbd = {
-        port = 30900;
+      sabnzbd-old = {
+        port = 30901;
         openFirewall = false;
       };
       shelfmark = {
@@ -53,8 +53,8 @@ in
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
-      sabnzbd = {
-        upstream = "http://127.0.0.1:${portsCfg.sabnzbd.portStr}";
+      sabnzbd-old = {
+        upstream = "http://127.0.0.1:${portsCfg.sabnzbd-old.portStr}";
         auth = "authelia";
         authBypassPaths = [ "/api*" ];
       };
@@ -176,7 +176,7 @@ in
         };
       };
 
-      sabnzbd = {
+      sabnzbd-old = {
         wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
@@ -189,7 +189,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/sabnzbd/config" "/config")
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/usenet" "/data/downloads/usenet")
           ];
-          publishPorts = [ "127.0.0.1:${portsCfg.sabnzbd.portStr}:${environments.PORT}" ];
+          publishPorts = [ "127.0.0.1:${portsCfg.sabnzbd-old.portStr}:${environments.PORT}" ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
