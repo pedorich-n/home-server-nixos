@@ -40,10 +40,13 @@ in
         inet_exposure = "none";
         host_whitelist = networkingLib.mkDomain "sabnzbd";
         direct_unpack = true;
+        enable_all_par = true; # Download all par2 files
 
         download_dir = "${usensetRoot}/incomplete";
         complete_dir = "${usensetRoot}/complete";
         permissions = "775";
+
+        helpful_warnings = false;
       };
       categories = {
         "*" = {
