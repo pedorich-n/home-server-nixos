@@ -180,32 +180,17 @@ in
           exec = [
             "sudo"
             (lib.getExe pkgs.custom-tomb.open)
-            "{{ tomb_file }}"
-            "{{ key_file }}"
-            "{{ mount_point }}"
+            "/mnt/external/data-library/tomb/main.tomb"
+            config.sops.secrets."tomb/main.key".path
+            "/mnt/tomb"
           ];
           timeout = 10;
           popupOnStart = "execution-dialog";
           arguments = [
             {
-              name = "tomb_file";
-              description = "Path to the tomb file";
-              type = "very_dangerous_raw_string";
-            }
-            {
-              name = "key_file";
-              description = "Path to the key file";
-              type = "very_dangerous_raw_string";
-            }
-            {
               name = "tomb_key_pass";
               description = "Tomb key passphrase";
               type = "password";
-            }
-            {
-              name = "mount_point";
-              description = "Path to the mount point";
-              type = "very_dangerous_raw_string";
             }
           ];
         }
@@ -215,15 +200,14 @@ in
           exec = [
             "sudo"
             (lib.getExe pkgs.custom-tomb.close)
-            "{{ mount_point }}"
+            "/mnt/tomb"
           ];
           timeout = 10;
           popupOnStart = "execution-dialog";
           arguments = [
             {
-              name = "mount_point";
-              description = "Path to the mount point to unmount";
-              type = "very_dangerous_raw_string";
+              description = "Are you sure?";
+              type = "confirmation";
             }
           ];
         }
