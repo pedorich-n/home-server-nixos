@@ -23,7 +23,6 @@ let
     });
 
   adminApps = [
-    "cockpit"
     "multiscrobbler"
     "netdata"
     "prowlarr"
