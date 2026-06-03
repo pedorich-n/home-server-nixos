@@ -1,6 +1,8 @@
 {
   autheliaLib,
   config,
+  lib,
+  pkgs,
   pkgs-unstable,
   ...
 }:
@@ -29,6 +31,7 @@ in
     serviceConfig = {
       SupplementaryGroups = [
         config.users.groups.systemd-journal.name
+        config.users.groups.tomb.name
       ];
 
       EnvironmentFile = config.sops.secrets."olivetin/main.env".path;
@@ -41,6 +44,7 @@ in
 
     path = [
       config.systemd.package
+      "/run/wrappers"
     ];
 
     extraConfigFiles = [
@@ -168,6 +172,79 @@ in
           ];
           arguments = [
             systemdUnitArg
+          ];
+        }
+        {
+          title = "Tomb open";
+          icon = ''<iconify-icon icon="bi:unlock"></iconify-icon>'';
+          exec = [
+            "sudo"
+            (lib.getExe pkgs.custom-tomb.open)
+            "/mnt/external/data-library/tomb/main.tomb"
+            config.sops.secrets."tomb/main.key".path
+            "/mnt/tomb"
+          ];
+          timeout = 10;
+          popupOnStart = "execution-dialog";
+          arguments = [
+            {
+              name = "tomb_key_pass";
+              description = "Tomb key passphrase";
+              type = "password";
+            }
+          ];
+        }
+        {
+          title = "Tomb close";
+          icon = ''<iconify-icon icon="bi:lock"></iconify-icon>'';
+          exec = [
+            "sudo"
+            (lib.getExe pkgs.custom-tomb.close)
+            "/mnt/tomb"
+          ];
+          timeout = 10;
+          popupOnStart = "execution-dialog";
+          arguments = [
+            {
+              description = "Are you sure?";
+              type = "confirmation";
+            }
+          ];
+        }
+      ];
+
+      dashboards = [
+        {
+          title = "Server management";
+          type = "fieldset";
+          contents = [
+            {
+              title = "Journalctl";
+            }
+            {
+              title = "Systemctl status";
+            }
+            {
+              title = "Systemctl start";
+            }
+            {
+              title = "Systemctl stop";
+            }
+            {
+              title = "Systemctl restart";
+            }
+          ];
+        }
+        {
+          title = "Tomb management";
+          type = "fieldset";
+          contents = [
+            {
+              title = "Tomb open";
+            }
+            {
+              title = "Tomb close";
+            }
           ];
         }
       ];

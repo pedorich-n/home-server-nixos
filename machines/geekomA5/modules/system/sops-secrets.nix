@@ -278,6 +278,23 @@ let
       ];
     in
     mapMergeAttrsList mkSecret secrets;
+
+  tombSecrets =
+    let
+      mkSecret = secret: {
+        ${secret} = {
+          sopsFile = sopsFilePathFor secret;
+          format = "binary";
+
+          group = config.users.groups.tomb.name;
+        };
+      };
+
+      secrets = [
+        "tomb/main.key"
+      ];
+    in
+    mapMergeAttrsList mkSecret secrets;
 in
 {
   sops = {
@@ -361,6 +378,7 @@ in
       resticSecrets
       acmeSecrets
       seaweedfsSecrets
+      tombSecrets
       (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
       (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
