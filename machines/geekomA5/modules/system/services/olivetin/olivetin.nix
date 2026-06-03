@@ -184,7 +184,7 @@ in
             "{{ key_file }}"
             "{{ mount_point }}"
           ];
-          timout = 10;
+          timeout = 10;
           popupOnStart = "execution-dialog";
           arguments = [
             {
@@ -206,6 +206,60 @@ in
               name = "mount_point";
               description = "Path to the mount point";
               type = "very_dangerous_raw_string";
+            }
+          ];
+        }
+        {
+          title = "Tomb close";
+          icon = ''<iconify-icon icon="bi:lock"></iconify-icon>'';
+          exec = [
+            "sudo"
+            (lib.getExe pkgs.custom-tomb.close)
+            "{{ mount_point }}"
+          ];
+          timeout = 10;
+          popupOnStart = "execution-dialog";
+          arguments = [
+            {
+              name = "mount_point";
+              description = "Path to the mount point to unmount";
+              type = "very_dangerous_raw_string";
+            }
+          ];
+        }
+      ];
+
+      dashboards = [
+        {
+          title = "Server management";
+          type = "fieldset";
+          contents = [
+            {
+              title = "Journalctl";
+            }
+            {
+              title = "Systemctl status";
+            }
+            {
+              title = "Systemctl start";
+            }
+            {
+              title = "Systemctl stop";
+            }
+            {
+              title = "Systemctl restart";
+            }
+          ];
+        }
+        {
+          title = "Tomb management";
+          type = "fieldset";
+          contents = [
+            {
+              title = "Tomb open";
+            }
+            {
+              title = "Tomb close";
             }
           ];
         }
