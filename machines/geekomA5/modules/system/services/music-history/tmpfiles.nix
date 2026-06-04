@@ -11,6 +11,8 @@ let
     "maloja/data/backups"
 
     "multi-scrobbler/config"
+
+    "koito/config"
   ];
 
   foldersToSetPermissions = [
