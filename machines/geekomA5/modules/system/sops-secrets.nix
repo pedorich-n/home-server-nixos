@@ -331,6 +331,8 @@ in
 
         "music-history/maloja/api_keys/multiscrobbler" = { };
         "music-history/multiscrobbler/maloja/api_key" = { };
+        "music-history/multiscrobbler/koito/username" = { };
+        "music-history/multiscrobbler/koito/api_key" = { };
         "music-history/multiscrobbler/spotify/client_id" = { };
         "music-history/multiscrobbler/spotify/client_secret" = { };
 
