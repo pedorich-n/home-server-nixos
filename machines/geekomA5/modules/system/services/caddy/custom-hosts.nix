@@ -13,7 +13,7 @@ let
 
   mkVirtualHostConfig =
     host:
-    lib.concatStrings [
+    lib.concatLines [
       # Auth-bypass paths: routed directly to the upstream, no auth applied.
       # Must come before the main handle block since Caddy handle blocks are ordered.
       (lib.concatMapStrings (path: ''
@@ -39,14 +39,10 @@ let
             reverse_proxy ${host.upstream}
           ''
         else
-          ''
-            reverse_proxy ${host.upstream}
-          ''
+          "reverse_proxy ${host.upstream}"
       )
 
-      ''
-        import error-handler
-      ''
+      "import error-handler"
 
       host.extraConfig
     ];

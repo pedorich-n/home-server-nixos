@@ -28,14 +28,25 @@ in
     };
 
     services.caddy.hosts = {
-      maloja = {
-        upstream = "http://127.0.0.1:${portsCfg.maloja.portStr}";
-      };
       multiscrobbler = {
         upstream = "http://127.0.0.1:${portsCfg.multiscrobbler.portStr}";
         auth = "authelia";
       };
     };
+  };
+
+  services.caddy.virtualHosts."${networkingLib.mkDomain "maloja"}" = {
+    logFormat = null;
+    useACMEHost = "local";
+    extraConfig = ''
+      reverse_proxy http://127.0.0.1:${portsCfg.maloja.portStr} {
+        # Maloja goes bonkers from Authelia's and other cookies set for the TLD,
+        # so we only leave cookies prefixed with `maloja` and `adminmode` and strip the rest.
+        header_up Cookie "(?i)(maloja[^=]*=[^;]*;?\s*)|(adminmode=[^;]*;?\s*)|[^;]+;?\s*" "$1$2"
+      }
+      import error-handler
+    '';
+
   };
 
   virtualisation.quadlet = {
