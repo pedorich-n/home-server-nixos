@@ -7,8 +7,6 @@
 }:
 let
   portsCfg = config.custom.networking.ports.tcp;
-
-  z2mSecrets = config.sops.secrets."home-automation/zigbee2mqtt_secrets.yaml".path;
 in
 {
   custom = {
@@ -31,12 +29,18 @@ in
     ];
 
     serviceConfig = {
+      LoadCredential = [
+        "secrets.yaml:${config.sops.secrets."home-automation/zigbee2mqtt_secrets.yaml".path}"
+      ];
       SupplementaryGroups = [
         config.users.groups.zigbee.name
       ];
-      ReadOnlyPaths = [
-        z2mSecrets
-      ];
+    };
+
+    environment = {
+      ZIGBEE2MQTT_CONFIG_MQTT_USER = "!%d/secrets.yaml mqtt_user";
+      ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD = "!%d/secrets.yaml mqtt_password";
+      ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY = "!%d/secrets.yaml network_key";
     };
   };
 
@@ -57,8 +61,8 @@ in
         base_topic = "zigbee2mqtt";
         server = "mqtt://127.0.0.1:${portsCfg.mosquitto.portStr}";
         keepalive = 60;
-        user = "!${z2mSecrets} mqtt_user";
-        password = "!${z2mSecrets} mqtt_password";
+        # user = "!${z2mSecrets} mqtt_user";
+        # password = "!${z2mSecrets} mqtt_password";
         reject_unauthorized = true;
       };
 
@@ -75,7 +79,7 @@ in
       };
 
       advanced = {
-        network_key = "!${z2mSecrets} network_key";
+        # network_key = "!${z2mSecrets} network_key";
         log_level = "error";
         log_output = [
           "console"
