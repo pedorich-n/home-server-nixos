@@ -319,8 +319,8 @@ in
         };
         "home-automation/zigbee2mqtt_secrets.yaml" = {
           sopsFile = sopsFilePathFor "home-automation/zigbee2mqtt_secrets.yaml";
-          owner = config.users.users.user.name;
-          group = config.users.users.user.group;
+          owner = config.users.users.zigbee2mqtt.name;
+          group = config.users.users.zigbee2mqtt.group;
           key = "";
         };
 
