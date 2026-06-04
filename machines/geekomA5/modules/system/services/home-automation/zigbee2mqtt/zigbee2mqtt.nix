@@ -19,7 +19,6 @@ in
       upstream = "http://127.0.0.1:${portsCfg.zigbee2mqtt.portStr}";
       auth = "authelia";
     };
-
   };
 
   systemd.services.zigbee2mqtt = {

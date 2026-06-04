@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   containerLib,
   systemdLib,
   ...
@@ -35,19 +34,9 @@ let
 in
 {
   custom = {
-    networking.ports.tcp.zigbee2mqtt-old = {
-      port = 30301;
-      openFirewall = false;
-    };
-
     networking.ports.tcp.homeassistant = {
       port = 31800;
       openFirewall = false;
-    };
-
-    services.caddy.hosts.zigbee2mqtt-old = {
-      upstream = "http://127.0.0.1:${portsCfg.zigbee2mqtt-old.portStr}";
-      auth = "authelia";
     };
 
     services.caddy.hosts.homeassistant = {
@@ -67,36 +56,6 @@ in
     };
 
     containers = {
-      zigbee2mqtt-old = {
-        wantsCaddy = true;
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
-
-        containerConfig = {
-          environments = {
-            TZ = "${config.time.timeZone}";
-          };
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/zigbee2mqtt-old" "/app/data")
-            (containerLib.mkMappedVolumeForUser config.sops.secrets."home-automation/zigbee2mqtt_secrets.yaml".path "/app/data/secrets.yaml")
-          ];
-          addGroups = [
-            (toString config.users.groups.zigbee.gid)
-          ];
-          devices = [
-            "/dev/ttyZigbee:/dev/ttyZigbee"
-          ];
-          publishPorts = [ "127.0.0.1:${portsCfg.zigbee2mqtt-old.portStr}:8080" ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-
-        unitConfig = lib.mkMerge [
-          (systemdLib.requiresAfter [ config.systemd.services.mosquitto.name ])
-          (systemdLib.bindsToAfter [ "dev-ttyZigbee.device" ])
-        ];
-      };
-
       homeassistant-postgresql = {
         useGlobalContainers = true;
         usernsAuto.enable = true;

@@ -32,7 +32,6 @@ let
     "sonarr"
     "shelfmark"
     "zigbee2mqtt"
-    "zigbee2mqtt-old"
   ];
 
   regularApps = [

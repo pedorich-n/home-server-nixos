@@ -159,10 +159,3 @@ image = 'mauriceboe/trek'
 registry = 'docker.io'
 version = '3.0.22'
 versioning = 'semver'
-
-[zigbee2mqtt-old]
-digest = 'sha256:67c26dcf8346aced02fe1380a6afd1b57268bcef10faae3f6057c13d5d3dfa80'
-image = 'koenkk/zigbee2mqtt'
-registry = 'docker.io'
-version = '2.10.1'
-versioning = 'semver'
