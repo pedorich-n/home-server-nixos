@@ -210,7 +210,10 @@ in
             HIDE_LOCAL_AUTH = "true";
             SESSION_COOKIE_SECURE = "true";
 
-            BOOK_LANGUAGE = "en,ru,uk";
+            # Sometimes it takes too long to go trough all permutations of
+            # book, author, series names in different languages that search request times out.
+            # So it's better to set it dynamically from the UI
+            # BOOK_LANGUAGE = "en,ru,uk";
             SEARCH_MODE = "universal";
             DEFAULT_RELEASE_SOURCE = "prowlarr";
 
