@@ -38,7 +38,7 @@
   "time": {
     "datasource": "pypi",
     "package": "mcp-server-time",
-    "version": "2026.1.26",
+    "version": "2026.6.4",
     "versioning": "pep440"
   }
 }
