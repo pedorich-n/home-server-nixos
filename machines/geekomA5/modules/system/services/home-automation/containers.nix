@@ -35,8 +35,8 @@ let
 in
 {
   custom = {
-    networking.ports.tcp.zigbee2mqtt = {
-      port = 30300;
+    networking.ports.tcp.zigbee2mqtt-old = {
+      port = 30301;
       openFirewall = false;
     };
 
@@ -45,8 +45,8 @@ in
       openFirewall = false;
     };
 
-    services.caddy.hosts.zigbee2mqtt = {
-      upstream = "http://127.0.0.1:${portsCfg.zigbee2mqtt.portStr}";
+    services.caddy.hosts.zigbee2mqtt-old = {
+      upstream = "http://127.0.0.1:${portsCfg.zigbee2mqtt-old.portStr}";
       auth = "authelia";
     };
 
@@ -67,7 +67,7 @@ in
     };
 
     containers = {
-      zigbee2mqtt = {
+      zigbee2mqtt-old = {
         wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
@@ -77,7 +77,7 @@ in
             TZ = "${config.time.timeZone}";
           };
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/zigbee2mqtt" "/app/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/zigbee2mqtt-old" "/app/data")
             (containerLib.mkMappedVolumeForUser config.sops.secrets."home-automation/zigbee2mqtt_secrets.yaml".path "/app/data/secrets.yaml")
           ];
           addGroups = [
@@ -86,7 +86,7 @@ in
           devices = [
             "/dev/ttyZigbee:/dev/ttyZigbee"
           ];
-          publishPorts = [ "127.0.0.1:${portsCfg.zigbee2mqtt.portStr}:8080" ];
+          publishPorts = [ "127.0.0.1:${portsCfg.zigbee2mqtt-old.portStr}:8080" ];
           inherit networks;
           inherit (containerLib.containerIds) user;
         };
