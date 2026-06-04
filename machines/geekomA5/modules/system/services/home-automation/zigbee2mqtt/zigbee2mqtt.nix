@@ -60,8 +60,6 @@ in
         base_topic = "zigbee2mqtt";
         server = "mqtt://127.0.0.1:${portsCfg.mosquitto.portStr}";
         keepalive = 60;
-        # user = "!${z2mSecrets} mqtt_user";
-        # password = "!${z2mSecrets} mqtt_password";
         reject_unauthorized = true;
       };
 
@@ -78,7 +76,6 @@ in
       };
 
       advanced = {
-        # network_key = "!${z2mSecrets} network_key";
         log_level = "error";
         log_output = [
           "console"
