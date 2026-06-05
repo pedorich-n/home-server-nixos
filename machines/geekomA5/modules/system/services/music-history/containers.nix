@@ -81,6 +81,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/multi-scrobbler/config" "/config")
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/spotify.json".path "/config/spotify.json")
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/maloja.json".path "/config/maloja.json")
+            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/koito.json".path "/config/koito.json")
           ];
           publishPorts = [ "127.0.0.1:${portsCfg.multiscrobbler.portStr}:9078" ];
           inherit networks;
