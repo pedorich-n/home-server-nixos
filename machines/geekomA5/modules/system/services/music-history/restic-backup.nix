@@ -52,5 +52,42 @@
           rm ${backupFolder}/*.tar.gz
         '';
       };
+
+    koito =
+      let
+        koitoDir = "/mnt/store/music-history/koito";
+        backupFolder = "${koitoDir}/backups";
+      in
+      {
+        paths = [
+          backupFolder
+        ];
+
+        pruneOpts = [
+          "--keep-daily 14"
+          "--keep-weekly 4"
+          "--keep-monthly 3"
+        ];
+
+        backupPrepareCommand = lib.getExe (
+          pkgs.writeShellApplication {
+            name = "koito-backup-prepare";
+            runtimeInputs = with pkgs; [
+              sqlite
+            ];
+            text = ''
+              echo "Koito backup is stored at: ${backupFolder}"
+
+              mkdir -p "${backupFolder}"
+
+              sqlite3 ${koitoDir}/koito.db ".backup '${backupFolder}/koito-backup.db'"
+            '';
+          }
+        );
+
+        backupCleanupCommand = ''
+          rm -r ${backupFolder}
+        '';
+      };
   };
 }
