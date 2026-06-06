@@ -125,7 +125,7 @@ in
 
         containerConfig = {
           environments = {
-            KOITO_LOG_LEVEL = "info";
+            KOITO_LOG_LEVEL = "warn";
             KOITO_CONFIG_DIR = "/etc/config";
             KOITO_CORS_ALLOWED_ORIGINS = networkingLib.mkUrl "koito";
           };
