@@ -83,6 +83,9 @@ let
           (mkEntry {
             slug = "maloja";
           })
+          (mkEntry {
+            slug = "koito";
+          })
         ];
       }
       {

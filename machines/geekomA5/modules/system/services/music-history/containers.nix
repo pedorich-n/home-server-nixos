@@ -25,12 +25,19 @@ in
         port = 30201;
         openFirewall = false;
       };
+      koito = {
+        port = 30202;
+        openFirewall = false;
+      };
     };
 
     services.caddy.hosts = {
       multiscrobbler = {
         upstream = "http://127.0.0.1:${portsCfg.multiscrobbler.portStr}";
         auth = "authelia";
+      };
+      koito = {
+        upstream = "http://127.0.0.1:${portsCfg.koito.portStr}";
       };
     };
   };
@@ -74,6 +81,7 @@ in
             (containerLib.mkMappedVolumeForUser "${storeRoot}/multi-scrobbler/config" "/config")
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/spotify.json".path "/config/spotify.json")
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/maloja.json".path "/config/maloja.json")
+            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/koito.json".path "/config/koito.json")
           ];
           publishPorts = [ "127.0.0.1:${portsCfg.multiscrobbler.portStr}:9078" ];
           inherit networks;
@@ -105,6 +113,29 @@ in
             "${malojaArtistRules}:/data/rules/custom_rules.tsv"
           ];
           inherit networks;
+        };
+      };
+
+      koito = {
+        useGlobalContainers = true;
+        usernsAuto = {
+          enable = true;
+          size = 65535;
+        };
+
+        containerConfig = {
+          environments = {
+            KOITO_LOG_LEVEL = "warn";
+            KOITO_CONFIG_DIR = "/etc/config";
+            KOITO_CORS_ALLOWED_ORIGINS = networkingLib.mkUrl "koito";
+          };
+          environmentFiles = [ config.sops.secrets."music-history/koito.env".path ];
+          publishPorts = [ "127.0.0.1:${portsCfg.koito.portStr}:4110" ];
+          volumes = [
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/koito" "/etc/config")
+          ];
+          inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
     };
