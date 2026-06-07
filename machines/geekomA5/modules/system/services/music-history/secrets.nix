@@ -2,10 +2,37 @@
   config,
   pkgs,
   networkingLib,
+  lib,
   ...
 }:
 let
   portsCfg = config.custom.networking.ports.tcp;
+
+  # Format is from = to
+  artistRenames = {
+    # Spotify name -> MusicBrainz name
+    "Zemfira" = "Земфира";
+    "Морэ & Рэльсы" = "МОРЭ&РЭЛЬСЫ";
+    "Naadia" = "Наадя";
+    "Samoe Bolshoe Prostoe Chislo" = "Самое Большое Простое Число";
+    "Kino" = "Кино";
+    "Vyacheslav Butusov" = "Вячеслав Бутусов";
+    "[Би-2]" = "Би-2";
+    "Naik Borzov" = "Найк Борзов";
+    "Splean" = "Сплин";
+    "Mumiy Troll" = "Мумий Тролль";
+    "Krovostok" = "Кровосток";
+    "И Друг Мой Грузовик..." = "...и Друг Мой Грузовик";
+    "Vagonovozhatye" = "Вагоновожатые";
+    "Okean Elzy" = "Океан Ельзи";
+    "DakhaBrakha" = "ДахаБраха";
+    "Lyapis Trubetskoy" = "Ляпис Трубецкой";
+  };
+
+  mkRenameRule = source: target: {
+    search = source;
+    replace = target;
+  };
 in
 {
   sops.templates = {
@@ -36,7 +63,15 @@ in
             options = {
               scrobbleBacklog = true;
               playTransform = {
+                # First, replace known artist name variants with the correct ones,
+                # then try to match with MusicBrainz,
+                # and if that fails use the native algorithm of Multi-Scrobbler (extract fields from source and apply some heuristics)
                 preCompare = [
+                  {
+                    type = "user";
+                    name = "ArtistRenames";
+                    artists = lib.mapAttrsToList mkRenameRule artistRenames;
+                  }
                   {
                     # if MusicBrainz is successful then do NOT run native,
                     # only run native if MusicBrainz fails to find a match (onFailure)
