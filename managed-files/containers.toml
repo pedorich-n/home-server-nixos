@@ -118,10 +118,10 @@ version = 'v2.1.2'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:aecbf754a18c2ddc5d9bcf6385316a63aeae685f4106e76c25ab9d2c26c0f550'
+digest = 'sha256:7d50785dba6c97b81640643180b04e3aa48138b3a71c041277617c27d36011b3 '
 image = 'foxxmd/multi-scrobbler'
 registry = 'docker.io'
-version = '0.13.3'
+version = '0.14.1'
 versioning = 'semver'
 
 [paperless-redis]
