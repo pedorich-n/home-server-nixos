@@ -75,7 +75,9 @@ in
 
             BASE_URL = networkingLib.mkUrl "multiscrobbler";
 
-            LOG_LEVEL = "INFO";
+            CACHE_VALKEY = "redis://host.containers.internal:${portsCfg.redis-multiscrobbler.portStr}";
+
+            LOG_LEVEL = "VERBOSE";
           };
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/multi-scrobbler/config" "/config")
