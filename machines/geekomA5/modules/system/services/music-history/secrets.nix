@@ -8,25 +8,25 @@
 let
   portsCfg = config.custom.networking.ports.tcp;
 
-  # Format is from = to
   artistRenames = {
     # Spotify name -> MusicBrainz name
-    "Zemfira" = "Земфира";
-    "Морэ & Рэльсы" = "МОРЭ&РЭЛЬСЫ";
-    "Naadia" = "Наадя";
-    "Samoe Bolshoe Prostoe Chislo" = "Самое Большое Простое Число";
-    "Kino" = "Кино";
-    "Vyacheslav Butusov" = "Вячеслав Бутусов";
-    "[Би-2]" = "Би-2";
-    "Naik Borzov" = "Найк Борзов";
-    "Splean" = "Сплин";
-    "Mumiy Troll" = "Мумий Тролль";
-    "Krovostok" = "Кровосток";
-    "И Друг Мой Грузовик..." = "...и Друг Мой Грузовик";
-    "Vagonovozhatye" = "Вагоновожатые";
-    "Okean Elzy" = "Океан Ельзи";
+    "Aquarium" = "Аквариум";
     "DakhaBrakha" = "ДахаБраха";
+    "Kino" = "Кино";
+    "Krovostok" = "Кровосток";
     "Lyapis Trubetskoy" = "Ляпис Трубецкой";
+    "Mumiy Troll" = "Мумий Тролль";
+    "Naadia" = "Наадя";
+    "Naik Borzov" = "Найк Борзов";
+    "Okean Elzy" = "Океан Ельзи";
+    "Samoe Bolshoe Prostoe Chislo" = "Самое Большое Простое Число";
+    "Splean" = "Сплин";
+    "Vagonovozhatye" = "Вагоновожатые";
+    "Vyacheslav Butusov" = "Вячеслав Бутусов";
+    "Zemfira" = "Земфира";
+    "[Би-2]" = "Би-2";
+    "И Друг Мой Грузовик..." = "...и Друг Мой Грузовик";
+    "Морэ & Рэльсы" = "МОРЭ&РЭЛЬСЫ";
   };
 
   mkRenameRule = source: target: {
@@ -39,6 +39,9 @@ in
     "music-history/multiscrobbler/config.json" = {
       owner = config.users.users.user.name;
       group = config.users.users.user.group;
+      restartUnits = [
+        "multiscrobbler.service"
+      ];
 
       # See structure at https://docs.multi-scrobbler.app/playground/
       file = pkgs.writers.writeJSON "multiscrobbler-config.json" {
