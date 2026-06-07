@@ -8,7 +8,7 @@
   security.acme = {
     acceptTerms = true;
     defaults = {
-      email = "pedorich.n@gmail.com";
+      email = config.custom.secrets.plaintext.variables.email;
       dnsResolver = "1.1.1.1:53";
     };
 

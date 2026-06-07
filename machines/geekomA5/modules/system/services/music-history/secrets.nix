@@ -98,7 +98,7 @@ in
             data = {
               apis = [
                 {
-                  contact = "pedorich.n@gmail.com";
+                  contact = config.custom.secrets.plaintext.variables.email;
                 }
               ];
             };
