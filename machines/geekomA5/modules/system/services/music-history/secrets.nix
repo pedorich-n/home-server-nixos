@@ -99,6 +99,7 @@ in
               apis = [
                 {
                   contact = config.custom.secrets.plaintext.variables.email;
+                  requestTimeout = 10000;
                 }
               ];
             };
