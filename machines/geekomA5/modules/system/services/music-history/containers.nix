@@ -72,18 +72,10 @@ in
           environments = {
             inherit (containerLib.containerIds) PUID PGID;
             TZ = config.time.timeZone;
-
-            BASE_URL = networkingLib.mkUrl "multiscrobbler";
-
-            CACHE_VALKEY = "redis://host.containers.internal:${portsCfg.redis-multiscrobbler.portStr}";
-
-            LOG_LEVEL = "VERBOSE";
           };
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/multi-scrobbler/config" "/config")
-            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/spotify.json".path "/config/spotify.json")
-            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/maloja.json".path "/config/maloja.json")
-            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/koito.json".path "/config/koito.json")
+            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/config.json".path "/config/config.json")
           ];
           publishPorts = [ "127.0.0.1:${portsCfg.multiscrobbler.portStr}:9078" ];
           inherit networks;
