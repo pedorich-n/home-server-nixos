@@ -142,18 +142,23 @@ in
               ];
             };
             defaults = {
+              # In `*Priority` fields the later values result in higher scores.
               releaseStatusPriority = [
+                "pseudo-release" # Transliterations, alternative titles, etc.
                 "official"
               ];
               releaseGroupPrimaryTypePriority = [
-                "album"
-                "single"
                 "ep"
+                "single"
+                "album"
               ];
               releaseCountryPriority = [
+                "US" # United States
                 "XW" # Worldwide
               ];
               searchArtistMethod = "native";
+
+              # Here the earlier fields have higher priority.
               searchOrder = [
                 "isrc" # International Standard Recording Code
                 "basic" # Combination of artist, album, track names
