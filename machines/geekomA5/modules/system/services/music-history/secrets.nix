@@ -33,6 +33,13 @@ let
     search = source;
     replace = target;
   };
+
+  titleRegexes = lib.map (regex: "/${regex}/i") [
+    ''\s[–—−‐-]\s(?:[0-9]+\s)?Remaster(ed)?'' # Match " - Remastered", " - 2015 Remaster", etc.
+    ''\((?:[0-9]+\s)?Remaster(ed)?\)'' # Match "(Remastered)", "(2015 Remaster)", etc.
+    ''\s?(?:\([0-9]+['""`'′″]+\s+Version\))'' # Match "7' Version", " (7" Version)", etc.
+    ''\s?[–—−‐-]\s[0-9]+['""`'′″]+\s+Version'' # Match " - 7' Version", etc.
+  ];
 in
 {
   sops.templates = {
@@ -47,7 +54,7 @@ in
       file = pkgs.writers.writeJSON "multiscrobbler-config.json" {
         base_url = networkingLib.mkUrl "multiscrobbler";
         logging = {
-          level = "info";
+          level = "debug";
         };
         cache = {
           valkey = "redis://host.containers.internal:${portsCfg.redis-multiscrobbler.portStr}";
@@ -66,9 +73,12 @@ in
             options = {
               scrobbleBacklog = true;
               playTransform = {
-                # First, replace known artist name variants with the correct ones,
-                # then try to match with MusicBrainz,
-                # and if that fails use the native algorithm of Multi-Scrobbler (extract fields from source and apply some heuristics)
+                /*
+                  First, replace known artist name variants with the correct ones,
+                  then clean up the title with some regexes (e.g. remove "Remastered", "7' Version", etc.),
+                  then try to match with MusicBrainz,
+                  and if that fails use the native algorithm of Multi-Scrobbler (extract fields from source and apply some heuristics)
+                */
                 preCompare = [
                   {
                     type = "user";
@@ -76,8 +86,12 @@ in
                     artists = lib.mapAttrsToList mkRenameRule artistRenames;
                   }
                   {
-                    # if MusicBrainz is successful then do NOT run native,
-                    # only run native if MusicBrainz fails to find a match (onFailure)
+                    type = "user";
+                    name = "CustomCleanup";
+                    title = titleRegexes;
+                  }
+                  {
+                    # if MusicBrainz is successful then do NOT run native, only run native if MusicBrainz fails to find a match
                     type = "musicbrainz";
                     name = "MusicBrainz";
                     onSuccess = "stop";
@@ -142,19 +156,18 @@ in
               ];
             };
             defaults = {
-              # In `*Priority` fields the later values result in higher scores.
+              /*
+                This enables text similarity scroring between the source and MusicBrainz result. Default values are 0.3 for each field.
+                By prioritizing the albumWeight and de-prioritizing the titleWeight MS will be more likely to match the correct release
+                even if the title is "wrong" (e.g. contains "Remastered" or other extra info), assuming the album name at the source is the desired one.
+              */
+              albumWeight = 0.4;
+              artistWeight = 0.3;
+              titleWeight = 0.3;
+
               releaseStatusPriority = [
-                "pseudo-release" # Transliterations, alternative titles, etc.
                 "official"
-              ];
-              releaseGroupPrimaryTypePriority = [
-                "ep"
-                "single"
-                "album"
-              ];
-              releaseCountryPriority = [
-                "US" # United States
-                "XW" # Worldwide
+                "pseudo-release" # Transliterations, alternative titles, etc.
               ];
               searchArtistMethod = "native";
 

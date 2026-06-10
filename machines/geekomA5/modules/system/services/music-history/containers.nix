@@ -62,13 +62,14 @@ in
     containers = {
       multiscrobbler = {
         wantsCaddy = true;
-        useGlobalContainers = true;
+        # useGlobalContainers = true;
         usernsAuto = {
           enable = true;
           size = 65535;
         };
 
         containerConfig = {
+          image = "ghcr.io/foxxmd/multi-scrobbler:edge@sha256:12725bdfa0aa927b565599c0ed8d6fe2400675097ad60ac164b3446a610ab550";
           environments = {
             inherit (containerLib.containerIds) PUID PGID;
             TZ = config.time.timeZone;
