@@ -161,13 +161,14 @@ in
             };
             defaults = {
               /*
-                This enables text similarity scroring between the source and MusicBrainz result. Default values are 0.3 for each field.
+                This enables text similarity scoring between the source and MusicBrainz result. Default values are 0.3 for each field.
                 By prioritizing the albumWeight and de-prioritizing the titleWeight MS will be more likely to match the correct release
                 even if the title is "wrong", because I assume the album name coming from the source is correct, while title might contain extras like "Remasterd", "Live", etc.
 
                 2.4 was chosen because `releaseCountryPriority` can produce max value of `2` (if the release is XW),
                 so if there's an album with the same name that wasn't released worldwide,
-                I want it to be ranked higher than an album with a different name that was released worldwide.
+                I want it to be ranked higher than an album with a different name that was released worldwide,
+                because country should be an additional factor, not the main one.
               */
               albumWeight = 2.4;
               artistWeight = 0.3;
@@ -177,21 +178,12 @@ in
                 "official"
                 "pseudo-release" # Transliterations, alternative titles, etc.
               ];
-              # releaseGroupPrimaryTypePriority = [
-              #   "ep"
-              #   "single"
-              #   "album"
-              # ];
-              # releaseGroupSecondaryTypePriority = [
-              #   "compilation"
-              # ];
               releaseCountryPriority = [
                 "XW" # Worldwide
                 "XE" # Europe
               ];
               searchArtistMethod = "native";
 
-              # Here the earlier fields have higher priority.
               searchOrder = [
                 "isrc" # International Standard Recording Code
                 "basic" # Combination of artist, album, track names
