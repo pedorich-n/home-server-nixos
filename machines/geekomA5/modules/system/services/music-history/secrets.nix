@@ -35,14 +35,19 @@ let
   };
 
   titleRegexes = lib.map (regex: "/${regex}/i") [
-    ''\s[–—−‐-]\s(?:[0-9]+\s)?Remaster(ed)?'' # Match " - Remastered", " - 2015 Remaster", etc.
-    ''\((?:[0-9]+\s)?Remaster(ed)?\)'' # Match "(Remastered)", "(2015 Remaster)", etc.
-    ''\s?(?:\([0-9]+['""`'′″]+\s+Version\))'' # Match "7' Version", " (7" Version)", etc.
-    ''\s?[–—−‐-]\s[0-9]+['""`'′″]+\s+Version'' # Match " - 7' Version", etc.
-    ''\s[–—−‐-]\sBonus(?:\s+Track)?'' # Match " - Bonus Track", "- Bonus", etc.
-    ''\s?\(Bonus(?:\sTrack)?\)'' # Match " (Bonus Track)", " (Bonus)", etc.
-    ''\s[–—−‐-]\sLive'' # Match " - Live", "- Live", etc.
-    ''\s?\(Live\)'' # Match " (Live)", etc.
+    ''\s*[–—−‐-]\s+(?:[0-9]+\s+)?Remaster(?:ed)?'' # Match " - Remastered", " - 2015 Remaster", etc.
+    ''\((?:[0-9]+\s+)?Remaster(?:ed)?\)'' # Match "(Remastered)", "(2015 Remaster)", etc.
+    ''\s*\([0-9]+['""`'′″]+\s+Version\)'' # Match "7' Version", " (7" Version)", etc.
+    ''\s*[–—−‐-]\s+[0-9]+['""`'′″]+\s+Version'' # Match " - 7' Version", etc.
+    ''\s*[–—−‐-]\s+Bonus(?:\s+Track)?'' # Match " - Bonus Track", "- Bonus", etc.
+    ''\s*\(Bonus(?:\s+Track)?\)'' # Match " (Bonus Track)", " (Bonus)", etc.
+    ''\s*[–—−‐-]\s+Live'' # Match " - Live", "- Live", etc.
+    ''\s*\(Live\)'' # Match " (Live)", etc.
+  ];
+
+  albumRegexes = lib.map (regex: "/${regex}/i") [
+    ''\((?:[0-9]+\s+)?Remaster(?:ed)?(?:\s+Version)?\)'' # Match "(2015 Remastered Version)", "(Remaster)", etc.
+    ''\(Deluxe(?:\s+(?:Version|Edition))?\)'' # Match "(Deluxe)", "(Deluxe Version)", "(Deluxe Edition)", etc.
   ];
 in
 {
@@ -80,6 +85,7 @@ in
                 /*
                   First, replace known artist name variants with the correct ones,
                   then clean up the title with some regexes (e.g. remove "Remastered", "7' Version", etc.),
+                  then clean up album name with some regexes (e.g. remove "Deluxe Edition", "Remastered Version", etc.),
                   then try to match with MusicBrainz,
                   and if that fails use the native algorithm of Multi-Scrobbler (extract fields from source and apply some heuristics)
                 */
@@ -93,6 +99,7 @@ in
                     type = "user";
                     name = "CustomCleanup";
                     title = titleRegexes;
+                    album = albumRegexes;
                   }
                   {
                     # if MusicBrainz is successful then do NOT run native, only run native if MusicBrainz fails to find a match
