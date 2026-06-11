@@ -60,6 +60,7 @@ in
           name = "*";
           priority = 0;
           order = 0;
+          pp = 3; # PostProcessing: Download + Repair + Unpack + Delete
           dir = "";
         };
         movies = {
