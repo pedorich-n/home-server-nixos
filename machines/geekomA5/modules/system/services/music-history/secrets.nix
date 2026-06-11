@@ -39,6 +39,10 @@ let
     ''\((?:[0-9]+\s)?Remaster(ed)?\)'' # Match "(Remastered)", "(2015 Remaster)", etc.
     ''\s?(?:\([0-9]+['""`'′″]+\s+Version\))'' # Match "7' Version", " (7" Version)", etc.
     ''\s?[–—−‐-]\s[0-9]+['""`'′″]+\s+Version'' # Match " - 7' Version", etc.
+    ''\s[–—−‐-]\sBonus(?:\s+Track)?'' # Match " - Bonus Track", "- Bonus", etc.
+    ''\s?\(Bonus(?:\sTrack)?\)'' # Match " (Bonus Track)", " (Bonus)", etc.
+    ''\s[–—−‐-]\sLive'' # Match " - Live", "- Live", etc.
+    ''\s?\(Live\)'' # Match " (Live)", etc.
   ];
 in
 {
@@ -159,15 +163,31 @@ in
               /*
                 This enables text similarity scroring between the source and MusicBrainz result. Default values are 0.3 for each field.
                 By prioritizing the albumWeight and de-prioritizing the titleWeight MS will be more likely to match the correct release
-                even if the title is "wrong" (e.g. contains "Remastered" or other extra info), assuming the album name at the source is the desired one.
+                even if the title is "wrong", because I assume the album name coming from the source is correct, while title might contain extras like "Remasterd", "Live", etc.
+
+                2.4 was chosen because `releaseCountryPriority` can produce max value of `2` (if the release is XW),
+                so if there's an album with the same name that wasn't released worldwide,
+                I want it to be ranked higher than an album with a different name that was released worldwide.
               */
-              albumWeight = 0.4;
+              albumWeight = 2.4;
               artistWeight = 0.3;
               titleWeight = 0.3;
 
               releaseStatusPriority = [
                 "official"
                 "pseudo-release" # Transliterations, alternative titles, etc.
+              ];
+              # releaseGroupPrimaryTypePriority = [
+              #   "ep"
+              #   "single"
+              #   "album"
+              # ];
+              # releaseGroupSecondaryTypePriority = [
+              #   "compilation"
+              # ];
+              releaseCountryPriority = [
+                "XW" # Worldwide
+                "XE" # Europe
               ];
               searchArtistMethod = "native";
 
