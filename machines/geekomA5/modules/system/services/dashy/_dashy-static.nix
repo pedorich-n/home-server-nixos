@@ -154,6 +154,10 @@ let
             iconName = "paperless-ngx";
           })
           (mkEntry {
+            slug = "bentopdf";
+            title = "BentoPDF";
+          })
+          (mkEntry {
             slug = "grist";
           })
         ];
