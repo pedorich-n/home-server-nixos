@@ -62,26 +62,24 @@ in
     containers = {
       multiscrobbler = {
         wantsCaddy = true;
-        useGlobalContainers = true;
+        # useGlobalContainers = true;
         usernsAuto = {
           enable = true;
           size = 65535;
         };
 
         containerConfig = {
+          image = "ghcr.io/foxxmd/multi-scrobbler:edge@sha256:12725bdfa0aa927b565599c0ed8d6fe2400675097ad60ac164b3446a610ab550";
           environments = {
             inherit (containerLib.containerIds) PUID PGID;
             TZ = config.time.timeZone;
-
-            BASE_URL = networkingLib.mkUrl "multiscrobbler";
-
-            LOG_LEVEL = "INFO";
+            # NodeJS 20+ uses IPv6 by default. I don't have IPv6 enabled, but for some reason it still tries to use it and fails with ETIMEDOUT
+            # See https://github.com/nodejs/node/issues/54359
+            NODE_OPTIONS = "--network-family-autoselection-attempt-timeout=5000";
           };
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/multi-scrobbler/config" "/config")
-            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/spotify.json".path "/config/spotify.json")
-            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/maloja.json".path "/config/maloja.json")
-            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/koito.json".path "/config/koito.json")
+            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/config.json".path "/config/config.json")
           ];
           publishPorts = [ "127.0.0.1:${portsCfg.multiscrobbler.portStr}:9078" ];
           inherit networks;
