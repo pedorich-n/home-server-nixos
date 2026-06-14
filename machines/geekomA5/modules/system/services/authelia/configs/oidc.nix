@@ -293,6 +293,16 @@ in
               ];
             };
           })
+
+          (mkOidcProviderPrivate {
+            name = "airtrail";
+            redirectUris = [
+              "${networkingLib.mkUrl "airtrail"}/login"
+            ];
+            extraArgs = {
+              token_endpoint_auth_method = "client_secret_post";
+            };
+          })
         ];
       };
     };

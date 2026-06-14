@@ -3,6 +3,7 @@
   containerLib,
   systemdLib,
   networkingLib,
+  autheliaLib,
   ...
 }:
 let
@@ -60,6 +61,13 @@ in
           environments = {
             ORIGIN = networkingLib.mkUrl "airtrail";
             UPLOAD_LOCATION = "/app/uploads";
+
+            OAUTH_ENABLED = "true";
+            # Yes, this is correct. This url is used as discovery: https://github.com/johanohly/AirTrail/blob/55c5d710a68b432d6/src/lib/server/utils/oauth.ts#L61
+            OAUTH_ISSUER_URL = autheliaLib.discoveryUrl;
+            OAUTH_SCOPE = "openid profile email";
+            OAUTH_AUTO_REGISTER = "true";
+            OAUTH_BUTTON_TEXT = "Log in with Authelia";
           };
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/server/uploads" "/app/uploads")
