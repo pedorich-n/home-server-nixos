@@ -35,6 +35,7 @@ let
   ];
 
   regularApps = [
+    "airtrail"
     "audiobookshelf"
     "dashy"
     "forgejo"
