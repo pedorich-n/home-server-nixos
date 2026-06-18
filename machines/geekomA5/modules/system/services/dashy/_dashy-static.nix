@@ -103,6 +103,10 @@ let
             iconName = "trek-light";
           })
           (mkEntry {
+            slug = "airtrail";
+            title = "AirTrail";
+          })
+          (mkEntry {
             slug = "copyparty";
           })
           (mkEntry {
