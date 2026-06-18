@@ -6,7 +6,7 @@ version = 'v3.10.0'
 versioning = 'semver'
 
 [airtrail-postgresql]
-digest = 'sha256:96d56f7f57c6aacd1fcb908bc83b345ec5f83231ee486dd66a1baadce274db88'
+digest = 'sha256:1b1689b20d16a014a3d195653381cf2caa75a41a92d93b255a9d6ea29fd353aa'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '18.4-alpine'
@@ -20,10 +20,10 @@ version = '2.35.1'
 versioning = 'semver'
 
 [gitea-mirror]
-digest = 'sha256:b4d9bcfb6fdd898ad4aa2e640b07b9cf27a9fb88eec980371d24d25422353e3a'
+digest = 'sha256:288a5d48181ed5944ce1102381f1ac578b3581c2bd0b2ccbb405875826e49737'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.16.3'
+version = 'v3.19.1'
 versioning = 'semver'
 
 [gluetun]
@@ -34,21 +34,21 @@ version = 'v3.41.1'
 versioning = 'semver'
 
 [grist]
-digest = 'sha256:b8a48b6ace784fadb4a3981ad74024b218c1c02ba0c200c49b2fe425be465e15'
+digest = 'sha256:0263064906e2fa88063129d1b84a6ae3d33acb090062e510b32f87b7a1c84917'
 image = 'gristlabs/grist'
 registry = 'docker.io'
-version = '1.7.14'
+version = '1.7.15'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:ceb1202133a5a036e8b03e20a10eb113186cc2f871968323c6fc6c3fc4205716'
+digest = 'sha256:aed891b8f801072302815b4b0fab5adb714182967e9d2e2d4a2be558241c73ad'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.5.4'
+version = '2026.6.3'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
-digest = 'sha256:96d56f7f57c6aacd1fcb908bc83b345ec5f83231ee486dd66a1baadce274db88'
+digest = 'sha256:1b1689b20d16a014a3d195653381cf2caa75a41a92d93b255a9d6ea29fd353aa'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '18.4-alpine'
@@ -97,10 +97,10 @@ version = 'v0.8.6'
 versioning = 'semver'
 
 [librechat-mongodb]
-digest = 'sha256:94b405c5aa83d5160e6dd97383c4687d471f8a6bd247ed3ff6463c092ebf7a8c'
+digest = 'sha256:48a009d2d8007e92d6d7e8baa31713cd11c48c06e827e856240e5a1d319b49d9'
 image = 'library/mongo'
 registry = 'docker.io'
-version = '8.3.2'
+version = '8.3.4'
 versioning = 'semver'
 
 [librechat-rag]
@@ -111,10 +111,10 @@ version = 'latest'
 versioning = 'docker'
 
 [librechat-postgresql]
-digest = 'sha256:12f07d50ce91898d11da387b519a78b0d21c767d2aa766f02ae405de6ad21c6d'
+digest = 'sha256:9973b0a4b0b73e004d690effeaca07b670a4c9907f2826d4e9abe1cbee3b0a94'
 image = 'pgvector/pgvector'
 registry = 'docker.io'
-version = '0.8.2-pg15-trixie'
+version = '0.8.3-pg15-trixie'
 versioning = 'regex:^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-pg15-trixie$'
 
 [maloja]
@@ -153,30 +153,30 @@ version = '2.20.15'
 versioning = 'semver'
 
 [shelfmark]
-digest = 'sha256:655168ef4dd1af939d368f9a8448bf2606888f8221b014f219a3a8eab1c4b307'
+digest = 'sha256:536471669ac0f8615428e4c6b28da415f8e4733d75c0dcb4c3e15c1c77b19795'
 image = 'calibrain/shelfmark-lite'
 registry = 'ghcr.io'
-version = 'v1.3.0'
+version = 'v1.3.2'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:715d2bfbcf1cd3d734cbbd4fbd599eb7ea0642eaa079a372dd0d343f59516700'
+digest = 'sha256:bca2cf536c00900f0b8fb62ca3dcbed8ee64293165d41c8240d2cc952d4ef048'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
-version = '5.2.1'
+version = '5.2.2'
 versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [searxng]
-digest = 'sha256:75e85884da87a717655d6313421c8fb42aede84219b06873311179ae830ab396'
+digest = 'sha256:20621e92be8e0d3590686f1198bbd173e34c00e845a3ca5d1ae6db1bc083df78'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.5.31-300695de5'
+version = '2026.6.18-bd73cc09e'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
-digest = 'sha256:c6cfd1ee6f32b1ac6ca580c6ed4060d7108c5fa7ba4d26a3954647574568ccce'
+digest = 'sha256:99697a488ae43cb839ea9a27e3939768613b1f334f9aaaa0041f52ccfec7b43e'
 image = 'mauriceboe/trek'
 registry = 'docker.io'
-version = '3.0.22'
+version = '3.1.0'
 versioning = 'semver'
