@@ -77,15 +77,6 @@
             };
           };
 
-          object-storage = {
-            type = "zfs_fs";
-            options = {
-              mountpoint = "/mnt/external/object-storage";
-              quota = "500G";
-              "com.sun:auto-snapshot" = "true";
-            };
-          };
-
           seaweedfs = {
             type = "zfs_fs";
             options = {
