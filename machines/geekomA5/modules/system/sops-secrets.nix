@@ -298,6 +298,22 @@ let
       ];
     in
     mapMergeAttrsList mkSecret secrets;
+
+  couchdbSecrets =
+    let
+      secrets = [
+        "couchdb/users/admin/username"
+        "couchdb/users/admin/password"
+      ];
+
+      mkSecret = secret: {
+        ${secret} = {
+          owner = config.services.couchdb.user;
+          group = config.services.couchdb.group;
+        };
+      };
+    in
+    mapMergeAttrsList mkSecret secrets;
 in
 {
   sops = {
@@ -390,6 +406,7 @@ in
       (lib.mkIf config.services.cloudflared.enable cloudflaredSecrets)
       (lib.mkIf config.services.netdata.enable netdataSecrets)
       (lib.mkIf config.services.sabnzbd.enable sabnzbdSecrets)
+      (lib.mkIf config.services.couchdb.enable couchdbSecrets)
     ];
   };
 }
