@@ -60,4 +60,6 @@ locals {
 
   n8n_local_domain     = "n8n.${local.cf_zone_domain}"
   couchdb_local_domain = "couchdb.${local.cf_zone_domain}"
+
+  obsidian_devices = toset(["mobile", "desktop"])
 }
