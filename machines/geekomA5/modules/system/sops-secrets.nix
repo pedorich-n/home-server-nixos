@@ -217,8 +217,13 @@ let
     mapMergeAttrsList mkSecret secrets;
 
   cloudflaredSecrets = {
-    "cloudflared/tunnel_credentials" = {
-      sopsFile = sopsFilePathFor "cloudflared/credentials_json.txt";
+    "cloudflared/n8n_tunnel_credentials" = {
+      sopsFile = sopsFilePathFor "cloudflared/n8n_credentials_json.txt";
+      format = "binary";
+    };
+
+    "cloudflared/couchdb_tunnel_credentials" = {
+      sopsFile = sopsFilePathFor "cloudflared/couchdb_credentials_json.txt";
       format = "binary";
     };
   };
