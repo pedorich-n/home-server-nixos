@@ -1,11 +1,23 @@
 {
   config,
+  pkgs,
+  lib,
+  networkingLib,
   ...
 }:
 let
   portsCfg = config.custom.networking.ports.tcp.couchdb;
 
-  # rootStorageDir = "/mnt/store/couchdb";
+  bootstrap = pkgs.callPackage ./_bootstrap.nix {
+    baseUrl = networkingLib.mkUrl "couchdb";
+    dbNameFile = config.sops.secrets."couchdb/db/obsidian_livesync/name".path;
+    adminUsernameFile = config.sops.secrets."couchdb/users/admin/username".path;
+    adminPasswordFile = config.sops.secrets."couchdb/users/admin/password".path;
+    userUsernameFile = config.sops.secrets."couchdb/users/obsidian_livesync/username".path;
+    userPasswordFile = config.sops.secrets."couchdb/users/obsidian_livesync/password".path;
+    bindAddress = config.services.couchdb.bindAddress;
+    bindPort = portsCfg.portStr;
+  };
 in
 {
   custom = {
@@ -19,13 +31,16 @@ in
     };
   };
 
+  systemd.services.couchdb = {
+    serviceConfig = {
+      ExecStartPost = "-${lib.getExe bootstrap}";
+    };
+  };
+
   services.couchdb = {
     enable = true;
     bindAddress = "127.0.0.1";
     port = portsCfg.port;
-
-    # databaseDir = "${rootStorageDir}/data";
-    # viewIndexDir = "${rootStorageDir}/index";
 
     extraConfigFiles = [
       config.sops.templates."couchdb/admin.ini".path
@@ -50,7 +65,7 @@ in
 
       cors = {
         credentials = true;
-        origins = "app://obsidian.md,capacitor://localhost,http://localhost";
+        origins = "app://obsidian.md,capacitor://localhost,http://localhost,${networkingLib.mkUrl "couchdb"}";
         methods = "GET, PUT, POST, HEAD, DELETE";
         headers = "accept, authorization, content-type, origin, referer";
       };

@@ -304,6 +304,9 @@ let
       secrets = [
         "couchdb/users/admin/username"
         "couchdb/users/admin/password"
+        "couchdb/users/obsidian_livesync/username"
+        "couchdb/users/obsidian_livesync/password"
+        "couchdb/db/obsidian_livesync/name"
       ];
 
       mkSecret = secret: {

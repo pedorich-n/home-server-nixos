@@ -299,11 +299,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1781956340,
-        "narHash": "sha256-Nynrzl3m8tUNxWrRwRx84I9pbXJ6GTj3+a/3wcXNuGU=",
+        "lastModified": 1781958182,
+        "narHash": "sha256-TrTGAUHbnT57g07bUmmTDwKNUyr0Yl1wl5zfpuRs3/4=",
         "ref": "refs/heads/obsidian-livesync",
-        "rev": "b147aef0651f6077affdd907bd3b56071f09b7a0",
-        "revCount": 225,
+        "rev": "5ce391ea8b9dcb4ac6cb9524321a249190610bb6",
+        "revCount": 227,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
