@@ -18,6 +18,8 @@ let
     bindAddress = config.services.couchdb.bindAddress;
     bindPort = portsCfg.portStr;
   };
+
+  rootStorageFolder = "/mnt/store/couchdb";
 in
 {
   custom = {
@@ -45,6 +47,10 @@ in
     extraConfigFiles = [
       config.sops.templates."couchdb/admin.ini".path
     ];
+
+    databaseDir = rootStorageFolder;
+    viewIndexDir = rootStorageFolder;
+    configFile = "${rootStorageFolder}/local.ini";
 
     extraConfig = {
       # Basic settings from https://github.com/vrtmrz/obsidian-livesync/blob/c57b8a5f4e0a4826b84/utils/couchdb/couchdb-init.sh

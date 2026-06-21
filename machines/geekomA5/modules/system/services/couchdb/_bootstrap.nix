@@ -19,11 +19,20 @@ writeShellApplication {
   text = ''
     BASE_URL="${baseUrl}"
 
-    DB_NAME="$(tr -d '\n' < ${dbNameFile})"
-    ADMIN_USERNAME="$(tr -d '\n' < ${adminUsernameFile})"
-    ADMIN_PASSWORD="$(tr -d '\n' < ${adminPasswordFile})"
-    USER_USERNAME="$(tr -d '\n' < ${userUsernameFile})"
-    USER_PASSWORD="$(tr -d '\n' < ${userPasswordFile})"
+    read_secret() {
+      local file="$1"
+      if [ ! -f "$file" ]; then
+        echo "Error: secret file '$file' does not exist" >&2
+        exit 1
+      fi
+      tr -d '\n' < "$file"
+    }
+
+    DB_NAME="$(read_secret ${dbNameFile})"
+    ADMIN_USERNAME="$(read_secret ${adminUsernameFile})"
+    ADMIN_PASSWORD="$(read_secret ${adminPasswordFile})"
+    USER_USERNAME="$(read_secret ${userUsernameFile})"
+    USER_PASSWORD="$(read_secret ${userPasswordFile})"
 
     if [ -z "$ADMIN_PASSWORD" ] || [ -z "$USER_PASSWORD" ]; then
       echo "Error: passwords are empty" >&2
