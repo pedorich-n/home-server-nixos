@@ -14,17 +14,35 @@ resource "cloudflare_zero_trust_access_policy" "bypass_telegram_ips" {
   ]
 }
 
-resource "cloudflare_zero_trust_access_policy" "allow_service_token" {
+resource "cloudflare_zero_trust_access_policy" "allow_main_service_token" {
   account_id       = local.cf_account_id
   name             = "Allow Service Token"
   decision         = "allow"
   session_duration = "24h"
 
-  include = [{
-    service_token = {
-      token_id = cloudflare_zero_trust_access_service_token.main.id
+  include = [
+    {
+      service_token = {
+        token_id = cloudflare_zero_trust_access_service_token.main.id
+      }
     }
-  }]
+  ]
+}
+
+resource "cloudflare_zero_trust_access_policy" "allow_obsidian_service_tokens" {
+  account_id       = local.cf_account_id
+  name             = "Allow Obsidian Service Tokens"
+  decision         = "allow"
+  session_duration = "24h"
+
+  include = [
+    for token in cloudflare_zero_trust_access_service_token.obsidian_devices : {
+      service_token = {
+        token_id = token.id
+      }
+    }
+  ]
+
 }
 
 resource "cloudflare_zero_trust_access_policy" "allow_emails" {
@@ -34,7 +52,7 @@ resource "cloudflare_zero_trust_access_policy" "allow_emails" {
   session_duration = "24h"
 
   include = [
-    for email in split(",", module.onepassword.secrets.Cloudflare_Tunnels.N8N.allowed_emails) : {
+    for email in split(",", module.onepassword.secrets.Cloudflare_Tunnels.Access.allowed_emails) : {
       email = {
         email = email
       }
@@ -75,7 +93,7 @@ resource "cloudflare_zero_trust_access_application" "n8n" {
   session_duration = "0s" # Expire immediately
   policies = [
     {
-      id         = cloudflare_zero_trust_access_policy.allow_service_token.id
+      id         = cloudflare_zero_trust_access_policy.allow_main_service_token.id
       precedence = 1
     },
     {
@@ -84,6 +102,32 @@ resource "cloudflare_zero_trust_access_application" "n8n" {
     },
     {
       id         = cloudflare_zero_trust_access_policy.bypass_telegram_ips.id
+      precedence = 3
+    },
+    {
+      id         = cloudflare_zero_trust_access_policy.deny_all.id
+      precedence = 4
+    }
+  ]
+}
+
+resource "cloudflare_zero_trust_access_application" "couchdb" {
+  zone_id          = cloudflare_zone.main.id
+  name             = "CouchDB"
+  type             = "self_hosted"
+  domain           = local.couchdb_local_domain
+  session_duration = "0s" # Expire immediately
+  policies = [
+    {
+      id         = cloudflare_zero_trust_access_policy.allow_main_service_token.id
+      precedence = 1
+    },
+    {
+      id         = cloudflare_zero_trust_access_policy.allow_obsidian_service_tokens.id
+      precedence = 2
+    },
+    {
+      id         = cloudflare_zero_trust_access_policy.allow_emails.id
       precedence = 3
     },
     {

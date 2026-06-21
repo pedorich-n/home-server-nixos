@@ -19,3 +19,13 @@ resource "cloudflare_dns_record" "n8n" {
   proxied = true
   comment = "N8N"
 }
+
+resource "cloudflare_dns_record" "couchdb" {
+  zone_id = cloudflare_zone.main.id
+  name    = local.couchdb_local_domain
+  content = "${cloudflare_zero_trust_tunnel_cloudflared.couchdb.id}.cfargotunnel.com"
+  type    = "CNAME"
+  ttl     = 1
+  proxied = true
+  comment = "CouchDB"
+}
