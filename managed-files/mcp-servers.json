@@ -20,7 +20,7 @@
   "n8n": {
     "datasource": "npm",
     "package": "n8n-mcp",
-    "version": "2.56.0",
+    "version": "2.61.0",
     "versioning": "semver"
   },
   "nixos": {
@@ -32,7 +32,7 @@
   "searxng": {
     "datasource": "npm",
     "package": "mcp-searxng",
-    "version": "1.0.5",
+    "version": "1.8.0",
     "versioning": "semver"
   },
   "time": {
