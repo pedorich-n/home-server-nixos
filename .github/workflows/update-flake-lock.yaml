@@ -6,7 +6,7 @@ on:
 
 jobs:
   update-flake-lock:
-    uses: pedorich-n/github-workflows/.github/workflows/update-flake-lock.yaml@394fb5dff4f8ee88f7fec2c55bb178875af055c5 # main
+    uses: pedorich-n/github-workflows/.github/workflows/update-flake-lock.yaml@49b512bbb8bc337ceac27bee872950d6fa79cb2e # main
     with:
       app_client_id: ${{ vars.APP_CLIENT_ID }}
       app_owner: ${{ github.repository_owner }}
