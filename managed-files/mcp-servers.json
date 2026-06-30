@@ -2,7 +2,7 @@
   "fetch": {
     "datasource": "pypi",
     "package": "mcp-server-fetch",
-    "version": "2025.4.7",
+    "version": "2026.6.4",
     "versioning": "pep440"
   },
   "grist": {
