@@ -124,7 +124,7 @@ in
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
             "${./qbittorrent/auto_unrar.sh}:/opt/scripts/auto_unrar.sh"
           ];
-          networks = [ "gluetun.container" ];
+          networks = [ containers.gluetun.ref ];
         };
 
         unitConfig = lib.mkMerge [
@@ -162,7 +162,7 @@ in
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/mousehole" "/var/lib/mousehole")
           ];
-          networks = [ "gluetun.container" ];
+          networks = [ containers.gluetun.ref ];
           inherit (containerLib.containerIds) user;
         };
 
