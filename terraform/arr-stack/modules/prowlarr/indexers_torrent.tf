@@ -54,7 +54,7 @@ locals {
         { name = "searchInDescription", bool_value = false },
         { name = "searchInSeries", bool_value = false },
         { name = "searchInFilenames", bool_value = false },
-        { name = "useFreeleechWedge", number_value = 0 }, # Don't use freeleech wedge
+        { name = "useFreeleechWedge", bool_value = true }, # Use freeleech wedges
         { name = "searchLanguages", set_value = [] },
         { name = "torrentBaseSettings.seedTime", number_value = 5760 }, # 4 days
         { name = "torrentBaseSettings.appMinimumSeeders", number_value = 3 },
