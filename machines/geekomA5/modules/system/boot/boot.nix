@@ -53,7 +53,8 @@ in
 
     kernelParams = [
       # https://openzfs.github.io/openzfs-docs/Performance%20and%20Tuning/Module%20Parameters.html#zfs-arc-max
-      "zfs.zfs_arc_max=${toString (8 * GiB)}"
+      # https://www.cyberciti.biz/faq/how-to-set-up-zfs-arc-size-on-ubuntu-debian-linux/
+      "zfs.zfs_arc_max=${toString (2 * GiB)}"
       # https://wiki.archlinux.org/title/CPU_frequency_scaling#amd_pstate
       "amd_pstate=active"
     ];
