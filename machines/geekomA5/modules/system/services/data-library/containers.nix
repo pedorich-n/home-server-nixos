@@ -147,7 +147,7 @@ in
       };
 
       mamapi = {
-        autoStart = true; # New VPN seems to be using the same ASN every time, but better keep it running
+        autoStart = false; # New VPN seems to be using the same ASN every time, but better keep it running
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
