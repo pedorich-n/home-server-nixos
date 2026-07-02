@@ -22,11 +22,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781536930,
-        "narHash": "sha256-p03UK9kI8W7XLdRp2x9QzplmtyH2Yjz63usYrD+f85k=",
+        "lastModified": 1782986897,
+        "narHash": "sha256-/OYIRNOWe2HRBW7/8xmSstQdkijj2xIW9DWBb3nrcrA=",
         "ref": "refs/heads/main",
-        "rev": "52084cb3938a50c97b6777878f49ce5943334486",
-        "revCount": 161,
+        "rev": "dc8c7417611cb1d3c571ae7fa38c8ebb62145cf7",
+        "revCount": 165,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/airtable-telegram-lessons"
@@ -59,11 +59,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781616506,
-        "narHash": "sha256-o+HZ+p92cmncgRbxi7xc0jNYb375L5oZQQNkdYVni5s=",
+        "lastModified": 1782986870,
+        "narHash": "sha256-ZhaASKqU3fPj7zlREmDw+5WFJL2RTWNqVKXC0Sf0Nds=",
         "ref": "refs/heads/main",
-        "rev": "d8703392ced45013c41a9cef73b4e151d047a1d5",
-        "revCount": 49,
+        "rev": "5834af949fae3e002bcc8131857b95405918da65",
+        "revCount": 52,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/book-sync"
@@ -166,11 +166,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778716662,
-        "narHash": "sha256-m1Yf0wZ8j1OHjTc2UwHwyQRSnNeSgLJOd7q5Y45hzi4=",
+        "lastModified": 1782949081,
+        "narHash": "sha256-vp6Y/Grm98ESt6ceOkWiHWyZRDV3J1RID4w+6NWK9yA=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb",
+        "rev": "17c9d6cdfc60c64f4ee8d306f9bc0b4ccb51481e",
         "type": "github"
       },
       "original": {
@@ -221,11 +221,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781616497,
-        "narHash": "sha256-LYrkCzkOZLsAPf+7/EV+f9sOMp/SCN3gjzwY2phH02g=",
+        "lastModified": 1782986878,
+        "narHash": "sha256-cDrZK/tTXxx3+EN4igmdN8XfLlGf19hYtbiTI0Hr7GY=",
         "ref": "refs/heads/main",
-        "rev": "17d9154fe79abc4972c915b0219fd152ffda1e55",
-        "revCount": 52,
+        "rev": "1dc21d9c5115c9ca9d3242c7d7fd244c093e24d0",
+        "revCount": 55,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/geekdo-sync"
@@ -243,11 +243,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782881387,
-        "narHash": "sha256-HvlS1KDGXDjd1bNzzPvH1mkDJATlDAfVYfTh//wJBEA=",
+        "lastModified": 1782964450,
+        "narHash": "sha256-2rwNd77TzZ4sDDvMam0IXFXN5IfC35mifoeKS0uAc/4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d32537981c036473cf6990ae03176a5d84c43b29",
+        "rev": "ebc87daabc8d3f595e9a8b67107eaaa8115ad582",
         "type": "github"
       },
       "original": {
@@ -282,11 +282,11 @@
         "zsh-tab-title": "zsh-tab-title"
       },
       "locked": {
-        "lastModified": 1781098052,
-        "narHash": "sha256-Ju4HvKN+Jf4H8r2XTut5j4gPUfbBgSu6CMc5uC8+EUc=",
+        "lastModified": 1782986294,
+        "narHash": "sha256-shxs83PDgZUChag/S3jc15dBHwh8fGFSEgATTo/dhSk=",
         "ref": "refs/heads/main",
-        "rev": "9ade2317792ddb7d6e4233ead89fafed0802b0be",
-        "revCount": 535,
+        "rev": "969796650f060280f0b6649477b7f679d0ea735a",
+        "revCount": 536,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-manager-config"
@@ -346,11 +346,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782880932,
-        "narHash": "sha256-Cs1pujQ8gDd/hHSHSRZn6UbDEDGM69AN/N9fBwzmUXE=",
+        "lastModified": 1782965360,
+        "narHash": "sha256-v17r+M3g/FNYDen/+2wFODvjk8qaL5eLTIniaXmYkmw=",
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "3a06edf611cd9efa82538edecc9b35458a003b17",
+        "rev": "c8f946c90a9e48df6423ded533c4ab96c0687d83",
         "type": "github"
       },
       "original": {
@@ -461,11 +461,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780795321,
-        "narHash": "sha256-neCfMqKxrtZ6M6Ch+It9hMVmUdbcNIAO6aKOneRs0Ug=",
+        "lastModified": 1782986983,
+        "narHash": "sha256-/qRWt2zgIQqCYrPQPk4+jp+DVAlUWhOzclgU3JcSC6c=",
         "owner": "pedorich-n",
         "repo": "playit-nixos-module",
-        "rev": "7f07c6574d69cb94934bddd246f57d87d7ee9005",
+        "rev": "bda9f527fcdd3c828169e238db94898a62ba1bc7",
         "type": "github"
       },
       "original": {
@@ -507,11 +507,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782808548,
-        "narHash": "sha256-9+XcLOzFo3tXSgH5xpd5g2i65cx4q6zvfNVEMV7hyEs=",
+        "lastModified": 1782905613,
+        "narHash": "sha256-SvXJcAemihifkTn4BGvyE5K1FJX9bl4U8DQ5pqKvD0s=",
         "owner": "pyproject-nix",
         "repo": "pyproject.nix",
-        "rev": "4de7c126c1a3e76e9ec9e3ced900aaa6d8847757",
+        "rev": "7af23cfe91064865ecf2e835da28b45b3c6f49fd",
         "type": "github"
       },
       "original": {
