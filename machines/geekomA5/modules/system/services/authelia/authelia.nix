@@ -23,16 +23,16 @@ let
     });
 
   adminApps = [
+    "mousehole"
     "multiscrobbler"
     "netdata"
     "prowlarr"
     "qbittorrent"
     "radarr"
     "sabnzbd"
-    "sonarr"
     "shelfmark"
+    "sonarr"
     "zigbee2mqtt"
-    "mousehole"
   ];
 
   regularApps = [
