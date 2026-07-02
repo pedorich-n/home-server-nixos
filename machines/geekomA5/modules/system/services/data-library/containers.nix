@@ -41,6 +41,10 @@ in
         port = 31900;
         openFirewall = false;
       };
+      mousehole = {
+        port = 31300;
+        openFirewall = false;
+      };
     };
 
     services.caddy.hosts = {
@@ -54,6 +58,10 @@ in
       };
       audiobookshelf = {
         upstream = "http://127.0.0.1:${portsCfg.audiobookshelf.portStr}";
+      };
+      mousehole = {
+        upstream = "http://127.0.0.1:${portsCfg.mousehole.portStr}";
+        auth = "authelia";
       };
     };
   };
@@ -94,6 +102,7 @@ in
           ];
           publishPorts = [
             "127.0.0.1:${portsCfg.qbittorrent.portStr}:8080" # Qbittorrent Web UI
+            "127.0.0.1:${portsCfg.mousehole.portStr}:5010" # Mousehole Web UI
           ];
           inherit networks;
         };
@@ -151,6 +160,42 @@ in
           networks = [ "gluetun.container" ];
           inherit (containerLib.containerIds) user;
         };
+        unitConfig = lib.mkMerge [
+          {
+            PartOf = [
+              containers.gluetun.ref
+            ];
+          }
+          (systemdLib.bindsToAfter [
+            containers.gluetun.ref
+          ])
+        ];
+
+        serviceConfig = {
+          RestartSec = 5;
+        };
+      };
+
+      mousehole = {
+        wantsCaddy = true;
+        useGlobalContainers = true;
+        usernsAuto.enable = true;
+        wantsAuthelia = true;
+
+        containerConfig = {
+          environments = defaultEnvs // {
+            MOUSEHOLE_ALLOWED_ORIGINS = networkingLib.mkUrl "mousehole";
+            MOUSEHOLE_ALLOWED_HOSTS = networkingLib.mkDomain "mousehole";
+            MOUSEHOLE_INSECURE_ALLOW_NO_AUTH = "true"; # Use Authelia for authentication
+            MOUSEHOLE_HTTPS_ONLY_COOKIES = "true";
+          };
+          volumes = [
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/mousehole" "/var/lib/mousehole")
+          ];
+          networks = [ "gluetun.container" ];
+          inherit (containerLib.containerIds) user;
+        };
+
         unitConfig = lib.mkMerge [
           {
             PartOf = [

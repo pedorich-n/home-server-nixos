@@ -131,6 +131,13 @@ registry = 'ghcr.io'
 version = 'v2.1.2'
 versioning = 'semver'
 
+[mousehole]
+digest = 'sha256:2fc02b12362581e60bfd6adba788bda9eda93f8f31ed089581eeabcee4518b0d'
+image  = 'tmmrtn/mousehole'
+registry = 'docker.io'
+version = '0.5.0'
+versioning = 'semver'
+
 [multiscrobbler]
 digest = 'sha256:7d50785dba6c97b81640643180b04e3aa48138b3a71c041277617c27d36011b3'
 image = 'foxxmd/multi-scrobbler'

@@ -32,6 +32,7 @@ let
     "sonarr"
     "shelfmark"
     "zigbee2mqtt"
+    "mousehole"
   ];
 
   regularApps = [
