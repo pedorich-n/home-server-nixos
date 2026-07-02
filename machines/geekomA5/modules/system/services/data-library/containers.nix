@@ -41,6 +41,10 @@ in
         port = 31900;
         openFirewall = false;
       };
+      mousehole = {
+        port = 31300;
+        openFirewall = false;
+      };
     };
 
     services.caddy.hosts = {
@@ -54,6 +58,10 @@ in
       };
       audiobookshelf = {
         upstream = "http://127.0.0.1:${portsCfg.audiobookshelf.portStr}";
+      };
+      mousehole = {
+        upstream = "http://127.0.0.1:${portsCfg.mousehole.portStr}";
+        auth = "authelia";
       };
     };
   };
@@ -94,6 +102,7 @@ in
           ];
           publishPorts = [
             "127.0.0.1:${portsCfg.qbittorrent.portStr}:8080" # Qbittorrent Web UI
+            "127.0.0.1:${portsCfg.mousehole.portStr}:5010" # Mousehole Web UI
           ];
           inherit networks;
         };
@@ -115,7 +124,7 @@ in
             (containerLib.mkMappedVolumeForUserMedia "${externalStoreRoot}/downloads/torrent" "/data/downloads/torrent")
             "${./qbittorrent/auto_unrar.sh}:/opt/scripts/auto_unrar.sh"
           ];
-          networks = [ "gluetun.container" ];
+          networks = [ containers.gluetun.ref ];
         };
 
         unitConfig = lib.mkMerge [
@@ -137,20 +146,26 @@ in
         };
       };
 
-      mamapi = {
-        autoStart = true; # New VPN seems to be using the same ASN every time, but better keep it running
+      mousehole = {
+        wantsCaddy = true;
         useGlobalContainers = true;
         usernsAuto.enable = true;
+        wantsAuthelia = true;
 
         containerConfig = {
-          environments = defaultEnvs;
-          environmentFiles = [ config.sops.secrets."data-library/mamapi.env".path ];
+          environments = defaultEnvs // {
+            MOUSEHOLE_ALLOWED_ORIGINS = networkingLib.mkUrl "mousehole";
+            MOUSEHOLE_ALLOWED_HOSTS = networkingLib.mkDomain "mousehole";
+            MOUSEHOLE_INSECURE_ALLOW_NO_AUTH = "true"; # Use Authelia for authentication
+            MOUSEHOLE_HTTPS_ONLY_COOKIES = "true";
+          };
           volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/mamapi/data" "/data")
+            (containerLib.mkMappedVolumeForUser "${storeRoot}/mousehole" "/var/lib/mousehole")
           ];
-          networks = [ "gluetun.container" ];
+          networks = [ containers.gluetun.ref ];
           inherit (containerLib.containerIds) user;
         };
+
         unitConfig = lib.mkMerge [
           {
             PartOf = [
