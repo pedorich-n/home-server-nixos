@@ -67,7 +67,7 @@ in
           spawn-protection = 0;
           white-list = true;
         };
-        jvmOpts = aikarFlagsWith { memory = "7680M"; };
+        jvmOpts = aikarFlagsWith { memory = "6144M"; };
 
         symlinks = {
           "server-icon.png" = "${modpack}/server-icon.png";

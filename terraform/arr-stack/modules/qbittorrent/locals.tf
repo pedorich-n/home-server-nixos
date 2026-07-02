@@ -46,5 +46,9 @@ locals {
     autorun_program = "/opt/scripts/auto_unrar.sh \"%R\""
 
     status_bar_external_ip = true
+
+    # Disable read/write caching to avoid qBittorrent from using too much RAM. See https://ryansouthgate.com/fixing-qbitorrent-in-docker-oom/
+    disk_io_read_mode  = 0
+    disk_io_write_mode = 0
   }
 }
