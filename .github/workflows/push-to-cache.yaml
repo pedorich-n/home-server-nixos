@@ -53,7 +53,7 @@ jobs:
           git_https_token: ${{ steps.app_auth.outputs.token }}
 
       - name: Setup niks3
-        uses: Mic92/niks3-action@a3da573cc4d21634990e5f21391abe55ed49ec46 # v1
+        uses: Mic92/niks3-action@12d3e320b2a99b7938f9634bd337cd9fec104609 # v1
         with:
           server-url: ${{ vars.NIKS3_SERVER_URL }}
 
