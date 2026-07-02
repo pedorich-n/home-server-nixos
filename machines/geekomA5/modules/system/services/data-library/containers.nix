@@ -146,36 +146,6 @@ in
         };
       };
 
-      mamapi = {
-        autoStart = false; # New VPN seems to be using the same ASN every time, but better keep it running
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
-
-        containerConfig = {
-          environments = defaultEnvs;
-          environmentFiles = [ config.sops.secrets."data-library/mamapi.env".path ];
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/mamapi/data" "/data")
-          ];
-          networks = [ "gluetun.container" ];
-          inherit (containerLib.containerIds) user;
-        };
-        unitConfig = lib.mkMerge [
-          {
-            PartOf = [
-              containers.gluetun.ref
-            ];
-          }
-          (systemdLib.bindsToAfter [
-            containers.gluetun.ref
-          ])
-        ];
-
-        serviceConfig = {
-          RestartSec = 5;
-        };
-      };
-
       mousehole = {
         wantsCaddy = true;
         useGlobalContainers = true;

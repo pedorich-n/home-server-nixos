@@ -13,7 +13,6 @@ let
 
     "prowlarr/config"
 
-    "mamapi/data"
     "mousehole"
 
     "qbittorrent/config"
