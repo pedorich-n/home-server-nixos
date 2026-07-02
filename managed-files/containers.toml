@@ -1,8 +1,8 @@
 [airtrail-server]
-digest = 'sha256:c6d9f3a9ec890cf19bbf56cebf96cbf09387013b7553abf82865f2ca6c531f18'
+digest = 'sha256:9f702b91e0e7874d3c48a245dc10b9d1f726e2c1582d62237905ad905e5c35eb'
 image = 'johly/airtrail'
 registry = 'docker.io'
-version = 'v3.10.0'
+version = 'v3.11.1'
 versioning = 'semver'
 
 [airtrail-postgresql]
@@ -20,10 +20,10 @@ version = '2.35.1'
 versioning = 'semver'
 
 [gitea-mirror]
-digest = 'sha256:288a5d48181ed5944ce1102381f1ac578b3581c2bd0b2ccbb405875826e49737'
+digest = 'sha256:94b558ffbad75c336df604e206d66d1da8d53e0dea30b762d0d29ead9a10d146'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.19.1'
+version = 'v3.20.4'
 versioning = 'semver'
 
 [gluetun]
@@ -34,17 +34,17 @@ version = 'v3.41.1'
 versioning = 'semver'
 
 [grist]
-digest = 'sha256:0263064906e2fa88063129d1b84a6ae3d33acb090062e510b32f87b7a1c84917'
+digest = 'sha256:d93db4640aeef1b2c3a1375b315798e72c591c98587a0a68c67286162a39a8ff'
 image = 'gristlabs/grist'
 registry = 'docker.io'
-version = '1.7.15'
+version = '1.7.16'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:aed891b8f801072302815b4b0fab5adb714182967e9d2e2d4a2be558241c73ad'
+digest = 'sha256:cb76c9922b530f6a5063a15463eb3ad6de287d297c826713abda16795bb98980'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.6.3'
+version = '2026.7.0'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
@@ -90,31 +90,31 @@ version = 'v0.3.2'
 versioning = 'semver'
 
 [librechat-server]
-digest = 'sha256:208e0f63eefd0143191768b22675d126250eb893defae2469598adb09b17e85d'
+digest = 'sha256:c5db3331b845e1f289f8d04c0c77936c4bbe372f76730a804abc1c37e44d23a9'
 image = 'danny-avila/librechat'
 registry = 'ghcr.io'
-version = 'v0.8.6'
+version = 'v0.8.7'
 versioning = 'semver'
 
 [librechat-mongodb]
-digest = 'sha256:48a009d2d8007e92d6d7e8baa31713cd11c48c06e827e856240e5a1d319b49d9'
+digest = 'sha256:0f887198e29c093fd2b36c3e2eb43c7b98e47c081d89fbd5bc212da0cd43ec58'
 image = 'library/mongo'
 registry = 'docker.io'
 version = '8.3.4'
 versioning = 'semver'
 
 [librechat-rag]
-digest = 'sha256:6dfb6832661ff9c26fa329c823ce266059e33567670a763e9ecb9b566b8daa68'
+digest = 'sha256:c0ad82657b556c1e16dcfca85d045788f67caa223e25e70eb687f4d16b41dedc'
 image = 'danny-avila/librechat-rag-api-dev-lite'
 registry = 'ghcr.io'
 version = 'latest'
 versioning = 'docker'
 
 [librechat-postgresql]
-digest = 'sha256:9973b0a4b0b73e004d690effeaca07b670a4c9907f2826d4e9abe1cbee3b0a94'
+digest = 'sha256:3c17ad20657b1834ca99205f982296405de12299ca96490aa118bf0ddb99f4a7'
 image = 'pgvector/pgvector'
 registry = 'docker.io'
-version = '0.8.3-pg15-trixie'
+version = '0.8.4-pg15-trixie'
 versioning = 'regex:^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-pg15-trixie$'
 
 [maloja]
@@ -139,7 +139,7 @@ version = '0.14.1'
 versioning = 'semver'
 
 [paperless-redis]
-digest = 'sha256:09160599abd229764c0fb44cb6be640294e1d360a54b19985ab4843dcf2d90f1'
+digest = 'sha256:9d317178eceac8454a2284a9e6df2466b93c745529947f0cd42a0fa9609d7005'
 image = 'library/redis'
 registry = 'docker.io'
 version = '8.8.0-alpine'
@@ -160,7 +160,7 @@ version = 'v1.3.2'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:bca2cf536c00900f0b8fb62ca3dcbed8ee64293165d41c8240d2cc952d4ef048'
+digest = 'sha256:163f3384db6cba9f68eaa83ca5f4209298b6029ba2d07b5e67562d0715baf5b9'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.2.2'
@@ -168,15 +168,15 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [searxng]
-digest = 'sha256:20621e92be8e0d3590686f1198bbd173e34c00e845a3ca5d1ae6db1bc083df78'
+digest = 'sha256:340dbecf165ba069d144b0bb71116be57355d9eca418b9af27f81de176d6270c'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.6.18-bd73cc09e'
+version = '2026.7.2-640f88c9b'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
-digest = 'sha256:99697a488ae43cb839ea9a27e3939768613b1f334f9aaaa0041f52ccfec7b43e'
+digest = 'sha256:815b19a45b264d1ddfd8f3df394308f9d6307b26de45378630ba8179bc7691ad'
 image = 'mauriceboe/trek'
 registry = 'docker.io'
-version = '3.1.0'
+version = '3.1.4'
 versioning = 'semver'
