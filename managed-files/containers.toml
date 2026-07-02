@@ -126,7 +126,7 @@ versioning = 'semver'
 
 [mousehole]
 digest = 'sha256:2fc02b12362581e60bfd6adba788bda9eda93f8f31ed089581eeabcee4518b0d'
-image  = 'tmmrtn/mousehole'
+image = 'tmmrtn/mousehole'
 registry = 'docker.io'
 version = '0.5.0'
 versioning = 'semver'
