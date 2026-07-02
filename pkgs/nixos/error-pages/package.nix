@@ -5,13 +5,13 @@
 }:
 buildGoModule (finalAttrs: {
   pname = "error-pages";
-  version = "4.2.0";
+  version = "4.2.2";
 
   src = fetchFromGitHub {
     owner = "tarampampam";
     repo = "error-pages";
     rev = "v${finalAttrs.version}";
-    sha256 = "sha256-CLl8SnZTT6siYJWCr+Bd+5vPqXeDi+qYW905GjFhDEY=";
+    sha256 = "sha256-08PwlzE4sYUZuIBPTYN9HTaD1h7RiQTSZvoDHWYqpj0=";
   };
 
   vendorHash = null;
