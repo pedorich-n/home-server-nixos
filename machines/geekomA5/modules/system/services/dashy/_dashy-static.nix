@@ -196,6 +196,11 @@ let
             title = "MultiScrobbler";
             iconName = "multi-scrobbler";
           })
+          (mkEntry {
+            slug = "mousehole";
+            title = "Mousehole";
+            iconLink = "https://raw.githubusercontent.com/t-mart/mousehole/59f2dc091595e6d281215845a4cd18ee92752035/docs/images/logo/logo.png";
+          })
         ];
       }
       {
