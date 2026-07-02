@@ -3,5 +3,11 @@
   ...
 }:
 {
-  home.enableNixpkgsReleaseCheck = lib.mkDefault false; # Don't compare nixpkgs and HM versions
+  home = {
+    enableNixpkgsReleaseCheck = lib.mkDefault false; # Don't compare nixpkgs and HM versions
+    shell = {
+      enableNushellIntegration = lib.mkDefault false;
+    };
+  };
+
 }
