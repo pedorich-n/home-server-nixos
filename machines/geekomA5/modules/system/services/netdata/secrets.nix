@@ -82,7 +82,7 @@ in
             url = "${networkingLib.mkUrl "git"}/api/v1/version";
           }
           {
-            name = "Gitea-Mirror";
+            name = "GiteaMirror";
             url = "${networkingLib.mkUrl "gitea-mirror"}/api/health";
           }
           {
@@ -117,11 +117,11 @@ in
             url = "${networkingLib.mkUrl "mousehole"}/health";
           }
           {
-            name = "Multi-scrobbler";
+            name = "MultiScrobbler";
             url = "${networkingLib.mkUrl "multiscrobbler"}/api/health";
           }
           {
-            name = "n8n";
+            name = "N8N";
             url = "${networkingLib.mkUrl "n8n"}/healthz";
           }
           {
