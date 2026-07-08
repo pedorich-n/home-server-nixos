@@ -401,6 +401,7 @@ in
         "radarr/api/key" = { };
         "prowlarr/api/key" = { };
         "homeassistant/api/key" = { };
+        "paperless/api/key" = { };
       }
       osUserPasswords
       envSecrets

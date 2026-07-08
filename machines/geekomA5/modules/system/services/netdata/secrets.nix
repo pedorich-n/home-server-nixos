@@ -128,7 +128,13 @@ in
             name = "OliveTin";
             url = "${networkingLib.mkUrl "olivetin"}/readyz";
           }
-          # Paperless here
+          {
+            name = "Paperless";
+            url = "${networkingLib.mkUrl "paperless"}/api/statistics/"; # Trailing slash is important!
+            headers = {
+              Authorization = "Token ${config.sops.placeholder."paperless/api/key"}";
+            };
+          }
           {
             name = "Prowlarr";
             url = "${networkingLib.mkUrl "prowlarr"}/api/v1/health";
@@ -166,7 +172,7 @@ in
             name = "Trek";
             url = "${networkingLib.mkUrl "trek"}/api/health";
           }
-          # Zigbee2MQTT here
+          # Zigbee2MQTT doesn't have any meaningful healthcheck endpoints
         ];
       };
     };
