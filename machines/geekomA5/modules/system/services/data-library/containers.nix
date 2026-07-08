@@ -62,6 +62,7 @@ in
       mousehole = {
         upstream = "http://127.0.0.1:${portsCfg.mousehole.portStr}";
         auth = "authelia";
+        authBypassPaths = [ "/health" ];
       };
     };
   };

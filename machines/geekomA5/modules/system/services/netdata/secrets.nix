@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  networkingLib,
   ...
 }:
 let
@@ -48,6 +49,130 @@ in
             name = "tailscale";
             url = "http://100.100.100.100/metrics";
           })
+        ];
+      };
+    };
+
+    "netdata/httpcheck.conf" = {
+      owner = config.services.netdata.user;
+      group = config.services.netdata.group;
+      # See https://learn.netdata.cloud/docs/collecting-metrics/collectors/synthetic-testing/http-endpoints#options
+      file = pkgs.writers.writeYAML "netdata-httpcheck.conf" {
+        update_every = 60;
+        autodetection_retry = 30;
+        jobs = [
+          {
+            name = "Airtrail";
+            url = "${networkingLib.mkUrl "airtrail"}/api/ping";
+          }
+          {
+            name = "Audiobookshelf";
+            url = "${networkingLib.mkUrl "audiobookshelf"}/healthcheck";
+          }
+          {
+            name = "Authelia";
+            url = "${networkingLib.mkUrl "authelia"}/api/health";
+          }
+          {
+            name = "Librechat";
+            url = "${networkingLib.mkUrl "chat"}/health";
+          }
+          {
+            name = "Forgejo";
+            url = "${networkingLib.mkUrl "git"}/api/v1/version";
+          }
+          {
+            name = "GiteaMirror";
+            url = "${networkingLib.mkUrl "gitea-mirror"}/api/health";
+          }
+          {
+            name = "Grist";
+            url = "${networkingLib.mkUrl "grist"}/status";
+          }
+          {
+            name = "HomeAssistant";
+            url = "${networkingLib.mkUrl "homeassistant"}/api/"; # Trailing slash is important!
+            headers = {
+              Authorization = "Bearer ${config.sops.placeholder."homeassistant/api/key"}";
+            };
+          }
+          {
+            name = "Immich";
+            url = "${networkingLib.mkUrl "immich"}/api/server/ping";
+          }
+          {
+            name = "Jellyfin";
+            url = "${networkingLib.mkUrl "jellyfin"}/health";
+          }
+          {
+            name = "Koito";
+            url = "${networkingLib.mkUrl "koito"}/apis/web/v1/health";
+          }
+          {
+            name = "LLDAP";
+            url = "${networkingLib.mkUrl "lldap"}/health";
+          }
+          {
+            name = "Mousehole";
+            url = "${networkingLib.mkUrl "mousehole"}/health";
+          }
+          {
+            name = "MultiScrobbler";
+            url = "${networkingLib.mkUrl "multiscrobbler"}/api/health";
+          }
+          {
+            name = "N8N";
+            url = "${networkingLib.mkUrl "n8n"}/healthz";
+          }
+          {
+            name = "OliveTin";
+            url = "${networkingLib.mkUrl "olivetin"}/readyz";
+          }
+          {
+            name = "Paperless";
+            url = "${networkingLib.mkUrl "paperless"}/api/statistics/"; # Trailing slash is important!
+            headers = {
+              Authorization = "Token ${config.sops.placeholder."paperless/api/key"}";
+            };
+          }
+          {
+            name = "Prowlarr";
+            url = "${networkingLib.mkUrl "prowlarr"}/api/v1/health";
+            headers = {
+              "X-Api-Key" = config.sops.placeholder."prowlarr/api/key";
+            };
+          }
+          {
+            name = "qBittorrent";
+            url = "${networkingLib.mkUrl "qbittorrent"}/api/v2/app/buildInfo";
+          }
+          {
+            name = "Radarr";
+            url = "${networkingLib.mkUrl "radarr"}/api/v3/health";
+            headers = {
+              "X-Api-Key" = config.sops.placeholder."radarr/api/key";
+            };
+          }
+          {
+            name = "SABnzbd";
+            url = "${networkingLib.mkUrl "sabnzbd"}/api?mode=version";
+          }
+          {
+            name = "Shelfmark";
+            url = "${networkingLib.mkUrl "shelfmark"}/api/health";
+          }
+          {
+            name = "Sonarr";
+            url = "${networkingLib.mkUrl "sonarr"}/api/v3/health";
+            headers = {
+              "X-Api-Key" = config.sops.placeholder."sonarr/api/key";
+            };
+          }
+          {
+            name = "Trek";
+            url = "${networkingLib.mkUrl "trek"}/api/health";
+          }
+          # Zigbee2MQTT doesn't have any meaningful healthcheck endpoints
         ];
       };
     };
