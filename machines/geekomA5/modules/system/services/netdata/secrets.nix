@@ -62,6 +62,10 @@ in
         autodetection_retry = 30;
         jobs = [
           {
+            name = "Airtrail";
+            url = "${networkingLib.mkUrl "airtrail"}/api/ping";
+          }
+          {
             name = "Audiobookshelf";
             url = "${networkingLib.mkUrl "audiobookshelf"}/healthcheck";
           }
@@ -70,36 +74,71 @@ in
             url = "${networkingLib.mkUrl "authelia"}/api/health";
           }
           {
-            name = "Immich";
-            url = "${networkingLib.mkUrl "immich"}/api/server/ping";
+            name = "Librechat";
+            url = "${networkingLib.mkUrl "chat"}/health";
           }
           {
             name = "Forgejo";
             url = "${networkingLib.mkUrl "git"}/api/v1/version";
           }
           {
-            name = "Jellyfin";
-            url = "${networkingLib.mkUrl "jellyfin"}/health";
+            name = "Gitea-Mirror";
+            url = "${networkingLib.mkUrl "gitea-mirror"}/api/health";
           }
           {
             name = "Grist";
             url = "${networkingLib.mkUrl "grist"}/status";
           }
           {
+            name = "HomeAssistant";
+            url = "${networkingLib.mkUrl "homeassistant"}/api/"; # Trailing slash is important!
+            headers = {
+              Authorization = "Bearer ${config.sops.placeholder."homeassistant/api/key"}";
+            };
+          }
+          {
+            name = "Immich";
+            url = "${networkingLib.mkUrl "immich"}/api/server/ping";
+          }
+          {
+            name = "Jellyfin";
+            url = "${networkingLib.mkUrl "jellyfin"}/health";
+          }
+          {
             name = "Koito";
             url = "${networkingLib.mkUrl "koito"}/apis/web/v1/health";
           }
           {
-            name = "Librechat";
-            url = "${networkingLib.mkUrl "chat"}/health";
+            name = "LLDAP";
+            url = "${networkingLib.mkUrl "lldap"}/health";
           }
-
           {
-            name = "Sonarr";
-            url = "${networkingLib.mkUrl "sonarr"}/api/v3/health";
+            name = "Mousehole";
+            url = "${networkingLib.mkUrl "mousehole"}/health";
+          }
+          {
+            name = "Multi-scrobbler";
+            url = "${networkingLib.mkUrl "multiscrobbler"}/api/health";
+          }
+          {
+            name = "n8n";
+            url = "${networkingLib.mkUrl "n8n"}/healthz";
+          }
+          {
+            name = "OliveTin";
+            url = "${networkingLib.mkUrl "olivetin"}/readyz";
+          }
+          # Paperless here
+          {
+            name = "Prowlarr";
+            url = "${networkingLib.mkUrl "prowlarr"}/api/v1/health";
             headers = {
-              "X-Api-Key" = config.sops.placeholder."sonarr/api/key";
+              "X-Api-Key" = config.sops.placeholder."prowlarr/api/key";
             };
+          }
+          {
+            name = "qBittorrent";
+            url = "${networkingLib.mkUrl "qbittorrent"}/api/v2/app/buildInfo";
           }
           {
             name = "Radarr";
@@ -109,12 +148,25 @@ in
             };
           }
           {
-            name = "Prowlarr";
-            url = "${networkingLib.mkUrl "prowlarr"}/api/v1/health";
+            name = "SABnzbd";
+            url = "${networkingLib.mkUrl "sabnzbd"}/api?mode=version";
+          }
+          {
+            name = "Shelfmark";
+            url = "${networkingLib.mkUrl "shelfmark"}/api/health";
+          }
+          {
+            name = "Sonarr";
+            url = "${networkingLib.mkUrl "sonarr"}/api/v3/health";
             headers = {
-              "X-Api-Key" = config.sops.placeholder."prowlarr/api/key";
+              "X-Api-Key" = config.sops.placeholder."sonarr/api/key";
             };
           }
+          {
+            name = "Trek";
+            url = "${networkingLib.mkUrl "trek"}/api/health";
+          }
+          # Zigbee2MQTT here
         ];
       };
     };

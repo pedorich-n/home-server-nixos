@@ -35,6 +35,7 @@ in
       multiscrobbler = {
         upstream = "http://127.0.0.1:${portsCfg.multiscrobbler.portStr}";
         auth = "authelia";
+        authBypassPaths = [ "/api*" ];
       };
       koito = {
         upstream = "http://127.0.0.1:${portsCfg.koito.portStr}";
