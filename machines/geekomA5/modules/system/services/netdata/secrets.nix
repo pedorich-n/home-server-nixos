@@ -70,9 +70,30 @@ in
             url = "${networkingLib.mkUrl "authelia"}/api/health";
           }
           {
+            name = "Immich";
+            url = "${networkingLib.mkUrl "immich"}/api/server/ping";
+          }
+          {
+            name = "Forgejo";
+            url = "${networkingLib.mkUrl "git"}/api/v1/version";
+          }
+          {
             name = "Jellyfin";
             url = "${networkingLib.mkUrl "jellyfin"}/health";
           }
+          {
+            name = "Grist";
+            url = "${networkingLib.mkUrl "grist"}/status";
+          }
+          {
+            name = "Koito";
+            url = "${networkingLib.mkUrl "koito"}/apis/web/v1/health";
+          }
+          {
+            name = "Librechat";
+            url = "${networkingLib.mkUrl "chat"}/health";
+          }
+
           {
             name = "Sonarr";
             url = "${networkingLib.mkUrl "sonarr"}/api/v3/health";
