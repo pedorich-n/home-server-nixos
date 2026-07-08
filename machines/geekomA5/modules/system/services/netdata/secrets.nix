@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  networkingLib,
   ...
 }:
 let
@@ -48,6 +49,51 @@ in
             name = "tailscale";
             url = "http://100.100.100.100/metrics";
           })
+        ];
+      };
+    };
+
+    "netdata/httpcheck.conf" = {
+      owner = config.services.netdata.user;
+      group = config.services.netdata.group;
+      # See https://learn.netdata.cloud/docs/collecting-metrics/collectors/synthetic-testing/http-endpoints#options
+      file = pkgs.writers.writeYAML "netdata-httpcheck.conf" {
+        update_every = 60;
+        autodetection_retry = 30;
+        jobs = [
+          {
+            name = "Audiobookshelf";
+            url = "${networkingLib.mkUrl "audiobookshelf"}/healthcheck";
+          }
+          {
+            name = "Authelia";
+            url = "${networkingLib.mkUrl "authelia"}/api/health";
+          }
+          {
+            name = "Jellyfin";
+            url = "${networkingLib.mkUrl "jellyfin"}/health";
+          }
+          {
+            name = "Sonarr";
+            url = "${networkingLib.mkUrl "sonarr"}/api/v3/health";
+            headers = {
+              "X-Api-Key" = config.sops.placeholder."sonarr/api/key";
+            };
+          }
+          {
+            name = "Radarr";
+            url = "${networkingLib.mkUrl "radarr"}/api/v3/health";
+            headers = {
+              "X-Api-Key" = config.sops.placeholder."radarr/api/key";
+            };
+          }
+          {
+            name = "Prowlarr";
+            url = "${networkingLib.mkUrl "prowlarr"}/api/v1/health";
+            headers = {
+              "X-Api-Key" = config.sops.placeholder."prowlarr/api/key";
+            };
+          }
         ];
       };
     };

@@ -129,6 +129,7 @@ lib.mkMerge [
 
         configDir = {
           "go.d/prometheus.conf" = config.sops.templates."netdata/prometheus.conf".path;
+          "go.d/httpcheck.conf" = config.sops.templates."netdata/httpcheck.conf".path;
 
           "go.d.conf" = pkgs.writers.writeYAML "netdata-go.d.conf" {
             modules = {
