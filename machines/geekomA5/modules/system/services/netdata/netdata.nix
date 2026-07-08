@@ -128,6 +128,7 @@ lib.mkMerge [
         };
 
         configDir = {
+          "health_alarm_notify.conf" = config.sops.templates."netdata/health_alarm_notify.conf".path;
           "go.d/prometheus.conf" = config.sops.templates."netdata/prometheus.conf".path;
           "go.d/httpcheck.conf" = config.sops.templates."netdata/httpcheck.conf".path;
 
@@ -150,10 +151,6 @@ lib.mkMerge [
       };
 
     };
-
-    # alarm-notify script reads the config from /etc/netdata/health_alarm_notify.conf,
-    # not from /etc/netdata/conf.d/health_alarm_notify.conf, so we can't use `configDir` option for it.
-    environment.etc."netdata/health_alarm_notify.conf".source = config.sops.templates."netdata/health_alarm_notify.conf".path;
   }
 
   (lib.mkIf cfg.package.withNdsudo {
