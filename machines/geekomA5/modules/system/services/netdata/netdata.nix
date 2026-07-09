@@ -147,6 +147,40 @@ lib.mkMerge [
               }
             ];
           };
+
+          # Overrides to increase the lookup window and reduce false positives
+          # Based on https://github.com/netdata/netdata/blob/7aefb1fb036a00e51d/src/health/health.d/httpcheck.conf
+          "health.d/httpcheck_override.conf" = pkgs.writeText "netdata-httpcheck-alert-override.conf" ''
+             template: httpcheck_web_service_bad_status
+                   on: httpcheck.status
+                class: Workload
+                 type: Web Server
+            component: HTTP endpoint
+               lookup: average -10m unaligned percentage of bad_status
+                every: 10s
+                units: %
+                 warn: $this >= 10 AND $this < 40
+                 crit: $this >= 40
+                delay: up 2m down 5m multiplier 1.5 max 1h
+              summary: HTTP check for ''${label:url} unexpected status
+                 info: Percentage of HTTP responses from ''${label:url} with unexpected status in the last 10 minutes
+                   to: webmaster
+
+               template: httpcheck_web_service_timeouts
+                     on: httpcheck.status
+                  class: Latency
+                   type: Web Server
+              component: HTTP endpoint
+                 lookup: average -10m unaligned percentage of timeout
+                  every: 10s
+                  units: %
+                   warn: $this >= 10 AND $this < 40
+                   crit: $this >= 40
+                  delay: up 2m down 5m multiplier 1.5 max 1h
+                summary: HTTP check for ''${label:url} timeouts
+                   info: Percentage of timed-out HTTP requests to ''${label:url} in the last 10 minutes
+                     to: webmaster
+          '';
         };
       };
 

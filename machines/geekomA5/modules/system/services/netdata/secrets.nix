@@ -58,8 +58,8 @@ in
       group = config.services.netdata.group;
       # See https://learn.netdata.cloud/docs/collecting-metrics/collectors/synthetic-testing/http-endpoints#options
       file = pkgs.writers.writeYAML "netdata-httpcheck.conf" {
-        update_every = 60;
-        autodetection_retry = 30;
+        update_every = 30;
+        autodetection_retry = 15;
         jobs = [
           {
             name = "Airtrail";
