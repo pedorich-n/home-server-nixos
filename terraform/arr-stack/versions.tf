@@ -12,7 +12,7 @@ terraform {
 
     radarr = {
       source  = "devopsarr/radarr"
-      version = "~> 2"
+      version = ">= 2"
     }
   }
 }
