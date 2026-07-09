@@ -80,7 +80,7 @@ provider "registry.opentofu.org/devopsarr/prowlarr" {
 
 provider "registry.opentofu.org/devopsarr/radarr" {
   version     = "2.4.0"
-  constraints = ">= 2.0.0.3.2"
+  constraints = ">= 2.3.2"
   hashes = [
     "h1:BqfK8BmzZkdTGWdfOLkyMjVT/N1DjwWZHqTCW4iJjBs=",
     "h1:KWdK8v0diFn1ejgY8nHIPiIiBcUFCxZGYF92HYuPxH8=",
