@@ -6,7 +6,7 @@ version = 'v3.11.1'
 versioning = 'semver'
 
 [airtrail-postgresql]
-digest = 'sha256:1b1689b20d16a014a3d195653381cf2caa75a41a92d93b255a9d6ea29fd353aa'
+digest = 'sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '18.4-alpine'
@@ -41,14 +41,14 @@ version = '1.7.16'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:cb76c9922b530f6a5063a15463eb3ad6de287d297c826713abda16795bb98980'
+digest = 'sha256:f73512ba4fe06bb4d57636fe3578d0820cdec46f81e8f837ab59e451662ff3cb'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.7.0'
+version = '2026.7.1'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
-digest = 'sha256:1b1689b20d16a014a3d195653381cf2caa75a41a92d93b255a9d6ea29fd353aa'
+digest = 'sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '18.4-alpine'
@@ -132,10 +132,10 @@ version = '0.5.0'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:7d50785dba6c97b81640643180b04e3aa48138b3a71c041277617c27d36011b3'
+digest = 'sha256:b116e68f1937d5cb0edad0ff8d7af3a1eee56b979529e098fbc7c196adde5d39'
 image = 'foxxmd/multi-scrobbler'
 registry = 'docker.io'
-version = '0.14.1'
+version = '0.14.2'
 versioning = 'semver'
 
 [paperless-redis]
@@ -153,30 +153,30 @@ version = '2.20.15'
 versioning = 'semver'
 
 [shelfmark]
-digest = 'sha256:536471669ac0f8615428e4c6b28da415f8e4733d75c0dcb4c3e15c1c77b19795'
+digest = 'sha256:ff9ca442fbe782f90badcc166505a6929894f86f19c0d9bfb57bed70bef08bb6'
 image = 'calibrain/shelfmark-lite'
 registry = 'ghcr.io'
-version = 'v1.3.2'
+version = 'v1.3.3'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:163f3384db6cba9f68eaa83ca5f4209298b6029ba2d07b5e67562d0715baf5b9'
+digest = 'sha256:2e074403c7b72e6d89cee3d0d41a47f7b5708c6a9e5316f3958c90765cbe12ce'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
-version = '5.2.2'
+version = '5.2.3'
 versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [searxng]
-digest = 'sha256:340dbecf165ba069d144b0bb71116be57355d9eca418b9af27f81de176d6270c'
+digest = 'sha256:a87eb8a2b2b65243c431979938aec37d86534f278f44b8115970212a08c32f23'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.7.2-640f88c9b'
+version = '2026.7.8-1412926f5'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
-digest = 'sha256:815b19a45b264d1ddfd8f3df394308f9d6307b26de45378630ba8179bc7691ad'
+digest = 'sha256:4487220f57870b83856f5d3f3ba7a80725df73f76036c37fe425e1e9168b45f7'
 image = 'mauriceboe/trek'
 registry = 'docker.io'
-version = '3.1.4'
+version = '3.2.1'
 versioning = 'semver'
