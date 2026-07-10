@@ -64,6 +64,7 @@ in
       multiscrobbler = {
         wantsCaddy = true;
         useGlobalContainers = true;
+        useDigest = true;
         usernsAuto = {
           enable = true;
           size = 65535;
