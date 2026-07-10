@@ -1,38 +1,27 @@
 {
-  fetchFromGitHub,
-  buildGoModule,
+  fetchzip,
+  stdenv,
   lib,
 }:
-buildGoModule (finalAttrs: {
+stdenv.mkDerivation (finalAttrs: {
   pname = "error-pages";
   version = "4.2.2";
 
-  src = fetchFromGitHub {
-    owner = "tarampampam";
-    repo = "error-pages";
-    rev = "v${finalAttrs.version}";
-    sha256 = "sha256-08PwlzE4sYUZuIBPTYN9HTaD1h7RiQTSZvoDHWYqpj0=";
+  src = fetchzip {
+    url = "https://github.com/tarampampam/error-pages/releases/download/v${finalAttrs.version}/error-pages-static.zip";
+    hash = "sha256-hbXI2DLQlQt4IEjb49YlgGudfcr5+OJauwurL/5lnZ8=";
+    stripRoot = false;
   };
 
-  vendorHash = null;
+  dontBuild = true;
 
-  env.CGO_ENABLED = "0";
-  ldflags = [
-    "-s"
-    "-w"
-    "-X gh.tarampamp.am/error-pages/v4/internal/appmeta.version=${finalAttrs.version}"
-  ];
+  installPhase = ''
+    runHook preInstall
 
-  subPackages = [
-    "cmd/builder"
-    "cmd/error-pages"
-  ];
+    mkdir -p $out/share/error-pages
+    cp -r $src/* $out/share/error-pages
 
-  postBuild = ''
-    static_target=$out/share/error-pages
-    mkdir -p $static_target
-
-    "''${GOPATH}/bin/builder" --index --target-dir $static_target
+    runHook postInstall
   '';
 
   passthru = {
@@ -40,9 +29,8 @@ buildGoModule (finalAttrs: {
   };
 
   meta = {
-    description = "Static error pages generator for HTTP servers";
+    description = "Static error pages for HTTP servers";
     homepage = "https://tarampampam.github.io/error-pages";
     license = lib.licenses.mit;
-    mainProgram = "error-pages";
   };
 })
