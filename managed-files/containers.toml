@@ -55,10 +55,10 @@ version = '18.4-alpine'
 versioning = 'docker'
 
 [immich-machine-learning]
-digest = 'sha256:cb2128c5cbc554fdaa2a036fb4419c808a9f3e0f27170e569dd9e727243da909'
+digest = 'sha256:412f68e46e1966d0f87a8733a430369ee184b3a83e7b1e2db536dff291a34aa7'
 image = 'immich-app/immich-machine-learning'
 registry = 'ghcr.io'
-version = 'v3.0.1'
+version = 'v3.0.2'
 versioning = 'semver'
 
 [immich-postgresql]
@@ -69,10 +69,10 @@ version = '14-vectorchord0.4.3-pgvectors0.3.0'
 versioning = 'regex:^(?<major>14)-vectorchord(?<minor>0\.4\.\d+)'
 
 [immich-server]
-digest = 'sha256:46dedfc5848f7313bd6b584ea9f2648057430307aad6de56de968f6710a72cae'
+digest = 'sha256:14390f3dc9512dc3273b12ccee6363d9be16c388699abc3f3fe0498bb9829937'
 image = 'immich-app/immich-server'
 registry = 'ghcr.io'
-version = 'v3.0.1'
+version = 'v3.0.2'
 versioning = 'semver'
 
 [immich-valkey]
@@ -111,10 +111,10 @@ version = 'latest'
 versioning = 'docker'
 
 [librechat-postgresql]
-digest = 'sha256:3c17ad20657b1834ca99205f982296405de12299ca96490aa118bf0ddb99f4a7'
+digest = 'sha256:da4ce21d3df8d2dcd313de387f169f43ae569a1fc50331bbffd3f55e3a65a0af'
 image = 'pgvector/pgvector'
 registry = 'docker.io'
-version = '0.8.4-pg15-trixie'
+version = '0.8.5-pg15-trixie'
 versioning = 'regex:^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-pg15-trixie$'
 
 [maloja]
@@ -168,10 +168,10 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [searxng]
-digest = 'sha256:a87eb8a2b2b65243c431979938aec37d86534f278f44b8115970212a08c32f23'
+digest = 'sha256:a7b2b16eb4d79c2f0f6cff84fab9c41137e4e6dd29a1f64e2d785d27acb5a2e0'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.7.8-1412926f5'
+version = '2026.7.9-8456831a0'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
