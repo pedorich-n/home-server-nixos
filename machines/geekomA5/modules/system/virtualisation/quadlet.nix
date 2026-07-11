@@ -9,10 +9,10 @@ let
   caddyRef = config.systemd.services.caddy.name;
 
   mkImage =
-    name:
+    name: useDigest:
     let
       container = config.custom.managed-files.containers.${name} or (builtins.throw "Can't find container info for '${name}'");
-      version = if container.version == "latest" then "@${container.digest}" else ":${container.version}";
+      version = if useDigest then "@${container.digest}" else ":${container.version}";
     in
     "${container.registry}/${container.image}${version}";
 in
@@ -35,6 +35,10 @@ in
                 default = false;
               };
               useGlobalContainers = lib.mkOption {
+                type = lib.types.bool;
+                default = false;
+              };
+              useDigest = lib.mkOption {
                 type = lib.types.bool;
                 default = false;
               };
@@ -66,7 +70,7 @@ in
               }
 
               (lib.mkIf config.useGlobalContainers {
-                containerConfig.image = mkImage name;
+                containerConfig.image = mkImage name config.useDigest;
               })
 
               (lib.mkIf config.wantsAuthelia {

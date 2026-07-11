@@ -90,6 +90,7 @@ in
       librechat-rag = {
         usernsAuto.enable = true;
         useGlobalContainers = true;
+        useDigest = true;
 
         containerConfig = {
           environments = {
