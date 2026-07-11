@@ -24,7 +24,6 @@ in
     # See https://recyclarr.dev/reference/configuration
     configuration = {
       radarr = {
-
         # From https://recyclarr.dev/wiki/guide-configs/ HD Bluray + WEB
         radarr-main = {
           base_url = "http://127.0.0.1:${portsCfg.radarr.portStr}";
@@ -46,6 +45,14 @@ in
           quality_profiles = [
             {
               trash_id = "d1d67249d3890e49bc12e275d989a7e9"; # HD Bluray + WEB
+              name = "HD Bluray + WEB";
+              reset_unmatched_scores = {
+                enabled = true;
+              };
+            }
+            {
+              trash_id = "d1d67249d3890e49bc12e275d989a7e9"; # HD Bluray + WEB
+              name = "HD Bluray + WEB - Russian";
               reset_unmatched_scores = {
                 enabled = true;
               };
@@ -62,6 +69,10 @@ in
                   name = "HD Bluray + WEB";
                   score = 0;
                 }
+                {
+                  name = "HD Bluray + WEB - Russian";
+                  score = 0;
+                }
               ];
             }
             {
@@ -72,16 +83,30 @@ in
                 {
                   name = "HD Bluray + WEB";
                 }
+                {
+                  name = "HD Bluray + WEB - Russian";
+                }
               ];
             }
             {
               trash_ids = [
-                "ae575f95ab639ba5d15f663bf019e3e8" # Language: Not Original
+                "my-russian-language" # Custom Language: Russian
               ];
               assign_scores_to = [
                 {
-                  name = "WEB-1080p";
-                  score = 0;
+                  name = "HD Bluray + WEB - Russian";
+                  score = 10000;
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "my-not-russian-language" # Custom Language: Not Russian
+              ];
+              assign_scores_to = [
+                {
+                  name = "HD Bluray + WEB - Russian";
+                  score = -10000;
                 }
               ];
             }
