@@ -74,6 +74,17 @@ in
                 }
               ];
             }
+            {
+              trash_ids = [
+                "ae575f95ab639ba5d15f663bf019e3e8" # Language: Not Original
+              ];
+              assign_scores_to = [
+                {
+                  name = "WEB-1080p";
+                  score = 0;
+                }
+              ];
+            }
           ];
         };
       };
@@ -108,6 +119,13 @@ in
                 enabled = true;
               };
             }
+            {
+              trash_id = "9d142234e45d6143785ac55f5a9e8dc9"; # WEB-1080p (Alternative)
+              name = "WEB-1080p - Russian";
+              reset_unmatched_scores = {
+                enabled = true;
+              };
+            }
           ];
 
           custom_formats = [
@@ -118,6 +136,9 @@ in
               assign_scores_to = [
                 {
                   name = "WEB-1080p";
+                }
+                {
+                  name = "WEB-1080p - Russian";
                 }
               ];
             }
@@ -130,6 +151,10 @@ in
                   name = "WEB-1080p";
                   score = 0;
                 }
+                {
+                  name = "WEB-1080p - Russian";
+                  score = 0;
+                }
               ];
             }
             {
@@ -139,6 +164,42 @@ in
               assign_scores_to = [
                 {
                   name = "WEB-1080p";
+                }
+                {
+                  name = "WEB-1080p - Russian";
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "ae575f95ab639ba5d15f663bf019e3e8" # Language: Not Original
+              ];
+              assign_scores_to = [
+                {
+                  name = "WEB-1080p - Russian";
+                  score = 0;
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "my-russian-language" # Custom Language: Russian
+              ];
+              assign_scores_to = [
+                {
+                  name = "WEB-1080p - Russian";
+                  score = 10000;
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "my-not-russian-language" # Custom Language: Not Russian
+              ];
+              assign_scores_to = [
+                {
+                  name = "WEB-1080p - Russian";
+                  score = -10000;
                 }
               ];
             }
