@@ -19,7 +19,7 @@ in
     enable = true;
     package = pkgs-unstable.recyclarr;
 
-    schedule = "0 3 * * *"; # Every day at 3:00 AM
+    schedule = "*-*-* 03:00:00"; # Every day at 3:00 AM
 
     # See https://recyclarr.dev/reference/configuration
     configuration = {
