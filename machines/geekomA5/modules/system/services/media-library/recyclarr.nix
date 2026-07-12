@@ -19,12 +19,11 @@ in
     enable = true;
     package = pkgs-unstable.recyclarr;
 
-    schedule = "0 3 * * *"; # Every day at 3:00 AM
+    schedule = "*-*-* 03:00:00"; # Every day at 3:00 AM
 
     # See https://recyclarr.dev/reference/configuration
     configuration = {
       radarr = {
-
         # From https://recyclarr.dev/wiki/guide-configs/ HD Bluray + WEB
         radarr-main = {
           base_url = "http://127.0.0.1:${portsCfg.radarr.portStr}";
@@ -46,6 +45,14 @@ in
           quality_profiles = [
             {
               trash_id = "d1d67249d3890e49bc12e275d989a7e9"; # HD Bluray + WEB
+              name = "HD Bluray + WEB - English";
+              reset_unmatched_scores = {
+                enabled = true;
+              };
+            }
+            {
+              trash_id = "d1d67249d3890e49bc12e275d989a7e9"; # HD Bluray + WEB
+              name = "HD Bluray + WEB - Russian";
               reset_unmatched_scores = {
                 enabled = true;
               };
@@ -59,7 +66,11 @@ in
               ];
               assign_scores_to = [
                 {
-                  name = "HD Bluray + WEB";
+                  name = "HD Bluray + WEB - English";
+                  score = 0;
+                }
+                {
+                  name = "HD Bluray + WEB - Russian";
                   score = 0;
                 }
               ];
@@ -70,7 +81,45 @@ in
               ];
               assign_scores_to = [
                 {
-                  name = "HD Bluray + WEB";
+                  name = "HD Bluray + WEB - English";
+                }
+                {
+                  name = "HD Bluray + WEB - Russian";
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "0dc8aec3bd1c47cd6c40c46ecd27e846" # Language: Not Original
+              ];
+              assign_scores_to = [
+                {
+                  name = "HD Bluray + WEB - English";
+                  score = 0;
+                }
+                {
+                  name = "HD Bluray + WEB - Russian";
+                  score = 0;
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "0dc8aec3bd1c47cd6c40c46ecd27e846" # Language: Not English
+              ];
+              assign_scores_to = [
+                {
+                  name = "HD Bluray + WEB - English";
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "my-not-russian-language" # Custom Language: Not Russian
+              ];
+              assign_scores_to = [
+                {
+                  name = "HD Bluray + WEB - Russian";
                 }
               ];
             }
@@ -103,7 +152,14 @@ in
           quality_profiles = [
             {
               trash_id = "9d142234e45d6143785ac55f5a9e8dc9"; # WEB-1080p (Alternative)
-              name = "WEB-1080p";
+              name = "WEB-1080p - English";
+              reset_unmatched_scores = {
+                enabled = true;
+              };
+            }
+            {
+              trash_id = "9d142234e45d6143785ac55f5a9e8dc9"; # WEB-1080p (Alternative)
+              name = "WEB-1080p - Russian";
               reset_unmatched_scores = {
                 enabled = true;
               };
@@ -117,7 +173,10 @@ in
               ];
               assign_scores_to = [
                 {
-                  name = "WEB-1080p";
+                  name = "WEB-1080p - English";
+                }
+                {
+                  name = "WEB-1080p - Russian";
                 }
               ];
             }
@@ -127,7 +186,11 @@ in
               ];
               assign_scores_to = [
                 {
-                  name = "WEB-1080p";
+                  name = "WEB-1080p - English";
+                  score = 0;
+                }
+                {
+                  name = "WEB-1080p - Russian";
                   score = 0;
                 }
               ];
@@ -138,7 +201,45 @@ in
               ];
               assign_scores_to = [
                 {
-                  name = "WEB-1080p";
+                  name = "WEB-1080p - English";
+                }
+                {
+                  name = "WEB-1080p - Russian";
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "ae575f95ab639ba5d15f663bf019e3e8" # Language: Not Original
+              ];
+              assign_scores_to = [
+                {
+                  name = "WEB-1080p - English";
+                  score = 0;
+                }
+                {
+                  name = "WEB-1080p - Russian";
+                  score = 0;
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "69aa1e159f97d860440b04cd6d590c4f" # Language: Not English
+              ];
+              assign_scores_to = [
+                {
+                  name = "WEB-1080p - English";
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "my-not-russian-language" # Custom Language: Not Russian
+              ];
+              assign_scores_to = [
+                {
+                  name = "WEB-1080p - Russian";
                 }
               ];
             }
