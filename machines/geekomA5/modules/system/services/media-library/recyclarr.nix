@@ -95,7 +95,7 @@ in
               assign_scores_to = [
                 {
                   name = "HD Bluray + WEB - Russian";
-                  score = 10000;
+                  score = 5000;
                 }
               ];
             }
@@ -139,7 +139,7 @@ in
           quality_profiles = [
             {
               trash_id = "9d142234e45d6143785ac55f5a9e8dc9"; # WEB-1080p (Alternative)
-              name = "WEB-1080p";
+              name = "WEB-1080p - English";
               reset_unmatched_scores = {
                 enabled = true;
               };
@@ -160,7 +160,7 @@ in
               ];
               assign_scores_to = [
                 {
-                  name = "WEB-1080p";
+                  name = "WEB-1080p - English";
                 }
                 {
                   name = "WEB-1080p - Russian";
@@ -173,7 +173,7 @@ in
               ];
               assign_scores_to = [
                 {
-                  name = "WEB-1080p";
+                  name = "WEB-1080p - English";
                   score = 0;
                 }
                 {
@@ -188,7 +188,7 @@ in
               ];
               assign_scores_to = [
                 {
-                  name = "WEB-1080p";
+                  name = "WEB-1080p - English";
                 }
                 {
                   name = "WEB-1080p - Russian";
@@ -201,6 +201,10 @@ in
               ];
               assign_scores_to = [
                 {
+                  name = "WEB-1080p - English";
+                  score = 0;
+                }
+                {
                   name = "WEB-1080p - Russian";
                   score = 0;
                 }
@@ -208,12 +212,12 @@ in
             }
             {
               trash_ids = [
-                "my-russian-language" # Custom Language: Russian
+                "my-not-english-language" # Custom Language: Not English
               ];
               assign_scores_to = [
                 {
-                  name = "WEB-1080p - Russian";
-                  score = 10000;
+                  name = "WEB-1080p - English";
+                  score = -10000;
                 }
               ];
             }

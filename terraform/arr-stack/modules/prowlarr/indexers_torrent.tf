@@ -88,7 +88,7 @@ locals {
         { name = "baseUrl", text_value = "https://rutracker.org/" },
         { name = "russianLetters", bool_value = false },
         { name = "useMagnetLinks", bool_value = false },
-        { name = "addRussianToTitle", bool_value = false },
+        { name = "addRussianToTitle", bool_value = true },
         { name = "moveFirstTagsToEndOfReleaseTitle", bool_value = false },
         { name = "moveAllTagsToEndOfReleaseTitle", bool_value = false },
         { name = "username", text_value = var.indexer_credentials.RuTracker.username },
