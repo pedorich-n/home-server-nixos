@@ -105,7 +105,7 @@ in
             }
             {
               trash_ids = [
-                "my-not-english-language" # Custom Language: Not English
+                "0dc8aec3bd1c47cd6c40c46ecd27e846" # Language: Not English
               ];
               assign_scores_to = [
                 {
@@ -225,7 +225,7 @@ in
             }
             {
               trash_ids = [
-                "my-not-english-language" # Custom Language: Not English
+                "69aa1e159f97d860440b04cd6d590c4f" # Language: Not English
               ];
               assign_scores_to = [
                 {

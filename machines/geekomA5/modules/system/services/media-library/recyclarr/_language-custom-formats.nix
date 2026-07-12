@@ -13,7 +13,7 @@ let
     };
     specifications = [
       {
-        inherit name;
+        name = "Not ${name} Language (custom)";
         implementation = "LanguageSpecification";
         negate = true;
         required = true;
@@ -25,7 +25,7 @@ let
   };
 
   languages = {
-    English = 1;
+    # English = 1;
     Russian = 11;
     Ukrainian = 30;
   };
