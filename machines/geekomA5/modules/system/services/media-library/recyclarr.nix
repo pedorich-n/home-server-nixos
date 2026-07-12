@@ -45,7 +45,7 @@ in
           quality_profiles = [
             {
               trash_id = "d1d67249d3890e49bc12e275d989a7e9"; # HD Bluray + WEB
-              name = "HD Bluray + WEB";
+              name = "HD Bluray + WEB - English";
               reset_unmatched_scores = {
                 enabled = true;
               };
@@ -66,7 +66,7 @@ in
               ];
               assign_scores_to = [
                 {
-                  name = "HD Bluray + WEB";
+                  name = "HD Bluray + WEB - English";
                   score = 0;
                 }
                 {
@@ -81,7 +81,7 @@ in
               ];
               assign_scores_to = [
                 {
-                  name = "HD Bluray + WEB";
+                  name = "HD Bluray + WEB - English";
                 }
                 {
                   name = "HD Bluray + WEB - Russian";
@@ -90,12 +90,26 @@ in
             }
             {
               trash_ids = [
-                "my-russian-language" # Custom Language: Russian
+                "0dc8aec3bd1c47cd6c40c46ecd27e846" # Language: Not Original
               ];
               assign_scores_to = [
                 {
+                  name = "HD Bluray + WEB - English";
+                  score = 0;
+                }
+                {
                   name = "HD Bluray + WEB - Russian";
-                  score = 5000;
+                  score = 0;
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "my-not-english-language" # Custom Language: Not English
+              ];
+              assign_scores_to = [
+                {
+                  name = "HD Bluray + WEB - English";
                 }
               ];
             }
@@ -106,7 +120,6 @@ in
               assign_scores_to = [
                 {
                   name = "HD Bluray + WEB - Russian";
-                  score = -10000;
                 }
               ];
             }
@@ -217,7 +230,6 @@ in
               assign_scores_to = [
                 {
                   name = "WEB-1080p - English";
-                  score = -10000;
                 }
               ];
             }
@@ -228,7 +240,6 @@ in
               assign_scores_to = [
                 {
                   name = "WEB-1080p - Russian";
-                  score = -10000;
                 }
               ];
             }
