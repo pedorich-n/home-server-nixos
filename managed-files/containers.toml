@@ -132,9 +132,9 @@ version = '0.5.0'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:24c39552975e81a0a4e3ca81ecd6169bb0dcc65c63397f9708de79820023d09f'
+digest = 'sha256:d8151d20580015ea17a8df7643c5221bf8c4a02278edc56d9a4e5ab17889042f'
 image = 'foxxmd/multi-scrobbler'
-registry = 'docker.io'
+registry = 'ghcr.io'
 version = 'edge'
 versioning = 'docker'
 
