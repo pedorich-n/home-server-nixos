@@ -7,7 +7,7 @@ homeassistant:
   name: Home
   latitude: !secret latitude
   longitude: !secret longitude
-  elevation: 10
+  elevation: 35
   unit_system: metric
   external_url: "{{ url }}"
   internal_url: "{{ url }}"
@@ -71,3 +71,4 @@ automation ui: !include automations.yaml
 input_boolean: !include_dir_merge_named configuration/input_boolean/
 climate: !include_dir_merge_list configuration/climate/
 sensor: !include_dir_merge_list configuration/sensors/
+template: !include_dir_merge_list configuration/templates/

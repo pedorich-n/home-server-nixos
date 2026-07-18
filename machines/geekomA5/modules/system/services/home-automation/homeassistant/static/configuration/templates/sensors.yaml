@@ -1,0 +1,9 @@
+- sensor:
+    - name: Balcony humidity
+      unique_id: balcony_humidity
+      state: "{{ state_attr('weather.forecast_home', 'humidity') }}"
+      availability: "{{ state_attr('weather.forecast_home', 'humidity') is number }}"
+      unit_of_measurement: "%"
+      icon: mdi:cloud-percent-outline
+      device_class: humidity
+      state_class: measurement
