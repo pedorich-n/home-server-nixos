@@ -132,7 +132,7 @@ version = '0.5.0'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:d8151d20580015ea17a8df7643c5221bf8c4a02278edc56d9a4e5ab17889042f'
+digest = 'sha256:aa8ec808fbeab9aecdfb5cbbe413e16578e995b883af2a5f94e8bfdf75c5fe43'
 image = 'foxxmd/multi-scrobbler'
 registry = 'ghcr.io'
 version = 'edge'
@@ -168,10 +168,10 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [searxng]
-digest = 'sha256:ddc1da225c771296afe7bdaf3f972e5244b8c5c597a759de50389432b0cac756'
+digest = 'sha256:3246b09eaf36b8031ea0cd54d7a217780d84d219d1e09040b6ebba72dcff52b7'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.7.17-2daa4d481'
+version = '2026.7.17-6913fba20'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
