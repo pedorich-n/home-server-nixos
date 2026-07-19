@@ -10,6 +10,7 @@ let
     inherit networkingLib;
     trustedProxies = config.virtualisation.quadlet.networks."home-automation-internal".networkConfig.subnets;
   };
+
 in
 {
   systemd.tmpfiles.settings."90-homeassistant" = {
@@ -18,6 +19,12 @@ in
     };
     "/mnt/store/home-automation/homeassistant/dashboards/main.yaml" = {
       "C+" = tmpfilesLib.mkDefaultTmpFile "${rendered-templates}/dashboards/main.yaml";
+    };
+    "/mnt/store/home-automation/homeassistant/dashboards/views/main.yaml" = {
+      "C+" = tmpfilesLib.mkDefaultTmpFile "${rendered-templates}/dashboards/views/main.yaml";
+    };
+    "/mnt/store/home-automation/homeassistant/dashboards/views/plants.yaml" = {
+      "C+" = tmpfilesLib.mkDefaultTmpFile "${rendered-templates}/dashboards/views/plants.yaml";
     };
     "/mnt/store/home-automation/homeassistant/configuration.yaml" = {
       "C+" = tmpfilesLib.mkDefaultTmpFile "${rendered-templates}/configuration.yaml";
