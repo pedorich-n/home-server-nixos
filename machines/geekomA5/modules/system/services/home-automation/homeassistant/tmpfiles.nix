@@ -1,4 +1,5 @@
 {
+  autheliaLib,
   networkingLib,
   tmpfilesLib,
   config,
@@ -7,7 +8,7 @@
 }:
 let
   renderedTemplates = pkgs.callPackage ./_render-templates.nix {
-    inherit networkingLib;
+    inherit autheliaLib networkingLib;
     trustedProxies = config.virtualisation.quadlet.networks."home-automation-internal".networkConfig.subnets;
   };
 

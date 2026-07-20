@@ -29,7 +29,7 @@ icon: "mdi:book-open-blank-variant-outline"
 show_icon_and_title: true
 type: "custom:grid-layout"
 layout:
-  grid-template-columns: "14.5% 35% auto 35% 14.5%"
+  grid-template-columns: "1fr 35% 1% 35% 1fr"
   grid-template-rows: auto
   grid-template-areas: |
     ". livingroom . bedroom ."
@@ -38,7 +38,7 @@ layout:
     ". others2 . others3 ."
   mediaquery:
     "(max-width: 600px)":
-      grid-template-columns: "auto 98% auto"
+      grid-template-columns: "1fr 98% 1fr"
       grid-template-areas: |
         ". livingroom ."
         ". bedroom ."
@@ -50,18 +50,18 @@ cards:
   {{ custom_room_grid('Living Room', 'livingroom', 'sensor.ldk_temperature_humidity_1_temperature', 'sensor.ldk_temperature_humidity_1_humidity', 'climate.ldk_ac') | indent(2, False) }}
 
   {{ custom_room_grid('Bedroom', 'bedroom', 'sensor.bedroom_temperature_humidity_1_temperature', 'sensor.bedroom_temperature_humidity_1_humidity', 'climate.bedroom_ac') | indent(2, False) }}
-  - type: custom:mushroom-title-card
+  - type: "custom:mushroom-title-card"
     title: "Others"
     alignment: center
     <<: *title-card-mod
     view_layout:
       grid-area: "others_title"
 
-  - type: custom:mushroom-vacuum-card
+  - type: "custom:mushroom-vacuum-card"
     entity: vacuum.roborock_s5_max
     view_layout:
       grid-area: "others1"
-    icon: mdi:robot-vacuum
+    icon: "mdi:robot-vacuum"
     icon_animation: true
     commands:
       - start_pause

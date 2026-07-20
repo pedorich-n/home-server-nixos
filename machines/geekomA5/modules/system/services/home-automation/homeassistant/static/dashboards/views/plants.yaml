@@ -4,19 +4,19 @@ icon: "mdi:sprout"
 show_icon_and_title: true
 type: "custom:grid-layout"
 layout:
-  grid-template-columns: "15% auto 15%"
+  grid-template-columns: "1fr auto 1fr"
   grid-template-rows: auto
   grid-template-areas: |
     ". main_title ."
     ". main ."
   mediaquery:
     "(max-width: 600px)":
-      grid-template-columns: "auto 98% auto"
+      grid-template-columns: "1fr 98% 1fr"
       grid-template-areas: |
         ". main_title ."
         ". main ."
 cards:
-  - type: custom:mushroom-title-card
+  - type: "custom:mushroom-title-card"
     title: "Plants"
     alignment: center
     card_mod:
@@ -46,15 +46,15 @@ cards:
         - attributes:
             device_class: plant
           options:
-            type: custom:flower-card
+            type: "custom:flower-card"
             display_type: full
             show_bars:
               - illuminance
+              - dli
               - humidity
               - moisture
               - conductivity
               - temperature
-              - dli
             show_care:
               - care_watering
               - care_sunlight

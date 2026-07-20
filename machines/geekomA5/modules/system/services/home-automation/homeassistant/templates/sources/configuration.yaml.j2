@@ -29,7 +29,7 @@ zeroconf:
 auth_oidc:
   client_id: !secret oauth_oidc_client_id
   client_secret: !secret oauth_oidc_client_secret
-  discovery_url: "{{ auth_url }}/.well-known/openid-configuration"
+  discovery_url: "{{ oidc_discovery_url }}"
   roles:
     admin: "Admins"
 
@@ -59,7 +59,7 @@ lovelace:
     main-grid:
       mode: yaml
       title: Main Dashboard
-      icon: mdi:view-dashboard-outline
+      icon: "mdi:view-dashboard-outline"
       show_in_sidebar: true
       filename: dashboards/main.yaml
 
