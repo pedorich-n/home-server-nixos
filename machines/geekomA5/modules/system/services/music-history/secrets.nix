@@ -78,6 +78,7 @@ in
             data = {
               clientId = config.sops.placeholder."music-history/multiscrobbler/spotify/client_id";
               clientSecret = config.sops.placeholder."music-history/multiscrobbler/spotify/client_secret";
+              redirectUri = "${networkingLib.mkUrl "multiscrobbler"}/callback";
             };
             options = {
               scrobbleBacklog = true;
