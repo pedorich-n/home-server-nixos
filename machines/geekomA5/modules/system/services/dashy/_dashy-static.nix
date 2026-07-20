@@ -147,6 +147,13 @@ let
               displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
             };
           })
+          (mkEntry {
+            slug = "motioneye";
+            title = "MotionEye";
+            args = {
+              displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
+            };
+          })
         ];
       }
       {
