@@ -26,9 +26,9 @@ in
         openFirewall = false;
       };
 
-      # Set manually in the mutable config files
+      # Technically can be changed in config files, but looks like it's hardcoded in MotionEye somewhere, because I've seen errors in logs after I changed it
       motioneye-camera1 = {
-        port = 32602;
+        port = 7999;
         openFirewall = false;
       };
     };
