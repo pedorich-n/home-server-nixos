@@ -49,12 +49,9 @@ cards:
             type: "custom:flower-card"
             display_type: full
             show_bars:
-              - illuminance
-              - dli
               - humidity
               - moisture
-              - conductivity
-              - temperature
-            show_care:
-              - care_watering
-              - care_sunlight
+              - vpd
+              - soil_temperature
+              - illuminance
+              - dli
