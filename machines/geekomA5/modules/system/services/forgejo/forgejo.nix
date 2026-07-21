@@ -24,7 +24,7 @@ in
   services = {
     forgejo = {
       enable = true;
-      package = pkgs.forgejo;
+      package = pkgs.forgejo-lts;
 
       useWizard = false;
 
