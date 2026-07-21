@@ -36,7 +36,7 @@ cards:
       type: "custom:layout-card"
       layout_type: "custom:grid-layout"
       layout:
-        grid-template-columns: "1fr 1fr 1fr 1fr"
+        grid-template-columns: "repeat(auto-fill, minmax(350px, 1fr))"
         grid-template-rows: "auto"
         mediaquery:
           "(max-width: 600px)":

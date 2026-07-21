@@ -7,3 +7,12 @@
       icon: mdi:cloud-percent-outline
       device_class: humidity
       state_class: measurement
+
+    - name: Balcony temperature
+      unique_id: balcony_temperature
+      state: "{{ state_attr('weather.forecast_home', 'temperature') }}"
+      availability: "{{ state_attr('weather.forecast_home', 'temperature') is number }}"
+      unit_of_measurement: "°C"
+      icon: mdi:home-thermometer-outline
+      device_class: temperature
+      state_class: measurement
