@@ -79,7 +79,7 @@ in
           }
           {
             name = "Forgejo";
-            url = "${networkingLib.mkUrl "git"}/api/v1/version";
+            url = "${networkingLib.mkUrl "git"}/api/healthz";
           }
           {
             name = "GiteaMirror";

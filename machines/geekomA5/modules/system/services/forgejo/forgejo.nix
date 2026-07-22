@@ -42,6 +42,12 @@ in
       };
 
       settings = {
+        log = {
+          LEVEL = "Info";
+          LOGGER_ROUTER_MODE = ""; # Disable
+          LOGGER_ACCESS_MODE = ""; # Disable
+          LOGGER_XORM_MODE = ""; # Disable
+        };
         server = {
           ROOT_URL = networkingLib.mkUrl "git";
           DOMAIN = networkingLib.mkDomain "git";
