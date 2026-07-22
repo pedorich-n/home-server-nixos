@@ -4,7 +4,7 @@ icon: "mdi:sprout"
 show_icon_and_title: true
 type: "custom:grid-layout"
 layout:
-  grid-template-columns: "1fr auto 1fr"
+  grid-template-columns: "1fr 70% 1fr"
   grid-template-rows: auto
   grid-template-areas: |
     ". main_title ."
@@ -36,7 +36,7 @@ cards:
       type: "custom:layout-card"
       layout_type: "custom:grid-layout"
       layout:
-        grid-template-columns: "repeat(auto-fill, minmax(350px, 1fr))"
+        grid-template-columns: "1fr 1fr"
         grid-template-rows: "auto"
         mediaquery:
           "(max-width: 600px)":
@@ -48,6 +48,13 @@ cards:
           options:
             type: "custom:flower-card"
             display_type: full
+            card_mod:
+              style: |
+                @media (min-width: 768px) {
+                  ha-card {
+                    margin-right: 32px;
+                  }
+                }
             show_bars:
               - moisture
               - soil_temperature
