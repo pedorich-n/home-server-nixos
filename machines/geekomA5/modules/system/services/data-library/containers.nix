@@ -119,6 +119,7 @@ in
         containerConfig = {
           environments = defaultEnvs // {
             inherit (containerLib.containerIds) PUID PGID;
+            UMASK = "002"; # 664 for files, 775 for dirs
           };
           volumes = [
             (containerLib.mkMappedVolumeForUser "${storeRoot}/qbittorrent/config" "/config")
