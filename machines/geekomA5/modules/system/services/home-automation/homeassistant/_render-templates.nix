@@ -1,5 +1,6 @@
 {
   networkingLib,
+  autheliaLib,
   trustedProxies,
   stdenv,
   makejinja,
@@ -8,8 +9,8 @@
 }:
 let
   variables = {
-    auth_url = networkingLib.mkUrl "authelia";
     url = networkingLib.mkUrl "homeassistant";
+    oidc_discovery_url = autheliaLib.discoveryUrl;
     inherit trustedProxies;
   };
 

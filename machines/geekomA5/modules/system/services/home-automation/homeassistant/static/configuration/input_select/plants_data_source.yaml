@@ -1,0 +1,6 @@
+plants_location:
+  name: "Plants Location"
+  options:
+    - "Outside"
+    - "Inside"
+  icon: "mdi:home-map-marker"

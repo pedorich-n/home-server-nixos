@@ -1,9 +1,38 @@
 - sensor:
-    - name: Balcony humidity
-      unique_id: balcony_humidity
-      state: "{{ state_attr('weather.forecast_home', 'humidity') }}"
-      availability: "{{ state_attr('weather.forecast_home', 'humidity') is number }}"
+    - name: Plants humidity
+      unique_id: plants_humidity
+      state: >
+        {% if is_state('input_select.plants_location', 'Inside') %}
+          {{ states('sensor.ldk_temperature_humidity_1_humidity') }}
+        {% elif is_state('input_select.plants_location', 'Outside') %}
+          {{ states('sensor.another_sensor_humidity') }}
+        {% endif %}
+      availability: >
+        {% if is_state('input_select.plants_location', 'Inside') %}
+          {{ states('sensor.ldk_temperature_humidity_1_humidity') | is_number }}
+        {% elif is_state('input_select.plants_location', 'Outside') %}
+          {{ state_attr('weather.forecast_home', 'humidity') | is_number }}
+        {% endif %}
       unit_of_measurement: "%"
       icon: mdi:cloud-percent-outline
       device_class: humidity
+      state_class: measurement
+
+    - name: Plants temperature
+      unique_id: plants_temperature
+      state: >
+        {% if is_state('input_select.plants_location', 'Inside') %}
+          {{ states('sensor.ldk_temperature_humidity_1_temperature') }}
+        {% elif is_state('input_select.plants_location', 'Outside') %}
+          {{ state_attr('weather.forecast_home', 'temperature') }}
+        {% endif %}
+      availability: >
+        {% if is_state('input_select.plants_location', 'Inside') %}
+          {{ states('sensor.ldk_temperature_humidity_1_temperature') | is_number }}
+        {% elif is_state('input_select.plants_location', 'Outside') %}
+          {{ state_attr('weather.forecast_home', 'temperature') | is_number }}
+        {% endif %}
+      unit_of_measurement: "°C"
+      icon: mdi:home-thermometer-outline
+      device_class: temperature
       state_class: measurement

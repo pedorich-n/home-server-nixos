@@ -1,0 +1,65 @@
+title: Plants
+path: 1
+icon: "mdi:sprout"
+show_icon_and_title: true
+type: "custom:grid-layout"
+layout:
+  grid-template-columns: "1fr 70% 1fr"
+  grid-template-rows: auto
+  grid-template-areas: |
+    ". main_title ."
+    ". main ."
+  mediaquery:
+    "(max-width: 600px)":
+      grid-template-columns: "1fr 98% 1fr"
+      grid-template-areas: |
+        ". main_title ."
+        ". main ."
+cards:
+  - type: "custom:mushroom-title-card"
+    title: "Plants"
+    alignment: center
+    card_mod:
+      style: |
+        ha-card {
+          --title-font-weight: bold;
+          --title-font-size: 1.5rem;
+        }
+    view_layout:
+      grid-area: "main_title"
+
+  - type: "custom:auto-entities"
+    view_layout:
+      grid-area: "main"
+    show_empty: false
+    card:
+      type: "custom:layout-card"
+      layout_type: "custom:grid-layout"
+      layout:
+        grid-template-columns: "1fr 1fr"
+        grid-template-rows: "auto"
+        mediaquery:
+          "(max-width: 600px)":
+            grid-template-columns: "1fr"
+    filter:
+      include:
+        - attributes:
+            device_class: plant
+          options:
+            type: "custom:flower-card"
+            display_type: full
+            card_mod:
+              style: |
+                @media (min-width: 768px) {
+                  ha-card {
+                    margin-right: 32px;
+                  }
+                }
+            show_bars:
+              - moisture
+              - soil_temperature
+              - humidity
+              - temperature
+              - vpd
+              - illuminance
+              - dli

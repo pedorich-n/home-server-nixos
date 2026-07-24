@@ -23,6 +23,7 @@ let
     });
 
   adminApps = [
+    "motioneye"
     "mousehole"
     "multiscrobbler"
     "netdata"
