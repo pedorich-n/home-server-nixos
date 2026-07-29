@@ -87,6 +87,12 @@ in
           order = 4;
           dir = "prowlarr";
         };
+        music = {
+          name = "music";
+          priority = -100;
+          order = 5;
+          dir = "music";
+        };
       };
 
       servers = {

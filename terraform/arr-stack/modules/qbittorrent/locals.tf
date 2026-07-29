@@ -5,7 +5,7 @@ locals {
 
   default_response_codes = ["200"]
 
-  categories = toset(["movies", "audiobooks", "prowlarr", "tv", "others"])
+  categories = toset(["movies", "audiobooks", "prowlarr", "tv", "others", "music"])
 
   # See https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-(qBittorrent-4.1)#get-application-preferences
   preferences = {
