@@ -120,6 +120,12 @@ in
         server = {
           address = "unix://${socketPath}?umask=0117"; # 660 permissions
 
+          buffers = {
+            # default is 4096. Increasing this should help mitigate the "431 Request Header Fields Too Large" error
+            read = 16384;
+            write = 16384;
+          };
+
           #LINK - https://www.authelia.com/configuration/miscellaneous/server-endpoints-authz/
           endpoints.authz = {
             forward-auth = {

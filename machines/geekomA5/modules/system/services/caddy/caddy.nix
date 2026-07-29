@@ -46,6 +46,12 @@ in
       level INFO
     '';
 
+    globalConfig = ''
+      servers {
+      	max_header_size 5MB
+      }
+    '';
+
     # mkBefore so that the snippet is included before any virtual host configs
     extraConfig = lib.mkBefore ''
       (error-handler) {
