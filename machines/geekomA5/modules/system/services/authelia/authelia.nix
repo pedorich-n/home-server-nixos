@@ -23,6 +23,7 @@ let
     });
 
   adminApps = [
+    "lidarr"
     "motioneye"
     "mousehole"
     "multiscrobbler"
