@@ -23,6 +23,12 @@ resource "sonarr_download_client_qbittorrent" "qbittorrent" {
   tv_category = "tv"
 }
 
+resource "sonarr_remote_path_mapping" "qbittorrent" {
+  host        = var.qbittorrent_download_client_fields.host
+  remote_path = "/data/downloads/torrent/"
+  local_path  = "/mnt/external/data-library/downloads/torrent/"
+}
+
 resource "sonarr_delay_profile" "default" {
   enable_usenet                       = true
   enable_torrent                      = true

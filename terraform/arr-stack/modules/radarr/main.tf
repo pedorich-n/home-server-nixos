@@ -22,3 +22,9 @@ resource "radarr_download_client_qbittorrent" "qbittorrent" {
   use_ssl        = var.qbittorrent_download_client_fields.use_ssl
   movie_category = "movies"
 }
+
+resource "radarr_remote_path_mapping" "qbittorrent" {
+  host        = var.qbittorrent_download_client_fields.host
+  remote_path = "/data/downloads/torrent/"
+  local_path  = "/mnt/external/data-library/downloads/torrent/"
+}
