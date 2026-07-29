@@ -32,6 +32,10 @@ in
         "zfs.target"
       ])
     ];
+
+    serviceConfig = {
+      UMask = lib.mkForce "002"; # 664 for files, 775 for dirs
+    };
   };
 
   services.sonarr = {

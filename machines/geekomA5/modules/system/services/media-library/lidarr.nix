@@ -48,7 +48,7 @@ in
       ProtectControlGroups = true;
       RestrictSUIDSGID = true;
       RemoveIPC = true;
-      UMask = "0022";
+      UMask = "002"; # 664 for files, 775 for dirs
       ProtectHostname = true;
       ProtectProc = "invisible";
       RestrictAddressFamilies = [
