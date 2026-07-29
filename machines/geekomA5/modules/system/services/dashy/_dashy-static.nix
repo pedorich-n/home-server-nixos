@@ -185,6 +185,9 @@ let
             slug = "radarr";
           })
           (mkEntry {
+            slug = "lidarr";
+          })
+          (mkEntry {
             slug = "prowlarr";
           })
           (mkEntry {
