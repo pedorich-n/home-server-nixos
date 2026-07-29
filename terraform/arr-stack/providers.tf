@@ -12,3 +12,8 @@ provider "radarr" {
   url     = local.base_urls.radarr
   api_key = module.onepassword.secrets.Radarr.API.key
 }
+
+provider "lidarr" {
+  url     = local.base_urls.lidarr
+  api_key = module.onepassword.secrets.Lidarr.API.key
+}

@@ -38,6 +38,14 @@ resource "prowlarr_application_radarr" "radarr" {
   api_key      = var.radarr_api_key
 }
 
+resource "prowlarr_application_lidarr" "lidarr" {
+  name         = "Lidarr"
+  sync_level   = "fullSync"
+  base_url     = var.base_urls.lidarr
+  prowlarr_url = var.base_urls.prowlarr
+  api_key      = var.lidarr_api_key
+}
+
 resource "prowlarr_download_client_sabnzbd" "sabnzbd" {
   enable     = var.sabnzbd_download_client_fields.enable
   priority   = var.sabnzbd_download_client_fields.priority

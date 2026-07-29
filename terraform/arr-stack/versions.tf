@@ -14,5 +14,10 @@ terraform {
       source  = "devopsarr/radarr"
       version = ">= 2"
     }
+
+    lidarr = {
+      source  = "devopsarr/lidarr"
+      version = ">= 1"
+    }
   }
 }

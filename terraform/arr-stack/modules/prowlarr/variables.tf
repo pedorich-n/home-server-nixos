@@ -8,6 +8,11 @@ variable "sonarr_api_key" {
   sensitive = true
 }
 
+variable "lidarr_api_key" {
+  type      = string
+  sensitive = true
+}
+
 variable "sabnzbd_download_client_fields" {
   type = object({
     enable   = bool
@@ -36,6 +41,7 @@ variable "base_urls" {
     prowlarr = string
     sonarr   = string
     radarr   = string
+    lidarr   = string
   })
 }
 
