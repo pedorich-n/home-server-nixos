@@ -87,6 +87,10 @@ in
         TrustedSources = "0.0.0.0/0";
         UserHeader = "Remote-User";
       };
+
+      ListenBrainz = {
+        BaseURL = "${networkingLib.mkUrl "multiscrobbler"}/1/";
+      };
     };
   };
 }

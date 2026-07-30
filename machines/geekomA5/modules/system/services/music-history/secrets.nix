@@ -71,7 +71,7 @@ in
 
         sources = [
           {
-            name = "spotify";
+            name = "Spotify";
             enable = true;
             type = "spotify";
             id = "spotify";
@@ -80,6 +80,10 @@ in
               clientSecret = config.sops.placeholder."music-history/multiscrobbler/spotify/client_secret";
               redirectUri = "${networkingLib.mkUrl "multiscrobbler"}/callback";
             };
+            clients = [
+              "maloja"
+              "koito"
+            ];
             options = {
               scrobbleBacklog = true;
               playTransform = {
@@ -116,6 +120,20 @@ in
               };
             };
           }
+          {
+            name = "NavidromeListenBrainz";
+            enable = true;
+            type = "endpointlz";
+            id = "navidrome-listenbrainz";
+            clients = [
+              "maloja"
+              "koito"
+              "lastfm"
+            ];
+            data = {
+              token = config.sops.placeholder."music-history/multiscrobbler/listenbrainz-endpoint/token";
+            };
+          }
         ];
 
         clientDefaults = {
@@ -129,7 +147,7 @@ in
 
         clients = [
           {
-            name = "maloja";
+            name = "Maloja";
             enable = true;
             type = "maloja";
             id = "maloja";
@@ -141,7 +159,7 @@ in
           }
 
           {
-            name = "koito";
+            name = "Koito";
             enable = true;
             type = "koito";
             id = "koito";
@@ -150,6 +168,19 @@ in
               token = config.sops.placeholder."music-history/multiscrobbler/koito/api_key";
               username = config.sops.placeholder."music-history/multiscrobbler/koito/username";
               url = networkingLib.mkUrl "koito";
+            };
+          }
+
+          {
+            name = "LastFM";
+            enable = true;
+            type = "lastfm";
+            id = "lastfm";
+            configureAs = "client";
+            data = {
+              apiKey = config.sops.placeholder."music-history/multiscrobbler/lastfm/api_key";
+              secret = config.sops.placeholder."music-history/multiscrobbler/lastfm/secret";
+              redirectUri = "${networkingLib.mkUrl "multiscrobbler"}/lastfm/callback";
             };
           }
         ];
