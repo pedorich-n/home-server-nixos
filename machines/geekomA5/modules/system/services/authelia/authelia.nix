@@ -48,6 +48,7 @@ let
     "immich"
     "librechat"
     "maloja"
+    "navidrome"
     "paperless"
     "shelfmark"
   ];
