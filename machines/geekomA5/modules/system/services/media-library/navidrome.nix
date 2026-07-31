@@ -16,12 +16,6 @@ in
       port = 32800;
       openFirewall = false;
     };
-
-    # services.caddy.hosts.navidrome = {
-    #   upstream = "unix/${socketPath}";
-    #   auth = "authelia";
-    #   authBypassPaths = [ "/api*" ];
-    # };
   };
 
   services.caddy.virtualHosts."${networkingLib.mkDomain "navidrome"}" = {
@@ -84,7 +78,7 @@ in
       EnableUserEditing = false;
       ExtAuth = {
         # TrustedSources = "@"; # Used when runnins using unix socket
-        TrustedSources = "0.0.0.0/0";
+        TrustedSources = "127.0.0.1/32";
         UserHeader = "Remote-User";
       };
 
