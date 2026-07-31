@@ -132,11 +132,11 @@ version = '0.5.0'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:9fca5f723cc237134a2704546e1445a54f48ab1f59db396cce3213cecf06975d'
+digest = 'sha256:23a9620b1ae83e1dbba7168f0cf1ce65dc4ed125a029b5a004ec9fa0e83b5b93'
 image = 'foxxmd/multi-scrobbler'
 registry = 'ghcr.io'
-version = 'edge'
-versioning = 'docker'
+version = '0.15.0'
+versioning = 'semver'
 
 [paperless-redis]
 digest = 'sha256:5cca2f8a01ef2264c52dac86f14ec6a5abe973a93331e1b62522cfc5e63e4691'
