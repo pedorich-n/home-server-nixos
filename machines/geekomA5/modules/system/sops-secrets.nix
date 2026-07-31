@@ -362,6 +362,9 @@ in
         "music-history/multiscrobbler/koito/api_key" = { };
         "music-history/multiscrobbler/spotify/client_id" = { };
         "music-history/multiscrobbler/spotify/client_secret" = { };
+        "music-history/multiscrobbler/lastfm/api_key" = { };
+        "music-history/multiscrobbler/lastfm/secret" = { };
+        "music-history/multiscrobbler/listenbrainz-endpoint/token" = { };
 
         "paperless/smtp/username" = { };
 

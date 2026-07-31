@@ -81,6 +81,9 @@ let
             slug = "immich";
           })
           (mkEntry {
+            slug = "navidrome";
+          })
+          (mkEntry {
             slug = "maloja";
           })
           (mkEntry {
@@ -183,6 +186,9 @@ let
           })
           (mkEntry {
             slug = "radarr";
+          })
+          (mkEntry {
+            slug = "lidarr";
           })
           (mkEntry {
             slug = "prowlarr";

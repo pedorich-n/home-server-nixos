@@ -71,7 +71,7 @@ in
 
         sources = [
           {
-            name = "spotify";
+            name = "Spotify";
             enable = true;
             type = "spotify";
             id = "spotify";
@@ -80,6 +80,48 @@ in
               clientSecret = config.sops.placeholder."music-history/multiscrobbler/spotify/client_secret";
               redirectUri = "${networkingLib.mkUrl "multiscrobbler"}/callback";
             };
+            clients = [
+              "maloja"
+              "koito"
+            ];
+            options = {
+              scrobbleBacklog = true;
+              playTransform = {
+                preCompare = [
+                  {
+                    type = "user";
+                    name = "CustomCleanup";
+                    title = titleRegexes;
+                    album = albumRegexes;
+                  }
+                  {
+                    # if MusicBrainz is successful then do NOT run native, only run native if MusicBrainz fails to find a match
+                    type = "musicbrainz";
+                    name = "MusicBrainz";
+                    onSuccess = "stop";
+                    onFailure = "continue";
+                  }
+                  {
+                    type = "native";
+                  }
+                ];
+              };
+            };
+          }
+          {
+            name = "NavidromeListenBrainz";
+            enable = true;
+            type = "endpointlz";
+            id = "navidrome-listenbrainz";
+            clients = [
+              "maloja"
+              "koito"
+              "lastfm"
+            ];
+            data = {
+              token = config.sops.placeholder."music-history/multiscrobbler/listenbrainz-endpoint/token";
+            };
+
             options = {
               scrobbleBacklog = true;
               playTransform = {
@@ -129,7 +171,7 @@ in
 
         clients = [
           {
-            name = "maloja";
+            name = "Maloja";
             enable = true;
             type = "maloja";
             id = "maloja";
@@ -141,7 +183,7 @@ in
           }
 
           {
-            name = "koito";
+            name = "Koito";
             enable = true;
             type = "koito";
             id = "koito";
@@ -150,6 +192,19 @@ in
               token = config.sops.placeholder."music-history/multiscrobbler/koito/api_key";
               username = config.sops.placeholder."music-history/multiscrobbler/koito/username";
               url = networkingLib.mkUrl "koito";
+            };
+          }
+
+          {
+            name = "LastFM";
+            enable = true;
+            type = "lastfm";
+            id = "lastfm";
+            configureAs = "client";
+            data = {
+              apiKey = config.sops.placeholder."music-history/multiscrobbler/lastfm/api_key";
+              secret = config.sops.placeholder."music-history/multiscrobbler/lastfm/secret";
+              redirectUri = "${networkingLib.mkUrl "multiscrobbler"}/lastfm/callback";
             };
           }
         ];
@@ -193,8 +248,9 @@ in
               searchArtistMethod = "native";
 
               searchOrder = [
+                "mbidrecording" # MusicBrainz recording ID
                 "isrc" # International Standard Recording Code
-                "basic" # Combination of artist, album, track names
+                "basicOrIds" # Use Artist, Album MusicBrainz IDs if any are avilable otherwise a combination of artist, album, track names
                 "artist" # Attempt to extract artist names from the track
               ];
             };

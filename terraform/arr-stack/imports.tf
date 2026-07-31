@@ -7,3 +7,8 @@ import {
   to = module.sonarr.sonarr_delay_profile.default
   id = 1
 }
+
+import {
+  to = module.lidarr.lidarr_metadata_profile.standard
+  id = 1
+}

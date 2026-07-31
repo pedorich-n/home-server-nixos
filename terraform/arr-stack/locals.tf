@@ -3,6 +3,7 @@ locals {
     prowlarr    = "https://prowlarr.${var.server_domain}"
     sonarr      = "https://sonarr.${var.server_domain}"
     radarr      = "https://radarr.${var.server_domain}"
+    lidarr      = "https://lidarr.${var.server_domain}"
     qbittorrent = "https://qbittorrent.${var.server_domain}/api/v2"
     sabnzbd     = "https://sabnzbd.${var.server_domain}/api"
   }

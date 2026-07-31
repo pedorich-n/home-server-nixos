@@ -4,6 +4,7 @@ locals {
     # See category IDs: https://github.com/Jackett/Jackett/blob/81f6899b0d3655/src/Jackett.Common/Models/TorznabCatType.cs
     audiobooks = toset([3030])
     movies     = toset([2000])
+    music      = toset([3000])
     tv         = toset([5000])
   }
 

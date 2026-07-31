@@ -23,6 +23,7 @@ let
     });
 
   adminApps = [
+    "lidarr"
     "motioneye"
     "mousehole"
     "multiscrobbler"
@@ -47,6 +48,7 @@ let
     "immich"
     "librechat"
     "maloja"
+    "navidrome"
     "paperless"
     "shelfmark"
   ];
