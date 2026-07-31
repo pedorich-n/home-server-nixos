@@ -104,7 +104,7 @@ version = '8.3.7'
 versioning = 'semver'
 
 [librechat-rag]
-digest = 'sha256:c0ad82657b556c1e16dcfca85d045788f67caa223e25e70eb687f4d16b41dedc'
+digest = 'sha256:d6db3e38fb1afabcad6972d23d2cdc093e8a5b74797881e29e7599df93704985'
 image = 'danny-avila/librechat-rag-api-dev-lite'
 registry = 'ghcr.io'
 version = 'latest'
@@ -153,10 +153,10 @@ version = '3.0.4'
 versioning = 'semver'
 
 [shelfmark]
-digest = 'sha256:1d71d708f68d659226ad8f42a5c2a5c42363e7bd0cfaf1fa5e9204cdb9f59ae2'
+digest = 'sha256:ae23600f7dd8e020dd735ed9f3576c091de5ef134295943efd3c561319a4dc88'
 image = 'calibrain/shelfmark-lite'
 registry = 'ghcr.io'
-version = 'v1.3.4'
+version = 'v1.3.5'
 versioning = 'semver'
 
 [qbittorrent]
