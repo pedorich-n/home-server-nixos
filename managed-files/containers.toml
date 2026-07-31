@@ -146,10 +146,10 @@ version = '8.10.0-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:6c86cad803970ea782683a8e80e7403444c5bf3cf70de63b4d3c8e87500db92f'
+digest = 'sha256:3838b9a4260d23acc5bb63aed407138435e70b56e5806f4baa350ca184e57582'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '2.20.15'
+version = '3.0.4'
 versioning = 'semver'
 
 [shelfmark]
