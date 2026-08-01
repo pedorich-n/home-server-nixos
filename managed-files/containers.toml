@@ -20,10 +20,10 @@ version = '2.36.0'
 versioning = 'semver'
 
 [gitea-mirror]
-digest = 'sha256:ef101da58f0e8d4e1eab96e37ef8f90cf756a8c6d68ab977f8ce7e4b69cb1318'
+digest = 'sha256:9dab1fa6686fd4a8514b6f2f1b2ebcb0906db77f1cad9464bbf2b505229e6bda'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.21.0'
+version = 'v3.22.0'
 versioning = 'semver'
 
 [gluetun]
@@ -168,10 +168,10 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [searxng]
-digest = 'sha256:f9d1250cca864c93d8831fe0e5e686f3999922cc9abe76a86bb8d1aa4e050877'
+digest = 'sha256:ec536bcd1e83577aad4cc07f7ecb9a30858a9a905d2d57c8796abc83f872a036'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.7.31-057a77168'
+version = '2026.8.1-8892414dc'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
