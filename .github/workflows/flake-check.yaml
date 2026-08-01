@@ -5,7 +5,7 @@ on:
 
 jobs:
   nix-flake-check:
-    uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@692bc85f75ce027e466132921917f8f9a4cc5057 # main
+    uses: pedorich-n/github-workflows/.github/workflows/flake-check.yaml@467bf6cfc2673d3f3a2fe015d8da8d80f7cd84d8 # main
     with:
       timeout_minutes: 20
       app_client_id: ${{ vars.APP_CLIENT_ID }}
