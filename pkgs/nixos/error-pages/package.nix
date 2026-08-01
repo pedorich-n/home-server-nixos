@@ -5,11 +5,11 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "error-pages";
-  version = "4.2.2";
+  version = "4.2.4";
 
   src = fetchzip {
     url = "https://github.com/tarampampam/error-pages/releases/download/v${finalAttrs.version}/error-pages-static.zip";
-    hash = "sha256-hbXI2DLQlQt4IEjb49YlgGudfcr5+OJauwurL/5lnZ8=";
+    hash = "sha256-Il2DSxlu/fsmAm1e2huCwHZXH92EKXUHQj9TjQVWfwo=";
     stripRoot = false;
   };
 
