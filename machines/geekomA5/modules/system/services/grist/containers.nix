@@ -58,6 +58,10 @@ in
 
         # This function performs HTTP requests in a similar way to requests.request
         GRIST_ENABLE_REQUEST_FUNCTION = "1";
+
+        # See https://github.com/gristlabs/grist-core/issues/2376#issuecomment-4781883024
+        GRIST_SKIP_BUNDLED_WIDGETS = "true";
+        PERMITTED_CUSTOM_WIDGETS = "calendar";
       };
       environmentFiles = [ config.sops.secrets."grist/main.env".path ];
       volumes = [
