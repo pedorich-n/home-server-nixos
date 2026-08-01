@@ -2,7 +2,7 @@
   "fetch": {
     "datasource": "pypi",
     "package": "mcp-server-fetch",
-    "version": "2026.6.4",
+    "version": "2026.7.10",
     "versioning": "pep440"
   },
   "grist": {
@@ -20,7 +20,7 @@
   "n8n": {
     "datasource": "npm",
     "package": "n8n-mcp",
-    "version": "2.61.0",
+    "version": "2.66.3",
     "versioning": "semver"
   },
   "nixos": {
@@ -32,13 +32,13 @@
   "searxng": {
     "datasource": "npm",
     "package": "mcp-searxng",
-    "version": "1.8.0",
+    "version": "1.12.0",
     "versioning": "semver"
   },
   "time": {
     "datasource": "pypi",
     "package": "mcp-server-time",
-    "version": "2026.6.4",
+    "version": "2026.7.10",
     "versioning": "pep440"
   }
 }
