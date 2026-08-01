@@ -123,7 +123,7 @@ in
             };
 
             options = {
-              scrobbleBacklog = true;
+              scrobbleBacklog = false;
               playTransform = {
                 /*
                   First, replace known artist name variants with the correct ones,
