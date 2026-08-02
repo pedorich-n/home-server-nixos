@@ -10,5 +10,6 @@ jobs:
       timeout_minutes: 20
       app_client_id: ${{ vars.APP_CLIENT_ID }}
       app_owner: ${{ github.repository_owner }}
+      nix_version: "2.29.4"
     secrets:
       app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
