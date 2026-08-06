@@ -11,14 +11,14 @@ jobs:
     steps:
       - name: Get Github App info
         id: app_auth
-        uses: pedorich-n/github-workflows/.github/actions/app-token@467bf6cfc2673d3f3a2fe015d8da8d80f7cd84d8 # main
+        uses: pedorich-n/github-workflows/.github/actions/app-token@ec82000d7963db833f8eae938a52cd61cbbc979c # main
         with:
           client_id: ${{ vars.APP_CLIENT_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
       - name: Setup job
-        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@467bf6cfc2673d3f3a2fe015d8da8d80f7cd84d8 # main
+        uses: pedorich-n/github-workflows/.github/actions/setup-nix-job@ec82000d7963db833f8eae938a52cd61cbbc979c # main
         with:
           git_https_token: ${{ steps.app_auth.outputs.token }}
 
@@ -32,7 +32,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Run nix-update
-        uses: pedorich-n/github-workflows/.github/actions/nix-update@467bf6cfc2673d3f3a2fe015d8da8d80f7cd84d8 # main
+        uses: pedorich-n/github-workflows/.github/actions/nix-update@ec82000d7963db833f8eae938a52cd61cbbc979c # main
         with:
           token: ${{ steps.app_auth.outputs.token }}
           committer: ${{ steps.app_auth.outputs.committer }}
