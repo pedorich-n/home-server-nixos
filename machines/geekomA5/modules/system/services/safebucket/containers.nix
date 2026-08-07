@@ -2,6 +2,7 @@
   config,
   containerLib,
   networkingLib,
+  autheliaLib,
   ...
 }:
 let
@@ -59,11 +60,15 @@ in
         ACTIVITY__TYPE = "filesystem";
         ACTIVITY__FILESYSTEM__DIRECTORY = "/app/data/activity";
 
-        AUTH__PROVIDERS__KEYS = "local";
+        AUTH__PROVIDERS__KEYS = "local,authelia";
         AUTH__PROVIDERS__LOCAL__NAME = "local";
         AUTH__PROVIDERS__LOCAL__TYPE = "local";
         AUTH__PROVIDERS__LOCAL__SHARING__ALLOWED = "true";
 
+        AUTH__PROVIDERS__AUTHELIA__NAME = "Authelia";
+        AUTH__PROVIDERS__AUTHELIA__TYPE = "oidc";
+        AUTH__PROVIDERS__AUTHELIA__OIDC__ISSUER = autheliaLib.issuerUrl;
+        AUTH__PROVIDERS__AUTHELIA__SHARING__ALLOWED = "true";
       };
       environmentFiles = [ config.sops.secrets."safebucket/main.env".path ];
       volumes = [

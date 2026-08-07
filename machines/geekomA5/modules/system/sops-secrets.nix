@@ -113,6 +113,9 @@ let
 
         "authelia/oidc/airtrail/client_id"
         "authelia/oidc/airtrail/client_secret_hashed"
+
+        "authelia/oidc/safebucket/client_id"
+        "authelia/oidc/safebucket/client_secret_hashed"
       ];
 
       mkSecret = secret: {
