@@ -4,6 +4,20 @@
   ...
 }:
 {
+  # Normally the tunnels consume less than 100Mb, but just to be safe I'll limit their RAM
+  systemd.units."cloudflared-tunnel-.service" = {
+    overrideStrategy = "asDropin";
+    text = ''
+      [Service]
+      MemoryHigh=384M
+      MemoryMax=512M
+      OOMPolicy=kill
+
+      Restart=on-failure
+      RestartSec=5s
+    '';
+  };
+
   services.cloudflared = {
     enable = true;
     package = pkgs-unstable.cloudflared;
