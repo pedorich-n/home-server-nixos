@@ -1,6 +1,5 @@
 locals {
-  cf_account_id  = module.onepassword.secrets.Cloudflare.Account.id
-  cf_zone_domain = module.onepassword.secrets.Cloudflare.Zone_Main.domain
+  cf_account_id = module.onepassword.secrets.Cloudflare.Account.id
 
   r2_account_domain = "${local.cf_account_id}.r2.cloudflarestorage.com"
 
@@ -60,9 +59,12 @@ locals {
     "91.108.4.0/22"
   ]
 
-  n8n_local_domain        = "n8n.${local.cf_zone_domain}"
-  couchdb_local_domain    = "couchdb.${local.cf_zone_domain}"
-  safebucket_local_domain = "safebucket.${local.cf_zone_domain}"
+  n8n_local_domain        = "n8n.${var.domain}"
+  couchdb_local_domain    = "couchdb.${var.domain}"
+  safebucket_local_domain = "safebucket.${var.domain}"
 
   obsidian_devices = toset(["mobile", "desktop"])
+
+  #LINK - machines/geekomA5/modules/system/services/safebucket/containers.nix:15
+  safebucket_local_port = 32900
 }
