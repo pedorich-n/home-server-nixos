@@ -54,8 +54,10 @@ in
         EVENTS__QUEUES__BUCKET_EVENTS__NAME = "safebucket-bucket-events";
         EVENTS__QUEUES__OBJECT_DELETION__NAME = "safebucket-object-deletion";
 
-        NOTIFIER__TYPE = "filesystem";
-        NOTIFIER__FILESYSTEM__DIRECTORY = "/app/data/notifications";
+        NOTIFIER__TYPE = "smtp";
+        NOTIFIER__SMTP__HOST = "smtp.purelymail.com";
+        NOTIFIER__SMTP__PORT = "465";
+        NOTIFIER__SMTP__TLS_MODE = "ssl";
 
         ACTIVITY__TYPE = "filesystem";
         ACTIVITY__FILESYSTEM__DIRECTORY = "/app/data/activity";
@@ -71,6 +73,7 @@ in
         AUTH__PROVIDERS__AUTHELIA__TYPE = "oidc";
         AUTH__PROVIDERS__AUTHELIA__OIDC__ISSUER = autheliaLib.issuerUrl;
         AUTH__PROVIDERS__AUTHELIA__SHARING__ALLOWED = "true";
+
       };
       environmentFiles = [ config.sops.secrets."safebucket/main.env".path ];
       volumes = [
