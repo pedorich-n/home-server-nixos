@@ -17,7 +17,7 @@ resource "cloudflare_r2_bucket_cors" "safebucket_data_cors" {
         "PUT",
       ]
       origins = [
-        "https://files.${local.cf_zone_domain}",
+        "https://safebucket.${local.cf_zone_domain}",
         "https://safebucket.${var.server_domain}"
       ],
       headers = [

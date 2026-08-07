@@ -8,6 +8,11 @@ data "cloudflare_zero_trust_tunnel_cloudflared_token" "couchdb" {
   tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.couchdb.id
 }
 
+data "cloudflare_zero_trust_tunnel_cloudflared_token" "safebucket" {
+  account_id = local.cf_account_id
+  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.safebucket.id
+}
+
 resource "cloudflare_zero_trust_access_service_token" "main" {
   name       = "Main Machine to Machine Token"
   account_id = local.cf_account_id
@@ -208,4 +213,38 @@ resource "onepassword_item" "cloudflare_safebucket_data" {
 
   }
 
+}
+
+resource "onepassword_item" "safebucket_token" {
+  vault    = module.onepassword.vault_homelab.uuid
+  title    = "Cloudflare_Tunnel_Safebucket"
+  category = "secure_note"
+
+  tags = ["Managed By Terraform"]
+
+  section {
+    label = "Access"
+
+    field {
+      label = "id"
+      type  = "STRING"
+      value = cloudflare_zero_trust_tunnel_cloudflared.safebucket.id
+    }
+
+    field {
+      label = "token"
+      type  = "CONCEALED"
+      value = data.cloudflare_zero_trust_tunnel_cloudflared_token.safebucket.token
+    }
+
+    field {
+      label = "credentials_json"
+      type  = "CONCEALED"
+      value = jsonencode({
+        AccountTag   = local.cf_account_id
+        TunnelID     = cloudflare_zero_trust_tunnel_cloudflared.safebucket.id
+        TunnelSecret = cloudflare_zero_trust_tunnel_cloudflared.safebucket.tunnel_secret
+      })
+    }
+  }
 }
