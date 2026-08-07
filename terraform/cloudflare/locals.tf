@@ -2,6 +2,8 @@ locals {
   cf_account_id  = module.onepassword.secrets.Cloudflare.Account.id
   cf_zone_domain = module.onepassword.secrets.Cloudflare.Zone_Main.domain
 
+  r2_account_domain = "${local.cf_account_id}.r2.cloudflarestorage.com"
+
   purelymail_subdomain = "mail"
 
   # From https://purelymail.com/docs/domainDocs#dnsrecords
