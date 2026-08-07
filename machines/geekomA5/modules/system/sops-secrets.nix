@@ -229,6 +229,11 @@ let
       sopsFile = sopsFilePathFor "cloudflared/couchdb_credentials_json.txt";
       format = "binary";
     };
+
+    "cloudflared/safebucket_tunnel_credentials" = {
+      sopsFile = sopsFilePathFor "cloudflared/safebucket_credentials_json.txt";
+      format = "binary";
+    };
   };
 
   netdataSecrets =

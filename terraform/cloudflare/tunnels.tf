@@ -90,6 +90,14 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "safebucket" {
       },
       {
         hostname = local.safebucket_local_domain
+        path     = "/assets/"
+        service  = "https://safebucket.${var.server_domain}"
+        origin_request = {
+          http_host_header = "safebucket.${var.server_domain}"
+        }
+      },
+      {
+        hostname = local.safebucket_local_domain
         path     = "/api/v1/buckets/"
         service  = "https://safebucket.${var.server_domain}"
         origin_request = {
