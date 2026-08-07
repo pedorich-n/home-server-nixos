@@ -11,7 +11,7 @@ resource "tailscale_dns_nameservers" "global_dns" {
 }
 
 resource "tailscale_dns_split_nameservers" "server" {
-  domain      = var.server_domain
+  domain      = var.local_domain
   nameservers = data.tailscale_device.server.addresses
 }
 
