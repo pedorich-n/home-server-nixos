@@ -16,9 +16,9 @@ in
       openFirewall = false;
     };
 
-    services.caddy.hosts.safebucket = {
-      upstream = "http://127.0.0.1:${portsCfg.safebucket.portStr}";
-    };
+    # services.caddy.hosts.safebucket = {
+    #   upstream = "http://127.0.0.1:${portsCfg.safebucket.portStr}";
+    # };
   };
 
   virtualisation.quadlet.containers.safebucket = {
@@ -31,9 +31,9 @@ in
       environments = {
         APP__LOG_LEVEL = "info";
         APP__PROFILE = "default";
-        APP__API_URL = networkingLib.mkLocalUrl "safebucket";
-        APP__WEB_URL = networkingLib.mkLocalUrl "safebucket";
-        APP__ALLOWED_ORIGINS = networkingLib.mkLocalUrl "safebucket";
+        APP__API_URL = networkingLib.mkUrl "safebucket";
+        APP__WEB_URL = networkingLib.mkUrl "safebucket";
+        APP__ALLOWED_ORIGINS = networkingLib.mkUrl "safebucket";
         APP__TRUSTED_PROXIES = "127.0.0.1/32";
         APP__PORT = "8080";
         APP__TRASH_RETENTION_DAYS = "7";

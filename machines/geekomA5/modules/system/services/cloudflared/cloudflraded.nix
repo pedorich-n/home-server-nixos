@@ -19,10 +19,10 @@
         default = "http_status:403";
       };
 
-      # "730b50ac-035d-44e5-8b25-0c1c1e42ccac" = {
-      #   credentialsFile = config.sops.secrets."cloudflared/safebucket_tunnel_credentials".path;
-      #   default = "http_status:403";
-      # };
+      "730b50ac-035d-44e5-8b25-0c1c1e42ccac" = {
+        credentialsFile = config.sops.secrets."cloudflared/safebucket_tunnel_credentials".path;
+        default = "http_status:403";
+      };
     };
   };
 }

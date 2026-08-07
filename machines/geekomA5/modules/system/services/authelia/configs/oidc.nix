@@ -324,7 +324,7 @@ in
           (mkOidcProviderPrivate {
             name = "safebucket";
             redirectUris = [
-              "${networkingLib.mkLocalUrl "safebucket"}/api/v1/auth/providers/authelia/callback"
+              "${networkingLib.mkUrl "safebucket"}/api/v1/auth/providers/authelia/callback"
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
