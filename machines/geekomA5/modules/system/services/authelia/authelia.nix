@@ -14,7 +14,7 @@ let
       groups ? [ ],
     }:
     {
-      domain = lib.map networkingLib.mkDomain apps;
+      domain = lib.map networkingLib.mkLocalDomain apps;
       policy = "one_factor";
     }
     // (lib.optionalAttrs (groups != [ ]) {
@@ -177,8 +177,8 @@ in
           remember_me = "1M";
           cookies = [
             {
-              domain = config.custom.networking.domain;
-              authelia_url = networkingLib.mkUrl "authelia";
+              domain = config.custom.networking.localDomain;
+              authelia_url = networkingLib.mkLocalUrl "authelia";
               inactivity = "1M";
               expiration = "24h";
               remember_me = "6M";

@@ -21,7 +21,7 @@ in
         <?xml version="1.0" encoding="utf-8"?>
         <PluginConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
           <LdapUsers />
-          <LdapServer>${networkingLib.mkDomain "lldap"}</LdapServer>
+          <LdapServer>${networkingLib.mkLocalDomain "lldap"}</LdapServer>
           <LdapPort>${config.custom.networking.ports.tcp.lldap-ldaps.portStr}</LdapPort>
           <UseSsl>true</UseSsl>
           <UseStartTls>false</UseStartTls>

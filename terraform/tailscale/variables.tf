@@ -2,6 +2,6 @@ variable "server_hostname" {
   type = string
 }
 
-variable "server_domain" {
+variable "local_domain" {
   type = string
 }

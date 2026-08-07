@@ -5,25 +5,24 @@
 {
   _module.args.networkingLib = rec {
     mkDomain = service: "${service}.${config.custom.networking.domain}";
-
-    mkTunneledDomain = service: "${service}.${config.custom.networking.tunneledDomain}";
+    mkLocalDomain = service: "${service}.${config.custom.networking.localDomain}";
 
     mkCustomUrl =
       {
         scheme ? "https",
         service,
-        domainFromService ? mkDomain,
+        domainFromService ? mkLocalDomain,
         port ? null,
       }:
       "${scheme}://${domainFromService service}${if port != null then ":${builtins.toString port}" else ""}";
 
-    mkUrl = service: mkCustomUrl { inherit service; };
+    mkLocalUrl = service: mkCustomUrl { inherit service; };
 
-    mkTunneledUrl =
+    mkUrl =
       service:
       mkCustomUrl {
         inherit service;
-        domainFromService = mkTunneledDomain;
+        domainFromService = mkDomain;
       };
   };
 }

@@ -18,7 +18,7 @@ let
     "--log-file"
     "${logRoot}/immich-go_\${TIMESTAMP}.log"
     "--server"
-    (networkingLib.mkUrl "immich")
+    (networkingLib.mkLocalUrl "immich")
     "--api-key"
     "$API_KEY"
     "--session-tag"

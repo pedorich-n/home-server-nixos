@@ -128,8 +128,8 @@ in
             RAG_API_URL = "http://librechat-rag:8000";
 
             TRUST_PROXY = "1";
-            DOMAIN_CLIENT = networkingLib.mkUrl "chat";
-            DOMAIN_SERVER = networkingLib.mkUrl "chat";
+            DOMAIN_CLIENT = networkingLib.mkLocalUrl "chat";
+            DOMAIN_SERVER = networkingLib.mkLocalUrl "chat";
 
             SEARCH = "false";
 

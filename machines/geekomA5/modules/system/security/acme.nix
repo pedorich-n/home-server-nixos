@@ -14,9 +14,9 @@
 
     certs = {
       local = {
-        domain = config.custom.networking.domain;
+        domain = config.custom.networking.localDomain;
         extraDomainNames = [
-          (networkingLib.mkDomain "*")
+          (networkingLib.mkLocalDomain "*")
         ];
         dnsProvider = "cloudflare";
 

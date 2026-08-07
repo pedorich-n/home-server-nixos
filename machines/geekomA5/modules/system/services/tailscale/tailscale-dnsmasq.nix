@@ -10,7 +10,7 @@ let
   # LINK - terraform/tailscale/main.tf
   tailscaleMachineAddresses = (lib.importJSON "${flake}/managed-files/server_addresses.json").addresses;
 
-  addresses = lib.concatMapStringsSep "\n" (addr: "address=/${config.custom.networking.domain}/${addr}") tailscaleMachineAddresses;
+  addresses = lib.concatMapStringsSep "\n" (addr: "address=/${config.custom.networking.localDomain}/${addr}") tailscaleMachineAddresses;
 
   dnsmasqConfig = pkgs.writeTextFile {
     name = "tailscale-dnsmasq.conf";

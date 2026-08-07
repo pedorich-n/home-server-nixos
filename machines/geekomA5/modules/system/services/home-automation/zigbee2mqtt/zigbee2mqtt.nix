@@ -72,7 +72,7 @@ in
         enabled = true;
         host = "127.0.0.1";
         port = portsCfg.zigbee2mqtt.port;
-        url = networkingLib.mkUrl "zigbee2mqtt";
+        url = networkingLib.mkLocalUrl "zigbee2mqtt";
       };
 
       advanced = {

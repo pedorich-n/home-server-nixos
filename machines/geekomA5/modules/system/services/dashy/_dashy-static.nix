@@ -26,7 +26,7 @@ let
     }:
     {
       inherit title;
-      url = networkingLib.mkUrl slug;
+      url = networkingLib.mkLocalUrl slug;
       icon = iconLink;
       target = "newtab";
     }
@@ -59,7 +59,7 @@ let
         enableOidc = true;
         oidc = {
           clientId = "dashy";
-          endpoint = networkingLib.mkUrl "authelia";
+          endpoint = networkingLib.mkLocalUrl "authelia";
           scope = "openid profile email groups";
           adminGroup = autheliaLib.groups.Admins;
         };

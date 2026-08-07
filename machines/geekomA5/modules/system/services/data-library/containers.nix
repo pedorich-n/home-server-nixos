@@ -156,8 +156,8 @@ in
 
         containerConfig = {
           environments = defaultEnvs // {
-            MOUSEHOLE_ALLOWED_ORIGINS = networkingLib.mkUrl "mousehole";
-            MOUSEHOLE_ALLOWED_HOSTS = networkingLib.mkDomain "mousehole";
+            MOUSEHOLE_ALLOWED_ORIGINS = networkingLib.mkLocalUrl "mousehole";
+            MOUSEHOLE_ALLOWED_HOSTS = networkingLib.mkLocalDomain "mousehole";
             MOUSEHOLE_INSECURE_ALLOW_NO_AUTH = "true"; # Use Authelia for authentication
             MOUSEHOLE_HTTPS_ONLY_COOKIES = "true";
           };
@@ -234,7 +234,7 @@ in
             SEARCH_MODE = "universal";
             DEFAULT_RELEASE_SOURCE = "prowlarr";
 
-            AUDIOBOOK_LIBRARY_URL = networkingLib.mkUrl "audiobookshelf";
+            AUDIOBOOK_LIBRARY_URL = networkingLib.mkLocalUrl "audiobookshelf";
             DESTINATION_AUDIOBOOK = "/data/media/audiobooks";
             HARDLINK_TORRENTS_AUDIOBOOK = "true";
             FILE_ORGANIZATION_AUDIOBOOK = "organize";
@@ -244,14 +244,14 @@ in
             OPENLIBRARY_ENABLED = "true";
 
             PROWLARR_ENABLED = "true";
-            PROWLARR_URL = networkingLib.mkUrl "prowlarr";
+            PROWLARR_URL = networkingLib.mkLocalUrl "prowlarr";
 
             PROWLARR_TORRENT_CLIENT = "qbittorrent";
-            QBITTORRENT_URL = networkingLib.mkUrl "qbittorrent";
+            QBITTORRENT_URL = networkingLib.mkLocalUrl "qbittorrent";
             QBITTORRENT_CATEGORY_AUDIOBOOK = "audiobooks";
 
             PROWLARR_USENET_CLIENT = "sabnzbd";
-            SABNZBD_URL = networkingLib.mkUrl "sabnzbd";
+            SABNZBD_URL = networkingLib.mkLocalUrl "sabnzbd";
             SABNZBD_CATEGORY_AUDIOBOOK = "audiobooks";
             PROWLARR_USENET_ACTION = "move";
           };

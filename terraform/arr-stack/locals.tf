@@ -1,11 +1,11 @@
 locals {
   base_urls = {
-    prowlarr    = "https://prowlarr.${var.server_domain}"
-    sonarr      = "https://sonarr.${var.server_domain}"
-    radarr      = "https://radarr.${var.server_domain}"
-    lidarr      = "https://lidarr.${var.server_domain}"
-    qbittorrent = "https://qbittorrent.${var.server_domain}/api/v2"
-    sabnzbd     = "https://sabnzbd.${var.server_domain}/api"
+    prowlarr    = "https://prowlarr.${var.local_domain}"
+    sonarr      = "https://sonarr.${var.local_domain}"
+    radarr      = "https://radarr.${var.local_domain}"
+    lidarr      = "https://lidarr.${var.local_domain}"
+    qbittorrent = "https://qbittorrent.${var.local_domain}/api/v2"
+    sabnzbd     = "https://sabnzbd.${var.local_domain}/api"
   }
 
   download_clients = {
@@ -13,7 +13,7 @@ locals {
       enable   = true
       priority = 1
       name     = "SABnzbd"
-      host     = "sabnzbd.${var.server_domain}"
+      host     = "sabnzbd.${var.local_domain}"
       port     = 443
       api_key  = module.onepassword.secrets.SABnzbd.API.key
       use_ssl  = true
@@ -23,7 +23,7 @@ locals {
       enable   = true
       priority = 1
       name     = "qBittorrent"
-      host     = "qbittorrent.${var.server_domain}"
+      host     = "qbittorrent.${var.local_domain}"
       port     = 443
       use_ssl  = true
     }

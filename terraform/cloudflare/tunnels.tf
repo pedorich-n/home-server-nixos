@@ -19,17 +19,17 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "n8n" {
       {
         hostname = local.n8n_local_domain
         path     = "/webhook(?:\\-test)?"
-        service  = "https://n8n.${var.server_domain}"
+        service  = "https://n8n.${var.local_domain}"
         origin_request = {
-          http_host_header = "n8n.${var.server_domain}"
+          http_host_header = "n8n.${var.local_domain}"
         }
       },
       {
         hostname = local.n8n_local_domain
         path     = "/rest/oauth2-credential/callback"
-        service  = "https://n8n.${var.server_domain}"
+        service  = "https://n8n.${var.local_domain}"
         origin_request = {
-          http_host_header = "n8n.${var.server_domain}"
+          http_host_header = "n8n.${var.local_domain}"
         }
       },
       {
@@ -54,9 +54,9 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "couchdb" {
     ingress = [
       {
         hostname = local.couchdb_local_domain
-        service  = "https://couchdb.${var.server_domain}"
+        service  = "https://couchdb.${var.local_domain}"
         origin_request = {
-          http_host_header = "couchdb.${var.server_domain}"
+          http_host_header = "couchdb.${var.local_domain}"
         }
       },
       {

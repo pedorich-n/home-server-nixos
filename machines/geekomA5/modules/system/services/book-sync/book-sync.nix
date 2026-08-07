@@ -12,9 +12,9 @@
   services.book-sync = {
     enable = true;
     environment = {
-      ABS_BASE_URL = networkingLib.mkUrl "audiobookshelf";
+      ABS_BASE_URL = networkingLib.mkLocalUrl "audiobookshelf";
 
-      GRIST_BASE_URL = networkingLib.mkUrl "grist";
+      GRIST_BASE_URL = networkingLib.mkLocalUrl "grist";
       GRIST_DOC_ID = "9yk1ZQFq5UwDfxeyL1o3eX";
 
       LOGGING_LEVEL = "DEBUG";

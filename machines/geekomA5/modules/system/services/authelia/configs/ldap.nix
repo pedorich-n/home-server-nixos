@@ -22,7 +22,7 @@ in
 
         ldap = {
           implementation = "lldap";
-          address = "ldaps://${networkingLib.mkDomain "lldap"}:${config.custom.networking.ports.tcp.lldap-ldaps.portStr}";
+          address = "ldaps://${networkingLib.mkLocalDomain "lldap"}:${config.custom.networking.ports.tcp.lldap-ldaps.portStr}";
           base_dn = baseDN;
           user = "UID=${config.sops.placeholder."lldap/users/authelia/username"},OU=people,${baseDN}";
           password = config.sops.placeholder."lldap/users/authelia/password";

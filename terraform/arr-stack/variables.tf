@@ -1,3 +1,3 @@
-variable "server_domain" {
+variable "local_domain" {
   type = string
 }

@@ -3,11 +3,11 @@ module "onepassword" {
   items  = ["Prowlarr", "Prowlarr_Indexers", "Sonarr", "Radarr", "Lidarr", "SABnzbd", "AirVPN"]
 }
 
-module "qbittorrent" {
-  source      = "./modules/qbittorrent"
-  base_url    = local.base_urls.qbittorrent
-  listen_port = local.forwarded_vpn_port
-}
+# module "qbittorrent" {
+#   source      = "./modules/qbittorrent"
+#   base_url    = local.base_urls.qbittorrent
+#   listen_port = local.forwarded_vpn_port
+# }
 
 module "radarr" {
   source                             = "./modules/radarr"
@@ -18,9 +18,9 @@ module "radarr" {
     radarr = radarr
   }
 
-  depends_on = [
-    module.qbittorrent,
-  ]
+  # depends_on = [
+  #   module.qbittorrent,
+  # ]
 }
 
 module "sonarr" {
@@ -32,9 +32,9 @@ module "sonarr" {
     sonarr = sonarr
   }
 
-  depends_on = [
-    module.qbittorrent,
-  ]
+  # depends_on = [
+  #   module.qbittorrent,
+  # ]
 }
 
 module "lidarr" {
@@ -46,9 +46,9 @@ module "lidarr" {
     lidarr = lidarr
   }
 
-  depends_on = [
-    module.qbittorrent,
-  ]
+  # depends_on = [
+  #   module.qbittorrent,
+  # ]
 }
 
 module "prowlarr" {
@@ -71,7 +71,7 @@ module "prowlarr" {
   }
 
   depends_on = [
-    module.qbittorrent,
+    # module.qbittorrent,
     module.radarr,
     module.sonarr,
     module.lidarr
