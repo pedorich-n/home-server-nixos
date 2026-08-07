@@ -16,7 +16,7 @@
       local = {
         domain = config.custom.networking.domain;
         extraDomainNames = [
-          (networkingLib.mkDomain "*")
+          (networkingLib.mkLocalDomain "*")
         ];
         dnsProvider = "cloudflare";
 

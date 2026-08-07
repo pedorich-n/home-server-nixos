@@ -55,7 +55,7 @@ in
 
     containerConfig = {
       environments = {
-        SEARXNG_BASE_URL = networkingLib.mkUrl "searxng";
+        SEARXNG_BASE_URL = networkingLib.mkLocalUrl "searxng";
       };
       environmentFiles = [ config.sops.secrets."searxng/main.env".path ];
       publishPorts = [ "127.0.0.1:${portsCfg.portStr}:8080" ];

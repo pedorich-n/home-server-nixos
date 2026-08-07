@@ -64,7 +64,7 @@ in
     '';
 
     # Top-level catch-all for unmatched hosts to serve the error page.
-    virtualHosts."${networkingLib.mkDomain "*"}" = {
+    virtualHosts."${networkingLib.mkLocalDomain "*"}" = {
       useACMEHost = "local";
       logFormat = null; # Disable access logs
       extraConfig = ''

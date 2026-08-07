@@ -12,7 +12,7 @@
   services.geekdo-sync = {
     enable = true;
     environment = {
-      GRIST_BASE_URL = networkingLib.mkUrl "grist";
+      GRIST_BASE_URL = networkingLib.mkLocalUrl "grist";
       GRIST_DOC_ID = "mjRx6XUWvwBvm1qd5VhTEV";
 
       LOGGING_LEVEL = "DEBUG";

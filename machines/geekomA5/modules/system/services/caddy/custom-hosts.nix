@@ -59,7 +59,7 @@ in
           options = {
             domain = lib.mkOption {
               type = lib.types.nonEmptyStr;
-              default = networkingLib.mkDomain name;
+              default = networkingLib.mkLocalDomain name;
               description = "Hostname for the virtual host. Defaults to <name>.<domain>.";
             };
 

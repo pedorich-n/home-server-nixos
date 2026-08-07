@@ -60,7 +60,7 @@ writers.writeYAML "librechat.yaml" {
 
   mcpSettings = {
     allowedDomains = [
-      (networkingLib.mkDomain "*")
+      (networkingLib.mkLocalDomain "*")
       "host.containers.internal" # Host machine from within Podman containers
     ];
   };
@@ -76,7 +76,7 @@ writers.writeYAML "librechat.yaml" {
       ];
       env = {
         GRIST_API_KEY = "\${GRIST_API_KEY}";
-        GRIST_API_HOST = "${networkingLib.mkUrl "grist"}/api";
+        GRIST_API_HOST = "${networkingLib.mkLocalUrl "grist"}/api";
       };
     };
 
@@ -89,7 +89,7 @@ writers.writeYAML "librechat.yaml" {
       ];
       env = {
         FORGEJO_ACCESS_TOKEN = "\${FORGEJO_API_KEY}";
-        FORGEJO_URL = networkingLib.mkUrl "git";
+        FORGEJO_URL = networkingLib.mkLocalUrl "git";
         FORGEJO_USER_AGENT = "forgejo-mcp/1.0.0";
       };
     };
@@ -105,7 +105,7 @@ writers.writeYAML "librechat.yaml" {
         MCP_MODE = "stdio";
         LOG_LEVEL = "error";
         DISABLE_CONSOLE_OUTPUT = "true";
-        N8N_API_URL = networkingLib.mkUrl "n8n";
+        N8N_API_URL = networkingLib.mkLocalUrl "n8n";
         WEBHOOK_SECURITY_MODE = "permissive";
         N8N_API_KEY = "\${N8N_API_KEY}";
       };
@@ -114,7 +114,7 @@ writers.writeYAML "librechat.yaml" {
     Netdata = {
       type = "streamable-http";
       iconPath = mkDashboardIconUrl "netdata";
-      url = "${networkingLib.mkUrl "netdata"}/mcp";
+      url = "${networkingLib.mkLocalUrl "netdata"}/mcp";
       headers = {
         Authorization = "Bearer \${NETDATA_MCP_API_KEY}";
       };
@@ -134,7 +134,7 @@ writers.writeYAML "librechat.yaml" {
         (mkPackageWithVersionFor "searxng")
       ];
       env = {
-        SEARXNG_URL = networkingLib.mkUrl "searxng";
+        SEARXNG_URL = networkingLib.mkLocalUrl "searxng";
       };
     };
 
@@ -181,7 +181,7 @@ writers.writeYAML "librechat.yaml" {
 
     Trek = {
       type = "streamable-http";
-      url = "${networkingLib.mkUrl "trek"}/mcp";
+      url = "${networkingLib.mkLocalUrl "trek"}/mcp";
       iconPath = mkDashboardIconUrl "trek";
     };
   };

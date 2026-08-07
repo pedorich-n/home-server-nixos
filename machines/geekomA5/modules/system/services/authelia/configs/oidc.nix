@@ -160,8 +160,8 @@ in
           (mkOidcProviderPrivate {
             name = "audiobookshelf";
             redirectUris = [
-              "${networkingLib.mkUrl "audiobookshelf"}/auth/openid/callback"
-              "${networkingLib.mkUrl "audiobookshelf"}/auth/openid/mobile-redirect"
+              "${networkingLib.mkLocalUrl "audiobookshelf"}/auth/openid/callback"
+              "${networkingLib.mkLocalUrl "audiobookshelf"}/auth/openid/mobile-redirect"
               "audiobookshelf://oauth"
               "lissen://oauth"
             ];
@@ -176,14 +176,14 @@ in
           (mkOidcProviderPrivate {
             name = "grist";
             redirectUris = [
-              "${networkingLib.mkUrl "grist"}/oauth2/callback"
+              "${networkingLib.mkLocalUrl "grist"}/oauth2/callback"
             ];
           })
 
           (mkOidcProviderPrivate {
             name = "homeassistant";
             redirectUris = [
-              "${networkingLib.mkUrl "homeassistant"}/auth/oidc/callback"
+              "${networkingLib.mkLocalUrl "homeassistant"}/auth/oidc/callback"
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
@@ -193,8 +193,8 @@ in
           (mkOidcProviderPrivate {
             name = "immich";
             redirectUris = [
-              "${networkingLib.mkUrl "immich"}/auth/login"
-              "${networkingLib.mkUrl "immich"}/user-settings"
+              "${networkingLib.mkLocalUrl "immich"}/auth/login"
+              "${networkingLib.mkLocalUrl "immich"}/user-settings"
               "app.immich:///oauth-callback"
             ];
             extraArgs = {
@@ -209,7 +209,7 @@ in
           (mkOidcProviderPrivate {
             name = "librechat";
             redirectUris = [
-              "${networkingLib.mkUrl "chat"}/oauth/openid/callback"
+              "${networkingLib.mkLocalUrl "chat"}/oauth/openid/callback"
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
@@ -223,21 +223,21 @@ in
           (mkOidcProviderPrivate {
             name = "paperless";
             redirectUris = [
-              "${networkingLib.mkUrl "paperless"}/accounts/oidc/authelia/login/callback/"
+              "${networkingLib.mkLocalUrl "paperless"}/accounts/oidc/authelia/login/callback/"
             ];
           })
 
           (mkOidcProviderPrivate {
             name = "shelfmark";
             redirectUris = [
-              "${networkingLib.mkUrl "shelfmark"}/api/auth/oidc/callback"
+              "${networkingLib.mkLocalUrl "shelfmark"}/api/auth/oidc/callback"
             ];
           })
 
           (mkOidcProviderPrivate {
             name = "forgejo";
             redirectUris = [
-              "${networkingLib.mkUrl "git"}/user/oauth2/authelia/callback"
+              "${networkingLib.mkLocalUrl "git"}/user/oauth2/authelia/callback"
             ];
             extraArgs = {
               claims_policy = "ssh_public_key";
@@ -250,7 +250,7 @@ in
           (mkOidcProviderPrivate {
             name = "gitea-mirror";
             redirectUris = [
-              "${networkingLib.mkUrl "gitea-mirror"}/api/auth/sso/callback/Authelia"
+              "${networkingLib.mkLocalUrl "gitea-mirror"}/api/auth/sso/callback/Authelia"
             ];
             extraArgs = {
               claims_policy = "userinfo_in_id_token";
@@ -261,7 +261,7 @@ in
             name = "dashy";
             id = "dashy";
             redirectUris = [
-              (networkingLib.mkUrl "dashy")
+              (networkingLib.mkLocalUrl "dashy")
             ];
             extraArgs = {
               claims_policy = "roles";
@@ -274,7 +274,7 @@ in
           (mkOidcProviderPrivate {
             name = "trek";
             redirectUris = [
-              "${networkingLib.mkUrl "trek"}/api/auth/oidc/callback"
+              "${networkingLib.mkLocalUrl "trek"}/api/auth/oidc/callback"
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";
@@ -284,7 +284,7 @@ in
           (mkOidcProviderPrivate {
             name = "olivetin";
             redirectUris = [
-              "${networkingLib.mkUrl "olivetin"}/oauth/callback"
+              "${networkingLib.mkLocalUrl "olivetin"}/oauth/callback"
             ];
             extraArgs = {
               claims_policy = "groups_concatenated";
@@ -297,7 +297,7 @@ in
           (mkOidcProviderPrivate {
             name = "airtrail";
             redirectUris = [
-              "${networkingLib.mkUrl "airtrail"}/login"
+              "${networkingLib.mkLocalUrl "airtrail"}/login"
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";

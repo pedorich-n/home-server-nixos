@@ -63,114 +63,114 @@ in
         jobs = [
           {
             name = "Airtrail";
-            url = "${networkingLib.mkUrl "airtrail"}/api/ping";
+            url = "${networkingLib.mkLocalUrl "airtrail"}/api/ping";
           }
           {
             name = "Audiobookshelf";
-            url = "${networkingLib.mkUrl "audiobookshelf"}/healthcheck";
+            url = "${networkingLib.mkLocalUrl "audiobookshelf"}/healthcheck";
           }
           {
             name = "Authelia";
-            url = "${networkingLib.mkUrl "authelia"}/api/health";
+            url = "${networkingLib.mkLocalUrl "authelia"}/api/health";
           }
           {
             name = "Librechat";
-            url = "${networkingLib.mkUrl "chat"}/health";
+            url = "${networkingLib.mkLocalUrl "chat"}/health";
           }
           {
             name = "Forgejo";
-            url = "${networkingLib.mkUrl "git"}/api/healthz";
+            url = "${networkingLib.mkLocalUrl "git"}/api/healthz";
           }
           {
             name = "GiteaMirror";
-            url = "${networkingLib.mkUrl "gitea-mirror"}/api/health";
+            url = "${networkingLib.mkLocalUrl "gitea-mirror"}/api/health";
           }
           {
             name = "Grist";
-            url = "${networkingLib.mkUrl "grist"}/status";
+            url = "${networkingLib.mkLocalUrl "grist"}/status";
           }
           {
             name = "HomeAssistant";
-            url = "${networkingLib.mkUrl "homeassistant"}/api/"; # Trailing slash is important!
+            url = "${networkingLib.mkLocalUrl "homeassistant"}/api/"; # Trailing slash is important!
             headers = {
               Authorization = "Bearer ${config.sops.placeholder."homeassistant/api/key"}";
             };
           }
           {
             name = "Immich";
-            url = "${networkingLib.mkUrl "immich"}/api/server/ping";
+            url = "${networkingLib.mkLocalUrl "immich"}/api/server/ping";
           }
           {
             name = "Jellyfin";
-            url = "${networkingLib.mkUrl "jellyfin"}/health";
+            url = "${networkingLib.mkLocalUrl "jellyfin"}/health";
           }
           {
             name = "Koito";
-            url = "${networkingLib.mkUrl "koito"}/apis/web/v1/health";
+            url = "${networkingLib.mkLocalUrl "koito"}/apis/web/v1/health";
           }
           {
             name = "LLDAP";
-            url = "${networkingLib.mkUrl "lldap"}/health";
+            url = "${networkingLib.mkLocalUrl "lldap"}/health";
           }
           {
             name = "Mousehole";
-            url = "${networkingLib.mkUrl "mousehole"}/health";
+            url = "${networkingLib.mkLocalUrl "mousehole"}/health";
           }
           {
             name = "MultiScrobbler";
-            url = "${networkingLib.mkUrl "multiscrobbler"}/api/health";
+            url = "${networkingLib.mkLocalUrl "multiscrobbler"}/api/health";
           }
           {
             name = "N8N";
-            url = "${networkingLib.mkUrl "n8n"}/healthz";
+            url = "${networkingLib.mkLocalUrl "n8n"}/healthz";
           }
           {
             name = "OliveTin";
-            url = "${networkingLib.mkUrl "olivetin"}/readyz";
+            url = "${networkingLib.mkLocalUrl "olivetin"}/readyz";
           }
           {
             name = "Paperless";
-            url = "${networkingLib.mkUrl "paperless"}/api/statistics/"; # Trailing slash is important!
+            url = "${networkingLib.mkLocalUrl "paperless"}/api/statistics/"; # Trailing slash is important!
             headers = {
               Authorization = "Token ${config.sops.placeholder."paperless/api/key"}";
             };
           }
           {
             name = "Prowlarr";
-            url = "${networkingLib.mkUrl "prowlarr"}/api/v1/health";
+            url = "${networkingLib.mkLocalUrl "prowlarr"}/api/v1/health";
             headers = {
               "X-Api-Key" = config.sops.placeholder."prowlarr/api/key";
             };
           }
           {
             name = "qBittorrent";
-            url = "${networkingLib.mkUrl "qbittorrent"}/api/v2/app/buildInfo";
+            url = "${networkingLib.mkLocalUrl "qbittorrent"}/api/v2/app/buildInfo";
           }
           {
             name = "Radarr";
-            url = "${networkingLib.mkUrl "radarr"}/api/v3/health";
+            url = "${networkingLib.mkLocalUrl "radarr"}/api/v3/health";
             headers = {
               "X-Api-Key" = config.sops.placeholder."radarr/api/key";
             };
           }
           {
             name = "SABnzbd";
-            url = "${networkingLib.mkUrl "sabnzbd"}/api?mode=version";
+            url = "${networkingLib.mkLocalUrl "sabnzbd"}/api?mode=version";
           }
           {
             name = "Shelfmark";
-            url = "${networkingLib.mkUrl "shelfmark"}/api/health";
+            url = "${networkingLib.mkLocalUrl "shelfmark"}/api/health";
           }
           {
             name = "Sonarr";
-            url = "${networkingLib.mkUrl "sonarr"}/api/v3/health";
+            url = "${networkingLib.mkLocalUrl "sonarr"}/api/v3/health";
             headers = {
               "X-Api-Key" = config.sops.placeholder."sonarr/api/key";
             };
           }
           {
             name = "Trek";
-            url = "${networkingLib.mkUrl "trek"}/api/health";
+            url = "${networkingLib.mkLocalUrl "trek"}/api/health";
           }
           # Zigbee2MQTT doesn't have any meaningful healthcheck endpoints
         ];

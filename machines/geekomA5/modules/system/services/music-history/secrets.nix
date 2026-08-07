@@ -61,7 +61,7 @@ in
 
       # See structure at https://docs.multi-scrobbler.app/playground/
       file = pkgs.writers.writeJSON "multiscrobbler-config.json" {
-        base_url = networkingLib.mkUrl "multiscrobbler";
+        base_url = networkingLib.mkLocalUrl "multiscrobbler";
         logging = {
           level = "debug";
         };
@@ -78,7 +78,7 @@ in
             data = {
               clientId = config.sops.placeholder."music-history/multiscrobbler/spotify/client_id";
               clientSecret = config.sops.placeholder."music-history/multiscrobbler/spotify/client_secret";
-              redirectUri = "${networkingLib.mkUrl "multiscrobbler"}/callback";
+              redirectUri = "${networkingLib.mkLocalUrl "multiscrobbler"}/callback";
             };
             clients = [
               "maloja"
@@ -191,7 +191,7 @@ in
             data = {
               token = config.sops.placeholder."music-history/multiscrobbler/koito/api_key";
               username = config.sops.placeholder."music-history/multiscrobbler/koito/username";
-              url = networkingLib.mkUrl "koito";
+              url = networkingLib.mkLocalUrl "koito";
             };
           }
 
@@ -204,7 +204,7 @@ in
             data = {
               apiKey = config.sops.placeholder."music-history/multiscrobbler/lastfm/api_key";
               secret = config.sops.placeholder."music-history/multiscrobbler/lastfm/secret";
-              redirectUri = "${networkingLib.mkUrl "multiscrobbler"}/lastfm/callback";
+              redirectUri = "${networkingLib.mkLocalUrl "multiscrobbler"}/lastfm/callback";
             };
           }
         ];

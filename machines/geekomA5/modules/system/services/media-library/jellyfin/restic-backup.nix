@@ -36,7 +36,7 @@ in
             token=$(cat ${config.sops.secrets."jellyfin/api/restic_key".path})
 
             backup_path=$(curl -s -X 'POST' \
-              '${networkingLib.mkUrl "jellyfin"}/Backup/Create' \
+              '${networkingLib.mkLocalUrl "jellyfin"}/Backup/Create' \
               -H "Authorization: MediaBrowser Token=''${token}" \
               -H 'Content-Type: application/json' \
               -d '{"Metadata": true, "Trickplay": true, "Subtitles": true, "Database": true}' | jq -r '.Path')

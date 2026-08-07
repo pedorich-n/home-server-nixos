@@ -78,7 +78,7 @@ in
             PAPERLESS_EMAIL_PORT = "465";
             PAPERLESS_EMAIL_USE_SSL = "true";
 
-            PAPERLESS_URL = networkingLib.mkUrl "paperless";
+            PAPERLESS_URL = networkingLib.mkLocalUrl "paperless";
           };
           environmentFiles = [
             config.sops.secrets."paperless/main.env".path

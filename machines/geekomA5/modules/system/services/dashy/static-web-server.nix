@@ -36,7 +36,7 @@ in
     caddy.virtualHosts."${config.custom.networking.domain}" = {
       useACMEHost = "local";
       logFormat = null; # Disable access logs
-      extraConfig = "redir ${networkingLib.mkUrl "dashy"}{uri} permanent";
+      extraConfig = "redir ${networkingLib.mkLocalUrl "dashy"}{uri} permanent";
     };
 
   };

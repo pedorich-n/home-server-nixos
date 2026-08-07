@@ -11,7 +11,7 @@ in
 {
   custom = {
     services.caddy.hosts.forgejo = {
-      domain = networkingLib.mkDomain "git";
+      domain = networkingLib.mkLocalDomain "git";
       upstream = "unix/${socketPath}";
     };
   };
@@ -49,8 +49,8 @@ in
           LOGGER_XORM_MODE = ""; # Disable
         };
         server = {
-          ROOT_URL = networkingLib.mkUrl "git";
-          DOMAIN = networkingLib.mkDomain "git";
+          ROOT_URL = networkingLib.mkLocalUrl "git";
+          DOMAIN = networkingLib.mkLocalDomain "git";
           PROTOCOL = "http+unix";
           HTTP_ADDR = socketPath;
           UNIX_SOCKET_PERMISSION = "660";

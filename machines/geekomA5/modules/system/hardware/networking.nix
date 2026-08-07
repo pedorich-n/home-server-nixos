@@ -3,6 +3,9 @@
   lib,
   ...
 }:
+let
+  cfg = config.custom.networking;
+in
 {
   options = {
     custom.networking = {
@@ -11,7 +14,7 @@
         readOnly = true;
       };
 
-      tunneledDomain = lib.mkOption {
+      localDomain = lib.mkOption {
         type = lib.types.str;
         readOnly = true;
       };
@@ -20,8 +23,8 @@
 
   config = {
     custom.networking = {
-      domain = config.custom.secrets.plaintext.variables.domainInternal;
-      tunneledDomain = config.custom.secrets.plaintext.variables.domainExternal;
+      domain = config.custom.secrets.plaintext.variables.domain;
+      localDomain = "local.${cfg.domain}";
     };
 
     networking = {

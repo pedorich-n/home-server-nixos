@@ -9,7 +9,7 @@
 }:
 let
   variables = {
-    url = networkingLib.mkUrl "homeassistant";
+    url = networkingLib.mkLocalUrl "homeassistant";
     oidc_discovery_url = autheliaLib.discoveryUrl;
     inherit trustedProxies;
   };

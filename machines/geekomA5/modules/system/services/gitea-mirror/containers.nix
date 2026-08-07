@@ -31,7 +31,7 @@ in
 
     containerConfig = {
       environments = {
-        BETTER_AUTH_URL = networkingLib.mkUrl "gitea-mirror";
+        BETTER_AUTH_URL = networkingLib.mkLocalUrl "gitea-mirror";
 
         PRIVATE_REPOSITORIES = "true";
         PUBLIC_REPOSITORIES = "true";
@@ -43,7 +43,7 @@ in
         MIRROR_METADATA = "false";
         MIRROR_ORGANIZATIONS = "false";
 
-        GITEA_URL = networkingLib.mkUrl "git";
+        GITEA_URL = networkingLib.mkLocalUrl "git";
       };
       environmentFiles = [ config.sops.secrets."gitea-mirror/main.env".path ];
       volumes = [

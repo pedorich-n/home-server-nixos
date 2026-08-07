@@ -59,7 +59,7 @@ in
             config.sops.secrets."airtrail/main.env".path
           ];
           environments = {
-            ORIGIN = networkingLib.mkUrl "airtrail";
+            ORIGIN = networkingLib.mkLocalUrl "airtrail";
             UPLOAD_LOCATION = "/app/uploads";
 
             OAUTH_ENABLED = "true";

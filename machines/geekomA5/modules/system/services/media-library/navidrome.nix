@@ -18,7 +18,7 @@ in
     };
   };
 
-  services.caddy.virtualHosts."${networkingLib.mkDomain "navidrome"}" = {
+  services.caddy.virtualHosts."${networkingLib.mkLocalDomain "navidrome"}" = {
     logFormat = null;
     useACMEHost = "local";
     extraConfig = ''
@@ -68,7 +68,7 @@ in
       Address = "127.0.0.1";
       Port = portsCfg.port;
       UnixSocketPerm = "0666";
-      BaseUrl = networkingLib.mkUrl "navidrome";
+      BaseUrl = networkingLib.mkLocalUrl "navidrome";
 
       DataFolder = "/mnt/store/media-library/navidrome";
 
@@ -83,7 +83,7 @@ in
       };
 
       ListenBrainz = {
-        BaseURL = "${networkingLib.mkUrl "multiscrobbler"}/1/";
+        BaseURL = "${networkingLib.mkLocalUrl "multiscrobbler"}/1/";
       };
     };
   };

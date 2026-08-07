@@ -45,7 +45,7 @@ in
         host = "127.0.0.1";
         port = portsCfg.port;
         inet_exposure = "none";
-        host_whitelist = networkingLib.mkDomain "sabnzbd";
+        host_whitelist = networkingLib.mkLocalDomain "sabnzbd";
         direct_unpack = true;
         enable_all_par = true; # Download all par2 files
 

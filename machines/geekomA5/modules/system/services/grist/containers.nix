@@ -32,8 +32,8 @@ in
 
     containerConfig = {
       environments = rec {
-        GRIST_DOMAIN = networkingLib.mkDomain "grist";
-        APP_HOME_URL = networkingLib.mkUrl "grist";
+        GRIST_DOMAIN = networkingLib.mkLocalDomain "grist";
+        APP_HOME_URL = networkingLib.mkLocalUrl "grist";
 
         GRIST_HIDE_UI_ELEMENTS = "billing";
         GRIST_SUPPORT_ANON = "false";
@@ -42,7 +42,7 @@ in
         GRIST_OIDC_IDP_ISSUER = autheliaLib.issuerUrl;
         GRIST_OIDC_IDP_SKIP_END_SESSION_ENDPOINT = "true";
 
-        GRIST_DOCS_MINIO_ENDPOINT = networkingLib.mkDomain "storage";
+        GRIST_DOCS_MINIO_ENDPOINT = networkingLib.mkLocalDomain "storage";
         GRIST_DOCS_MINIO_USE_SSL = "1";
         GRIST_DOCS_MINIO_BUCKET = "grist";
         GRIST_DOCS_MINIO_BUCKET_REGION = "auto";

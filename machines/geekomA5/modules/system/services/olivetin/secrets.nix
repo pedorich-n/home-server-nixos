@@ -11,7 +11,7 @@
       owner = config.services.olivetin.user;
       group = config.services.olivetin.group;
       file = pkgs.writers.writeYAML "olivetin-oidc.yaml" {
-        authOAuth2RedirectURL = "${networkingLib.mkUrl "olivetin"}/oauth/callback";
+        authOAuth2RedirectURL = "${networkingLib.mkLocalUrl "olivetin"}/oauth/callback";
         # Despite this being called authHeader it actually also applies to OIDC.
         # This indicates that multiple Olivetin should try to split the groups by comma.
         authHttpHeaderUserGroupSep = ",";

@@ -9,7 +9,7 @@ let
   portsCfg = config.custom.networking.ports.tcp.couchdb;
 
   bootstrap = pkgs.callPackage ./_bootstrap.nix {
-    baseUrl = networkingLib.mkUrl "couchdb";
+    baseUrl = networkingLib.mkLocalUrl "couchdb";
     dbNameFile = config.sops.secrets."couchdb/db/obsidian_livesync/name".path;
     adminUsernameFile = config.sops.secrets."couchdb/users/admin/username".path;
     adminPasswordFile = config.sops.secrets."couchdb/users/admin/password".path;
@@ -71,7 +71,7 @@ in
 
       cors = {
         credentials = true;
-        origins = "app://obsidian.md,capacitor://localhost,http://localhost,${networkingLib.mkUrl "couchdb"}";
+        origins = "app://obsidian.md,capacitor://localhost,http://localhost,${networkingLib.mkLocalUrl "couchdb"}";
         methods = "GET, PUT, POST, HEAD, DELETE";
         headers = "accept, authorization, content-type, origin, referer";
       };

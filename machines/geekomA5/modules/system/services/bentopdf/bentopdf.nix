@@ -5,7 +5,7 @@
 {
   services.bentopdf = {
     enable = true;
-    domain = networkingLib.mkDomain "bentopdf";
+    domain = networkingLib.mkLocalDomain "bentopdf";
 
     caddy = {
       enable = true;

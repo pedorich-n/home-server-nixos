@@ -46,7 +46,7 @@ in
     };
   };
 
-  services.caddy.virtualHosts."${networkingLib.mkDomain "maloja"}" = {
+  services.caddy.virtualHosts."${networkingLib.mkLocalDomain "maloja"}" = {
     logFormat = null;
     useACMEHost = "local";
     extraConfig = ''
@@ -129,7 +129,7 @@ in
           environments = {
             KOITO_LOG_LEVEL = "warn";
             KOITO_CONFIG_DIR = "/etc/config";
-            KOITO_CORS_ALLOWED_ORIGINS = networkingLib.mkUrl "koito";
+            KOITO_CORS_ALLOWED_ORIGINS = networkingLib.mkLocalUrl "koito";
           };
           environmentFiles = [ config.sops.secrets."music-history/koito.env".path ];
           publishPorts = [ "127.0.0.1:${portsCfg.koito.portStr}:4110" ];

@@ -60,8 +60,8 @@ in
         TZ = "${config.time.timeZone}";
         LOG_LEVEL = "info";
 
-        ALLOWED_ORIGINS = networkingLib.mkUrl "trek";
-        APP_URL = networkingLib.mkUrl "trek";
+        ALLOWED_ORIGINS = networkingLib.mkLocalUrl "trek";
+        APP_URL = networkingLib.mkLocalUrl "trek";
         ALLOW_INTERNAL_NETWORK = "true";
 
         OIDC_ISSUER = autheliaLib.issuerUrl;
