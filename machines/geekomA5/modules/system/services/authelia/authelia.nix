@@ -178,7 +178,7 @@ in
           remember_me = "1M";
           cookies = [
             {
-              domain = config.custom.networking.localDomain;
+              domain = config.custom.networking.domain;
               authelia_url = networkingLib.mkLocalUrl "authelia";
               inactivity = "1M";
               expiration = "24h";
