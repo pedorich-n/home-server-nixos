@@ -220,7 +220,7 @@ let
       {
         name = "Server Management";
         icon = "mdi-server";
-        displayData.showForGroup = [ autheliaLib.groups.Admins ];
+        displayData.showForGroups = [ autheliaLib.groups.Admins ];
         items = [
           (mkEntry {
             slug = "netdata";
