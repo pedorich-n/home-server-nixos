@@ -29,3 +29,13 @@ resource "cloudflare_dns_record" "couchdb" {
   proxied = true
   comment = "CouchDB"
 }
+
+resource "cloudflare_dns_record" "safebucket" {
+  zone_id = cloudflare_zone.main.id
+  name    = local.safebucket_local_domain
+  content = "${cloudflare_zero_trust_tunnel_cloudflared.safebucket.id}.cfargotunnel.com"
+  type    = "CNAME"
+  ttl     = 1
+  proxied = true
+  comment = "Safebucket"
+}

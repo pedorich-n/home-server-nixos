@@ -1,5 +1,5 @@
 resource "random_id" "tunnel_secret" {
-  for_each    = toset(["n8n", "couchdb"])
+  for_each    = toset(["n8n", "couchdb", "safebucket"])
   byte_length = 35
 }
 
@@ -65,4 +65,31 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "couchdb" {
     ]
   }
 
+}
+
+resource "cloudflare_zero_trust_tunnel_cloudflared" "safebucket" {
+  account_id    = local.cf_account_id
+  name          = "Safebucket"
+  config_src    = "cloudflare"
+  tunnel_secret = random_id.tunnel_secret["safebucket"].b64_std
+}
+
+resource "cloudflare_zero_trust_tunnel_cloudflared_config" "safebucket" {
+  account_id = local.cf_account_id
+  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.safebucket.id
+
+  config = {
+    ingress = [
+      {
+        hostname = local.safebucket_local_domain
+        service  = "http://127.0.0.1:${local.safebucket_local_port}"
+        origin_request = {
+          http_host_header = "safebucket.${var.domain}"
+        }
+      },
+      {
+        service = "http_status:403"
+      }
+    ]
+  }
 }

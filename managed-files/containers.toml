@@ -152,6 +152,13 @@ registry = 'ghcr.io'
 version = '3.0.4'
 versioning = 'semver'
 
+[safebucket]
+digest = 'sha256:872fac4496c55ec0b314c0a4bcad2eadb94836fec48d737ab7cb36651848580b'
+image = 'safebucket/safebucket'
+registry = 'ghcr.io'
+version = '0.7.2'
+versioning = 'semver'
+
 [shelfmark]
 digest = 'sha256:ae23600f7dd8e020dd735ed9f3576c091de5ef134295943efd3c561319a4dc88'
 image = 'calibrain/shelfmark-lite'

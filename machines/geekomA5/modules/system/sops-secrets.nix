@@ -113,6 +113,9 @@ let
 
         "authelia/oidc/airtrail/client_id"
         "authelia/oidc/airtrail/client_secret_hashed"
+
+        "authelia/oidc/safebucket/client_id"
+        "authelia/oidc/safebucket/client_secret_hashed"
       ];
 
       mkSecret = secret: {
@@ -224,6 +227,11 @@ let
 
     "cloudflared/couchdb_tunnel_credentials" = {
       sopsFile = sopsFilePathFor "cloudflared/couchdb_credentials_json.txt";
+      format = "binary";
+    };
+
+    "cloudflared/safebucket_tunnel_credentials" = {
+      sopsFile = sopsFilePathFor "cloudflared/safebucket_credentials_json.txt";
       format = "binary";
     };
   };

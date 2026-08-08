@@ -19,14 +19,14 @@ let
   mkEntry =
     {
       slug,
+      url ? networkingLib.mkLocalUrl slug,
       title ? capitalize slug,
       iconName ? slug,
       icon ? "sh-${iconName}", # Fetches icons from https://selfh.st/icons/
       args ? { },
     }:
     {
-      inherit title icon;
-      url = networkingLib.mkLocalUrl slug;
+      inherit title icon url;
       target = "newtab";
     }
     // args;
@@ -111,6 +111,13 @@ let
           })
           (mkEntry {
             slug = "copyparty";
+          })
+          (mkEntry {
+            slug = "safebucket";
+            url = networkingLib.mkUrl "safebucket";
+            args = {
+              description = "Cloudflare Tunnel"; # This showed under the title
+            };
           })
           (mkEntry {
             slug = "git";

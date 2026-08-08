@@ -71,7 +71,6 @@ resource "cloudflare_zero_trust_access_policy" "deny_all" {
   }]
 }
 
-# Not used for anything in Terraform, but useful for tests, manually adding to applications.
 resource "cloudflare_zero_trust_access_policy" "bypass_all" {
   account_id       = local.cf_account_id
   name             = "Bypass All"
@@ -134,5 +133,19 @@ resource "cloudflare_zero_trust_access_application" "couchdb" {
       id         = cloudflare_zero_trust_access_policy.deny_all.id
       precedence = 4
     }
+  ]
+}
+
+resource "cloudflare_zero_trust_access_application" "safebucket" {
+  zone_id          = cloudflare_zone.main.id
+  name             = "Safebucket"
+  type             = "self_hosted"
+  domain           = local.safebucket_local_domain
+  session_duration = "0s" # Expire immediately
+  policies = [
+    {
+      id         = cloudflare_zero_trust_access_policy.bypass_all.id
+      precedence = 1
+    },
   ]
 }
