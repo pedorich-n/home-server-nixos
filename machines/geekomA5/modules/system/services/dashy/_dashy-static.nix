@@ -21,13 +21,12 @@ let
       slug,
       title ? capitalize slug,
       iconName ? slug,
-      iconLink ? "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/${iconName}.png",
+      icon ? "sh-${iconName}", # Fetches icons from https://selfh.st/icons/
       args ? { },
     }:
     {
-      inherit title;
+      inherit title icon;
       url = networkingLib.mkLocalUrl slug;
-      icon = iconLink;
       target = "newtab";
     }
     // args;
@@ -35,7 +34,7 @@ let
   # LINK - https://dashy.to/docs/configuring/
   dashySettings = {
     pageInfo = {
-      title = "Dashy";
+      title = "HomeLab";
     };
 
     appConfig = {
@@ -57,9 +56,10 @@ let
 
       auth = {
         enableOidc = true;
+        enableGuestAccess = true;
         oidc = {
           clientId = "dashy";
-          endpoint = networkingLib.mkLocalUrl "authelia";
+          endpoint = autheliaLib.issuerUrl;
           scope = "openid profile email groups";
           adminGroup = autheliaLib.groups.Admins;
         };
@@ -120,8 +120,9 @@ let
           (mkEntry {
             slug = "gitea-mirror";
             title = "Gitea Mirror";
+            icon = "hl-gitea-mirror"; # Icon from https://dashboardicons.com/icons/gitea-mirror, as selfh.st one is wrong
             args = {
-              displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
+              displayData.showForGroups = [ autheliaLib.groups.Admins ];
             };
           })
           (mkEntry {
@@ -147,14 +148,14 @@ let
             slug = "n8n";
             title = "n8n";
             args = {
-              displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
+              displayData.showForGroups = [ autheliaLib.groups.Admins ];
             };
           })
           (mkEntry {
             slug = "motioneye";
             title = "MotionEye";
             args = {
-              displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
+              displayData.showForGroups = [ autheliaLib.groups.Admins ];
             };
           })
         ];
@@ -179,7 +180,7 @@ let
       {
         name = "Media Management";
         icon = "mdi-movie-open-settings";
-        displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
+        displayData.showForGroups = [ autheliaLib.groups.Admins ];
         items = [
           (mkEntry {
             slug = "sonarr";
@@ -212,14 +213,14 @@ let
           (mkEntry {
             slug = "mousehole";
             title = "Mousehole";
-            iconLink = "https://raw.githubusercontent.com/t-mart/mousehole/59f2dc091595e6d281215845a4cd18ee92752035/docs/images/logo/logo.png";
+            icon = "https://raw.githubusercontent.com/t-mart/mousehole/59f2dc091595e6d281215845a4cd18ee92752035/docs/images/logo/logo.png";
           })
         ];
       }
       {
         name = "Server Management";
         icon = "mdi-server";
-        displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
+        displayData.showForGroups = [ autheliaLib.groups.Admins ];
         items = [
           (mkEntry {
             slug = "netdata";
