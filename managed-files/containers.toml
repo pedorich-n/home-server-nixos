@@ -20,10 +20,10 @@ version = '2.36.0'
 versioning = 'semver'
 
 [gitea-mirror]
-digest = 'sha256:9dab1fa6686fd4a8514b6f2f1b2ebcb0906db77f1cad9464bbf2b505229e6bda'
+digest = 'sha256:d2d222ca551c74887d0b8fb6590c35840b0b3b1ce5d8e652655094b8c6d4cbf4'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.22.0'
+version = 'v3.26.2'
 versioning = 'semver'
 
 [gluetun]
@@ -41,10 +41,10 @@ version = '1.7.17'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:5a531753cea96444200158fc2b0ac7ccd739291ec50414877b396de6e0bb29b3'
+digest = 'sha256:6340a3de3917a9b19368e767310a96dd090f6a19aca8aeadf87fd1145cec9682'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.7.4'
+version = '2026.8.1'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
@@ -97,7 +97,7 @@ version = 'v0.8.7'
 versioning = 'semver'
 
 [librechat-mongodb]
-digest = 'sha256:a7f5aa200005611166adcec0192c2f11d0acc3bfd9d5eb68e1a998a990412e41'
+digest = 'sha256:2f02e2184c6d91c3208e5ab75a0707d1386a05377b20fdaf49a314815774d863'
 image = 'library/mongo'
 registry = 'docker.io'
 version = '8.3.7'
@@ -132,24 +132,24 @@ version = '0.5.0'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:23a9620b1ae83e1dbba7168f0cf1ce65dc4ed125a029b5a004ec9fa0e83b5b93'
+digest = 'sha256:1f00a051e8daa123e289f04e18f125ee6f0c4c9c4fb86a0db5b84c3c5e4deaa8'
 image = 'foxxmd/multi-scrobbler'
 registry = 'ghcr.io'
-version = '0.15.0'
+version = '0.16.0'
 versioning = 'semver'
 
 [paperless-redis]
-digest = 'sha256:5cca2f8a01ef2264c52dac86f14ec6a5abe973a93331e1b62522cfc5e63e4691'
+digest = 'sha256:978f0e01593e65eed801f2402944efcd936d43b5027e4908a7897baf88ed6241'
 image = 'library/redis'
 registry = 'docker.io'
 version = '8.10.0-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:3838b9a4260d23acc5bb63aed407138435e70b56e5806f4baa350ca184e57582'
+digest = 'sha256:65a4cabf0169ea7fbd90ab7bb28ba3f8b5909613635acda1a03ad606f34b456b'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '3.0.4'
+version = '3.0.5'
 versioning = 'semver'
 
 [safebucket]
@@ -175,10 +175,10 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [searxng]
-digest = 'sha256:ec536bcd1e83577aad4cc07f7ecb9a30858a9a905d2d57c8796abc83f872a036'
+digest = 'sha256:af6bde1e3590f91be5b7c4e393b3bff82ada4b93d60fc10806fe1ed4ba147d4d'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.8.1-8892414dc'
+version = '2026.8.5-1689cb1b5'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
