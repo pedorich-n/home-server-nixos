@@ -9,6 +9,7 @@ resource "cloudflare_r2_bucket_cors" "safebucket_data_cors" {
   bucket_name = cloudflare_r2_bucket.safebucket_data.name
 
   rules = [{
+    id = "${cloudflare_r2_bucket.safebucket_data.name}-default"
     allowed = {
       methods = [
         "HEAD",
@@ -18,7 +19,6 @@ resource "cloudflare_r2_bucket_cors" "safebucket_data_cors" {
       ]
       origins = [
         "https://safebucket.${var.domain}",
-        "https://safebucket.${var.local_domain}"
       ],
       headers = [
         "*"
@@ -27,7 +27,6 @@ resource "cloudflare_r2_bucket_cors" "safebucket_data_cors" {
         "ETag"
       ]
     }
-    id              = "${cloudflare_r2_bucket.safebucket_data.name}-default"
     max_age_seconds = 3600
   }]
 }

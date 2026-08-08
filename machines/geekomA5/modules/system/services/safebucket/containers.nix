@@ -8,6 +8,8 @@
 let
   storeRoot = "/mnt/store/safebucket";
   portsCfg = config.custom.networking.ports.tcp;
+
+  servicePort = "8080";
 in
 {
   custom = {
@@ -15,10 +17,6 @@ in
       port = 32900;
       openFirewall = false;
     };
-
-    # services.caddy.hosts.safebucket = {
-    #   upstream = "http://127.0.0.1:${portsCfg.safebucket.portStr}";
-    # };
   };
 
   virtualisation.quadlet.containers.safebucket = {
@@ -35,7 +33,7 @@ in
         APP__WEB_URL = networkingLib.mkUrl "safebucket";
         APP__ALLOWED_ORIGINS = networkingLib.mkUrl "safebucket";
         APP__TRUSTED_PROXIES = "127.0.0.1/32";
-        APP__PORT = "8080";
+        APP__PORT = servicePort;
         APP__TRASH_RETENTION_DAYS = "7";
         APP__STATIC_FILES__ENABLED = "true";
 
@@ -81,7 +79,7 @@ in
         (containerLib.mkMappedVolumeForUser "${storeRoot}/notifications" "/app/data/notifications")
         (containerLib.mkMappedVolumeForUser "${storeRoot}/activity" "/app/data/activity")
       ];
-      publishPorts = [ "127.0.0.1:${portsCfg.safebucket.portStr}:8080" ];
+      publishPorts = [ "127.0.0.1:${portsCfg.safebucket.portStr}:${servicePort}" ];
       inherit (containerLib.containerIds) user;
     };
   };
