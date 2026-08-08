@@ -21,13 +21,12 @@ let
       slug,
       title ? capitalize slug,
       iconName ? slug,
-      iconLink ? "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/${iconName}.png",
+      icon ? "sh-${iconName}", # Fetches icons from https://selfh.st/icons/
       args ? { },
     }:
     {
-      inherit title;
+      inherit title icon;
       url = networkingLib.mkLocalUrl slug;
-      icon = iconLink;
       target = "newtab";
     }
     // args;
@@ -213,7 +212,7 @@ let
           (mkEntry {
             slug = "mousehole";
             title = "Mousehole";
-            iconLink = "https://raw.githubusercontent.com/t-mart/mousehole/59f2dc091595e6d281215845a4cd18ee92752035/docs/images/logo/logo.png";
+            icon = "https://raw.githubusercontent.com/t-mart/mousehole/59f2dc091595e6d281215845a4cd18ee92752035/docs/images/logo/logo.png";
           })
         ];
       }
