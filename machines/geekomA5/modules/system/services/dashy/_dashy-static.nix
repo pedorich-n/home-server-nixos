@@ -115,6 +115,9 @@ let
           (mkEntry {
             slug = "safebucket";
             url = networkingLib.mkUrl "safebucket";
+            args = {
+              description = "Cloudflare Tunnel"; # This showed under the title
+            };
           })
           (mkEntry {
             slug = "git";
