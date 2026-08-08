@@ -5,7 +5,7 @@
         {% if is_state('input_select.plants_location', 'Inside') %}
           {{ states('sensor.ldk_temperature_humidity_1_humidity') }}
         {% elif is_state('input_select.plants_location', 'Outside') %}
-          {{ states('sensor.another_sensor_humidity') }}
+          {{ state_attr('weather.forecast_home', 'humidity') }}
         {% endif %}
       availability: >
         {% if is_state('input_select.plants_location', 'Inside') %}
