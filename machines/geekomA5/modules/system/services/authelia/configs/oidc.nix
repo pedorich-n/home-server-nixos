@@ -127,6 +127,23 @@ in
             ];
           };
 
+          dashy = {
+            # See https://www.authelia.com/integration/openid-connect/clients/dashy/#configuration-escape-hatch
+            id_token = [
+              "groups"
+              "email"
+              "email_verified"
+              "alt_emails"
+              "preferred_username"
+              "name"
+            ];
+
+            custom_claims = {
+              roles = {
+                attribute = "admin_or_user_list";
+              };
+            };
+          };
         };
 
         scopes = {
@@ -264,7 +281,7 @@ in
               (networkingLib.mkLocalUrl "dashy")
             ];
             extraArgs = {
-              claims_policy = "roles";
+              claims_policy = "dashy";
               scopes = defaultScopes ++ [
                 "roles"
               ];

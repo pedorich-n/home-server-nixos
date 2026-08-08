@@ -57,9 +57,10 @@ let
 
       auth = {
         enableOidc = true;
+        enableGuestAccess = true;
         oidc = {
           clientId = "dashy";
-          endpoint = networkingLib.mkLocalUrl "authelia";
+          endpoint = autheliaLib.issuerUrl;
           scope = "openid profile email groups";
           adminGroup = autheliaLib.groups.Admins;
         };
