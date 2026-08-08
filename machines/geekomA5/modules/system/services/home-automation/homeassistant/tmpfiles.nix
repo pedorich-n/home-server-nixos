@@ -2,14 +2,12 @@
   autheliaLib,
   networkingLib,
   tmpfilesLib,
-  config,
   pkgs,
   ...
 }:
 let
   renderedTemplates = pkgs.callPackage ./_render-templates.nix {
     inherit autheliaLib networkingLib;
-    trustedProxies = config.virtualisation.quadlet.networks."home-automation-internal".networkConfig.subnets;
   };
 
   mergedHaSource = pkgs.runCommand "merged-ha-source" { } ''
