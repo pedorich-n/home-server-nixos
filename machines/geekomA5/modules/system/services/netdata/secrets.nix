@@ -158,6 +158,10 @@ in
             url = "${networkingLib.mkLocalUrl "sabnzbd"}/api?mode=version";
           }
           {
+            name = "Safebucket";
+            url = "${networkingLib.mkUrl "safebucket"}/config.json";
+          }
+          {
             name = "Shelfmark";
             url = "${networkingLib.mkLocalUrl "shelfmark"}/api/health";
           }
