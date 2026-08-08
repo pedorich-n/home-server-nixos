@@ -122,7 +122,7 @@ let
             slug = "gitea-mirror";
             title = "Gitea Mirror";
             args = {
-              displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
+              displayData.showForGroups = [ autheliaLib.groups.Admins ];
             };
           })
           (mkEntry {
@@ -148,14 +148,14 @@ let
             slug = "n8n";
             title = "n8n";
             args = {
-              displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
+              displayData.showForGroups = [ autheliaLib.groups.Admins ];
             };
           })
           (mkEntry {
             slug = "motioneye";
             title = "MotionEye";
             args = {
-              displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
+              displayData.showForGroups = [ autheliaLib.groups.Admins ];
             };
           })
         ];
@@ -180,7 +180,7 @@ let
       {
         name = "Media Management";
         icon = "mdi-movie-open-settings";
-        displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
+        displayData.showForGroups = [ autheliaLib.groups.Admins ];
         items = [
           (mkEntry {
             slug = "sonarr";
@@ -220,7 +220,7 @@ let
       {
         name = "Server Management";
         icon = "mdi-server";
-        displayData.showForKeycloakUsers.groups = [ autheliaLib.groups.Admins ];
+        displayData.showForGroup = [ autheliaLib.groups.Admins ];
         items = [
           (mkEntry {
             slug = "netdata";
