@@ -9,6 +9,7 @@ let
 
   foldersToCreate = lib.map (folder: "${storeRoot}/${folder}") [
     "data"
+    "backup"
   ];
 
   foldersToSetPermissions = [
