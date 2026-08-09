@@ -330,6 +330,16 @@ in
               token_endpoint_auth_method = "client_secret_post";
             };
           })
+
+          (mkOidcProviderPrivate {
+            name = "papra";
+            redirectUris = [
+              "${networkingLib.mkLocalUrl "papra"}/api/auth/oauth2/callback/authelia"
+            ];
+            extraArgs = {
+              token_endpoint_auth_method = "client_secret_post";
+            };
+          })
         ];
       };
     };
