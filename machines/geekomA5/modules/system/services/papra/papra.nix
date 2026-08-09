@@ -33,21 +33,18 @@ in
       LockPersonality = true;
       PrivateDevices = true;
       PrivateTmp = true;
-      PrivateUsers = true;
       ProtectHome = true;
       ProtectSystem = "full";
       ProtectKernelTunables = true;
       ProtectKernelModules = true;
-      ProtectControlGroups = true;
-      RestrictSUIDSGID = true;
-      RemoveIPC = true;
       ProtectKernelLogs = true;
+      ProtectControlGroups = true;
       ProtectClock = true;
+      RestrictSUIDSGID = true;
+      RestrictRealtime = true;
       ProtectHostname = true;
       ProtectProc = "invisible";
 
-      RestrictNamespaces = true;
-      RestrictRealtime = true;
       RestrictAddressFamilies = [
         "AF_UNIX"
         "AF_INET"
