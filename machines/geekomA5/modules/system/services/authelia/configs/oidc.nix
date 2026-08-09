@@ -242,6 +242,9 @@ in
             redirectUris = [
               "${networkingLib.mkLocalUrl "paperless"}/accounts/oidc/authelia/login/callback/"
             ];
+            extraArgs = {
+              token_endpoint_auth_method = "client_secret_post";
+            };
           })
 
           (mkOidcProviderPrivate {
