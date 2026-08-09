@@ -70,6 +70,8 @@ in
       PORT = portsCfg.port;
       APP_BASE_URL = networkingLib.mkLocalUrl "papra";
 
+      DATABASE_URL = "file:/mnt/store/papra/data/db.sqlite";
+
       DOCUMENT_STORAGE_DRIVER = "filesystem";
       DOCUMENT_STORAGE_FILESYSTEM_ROOT = "/mnt/external/papra-library";
 
