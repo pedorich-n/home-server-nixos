@@ -28,28 +28,31 @@ in
       ];
 
       # Hardening
-      # NoNewPrivileges = true;
-      # MemoryDenyWriteExecute = true;
-      # LockPersonality = true;
-      # PrivateDevices = true;
-      # PrivateTmp = true;
-      # PrivateUsers = true;
-      # PrivateMounts = true;
-      # DynamicUser = true;
-      # ProtectHome = true;
-      # # ProtectSystem = "strict";
-      # ProtectKernelModules = true;
-      # ProtectKernelTunables = true;
-      # ProtectKernelLogs = true;
-      # ProtectControlGroups = true;
-      # ProtectClock = true;
-      # RestrictSUIDSGID = true;
-      # RestrictNamespaces = true;
-      # RestrictRealtime = true;
-      # RestrictAddressFamilies = [
-      #   "AF_INET"
-      #   "AF_INET6"
-      # ];
+      CapabilityBoundingSet = "";
+      NoNewPrivileges = true;
+      LockPersonality = true;
+      PrivateDevices = true;
+      PrivateTmp = true;
+      PrivateUsers = true;
+      ProtectHome = true;
+      ProtectSystem = "full";
+      ProtectKernelTunables = true;
+      ProtectKernelModules = true;
+      ProtectControlGroups = true;
+      RestrictSUIDSGID = true;
+      RemoveIPC = true;
+      ProtectKernelLogs = true;
+      ProtectClock = true;
+      ProtectHostname = true;
+      ProtectProc = "invisible";
+
+      RestrictNamespaces = true;
+      RestrictRealtime = true;
+      RestrictAddressFamilies = [
+        "AF_UNIX"
+        "AF_INET"
+        "AF_INET6"
+      ];
     };
 
     unitConfig = lib.mkMerge [
