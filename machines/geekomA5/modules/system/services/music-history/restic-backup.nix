@@ -8,6 +8,7 @@
   #NOTE - See also global config at
   #LINK - machines/geekomA5/modules/system/services/restic/restic.nix
   services.restic.backups = {
+    # I don't use Maloja anymore, but I'll keep Restic config for a little longer, in case I ever need to restore from it
     maloja =
       let
         backupFolder = "/mnt/store/music-history/maloja/data/backups";
