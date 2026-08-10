@@ -116,6 +116,10 @@ let
 
         "authelia/oidc/safebucket/client_id"
         "authelia/oidc/safebucket/client_secret_hashed"
+
+        "authelia/oidc/papra/client_id"
+        "authelia/oidc/papra/client_secret_hashed"
+        "authelia/oidc/papra/client_secret_raw"
       ];
 
       mkSecret = secret: {

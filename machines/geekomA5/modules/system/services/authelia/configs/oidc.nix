@@ -242,6 +242,9 @@ in
             redirectUris = [
               "${networkingLib.mkLocalUrl "paperless"}/accounts/oidc/authelia/login/callback/"
             ];
+            extraArgs = {
+              token_endpoint_auth_method = "client_secret_post";
+            };
           })
 
           (mkOidcProviderPrivate {
@@ -325,6 +328,16 @@ in
             name = "safebucket";
             redirectUris = [
               "${networkingLib.mkUrl "safebucket"}/api/v1/auth/providers/authelia/callback"
+            ];
+            extraArgs = {
+              token_endpoint_auth_method = "client_secret_post";
+            };
+          })
+
+          (mkOidcProviderPrivate {
+            name = "papra";
+            redirectUris = [
+              "${networkingLib.mkLocalUrl "papra"}/api/auth/oauth2/callback/authelia"
             ];
             extraArgs = {
               token_endpoint_auth_method = "client_secret_post";

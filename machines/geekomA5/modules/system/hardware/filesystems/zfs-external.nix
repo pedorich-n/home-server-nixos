@@ -67,6 +67,15 @@
             };
           };
 
+          papra = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/mnt/external/papra-library";
+              quota = "10G";
+              "com.sun:auto-snapshot" = "true";
+            };
+          };
+
           data = {
             type = "zfs_fs";
             options = {

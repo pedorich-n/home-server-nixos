@@ -50,6 +50,7 @@ let
     "maloja"
     "navidrome"
     "paperless"
+    "papra"
     "safebucket"
     "shelfmark"
   ];
