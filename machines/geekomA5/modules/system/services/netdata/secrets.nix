@@ -136,6 +136,10 @@ in
             };
           }
           {
+            name = "Papra";
+            url = "${networkingLib.mkLocalUrl "papra"}/api/health";
+          }
+          {
             name = "Prowlarr";
             url = "${networkingLib.mkLocalUrl "prowlarr"}/api/v1/health";
             headers = {
