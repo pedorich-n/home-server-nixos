@@ -33,6 +33,7 @@ in
 
     containers = {
       paperless-redis = {
+        autoStart = false;
         useGlobalContainers = true;
         usernsAuto.enable = true;
 
@@ -46,6 +47,7 @@ in
       };
 
       paperless-server = {
+        autoStart = false;
         wantsCaddy = true;
         wantsAuthelia = true;
         useGlobalContainers = true;

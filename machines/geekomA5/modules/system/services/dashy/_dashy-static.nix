@@ -174,6 +174,9 @@ let
           (mkEntry {
             slug = "paperless";
             iconName = "paperless-ngx";
+            args = {
+              description = "Disabled";
+            };
           })
           (mkEntry {
             slug = "papra";
