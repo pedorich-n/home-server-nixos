@@ -128,13 +128,13 @@ in
             name = "OliveTin";
             url = "${networkingLib.mkLocalUrl "olivetin"}/readyz";
           }
-          {
-            name = "Paperless";
-            url = "${networkingLib.mkLocalUrl "paperless"}/api/statistics/"; # Trailing slash is important!
-            headers = {
-              Authorization = "Token ${config.sops.placeholder."paperless/api/key"}";
-            };
-          }
+          # {
+          #   name = "Paperless";
+          #   url = "${networkingLib.mkLocalUrl "paperless"}/api/statistics/"; # Trailing slash is important!
+          #   headers = {
+          #     Authorization = "Token ${config.sops.placeholder."paperless/api/key"}";
+          #   };
+          # }
           {
             name = "Papra";
             url = "${networkingLib.mkLocalUrl "papra"}/api/health";
