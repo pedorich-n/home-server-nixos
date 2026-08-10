@@ -2,13 +2,10 @@
   config,
   containerLib,
   networkingLib,
-  pkgs,
   ...
 }:
 let
   storeRoot = "/mnt/store/music-history";
-
-  malojaArtistRules = pkgs.callPackage ./maloja/_artist-rules.nix { };
 
   networks = [ "music-history-internal.network" ];
 
@@ -17,10 +14,6 @@ in
 {
   custom = {
     networking.ports.tcp = {
-      maloja = {
-        port = 30200;
-        openFirewall = false;
-      };
       multiscrobbler = {
         port = 30201;
         openFirewall = false;
@@ -44,20 +37,6 @@ in
         upstream = "http://127.0.0.1:${portsCfg.koito.portStr}";
       };
     };
-  };
-
-  services.caddy.virtualHosts."${networkingLib.mkLocalDomain "maloja"}" = {
-    logFormat = null;
-    useACMEHost = "local";
-    extraConfig = ''
-      reverse_proxy http://127.0.0.1:${portsCfg.maloja.portStr} {
-        # Maloja goes bonkers from Authelia's and other cookies set for the TLD,
-        # so we only leave cookies prefixed with `maloja` and `adminmode` and strip the rest.
-        header_up Cookie "(?i)(maloja[^=]*=[^;]*;?\s*)|(adminmode=[^;]*;?\s*)|[^;]+;?\s*" "$1$2"
-      }
-      import error-handler
-    '';
-
   };
 
   virtualisation.quadlet = {
@@ -86,34 +65,6 @@ in
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/config.json".path "/config/config.json")
           ];
           publishPorts = [ "127.0.0.1:${portsCfg.multiscrobbler.portStr}:9078" ];
-          inherit networks;
-        };
-      };
-
-      maloja = {
-        useGlobalContainers = true;
-        usernsAuto = {
-          enable = true;
-          size = containerLib.containerIds.uid + 500;
-        };
-
-        containerConfig = {
-          environments = {
-            inherit (containerLib.containerIds) PUID PGID;
-            MALOJA_SKIP_SETUP = "true";
-            MALOJA_SEND_STATS = "false";
-            MALOJA_SCROBBLE_LASTFM = "false";
-
-            MALOJA_DATA_DIRECTORY = "/data";
-            MALOJA_TIMEZONE = "9";
-          };
-          environmentFiles = [ config.sops.secrets."music-history/maloja.env".path ];
-          publishPorts = [ "127.0.0.1:${portsCfg.maloja.portStr}:42010" ];
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/maloja/data" "/data")
-            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/maloja/api_keys.yaml".path "/data/apikeys.yml")
-            "${malojaArtistRules}:/data/rules/custom_rules.tsv"
-          ];
           inherit networks;
         };
       };

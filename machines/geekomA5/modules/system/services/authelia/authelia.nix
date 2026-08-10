@@ -47,7 +47,6 @@ let
     "homeassistant"
     "immich"
     "librechat"
-    "maloja"
     "navidrome"
     "paperless"
     "papra"
