@@ -2,13 +2,10 @@
   config,
   containerLib,
   networkingLib,
-  pkgs,
   ...
 }:
 let
   storeRoot = "/mnt/store/music-history";
-
-  malojaArtistRules = pkgs.callPackage ./maloja/_artist-rules.nix { };
 
   networks = [ "music-history-internal.network" ];
 
@@ -86,34 +83,6 @@ in
             (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/multiscrobbler/config.json".path "/config/config.json")
           ];
           publishPorts = [ "127.0.0.1:${portsCfg.multiscrobbler.portStr}:9078" ];
-          inherit networks;
-        };
-      };
-
-      maloja = {
-        useGlobalContainers = true;
-        usernsAuto = {
-          enable = true;
-          size = containerLib.containerIds.uid + 500;
-        };
-
-        containerConfig = {
-          environments = {
-            inherit (containerLib.containerIds) PUID PGID;
-            MALOJA_SKIP_SETUP = "true";
-            MALOJA_SEND_STATS = "false";
-            MALOJA_SCROBBLE_LASTFM = "false";
-
-            MALOJA_DATA_DIRECTORY = "/data";
-            MALOJA_TIMEZONE = "9";
-          };
-          environmentFiles = [ config.sops.secrets."music-history/maloja.env".path ];
-          publishPorts = [ "127.0.0.1:${portsCfg.maloja.portStr}:42010" ];
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/maloja/data" "/data")
-            (containerLib.mkMappedVolumeForUser config.sops.templates."music-history/maloja/api_keys.yaml".path "/data/apikeys.yml")
-            "${malojaArtistRules}:/data/rules/custom_rules.tsv"
-          ];
           inherit networks;
         };
       };
