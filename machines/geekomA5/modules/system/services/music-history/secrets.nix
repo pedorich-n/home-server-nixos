@@ -81,7 +81,6 @@ in
               redirectUri = "${networkingLib.mkLocalUrl "multiscrobbler"}/callback";
             };
             clients = [
-              "maloja"
               "koito"
             ];
             options = {
@@ -114,7 +113,6 @@ in
             type = "endpointlz";
             id = "navidrome-listenbrainz";
             clients = [
-              "maloja"
               "koito"
               "lastfm"
             ];
@@ -170,18 +168,6 @@ in
         };
 
         clients = [
-          {
-            name = "Maloja";
-            enable = true;
-            type = "maloja";
-            id = "maloja";
-            configureAs = "client";
-            data = {
-              url = "http://maloja:42010";
-              apiKey = config.sops.placeholder."music-history/multiscrobbler/maloja/api_key";
-            };
-          }
-
           {
             name = "Koito";
             enable = true;
@@ -256,14 +242,6 @@ in
             };
           }
         ];
-      };
-    };
-
-    "music-history/maloja/api_keys.yaml" = {
-      owner = config.users.users.user.name;
-      group = config.users.users.user.group;
-      file = pkgs.writers.writeYAML "maloja-api-keys.yaml" {
-        multiscrobbler = config.sops.placeholder."music-history/maloja/api_keys/multiscrobbler";
       };
     };
   };

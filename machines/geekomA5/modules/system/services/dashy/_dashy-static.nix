@@ -84,9 +84,6 @@ let
             slug = "navidrome";
           })
           (mkEntry {
-            slug = "maloja";
-          })
-          (mkEntry {
             slug = "koito";
           })
         ];
