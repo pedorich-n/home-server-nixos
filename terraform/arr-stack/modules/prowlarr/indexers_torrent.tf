@@ -8,7 +8,8 @@ locals {
         { name = "baseUrl", text_value = "https://tpb.proxyninja.org/" },
         { name = "apiurl", text_value = "apibay.org" },
         { name = "definitionFile", text_value = "thepiratebay" },
-        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 10 }
+        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 10 },
+        { name = "top100", number_value = 6 }, # All
       ]
     }
 
@@ -20,7 +21,7 @@ locals {
         { name = "baseUrl", text_value = "https://milkie.cc/" },
         { name = "definitionFile", text_value = "milkie" },
         { name = "apikey", text_value = var.indexer_credentials.Milkie.api_key },
-        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 5 }
+        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 5 },
       ]
     }
 
@@ -38,7 +39,7 @@ locals {
         { name = "type", number_value = 1 }, # Sort desc
         { name = "username", text_value = var.indexer_credentials.TorrentLeech.username },
         { name = "password", text_value = var.indexer_credentials.TorrentLeech.password },
-        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 3 }
+        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 3 },
       ]
     }
 
@@ -58,7 +59,7 @@ locals {
         { name = "searchLanguages", set_value = [] },
         { name = "torrentBaseSettings.seedTime", number_value = 5760 }, # 4 days
         { name = "torrentBaseSettings.appMinimumSeeders", number_value = 3 },
-        { name = "mamId", text_value = var.indexer_credentials.MyAnonamouse.mam_id }
+        { name = "mamId", text_value = var.indexer_credentials.MyAnonamouse.mam_id },
       ]
     }
 
@@ -74,11 +75,12 @@ locals {
         { name = "freeleechOnly", bool_value = false },
         { name = "username", text_value = var.indexer_credentials.Toloka.username },
         { name = "password", sensitive_value = var.indexer_credentials.Toloka.password },
-        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 1 }
+        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 1 },
       ]
     }
 
     rutracker = {
+      enable          = false
       name            = "Rutracker"
       priority        = 30
       app_profile_id  = prowlarr_sync_profile.interactive.id
@@ -93,7 +95,7 @@ locals {
         { name = "moveAllTagsToEndOfReleaseTitle", bool_value = false },
         { name = "username", text_value = var.indexer_credentials.RuTracker.username },
         { name = "password", sensitive_value = var.indexer_credentials.RuTracker.password },
-        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 1 }
+        { name = "torrentBaseSettings.appMinimumSeeders", number_value = 1 },
       ]
     }
   }
@@ -104,7 +106,7 @@ resource "prowlarr_indexer" "torrent" {
   for_each = local.indexers_torrent
 
   name            = each.value.name
-  enable          = true
+  enable          = lookup(each.value, "enable", true)
   app_profile_id  = lookup(each.value, "app_profile_id", prowlarr_sync_profile.standard.id)
   implementation  = lookup(each.value, "implementation", "Cardigann")
   config_contract = lookup(each.value, "config_contract", "CardigannSettings")
