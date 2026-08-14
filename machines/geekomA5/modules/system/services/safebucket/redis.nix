@@ -17,8 +17,6 @@ in
     bind = "127.0.0.1";
     inherit (portsCfg) port;
 
-    settings = {
-      protected-mode = "no";
-    };
+    requirePassFile = config.sops.secrets."redis/safebucket/password".path;
   };
 }
