@@ -34,6 +34,7 @@ jobs:
       - name: Run nix-update
         uses: pedorich-n/github-workflows/.github/actions/nix-update@ec82000d7963db833f8eae938a52cd61cbbc979c # main
         with:
+          args: "--use-update-script --flake"
           token: ${{ steps.app_auth.outputs.token }}
           committer: ${{ steps.app_auth.outputs.committer }}
           author: ${{ steps.app_auth.outputs.committer }}

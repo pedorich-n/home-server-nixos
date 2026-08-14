@@ -9,6 +9,6 @@
       config,
       ...
     }:
-    lib.attrNames (lib.filterAttrs (_name: pkg: pkg ? passthru.useNixUpdate && pkg.passthru.useNixUpdate) config.packages)
+    lib.attrNames (lib.filterAttrs (_name: pkg: pkg ? passthru.updateScript) config.packages)
   );
 }

@@ -179,16 +179,17 @@ let
     in
     mapMergeAttrsList mkSecret secrets;
 
-  redisAutheliaSecrets =
+  redisSecrets =
     let
       secrets = [
-        "redis/authelia/password"
+        "authelia"
+        "safebucket"
       ];
 
-      mkSecret = secret: {
-        ${secret} = {
-          owner = config.services.redis.servers.authelia.user;
-          group = config.services.redis.servers.authelia.group;
+      mkSecret = service: {
+        "redis/${service}/password" = {
+          owner = config.services.redis.servers.${service}.user;
+          group = config.services.redis.servers.${service}.group;
         };
       };
     in
@@ -422,10 +423,10 @@ in
       acmeSecrets
       seaweedfsSecrets
       tombSecrets
+      redisSecrets
       (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
       (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
-      (lib.mkIf config.services.redis.servers.authelia.enable redisAutheliaSecrets)
       (lib.mkIf config.services.forgejo.enable forgejoSecrets)
       (lib.mkIf config.services.cloudflared.enable cloudflaredSecrets)
       (lib.mkIf config.services.netdata.enable netdataSecrets)

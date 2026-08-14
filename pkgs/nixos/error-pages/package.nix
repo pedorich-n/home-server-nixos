@@ -2,6 +2,7 @@
   fetchzip,
   stdenv,
   lib,
+  nix-update-script,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "error-pages";
@@ -25,7 +26,7 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   passthru = {
-    useNixUpdate = true;
+    updateScript = nix-update-script { };
   };
 
   meta = {

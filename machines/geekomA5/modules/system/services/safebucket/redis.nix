@@ -11,21 +11,12 @@ in
     openFirewall = false;
   };
 
-  networking.firewall.interfaces."podman+" = {
-    # Allows access to the Redis server from the container
-    allowedTCPPorts = [
-      portsCfg.port
-    ];
-  };
-
   services.redis.servers.safebucket = {
     enable = true;
 
-    bind = "0.0.0.0"; # Listen on all interfaces, so that it can be accessed from the container
+    bind = "127.0.0.1";
     inherit (portsCfg) port;
 
-    settings = {
-      protected-mode = "no";
-    };
+    requirePassFile = config.sops.secrets."redis/safebucket/password".path;
   };
 }

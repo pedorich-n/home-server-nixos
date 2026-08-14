@@ -1,39 +1,30 @@
 {
   config,
-  containerLib,
   networkingLib,
   autheliaLib,
   ...
 }:
 let
-  storeRoot = "/mnt/store/safebucket";
   portsCfg = config.custom.networking.ports.tcp;
-
-  servicePort = "8080";
 in
 {
+
   custom = {
     networking.ports.tcp.safebucket = {
       port = 32900;
       openFirewall = false;
     };
-  };
 
-  virtualisation.quadlet.containers.safebucket = {
-    wantsCaddy = true;
-    wantsAuthelia = true;
-    useGlobalContainers = true;
-    usernsAuto.enable = true;
+    services.safebucket = {
+      enable = true;
 
-    containerConfig = {
-      environments = {
+      environment = {
         APP__LOG_LEVEL = "info";
-        APP__PROFILE = "default";
         APP__API_URL = networkingLib.mkUrl "safebucket";
         APP__WEB_URL = networkingLib.mkUrl "safebucket";
         APP__ALLOWED_ORIGINS = networkingLib.mkUrl "safebucket";
         APP__TRUSTED_PROXIES = "127.0.0.1/32";
-        APP__PORT = servicePort;
+        APP__PORT = portsCfg.safebucket.portStr;
         APP__TRASH_RETENTION_DAYS = "7";
         APP__STATIC_FILES__ENABLED = "true";
 
@@ -42,10 +33,10 @@ in
         STORAGE__S3__FORCE_PATH_STYLE = "true";
 
         DATABASE__TYPE = "sqlite";
-        DATABASE__SQLITE__PATH = "/app/data/db/safebucket.db";
+        DATABASE__SQLITE__PATH = "/var/lib/safebucket/safebucket.db";
 
         CACHE__TYPE = "redis";
-        CACHE__REDIS__HOSTS = "host.containers.internal:${portsCfg.redis-safebucket.portStr}";
+        CACHE__REDIS__HOSTS = "127.0.0.1:${portsCfg.redis-safebucket.portStr}";
 
         EVENTS__TYPE = "memory";
         EVENTS__QUEUES__NOTIFICATIONS__NAME = "safebucket-notifications";
@@ -58,7 +49,7 @@ in
         NOTIFIER__SMTP__TLS_MODE = "ssl";
 
         ACTIVITY__TYPE = "filesystem";
-        ACTIVITY__FILESYSTEM__DIRECTORY = "/app/data/activity";
+        ACTIVITY__FILESYSTEM__DIRECTORY = "/var/lib/safebucket/activity";
 
         # Uncomment if want to enable local auth
         # AUTH__PROVIDERS__KEYS = "local,authelia";
@@ -73,15 +64,9 @@ in
         AUTH__PROVIDERS__AUTHELIA__SHARING__ALLOWED = "true";
 
       };
-      environmentFiles = [ config.sops.secrets."safebucket/main.env".path ];
-      volumes = [
-        (containerLib.mkMappedVolumeForUser "${storeRoot}/db" "/app/data/db")
-        (containerLib.mkMappedVolumeForUser "${storeRoot}/notifications" "/app/data/notifications")
-        (containerLib.mkMappedVolumeForUser "${storeRoot}/activity" "/app/data/activity")
+      environmentFiles = [
+        config.sops.secrets."safebucket/main.env".path
       ];
-      publishPorts = [ "127.0.0.1:${portsCfg.safebucket.portStr}:${servicePort}" ];
-      inherit (containerLib.containerIds) user;
     };
   };
-
 }
