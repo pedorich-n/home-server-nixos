@@ -2,6 +2,7 @@
   buildGoModule,
   buildNpmPackage,
   fetchFromGitHub,
+  nix-update-script,
   lib,
 }:
 buildGoModule (finalAttrs: {
@@ -33,6 +34,14 @@ buildGoModule (finalAttrs: {
   '';
 
   passthru = {
+    updateScript = nix-update-script {
+      extraArgs = [
+        "--flake"
+        "--subpackage"
+        "frontend"
+      ];
+    };
+
     frontend = buildNpmPackage {
       pname = "safebucket-frontend";
       inherit (finalAttrs) src version;
