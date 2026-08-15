@@ -63,6 +63,8 @@ in
         AUTH__PROVIDERS__AUTHELIA__OIDC__ISSUER = autheliaLib.issuerUrl;
         AUTH__PROVIDERS__AUTHELIA__SHARING__ALLOWED = "true";
 
+        APP__AUTHENTICATED_REQUESTS_PER_MINUTE = "5000";
+        APP__UNAUTHENTICATED_REQUESTS_PER_MINUTE = "2000";
       };
       environmentFiles = [
         config.sops.secrets."safebucket/main.env".path
