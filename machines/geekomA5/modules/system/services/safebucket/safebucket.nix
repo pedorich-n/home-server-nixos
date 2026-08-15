@@ -25,8 +25,10 @@ in
         APP__ALLOWED_ORIGINS = networkingLib.mkUrl "safebucket";
         APP__TRUSTED_PROXIES = "127.0.0.1/32";
         APP__PORT = portsCfg.safebucket.portStr;
-        APP__TRASH_RETENTION_DAYS = "7";
+        APP__TRASH_RETENTION_DAYS = "3";
         APP__STATIC_FILES__ENABLED = "true";
+        APP__AUTHENTICATED_REQUESTS_PER_MINUTE = "5000";
+        APP__UNAUTHENTICATED_REQUESTS_PER_MINUTE = "2000";
 
         STORAGE__TYPE = "s3";
         STORAGE__S3__USE_TLS = "true";
