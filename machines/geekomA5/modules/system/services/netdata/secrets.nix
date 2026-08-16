@@ -6,13 +6,26 @@
   ...
 }:
 let
-
   metricsBaseUrl = config.custom.services.caddy.metrics.host;
-  localPrometheusEndpoints = lib.mapAttrsToList (name: _route: {
-    name = lib.replaceString "-" "_" name;
-    url = "${metricsBaseUrl}/${name}";
-    autodetection_retry = 60;
-  }) config.custom.services.caddy.metrics.routes;
+
+  prometheusOverrides = {
+    rustic-exporter = {
+      selector = {
+        deny = [
+          "rustic_snapshot_info"
+        ];
+      };
+    };
+  };
+
+  localPrometheusEndpoints = lib.mapAttrsToList (
+    name: _route:
+    (lib.recursiveUpdate {
+      name = lib.replaceString "-" "_" name;
+      url = "${metricsBaseUrl}/${name}";
+      autodetection_retry = 60;
+    } (prometheusOverrides.${name} or { }))
+  ) config.custom.services.caddy.metrics.routes;
 in
 {
   sops.templates = {
