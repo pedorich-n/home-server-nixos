@@ -37,6 +37,22 @@ let
     in
     mapMergeAttrsList mkResticSecrets services;
 
+  extraResticSecrets =
+    let
+      services = [
+        "audiobookshelf"
+        "homeassistant"
+      ];
+
+      mkResticSecrets = service: {
+        "restic/${service}/access_key_id" = { };
+        "restic/${service}/secret_access_key" = { };
+        "restic/${service}/bucket_name" = { };
+        "restic/${service}/endpoint" = { };
+      };
+    in
+    mapMergeAttrsList mkResticSecrets services;
+
   osUserPasswords =
     let
       users = [
@@ -424,6 +440,7 @@ in
       seaweedfsSecrets
       tombSecrets
       redisSecrets
+      extraResticSecrets
       (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
       (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
