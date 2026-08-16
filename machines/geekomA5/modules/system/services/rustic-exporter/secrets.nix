@@ -13,7 +13,7 @@ let
     {
       inherit name;
       repository = "opendal:s3";
-      passwordFile = config.sops.secrets."restic/${slug}/password".path;
+      password = config.sops.placeholder."restic/${slug}/password";
       options = {
         endpoint = config.sops.placeholder."restic/${slug}/endpoint";
         access_key_id = config.sops.placeholder."restic/${slug}/access_key_id";
