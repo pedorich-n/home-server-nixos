@@ -11,8 +11,11 @@ let
   prometheusOverrides = {
     rustic-exporter = {
       selector = {
-        deny = [
-          "rustic_snapshot_info"
+        allow = [
+          "rustic_repository_snapshot_count"
+          "rustic_repository_latest_snapshot_timestamp"
+          "rustic_repository_latest_snapshot_size_bytes"
+          "rustic_repository_latest_snapshot_backup_duration_seconds"
         ];
       };
     };
