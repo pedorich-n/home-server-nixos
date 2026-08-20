@@ -6,16 +6,16 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "rustic-exporter";
-  version = "0.1.0-rc.11";
+  version = "0.1.0-rc.12";
 
   src = fetchFromGitHub {
     owner = "timtorChen";
     repo = "rustic-exporter";
     rev = "v${finalAttrs.version}";
-    sha256 = "sha256-7skCaOPD4JYEut3wp34Myo9IWXutlp4FEqUZPxwi2j8=";
+    sha256 = "sha256-q2ZMBgOwf0pUXZpB/Jcj1nwdKH6JNKPYlayB/qwgstQ=";
   };
 
-  cargoHash = "sha256-h9gM9FIwz7xWwMyB5OVsU2dARySpJ7FCg9rjppNgBzg=";
+  cargoHash = "sha256-V8uBRDIQqB8CyOq+xUU+vrnSzVCUQgHjmyX1LMGjvOs=";
 
   passthru = {
     updateScript = nix-update-script {
