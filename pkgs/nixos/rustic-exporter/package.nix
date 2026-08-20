@@ -1,6 +1,7 @@
 {
   rustPlatform,
   fetchFromGitHub,
+  nix-update-script,
   lib,
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
@@ -15,6 +16,15 @@ rustPlatform.buildRustPackage (finalAttrs: {
   };
 
   cargoHash = "sha256-h9gM9FIwz7xWwMyB5OVsU2dARySpJ7FCg9rjppNgBzg=";
+
+  passthru = {
+    updateScript = nix-update-script {
+      extraArgs = [
+        "--flake"
+        "--version=unstable"
+      ];
+    };
+  };
 
   meta = with lib; {
     mainProgram = "rustic-exporter";
