@@ -28,17 +28,17 @@ let
 
   resticSecrets =
     let
-      services = builtins.attrNames config.services.restic.backups;
+      backups = builtins.attrNames config.services.restic.backups;
 
-      mkResticSecrets = service: {
-        "restic/${service}/password" = { };
-        "restic/${service}/access_key_id" = { };
-        "restic/${service}/secret_access_key" = { };
-        "restic/${service}/bucket_name" = { };
-        "restic/${service}/endpoint" = { };
+      mkResticSecrets = name: {
+        "restic/${name}/password" = { };
+        "restic/${name}/access_key_id" = { };
+        "restic/${name}/secret_access_key" = { };
+        "restic/${name}/bucket_name" = { };
+        "restic/${name}/endpoint" = { };
       };
     in
-    mapMergeAttrsList mkResticSecrets services;
+    mapMergeAttrsList mkResticSecrets backups;
 
   osUserPasswords =
     let

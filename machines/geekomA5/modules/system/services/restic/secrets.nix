@@ -24,8 +24,8 @@ let
     };
   };
 
-  resticServices = lib.attrNames config.services.restic.backups;
+  resticBackups = lib.attrNames config.services.restic.backups;
 in
 {
-  sops.templates = lib.foldl' (acc: service: acc // (mkResticSecrets service)) { } resticServices;
+  sops.templates = lib.foldl' (acc: service: acc // (mkResticSecrets service)) { } resticBackups;
 }
