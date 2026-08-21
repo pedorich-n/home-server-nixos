@@ -17,6 +17,7 @@
           minecraftServer = minecraftConfig.package;
           minecraftModpack = minecraftConfig.package.passthru.modpack;
           safebucket = geekomA5.config.custom.services.safebucket.package;
+          rustic-exporter = geekomA5.config.custom.services.rustic-exporter.package;
         };
       }
     ];
