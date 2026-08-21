@@ -6,19 +6,49 @@
   ...
 }:
 let
-
   metricsBaseUrl = config.custom.services.caddy.metrics.host;
-  localPrometheusEndpoints = lib.mapAttrsToList (name: _route: {
-    name = lib.replaceString "-" "_" name;
-    url = "${metricsBaseUrl}/${name}";
-    autodetection_retry = 60;
-  }) config.custom.services.caddy.metrics.routes;
+
+  prometheusOverrides = {
+    rustic-exporter = {
+      selector = {
+        allow = [
+          "rustic_repository_snapshot_count"
+          "rustic_repository_latest_snapshot_timestamp"
+          "rustic_repository_latest_snapshot_size_bytes"
+          "rustic_repository_latest_snapshot_backup_duration_seconds"
+        ];
+      };
+      relabeling = [
+        {
+          match = "rustic_repository_latest_*";
+          metric_relabel_configs = [
+            {
+              regex = "snapshot_id";
+              action = "labeldrop";
+            }
+          ];
+        }
+      ];
+    };
+  };
+
+  localPrometheusEndpoints = lib.mapAttrsToList (
+    name: _route:
+    (lib.recursiveUpdate {
+      name = lib.replaceString "-" "_" name;
+      url = "${metricsBaseUrl}/${name}";
+      autodetection_retry = 60;
+    } (prometheusOverrides.${name} or { }))
+  ) config.custom.services.caddy.metrics.routes;
 in
 {
   sops.templates = {
     "netdata/health_alarm_notify.conf" = {
       owner = config.services.netdata.user;
       group = config.services.netdata.group;
+      restartUnits = [
+        config.systemd.services.netdata.name
+      ];
       content = ''
         SEND_TELEGRAM="YES"
         TELEGRAM_BOT_TOKEN="${config.sops.placeholder."netdata/notifications/telegram/bot_token"}"
@@ -29,6 +59,9 @@ in
     "netdata/prometheus.conf" = {
       owner = config.services.netdata.user;
       group = config.services.netdata.group;
+      restartUnits = [
+        config.systemd.services.netdata.name
+      ];
       # See https://learn.netdata.cloud/docs/collecting-metrics/generic-collecting-metrics/prometheus-endpoint#options
       file = pkgs.writers.writeYAML "netdata-prometheus.conf" {
         jobs = lib.lists.flatten [
@@ -56,6 +89,9 @@ in
     "netdata/httpcheck.conf" = {
       owner = config.services.netdata.user;
       group = config.services.netdata.group;
+      restartUnits = [
+        config.systemd.services.netdata.name
+      ];
       # See https://learn.netdata.cloud/docs/collecting-metrics/collectors/synthetic-testing/http-endpoints#options
       file = pkgs.writers.writeYAML "netdata-httpcheck.conf" {
         update_every = 30;

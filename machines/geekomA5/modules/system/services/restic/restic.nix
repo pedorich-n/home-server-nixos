@@ -29,8 +29,8 @@ in
                 "--tag auto"
               ];
 
-              environmentFile = lib.mkDefault config.sops.secrets."restic/${name}/environment.env".path;
-              repositoryFile = lib.mkDefault config.sops.secrets."restic/${name}/repository".path;
+              environmentFile = lib.mkDefault config.sops.templates."restic/${name}/environment".path;
+              repositoryFile = lib.mkDefault config.sops.templates."restic/${name}/repository".path;
               passwordFile = lib.mkDefault config.sops.secrets."restic/${name}/password".path;
             };
           }

@@ -150,6 +150,24 @@ in
               ];
             };
 
+            "health.d/rustic.conf" = pkgs.writeText "netdata-restic-alerts.conf" ''
+               template: rustic_backup_age
+                     on: prometheus.rustic_exporter.rustic_repository_latest_snapshot_timestamp
+                  class: Errors
+                   type: Other
+              component: Backup
+                 lookup: max -1m unaligned of rustic_repository_latest_snapshot_timestamp
+                   calc: $now - $this
+                  units: seconds
+                  every: 5m
+                   warn: $this > (48 * 3600)
+                   crit: $this > (7 * 24 * 3600)
+                  delay: up 5m down 1h
+                summary: Rustic backup age for ''${label:repo_name}
+                   info: Seconds since the latest snapshot in repository ''${label:repo_name}
+                     to: sysadmin
+            '';
+
             # Overrides to increase the lookup window and reduce false positives
             # Based on https://github.com/netdata/netdata/blob/7aefb1fb036a00e51d/src/health/health.d/httpcheck.conf
             "health.d/httpcheck_override.conf" = pkgs.writeText "netdata-httpcheck-alert-override.conf" ''
