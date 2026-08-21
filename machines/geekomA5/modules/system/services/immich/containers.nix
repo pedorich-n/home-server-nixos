@@ -47,27 +47,10 @@ in
       port = 32100;
       openFirewall = false;
     };
-    immich-metrics = {
-      port = 32101;
-      openFirewall = false;
-    };
-    immich-microservices-metrics = {
-      port = 32102;
-      openFirewall = false;
-    };
   };
 
   custom.services.caddy.hosts.immich = {
     upstream = "http://127.0.0.1:${portsCfg.immich.portStr}";
-  };
-
-  custom.services.caddy.metrics.routes = {
-    immich = {
-      url = "http://127.0.0.1:${portsCfg.immich-metrics.portStr}";
-    };
-    immich-microservices = {
-      url = "http://127.0.0.1:${portsCfg.immich-microservices-metrics.portStr}";
-    };
   };
 
   virtualisation.quadlet = {
@@ -156,9 +139,6 @@ in
           ];
           publishPorts = [
             "127.0.0.1:${portsCfg.immich.portStr}:2283"
-            # See https://docs.immich.app/install/environment-variables#general
-            "127.0.0.1:${portsCfg.immich-metrics.portStr}:8081"
-            "127.0.0.1:${portsCfg.immich-microservices-metrics.portStr}:8082"
           ];
           inherit networks;
           inherit (containerLib.containerIds) user;
