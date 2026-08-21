@@ -24,11 +24,7 @@ let
     };
   };
 
-  # resticServices = lib.attrNames config.services.restic.backups;
-  resticServices = [
-    "audiobookshelf"
-    "homeassistant"
-  ];
+  resticServices = lib.attrNames config.services.restic.backups;
 in
 {
   sops.templates = lib.foldl' (acc: service: acc // (mkResticSecrets service)) { } resticServices;
