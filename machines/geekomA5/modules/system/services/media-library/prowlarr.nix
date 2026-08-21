@@ -33,13 +33,24 @@ in
     };
   };
 
-  systemd.services.prowlarr = {
-    unitConfig = lib.mkMerge [
-      (systemdLib.wantsAfter [
-        config.systemd.services.sabnzbd.name
-        "qbittorrent.service"
-      ])
-    ];
+  systemd = {
+    services.prowlarr = {
+      unitConfig = lib.mkMerge [
+        (systemdLib.wantsAfter [
+          config.systemd.services.sabnzbd.name
+          "qbittorrent.service"
+        ])
+      ];
+    };
+
+    # See https://github.com/NixOS/nixpkgs/issues/549165
+    tmpfiles.settings."10-prowlarr" = lib.mkForce {
+      ${config.services.prowlarr.dataDir}.d = {
+        user = "-";
+        group = "-";
+        mode = "0700";
+      };
+    };
   };
 
   services.prowlarr = {
