@@ -4,6 +4,6 @@
 }:
 {
   imports = [
-    inputs.home-manager-config.homeModules.common
+    inputs.home-manager-config.homePresetModules.common
   ];
 }

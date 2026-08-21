@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  systemdLib,
   ...
 }:
 let
@@ -114,7 +115,17 @@ in
         ];
       };
 
-      unitConfig.RequiresMountsFor = [ cfg.dataDir ];
+      unitConfig = lib.mkMerge [
+        {
+          RequiresMountsFor = [ cfg.dataDir ];
+        }
+        (systemdLib.wantsAfter [
+          config.systemd.services.caddy.name
+        ])
+        (systemdLib.requisiteAfter [
+          config.systemd.services.authelia-main.name
+        ])
+      ];
     };
   };
 }
