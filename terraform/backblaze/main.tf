@@ -70,11 +70,6 @@ resource "onepassword_item" "buckets_with_b2_info" {
         value = b2_application_key.managed_keys[section.key].application_key_id
       }
       field {
-        label = "url"
-        type  = "STRING"
-        value = "${data.corefunc_url_parse.s3_base_url.host}/${section.value.bucket_name}"
-      }
-      field {
         label = "endpoint"
         type  = "STRING"
         value = data.corefunc_url_parse.s3_base_url.host
