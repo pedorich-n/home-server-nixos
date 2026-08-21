@@ -70,8 +70,6 @@ writers.writeYAML "librechat.yaml" {
       command = "uvx";
       iconPath = mkDashboardIconUrl "grist";
       args = [
-        "--with"
-        "mcp<2"
         (mkPackageWithVersionFor "grist")
       ];
       env = {
@@ -142,8 +140,6 @@ writers.writeYAML "librechat.yaml" {
       command = "uvx";
       iconPath = "https://img.icons8.com/?size=128&id=423";
       args = [
-        "--with"
-        "mcp<2" # See https://github.com/modelcontextprotocol/servers/issues/4560
         (mkPackageWithVersionFor "time")
       ];
     };
@@ -152,8 +148,6 @@ writers.writeYAML "librechat.yaml" {
       command = "uvx";
       iconPath = "https://img.icons8.com/?size=128&id=21339";
       args = [
-        "--with"
-        "mcp<2" # See https://github.com/modelcontextprotocol/servers/issues/4560
         (mkPackageWithVersionFor "fetch")
       ];
     };
