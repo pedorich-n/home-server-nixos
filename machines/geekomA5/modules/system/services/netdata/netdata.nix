@@ -163,8 +163,8 @@ in
                    warn: $this > (48 * 3600)
                    crit: $this > (7 * 24 * 3600)
                   delay: up 5m down 1h
-                summary: Rustic backup age for ''${"label:repo_name"}
-                   info: Seconds since the latest snapshot in repository ''${"label:repo_name"}
+                summary: Rustic backup age for ''${label:repo_name}
+                   info: Seconds since the latest snapshot in repository ''${label:repo_name}
                      to: sysadmin
             '';
 
