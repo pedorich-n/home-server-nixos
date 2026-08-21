@@ -48,8 +48,38 @@ in
       ];
       Restart = "on-failure";
       RestartSec = 5;
+
+      # Hardening
+      CapabilityBoundingSet = "";
       DynamicUser = true;
+      LockPersonality = true;
+      MemoryDenyWriteExecute = true;
       NoNewPrivileges = true;
+      PrivateDevices = true;
+      PrivateTmp = true;
+      PrivateUsers = true;
+      ProtectClock = true;
+      ProtectControlGroups = true;
+      ProtectHome = true;
+      ProtectHostname = true;
+      ProtectKernelLogs = true;
+      ProtectKernelModules = true;
+      ProtectKernelTunables = true;
+      ProtectProc = "invisible";
+      RemoveIPC = true;
+      RestrictAddressFamilies = [
+        "AF_INET"
+        "AF_INET6"
+      ];
+      RestrictNamespaces = true;
+      RestrictRealtime = true;
+      RestrictSUIDSGID = true;
+      SystemCallArchitectures = "native";
+      SystemCallFilter = [
+        "@system-service"
+        "~@privileged"
+      ];
+      UMask = "0077"; # 600 for files, 700 for dirs
     };
   };
 }
