@@ -18,6 +18,17 @@ let
           "rustic_repository_latest_snapshot_backup_duration_seconds"
         ];
       };
+      relabeling = [
+        {
+          match = "rustic_repository_latest_*";
+          metric_relabel_configs = [
+            {
+              regex = "snapshot_id";
+              action = "labeldrop";
+            }
+          ];
+        }
+      ];
     };
   };
 
