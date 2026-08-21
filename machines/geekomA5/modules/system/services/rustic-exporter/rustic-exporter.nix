@@ -12,6 +12,12 @@ let
     "127.0.0.1"
     "--port"
     portsCfg.portStr
+    "--output"
+    "text"
+    "--log-level"
+    "info"
+    "--interval"
+    "300"
     "--config"
     "\${CONFIG_FILE}"
   ];
