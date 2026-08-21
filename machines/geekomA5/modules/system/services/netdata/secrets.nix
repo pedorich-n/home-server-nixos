@@ -145,6 +145,10 @@ in
             url = "${networkingLib.mkLocalUrl "koito"}/apis/web/v1/health";
           }
           {
+            name = "Lidarr";
+            url = "${networkingLib.mkLocalUrl "lidarr"}/ping";
+          }
+          {
             name = "LLDAP";
             url = "${networkingLib.mkLocalUrl "lldap"}/health";
           }
@@ -177,10 +181,7 @@ in
           }
           {
             name = "Prowlarr";
-            url = "${networkingLib.mkLocalUrl "prowlarr"}/api/v1/health";
-            headers = {
-              "X-Api-Key" = config.sops.placeholder."prowlarr/api/key";
-            };
+            url = "${networkingLib.mkLocalUrl "prowlarr"}/ping";
           }
           {
             name = "qBittorrent";
@@ -188,10 +189,7 @@ in
           }
           {
             name = "Radarr";
-            url = "${networkingLib.mkLocalUrl "radarr"}/api/v3/health";
-            headers = {
-              "X-Api-Key" = config.sops.placeholder."radarr/api/key";
-            };
+            url = "${networkingLib.mkLocalUrl "radarr"}/ping";
           }
           {
             name = "SABnzbd";
@@ -207,10 +205,7 @@ in
           }
           {
             name = "Sonarr";
-            url = "${networkingLib.mkLocalUrl "sonarr"}/api/v3/health";
-            headers = {
-              "X-Api-Key" = config.sops.placeholder."sonarr/api/key";
-            };
+            url = "${networkingLib.mkLocalUrl "sonarr"}/ping";
           }
           {
             name = "Trek";

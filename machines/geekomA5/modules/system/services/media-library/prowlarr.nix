@@ -21,6 +21,7 @@ in
       authBypassPaths = [
         "@api"
         "@api_download"
+        "/ping"
       ];
       # Bypass API calls
       extraConfig = ''
