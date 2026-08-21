@@ -18,7 +18,10 @@ in
     services.caddy.hosts.radarr = {
       upstream = "http://127.0.0.1:${portsCfg.portStr}";
       auth = "authelia";
-      authBypassPaths = [ "/api*" ];
+      authBypassPaths = [
+        "/api*"
+        "/ping"
+      ];
     };
   };
 
