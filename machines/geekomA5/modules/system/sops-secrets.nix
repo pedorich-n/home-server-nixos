@@ -416,7 +416,6 @@ in
 
         "sonarr/api/key" = { };
         "radarr/api/key" = { };
-        "prowlarr/api/key" = { };
         "homeassistant/api/key" = { };
         "paperless/api/key" = { };
       }
