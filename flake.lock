@@ -375,6 +375,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-papra": {
+      "locked": {
+        "lastModified": 1787364613,
+        "narHash": "sha256-iOgmSCZYs+I49e26JdzQXOY6Vv6uKxihlPVTwkhRG2s=",
+        "owner": "pedorich-n",
+        "repo": "nixpkgs",
+        "rev": "614fc8da27f09f90aa65a78cfee86c7a0db8e77f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pedorich-n",
+        "ref": "nixos-papra-improve",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1787135253,
@@ -552,6 +568,7 @@
         "nix-github-actions": "nix-github-actions",
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-papra": "nixpkgs-papra",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "playit-nixos-module": "playit-nixos-module",
         "pyproject-build-systems": "pyproject-build-systems",

@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   lib,
   systemdLib,
@@ -9,6 +10,9 @@ let
   portsCfg = config.custom.networking.ports.tcp.papra;
 in
 {
+  disabledModules = [ "services/web-apps/papra.nix" ];
+  imports = [ "${inputs.nixpkgs-papra}/nixos/modules/services/web-apps/papra.nix" ];
+
   custom = {
     networking.ports.tcp.papra = {
       port = 33000;
@@ -21,37 +25,6 @@ in
   };
 
   systemd.services.papra = {
-    serviceConfig = {
-      EnvironmentFile = [
-        config.sops.secrets."papra/main.env".path
-        config.sops.templates."papra/oidc.env".path
-      ];
-
-      # Hardening
-      CapabilityBoundingSet = "";
-      NoNewPrivileges = true;
-      LockPersonality = true;
-      PrivateDevices = true;
-      PrivateTmp = true;
-      ProtectHome = true;
-      ProtectSystem = "full";
-      ProtectKernelTunables = true;
-      ProtectKernelModules = true;
-      ProtectKernelLogs = true;
-      ProtectControlGroups = true;
-      ProtectClock = true;
-      RestrictSUIDSGID = true;
-      RestrictRealtime = true;
-      ProtectHostname = true;
-      ProtectProc = "invisible";
-
-      RestrictAddressFamilies = [
-        "AF_UNIX"
-        "AF_INET"
-        "AF_INET6"
-      ];
-    };
-
     unitConfig = lib.mkMerge [
       (systemdLib.requisiteAfter [
         "zfs.target"
@@ -86,5 +59,10 @@ in
 
       AI_IS_ENABLED = "false";
     };
+
+    environmentFiles = [
+      config.sops.secrets."papra/main.env".path
+      config.sops.templates."papra/oidc.env".path
+    ];
   };
 }
