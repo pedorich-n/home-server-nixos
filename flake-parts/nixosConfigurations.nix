@@ -23,6 +23,7 @@
         inputs.copyparty.nixosModules.default
         inputs.geekdo-sync.nixosModules.default
         inputs.book-sync.nixosModules.default
+        inputs.nur.repos.pedorich-n.nixosModules.safebucket
       ];
       deploySettings = {
         activationTimeout = 600;
