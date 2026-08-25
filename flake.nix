@@ -2,10 +2,12 @@
   nixConfig = {
     extra-substituters = [
       "https://nix-cache.ferretware.dev"
+      "https://pedorich-n-nur.cachix.org"
       "https://playit-nixos-module.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-cache.ferretware.dev:K9KEc8q9XF+y26izWUFPHTJBGPrV9phy3JGyIUqP62E="
+      "pedorich-n-nur.cachix.org-1:EisUgiRsKFmZ3LJN7r29oDae+Wxq9FQpkcydRx19N7Q="
       "playit-nixos-module.cachix.org-1:22hBXWXBbd/7o1cOnh+p0hpFUVk9lPdRLX3p5YSfRz4="
     ];
   };
@@ -81,6 +83,14 @@
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+      };
+    };
+
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs = {
+        flake-parts.follows = "flake-parts";
         nixpkgs.follows = "nixpkgs-unstable";
       };
     };

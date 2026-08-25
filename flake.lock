@@ -407,6 +407,29 @@
         "type": "github"
       }
     },
+    "nur": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787671348,
+        "narHash": "sha256-PjggW+N4JHvX9/MgC6oa0bD9U8bmGc6nIS6v3UpcX4Y=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "5eaba44c83609c18e430d4b84ac28b606e2cdc1a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "NUR",
+        "type": "github"
+      }
+    },
     "otto-light-theme": {
       "flake": false,
       "locked": {
@@ -570,6 +593,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-papra": "nixpkgs-papra",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "nur": "nur",
         "playit-nixos-module": "playit-nixos-module",
         "pyproject-build-systems": "pyproject-build-systems",
         "pyproject-nix": "pyproject-nix",
