@@ -24,6 +24,7 @@
         inputs.geekdo-sync.nixosModules.default
         inputs.book-sync.nixosModules.default
         inputs.nur.repos.pedorich-n.nixosModules.safebucket
+        inputs.nur.repos.pedorich-n.nixosModules.rustic-exporter
       ];
       deploySettings = {
         activationTimeout = 600;
