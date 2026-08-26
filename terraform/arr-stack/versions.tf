@@ -7,7 +7,7 @@ terraform {
 
     sonarr = {
       source  = "devopsarr/sonarr"
-      version = "~> 3"
+      version = ">= 3"
     }
 
     radarr = {
