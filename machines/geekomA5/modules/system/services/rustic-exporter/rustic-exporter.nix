@@ -19,12 +19,16 @@ in
         };
       };
 
-      rustic-exporter = {
-        enable = true;
-        inherit (portsCfg) port;
-
-        configFile = config.sops.templates."rustic-exporter/config.toml".path;
-      };
     };
+  };
+
+  services.rustic-exporter = {
+    enable = true;
+
+    arguments = {
+      inherit (portsCfg) port;
+    };
+
+    configFile = config.sops.templates."rustic-exporter/config.toml".path;
   };
 }
