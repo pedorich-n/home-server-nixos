@@ -11,7 +11,7 @@ let
 in
 {
   disabledModules = [ "services/web-apps/papra.nix" ];
-  imports = [ "${inputs.nixpkgs-papra}/nixos/modules/services/web-apps/papra.nix" ];
+  imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/web-apps/papra.nix" ];
 
   custom = {
     networking.ports.tcp.papra = {
