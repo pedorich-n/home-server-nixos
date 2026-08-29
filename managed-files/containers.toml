@@ -168,8 +168,8 @@ version = '2026.8.22-777ba8fa4'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
-digest = 'sha256:ce7fab639b89a6f62d484d1175a7d489a536a8c77291f56c03fec20608d4a3eb'
+digest = 'sha256:ae64a5ce6cf510e4e3757667b4a8dc8b3951ded8a18204a819243eee8461835a'
 image = 'mauriceboe/trek'
 registry = 'docker.io'
-version = '3.4.1'
+version = '4.0.0'
 versioning = 'semver'
