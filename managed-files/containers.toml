@@ -34,10 +34,10 @@ version = 'v3.41.3'
 versioning = 'semver'
 
 [grist]
-digest = 'sha256:0d9bba2c7139e3e9e15839d03544746f7815bbe76e34dc71c9f6eadd0be82a8c'
+digest = 'sha256:fb19baff9653aa16d7c064bbab1da9a33ec0fa04bc78f3f818a788a06791328e'
 image = 'gristlabs/grist'
 registry = 'docker.io'
-version = '1.7.17'
+version = '1.7.18'
 versioning = 'semver'
 
 [homeassistant]
@@ -139,10 +139,10 @@ version = '8.10.1-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:65a4cabf0169ea7fbd90ab7bb28ba3f8b5909613635acda1a03ad606f34b456b'
+digest = 'sha256:49eba766581b9134cfa6b584b9eb718355fb9cfbd44b2a7c9c72a427d4891648'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '3.0.5'
+version = '3.1.0'
 versioning = 'semver'
 
 [shelfmark]
@@ -161,15 +161,15 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [searxng]
-digest = 'sha256:51ef3af3c4655f13c65ac63ec54f0abffbcd94c49e965041aae438d3f9794e55'
+digest = 'sha256:b36af7984b87191b595bc5301418ed6432c047668a4547ab531a7439b816fac3'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.8.22-777ba8fa4'
+version = '2026.8.29-d226b78bc'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
-digest = 'sha256:ae64a5ce6cf510e4e3757667b4a8dc8b3951ded8a18204a819243eee8461835a'
+digest = 'sha256:01d217fa047414b73e2132f7737703d7d39b1f468f670f804e801f5e327837f4'
 image = 'mauriceboe/trek'
 registry = 'docker.io'
-version = '4.0.0'
+version = '4.1.1'
 versioning = 'semver'
