@@ -313,27 +313,6 @@
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }
     },
-    "ndg": {
-      "inputs": {
-        "nixpkgs": [
-          "nur-personal",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1787593177,
-        "narHash": "sha256-PZo0DAaDGOJslj4S4I/yZnAd6AkBNXpSsUxosDKNFRA=",
-        "owner": "feel-co",
-        "repo": "ndg",
-        "rev": "15e9f65b807645d7eb20aeaa87a592ac56d31bf4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "feel-co",
-        "repo": "ndg",
-        "type": "github"
-      }
-    },
     "nix-github-actions": {
       "inputs": {
         "nixpkgs": [
@@ -422,41 +401,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1787927416,
-        "narHash": "sha256-LWnkTeZefvduGu5JHKwxbBWUllE9bhM14zMPZcns6ag=",
+        "lastModified": 1788103940,
+        "narHash": "sha256-RMPkAeo66WBs6WSzDgIPkdE398Et8gRzfJQYx3kUXOM=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "ef2681098ecebccc522d41fb91ef9875017e1efa",
+        "rev": "4af7820e4e99c9bf50fed6e897788e7192a2dd10",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "repo": "NUR",
-        "type": "github"
-      }
-    },
-    "nur-personal": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "ndg": "ndg",
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1788099437,
-        "narHash": "sha256-Hd5wahMfCjRYo2m3rWIlvx3NbAiwslN8+CtZskcPbu4=",
-        "owner": "pedorich-n",
-        "repo": "nur-packages",
-        "rev": "e5225d42da45a2084e999120fe6487cd73a5cde0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pedorich-n",
-        "ref": "mcp-searxng",
-        "repo": "nur-packages",
         "type": "github"
       }
     },
@@ -623,7 +577,6 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nur": "nur",
-        "nur-personal": "nur-personal",
         "playit-nixos-module": "playit-nixos-module",
         "pyproject-build-systems": "pyproject-build-systems",
         "pyproject-nix": "pyproject-nix",

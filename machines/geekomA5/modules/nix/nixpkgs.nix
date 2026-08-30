@@ -10,7 +10,6 @@
       inputs.nix-minecraft.overlays.default
       inputs.playit-nixos-module.overlays.default
       inputs.copyparty.overlays.default
-      inputs.nur-personal.overlays.default
       inputs.nur.repos.pedorich-n.overlays.default
       custom-packages-overlay
     ];
