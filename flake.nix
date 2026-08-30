@@ -93,6 +93,14 @@
       };
     };
 
+    nur-personal = {
+      url = "github:pedorich-n/nur-packages/mcp-searxng";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        flake-parts.follows = "flake-parts";
+      };
+    };
+
     home-server-nixos-secrets = {
       url = "git+ssh://git@github.com/pedorich-n/home-server-nixos-secrets?ref=refs/heads/main";
       # url = "git+file:///home/pedorich_n/Projects/home-server-nixos-secrets";
