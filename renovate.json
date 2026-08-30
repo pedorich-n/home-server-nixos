@@ -39,6 +39,11 @@
       "description": "Group all MCP servers together",
       "matchFileNames": ["managed-files/mcp-servers.json"],
       "separateMultipleMajor": true
+    },
+    {
+        "matchDatasources": [ "docker" ],
+        "matchPackageNames": [ "mauriceboe/trek" ],
+        "sourceUrl": "https://github.com/liketrek/TREK"
     }
   ]
 }
