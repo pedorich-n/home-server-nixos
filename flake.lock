@@ -446,11 +446,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788095262,
-        "narHash": "sha256-keSM0agGrvGNkADk2W6dxN47YPN9Kt36xce5J3qjW+0=",
+        "lastModified": 1788099437,
+        "narHash": "sha256-Hd5wahMfCjRYo2m3rWIlvx3NbAiwslN8+CtZskcPbu4=",
         "owner": "pedorich-n",
         "repo": "nur-packages",
-        "rev": "8f00abcc2bcc58c99b389e29bfd05823150e3a43",
+        "rev": "e5225d42da45a2084e999120fe6487cd73a5cde0",
         "type": "github"
       },
       "original": {
