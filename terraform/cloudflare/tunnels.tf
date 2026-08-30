@@ -1,5 +1,5 @@
 resource "random_id" "tunnel_secret" {
-  for_each    = toset(["n8n", "couchdb", "safebucket"])
+  for_each    = toset(["n8n", "couchdb", "safebucket", "searxng"])
   byte_length = 35
 }
 
@@ -85,6 +85,34 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "safebucket" {
         service  = "http://127.0.0.1:${local.safebucket_local_port}"
         origin_request = {
           http_host_header = "safebucket.${var.domain}"
+        }
+      },
+      {
+        service = "http_status:403"
+      }
+    ]
+  }
+}
+
+resource "cloudflare_zero_trust_tunnel_cloudflared" "searxng" {
+  account_id    = local.cf_account_id
+  name          = "Searxng"
+  config_src    = "cloudflare"
+  tunnel_secret = random_id.tunnel_secret["searxng"].b64_std
+}
+
+resource "cloudflare_zero_trust_tunnel_cloudflared_config" "searxng" {
+  account_id = local.cf_account_id
+  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.searxng.id
+
+  config = {
+    ingress = [
+      {
+        hostname = local.searxng_local_domain
+        path     = "/mcp"
+        service  = "https://searxng.${var.local_domain}"
+        origin_request = {
+          http_host_header = "searxng.${var.local_domain}"
         }
       },
       {

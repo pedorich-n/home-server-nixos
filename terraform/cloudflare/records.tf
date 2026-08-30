@@ -39,3 +39,13 @@ resource "cloudflare_dns_record" "safebucket" {
   proxied = true
   comment = "Safebucket"
 }
+
+resource "cloudflare_dns_record" "searxng" {
+  zone_id = cloudflare_zone.main.id
+  name    = local.searxng_local_domain
+  content = "${cloudflare_zero_trust_tunnel_cloudflared.searxng.id}.cfargotunnel.com"
+  type    = "CNAME"
+  ttl     = 1
+  proxied = true
+  comment = "Searxng MCP"
+}
