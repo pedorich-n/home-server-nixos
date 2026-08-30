@@ -11,39 +11,63 @@ let
   autheliaAddress = "unix//run/authelia-main/authelia.sock";
   copyHeaders = "Remote-User Remote-Groups Remote-Email Remote-Name";
 
-  mkVirtualHostConfig =
+  mkRouteMatcher = route: if route.matcher != null then route.matcher else route.path;
+
+  mkRouteUpstream = route: host: if route.upstream != null then route.upstream else host.upstream;
+
+  mkRouteAuth = route: host: if route.auth == "inherit" then host.auth else route.auth;
+
+  mkRouteHandle =
+    route: host:
+    let
+      auth = mkRouteAuth route host;
+    in
+    ''
+      handle ${mkRouteMatcher route} {
+        ${lib.optionalString (auth != null) "import forward-auth-${auth}"}
+        reverse_proxy ${mkRouteUpstream route host}
+      }
+    '';
+
+  mkProxyBody =
     host:
-    lib.concatLines [
-      # Auth-bypass paths: routed directly to the upstream, no auth applied.
-      # Must come before the main handle block since Caddy handle blocks are ordered.
-      (lib.concatMapStrings (path: ''
-        handle ${path} {
-          reverse_proxy ${host.upstream}
+    let
+      auth = host.auth;
+      lines = lib.optional (auth != null) "import forward-auth-${auth}" ++ [ "reverse_proxy ${host.upstream}" ];
+      body = lib.concatStringsSep "\n" lines;
+    in
+    if host.routes == [ ] then
+      body
+    else
+      ''
+        handle {
+          ${body}
         }
-      '') host.authBypassPaths)
+      '';
 
-      # Main handler
-      (
-        if host.auth != null && host.authBypassPaths != [ ] then
-          # Bypass paths exist: wrap forward_auth inside a catch-all handle block
-          # so it only applies to paths not matched above.
-          ''
-            handle {
-              import forward-auth-${host.auth}
-              reverse_proxy ${host.upstream}
-            }
-          ''
-        else if host.auth != null then
-          ''
-            import forward-auth-${host.auth}
-            reverse_proxy ${host.upstream}
-          ''
+  mkStaticBody = host: ''
+    root * ${host.root}
+    file_server
+  '';
+
+  mkRedirectBody = host: ''
+    redir ${host.target}{uri} permanent
+  '';
+
+  mkHostBody =
+    host:
+    let
+      main =
+        if host.kind == "static" then
+          mkStaticBody host
+        else if host.kind == "redirect" then
+          mkRedirectBody host
         else
-          "reverse_proxy ${host.upstream}"
-      )
-
+          lib.concatStringsSep "\n" (lib.map (route: mkRouteHandle route host) host.routes ++ [ (mkProxyBody host) ]);
+    in
+    lib.concatLines [
+      main
       "import error-handler"
-
       host.extraConfig
     ];
 in
@@ -63,33 +87,108 @@ in
               description = "Hostname for the virtual host. Defaults to <name>.<domain>.";
             };
 
+            kind = lib.mkOption {
+              type = lib.types.enum [
+                "proxy"
+                "static"
+                "redirect"
+              ];
+              default = "proxy";
+              description = ''
+                - proxy: reverse_proxy to upstream (default)
+                - static: file_server on root
+                - redirect: redir <target>{uri} permanent
+              '';
+            };
+
             upstream = lib.mkOption {
-              type = lib.types.nonEmptyStr;
-              description = "Caddy upstream address, e.g. http://127.0.0.1:8080 or unix//run/app/app.sock";
+              type = lib.types.nullOr lib.types.nonEmptyStr;
+              default = null;
+              description = ''
+                Caddy upstream address, e.g. http://127.0.0.1:8080 or unix//run/app/app.sock.
+                Required when kind = "proxy".
+              '';
+            };
+
+            root = lib.mkOption {
+              type = lib.types.nullOr lib.types.path;
+              default = null;
+              description = "Filesystem path to serve when kind = \"static\".";
+            };
+
+            target = lib.mkOption {
+              type = lib.types.nullOr lib.types.nonEmptyStr;
+              default = null;
+              description = ''
+                Redirection target URL (without trailing slash and without {uri})
+                when kind = "redirect".
+              '';
             };
 
             auth = lib.mkOption {
-              type = lib.types.enum [
-                null
-                "authelia"
-                "authelia-basic"
-              ];
+              type = lib.types.nullOr (
+                lib.types.enum [
+                  "authelia"
+                  "authelia-basic"
+                ]
+              );
               default = null;
               description = ''
-                Forward auth variant to apply:
+                Default forward auth variant for the catch-all:
                 - "authelia": cookie session SSO, for browser-facing UIs
                 - "authelia-basic": also accepts HTTP Basic Auth, for WebDAV/API clients
                 - null: no auth
+                Can be overridden per route.
               '';
             };
 
-            authBypassPaths = lib.mkOption {
-              type = lib.types.listOf lib.types.nonEmptyStr;
+            routes = lib.mkOption {
+              type = lib.types.listOf (
+                lib.types.submodule {
+                  options = {
+                    path = lib.mkOption {
+                      type = lib.types.nullOr lib.types.nonEmptyStr;
+                      default = null;
+                      description = ''
+                        Shorthand for `matcher = "path <value>"`.
+                        Ignored if `matcher` is also set.
+                      '';
+                    };
+                    matcher = lib.mkOption {
+                      type = lib.types.nullOr lib.types.lines;
+                      default = null;
+                      description = ''
+                        Raw Caddy matcher expression, e.g. 'not path /share/* /rest/*'.
+                        Takes precedence over `path` if both are set.
+                      '';
+                    };
+                    upstream = lib.mkOption {
+                      type = lib.types.nullOr lib.types.nonEmptyStr;
+                      default = null;
+                      description = "Override host upstream for this route.";
+                    };
+                    auth = lib.mkOption {
+                      type = lib.types.nullOr (
+                        lib.types.enum [
+                          "inherit"
+                          "authelia"
+                          "authelia-basic"
+                        ]
+                      );
+                      default = "inherit";
+                      description = ''
+                        Auth strategy for this route:
+                        - "inherit" (default): use the host's auth setting
+                        - "authelia": cookie SSO
+                        - "authelia-basic": also accepts HTTP Basic Auth
+                        - null: no auth on this route
+                      '';
+                    };
+                  };
+                }
+              );
               default = [ ];
-              description = ''
-                Path prefixes that bypass auth and go directly to the upstream.
-                Requires auth to be set. Example: [ "/api" ] for arr-stack API access.
-              '';
+              description = "Ordered routes evaluated before the catch-all. First match wins.";
             };
 
             useTLS = lib.mkOption {
@@ -115,6 +214,16 @@ in
   };
 
   config = lib.mkIf (cfg != { }) {
+    assertions = lib.flatten (
+      lib.mapAttrsToList (
+        hostName: host:
+        lib.imap1 (idx: route: {
+          assertion = (route.path == null) != (route.matcher == null);
+          message = "custom.services.caddy.hosts.${hostName}.routes[${toString idx}]: exactly one of `path` or `matcher` must be set.";
+        }) host.routes
+      ) cfg
+    );
+
     services.caddy = {
       # mkBefore so that the snippet is included before any virtual host configs
       extraConfig = lib.mkBefore ''
@@ -140,7 +249,7 @@ in
           #LINK - machines/geekomA5/modules/system/security/acme.nix:15
           logFormat = null; # Disable access logs
           useACMEHost = if value.useTLS then "local" else null;
-          extraConfig = mkVirtualHostConfig value;
+          extraConfig = mkHostBody value;
         };
       }) cfg;
     };

@@ -22,7 +22,12 @@ in
       custom.services.caddy.hosts.netdata = {
         upstream = "unix/${socketPath}";
         auth = "authelia";
-        authBypassPaths = [ "/mcp" ];
+        routes = [
+          {
+            path = "/mcp";
+            auth = null;
+          }
+        ];
       };
 
       # Required for Caddy to bind to Netdata's socket file

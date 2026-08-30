@@ -21,7 +21,12 @@ in
     services.caddy.hosts.sabnzbd = {
       upstream = "http://127.0.0.1:${portsCfg.portStr}";
       auth = "authelia";
-      authBypassPaths = [ "/api*" ];
+      routes = [
+        {
+          path = "/api*";
+          auth = null;
+        }
+      ];
     };
   };
 

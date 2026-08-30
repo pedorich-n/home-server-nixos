@@ -13,10 +13,6 @@ in
       port = 30501;
       openFirewall = false;
     };
-
-    services.caddy.hosts.searxng-mcp = {
-      upstream = "http://127.0.0.1:${portsCfg.portStr}";
-    };
   };
 
   services.mcp-searxng = {

@@ -51,7 +51,12 @@ in
       qbittorrent = {
         upstream = "http://127.0.0.1:${portsCfg.qbittorrent.portStr}";
         auth = "authelia";
-        authBypassPaths = [ "/api*" ];
+        routes = [
+          {
+            path = "/api*";
+            auth = null;
+          }
+        ];
       };
       shelfmark = {
         upstream = "http://127.0.0.1:${portsCfg.shelfmark.portStr}";
@@ -62,7 +67,12 @@ in
       mousehole = {
         upstream = "http://127.0.0.1:${portsCfg.mousehole.portStr}";
         auth = "authelia";
-        authBypassPaths = [ "/health" ];
+        routes = [
+          {
+            path = "/health";
+            auth = null;
+          }
+        ];
       };
     };
   };

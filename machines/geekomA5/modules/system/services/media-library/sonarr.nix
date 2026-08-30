@@ -18,9 +18,15 @@ in
     services.caddy.hosts.sonarr = {
       upstream = "http://127.0.0.1:${portsCfg.portStr}";
       auth = "authelia";
-      authBypassPaths = [
-        "/api*"
-        "/ping"
+      routes = [
+        {
+          path = "/api*";
+          auth = null;
+        }
+        {
+          path = "/ping";
+          auth = null;
+        }
       ];
     };
   };
