@@ -15,8 +15,8 @@ deploy-geekomA5 *args:
 dry-deploy-geekomA5 *args:
     just _dry_deploy geekomA5 "{{ args }}"
 
-build-iso *args:
-    just _run  "build-iso" "minimal"
+build-iso machine="minimal" *args:
+    just _run "build-iso" "{{ machine }}" {{ args }}
 
 generate-host-keys:
     just _run generate-host-keys

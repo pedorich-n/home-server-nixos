@@ -1,5 +1,9 @@
 {
+  lib,
+  ...
+}:
+{
   services.openssh.settings = {
-    PermitRootLogin = "yes"; # Allow root login with password
+    PermitRootLogin = lib.mkForce "yes"; # Allow root login with password
   };
 }
