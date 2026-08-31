@@ -2,7 +2,7 @@
 
 ## Using disko & nixos-anywhere
 
-1. Generate custom bootable ISO: `nix run .#build-iso-minimal` or `just build-iso`
+1. Generate custom bootable ISO: `nix run .#build-iso -- minimal` or `just build-iso`
 2. Burn the ISO onto USB using [Rufus](https://rufus.ie/en/)(dd mode)
 3. Generate & use new SSH host & initrd host keys
    1. Run `just generate-host-keys`
