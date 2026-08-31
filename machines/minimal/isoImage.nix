@@ -1,4 +1,5 @@
 {
+  inputs,
   modulesPath,
   flake,
   ...
@@ -9,8 +10,14 @@
   ];
 
   isoImage = {
-    # Defined in https://github.com/NixOS/nixpkgs/blob/0dca19054c663a0cf3b471be3c3079acfd623924/nixos/modules/installer/cd-dvd/iso-image.nix#L543-L554
-    # Include this flake into the ISO so that it can be used with `nixos-install --flake /config#<machine>`
+    # Bake every flake input's source into the ISO's /nix/store so the
+    # live environment can evaluate the flake (including private inputs that cannot be fetched at runtime).
+    # Only the input source paths themselves are added; their transitive closures are not.
+    storeContents = builtins.attrValues (builtins.mapAttrs (_: input: input.outPath) inputs);
+
+    # Include this flake into the ISO so that it can be used with
+    # `nixos-install --flake /config#<machine>`.
+    # Defined in https://github.com/NixOS/nixpkgs/blob/2787c8/nixos/modules/installer/cd-dvd/iso-image.nix#L601-L612
     contents = [
       {
         target = "/config";
