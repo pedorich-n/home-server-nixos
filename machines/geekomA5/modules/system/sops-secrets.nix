@@ -242,6 +242,11 @@ let
       sopsFile = sopsFilePathFor "cloudflared/safebucket_credentials_json.txt";
       format = "binary";
     };
+
+    "cloudflared/searxng_mcp_tunnel_credentials" = {
+      sopsFile = sopsFilePathFor "cloudflared/searxng_mcp_credentials_json.txt";
+      format = "binary";
+    };
   };
 
   netdataSecrets =

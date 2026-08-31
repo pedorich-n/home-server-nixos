@@ -8,7 +8,6 @@
 let
 
   portsCfg = config.custom.networking.ports.tcp.navidrome;
-  socketPath = "/run/navidrome/navidrome.sock";
 in
 {
   custom = {
@@ -18,29 +17,25 @@ in
     };
   };
 
-  services.caddy.virtualHosts."${networkingLib.mkLocalDomain "navidrome"}" = {
-    logFormat = null;
-    useACMEHost = "local";
+  custom.services.caddy.hosts.navidrome = {
+    upstream = "http://127.0.0.1:${portsCfg.portStr}";
+    routes = [
+      {
+        matcher = "@subsonic";
+        auth = "authelia-basic";
+      }
+      {
+        matcher = "@protected";
+        auth = "authelia";
+      }
+    ];
     extraConfig = ''
-      @protected not path /share/* /rest/*
       @subsonic {
         path /rest/*
         not query c=NavidromeUI
       }
-
-      route @protected {
-          import forward-auth-authelia
-      }
-
-      route @subsonic {
-          import forward-auth-authelia-basic
-      }
-
-      # reverse_proxy unix/${socketPath}
-      reverse_proxy http://127.0.0.1:${portsCfg.portStr}
-      import error-handler
+      @protected not path /share/* /rest/*
     '';
-
   };
 
   systemd.services.navidrome = {

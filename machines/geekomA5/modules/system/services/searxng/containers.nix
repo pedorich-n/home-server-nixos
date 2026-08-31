@@ -7,7 +7,7 @@
 let
   storeRoot = "/mnt/store/searxng";
 
-  portsCfg = config.custom.networking.ports.tcp.searxng;
+  portsCfg = config.custom.networking.ports.tcp;
 
   # SearXNG runs as 977:977 in the container, so we need to map the volume with the correct permissions.
   mkMappedVolumeForCustom =
@@ -45,7 +45,13 @@ in
     };
 
     services.caddy.hosts.searxng = {
-      upstream = "http://127.0.0.1:${portsCfg.portStr}";
+      upstream = "http://127.0.0.1:${portsCfg.searxng.portStr}";
+      routes = [
+        {
+          path = "/mcp";
+          upstream = "http://127.0.0.1:${portsCfg.searxng-mcp.portStr}";
+        }
+      ];
     };
   };
 
@@ -58,7 +64,7 @@ in
         SEARXNG_BASE_URL = networkingLib.mkLocalUrl "searxng";
       };
       environmentFiles = [ config.sops.secrets."searxng/main.env".path ];
-      publishPorts = [ "127.0.0.1:${portsCfg.portStr}:8080" ];
+      publishPorts = [ "127.0.0.1:${portsCfg.searxng.portStr}:8080" ];
       volumes = [
         (mkMappedVolumeForCustom "${storeRoot}/data" "/var/cache/searxng")
         (mkMappedVolumeForCustom "${storeRoot}/config" "/etc/searxng")

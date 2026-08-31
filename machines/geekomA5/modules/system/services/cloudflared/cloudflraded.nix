@@ -37,6 +37,11 @@
         credentialsFile = config.sops.secrets."cloudflared/safebucket_tunnel_credentials".path;
         default = "http_status:403";
       };
+
+      "91fbdfcd-dc19-4440-bad4-2d1accdf4464" = {
+        credentialsFile = config.sops.secrets."cloudflared/searxng_mcp_tunnel_credentials".path;
+        default = "http_status:403";
+      };
     };
   };
 }

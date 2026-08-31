@@ -13,6 +13,11 @@ data "cloudflare_zero_trust_tunnel_cloudflared_token" "safebucket" {
   tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.safebucket.id
 }
 
+data "cloudflare_zero_trust_tunnel_cloudflared_token" "searxng" {
+  account_id = local.cf_account_id
+  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.searxng.id
+}
+
 resource "cloudflare_zero_trust_access_service_token" "main" {
   name       = "Main Machine to Machine Token"
   account_id = local.cf_account_id
@@ -159,6 +164,22 @@ resource "onepassword_item" "cloudflare_service_tokens" {
       }
     }
   }
+
+  section {
+    label = "Searxng_MCP"
+
+    field {
+      label = "id"
+      type  = "STRING"
+      value = cloudflare_zero_trust_access_service_token.searxng_mcp_remote_service_token.client_id
+    }
+
+    field {
+      label = "token"
+      type  = "CONCEALED"
+      value = cloudflare_zero_trust_access_service_token.searxng_mcp_remote_service_token.client_secret
+    }
+  }
 }
 
 resource "onepassword_item" "cloudflare_safebucket_data" {
@@ -244,6 +265,40 @@ resource "onepassword_item" "safebucket_token" {
         AccountTag   = local.cf_account_id
         TunnelID     = cloudflare_zero_trust_tunnel_cloudflared.safebucket.id
         TunnelSecret = cloudflare_zero_trust_tunnel_cloudflared.safebucket.tunnel_secret
+      })
+    }
+  }
+}
+
+resource "onepassword_item" "searxng_token" {
+  vault    = module.onepassword.vault_homelab.uuid
+  title    = "Cloudflare_Tunnel_Searxng_MCP"
+  category = "secure_note"
+
+  tags = ["Managed By Terraform"]
+
+  section {
+    label = "Access"
+
+    field {
+      label = "id"
+      type  = "STRING"
+      value = cloudflare_zero_trust_tunnel_cloudflared.searxng.id
+    }
+
+    field {
+      label = "token"
+      type  = "CONCEALED"
+      value = data.cloudflare_zero_trust_tunnel_cloudflared_token.searxng.token
+    }
+
+    field {
+      label = "credentials_json"
+      type  = "CONCEALED"
+      value = jsonencode({
+        AccountTag   = local.cf_account_id
+        TunnelID     = cloudflare_zero_trust_tunnel_cloudflared.searxng.id
+        TunnelSecret = cloudflare_zero_trust_tunnel_cloudflared.searxng.tunnel_secret
       })
     }
   }

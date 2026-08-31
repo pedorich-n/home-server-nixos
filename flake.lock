@@ -299,11 +299,11 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1787325122,
-        "narHash": "sha256-Pw0kuHxy8BgXUJocEj49J5MS49oU9A0pONP5Tu8BhEs=",
+        "lastModified": 1788106158,
+        "narHash": "sha256-QjVSvnOI3+B6GZ0PLhz/Ksj/AaLqzPSllT6UXyeu5E8=",
         "ref": "refs/heads/main",
-        "rev": "e0b6771c2d40f9c3bbd60459e01c4bf7ee1c2da8",
-        "revCount": 240,
+        "rev": "b12c6fae4bda41eb09d12c73a17cb6484f69507c",
+        "revCount": 241,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
@@ -401,11 +401,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787927416,
-        "narHash": "sha256-LWnkTeZefvduGu5JHKwxbBWUllE9bhM14zMPZcns6ag=",
+        "lastModified": 1788103940,
+        "narHash": "sha256-RMPkAeo66WBs6WSzDgIPkdE398Et8gRzfJQYx3kUXOM=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "ef2681098ecebccc522d41fb91ef9875017e1efa",
+        "rev": "4af7820e4e99c9bf50fed6e897788e7192a2dd10",
         "type": "github"
       },
       "original": {

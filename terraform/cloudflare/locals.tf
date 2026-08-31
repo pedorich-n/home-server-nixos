@@ -62,6 +62,7 @@ locals {
   n8n_local_domain        = "n8n.${var.domain}"
   couchdb_local_domain    = "couchdb.${var.domain}"
   safebucket_local_domain = "safebucket.${var.domain}"
+  searxng_local_domain    = "searxng.${var.domain}"
 
   obsidian_devices = toset(["mobile", "desktop"])
 

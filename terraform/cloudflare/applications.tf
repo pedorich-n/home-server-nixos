@@ -17,7 +17,7 @@ resource "cloudflare_zero_trust_access_policy" "bypass_telegram_ips" {
 resource "cloudflare_zero_trust_access_policy" "allow_main_service_token" {
   account_id       = local.cf_account_id
   name             = "Allow Service Token"
-  decision         = "allow"
+  decision         = "non_identity"
   session_duration = "24h"
 
   include = [
@@ -32,7 +32,7 @@ resource "cloudflare_zero_trust_access_policy" "allow_main_service_token" {
 resource "cloudflare_zero_trust_access_policy" "allow_obsidian_service_tokens" {
   account_id       = local.cf_account_id
   name             = "Allow Obsidian Service Tokens"
-  decision         = "allow"
+  decision         = "non_identity"
   session_duration = "24h"
 
   include = [
@@ -147,5 +147,48 @@ resource "cloudflare_zero_trust_access_application" "safebucket" {
       id         = cloudflare_zero_trust_access_policy.bypass_all.id
       precedence = 1
     },
+  ]
+}
+
+resource "cloudflare_zero_trust_access_service_token" "searxng_mcp_remote_service_token" {
+  name       = "Searxng MCP Token"
+  account_id = local.cf_account_id
+  duration   = "${24 * 365 * 2}h" # 2 years
+}
+
+resource "cloudflare_zero_trust_access_policy" "allow_searxng_mcp_remote_service_token" {
+  account_id       = local.cf_account_id
+  name             = "Allow Searxng MCP Service Token"
+  decision         = "non_identity"
+  session_duration = "24h"
+
+  include = [
+    {
+      service_token = {
+        token_id = cloudflare_zero_trust_access_service_token.searxng_mcp_remote_service_token.id
+      }
+    }
+  ]
+}
+
+resource "cloudflare_zero_trust_access_application" "searxng_mcp" {
+  zone_id          = cloudflare_zone.main.id
+  name             = "Searxng MCP"
+  type             = "self_hosted"
+  domain           = local.searxng_local_domain
+  session_duration = "0s" # Expire immediately
+  policies = [
+    {
+      id         = cloudflare_zero_trust_access_policy.allow_main_service_token.id
+      precedence = 1
+    },
+    {
+      id         = cloudflare_zero_trust_access_policy.allow_searxng_mcp_remote_service_token.id
+      precedence = 2
+    },
+    {
+      id         = cloudflare_zero_trust_access_policy.deny_all.id
+      precedence = 3
+    }
   ]
 }

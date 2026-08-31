@@ -18,28 +18,21 @@ in
     };
   };
 
-  services = {
-    caddy.virtualHosts = {
-      "dashy.${config.custom.networking.localDomain}" = {
-        useACMEHost = "local";
-        logFormat = null; # Disable access logs
-        extraConfig = ''
-          root * ${dashy-static}
-          encode gzip zstd
-          file_server
-
-          import error-handler
-        '';
-      };
-
-      # Top-level domain redirect: bare domain → dashy.
-      "${config.custom.networking.localDomain}" = {
-        useACMEHost = "local";
-        logFormat = null; # Disable access logs
-        extraConfig = "redir ${networkingLib.mkLocalUrl "dashy"}{uri} permanent";
-      };
+  custom.services.caddy.hosts = {
+    dashy = {
+      kind = "static";
+      root = dashy-static;
+      extraConfig = ''
+        encode gzip zstd
+      '';
     };
 
+    # Top-level domain redirect: bare domain → dashy.
+    "${config.custom.networking.localDomain}" = {
+      kind = "redirect";
+      domain = config.custom.networking.localDomain;
+      target = networkingLib.mkLocalUrl "dashy";
+    };
   };
 
 }

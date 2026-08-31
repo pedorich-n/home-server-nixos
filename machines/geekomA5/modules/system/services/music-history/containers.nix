@@ -28,9 +28,15 @@ in
       multiscrobbler = {
         upstream = "http://127.0.0.1:${portsCfg.multiscrobbler.portStr}";
         auth = "authelia";
-        authBypassPaths = [
-          "/api*"
-          "/1*" # ListenBrainz API webhook endpoint
+        routes = [
+          {
+            path = "/api*";
+            auth = null;
+          }
+          {
+            path = "/1*"; # ListenBrainz API webhook endpoint
+            auth = null;
+          }
         ];
       };
       koito = {
