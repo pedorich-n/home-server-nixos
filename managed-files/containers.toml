@@ -20,10 +20,10 @@ version = '2.36.0'
 versioning = 'semver'
 
 [gitea-mirror]
-digest = 'sha256:b99bd1a4dd618a39367909e8288af81cb0b4cf82cd6fc023a6e3cff645e8c7a7'
+digest = 'sha256:4bb9a0bad51eed3d91f650b39acf6123300cb935e32542cc94342b28ada4aa03'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.28.0'
+version = 'v3.30.0'
 versioning = 'semver'
 
 [gluetun]
@@ -139,21 +139,21 @@ version = '8.10.1-alpine'
 versioning = 'docker'
 
 [paperless-server]
-digest = 'sha256:49eba766581b9134cfa6b584b9eb718355fb9cfbd44b2a7c9c72a427d4891648'
+digest = 'sha256:5ab4f4f9bb099a36bec3e092906ea3e611323c5f18dc5cc38c76a1d540bdca9c'
 image = 'paperless-ngx/paperless-ngx'
 registry = 'ghcr.io'
-version = '3.1.0'
+version = '3.1.2'
 versioning = 'semver'
 
 [shelfmark]
-digest = 'sha256:cadddd341ab70109c745e9606446e93d898d151f7f06fe75aba4a8c13dd26f70'
+digest = 'sha256:6e5e05625961dc63bc80943dca581c6186d0e04af0c729962969c56e3751754e'
 image = 'calibrain/shelfmark-lite'
 registry = 'ghcr.io'
-version = 'v1.3.12'
+version = 'v1.3.14'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:304b19cf94bf4fda534e0b086cab9c5f1a9e139a8180c05c0ad7d2ba1526fa99'
+digest = 'sha256:a00b6a597a3832a1814cde0ef60abc55c94644f3f80902c3432f6af6de8d4a96'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.2.3'
@@ -161,10 +161,10 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [searxng]
-digest = 'sha256:b36af7984b87191b595bc5301418ed6432c047668a4547ab531a7439b816fac3'
+digest = 'sha256:0f4f9b3fbc4c72a24027e1e4378bb9d082682dc46f6b2bb135c51c3006a255c4'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.8.29-d226b78bc'
+version = '2026.9.1-248e37991'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
