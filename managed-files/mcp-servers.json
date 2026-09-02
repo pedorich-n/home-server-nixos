@@ -29,12 +29,6 @@
     "version": "3.0.1",
     "versioning": "semver"
   },
-  "searxng": {
-    "datasource": "npm",
-    "package": "mcp-searxng",
-    "version": "1.16.0",
-    "versioning": "semver"
-  },
   "time": {
     "datasource": "pypi",
     "package": "mcp-server-time",
