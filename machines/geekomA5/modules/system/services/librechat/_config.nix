@@ -125,15 +125,8 @@ writers.writeYAML "librechat.yaml" {
     };
 
     SearXNG = {
-      command = "npx";
-      iconPath = mkDashboardIconUrl "searxng";
-      args = [
-        "--yes"
-        (mkPackageWithVersionFor "searxng")
-      ];
-      env = {
-        SEARXNG_URL = networkingLib.mkLocalUrl "searxng";
-      };
+      type = "streamable-http";
+      url = "${networkingLib.mkLocalUrl "searxng"}/mcp";
     };
 
     Time = {

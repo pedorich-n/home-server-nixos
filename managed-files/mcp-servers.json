@@ -20,19 +20,13 @@
   "n8n": {
     "datasource": "npm",
     "package": "n8n-mcp",
-    "version": "2.70.0",
+    "version": "2.76.0",
     "versioning": "semver"
   },
   "nixos": {
     "datasource": "pypi",
     "package": "mcp-nixos",
     "version": "3.0.1",
-    "versioning": "semver"
-  },
-  "searxng": {
-    "datasource": "npm",
-    "package": "mcp-searxng",
-    "version": "1.15.0",
     "versioning": "semver"
   },
   "time": {
