@@ -33,6 +33,7 @@ jobs:
 
       - name: Run nix-update
         id: nix_update
+        if: steps.get_packages.outputs.packages != ''
         uses: pedorich-n/github-workflows/.github/actions/nix-update@8dae1302115fad2af5d92f4e0368f727b17cd8ce # main
         with:
           args: "--use-update-script --flake"
