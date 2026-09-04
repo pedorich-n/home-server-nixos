@@ -16,3 +16,9 @@ result
 *.tfstate
 *.tfstate.*
 **/config.tf.json
+
+
+# AI
+**/*codemap.md
+AGENTS.md
+**/.slim
