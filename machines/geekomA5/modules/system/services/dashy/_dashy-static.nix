@@ -169,13 +169,6 @@ let
         icon = "mdi-file-document-multiple";
         items = [
           (mkEntry {
-            slug = "paperless";
-            iconName = "paperless-ngx";
-            args = {
-              description = "Disabled";
-            };
-          })
-          (mkEntry {
             slug = "papra";
           })
           (mkEntry {

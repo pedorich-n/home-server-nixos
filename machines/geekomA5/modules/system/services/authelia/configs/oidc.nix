@@ -238,16 +238,6 @@ in
           })
 
           (mkOidcProviderPrivate {
-            name = "paperless";
-            redirectUris = [
-              "${networkingLib.mkLocalUrl "paperless"}/accounts/oidc/authelia/login/callback/"
-            ];
-            extraArgs = {
-              token_endpoint_auth_method = "client_secret_post";
-            };
-          })
-
-          (mkOidcProviderPrivate {
             name = "shelfmark";
             redirectUris = [
               "${networkingLib.mkLocalUrl "shelfmark"}/api/auth/oidc/callback"

@@ -94,10 +94,6 @@ let
         "authelia/oidc/librechat/client_id"
         "authelia/oidc/librechat/client_secret_hashed"
 
-        "authelia/oidc/paperless/client_id"
-        "authelia/oidc/paperless/client_secret_hashed"
-        "authelia/oidc/paperless/client_secret_raw"
-
         "authelia/oidc/shelfmark/client_id"
         "authelia/oidc/shelfmark/client_secret_hashed"
 
@@ -385,8 +381,6 @@ in
         "music-history/multiscrobbler/lastfm/secret" = { };
         "music-history/multiscrobbler/listenbrainz-endpoint/token" = { };
 
-        "paperless/smtp/username" = { };
-
         "tailscale/oauth_clients/server/id" = { };
         "tailscale/oauth_clients/server/secret" = { };
         "tailscale/oauth_clients/initrd/id" = { };
@@ -422,7 +416,6 @@ in
         "sonarr/api/key" = { };
         "radarr/api/key" = { };
         "homeassistant/api/key" = { };
-        "paperless/api/key" = { };
       }
       osUserPasswords
       envSecrets

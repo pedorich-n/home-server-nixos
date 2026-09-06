@@ -9,15 +9,6 @@ This might happen if OAuth Identity Provider re-creates users with new IDs and s
 3. Log out
 4. Log in with using IdP
 
-### Paperless
-
-1. Go to `https://paperless.<domain>/admin/socialaccount/socialaccount/` as admin
-2. Find account of a `<user>`, and delete it
-3. Log out
-4. Log in as a `<user>` using password
-5. Go to `https://paperless.<domain>/accounts/oidc/<provider-name>/login/?process=connect`
-6. Connect account with IdP
-
 ### Jellyfin
 
 1. Go to `http://jellyfin.<domain>/SSOViews/linking`.

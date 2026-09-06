@@ -131,20 +131,6 @@ registry = 'ghcr.io'
 version = '0.16.5'
 versioning = 'semver'
 
-[paperless-redis]
-digest = 'sha256:becdda6c7f4b3fb42e42fd7f120bbf5c54c4caaaf16f26da24e4563d2c1f0576'
-image = 'library/redis'
-registry = 'docker.io'
-version = '8.10.1-alpine'
-versioning = 'docker'
-
-[paperless-server]
-digest = 'sha256:5ab4f4f9bb099a36bec3e092906ea3e611323c5f18dc5cc38c76a1d540bdca9c'
-image = 'paperless-ngx/paperless-ngx'
-registry = 'ghcr.io'
-version = '3.1.2'
-versioning = 'semver'
-
 [shelfmark]
 digest = 'sha256:6e5e05625961dc63bc80943dca581c6186d0e04af0c729962969c56e3751754e'
 image = 'calibrain/shelfmark-lite'
