@@ -47,12 +47,17 @@ writers.writeYAML "librechat.yaml" {
     prioritize = true;
     list = [
       {
-        name = "default-gemini";
-        label = "Gemini 3 Flash";
+        name = "default-luna";
+        label = "OpenAI GPT-5.6 Luna";
         default = true;
+        mcpServers = [
+          "Fetch"
+        ];
         preset = {
-          endpoint = "google";
-          model = "gemini-3-flash-preview";
+          endpoint = "openAI";
+          model = "gpt-5.6-luna";
+          useResponsesApi = true;
+          web_search = true;
         };
       }
     ];
