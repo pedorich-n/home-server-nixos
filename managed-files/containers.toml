@@ -20,10 +20,10 @@ version = '2.36.0'
 versioning = 'semver'
 
 [gitea-mirror]
-digest = 'sha256:4bb9a0bad51eed3d91f650b39acf6123300cb935e32542cc94342b28ada4aa03'
+digest = 'sha256:e0aa690d7be063b41cecc68ca8fb805c55072c37f64778f29bb68284a5e46dd7'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.30.0'
+version = 'v3.32.1'
 versioning = 'semver'
 
 [gluetun]
@@ -34,17 +34,17 @@ version = 'v3.41.3'
 versioning = 'semver'
 
 [grist]
-digest = 'sha256:fb19baff9653aa16d7c064bbab1da9a33ec0fa04bc78f3f818a788a06791328e'
+digest = 'sha256:a39b36a52059a72171d88803b8225f5a405001337717613299edfebe7c7096d3'
 image = 'gristlabs/grist'
 registry = 'docker.io'
-version = '1.7.18'
+version = '1.7.19'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:14931c6b13756317849f46da1d01b45937a1150db66c081cfe529d48215943fe'
+digest = 'sha256:612d76760b544cb40b7ba01387fdac964c59a6a550a50a4d30b4773c822d2918'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.8.3'
+version = '2026.9.1'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
@@ -125,21 +125,21 @@ version = '0.5.0'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:992ad822817d490017d2c0098b53bda0f1032379ed604fc2089974c0930d1d42'
+digest = 'sha256:775b5e8cc10d316cc3f29d8195022a910261347ca6c3314a6e17b0d2c51d5c0d'
 image = 'foxxmd/multi-scrobbler'
 registry = 'ghcr.io'
-version = '0.16.5'
+version = '0.17.2'
 versioning = 'semver'
 
 [shelfmark]
-digest = 'sha256:6e5e05625961dc63bc80943dca581c6186d0e04af0c729962969c56e3751754e'
+digest = 'sha256:1f80174eb7e271a0fde8fa483b221e0478e9ff5788e104c3d934774c40fdb6e6'
 image = 'calibrain/shelfmark-lite'
 registry = 'ghcr.io'
-version = 'v1.3.14'
+version = 'v1.3.15'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:a00b6a597a3832a1814cde0ef60abc55c94644f3f80902c3432f6af6de8d4a96'
+digest = 'sha256:8d48fa8c619caadfb103f04efea8747e2a2762d6c7551690919cffb987e61cee'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.2.3'
@@ -147,15 +147,15 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [searxng]
-digest = 'sha256:0f4f9b3fbc4c72a24027e1e4378bb9d082682dc46f6b2bb135c51c3006a255c4'
+digest = 'sha256:36941a0b934fcfb61308018641b35ce7dd2967c59f3c43862f01f2ac6e9921d4'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.9.1-248e37991'
+version = '2026.9.6-eaf1fcb34'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
-digest = 'sha256:01d217fa047414b73e2132f7737703d7d39b1f468f670f804e801f5e327837f4'
+digest = 'sha256:777f4d647e973fe7d87fecd957e854b86d57e8d977fd041763e0ca19b3c2e2c0'
 image = 'mauriceboe/trek'
 registry = 'docker.io'
-version = '4.1.1'
+version = '4.2.1'
 versioning = 'semver'
