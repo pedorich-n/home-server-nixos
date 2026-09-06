@@ -48,7 +48,6 @@ let
     "immich"
     "librechat"
     "navidrome"
-    "paperless"
     "papra"
     "safebucket"
     "shelfmark"
