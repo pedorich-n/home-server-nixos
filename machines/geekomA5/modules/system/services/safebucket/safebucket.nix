@@ -4,6 +4,7 @@
   autheliaLib,
   systemdLib,
   lib,
+  pkgs-unstable,
   ...
 }:
 let
@@ -30,6 +31,8 @@ in
 
   services.safebucket = {
     enable = true;
+
+    package = pkgs-unstable.safebucket_main;
 
     dataDir = "/var/lib/safebucket";
 
