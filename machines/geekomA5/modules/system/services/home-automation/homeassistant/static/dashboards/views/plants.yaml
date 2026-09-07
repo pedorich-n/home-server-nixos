@@ -9,12 +9,16 @@ layout:
   grid-template-areas: |
     ". main_title ."
     ". main ."
+    ". control_title ."
+    ". control ."
   mediaquery:
     "(max-width: 600px)":
       grid-template-columns: "1fr 98% 1fr"
       grid-template-areas: |
         ". main_title ."
         ". main ."
+        ". control_title ."
+        ". control ."
 cards:
   - type: "custom:mushroom-title-card"
     title: "Plants"
@@ -63,3 +67,177 @@ cards:
               - vpd
               - illuminance
               - dli
+
+  - type: "custom:mushroom-title-card"
+    title: "Control"
+    alignment: center
+    card_mod:
+      style: |
+        ha-card {
+          --title-font-weight: bold;
+          --title-font-size: 1.5rem;
+        }
+    view_layout:
+      grid-area: "control_title"
+
+  - type: "custom:layout-card"
+    view_layout:
+      grid-area: "control"
+    layout_type: "custom:grid-layout"
+    layout:
+      grid-template-columns: "minmax(0, 1fr) minmax(0, 1fr)"
+      grid-template-areas: |
+        "left right"
+      mediaquery:
+        "(max-width: 600px)":
+          grid-template-columns: "minmax(0, 1fr)"
+          grid-template-areas: |
+            "left"
+            "right"
+    cards:
+      - type: "vertical-stack"
+        view_layout:
+          grid-area: "left"
+        cards:
+          # Row 1: Wisteria (Pump 1) | Maple (Pump 2)
+          - type: "horizontal-stack"
+            cards:
+              - type: "vertical-stack"
+                cards:
+                  - type: "custom:mushroom-template-card"
+                    primary: "Wisteria"
+                    secondary: "Pump 1"
+                    icon: "mdi:sprout-outline"
+                    tap_action:
+                      action: none
+                  - type: "horizontal-stack"
+                    cards:
+                      - type: "custom:mushroom-template-card"
+                        primary: "Short"
+                        secondary: ""
+                        icon: "mdi:water-outline"
+                        tap_action:
+                          action: perform-action
+                          perform_action: button.press
+                          target:
+                            entity_id: button.ldk_plant_pump_controller_pump_plant_1_short
+                      - type: "custom:mushroom-template-card"
+                        primary: "Long"
+                        secondary: ""
+                        icon: "mdi:water-pump"
+                        tap_action:
+                          action: perform-action
+                          perform_action: button.press
+                          target:
+                            entity_id: button.ldk_plant_pump_controller_pump_plant_1_long
+              - type: "vertical-stack"
+                cards:
+                  - type: "custom:mushroom-template-card"
+                    primary: "Maple"
+                    secondary: "Pump 2"
+                    icon: "mdi:sprout-outline"
+                    tap_action:
+                      action: none
+                  - type: "horizontal-stack"
+                    cards:
+                      - type: "custom:mushroom-template-card"
+                        primary: "Short"
+                        secondary: ""
+                        icon: "mdi:water-outline"
+                        tap_action:
+                          action: perform-action
+                          perform_action: button.press
+                          target:
+                            entity_id: button.ldk_plant_pump_controller_pump_plant_2_short
+                      - type: "custom:mushroom-template-card"
+                        primary: "Long"
+                        secondary: ""
+                        icon: "mdi:water-pump"
+                        tap_action:
+                          action: perform-action
+                          perform_action: button.press
+                          target:
+                            entity_id: button.ldk_plant_pump_controller_pump_plant_2_long
+          # Row 2: Anise (Pump 3) | Ivy (Pump 4)
+          - type: "horizontal-stack"
+            cards:
+              - type: "vertical-stack"
+                cards:
+                  - type: "custom:mushroom-template-card"
+                    primary: "Anise"
+                    secondary: "Pump 3"
+                    icon: "mdi:sprout-outline"
+                    tap_action:
+                      action: none
+                  - type: "horizontal-stack"
+                    cards:
+                      - type: "custom:mushroom-template-card"
+                        primary: "Short"
+                        secondary: ""
+                        icon: "mdi:water-outline"
+                        tap_action:
+                          action: perform-action
+                          perform_action: button.press
+                          target:
+                            entity_id: button.ldk_plant_pump_controller_pump_plant_3_short
+                      - type: "custom:mushroom-template-card"
+                        primary: "Long"
+                        secondary: ""
+                        icon: "mdi:water-pump"
+                        tap_action:
+                          action: perform-action
+                          perform_action: button.press
+                          target:
+                            entity_id: button.ldk_plant_pump_controller_pump_plant_3_long
+              - type: "vertical-stack"
+                cards:
+                  - type: "custom:mushroom-template-card"
+                    primary: "Ivy"
+                    secondary: "Pump 4"
+                    icon: "mdi:sprout-outline"
+                    tap_action:
+                      action: none
+                  - type: "horizontal-stack"
+                    cards:
+                      - type: "custom:mushroom-template-card"
+                        primary: "Short"
+                        secondary: ""
+                        icon: "mdi:water-outline"
+                        tap_action:
+                          action: perform-action
+                          perform_action: button.press
+                          target:
+                            entity_id: button.ldk_plant_pump_controller_pump_plant_4_short
+                      - type: "custom:mushroom-template-card"
+                        primary: "Long"
+                        secondary: ""
+                        icon: "mdi:water-pump"
+                        tap_action:
+                          action: perform-action
+                          perform_action: button.press
+                          target:
+                            entity_id: button.ldk_plant_pump_controller_pump_plant_4_long
+          # Emergency stop (full-width)
+          - type: "custom:mushroom-template-card"
+            primary: "Stop all pumps"
+            secondary: ""
+            icon: "mdi:stop-circle-outline"
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.ldk_plant_pump_controller_stop_all_plant_pumps
+          # Smart Plug 1 (full-width tile)
+          - type: "tile"
+            entity: switch.ldk_smart_plug_1_relay
+            name: "LDK Smart Plug 1"
+            features:
+              - type: "toggle"
+      # Right column: Camera
+      - type: "picture-entity"
+        view_layout:
+          grid-area: "right"
+        entity: camera.ldk_camera1
+        name: "LDK_Camera1"
+        show_name: true
+        show_state: false
