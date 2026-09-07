@@ -41,6 +41,11 @@ in
   services.motioneye = {
     enable = true;
 
+    packages = {
+      # See https://github.com/home-assistant/core/issues/174660
+      motioneye = config.multiverse.pinned.motioneye;
+    };
+
     settings = {
       log_level = "info";
       listen = "0.0.0.0";
