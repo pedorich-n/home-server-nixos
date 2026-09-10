@@ -37,6 +37,10 @@ in
         port = 2457;
         openFirewall = true;
       };
+      valheim-server-cross = {
+        port = 2458;
+        openFirewall = true;
+      };
     };
   };
 
@@ -57,7 +61,7 @@ in
         SERVER_NAME = "Just like the old times";
         WORLD_NAME = "Dedicated";
         SERVER_PUBLIC = "false";
-        CROSSPLAY = "false";
+        CROSSPLAY = "true";
         SUPERVISOR_HTTP = "false";
       };
       environmentFiles = [ config.sops.secrets."valheim-server/main.env".path ];
@@ -68,6 +72,7 @@ in
       publishPorts = [
         "0.0.0.0:${portsCfg.valheim-server.portStr}:2456/udp"
         "0.0.0.0:${portsCfg.valheim-server-query.portStr}:2457/udp"
+        "0.0.0.0:${portsCfg.valheim-server-cross.portStr}:2458/udp"
       ];
 
       # Allows the Steam library that Valheim uses to give itself more CPU cycles.
