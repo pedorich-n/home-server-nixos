@@ -66,8 +66,8 @@ in
         (mkMappedVolumeForUserContainerRoot "${storeRoot}/data" "/opt/valheim")
       ];
       publishPorts = [
-        "0.0.0.0:2456:${portsCfg.valheim-server.portStr}/udp"
-        "0.0.0.0:2457:${portsCfg.valheim-server-query.portStr}/udp"
+        "0.0.0.0:${portsCfg.valheim-server.portStr}:2456/udp"
+        "0.0.0.0:${portsCfg.valheim-server-query.portStr}:2457/udp"
       ];
 
       # Allows the Steam library that Valheim uses to give itself more CPU cycles.
