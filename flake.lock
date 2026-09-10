@@ -299,16 +299,16 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1788106158,
-        "narHash": "sha256-QjVSvnOI3+B6GZ0PLhz/Ksj/AaLqzPSllT6UXyeu5E8=",
-        "ref": "refs/heads/main",
-        "rev": "b12c6fae4bda41eb09d12c73a17cb6484f69507c",
-        "revCount": 241,
+        "lastModified": 1789003159,
+        "narHash": "sha256-V0MNYvywjX98yXAaaVaqEU7IvIKZSL8MoWmuLuX5Th4=",
+        "ref": "refs/heads/valheim",
+        "rev": "b1096c291680411ae431efa4aa4bdab6ee1d383a",
+        "revCount": 244,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
       "original": {
-        "ref": "refs/heads/main",
+        "ref": "refs/heads/valheim",
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }
