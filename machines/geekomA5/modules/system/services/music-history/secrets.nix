@@ -203,8 +203,9 @@ in
             data = {
               apis = [
                 {
-                  contact = config.custom.secrets.plaintext.variables.email;
-                  requestTimeout = 10000;
+                  # In ms. Default is 6000. Lately I've been getting a lot of timeouts 😕
+                  # Defined in https://github.com/FoxxMD/multi-scrobbler/blob/72ad7e/src/backend/common/vendor/musicbrainz/MusicbrainzApiClientPool.ts#L117
+                  requestTimeout = 15000;
                 }
               ];
             };
