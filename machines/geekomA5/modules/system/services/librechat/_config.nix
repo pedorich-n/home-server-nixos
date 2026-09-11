@@ -71,7 +71,7 @@ writers.writeYAML "librechat.yaml" {
   };
 
   mcpServers = {
-    Grist = {
+    Grist_Pyton = {
       command = "uvx";
       iconPath = mkDashboardIconUrl "grist";
       args = [
@@ -80,6 +80,15 @@ writers.writeYAML "librechat.yaml" {
       env = {
         GRIST_API_KEY = "\${GRIST_API_KEY}";
         GRIST_API_HOST = "${networkingLib.mkLocalUrl "grist"}/api";
+      };
+    };
+
+    Grist = {
+      type = "streamable-http";
+      url = "${networkingLib.mkLocalUrl "grist"}/api/mcp";
+      iconPath = mkDashboardIconUrl "grist";
+      headers = {
+        Authorization = "Bearer \${GRIST_API_KEY}";
       };
     };
 
@@ -114,14 +123,14 @@ writers.writeYAML "librechat.yaml" {
       };
     };
 
-    Netdata = {
-      type = "streamable-http";
-      iconPath = mkDashboardIconUrl "netdata";
-      url = "${networkingLib.mkLocalUrl "netdata"}/mcp";
-      headers = {
-        Authorization = "Bearer \${NETDATA_MCP_API_KEY}";
-      };
-    };
+    # Netdata = {
+    #   type = "streamable-http";
+    #   iconPath = mkDashboardIconUrl "netdata";
+    #   url = "${networkingLib.mkLocalUrl "netdata"}/mcp";
+    #   headers = {
+    #     Authorization = "Bearer \${NETDATA_MCP_API_KEY}";
+    #   };
+    # };
 
     NixOS = {
       command = "uvx";
