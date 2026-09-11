@@ -1,6 +1,8 @@
 {
   config,
   containerLib,
+  lib,
+  pkgs,
   ...
 }:
 let
@@ -25,6 +27,35 @@ let
         }
       ];
     };
+
+  mkShellBlock = commands: "{ ${lib.concatStringsSep "; " commands}; }";
+
+  mkDiscordCurl =
+    msg:
+    ''curl -sfSL -X POST -H "Content-Type: application/json" -d "{\"username\":\"Valheim Spammer\",\"content\":\"${msg}\"}" "$DISCORD_WEBHOOK"'';
+
+  hooks = pkgs.writeText "valheim-hooks.env" ''
+    PRE_BOOTSTRAP_HOOK=${
+      mkShellBlock [
+        (mkDiscordCurl "Starting Valheim server...")
+      ]
+    }
+
+    PRE_SERVER_SHUTDOWN_HOOK=${
+      mkShellBlock [
+        (mkDiscordCurl "Stopping Valheim server...")
+      ]
+    }
+
+    VALHEIM_LOG_FILTER_CONTAINS_JoinCode=registered with join code
+    ON_VALHEIM_LOG_FILTER_CONTAINS_JoinCode=${
+      mkShellBlock [
+        "read -r l"
+        ''code=$(printf '%s\n' "$l" | sed -nE "s/.*registered with join code ([0-9]+).*/\1/p")''
+        (mkDiscordCurl "Join code is \\`$code\\`")
+      ]
+    }
+  '';
 in
 {
   custom = {
@@ -63,8 +94,14 @@ in
         SERVER_PUBLIC = "false";
         CROSSPLAY = "true";
         SUPERVISOR_HTTP = "false";
+        RESTART_IF_IDLE = "false";
+
+        #''{ read -r l; code=$(printf '%s\n' "$l" | sed -nE 's/.*Created new join code ([0-9]+).*/\1/p'); msg="Join code is $code"; curl -sfSL -X POST -H 'Content-Type: application/json' -d "{\"username\":\"Valheim Spammer\",\"content\":\"$msg\"}" "$DISCORD_WEBHOOK"; }'';
       };
-      environmentFiles = [ config.sops.secrets."valheim-server/main.env".path ];
+      environmentFiles = [
+        config.sops.secrets."valheim-server/main.env".path
+        "${hooks}"
+      ];
       volumes = [
         (mkMappedVolumeForUserContainerRoot "${storeRoot}/config" "/config")
         (mkMappedVolumeForUserContainerRoot "${storeRoot}/data" "/opt/valheim")
