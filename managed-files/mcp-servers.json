@@ -20,13 +20,13 @@
   "n8n": {
     "datasource": "npm",
     "package": "n8n-mcp",
-    "version": "2.76.0",
+    "version": "2.82.1",
     "versioning": "semver"
   },
   "nixos": {
     "datasource": "pypi",
     "package": "mcp-nixos",
-    "version": "3.0.1",
+    "version": "3.1.0",
     "versioning": "semver"
   },
   "time": {
