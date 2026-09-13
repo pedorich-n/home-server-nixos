@@ -38,6 +38,12 @@ in
     };
   };
 
+  systemd.services.motioneye = {
+    serviceConfig = {
+      UMask = "002"; # rwx rwx r-x
+    };
+  };
+
   services.motioneye = {
     enable = true;
 
@@ -50,7 +56,7 @@ in
       log_level = "info";
       listen = "0.0.0.0";
       port = portsCfg.motioneye.portStr;
-      media_path = "/mnt/store/motioneye/media";
+      media_path = "/mnt/external/motioneye-library";
     };
   };
 }
