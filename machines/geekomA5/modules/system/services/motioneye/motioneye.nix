@@ -10,7 +10,7 @@ in
     # Allows access to the MotionEye server & cameras from the container
     allowedTCPPorts = [
       portsCfg.motioneye.port
-      portsCfg.motioneye-camera1.port
+      portsCfg.motioneye-camera1-streaming.port
     ];
   };
 
@@ -26,8 +26,14 @@ in
         openFirewall = false;
       };
 
+      # Set in Web UI
+      motioneye-camera1-streaming = {
+        port = 32602;
+        openFirewall = true;
+      };
+
       # Technically can be changed in config files, but looks like it's hardcoded in MotionEye somewhere, because I've seen errors in logs after I changed it
-      motioneye-camera1 = {
+      motioneye-camera1-settings = {
         port = 7999;
         openFirewall = false;
       };
@@ -35,6 +41,12 @@ in
 
     services.caddy.hosts.motioneye = {
       upstream = "http://127.0.0.1:${portsCfg.motioneye.portStr}";
+    };
+  };
+
+  systemd.services.motioneye = {
+    serviceConfig = {
+      UMask = "002"; # rwx rwx r-x
     };
   };
 
@@ -50,7 +62,7 @@ in
       log_level = "info";
       listen = "0.0.0.0";
       port = portsCfg.motioneye.portStr;
-      media_path = "/mnt/store/motioneye/media";
+      media_path = "/mnt/external/motioneye-library";
     };
   };
 }

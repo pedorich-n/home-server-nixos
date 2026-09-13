@@ -94,6 +94,14 @@
               "com.sun:auto-snapshot" = "true";
             };
           };
+
+          motioneye = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/mnt/external/motioneye-library";
+              quota = "1T";
+            };
+          };
         };
       };
     };
