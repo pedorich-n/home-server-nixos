@@ -97,10 +97,10 @@ version = 'v0.8.7'
 versioning = 'semver'
 
 [librechat-mongodb]
-digest = 'sha256:81a1c8842a09589fc8d5f285266f3340bf4abdf66700ba22988f14cc9b2b3118'
+digest = 'sha256:bac22ea7710d774103dcad3ec8ac13cba1eb378f488e3ce8a6b3a1adf2ba9dcc'
 image = 'library/mongo'
 registry = 'docker.io'
-version = '8.3.9'
+version = '9.0.2'
 versioning = 'semver'
 
 [librechat-rag]
