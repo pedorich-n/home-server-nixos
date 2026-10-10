@@ -49,6 +49,36 @@ let
     ''\((?:[0-9]+\s+)?Remaster(?:ed)?(?:\s+Version)?\)'' # Match "(2015 Remastered Version)", "(Remaster)", etc.
     ''\(Deluxe(?:\s+(?:Version|Edition))?\)'' # Match "(Deluxe)", "(Deluxe Version)", "(Deluxe Edition)", etc.
   ];
+
+  defaultPlayTransform = {
+    /*
+      First, replace known artist name variants with the correct ones,
+      then clean up the title with some regexes (e.g. remove "Remastered", "7' Version", etc.),
+      then clean up album name with some regexes (e.g. remove "Deluxe Edition", "Remastered Version", etc.),
+      then try to match with MusicBrainz,
+      and if that fails use the native algorithm of Multi-Scrobbler (extract fields from source and apply some heuristics)
+    */
+    preCompare = [
+      {
+        type = "user";
+        name = "ArtistRenames";
+      }
+      {
+        type = "user";
+        name = "FieldsCleanup";
+      }
+      {
+        # if MusicBrainz is successful then do NOT run native, only run native if MusicBrainz fails to find a match
+        type = "musicbrainz";
+        name = "MusicBrainz";
+        onSuccess = "stop";
+        onFailure = "continue";
+      }
+      {
+        type = "native";
+      }
+    ];
+  };
 in
 {
   sops.templates = {
@@ -85,28 +115,7 @@ in
             ];
             options = {
               scrobbleBacklog = true;
-              playTransform = {
-                preCompare = [
-                  {
-                    type = "user";
-                    name = "ArtistRenames";
-                  }
-                  {
-                    type = "user";
-                    name = "FieldsCleanup";
-                  }
-                  {
-                    # if MusicBrainz is successful then do NOT run native, only run native if MusicBrainz fails to find a match
-                    type = "musicbrainz";
-                    name = "MusicBrainz";
-                    onSuccess = "stop";
-                    onFailure = "continue";
-                  }
-                  {
-                    type = "native";
-                  }
-                ];
-              };
+              playTransform = defaultPlayTransform;
             };
           }
           {
@@ -153,6 +162,24 @@ in
                   }
                 ];
               };
+            };
+          }
+          {
+            name = "Jellyfin";
+            enable = true;
+            type = "jellyfin";
+            id = "jellyfin";
+            clients = [
+              "koito"
+              "lastfm"
+            ];
+            data = {
+              url = networkingLib.mkLocalUrl "jellyfin";
+              user = config.sops.placeholder."music-history/multiscrobbler/jellyfin/username";
+              apiKey = config.sops.placeholder."music-history/multiscrobbler/jellyfin/api_key";
+            };
+            options = {
+              playTransform = defaultPlayTransform;
             };
           }
         ];
