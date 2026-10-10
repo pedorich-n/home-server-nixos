@@ -41,9 +41,14 @@
       "separateMultipleMajor": true
     },
     {
-        "matchDatasources": [ "docker" ],
-        "matchPackageNames": [ "mauriceboe/trek" ],
-        "sourceUrl": "https://github.com/liketrek/TREK"
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["mauriceboe/trek"],
+      "sourceUrl": "https://github.com/liketrek/TREK"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["gristlabs/grist"],
+      "sourceUrl": "https://github.com/gristlabs/grist-core"
     }
   ]
 }
