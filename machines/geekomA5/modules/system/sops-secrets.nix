@@ -380,6 +380,8 @@ in
         "music-history/multiscrobbler/lastfm/api_key" = { };
         "music-history/multiscrobbler/lastfm/secret" = { };
         "music-history/multiscrobbler/listenbrainz-endpoint/token" = { };
+        "music-history/multiscrobbler/jellyfin/username" = { };
+        "music-history/multiscrobbler/jellyfin/api_key" = { };
 
         "tailscale/oauth_clients/server/id" = { };
         "tailscale/oauth_clients/server/secret" = { };
