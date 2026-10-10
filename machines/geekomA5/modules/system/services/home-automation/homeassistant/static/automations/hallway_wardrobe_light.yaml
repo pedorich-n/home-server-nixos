@@ -5,16 +5,17 @@
     - trigger: state
       entity_id: binary_sensor.hallway_wardrobe_door_sensor_1_contact
       to: "on"
+      id: "door_opened"
     - trigger: state
       entity_id: binary_sensor.hallway_wardrobe_door_sensor_1_contact
       to: "off"
+      id: "door_closed"
   conditions: []
   actions:
     - choose:
         - conditions:
-            - condition: template
-              value_template: |
-                {{ trigger.to_state.state == "on" }}
+            - condition: trigger
+              id: "door_opened"
             - condition: state
               entity_id: light.hallway_wardrobe_led_controller_1
               state: "off"
@@ -52,12 +53,11 @@
                     entity_id: light.hallway_wardrobe_led_controller_1
                   alias: Drop brightness
               alias: If door is still open and the light is on
-          alias: If door is open
+          alias: If door is opened
 
         - conditions:
-            - condition: template
-              value_template: |
-                {{ trigger.to_state.state == "off" }}
+            - condition: trigger
+              id: "door_closed"
             - condition: state
               entity_id: light.hallway_wardrobe_led_controller_1
               state: "on"
