@@ -4,7 +4,7 @@
   networkingLib,
   systemdLib,
   lib,
-  pkgs-unstable,
+  pkgs,
   ...
 }:
 let
@@ -90,7 +90,9 @@ in
   services = {
     authelia.instances.main = {
       enable = true;
-      package = pkgs-unstable.authelia;
+      # Unstable is currently broken. See https://github.com/NixOS/nixpkgs/issues/571789
+      # package = pkgs-unstable.authelia;
+      package = pkgs.authelia;
 
       secrets = {
         jwtSecretFile = config.sops.secrets."authelia/jwt_secret".path;
