@@ -89,9 +89,11 @@ in
                 preCompare = [
                   {
                     type = "user";
-                    name = "CustomCleanup";
-                    title = titleRegexes;
-                    album = albumRegexes;
+                    name = "ArtistRenames";
+                  }
+                  {
+                    type = "user";
+                    name = "FieldsCleanup";
                   }
                   {
                     # if MusicBrainz is successful then do NOT run native, only run native if MusicBrainz fails to find a match
@@ -134,13 +136,10 @@ in
                   {
                     type = "user";
                     name = "ArtistRenames";
-                    artists = lib.mapAttrsToList mkRenameRule artistRenames;
                   }
                   {
                     type = "user";
-                    name = "CustomCleanup";
-                    title = titleRegexes;
-                    album = albumRegexes;
+                    name = "FieldsCleanup";
                   }
                   {
                     # if MusicBrainz is successful then do NOT run native, only run native if MusicBrainz fails to find a match
@@ -197,12 +196,24 @@ in
 
         transformers = [
           {
+            type = "user";
+            name = "ArtistRenames";
+            artists = lib.mapAttrsToList mkRenameRule artistRenames;
+          }
+          {
+            type = "user";
+            name = "FieldsCleanup";
+            title = titleRegexes;
+            album = albumRegexes;
+          }
+          {
             # From https://docs.multi-scrobbler.app/configuration/transforms/musicbrainz/#sensible-default-1
             name = "MusicBrainz";
             type = "musicbrainz";
             data = {
               apis = [
                 {
+                  enable = true;
                   # In ms. Default is 6000. Lately I've been getting a lot of timeouts 😕
                   # Defined in https://github.com/FoxxMD/multi-scrobbler/blob/72ad7e/src/backend/common/vendor/musicbrainz/MusicbrainzApiClientPool.ts#L117
                   requestTimeout = 15000;
