@@ -194,10 +194,17 @@ in
             data = {
               apis = [
                 {
+                  # Uses default Musicbrainz server https://musicbrainz.org
                   enable = true;
                   # In ms. Default is 6000. Lately I've been getting a lot of timeouts 😕
                   # Defined in https://github.com/FoxxMD/multi-scrobbler/blob/72ad7e/src/backend/common/vendor/musicbrainz/MusicbrainzApiClientPool.ts#L117
                   requestTimeout = 15000;
+                }
+                {
+                  # Uses BrainzMash: a community-run pool of read-only hybrid Musicbrainz/Lidarr metadata servers.
+                  # It provides higher rate limit than official Musicbrainz server at a cost of a slower updates propagation.
+                  enable = true;
+                  url = "https://api.brainzmash.cc";
                 }
               ];
             };
