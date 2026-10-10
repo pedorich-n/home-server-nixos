@@ -379,7 +379,6 @@ in
         "music-history/multiscrobbler/spotify/client_secret" = { };
         "music-history/multiscrobbler/lastfm/api_key" = { };
         "music-history/multiscrobbler/lastfm/secret" = { };
-        "music-history/multiscrobbler/listenbrainz-endpoint/token" = { };
         "music-history/multiscrobbler/jellyfin/username" = { };
         "music-history/multiscrobbler/jellyfin/api_key" = { };
 

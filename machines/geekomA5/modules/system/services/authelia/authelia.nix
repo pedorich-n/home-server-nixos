@@ -47,7 +47,6 @@ let
     "homeassistant"
     "immich"
     "librechat"
-    "navidrome"
     "papra"
     "safebucket"
     "shelfmark"

@@ -119,52 +119,6 @@ in
             };
           }
           {
-            name = "NavidromeListenBrainz";
-            enable = true;
-            type = "endpointlz";
-            id = "navidrome-listenbrainz";
-            clients = [
-              "koito"
-              "lastfm"
-            ];
-            data = {
-              token = config.sops.placeholder."music-history/multiscrobbler/listenbrainz-endpoint/token";
-            };
-
-            options = {
-              scrobbleBacklog = false;
-              playTransform = {
-                /*
-                  First, replace known artist name variants with the correct ones,
-                  then clean up the title with some regexes (e.g. remove "Remastered", "7' Version", etc.),
-                  then clean up album name with some regexes (e.g. remove "Deluxe Edition", "Remastered Version", etc.),
-                  then try to match with MusicBrainz,
-                  and if that fails use the native algorithm of Multi-Scrobbler (extract fields from source and apply some heuristics)
-                */
-                preCompare = [
-                  {
-                    type = "user";
-                    name = "ArtistRenames";
-                  }
-                  {
-                    type = "user";
-                    name = "FieldsCleanup";
-                  }
-                  {
-                    # if MusicBrainz is successful then do NOT run native, only run native if MusicBrainz fails to find a match
-                    type = "musicbrainz";
-                    name = "MusicBrainz";
-                    onSuccess = "stop";
-                    onFailure = "continue";
-                  }
-                  {
-                    type = "native";
-                  }
-                ];
-              };
-            };
-          }
-          {
             name = "Jellyfin";
             enable = true;
             type = "jellyfin";
