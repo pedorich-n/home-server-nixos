@@ -33,10 +33,6 @@ in
             path = "/api*";
             auth = null;
           }
-          {
-            path = "/1*"; # ListenBrainz API webhook endpoint
-            auth = null;
-          }
         ];
       };
       koito = {

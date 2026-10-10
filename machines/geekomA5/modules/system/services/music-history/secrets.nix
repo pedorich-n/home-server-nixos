@@ -49,6 +49,36 @@ let
     ''\((?:[0-9]+\s+)?Remaster(?:ed)?(?:\s+Version)?\)'' # Match "(2015 Remastered Version)", "(Remaster)", etc.
     ''\(Deluxe(?:\s+(?:Version|Edition))?\)'' # Match "(Deluxe)", "(Deluxe Version)", "(Deluxe Edition)", etc.
   ];
+
+  defaultPlayTransform = {
+    /*
+      First, replace known artist name variants with the correct ones,
+      then clean up the title with some regexes (e.g. remove "Remastered", "7' Version", etc.),
+      then clean up album name with some regexes (e.g. remove "Deluxe Edition", "Remastered Version", etc.),
+      then try to match with MusicBrainz,
+      and if that fails use the native algorithm of Multi-Scrobbler (extract fields from source and apply some heuristics)
+    */
+    preCompare = [
+      {
+        type = "user";
+        name = "ArtistRenames";
+      }
+      {
+        type = "user";
+        name = "FieldsCleanup";
+      }
+      {
+        # if MusicBrainz is successful then do NOT run native, only run native if MusicBrainz fails to find a match
+        type = "musicbrainz";
+        name = "MusicBrainz";
+        onSuccess = "stop";
+        onFailure = "continue";
+      }
+      {
+        type = "native";
+      }
+    ];
+  };
 in
 {
   sops.templates = {
@@ -85,75 +115,25 @@ in
             ];
             options = {
               scrobbleBacklog = true;
-              playTransform = {
-                preCompare = [
-                  {
-                    type = "user";
-                    name = "CustomCleanup";
-                    title = titleRegexes;
-                    album = albumRegexes;
-                  }
-                  {
-                    # if MusicBrainz is successful then do NOT run native, only run native if MusicBrainz fails to find a match
-                    type = "musicbrainz";
-                    name = "MusicBrainz";
-                    onSuccess = "stop";
-                    onFailure = "continue";
-                  }
-                  {
-                    type = "native";
-                  }
-                ];
-              };
+              playTransform = defaultPlayTransform;
             };
           }
           {
-            name = "NavidromeListenBrainz";
+            name = "Jellyfin";
             enable = true;
-            type = "endpointlz";
-            id = "navidrome-listenbrainz";
+            type = "jellyfin";
+            id = "jellyfin";
             clients = [
               "koito"
               "lastfm"
             ];
             data = {
-              token = config.sops.placeholder."music-history/multiscrobbler/listenbrainz-endpoint/token";
+              url = networkingLib.mkLocalUrl "jellyfin";
+              user = config.sops.placeholder."music-history/multiscrobbler/jellyfin/username";
+              apiKey = config.sops.placeholder."music-history/multiscrobbler/jellyfin/api_key";
             };
-
             options = {
-              scrobbleBacklog = false;
-              playTransform = {
-                /*
-                  First, replace known artist name variants with the correct ones,
-                  then clean up the title with some regexes (e.g. remove "Remastered", "7' Version", etc.),
-                  then clean up album name with some regexes (e.g. remove "Deluxe Edition", "Remastered Version", etc.),
-                  then try to match with MusicBrainz,
-                  and if that fails use the native algorithm of Multi-Scrobbler (extract fields from source and apply some heuristics)
-                */
-                preCompare = [
-                  {
-                    type = "user";
-                    name = "ArtistRenames";
-                    artists = lib.mapAttrsToList mkRenameRule artistRenames;
-                  }
-                  {
-                    type = "user";
-                    name = "CustomCleanup";
-                    title = titleRegexes;
-                    album = albumRegexes;
-                  }
-                  {
-                    # if MusicBrainz is successful then do NOT run native, only run native if MusicBrainz fails to find a match
-                    type = "musicbrainz";
-                    name = "MusicBrainz";
-                    onSuccess = "stop";
-                    onFailure = "continue";
-                  }
-                  {
-                    type = "native";
-                  }
-                ];
-              };
+              playTransform = defaultPlayTransform;
             };
           }
         ];
@@ -197,15 +177,34 @@ in
 
         transformers = [
           {
+            type = "user";
+            name = "ArtistRenames";
+            artists = lib.mapAttrsToList mkRenameRule artistRenames;
+          }
+          {
+            type = "user";
+            name = "FieldsCleanup";
+            title = titleRegexes;
+            album = albumRegexes;
+          }
+          {
             # From https://docs.multi-scrobbler.app/configuration/transforms/musicbrainz/#sensible-default-1
             name = "MusicBrainz";
             type = "musicbrainz";
             data = {
               apis = [
                 {
+                  # Uses default Musicbrainz server https://musicbrainz.org
+                  enable = true;
                   # In ms. Default is 6000. Lately I've been getting a lot of timeouts 😕
                   # Defined in https://github.com/FoxxMD/multi-scrobbler/blob/72ad7e/src/backend/common/vendor/musicbrainz/MusicbrainzApiClientPool.ts#L117
                   requestTimeout = 15000;
+                }
+                {
+                  # Uses BrainzMash: a community-run pool of read-only hybrid Musicbrainz/Lidarr metadata servers.
+                  # It provides higher rate limit than official Musicbrainz server at a cost of a slower updates propagation.
+                  enable = true;
+                  url = "https://api.brainzmash.cc";
                 }
               ];
             };
