@@ -91,7 +91,7 @@ versioning = 'semver'
 
 [librechat-server]
 digest = 'sha256:c5db3331b845e1f289f8d04c0c77936c4bbe372f76730a804abc1c37e44d23a9'
-image = 'danny-avila/librechat'
+image = 'librechat-ai/librechat'
 registry = 'ghcr.io'
 version = 'v0.8.7'
 versioning = 'semver'
