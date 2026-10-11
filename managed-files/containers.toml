@@ -41,10 +41,10 @@ version = '1.7.21'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:1b64d38f38d922bf9d59336451fd6453e1d614f934456af4ee3d2a51061be3a4'
+digest = 'sha256:130241f28d01fa80dfa3b44f7d89781c188d8642ecab9024f079f19f9f82baa0'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.10.0'
+version = '2026.10.1'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
@@ -90,10 +90,10 @@ version = 'v0.3.2'
 versioning = 'semver'
 
 [librechat-server]
-digest = 'sha256:c5db3331b845e1f289f8d04c0c77936c4bbe372f76730a804abc1c37e44d23a9'
+digest = 'sha256:5b706bcee1ca154a1e2987303aaeca0eb27f97919cccee4bb604226c2f8abf61'
 image = 'librechat-ai/librechat'
 registry = 'ghcr.io'
-version = 'v0.8.7'
+version = 'v0.8.8'
 versioning = 'semver'
 
 [librechat-mongodb]
