@@ -49,6 +49,11 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["gristlabs/grist"],
       "sourceUrl": "https://github.com/gristlabs/grist-core"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["librechat-ai/librechat"],
+      "sourceUrl": "https://github.com/LibreChat-AI/LibreChat"
     }
   ]
 }
