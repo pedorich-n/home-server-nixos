@@ -91,6 +91,15 @@
             options = {
               mountpoint = "/mnt/external/seaweedfs";
               quota = "500G";
+              "com.sun:auto-snapshot" = "false";
+            };
+          };
+
+          rustfs = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/mnt/external/rustfs";
+              quota = "500G";
               "com.sun:auto-snapshot" = "true";
             };
           };

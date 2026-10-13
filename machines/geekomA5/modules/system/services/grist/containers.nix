@@ -42,10 +42,10 @@ in
         GRIST_OIDC_IDP_ISSUER = autheliaLib.issuerUrl;
         GRIST_OIDC_IDP_SKIP_END_SESSION_ENDPOINT = "true";
 
-        GRIST_DOCS_MINIO_ENDPOINT = networkingLib.mkLocalDomain "storage";
-        GRIST_DOCS_MINIO_USE_SSL = "1";
-        GRIST_DOCS_MINIO_BUCKET = "grist";
-        GRIST_DOCS_MINIO_BUCKET_REGION = "auto";
+        GRIST_DOCS_S3_ENDPOINT = networkingLib.mkLocalDomain "storage";
+        GRIST_DOCS_S3_USE_SSL = "1";
+        GRIST_DOCS_S3_BUCKET = "grist";
+        GRIST_DOCS_S3_BUCKET_REGION = "auto";
 
         GRIST_SNAPSHOT_TIME_CAP = builtins.toJSON {
           hour = 24;

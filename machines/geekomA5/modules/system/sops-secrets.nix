@@ -262,11 +262,11 @@ let
     in
     mapMergeAttrsList mkSecret secrets;
 
-  seaweedfsSecrets =
+  rustfsSecrets =
     let
       mkS3Credentials = user: [
-        "seaweedfs/${user}/access_key"
-        "seaweedfs/${user}/secret_key"
+        "rustfs/${user}/access_key"
+        "rustfs/${user}/secret_key"
       ];
 
       s3Users = [
@@ -274,12 +274,12 @@ let
         "grist"
       ];
 
-      secrets = lib.flatten (lib.map mkS3Credentials s3Users);
+      secrets = lib.foldl' (acc: user: acc ++ (mkS3Credentials user)) [ ] s3Users;
 
       mkSecret = secret: {
         ${secret} = {
-          owner = config.users.users.seaweedfs.name;
-          group = config.users.users.seaweedfs.group;
+          owner = config.services.rustfs.user;
+          group = config.services.rustfs.group;
         };
       };
     in
@@ -422,7 +422,6 @@ in
       envSecrets
       resticSecrets
       acmeSecrets
-      seaweedfsSecrets
       tombSecrets
       redisSecrets
       (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
@@ -433,6 +432,7 @@ in
       (lib.mkIf config.services.netdata.enable netdataSecrets)
       (lib.mkIf config.services.sabnzbd.enable sabnzbdSecrets)
       (lib.mkIf config.services.couchdb.enable couchdbSecrets)
+      (lib.mkIf config.services.rustfs.enable rustfsSecrets)
     ];
   };
 }
