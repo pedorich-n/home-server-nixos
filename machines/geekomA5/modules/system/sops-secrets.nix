@@ -446,7 +446,6 @@ in
       resticSecrets
       acmeSecrets
       seaweedfsSecrets
-      rustfsSecrets
       tombSecrets
       redisSecrets
       (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
@@ -457,6 +456,7 @@ in
       (lib.mkIf config.services.netdata.enable netdataSecrets)
       (lib.mkIf config.services.sabnzbd.enable sabnzbdSecrets)
       (lib.mkIf config.services.couchdb.enable couchdbSecrets)
+      (lib.mkIf config.services.rustfs.enable rustfsSecrets)
     ];
   };
 }
