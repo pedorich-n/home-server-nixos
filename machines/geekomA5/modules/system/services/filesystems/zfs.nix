@@ -7,6 +7,8 @@
   services.sanoid = {
     enable = true;
 
+    interval = "*-*-* *:00/15:00"; # At 00,15,30,45 mintues of every hour
+
     #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix
     datasets = {
       "external/immich" = {
