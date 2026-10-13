@@ -91,7 +91,7 @@
             options = {
               mountpoint = "/mnt/external/seaweedfs";
               quota = "500G";
-              "com.sun:auto-snapshot" = "true";
+              "com.sun:auto-snapshot" = "false";
             };
           };
 

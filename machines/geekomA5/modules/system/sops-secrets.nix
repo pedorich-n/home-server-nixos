@@ -262,29 +262,6 @@ let
     in
     mapMergeAttrsList mkSecret secrets;
 
-  seaweedfsSecrets =
-    let
-      mkS3Credentials = user: [
-        "seaweedfs/${user}/access_key"
-        "seaweedfs/${user}/secret_key"
-      ];
-
-      s3Users = [
-        "admin"
-        "grist"
-      ];
-
-      secrets = lib.flatten (lib.map mkS3Credentials s3Users);
-
-      mkSecret = secret: {
-        ${secret} = {
-          owner = config.users.users.seaweedfs.name;
-          group = config.users.users.seaweedfs.group;
-        };
-      };
-    in
-    mapMergeAttrsList mkSecret secrets;
-
   rustfsSecrets =
     let
       mkS3Credentials = user: [
@@ -445,7 +422,6 @@ in
       envSecrets
       resticSecrets
       acmeSecrets
-      seaweedfsSecrets
       tombSecrets
       redisSecrets
       (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
