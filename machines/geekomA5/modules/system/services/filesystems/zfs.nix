@@ -10,21 +10,22 @@
     #LINK - machines/geekomA5/modules/system/hardware/filesystems/zfs-external.nix
     datasets = {
       "external/immich" = {
-        autosnap = "yes";
-        template = "default";
+        autosnap = true;
+        use_template = [ "default" ];
       };
       "external/papra" = {
-        autosnap = "yes";
-        template = "default";
+        autosnap = true;
+        use_template = [ "default" ];
       };
       "external/rustfs" = {
-        autosnap = "yes";
-        template = "default";
+        autosnap = true;
+        use_template = [ "default" ];
       };
       "external/data" = {
-        autosnap = "yes";
-        daily = 30;
-        frequently = 0;
+        autoprune = true;
+        autosnap = true;
+        daily = 14;
+        frequently = 8; # 2 hours
         hourly = 24;
         monthly = 0;
         weekly = 0;
@@ -32,8 +33,10 @@
     };
 
     templates.default = {
+      autoprune = true;
+      frequent_period = 15; # Minutes
       daily = 30;
-      frequently = 12;
+      frequently = 12; # 3 hours
       hourly = 48;
       monthly = 0;
       weekly = 0;
