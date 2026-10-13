@@ -82,10 +82,6 @@ in
     };
   };
 
-  custom.services.caddy.hosts.storage = {
-    upstream = "http://127.0.0.1:${portsCfg.seaweedfs-s3.portStr}";
-  };
-
   users = {
     users.seaweedfs = {
       isSystemUser = true;

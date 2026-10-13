@@ -65,6 +65,10 @@ in
     };
   };
 
+  custom.services.caddy.hosts.storage = {
+    upstream = "http://127.0.0.1:${portsCfg.portStr}";
+  };
+
   systemd.services.rustfs-bootstrap = {
     description = "Provision rustfs bucket, versioning, and grist service account";
     after = [ "rustfs.service" ];
