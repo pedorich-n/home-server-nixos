@@ -45,7 +45,6 @@
           atime = "off"; # Disable Access Time
           xattr = "sa"; # Store Linux attributes in inodes rather than files in hidden folders
           mountpoint = "/mnt/external"; # ZFS prop: https://openzfs.github.io/openzfs-docs/man/v2.2/7/zfsprops.7.html#mountpoint
-          "com.sun:auto-snapshot" = "false"; # Don't take snapshots of root
         };
 
         datasets = {
@@ -54,7 +53,6 @@
             options = {
               mountpoint = "/mnt/external/immich-library"; # ZFS prop: https://openzfs.github.io/openzfs-docs/man/v2.2/7/zfsprops.7.html#mountpoint
               recordsize = "1M"; # Better read performance for "large" files like images, videos, etc.
-              "com.sun:auto-snapshot" = "true";
             };
           };
 
@@ -63,7 +61,6 @@
             options = {
               mountpoint = "/mnt/external/paperless-library";
               quota = "10G";
-              "com.sun:auto-snapshot" = "true";
             };
           };
 
@@ -72,7 +69,6 @@
             options = {
               mountpoint = "/mnt/external/papra-library";
               quota = "10G";
-              "com.sun:auto-snapshot" = "true";
             };
           };
 
@@ -82,7 +78,6 @@
               mountpoint = "/mnt/external/data-library";
               quota = "1T";
               recordsize = "1M"; # Better read performance for "large" files like images, videos, etc.
-              "com.sun:auto-snapshot" = "true";
             };
           };
 
@@ -91,7 +86,6 @@
             options = {
               mountpoint = "/mnt/external/seaweedfs";
               quota = "500G";
-              "com.sun:auto-snapshot" = "false";
             };
           };
 
@@ -100,7 +94,6 @@
             options = {
               mountpoint = "/mnt/external/rustfs";
               quota = "500G";
-              "com.sun:auto-snapshot" = "true";
             };
           };
 
