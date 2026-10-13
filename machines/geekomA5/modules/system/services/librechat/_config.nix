@@ -118,14 +118,14 @@ writers.writeYAML "librechat.yaml" {
       };
     };
 
-    # Netdata = {
-    #   type = "streamable-http";
-    #   iconPath = mkDashboardIconUrl "netdata";
-    #   url = "${networkingLib.mkLocalUrl "netdata"}/mcp";
-    #   headers = {
-    #     Authorization = "Bearer \${NETDATA_MCP_API_KEY}";
-    #   };
-    # };
+    Netdata = {
+      type = "streamable-http";
+      iconPath = mkDashboardIconUrl "netdata";
+      url = "${networkingLib.mkLocalUrl "netdata"}/mcp";
+      headers = {
+        Authorization = "Bearer \${NETDATA_MCP_API_KEY}";
+      };
+    };
 
     NixOS = {
       command = "uvx";
