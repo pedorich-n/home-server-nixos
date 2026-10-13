@@ -72,18 +72,6 @@ writers.writeYAML "librechat.yaml" {
 
   mcpServers = {
     Grist = {
-      command = "uvx";
-      iconPath = mkDashboardIconUrl "grist";
-      args = [
-        (mkPackageWithVersionFor "grist")
-      ];
-      env = {
-        GRIST_API_KEY = "\${GRIST_API_KEY}";
-        GRIST_API_HOST = "${networkingLib.mkLocalUrl "grist"}/api";
-      };
-    };
-
-    Grist_Native = {
       type = "streamable-http";
       url = "${networkingLib.mkLocalUrl "grist"}/api/mcp";
       iconPath = mkDashboardIconUrl "grist";
