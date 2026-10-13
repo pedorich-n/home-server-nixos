@@ -7,7 +7,7 @@
 }:
 let
   storeRoot = "/mnt/store/grist";
-  portsCfg = config.custom.networking.ports.tcp.grist;
+  portsCfg = config.custom.networking.ports.tcp;
 in
 {
   custom = {
@@ -17,7 +17,7 @@ in
     };
 
     services.caddy.hosts.grist = {
-      upstream = "http://127.0.0.1:${portsCfg.portStr}";
+      upstream = "http://127.0.0.1:${portsCfg.grist.portStr}";
     };
   };
 
@@ -61,12 +61,16 @@ in
 
         # See https://support.getgrist.com/self-managed/#how-do-i-sandbox-documents
         GRIST_SANDBOX_FLAVOR = "gvisor";
+
+        REDIS_URL = "redis://host.containers.internal:${portsCfg.redis-grist.portStr}/1";
+
+        GRIST_MCP_ENABLED = "true";
       };
       environmentFiles = [ config.sops.secrets."grist/main.env".path ];
       volumes = [
         (containerLib.mkMappedVolumeForUser "${storeRoot}/persist" "/persist")
       ];
-      publishPorts = [ "127.0.0.1:${portsCfg.portStr}:8484" ];
+      publishPorts = [ "127.0.0.1:${portsCfg.grist.portStr}:8484" ];
       inherit (containerLib.containerIds) user;
     };
   };

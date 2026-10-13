@@ -72,14 +72,18 @@ writers.writeYAML "librechat.yaml" {
 
   mcpServers = {
     Grist = {
-      command = "uvx";
+      type = "streamable-http";
+      url = "${networkingLib.mkLocalUrl "grist"}/api/mcp";
       iconPath = mkDashboardIconUrl "grist";
-      args = [
-        (mkPackageWithVersionFor "grist")
-      ];
-      env = {
-        GRIST_API_KEY = "\${GRIST_API_KEY}";
-        GRIST_API_HOST = "${networkingLib.mkLocalUrl "grist"}/api";
+      headers = {
+        Authorization = "Bearer {{GRIST_API_KEY}}";
+      };
+      customUserVars = {
+        GRIST_API_KEY = {
+          title = "Grist API Key";
+          description = "Your personal Grist API key. You can get under Account Settings -> Developer";
+          sensitive = true;
+        };
       };
     };
 
