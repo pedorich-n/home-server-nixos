@@ -32,7 +32,6 @@ in
 
     containerConfig = {
       environments = rec {
-        DEBUG = "1";
         GRIST_DOMAIN = networkingLib.mkLocalDomain "grist";
         APP_HOME_URL = networkingLib.mkLocalUrl "grist";
 
