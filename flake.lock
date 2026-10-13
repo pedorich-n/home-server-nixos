@@ -318,16 +318,16 @@
     "home-server-nixos-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1791866498,
-        "narHash": "sha256-IVgp7pi+b1B7FcURSbNGfEzpyhhjPUMJVP/HR1brXQ0=",
-        "ref": "refs/heads/rustfs",
-        "rev": "bc2ae94cc5912ebd4ddd3a5cb606b96f4b196550",
-        "revCount": 250,
+        "lastModified": 1791867899,
+        "narHash": "sha256-t9GHyt6AmfLOxWrV0utohroI8foQGrHqzbOzfa7CyMU=",
+        "ref": "refs/heads/main",
+        "rev": "c53633fe694aa53b2876e3c5458c6d08b96fed4e",
+        "revCount": 249,
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       },
       "original": {
-        "ref": "refs/heads/rustfs",
+        "ref": "refs/heads/main",
         "type": "git",
         "url": "ssh://git@github.com/pedorich-n/home-server-nixos-secrets"
       }
