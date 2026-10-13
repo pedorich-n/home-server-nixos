@@ -285,6 +285,29 @@ let
     in
     mapMergeAttrsList mkSecret secrets;
 
+  rustfsSecrets =
+    let
+      mkS3Credentials = user: [
+        "rustfs/${user}/access_key"
+        "rustfs/${user}/secret_key"
+      ];
+
+      s3Users = [
+        "admin"
+        "grist"
+      ];
+
+      secrets = lib.foldl' (acc: user: acc ++ (mkS3Credentials user)) [ ] s3Users;
+
+      mkSecret = secret: {
+        ${secret} = {
+          owner = config.services.rustfs.user;
+          group = config.services.rustfs.group;
+        };
+      };
+    in
+    mapMergeAttrsList mkSecret secrets;
+
   sabnzbdSecrets =
     let
       mkSecret = secret: {
@@ -423,6 +446,7 @@ in
       resticSecrets
       acmeSecrets
       seaweedfsSecrets
+      rustfsSecrets
       tombSecrets
       redisSecrets
       (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
