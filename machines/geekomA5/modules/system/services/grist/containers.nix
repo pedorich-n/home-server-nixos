@@ -3,7 +3,6 @@
   containerLib,
   autheliaLib,
   networkingLib,
-  lib,
   ...
 }:
 let
@@ -67,12 +66,6 @@ in
         REDIS_URL = "redis://host.containers.internal:${portsCfg.redis-grist.portStr}/1";
 
         GRIST_MCP_ENABLED = "true";
-
-        # Enables OAuth server for MCP authorization
-        GRIST_ENABLE_OIDC_SERVER = "true";
-        GRIST_OIDC_CIMD_ALLOWED_HOSTS = lib.concatStringsSep "," [
-          (networkingLib.mkLocalDomain "chat")
-        ];
       };
       environmentFiles = [ config.sops.secrets."grist/main.env".path ];
       volumes = [
