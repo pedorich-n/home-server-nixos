@@ -58,6 +58,9 @@ in
 
         # This function performs HTTP requests in a similar way to requests.request
         GRIST_ENABLE_REQUEST_FUNCTION = "1";
+
+        # See https://support.getgrist.com/self-managed/#how-do-i-sandbox-documents
+        GRIST_SANDBOX_FLAVOR = "gvisor";
       };
       environmentFiles = [ config.sops.secrets."grist/main.env".path ];
       volumes = [
