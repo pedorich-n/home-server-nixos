@@ -40,6 +40,7 @@ writeShellApplication {
 
     rc mb rustfs_admin/grist 2>/dev/null || true
     rc bucket version enable rustfs_admin/grist
+    rc ilm rule add rustfs_admin/grist --noncurrent-expiry-days 90 --expired-object-delete-marker || true
 
     if ! rc admin access-key info rustfs_admin "$grist_ak" > /dev/null 2>&1; then
       rc admin service-account create rustfs_admin "$grist_ak" "$grist_sk" \
