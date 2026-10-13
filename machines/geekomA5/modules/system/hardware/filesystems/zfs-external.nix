@@ -95,6 +95,15 @@
             };
           };
 
+          rustfs = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/mnt/external/rustfs";
+              quota = "500G";
+              "com.sun:auto-snapshot" = "true";
+            };
+          };
+
           motioneye = {
             type = "zfs_fs";
             options = {
