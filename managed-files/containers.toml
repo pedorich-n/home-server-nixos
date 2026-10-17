@@ -101,7 +101,7 @@ digest = 'sha256:d731d77bfd7afd66bd487bdf627b5bf7ce4c3602ec461d635977021db529ebb
 image = 'library/mongo'
 registry = 'docker.io'
 version = '8.3.11'
-versioning = 'semver'
+versioning = 'regex:^v?(?<major>8)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 
 [librechat-rag]
 digest = 'sha256:a62ce2221b43a9bb57fa6cb733e7047c80132960272c33d5704028f3071a1251'
