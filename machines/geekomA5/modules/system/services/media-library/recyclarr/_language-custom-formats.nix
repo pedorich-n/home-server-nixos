@@ -27,7 +27,7 @@ let
   languages = {
     # English = 1;
     Russian = 11;
-    Ukrainian = 30;
+    Ukrainian = 32;
   };
 
   notLanguageCustomFormats = lib.mapAttrsToList (

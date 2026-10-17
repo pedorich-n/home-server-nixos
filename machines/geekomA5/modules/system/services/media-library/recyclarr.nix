@@ -57,6 +57,13 @@ in
                 enabled = true;
               };
             }
+            {
+              trash_id = "d1d67249d3890e49bc12e275d989a7e9"; # HD Bluray + WEB
+              name = "HD Bluray + WEB - Ukrainian";
+              reset_unmatched_scores = {
+                enabled = true;
+              };
+            }
           ];
 
           custom_formats = [
@@ -73,6 +80,10 @@ in
                   name = "HD Bluray + WEB - Russian";
                   score = 0;
                 }
+                {
+                  name = "HD Bluray + WEB - Ukrainian";
+                  score = 0;
+                }
               ];
             }
             {
@@ -85,6 +96,9 @@ in
                 }
                 {
                   name = "HD Bluray + WEB - Russian";
+                }
+                {
+                  name = "HD Bluray + WEB - Ukrainian";
                 }
               ];
             }
@@ -99,6 +113,10 @@ in
                 }
                 {
                   name = "HD Bluray + WEB - Russian";
+                  score = 0;
+                }
+                {
+                  name = "HD Bluray + WEB - Ukrainian";
                   score = 0;
                 }
               ];
@@ -120,6 +138,16 @@ in
               assign_scores_to = [
                 {
                   name = "HD Bluray + WEB - Russian";
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "my-not-ukrainian-language" # Custom Language: Not Ukrainian
+              ];
+              assign_scores_to = [
+                {
+                  name = "HD Bluray + WEB - Ukrainian";
                 }
               ];
             }
@@ -164,6 +192,13 @@ in
                 enabled = true;
               };
             }
+            {
+              trash_id = "9d142234e45d6143785ac55f5a9e8dc9"; # WEB-1080p (Alternative)
+              name = "WEB-1080p - Ukrainian";
+              reset_unmatched_scores = {
+                enabled = true;
+              };
+            }
           ];
 
           custom_formats = [
@@ -177,6 +212,9 @@ in
                 }
                 {
                   name = "WEB-1080p - Russian";
+                }
+                {
+                  name = "WEB-1080p - Ukrainian";
                 }
               ];
             }
@@ -193,6 +231,10 @@ in
                   name = "WEB-1080p - Russian";
                   score = 0;
                 }
+                {
+                  name = "WEB-1080p - Ukrainian";
+                  score = 0;
+                }
               ];
             }
             {
@@ -205,6 +247,9 @@ in
                 }
                 {
                   name = "WEB-1080p - Russian";
+                }
+                {
+                  name = "WEB-1080p - Ukrainian";
                 }
               ];
             }
@@ -219,6 +264,10 @@ in
                 }
                 {
                   name = "WEB-1080p - Russian";
+                  score = 0;
+                }
+                {
+                  name = "WEB-1080p - Ukrainian";
                   score = 0;
                 }
               ];
@@ -240,6 +289,16 @@ in
               assign_scores_to = [
                 {
                   name = "WEB-1080p - Russian";
+                }
+              ];
+            }
+            {
+              trash_ids = [
+                "my-not-ukrainian-language" # Custom Language: Not Ukrainian
+              ];
+              assign_scores_to = [
+                {
+                  name = "WEB-1080p - Ukrainian";
                 }
               ];
             }
