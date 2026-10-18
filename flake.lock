@@ -409,6 +409,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-netdata": {
+      "locked": {
+        "lastModified": 1791554773,
+        "narHash": "sha256-vkhhvAYLCgy6+uJ+4GJAW1bBbWboxNcmicDktIV9gQ4=",
+        "owner": "rhoriguchi",
+        "repo": "nixpkgs",
+        "rev": "98e93874beac3937ab87d93d64167af31b509b36",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rhoriguchi",
+        "ref": "netdata",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1791456040,
@@ -610,6 +626,7 @@
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
         "nixpkgs-multiverse": "nixpkgs-multiverse",
+        "nixpkgs-netdata": "nixpkgs-netdata",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nur": "nur",
         "playit-nixos-module": "playit-nixos-module",
