@@ -7,6 +7,7 @@
 }:
 let
   portsCfg = config.custom.networking.ports.tcp.prowlarr;
+  customCaBundle = "/var/lib/prowlarr/ca-bundle.pem";
 in
 {
   custom = {
@@ -49,8 +50,23 @@ in
         (systemdLib.wantsAfter [
           config.systemd.services.sabnzbd.name
           "qbittorrent.service"
+          "trawl.service"
         ])
       ];
+
+      preStart = ''
+        bundle=${customCaBundle}
+        trawlCa=/mnt/store/trawl/proxy-ca/ca.crt
+        if [ -f "$trawlCa" ]; then
+          cat /etc/ssl/certs/ca-certificates.crt "$trawlCa" > "$bundle"
+        else
+          # First activation: Trawl hasn't generated its CA yet.
+          cp /etc/ssl/certs/ca-certificates.crt "$bundle"
+        fi
+        chmod 0644 "$bundle"
+      '';
+
+      environment.SSL_CERT_FILE = customCaBundle;
     };
 
     # See https://github.com/NixOS/nixpkgs/issues/549165

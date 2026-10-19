@@ -138,6 +138,13 @@ registry = 'ghcr.io'
 version = 'v1.4.0'
 versioning = 'semver'
 
+[trawl]
+digest = 'sha256:bed002f15c9afc2ce0e285e9c67f145223ae0797c1defa54d74d35ac1d1bf52c'
+image = 'germondai/trawl'
+registry = 'ghcr.io'
+version = '1.9.0'
+versioning = 'semver'
+
 [qbittorrent]
 digest = 'sha256:b522f9f4b769f8f36d49d22d5eb6a92e9aa18904c6a1830b1439df511ec21983'
 image = 'linuxserver/qbittorrent'

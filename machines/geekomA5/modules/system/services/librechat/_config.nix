@@ -71,6 +71,28 @@ writers.writeYAML "librechat.yaml" {
   };
 
   mcpServers = {
+    Fetch = {
+      command = "uvx";
+      iconPath = "https://img.icons8.com/?size=128&id=21339";
+      args = [
+        (mkPackageWithVersionFor "fetch")
+      ];
+    };
+
+    Forgejo = {
+      command = "forgejo-mcp";
+      iconPath = mkDashboardIconUrl "git";
+      args = [
+        "--transport"
+        "stdio"
+      ];
+      env = {
+        FORGEJO_ACCESS_TOKEN = "\${FORGEJO_API_KEY}";
+        FORGEJO_URL = networkingLib.mkLocalUrl "git";
+        FORGEJO_USER_AGENT = "forgejo-mcp/1.0.0";
+      };
+    };
+
     Grist = {
       type = "streamable-http";
       url = "${networkingLib.mkLocalUrl "grist"}/api/mcp";
@@ -87,17 +109,24 @@ writers.writeYAML "librechat.yaml" {
       };
     };
 
-    Forgejo = {
-      command = "forgejo-mcp";
-      iconPath = mkDashboardIconUrl "git";
+    LLMSandbox = {
+      command = "uvx";
       args = [
-        "--transport"
-        "stdio"
+        "--from"
+        "${mcpServersCfg.llm_sandbox.package}[mcp-podman]==${mcpServersCfg.llm_sandbox.version}"
+        "python3"
+        "-m"
+        "llm_sandbox.mcp_server.server"
       ];
+      iconPath = "https://img.icons8.com/?size=128&id=16230";
       env = {
-        FORGEJO_ACCESS_TOKEN = "\${FORGEJO_API_KEY}";
-        FORGEJO_URL = networkingLib.mkLocalUrl "git";
-        FORGEJO_USER_AGENT = "forgejo-mcp/1.0.0";
+        BACKEND = "podman";
+        DOCKER_HOST = "unix:///run/podman.sock";
+        COMMIT_CONTAINER = "false";
+        SANDBOX_CAP_DROP = "ALL";
+        SANDBOX_PRIVILEGED = "false";
+        SANDBOX_MEMORY = "4g";
+        SANDBOX_CPU_COUNT = "4";
       };
     };
 
@@ -136,6 +165,7 @@ writers.writeYAML "librechat.yaml" {
     SearXNG = {
       type = "streamable-http";
       url = "${networkingLib.mkLocalUrl "searxng"}/mcp";
+      iconPath = mkDashboardIconUrl "searxng";
     };
 
     Time = {
@@ -146,39 +176,16 @@ writers.writeYAML "librechat.yaml" {
       ];
     };
 
-    Fetch = {
-      command = "uvx";
-      iconPath = "https://img.icons8.com/?size=128&id=21339";
-      args = [
-        (mkPackageWithVersionFor "fetch")
-      ];
-    };
-
-    LLMSandbox = {
-      command = "uvx";
-      args = [
-        "--from"
-        "${mcpServersCfg.llm_sandbox.package}[mcp-podman]==${mcpServersCfg.llm_sandbox.version}"
-        "python3"
-        "-m"
-        "llm_sandbox.mcp_server.server"
-      ];
-      iconPath = "https://img.icons8.com/?size=128&id=16230";
-      env = {
-        BACKEND = "podman";
-        DOCKER_HOST = "unix:///run/podman.sock";
-        COMMIT_CONTAINER = "false";
-        SANDBOX_CAP_DROP = "ALL";
-        SANDBOX_PRIVILEGED = "false";
-        SANDBOX_MEMORY = "4g";
-        SANDBOX_CPU_COUNT = "4";
-      };
-    };
-
     Trek = {
       type = "streamable-http";
       url = "${networkingLib.mkLocalUrl "trek"}/mcp";
       iconPath = mkDashboardIconUrl "trek";
+    };
+
+    Trawl = {
+      type = "streamable-http";
+      url = "${networkingLib.mkLocalUrl "trawl"}/mcp";
+      iconPath = "https://raw.githubusercontent.com/germondai/trawl/4a1a3fcfb/apps/docs/public/logo-light.svg";
     };
   };
 }
