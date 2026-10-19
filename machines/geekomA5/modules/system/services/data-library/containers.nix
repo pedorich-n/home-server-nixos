@@ -303,7 +303,8 @@ in
             "127.0.0.1:${portsCfg."trawl-mitm".portStr}:8192" # MITM forward proxy for Prowlarr
           ];
           environments = defaultEnvs // {
-            SESSION_CACHE_DRIVER = "memory";
+            SESSION_CACHE_DRIVER = "redis";
+            REDIS_URL = "redis://host.containers.internal:${portsCfg."redis-trawl".portStr}";
 
             MITM_ENABLED = "true";
 
