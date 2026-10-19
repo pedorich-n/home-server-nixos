@@ -18,6 +18,8 @@ let
     "qbittorrent/config"
 
     "shelfmark/config"
+
+    "trawl"
   ];
 
   # foldersToCreateExternal = lib.map (folder: "${externalRoot}/${folder}") [
