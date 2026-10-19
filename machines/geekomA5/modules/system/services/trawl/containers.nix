@@ -41,7 +41,7 @@ in
           "127.0.0.1:${portsCfg."trawl-mitm".portStr}:8192" # MITM forward proxy for Prowlarr
         ];
         environments = {
-          TZ = "${config.time.timeZone}";
+          LOG_LEVEL = "info";
 
           SESSION_CACHE_DRIVER = "redis";
           REDIS_URL = "redis://host.containers.internal:${toString portsCfg."redis-trawl".port}";
@@ -52,9 +52,12 @@ in
           MCP_ALLOWED_ORIGINS = lib.concatStringsSep "," [ (networkingLib.mkLocalUrl "chat") ];
 
           BROWSER_POOL_SIZE = "2";
+          BROWSER_ACQUIRE_TIMEOUT_MS = "15000";
           BROWSER_BLOCK_ADS = "false";
           BROWSER_MAX_CONTENT_PROCESSES = "1";
           BROWSER_HARDWARE_CONCURRENCY = "4";
+
+          METRICS_DASHBOARD_ENABLED = "false";
         };
         # Firefox uses /dev/shm heavily; without this, browser tabs crash silently.
         shmSize = "1gb";
