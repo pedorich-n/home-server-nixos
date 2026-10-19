@@ -56,7 +56,7 @@ in
 
       preStart = ''
         bundle=${customCaBundle}
-        trawlCa=/mnt/store/data-library/trawl/proxy-ca/ca.crt
+        trawlCa=/mnt/store/trawl/proxy-ca/ca.crt
         if [ -f "$trawlCa" ]; then
           cat /etc/ssl/certs/ca-certificates.crt "$trawlCa" > "$bundle"
         else

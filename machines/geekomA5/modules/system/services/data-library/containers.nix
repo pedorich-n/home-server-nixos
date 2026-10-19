@@ -45,14 +45,6 @@ in
         port = 31300;
         openFirewall = false;
       };
-      trawl = {
-        port = 33010;
-        openFirewall = false;
-      };
-      trawl-mitm = {
-        port = 33011;
-        openFirewall = false;
-      };
     };
 
     services.caddy.hosts = {
@@ -288,38 +280,6 @@ in
             "zfs.target"
           ])
         ];
-      };
-
-      trawl = {
-        useGlobalContainers = true;
-        usernsAuto = {
-          enable = true;
-          size = 65535;
-        };
-
-        containerConfig = {
-          publishPorts = [
-            "127.0.0.1:${portsCfg.trawl.portStr}:8191" # FlareSolverr-compatible API + CA download
-            "127.0.0.1:${portsCfg."trawl-mitm".portStr}:8192" # MITM forward proxy for Prowlarr
-          ];
-          environments = defaultEnvs // {
-            SESSION_CACHE_DRIVER = "redis";
-            REDIS_URL = "redis://host.containers.internal:${portsCfg."redis-trawl".portStr}";
-
-            MITM_ENABLED = "true";
-
-            BROWSER_POOL_SIZE = "1";
-            BROWSER_BLOCK_ADS = "false";
-            BROWSER_MAX_CONTENT_PROCESSES = "1";
-            BROWSER_HARDWARE_CONCURRENCY = "4";
-          };
-          shmSize = "1gb";
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/trawl" "/data")
-          ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
       };
     };
   };

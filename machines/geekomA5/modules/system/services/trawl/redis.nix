@@ -7,12 +7,12 @@ let
 in
 {
   custom.networking.ports.tcp.redis-trawl = {
-    port = 33050;
+    port = 33250;
     openFirewall = false;
   };
 
+  # Allows the Trawl quadlet container to reach Redis over the podman+ bridge.
   networking.firewall.interfaces."podman+" = {
-    # Allows access to the Redis server from the container
     allowedTCPPorts = [
       portsCfg.port
     ];
@@ -21,7 +21,9 @@ in
   services.redis.servers.trawl = {
     enable = true;
 
-    bind = "0.0.0.0"; # Listen on all interfaces, so that it can be accessed from the container
+    # 0.0.0.0 + protected-mode no because the Trawl container reaches this
+    # from the podman bridge. Same exposure profile as services/grist/redis.nix.
+    bind = "0.0.0.0";
     inherit (portsCfg) port;
 
     settings = {
