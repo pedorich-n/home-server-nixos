@@ -29,6 +29,10 @@ in
 {
   custom = {
     networking.ports.tcp = {
+      gluetun-health = {
+        port = 30700;
+        openFirewall = false;
+      };
       qbittorrent = {
         port = 30800;
         openFirewall = false;
@@ -99,6 +103,7 @@ in
             VPN_SERVICE_PROVIDER = "airvpn";
 
             HTTP_CONTROL_SERVER_LOG = "off";
+            HEALTH_SERVER_ADDRESS = "0.0.0.0:9999";
           };
           environmentFiles = [ config.sops.secrets."data-library/gluetun.env".path ];
           # https://github.com/qdm12/gluetun/blob/ddd9f4d0210c35d062896ffa2c7dc6e585deddfb/Dockerfile#L226
@@ -114,6 +119,7 @@ in
           publishPorts = [
             "127.0.0.1:${portsCfg.qbittorrent.portStr}:8080" # Qbittorrent Web UI
             "127.0.0.1:${portsCfg.mousehole.portStr}:5010" # Mousehole Web UI
+            "127.0.0.1:${portsCfg.gluetun-health.portStr}:9999" # Gluetun health-check endpoint
           ];
           inherit networks;
         };
