@@ -21,9 +21,7 @@ in
   services.redis.servers.trawl = {
     enable = true;
 
-    # 0.0.0.0 + protected-mode no because the Trawl container reaches this
-    # from the podman bridge. Same exposure profile as services/grist/redis.nix.
-    bind = "0.0.0.0";
+    bind = "0.0.0.0"; # Listen on all interfaces, so that it can be accessed from the container
     inherit (portsCfg) port;
 
     settings = {
