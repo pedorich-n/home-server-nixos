@@ -201,6 +201,10 @@ in
             url = "${networkingLib.mkLocalUrl "sonarr"}/ping";
           }
           {
+            name = "Trawl";
+            url = "${networkingLib.mkLocalUrl "trawl"}/health";
+          }
+          {
             name = "Trek";
             url = "${networkingLib.mkLocalUrl "trek"}/api/health";
           }
