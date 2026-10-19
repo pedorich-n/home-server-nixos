@@ -1,6 +1,8 @@
 {
   config,
+  lib,
   containerLib,
+  networkingLib,
   ...
 }:
 let
@@ -45,7 +47,9 @@ in
           REDIS_URL = "redis://host.containers.internal:${toString portsCfg."redis-trawl".port}";
 
           MITM_ENABLED = "true";
+
           MCP_ENABLED = "true";
+          MCP_ALLOWED_ORIGINS = lib.concatStringsSep "," [ (networkingLib.mkLocalUrl "chat") ];
 
           BROWSER_POOL_SIZE = "2";
           BROWSER_BLOCK_ADS = "false";
