@@ -80,12 +80,13 @@ locals {
     }
 
     rutracker = {
-      enable          = false
+      enable          = true
       name            = "Rutracker"
       priority        = 30
       app_profile_id  = prowlarr_sync_profile.interactive.id
       implementation  = "RuTracker"
       config_contract = "RuTrackerSettings"
+      tags            = [prowlarr_tag.trawl.id]
       fields = [
         { name = "baseUrl", text_value = "https://rutracker.org/" },
         { name = "russianLetters", bool_value = false },
@@ -112,6 +113,7 @@ resource "prowlarr_indexer" "torrent" {
   config_contract = lookup(each.value, "config_contract", "CardigannSettings")
   protocol        = "torrent"
   priority        = each.value.priority
+  tags            = lookup(each.value, "tags", [])
   fields = concat([
     { name = "baseSettings.limitsUnit", number_value = 0 }, # 0 means Day, 1 means Hour
     { name = "torrentBaseSettings.preferMagnetUrl", bool_value = false }
