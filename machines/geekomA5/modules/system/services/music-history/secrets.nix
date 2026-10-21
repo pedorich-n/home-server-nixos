@@ -179,13 +179,17 @@ in
           {
             type = "user";
             name = "ArtistRenames";
-            artists = lib.mapAttrsToList mkRenameRule artistRenames;
+            defaults = {
+              artists = lib.mapAttrsToList mkRenameRule artistRenames;
+            };
           }
           {
             type = "user";
             name = "FieldsCleanup";
-            title = titleRegexes;
-            album = albumRegexes;
+            defaults = {
+              title = titleRegexes;
+              album = albumRegexes;
+            };
           }
           {
             # From https://docs.multi-scrobbler.app/configuration/transforms/musicbrainz/#sensible-default-1
