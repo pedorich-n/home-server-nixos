@@ -6,7 +6,7 @@ version = 'v3.13.0'
 versioning = 'semver'
 
 [airtrail-postgresql]
-digest = 'sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873'
+digest = 'sha256:83148c0bc09eac4d598b70a61e1404d0212b76c95c504bfd6c81a4c59ec91792'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '18.6-alpine'
@@ -20,10 +20,10 @@ version = '2.37.1'
 versioning = 'semver'
 
 [gitea-mirror]
-digest = 'sha256:786b193599c60138a3fa04b8d7abc45faef9748af030d49da802c5a478314154'
+digest = 'sha256:80f9cd44224934038a70383b3a14be436414180792397a040d7053cd14be120e'
 image = 'raylabshq/gitea-mirror'
 registry = 'ghcr.io'
-version = 'v3.40.3'
+version = 'v3.43.0'
 versioning = 'semver'
 
 [gluetun]
@@ -34,31 +34,31 @@ version = 'v3.41.3'
 versioning = 'semver'
 
 [grist]
-digest = 'sha256:4ef5b69ab411de298d2f70571fdcb9a0b00af0d7135d61255e641c5eef70f991'
+digest = 'sha256:577918affbc446f77382b6049c06226488a086a3ea52c2661154b1252d5ff873'
 image = 'gristlabs/grist'
 registry = 'docker.io'
 version = '1.7.21'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:130241f28d01fa80dfa3b44f7d89781c188d8642ecab9024f079f19f9f82baa0'
+digest = 'sha256:33afb0659d786213264c2211f8d91c5fe87461c56eba6a3a546eb05fc71e89f4'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.10.1'
+version = '2026.10.2'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [homeassistant-postgresql]
-digest = 'sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873'
+digest = 'sha256:83148c0bc09eac4d598b70a61e1404d0212b76c95c504bfd6c81a4c59ec91792'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '18.6-alpine'
 versioning = 'docker'
 
 [immich-machine-learning]
-digest = 'sha256:513c831cfb010ad319341a0c86b42c575a0d5b688d3e8cae346ee624074a58ed'
+digest = 'sha256:5b28c9352c8374b8a1ed96fbdd8d6755fea6e43510ec43fdf6538aa02ea40f56'
 image = 'immich-app/immich-machine-learning'
 registry = 'ghcr.io'
-version = 'v3.3.1'
+version = 'v3.3.5'
 versioning = 'semver'
 
 [immich-postgresql]
@@ -69,10 +69,10 @@ version = '14-vectorchord0.4.3-pgvectors0.3.0'
 versioning = 'regex:^(?<major>14)-vectorchord(?<minor>0\.4\.\d+)'
 
 [immich-server]
-digest = 'sha256:db996e352359771c6a3db121a0ed8761516b22f727fc092a0f46dcfef82c1bc1'
+digest = 'sha256:485d546a2e31d6a8b4db8423fcba5c109de8c218d93410af115fd1ccfc4352a6'
 image = 'immich-app/immich-server'
 registry = 'ghcr.io'
-version = 'v3.3.1'
+version = 'v3.3.5'
 versioning = 'semver'
 
 [immich-valkey]
@@ -97,10 +97,10 @@ version = 'v0.8.8'
 versioning = 'semver'
 
 [librechat-mongodb]
-digest = 'sha256:d731d77bfd7afd66bd487bdf627b5bf7ce4c3602ec461d635977021db529ebbc'
+digest = 'sha256:0e900a3364da37b76d642b73b0bba56bd4c6c509ab470cf700436fd866bee3ff'
 image = 'library/mongo'
 registry = 'docker.io'
-version = '8.3.11'
+version = '8.3.13'
 versioning = 'regex:^v?(?<major>8)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 
 [librechat-rag]
@@ -125,51 +125,51 @@ version = '0.5.0'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:449274cb8b5b855cc361056862aed6a11e5dcc0a72e2acb279ac78edf834a1c7'
+digest = 'sha256:2a11137663437b5d7c2e24f4d1bfc3ef72ccbeca9e1377e28c72928789236aab'
 image = 'foxxmd/multi-scrobbler'
 registry = 'ghcr.io'
-version = '0.19.2'
+version = '0.20.0'
 versioning = 'semver'
 
 [shelfmark]
-digest = 'sha256:edc889c12c4e54076432e5377b674fed4a1aaa934890f8a678bc5b38e5088a75'
+digest = 'sha256:3631dd9aa5e404e0849bfbef8f30cd86864ab7579118d4defc301b8070472d25'
 image = 'calibrain/shelfmark-lite'
 registry = 'ghcr.io'
-version = 'v1.4.0'
+version = 'v1.5.0'
 versioning = 'semver'
 
 [trawl]
-digest = 'sha256:bed002f15c9afc2ce0e285e9c67f145223ae0797c1defa54d74d35ac1d1bf52c'
+digest = 'sha256:53e655107be335cb946886ba0023c363175f392a3a87cfc55ffab979779b3f01'
 image = 'germondai/trawl'
 registry = 'ghcr.io'
-version = '1.9.0'
+version = '1.9.2'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:b522f9f4b769f8f36d49d22d5eb6a92e9aa18904c6a1830b1439df511ec21983'
+digest = 'sha256:e887804fa9de4c60f5f0fb1f3a7e4febe40a8f69fe736f70c4e8589b1f868dab'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
-version = '5.2.4'
+version = '5.3.0'
 versioning = 'regex:^v?(?<major>5)\.(?<minor>\d+)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [searxng]
-digest = 'sha256:85492ba800a861e3e8ff6014c430e81369fe6ca766a9990595f616d1ce95b272'
+digest = 'sha256:5ed0323b5f5f8701264ef65e239a2bd83cb57098f2b971fa30bf79c06eeae271'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.10.9-f4822b3fc'
+version = '2026.10.19-81371861f'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
-digest = 'sha256:1ef1ccf41af8ae409e0435518facb5789b6adc99681ef26d1869508355455749'
+digest = 'sha256:6b7c8f275cc0ff3ca44979084bf078f553c96a0564493a132c1631ffaf6c3e77'
 image = 'mauriceboe/trek'
 registry = 'docker.io'
-version = '4.3.3'
+version = '4.3.4'
 versioning = 'semver'
 
 [valheim-server]
-digest = 'sha256:f3ccde9a4e292663cf5096d502ff33cc9617015f6d70b6a9ca0968543f165ef2'
+digest = 'sha256:f34d67ba8023e343b10ffda0144759a8c8d986f276510460315a01051bed8a6d'
 image = 'community-valheim-tools/valheim-server'
 registry = 'ghcr.io'
-version = '1.4.0'
+version = '1.4.1'
 versioning = 'semver'
