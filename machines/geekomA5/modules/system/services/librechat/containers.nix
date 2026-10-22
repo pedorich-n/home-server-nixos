@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  pkgs-unstable,
   containerLib,
   systemdLib,
   networkingLib,
@@ -158,7 +157,6 @@ in
             (mkMappedVolumeForCustom "${storeRoot}/server/logs" "/app/logs")
             "${settings}:/app/librechat.yaml:ro"
             "/run/user/${toString config.users.users.podman-runner.uid}/podman/podman.sock:/run/podman.sock"
-            "${lib.getExe pkgs-unstable.pkgsStatic.forgejo-mcp}:/usr/bin/forgejo-mcp:ro"
           ];
 
           publishPorts = [ "127.0.0.1:${portsCfg.portStr}:3080" ];
