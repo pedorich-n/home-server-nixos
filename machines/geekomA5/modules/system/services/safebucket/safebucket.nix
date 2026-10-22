@@ -32,7 +32,7 @@ in
   services.safebucket = {
     enable = true;
 
-    package = pkgs-unstable.safebucket_main;
+    package = pkgs-unstable.safebucket;
 
     dataDir = "/var/lib/safebucket";
 
