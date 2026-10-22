@@ -2,19 +2,19 @@
   "fetch": {
     "datasource": "pypi",
     "package": "mcp-server-fetch",
-    "version": "2026.8.18",
+    "version": "2026.10.19",
     "versioning": "pep440"
   },
   "llm_sandbox": {
     "datasource": "pypi",
     "package": "llm-sandbox",
-    "version": "0.3.45",
+    "version": "0.3.46",
     "versioning": "semver"
   },
   "n8n": {
     "datasource": "npm",
     "package": "n8n-mcp",
-    "version": "2.92.1",
+    "version": "2.94.3",
     "versioning": "semver"
   },
   "nixos": {
@@ -26,7 +26,7 @@
   "time": {
     "datasource": "pypi",
     "package": "mcp-server-time",
-    "version": "2026.8.18",
+    "version": "2026.10.19",
     "versioning": "pep440"
   }
 }
