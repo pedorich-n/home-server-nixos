@@ -25,7 +25,6 @@
         inputs.book-sync.nixosModules.default
         inputs.nur.repos.pedorich-n.modules.nixos.safebucket
         inputs.nur.repos.pedorich-n.modules.nixos.rustic-exporter
-        inputs.nur.repos.pedorich-n.modules.nixos.mcp-searxng
         inputs.nixpkgs-multiverse.nixosModules.default
       ];
       deploySettings = {
