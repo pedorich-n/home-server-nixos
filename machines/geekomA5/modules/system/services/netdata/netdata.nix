@@ -60,17 +60,7 @@ in
               "timex" = "no";
               "idlejitter" = "no";
               "netdata monitoring" = "no";
-              "ioping" = "no";
               "tc" = "no";
-              "freeipmi" = "no";
-            };
-
-            "plugin:cgroups" = {
-              "enable cpuacct cpu throttling" = "no";
-              "enable cpuacct cpu shares" = "no";
-              "enable swap memory" = "no";
-              "enable cpu pressure" = "no";
-              "enable memory full pressure" = "no";
             };
 
             "plugin:apps" = {
@@ -106,12 +96,6 @@ in
               "transparent hugepages" = "no";
               "memory reclaiming" = "no";
               "cma memory" = "no";
-            };
-
-            "plugin:proc:/proc/net/dev" = {
-              "speed for all interfaces" = "no";
-              "duplex for all interfaces" = "no";
-              "mtu for all interfaces" = "no";
             };
 
             "plugin:proc:/proc/net/sockstat" = {
