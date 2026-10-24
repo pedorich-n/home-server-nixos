@@ -57,9 +57,8 @@ in
             };
 
             plugins = {
-              "timex" = "no";
               "idlejitter" = "no";
-              "netdata monitoring" = "no";
+              "netdata pulse" = "no";
               "tc" = "no";
             };
 
@@ -69,11 +68,9 @@ in
 
             "plugin:proc" = {
               "/proc/sys/kernel/random/entropy_avail" = "no";
-              "/proc/pressure" = "no";
               "/proc/interrupts" = "no";
               "/proc/softirqs" = "no";
               "/proc/net/softnet_stat" = "no";
-              "/proc/net/stat/conntrack" = "no";
               "ipc" = "no";
             };
 
@@ -85,13 +82,10 @@ in
               "swap i/o" = "no";
               "disk i/o" = "no";
               "memory page faults" = "no";
-              "out of memory kills" = "no";
               "transparent huge pages" = "no";
             };
 
             "plugin:proc:/proc/meminfo" = {
-              "writeback memory" = "no";
-              "slab memory" = "no";
               "hugepages" = "no";
               "transparent hugepages" = "no";
               "memory reclaiming" = "no";
@@ -100,7 +94,6 @@ in
 
             "plugin:proc:/proc/net/sockstat" = {
               "ipv4 sockets" = "no";
-              "ipv4 TCP sockets" = "no";
               "ipv4 UDP sockets" = "no";
               "ipv4 UDPLITE sockets" = "no";
               "ipv4 RAW sockets" = "no";
