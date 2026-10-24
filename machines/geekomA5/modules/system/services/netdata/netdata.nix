@@ -60,7 +60,6 @@ in
               "timex" = "no";
               "idlejitter" = "no";
               "netdata monitoring" = "no";
-              "debugfs" = "no";
               "ioping" = "no";
               "tc" = "no";
               "freeipmi" = "no";
@@ -143,16 +142,7 @@ in
               modules = {
                 dnsmasq = false;
                 logind = false;
-                sensors = true;
               };
-            };
-
-            "go.d/sensors.conf" = pkgs.writers.writeYAML "netdata-sensors.conf" {
-              jobs = [
-                {
-                  name = "sensors";
-                }
-              ];
             };
 
             "health.d/rustic.conf" = pkgs.writeText "netdata-restic-alerts.conf" ''
