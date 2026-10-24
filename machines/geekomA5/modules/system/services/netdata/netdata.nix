@@ -62,6 +62,10 @@ in
               "tc" = "no";
             };
 
+            "plugin:cgroups" = {
+              "enable by default cgroups names matching" = "!*libpod-payload* !*libpod-conmon* *";
+            };
+
             "plugin:apps" = {
               "command options" = "without-users without-groups";
             };
@@ -108,12 +112,30 @@ in
               "ipv6 FRAG sockets" = "no";
             };
 
+            "db" = {
+              # Makes Netdata clean-up old dangling (such as Podman/conmon auto-generated services) data.
+              "extreme cardinality protection" = "yes";
+              "extreme cardinality keep instances" = "300";
+            };
+
           };
 
           configDir = {
             "health_alarm_notify.conf" = config.sops.templates."netdata/health_alarm_notify.conf".path;
             "go.d/prometheus.conf" = config.sops.templates."netdata/prometheus.conf".path;
             "go.d/httpcheck.conf" = config.sops.templates."netdata/httpcheck.conf".path;
+
+            "go.d/systemdunits.conf" = pkgs.writers.writeYAML "netdata-systemdunits.conf" {
+              jobs = [
+                {
+                  # This is a copy of a default config except `skip_transient`.
+                  # With this flag enabled all transient units (like Podman health-check services) are ignored
+                  name = "service-units";
+                  include = [ "*.service" ];
+                  skip_transient = true;
+                }
+              ];
+            };
 
             "go.d.conf" = pkgs.writers.writeYAML "netdata-go.d.conf" {
               modules = {
