@@ -49,12 +49,6 @@ in
             web = {
               "bind to" = "unix:${socketPath}";
             };
-            health = {
-              "enabled alarms" = lib.concatStringsSep " " [
-                "!*fly_io_data_collection_status*" # Disable fly.io data collection alarm due to sparse metrics availability
-                "*"
-              ];
-            };
 
             plugins = {
               "idlejitter" = "no";
@@ -64,6 +58,7 @@ in
 
             "plugin:cgroups" = {
               "enable by default cgroups names matching" = "!*libpod-payload* !*libpod-conmon* *";
+              "update every" = "5"; # Default is 1
             };
 
             "plugin:apps" = {
