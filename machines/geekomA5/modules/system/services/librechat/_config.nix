@@ -83,15 +83,10 @@ writers.writeYAML "librechat.yaml" {
       type = "streamable-http";
       url = "${networkingLib.mkLocalUrl "grist"}/api/mcp";
       iconPath = mkDashboardIconUrl "grist";
-      headers = {
-        Authorization = "Bearer {{GRIST_API_KEY}}";
-      };
-      customUserVars = {
-        GRIST_API_KEY = {
-          title = "Grist API Key";
-          description = "Your personal Grist API key. You can get under Account Settings -> Developer";
-          sensitive = true;
-        };
+      apiKey = {
+        source = "admin";
+        key = "\${GRIST_API_KEY}";
+        authorization_type = "bearer";
       };
     };
 
@@ -133,15 +128,6 @@ writers.writeYAML "librechat.yaml" {
       };
     };
 
-    Netdata = {
-      type = "streamable-http";
-      iconPath = mkDashboardIconUrl "netdata";
-      url = "${networkingLib.mkLocalUrl "netdata"}/mcp";
-      headers = {
-        Authorization = "Bearer \${NETDATA_MCP_API_KEY}";
-      };
-    };
-
     NixOS = {
       command = "uvx";
       iconPath = mkDashboardIconUrl "nixos";
@@ -152,6 +138,7 @@ writers.writeYAML "librechat.yaml" {
       type = "streamable-http";
       url = "${networkingLib.mkLocalUrl "searxng"}/mcp";
       iconPath = mkDashboardIconUrl "searxng";
+      requiresOAuth = false;
     };
 
     Time = {
@@ -166,12 +153,14 @@ writers.writeYAML "librechat.yaml" {
       type = "streamable-http";
       url = "${networkingLib.mkLocalUrl "trek"}/mcp";
       iconPath = mkDashboardIconUrl "trek";
+      requiresOAuth = true;
     };
 
     Trawl = {
       type = "streamable-http";
       url = "${networkingLib.mkLocalUrl "trawl"}/mcp";
       iconPath = "https://raw.githubusercontent.com/germondai/trawl/4a1a3fcfb/apps/docs/public/logo-light.svg";
+      requiresOAuth = false;
     };
   };
 }
