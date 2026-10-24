@@ -49,29 +49,16 @@ in
             web = {
               "bind to" = "unix:${socketPath}";
             };
-            health = {
-              "enabled alarms" = lib.concatStringsSep " " [
-                "!*fly_io_data_collection_status*" # Disable fly.io data collection alarm due to sparse metrics availability
-                "*"
-              ];
-            };
 
             plugins = {
-              "timex" = "no";
               "idlejitter" = "no";
-              "netdata monitoring" = "no";
-              "debugfs" = "no";
-              "ioping" = "no";
+              "netdata pulse" = "no";
               "tc" = "no";
-              "freeipmi" = "no";
             };
 
             "plugin:cgroups" = {
-              "enable cpuacct cpu throttling" = "no";
-              "enable cpuacct cpu shares" = "no";
-              "enable swap memory" = "no";
-              "enable cpu pressure" = "no";
-              "enable memory full pressure" = "no";
+              "enable by default cgroups names matching" = "!*libpod-payload* !*libpod-conmon* *";
+              "update every" = "5"; # Default is 1
             };
 
             "plugin:apps" = {
@@ -80,11 +67,9 @@ in
 
             "plugin:proc" = {
               "/proc/sys/kernel/random/entropy_avail" = "no";
-              "/proc/pressure" = "no";
               "/proc/interrupts" = "no";
               "/proc/softirqs" = "no";
               "/proc/net/softnet_stat" = "no";
-              "/proc/net/stat/conntrack" = "no";
               "ipc" = "no";
             };
 
@@ -96,28 +81,18 @@ in
               "swap i/o" = "no";
               "disk i/o" = "no";
               "memory page faults" = "no";
-              "out of memory kills" = "no";
               "transparent huge pages" = "no";
             };
 
             "plugin:proc:/proc/meminfo" = {
-              "writeback memory" = "no";
-              "slab memory" = "no";
               "hugepages" = "no";
               "transparent hugepages" = "no";
               "memory reclaiming" = "no";
               "cma memory" = "no";
             };
 
-            "plugin:proc:/proc/net/dev" = {
-              "speed for all interfaces" = "no";
-              "duplex for all interfaces" = "no";
-              "mtu for all interfaces" = "no";
-            };
-
             "plugin:proc:/proc/net/sockstat" = {
               "ipv4 sockets" = "no";
-              "ipv4 TCP sockets" = "no";
               "ipv4 UDP sockets" = "no";
               "ipv4 UDPLITE sockets" = "no";
               "ipv4 RAW sockets" = "no";
@@ -132,6 +107,12 @@ in
               "ipv6 FRAG sockets" = "no";
             };
 
+            "db" = {
+              # Makes Netdata clean-up old dangling (such as Podman/conmon auto-generated services) data.
+              "extreme cardinality protection" = "yes";
+              "extreme cardinality keep instances" = "300";
+            };
+
           };
 
           configDir = {
@@ -139,20 +120,23 @@ in
             "go.d/prometheus.conf" = config.sops.templates."netdata/prometheus.conf".path;
             "go.d/httpcheck.conf" = config.sops.templates."netdata/httpcheck.conf".path;
 
+            "go.d/systemdunits.conf" = pkgs.writers.writeYAML "netdata-systemdunits.conf" {
+              jobs = [
+                {
+                  # This is a copy of a default config except `skip_transient`.
+                  # With this flag enabled all transient units (like Podman health-check services) are ignored
+                  name = "service-units";
+                  include = [ "*.service" ];
+                  skip_transient = true;
+                }
+              ];
+            };
+
             "go.d.conf" = pkgs.writers.writeYAML "netdata-go.d.conf" {
               modules = {
                 dnsmasq = false;
                 logind = false;
-                sensors = true;
               };
-            };
-
-            "go.d/sensors.conf" = pkgs.writers.writeYAML "netdata-sensors.conf" {
-              jobs = [
-                {
-                  name = "sensors";
-                }
-              ];
             };
 
             "health.d/rustic.conf" = pkgs.writeText "netdata-restic-alerts.conf" ''
