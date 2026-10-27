@@ -20,6 +20,7 @@ let
     "Naik Borzov" = "Найк Борзов";
     "Okean Elzy" = "Океан Ельзи";
     "Samoe Bolshoe Prostoe Chislo" = "Самое Большое Простое Число";
+    "Sektor Gaza" = "Сектор Газа";
     "Splean" = "Сплин";
     "Vagonovozhatye" = "Вагоновожатые";
     "Vyacheslav Butusov" = "Вячеслав Бутусов";
@@ -207,7 +208,14 @@ in
                 {
                   # Uses BrainzMash: a community-run pool of read-only hybrid Musicbrainz/Lidarr metadata servers.
                   # It provides higher rate limit than official Musicbrainz server at a cost of a slower updates propagation.
-                  enable = true;
+                  #
+                  # Kept disabled: multi-scrobbler routes each lookup to the enabled API with the most
+                  # rate-limit capacity left (BrainzMash 4req/s vs musicbrainz.org 1req/s), so BrainzMash
+                  # answered nearly every request and its stale entries were used as-is. Its records are
+                  # not revalidated against musicbrainz.org, so releases deleted or merged in the official
+                  # database kept resolving to their old MBIDs. There is no per-API priority setting
+                  # upstream, and ordering the entries does not express one.
+                  enable = false;
                   url = "https://api.brainzmash.cc";
                 }
               ];
