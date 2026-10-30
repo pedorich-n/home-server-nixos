@@ -1,17 +1,18 @@
 {
-  config,
+  pkgs,
   lib,
   ...
 }:
 let
-  dbBackupFolder = "/mnt/store/home-automation/homeassistant/db-backup";
+  rootStoreFolder = "/mnt/store/home-automation/homeassistant";
+  dbBackupFolder = "${rootStoreFolder}/db-backup";
 in
 {
   #NOTE - See also global config at
   #LINK - machines/geekomA5/modules/system/services/restic/restic.nix
   services.restic.backups = {
     homeassistant = {
-      paths = lib.map (rel: "/mnt/store/home-automation/homeassistant/${rel}") [
+      paths = lib.map (rel: "${rootStoreFolder}/${rel}") [
         "automations"
         "db-backup"
         "configuration"
@@ -21,7 +22,6 @@ in
         "resources"
         ".storage"
         "themes"
-        "ui_lovelace_minimalist"
         "www"
         "automations.yaml"
         "configuration.yaml"
@@ -33,13 +33,21 @@ in
         "--keep-monthly 3"
       ];
 
-      backupPrepareCommand = ''
-        mkdir -p "${dbBackupFolder}"
-        set -o allexport; source ${config.sops.secrets."home-automation/postgresql.env".path}; set +o allexport
+      backupPrepareCommand = lib.getExe (
+        pkgs.writeShellApplication {
+          name = "homeassistant-backup-prepare";
+          runtimeInputs = with pkgs; [
+            sqlite
+          ];
+          text = ''
+            echo "Home Assistant DB backup is stored at: ${dbBackupFolder}"
 
-        ${lib.getExe config.virtualisation.podman.package} exec --tty homeassistant-postgresql \
-        pg_dumpall --username ''${POSTGRES_USER} --clean --if-exists > "${dbBackupFolder}/backup.sql"
-      '';
+            mkdir -p "${dbBackupFolder}"
+
+            sqlite3 ${rootStoreFolder}/home-assistant_v2.db ".backup '${dbBackupFolder}/db-backup.sqlite'"
+          '';
+        }
+      );
 
       backupCleanupCommand = ''
         rm -r "${dbBackupFolder}"
