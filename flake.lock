@@ -394,21 +394,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-multiverse": {
-      "locked": {
-        "lastModified": 1792653064,
-        "narHash": "sha256-OXCzUjYL2I6x8g9Uzi4M+1pJ6ARrQl04HjxjTIgQBI8=",
-        "owner": "fzakaria",
-        "repo": "nixpkgs-multiverse",
-        "rev": "a9a5469d9effb0776e2669dd2eefa6cf9fd1706a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fzakaria",
-        "repo": "nixpkgs-multiverse",
-        "type": "github"
-      }
-    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1792502884,
@@ -609,7 +594,6 @@
         "nix-github-actions": "nix-github-actions",
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-multiverse": "nixpkgs-multiverse",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nur": "nur",
         "playit-nixos-module": "playit-nixos-module",

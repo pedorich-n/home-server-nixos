@@ -152,13 +152,6 @@ let
               displayData.showForGroups = [ autheliaLib.groups.Admins ];
             };
           })
-          (mkEntry {
-            slug = "motioneye";
-            title = "MotionEye";
-            args = {
-              displayData.showForGroups = [ autheliaLib.groups.Admins ];
-            };
-          })
         ];
       }
       {
