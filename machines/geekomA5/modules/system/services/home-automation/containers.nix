@@ -5,8 +5,6 @@
   ...
 }:
 let
-  inherit (config.virtualisation.quadlet) containers;
-
   storeRoot = "/mnt/store/home-automation";
 
   networks = [ "home-automation-internal.network" ];
@@ -56,20 +54,6 @@ in
     };
 
     containers = {
-      homeassistant-postgresql = {
-        useGlobalContainers = true;
-        usernsAuto.enable = true;
-
-        containerConfig = {
-          environmentFiles = [ config.sops.secrets."home-automation/postgresql.env".path ];
-          volumes = [
-            (containerLib.mkMappedVolumeForUser "${storeRoot}/postgresql" "/var/lib/postgresql")
-          ];
-          inherit networks;
-          inherit (containerLib.containerIds) user;
-        };
-      };
-
       homeassistant = {
         useGlobalContainers = true;
         wantsCaddy = true;
@@ -90,11 +74,15 @@ in
             (mkMappedVolumeForUserContainerRoot config.sops.secrets."home-automation/homeassistant_secrets.yaml".path "/config/secrets.yaml")
           ];
           publishPorts = [ "127.0.0.1:${portsCfg.homeassistant.portStr}:8123" ];
+          stopTimeout = 90;
           inherit networks;
         };
 
+        serviceConfig = {
+          TimeoutStopSec = 120;
+        };
+
         unitConfig = systemdLib.requiresAfter [
-          containers.homeassistant-postgresql.ref
           config.systemd.services.mosquitto.name
         ];
       };
