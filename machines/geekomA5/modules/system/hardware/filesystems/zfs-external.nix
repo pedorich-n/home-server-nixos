@@ -81,14 +81,6 @@
             };
           };
 
-          seaweedfs = {
-            type = "zfs_fs";
-            options = {
-              mountpoint = "/mnt/external/seaweedfs";
-              quota = "500G";
-            };
-          };
-
           rustfs = {
             type = "zfs_fs";
             options = {
