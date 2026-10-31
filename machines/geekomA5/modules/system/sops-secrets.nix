@@ -417,6 +417,9 @@ in
         "radarr/api/key" = { };
         "homeassistant/api/key" = { };
 
+        "forgejo-mirror-seeder/github_token" = { };
+        "forgejo-mirror-seeder/forgejo_token" = { };
+
         "forgejo-mirror-seeder/repos.json" = {
           sopsFile = sopsFilePathFor "forgejo-mirror-seeder/repos_json.txt";
           format = "binary";
