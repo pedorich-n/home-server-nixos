@@ -147,10 +147,10 @@ version = '2026.10.19-81371861f'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
-digest = 'sha256:6b7c8f275cc0ff3ca44979084bf078f553c96a0564493a132c1631ffaf6c3e77'
+digest = 'sha256:23bf3fa6a134dc38a3b4f40ef8f7e8040abc96965105dffdcfcf5f202fb5d0b7'
 image = 'mauriceboe/trek'
 registry = 'docker.io'
-version = '4.3.4'
+version = '5.1.0'
 versioning = 'semver'
 
 [valheim-server]
