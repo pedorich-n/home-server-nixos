@@ -100,9 +100,6 @@ let
         "authelia/oidc/forgejo/client_id"
         "authelia/oidc/forgejo/client_secret_hashed"
 
-        "authelia/oidc/gitea-mirror/client_id"
-        "authelia/oidc/gitea-mirror/client_secret_hashed"
-
         "authelia/oidc/trek/client_id"
         "authelia/oidc/trek/client_secret_hashed"
 

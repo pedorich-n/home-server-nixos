@@ -107,10 +107,6 @@ in
             url = "${networkingLib.mkLocalUrl "git"}/api/healthz";
           }
           {
-            name = "GiteaMirror";
-            url = "${networkingLib.mkLocalUrl "gitea-mirror"}/api/health";
-          }
-          {
             name = "Gluetun";
             url = "http://127.0.0.1:${config.custom.networking.ports.tcp.gluetun-health.portStr}";
           }
