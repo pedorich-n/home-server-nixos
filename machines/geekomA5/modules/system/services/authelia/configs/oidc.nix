@@ -257,16 +257,6 @@ in
             };
           })
 
-          (mkOidcProviderPrivate {
-            name = "gitea-mirror";
-            redirectUris = [
-              "${networkingLib.mkLocalUrl "gitea-mirror"}/api/auth/sso/callback/Authelia"
-            ];
-            extraArgs = {
-              claims_policy = "userinfo_in_id_token";
-            };
-          })
-
           (mkOidcProviderPublic {
             name = "dashy";
             id = "dashy";

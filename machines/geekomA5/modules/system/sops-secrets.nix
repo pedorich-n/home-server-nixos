@@ -100,9 +100,6 @@ let
         "authelia/oidc/forgejo/client_id"
         "authelia/oidc/forgejo/client_secret_hashed"
 
-        "authelia/oidc/gitea-mirror/client_id"
-        "authelia/oidc/gitea-mirror/client_secret_hashed"
-
         "authelia/oidc/trek/client_id"
         "authelia/oidc/trek/client_secret_hashed"
 
@@ -416,6 +413,14 @@ in
         "sonarr/api/key" = { };
         "radarr/api/key" = { };
         "homeassistant/api/key" = { };
+
+        "forgejo-mirror-seeder/github_token" = { };
+        "forgejo-mirror-seeder/forgejo_token" = { };
+
+        "forgejo-mirror-seeder/repos.json" = {
+          sopsFile = sopsFilePathFor "forgejo-mirror-seeder/repos_json.txt";
+          format = "binary";
+        };
       }
       osUserPasswords
       envSecrets

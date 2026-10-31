@@ -41,7 +41,6 @@ let
     "audiobookshelf"
     "dashy"
     "forgejo"
-    "gitea-mirror"
     "grist"
     "homeassistant"
     "immich"

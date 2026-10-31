@@ -119,14 +119,6 @@ let
             iconName = "forgejo";
           })
           (mkEntry {
-            slug = "gitea-mirror";
-            title = "Gitea Mirror";
-            icon = "hl-gitea-mirror"; # Icon from https://dashboardicons.com/icons/gitea-mirror, as selfh.st one is wrong
-            args = {
-              displayData.showForGroups = [ autheliaLib.groups.Admins ];
-            };
-          })
-          (mkEntry {
             slug = "searxng";
             title = "SearXNG";
           })
