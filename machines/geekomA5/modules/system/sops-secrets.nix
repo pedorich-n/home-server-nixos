@@ -416,6 +416,11 @@ in
         "sonarr/api/key" = { };
         "radarr/api/key" = { };
         "homeassistant/api/key" = { };
+
+        "forgejo-mirror-seeder/repos.json" = {
+          sopsFile = sopsFilePathFor "forgejo-mirror-seeder/repos_json.txt";
+          format = "binary";
+        };
       }
       osUserPasswords
       envSecrets
