@@ -71,7 +71,7 @@ def _string(raw: dict[str, Any], key: str, where: str) -> str:
 def load_manifest(path: Path) -> list[MirrorSpec]:
     try:
         raw_text = path.read_text(encoding="utf-8")
-    except OSError as exc:
+    except (OSError, UnicodeError) as exc:
         raise SeedError(f"cannot read manifest {path}: {exc}") from exc
 
     try:
@@ -140,79 +140,32 @@ def load_manifest(path: Path) -> list[MirrorSpec]:
     return specs
 
 
-def _clean_secret(value: str, source: str) -> str:
-    value = value.strip()
+def _read_secret(path: str) -> str:
+    try:
+        value = Path(path).read_text(encoding="utf-8").strip()
+    except (OSError, UnicodeError) as exc:
+        raise SeedError(f"cannot read secret {path}: {exc}") from exc
     if not value:
-        raise SeedError(f"{source} is empty")
+        raise SeedError(f"secret file {path} is empty")
     return value
 
 
-def _read_secret(
-    path: str | None,
-    credential_name: str,
-    environment_names: tuple[str, ...],
-) -> str:
-    if path is not None:
-        try:
-            return _clean_secret(
-                Path(path).read_text(encoding="utf-8"),
-                path,
-            )
-        except OSError as exc:
-            raise SeedError(f"cannot read {path}: {exc}") from exc
-
-    credentials_directory = os.environ.get("CREDENTIALS_DIRECTORY")
-    if credentials_directory:
-        credential_path = Path(credentials_directory) / credential_name
-        if credential_path.is_file():
-            try:
-                return _clean_secret(
-                    credential_path.read_text(encoding="utf-8"),
-                    str(credential_path),
-                )
-            except OSError as exc:
-                raise SeedError(
-                    f"cannot read credential {credential_name}: {exc}"
-                ) from exc
-
-    for name in environment_names:
-        value = os.environ.get(name)
-        if value:
-            return _clean_secret(value, name)
-
-    names = ", ".join(environment_names)
-    raise SeedError(
-        f"missing {credential_name}; provide --{credential_name}-file, "
-        f"CREDENTIALS_DIRECTORY/{credential_name}, or {names}"
-    )
-
-
-def _response_message(response: requests.Response) -> str:
-    try:
-        payload = response.json()
-    except ValueError:
-        payload = None
-
-    if isinstance(payload, dict):
-        message = payload.get("message") or payload.get("error")
-        if message:
-            return str(message)
-
-    text = response.text.strip()
-    return text[:500] if text else response.reason or "no response body"
-
-
-def _json_object(
+def _response_json(
     response: requests.Response,
-    action: str,
-) -> dict[str, Any]:
+    action: str | None = None,
+) -> dict[str, Any] | None:
     try:
         payload = response.json()
     except ValueError as exc:
+        if action is None:
+            return None
         raise SeedError(f"{action} returned invalid JSON") from exc
-    if not isinstance(payload, dict):
-        raise SeedError(f"{action} returned non-object JSON")
-    return payload
+
+    if isinstance(payload, dict):
+        return payload
+    if action is None:
+        return None
+    raise SeedError(f"{action} returned non-object JSON")
 
 
 class ForgejoClient:
@@ -264,7 +217,17 @@ class ForgejoClient:
             raise SeedError(f"{method} {path} failed: {exc}") from exc
 
         if response.status_code not in expected:
-            message = _response_message(response)
+            payload = _response_json(response)
+            message = ""
+            if payload:
+                message = str(payload.get("message") or payload.get("error") or "")
+            if not message:
+                text = response.text.strip()
+                message = (
+                    text[:500]
+                    if text
+                    else response.reason or "no response body"
+                )
             for secret in self._secrets:
                 message = message.replace(secret, "<redacted>")
             raise SeedError(
@@ -278,7 +241,7 @@ class ForgejoClient:
         response = self._request("GET", path, expected={200, 404})
         if response.status_code == 404:
             return None
-        return _json_object(response, f"GET {path}")
+        return _response_json(response, f"GET {path}") or {}
 
     def create_mirror(self, spec: MirrorSpec, github_token: str) -> None:
         payload = {
@@ -298,7 +261,7 @@ class ForgejoClient:
             timeout=self.migrate_timeout,
             json_body=payload,
         )
-        created = _json_object(response, "POST /repos/migrate")
+        created = _response_json(response, "POST /repos/migrate") or {}
         if not created.get("mirror"):
             current = self.get_repo(spec.owner, spec.name)
             if current is None or not current.get("mirror"):
@@ -346,6 +309,9 @@ def reconcile(
             f"expected {spec.source_url}"
         )
 
+    if existing.get("empty"):
+        return "empty"
+
     return "unchanged"
 
 
@@ -358,18 +324,14 @@ def run(args: argparse.Namespace) -> int:
             "missing Forgejo URL; provide --forgejo-url or FORGEJO_URL"
         )
 
-    forgejo_token = _read_secret(
-        args.forgejo_token_file,
-        "forgejo-token",
-        ("FORGEJO_TOKEN", "GITEA_TOKEN"),
-    )
+    forgejo_token = _read_secret(args.forgejo_token_file)
     github_token = None
     if not args.dry_run:
-        github_token = _read_secret(
-            args.github_token_file,
-            "github-token",
-            ("GITHUB_TOKEN", "GH_TOKEN"),
-        )
+        if args.github_token_file is None:
+            raise SeedError(
+                "--github-token-file is required unless --dry-run is used"
+            )
+        github_token = _read_secret(args.github_token_file)
 
     secrets = tuple(
         token for token in (forgejo_token, github_token) if token
@@ -424,13 +386,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--forgejo-token-file",
-        default=None,
+        required=True,
         help="file containing the Forgejo API token",
     )
     parser.add_argument(
         "--github-token-file",
         default=None,
-        help="file containing the GitHub token",
+        help="file containing the GitHub token; required unless --dry-run",
     )
     parser.add_argument(
         "--timeout",
