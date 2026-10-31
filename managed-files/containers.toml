@@ -1,22 +1,22 @@
 [airtrail-server]
-digest = 'sha256:b49918c441cd52ffd2ef795738e58031abbcfd1e8094a4365672282bb6b805b1'
+digest = 'sha256:800466d42393a0a9f360a93d98ab8da524381b19f3c06cd4552c27106d982e3d'
 image = 'johly/airtrail'
 registry = 'docker.io'
-version = 'v3.13.0'
+version = 'v3.13.1'
 versioning = 'semver'
 
 [airtrail-postgresql]
-digest = 'sha256:83148c0bc09eac4d598b70a61e1404d0212b76c95c504bfd6c81a4c59ec91792'
+digest = 'sha256:10a5c69a83035ab5239f5620d708520e8b28f5aa1f2b20143e6024532edadfb5'
 image = 'library/postgres'
 registry = 'docker.io'
 version = '18.6-alpine'
 versioning = 'docker'
 
 [audiobookshelf]
-digest = 'sha256:581d68b2a6fc7ebf58d81c878a9f387cbbc0d88ac9d37b298b9cee10168af85b'
+digest = 'sha256:b897c33f05972fb1bf484f7487bc878fa91ec8691335c1db6e2929c3a7658efa'
 image = 'advplyr/audiobookshelf'
 registry = 'ghcr.io'
-version = '2.37.1'
+version = '2.37.2'
 versioning = 'semver'
 
 [gluetun]
@@ -27,17 +27,17 @@ version = 'v3.41.3'
 versioning = 'semver'
 
 [grist]
-digest = 'sha256:577918affbc446f77382b6049c06226488a086a3ea52c2661154b1252d5ff873'
+digest = 'sha256:c2221950675081c79a06a44c27f8c65cc96c43d93d76f2b3214d8dbdff709355'
 image = 'gristlabs/grist'
 registry = 'docker.io'
-version = '1.7.21'
+version = '1.7.22'
 versioning = 'semver'
 
 [homeassistant]
-digest = 'sha256:33afb0659d786213264c2211f8d91c5fe87461c56eba6a3a546eb05fc71e89f4'
+digest = 'sha256:23f4dfbb69ce76315dbc4de7915504f1c2dcecd7ca2648113a493a385972e133'
 image = 'homeassistant/home-assistant'
 registry = 'docker.io'
-version = '2026.10.2'
+version = '2026.10.4'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d+)\.(?<patch>\d+)$'
 
 [immich-machine-learning]
@@ -83,7 +83,7 @@ version = 'v0.8.8'
 versioning = 'semver'
 
 [librechat-mongodb]
-digest = 'sha256:0e900a3364da37b76d642b73b0bba56bd4c6c509ab470cf700436fd866bee3ff'
+digest = 'sha256:e16e606f792ea89d2b4907b54e5e31eb86a7a23e27231dce3a982cc8f2d73cd2'
 image = 'library/mongo'
 registry = 'docker.io'
 version = '8.3.13'
@@ -97,7 +97,7 @@ version = 'latest'
 versioning = 'docker'
 
 [librechat-postgresql]
-digest = 'sha256:8d4485d6fd3156d090ac5f37eb2e22eb59d93c91169414d5809414102ee924b9'
+digest = 'sha256:4870105f2d566f6abe6b838cfbf86823fcca78967b0bc1cf79a7d84a0b4ebb60'
 image = 'pgvector/pgvector'
 registry = 'docker.io'
 version = '0.8.7-pg15-trixie'
@@ -111,28 +111,28 @@ version = '0.5.0'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:2a11137663437b5d7c2e24f4d1bfc3ef72ccbeca9e1377e28c72928789236aab'
+digest = 'sha256:74c306b059f6953bc38d69372ca57260b616f2d98502189d32e14caba3c9e419'
 image = 'foxxmd/multi-scrobbler'
 registry = 'ghcr.io'
-version = '0.20.0'
+version = '0.20.3'
 versioning = 'semver'
 
 [shelfmark]
-digest = 'sha256:3631dd9aa5e404e0849bfbef8f30cd86864ab7579118d4defc301b8070472d25'
+digest = 'sha256:50421fbe1353d8f94f12d33a75f0f1594570a67922a8ea8d230dd4d6ede6913c'
 image = 'calibrain/shelfmark-lite'
 registry = 'ghcr.io'
-version = 'v1.5.0'
+version = 'v1.6.0'
 versioning = 'semver'
 
 [trawl]
-digest = 'sha256:53e655107be335cb946886ba0023c363175f392a3a87cfc55ffab979779b3f01'
+digest = 'sha256:67866d28c97c159e8db8d675ad8f8b1aaf49e5e07ad6532f11babce5a54b4925'
 image = 'germondai/trawl'
 registry = 'ghcr.io'
-version = '1.9.2'
+version = '1.9.3'
 versioning = 'semver'
 
 [qbittorrent]
-digest = 'sha256:b522f9f4b769f8f36d49d22d5eb6a92e9aa18904c6a1830b1439df511ec21983'
+digest = 'sha256:1ea873647c43d566f251a7122aee330b184509c57ee3257ed19f62dac0f8f24b'
 image = 'linuxserver/qbittorrent'
 registry = 'docker.io'
 version = '5.2.4'
@@ -140,10 +140,10 @@ versioning = 'regex:^v?(?<major>5)\.(?<minor>2)\.(?<patch>\d+)?$'
 # Looks like the versioning scheme was different in the past, because there are tags like 20.04.1, which with semver comparison would be considered newer than 5.1.2.
 
 [searxng]
-digest = 'sha256:5ed0323b5f5f8701264ef65e239a2bd83cb57098f2b971fa30bf79c06eeae271'
+digest = 'sha256:f4aa660c54d062dedb268be84e821ea24e39f48c7a496af8dd02cc9eedb93847'
 image = 'searxng/searxng'
 registry = 'docker.io'
-version = '2026.10.19-81371861f'
+version = '2026.10.30-ffa88e3ba'
 versioning = 'regex:^(?<major>\d{4})\.(?<minor>\d{1,2})\.(?<patch>\d{1,2})-(?<build>[a-z0-9]+)$'
 
 [trek]
