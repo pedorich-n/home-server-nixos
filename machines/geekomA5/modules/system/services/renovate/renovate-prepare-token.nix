@@ -7,9 +7,19 @@
 }:
 let
 
-  tokenPath = "/run/credentials/renovate/github_app_installation_token";
+  tokenPath = "/run/renovate/token";
 in
 {
+  systemd.tmpfiles.settings."10-renovate" = {
+    "/run/renovate" = {
+      d = {
+        mode = "0700";
+        user = "root";
+        group = "root";
+      };
+    };
+  };
+
   systemd.services = {
     renovate-prepare-token = {
       description = "Prepare Renovate GitHub App Installation Token";
@@ -17,25 +27,50 @@ in
 
       serviceConfig = {
         Type = "oneshot";
+        UMask = "0077";
+        LoadCredential = "github_app_private_key:${config.sops.secrets."renovate/github_app_private_key".path}";
+
+        # Hardening
+        CapabilityBoundingSet = [ "" ];
+        DeviceAllow = [ "" ];
+        LockPersonality = true;
+        NoNewPrivileges = true;
+        PrivateDevices = true;
+        PrivateTmp = true;
+        ProcSubset = "pid";
+        ProtectClock = true;
+        ProtectControlGroups = true;
+        ProtectHome = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        ProtectProc = "invisible";
+        ProtectSystem = "strict";
+        ReadWritePaths = [ "/run/renovate" ];
+        RestrictAddressFamilies = [
+          "AF_INET"
+          "AF_INET6"
+          "AF_UNIX"
+        ];
+        RestrictNamespaces = true;
+        RestrictRealtime = true;
+        RestrictSUIDSGID = true;
+        SystemCallArchitectures = "native";
       };
 
       script = ''
-        rm -f "${tokenPath}"
-        mkdir -p "$(dirname "${tokenPath}")"
+        set -eu
 
-        APP_PRIVATE_KEY="$(cat "''${APP_PRIVATE_KEY_FILE}")"
+        APP_PRIVATE_KEY="$(cat "''${CREDENTIALS_DIRECTORY}/github_app_private_key")"
         export APP_PRIVATE_KEY
 
-        ${lib.getExe pkgs.github-app-installation-token} > "${tokenPath}"
-
-        chmod 0600 "${tokenPath}"
-        chown renovate:renovate "${tokenPath}"
+        ${lib.getExe pkgs.github-app-installation-token} > "${tokenPath}.tmp"
+        mv "${tokenPath}.tmp" "${tokenPath}"
       '';
 
       environment = {
         APP_ID = "1721542"; # See https://github.com/settings/apps
         APP_LOGIN = "pedorich-n";
-        APP_PRIVATE_KEY_FILE = config.sops.secrets."renovate/github_app_private_key".path;
       };
 
     };

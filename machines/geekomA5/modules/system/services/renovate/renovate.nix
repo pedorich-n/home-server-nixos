@@ -2,27 +2,9 @@
   config,
   pkgs,
   pkgs-unstable,
-  lib,
   ...
 }:
 {
-  users = {
-    users.renovate = {
-      isSystemUser = true;
-      group = "renovate";
-    };
-
-    groups.renovate = { };
-  };
-
-  systemd.services.renovate = {
-    serviceConfig = {
-      # I want to utilize cache and state directories
-      PrivateUsers = lib.mkForce false;
-      DynamicUser = lib.mkForce false;
-    };
-  };
-
   services.renovate = {
     enable = true;
     validateSettings = true;
@@ -32,8 +14,7 @@
 
     runtimePackages = with pkgs; [
       uv
-      python313
-      git
+      python3
       openssh
       config.nix.package
     ];
@@ -51,8 +32,6 @@
           "github>pedorich-n/renovate-config"
         ];
       };
-
-      persistRepoData = true; # https://docs.renovatebot.com/self-hosted-configuration/#persistrepodata
 
       # Platform settings
       autodiscover = true;
