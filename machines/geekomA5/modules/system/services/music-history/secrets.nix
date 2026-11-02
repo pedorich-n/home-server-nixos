@@ -113,6 +113,7 @@ in
             };
             clients = [
               "koito"
+              "listenbrainz"
             ];
             options = {
               scrobbleBacklog = true;
@@ -127,6 +128,7 @@ in
             clients = [
               "koito"
               "lastfm"
+              "listenbrainz"
             ];
             data = {
               url = networkingLib.mkLocalUrl "jellyfin";
@@ -172,6 +174,18 @@ in
               apiKey = config.sops.placeholder."music-history/multiscrobbler/lastfm/api_key";
               secret = config.sops.placeholder."music-history/multiscrobbler/lastfm/secret";
               redirectUri = "${networkingLib.mkLocalUrl "multiscrobbler"}/lastfm/callback";
+            };
+          }
+
+          {
+            name = "ListenBrainz";
+            enable = true;
+            type = "listenbrainz";
+            id = "listenbrainz";
+            configureAs = "client";
+            data = {
+              token = config.sops.placeholder."music-history/multiscrobbler/listenbrainz/api_key";
+              username = config.sops.placeholder."music-history/multiscrobbler/listenbrainz/username";
             };
           }
         ];
