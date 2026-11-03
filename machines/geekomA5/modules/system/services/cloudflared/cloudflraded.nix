@@ -28,11 +28,6 @@
         default = "http_status:403";
       };
 
-      "77263f43-745d-4442-be9f-60cefd5e65ad" = {
-        credentialsFile = config.sops.secrets."cloudflared/couchdb_tunnel_credentials".path;
-        default = "http_status:403";
-      };
-
       "730b50ac-035d-44e5-8b25-0c1c1e42ccac" = {
         credentialsFile = config.sops.secrets."cloudflared/safebucket_tunnel_credentials".path;
         default = "http_status:403";
