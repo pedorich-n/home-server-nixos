@@ -24,6 +24,7 @@ let
     # But for archival purposes they're still listed in the secrets and configs.
     maloja = true;
     paperless = true;
+    obsidian-couchdb = true;
   };
   resticBackups = lib.filter (backup: !excludedBackups.${backup} or false) (lib.attrNames config.services.restic.backups);
 in
