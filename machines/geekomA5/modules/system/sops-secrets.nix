@@ -226,11 +226,6 @@ let
       format = "binary";
     };
 
-    "cloudflared/couchdb_tunnel_credentials" = {
-      sopsFile = sopsFilePathFor "cloudflared/couchdb_credentials_json.txt";
-      format = "binary";
-    };
-
     "cloudflared/safebucket_tunnel_credentials" = {
       sopsFile = sopsFilePathFor "cloudflared/safebucket_credentials_json.txt";
       format = "binary";
@@ -317,24 +312,12 @@ let
     in
     mapMergeAttrsList mkSecret secrets;
 
-  couchdbSecrets =
-    let
-      secrets = [
-        "couchdb/users/admin/username"
-        "couchdb/users/admin/password"
-        "couchdb/users/obsidian_livesync/username"
-        "couchdb/users/obsidian_livesync/password"
-        "couchdb/db/obsidian_livesync/name"
-      ];
+  obsidianMirrorSecrets = {
+    "obsidian-mirror/access_key_id" = { };
+    "obsidian-mirror/access_key_secret" = { };
+    "obsidian-mirror/endpoint" = { };
+  };
 
-      mkSecret = secret: {
-        ${secret} = {
-          owner = config.services.couchdb.user;
-          group = config.services.couchdb.group;
-        };
-      };
-    in
-    mapMergeAttrsList mkSecret secrets;
 in
 {
   sops = {
@@ -428,6 +411,7 @@ in
       acmeSecrets
       tombSecrets
       redisSecrets
+      obsidianMirrorSecrets
       (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
       (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
@@ -435,7 +419,6 @@ in
       (lib.mkIf config.services.cloudflared.enable cloudflaredSecrets)
       (lib.mkIf config.services.netdata.enable netdataSecrets)
       (lib.mkIf config.services.sabnzbd.enable sabnzbdSecrets)
-      (lib.mkIf config.services.couchdb.enable couchdbSecrets)
       (lib.mkIf config.services.rustfs.enable rustfsSecrets)
     ];
   };

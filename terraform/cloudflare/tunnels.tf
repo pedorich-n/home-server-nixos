@@ -1,5 +1,5 @@
 resource "random_id" "tunnel_secret" {
-  for_each    = toset(["n8n", "couchdb", "safebucket", "searxng"])
+  for_each    = toset(["n8n", "safebucket", "searxng"])
   byte_length = 35
 }
 
@@ -37,34 +37,6 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "n8n" {
       }
     ]
   }
-}
-
-resource "cloudflare_zero_trust_tunnel_cloudflared" "couchdb" {
-  account_id    = local.cf_account_id
-  name          = "CouchDB"
-  config_src    = "cloudflare"
-  tunnel_secret = random_id.tunnel_secret["couchdb"].b64_std
-}
-
-resource "cloudflare_zero_trust_tunnel_cloudflared_config" "couchdb" {
-  account_id = local.cf_account_id
-  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.couchdb.id
-
-  config = {
-    ingress = [
-      {
-        hostname = local.couchdb_local_domain
-        service  = "https://couchdb.${var.local_domain}"
-        origin_request = {
-          http_host_header = "couchdb.${var.local_domain}"
-        }
-      },
-      {
-        service = "http_status:403"
-      }
-    ]
-  }
-
 }
 
 resource "cloudflare_zero_trust_tunnel_cloudflared" "safebucket" {

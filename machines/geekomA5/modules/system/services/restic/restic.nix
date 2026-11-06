@@ -59,7 +59,6 @@ in
       forgejo.timerConfig.OnCalendar = mkEveryDayAt "02:37:00";
       trek.timerConfig.OnCalendar = mkEveryDayAt "02:38:00";
       airtrail.timerConfig.OnCalendar = mkEveryDayAt "02:39:00";
-      obsidian-couchdb.timerConfig.OnCalendar = mkEveryDayAt "02:40:00";
       papra.timerConfig.OnCalendar = mkEveryDayAt "02:41:00";
     };
   };
