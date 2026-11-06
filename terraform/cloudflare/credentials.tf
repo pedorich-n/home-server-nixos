@@ -99,6 +99,24 @@ resource "cloudflare_api_token" "obsidian_vault_rw" {
   }]
 }
 
+# Read-only token for the server-side append-only mirror job.
+resource "cloudflare_api_token" "obsidian_vault_ro" {
+  name   = "${cloudflare_r2_bucket.obsidian_vault.name}-RO-mirror"
+  status = "active"
+
+  policies = [{
+    effect = "allow"
+    permission_groups = [
+      {
+        id = data.cloudflare_api_token_permission_groups_list.r2_read.result[0].id
+      },
+    ]
+    resources = jsonencode({
+      "com.cloudflare.edge.r2.bucket.${local.cf_account_id}_default_${cloudflare_r2_bucket.obsidian_vault.name}" = "*"
+    })
+  }]
+}
+
 resource "onepassword_item" "cloudflare_service_tokens" {
   vault    = module.onepassword.vault_homelab.uuid
   title    = "Cloudflare_Service_Tokens"
@@ -255,6 +273,22 @@ resource "onepassword_item" "cloudflare_obsidian_vault" {
         type  = "CONCEALED"
         value = sha256(cloudflare_api_token.obsidian_vault_rw[section.key].value)
       }
+    }
+  }
+
+  section {
+    label = "Mirror_RO"
+
+    field {
+      label = "access_key_id"
+      type  = "STRING"
+      value = cloudflare_api_token.obsidian_vault_ro.id
+    }
+
+    field {
+      label = "access_key_secret"
+      type  = "CONCEALED"
+      value = sha256(cloudflare_api_token.obsidian_vault_ro.value)
     }
   }
 }

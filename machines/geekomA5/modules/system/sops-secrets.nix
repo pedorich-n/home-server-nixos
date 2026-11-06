@@ -312,6 +312,12 @@ let
     in
     mapMergeAttrsList mkSecret secrets;
 
+  obsidianMirrorSecrets = {
+    "obsidian-mirror/access_key_id" = { };
+    "obsidian-mirror/access_key_secret" = { };
+    "obsidian-mirror/endpoint" = { };
+  };
+
 in
 {
   sops = {
@@ -405,6 +411,7 @@ in
       acmeSecrets
       tombSecrets
       redisSecrets
+      obsidianMirrorSecrets
       (lib.mkIf config.custom.services.mbsync.enable mbsyncSecrets)
       (lib.mkIf config.services.lldap.enable lldapSecrets)
       (lib.mkIf config.services.authelia.instances.main.enable autheliaSecrets)
