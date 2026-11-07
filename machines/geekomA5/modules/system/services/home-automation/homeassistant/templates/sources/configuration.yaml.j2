@@ -55,6 +55,24 @@ lovelace:
       show_in_sidebar: true
       filename: dashboards/main.yaml
 
+# https://www.home-assistant.io/integrations/panel_custom/
+panel_custom:
+  - name: tools
+    sidebar_title: Tools
+    sidebar_icon: mdi:tools
+    url_path: "config/tools/yaml"
+    module_url: /api/hassio/app/entrypoint.js
+    embed_iframe: true
+    require_admin: true
+
+  - name: marketplace
+    sidebar_title: Marketplace
+    sidebar_icon: mdi:store
+    url_path: marketplace/browse
+    js_url: /api/hassio/app/entrypoint.js
+    embed_iframe: true
+    require_admin: true
+
 #!SECTION - Core
 
 # Includes
