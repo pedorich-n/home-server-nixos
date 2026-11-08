@@ -16,6 +16,8 @@ writers.writeYAML "librechat.yaml" {
     modelSelect = true;
     presets = true;
     parameters = true;
+    contextUsage = true;
+    contextCost = true;
   };
 
   endpoints = {
@@ -48,14 +50,16 @@ writers.writeYAML "librechat.yaml" {
     list = [
       {
         name = "default-luna";
-        label = "OpenAI GPT-5.6 Luna";
+        label = "OpenAI GPT-6 Luna";
         default = true;
         mcpServers = [
           "Fetch"
+          "SearXNG"
+          "Trawl"
         ];
         preset = {
           endpoint = "openAI";
-          model = "gpt-5.6-luna";
+          model = "gpt-6-luna";
           useResponsesApi = true;
           web_search = true;
         };
