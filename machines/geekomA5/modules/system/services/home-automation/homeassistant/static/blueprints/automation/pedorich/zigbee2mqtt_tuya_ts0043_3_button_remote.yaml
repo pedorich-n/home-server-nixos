@@ -1,0 +1,188 @@
+# Zigbee2MQTT publishes actions for the Tuya TS0043 family as MQTT device
+# triggers. Since Z2M 2.x, `homeassistant.legacy_action_sensor` defaults to
+# false, so no `sensor.*_action` entity exists and blueprints that trigger on
+# one silently never fire.
+blueprint:
+  name: Zigbee2MQTT - Tuya TS0043 3-button remote
+  description: >
+    Runs actions for the Tuya TS0043 3-button remote, also sold as LoraTap
+    SS600ZB, Lonsonho TS0043 and Smart9 S9TSZGB, through Zigbee2MQTT.
+
+    Each of the three buttons supports single, double and long press. Leave an
+    input empty to ignore that gesture.
+
+    Pair the remote first, then pick it below. On a LoraTap SS600ZB pairing
+    means removing the screw and shell, then holding the PCB button for 5-10 s
+    until the yellow LED flashes. No `legacy_action_sensor` override and no
+    helper entity are required.
+  domain: automation
+  author: pedorich-n
+  homeassistant:
+    min_version: "2024.10.0"
+  input:
+    remote:
+      name: Remote
+      description: >-
+        The Zigbee2MQTT device. It must expose the actions 1_single through
+        3_hold, which the Tuya TS0043 definition does.
+      selector:
+        device:
+          filter:
+            - integration: mqtt
+
+    button_1_single:
+      name: Button 1 - single press
+      default: []
+      selector:
+        action: {}
+    button_1_double:
+      name: Button 1 - double press
+      default: []
+      selector:
+        action: {}
+    button_1_long:
+      name: Button 1 - long press
+      default: []
+      selector:
+        action: {}
+
+    button_2_single:
+      name: Button 2 - single press
+      default: []
+      selector:
+        action: {}
+    button_2_double:
+      name: Button 2 - double press
+      default: []
+      selector:
+        action: {}
+    button_2_long:
+      name: Button 2 - long press
+      default: []
+      selector:
+        action: {}
+
+    button_3_single:
+      name: Button 3 - single press
+      default: []
+      selector:
+        action: {}
+    button_3_double:
+      name: Button 3 - double press
+      default: []
+      selector:
+        action: {}
+    button_3_long:
+      name: Button 3 - long press
+      default: []
+      selector:
+        action: {}
+
+# A remote can emit several actions in a row while a long-press sequence is in
+# flight. `queued` keeps those instead of cancelling the running one, which
+# `restart` would do.
+mode: queued
+max: 10
+max_exceeded: silent
+
+triggers:
+  - trigger: device
+    domain: mqtt
+    device_id: !input remote
+    type: action
+    subtype: "1_single"
+    id: "1_single"
+  - trigger: device
+    domain: mqtt
+    device_id: !input remote
+    type: action
+    subtype: "1_double"
+    id: "1_double"
+  - trigger: device
+    domain: mqtt
+    device_id: !input remote
+    type: action
+    subtype: "1_hold"
+    id: "1_hold"
+
+  - trigger: device
+    domain: mqtt
+    device_id: !input remote
+    type: action
+    subtype: "2_single"
+    id: "2_single"
+  - trigger: device
+    domain: mqtt
+    device_id: !input remote
+    type: action
+    subtype: "2_double"
+    id: "2_double"
+  - trigger: device
+    domain: mqtt
+    device_id: !input remote
+    type: action
+    subtype: "2_hold"
+    id: "2_hold"
+
+  - trigger: device
+    domain: mqtt
+    device_id: !input remote
+    type: action
+    subtype: "3_single"
+    id: "3_single"
+  - trigger: device
+    domain: mqtt
+    device_id: !input remote
+    type: action
+    subtype: "3_double"
+    id: "3_double"
+  - trigger: device
+    domain: mqtt
+    device_id: !input remote
+    type: action
+    subtype: "3_hold"
+    id: "3_hold"
+
+conditions: []
+
+actions:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == '1_single' }}"
+        sequence: !input button_1_single
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == '1_double' }}"
+        sequence: !input button_1_double
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == '1_hold' }}"
+        sequence: !input button_1_long
+
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == '2_single' }}"
+        sequence: !input button_2_single
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == '2_double' }}"
+        sequence: !input button_2_double
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == '2_hold' }}"
+        sequence: !input button_2_long
+
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == '3_single' }}"
+        sequence: !input button_3_single
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == '3_double' }}"
+        sequence: !input button_3_double
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == '3_hold' }}"
+        sequence: !input button_3_long
+    default: []
