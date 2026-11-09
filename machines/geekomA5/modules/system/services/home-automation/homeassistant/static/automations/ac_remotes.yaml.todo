@@ -1,0 +1,65 @@
+# TODO: before these do anything, fill in the two device ids and rename this
+# file to ac_remotes.yaml.
+#
+# The `remote` input is a Home Assistant device-registry id, which only exists
+# after the remote is paired with Zigbee2MQTT. Copy it from the device page
+# URL: /config/devices/device/<id>. Re-pairing a remote produces a new id, so
+# update it here if that ever happens.
+#
+# The .yaml.todo extension keeps this file out of the
+# `automation manual: !include_dir_merge_list automations/` glob, so shipping
+# it with placeholder ids cannot break automation setup. Renaming it to .yaml
+# is all that is left once the ids are in place.
+#
+# Temperature is clamped to the range SmartIR advertises for device code 17000
+# (min_temp 20, max_temp 30). Home Assistant rejects anything outside that with
+# ServiceValidationError/temp_out_of_range before the action reaches SmartIR, so
+# an unclamped template would turn every press at the limit into a failed run.
+
+- id: ldk_ac_remote
+  alias: "LDK remote - AC"
+  use_blueprint:
+    path: pedorich/zigbee2mqtt_tuya_ts0043_3_button_remote.yaml
+    input:
+      # TODO: LDK remote device id
+      remote: TODO_LDK_REMOTE_DEVICE_ID
+      button_1_single:
+        - action: climate.toggle
+          target:
+            entity_id: climate.ldk_ac
+      button_2_single:
+        - action: climate.set_temperature
+          target:
+            entity_id: climate.ldk_ac
+          data:
+            temperature: "{{ [ (state_attr('climate.ldk_ac', 'temperature') | float(24)) - 1, 20 ] | max }}"
+      button_3_single:
+        - action: climate.set_temperature
+          target:
+            entity_id: climate.ldk_ac
+          data:
+            temperature: "{{ [ (state_attr('climate.ldk_ac', 'temperature') | float(24)) + 1, 30 ] | min }}"
+
+- id: bedroom_ac_remote
+  alias: "Bedroom remote - AC"
+  use_blueprint:
+    path: pedorich/zigbee2mqtt_tuya_ts0043_3_button_remote.yaml
+    input:
+      # TODO: bedroom remote device id
+      remote: TODO_BEDROOM_REMOTE_DEVICE_ID
+      button_1_single:
+        - action: climate.toggle
+          target:
+            entity_id: climate.bedroom_ac
+      button_2_single:
+        - action: climate.set_temperature
+          target:
+            entity_id: climate.bedroom_ac
+          data:
+            temperature: "{{ [ (state_attr('climate.bedroom_ac', 'temperature') | float(24)) - 1, 20 ] | max }}"
+      button_3_single:
+        - action: climate.set_temperature
+          target:
+            entity_id: climate.bedroom_ac
+          data:
+            temperature: "{{ [ (state_attr('climate.bedroom_ac', 'temperature') | float(24)) + 1, 30 ] | min }}"
