@@ -1,0 +1,18 @@
+- binary_sensor:
+    - name: LDK AC running
+      unique_id: ldk_ac_running
+      state: >
+        {{ states('sensor.ldk_smart_plug_1_power') | float(0) > 5 }}
+      availability: >
+        {{ states('sensor.ldk_smart_plug_1_power') | is_number }}
+      icon: mdi:air-conditioner
+      device_class: power
+
+    - name: Bedroom AC running
+      unique_id: bedroom_ac_running
+      state: >
+        {{ states('sensor.bedroom_smart_plug_1_power') | float(0) > 5 }}
+      availability: >
+        {{ states('sensor.bedroom_smart_plug_1_power') | is_number }}
+      icon: mdi:air-conditioner
+      device_class: power

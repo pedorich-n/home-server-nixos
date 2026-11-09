@@ -5,8 +5,9 @@
   controller_data: remote.ldk_ir_remote_1
   temperature_sensor: sensor.ldk_temperature_humidity_1_temperature
   humidity_sensor: sensor.ldk_temperature_humidity_1_humidity
-  #power_sensor: binary_sensor.ac_power
-  #power_sensor_restore_state: true
+  power_sensor: binary_sensor.ldk_ac_running
+  power_sensor_restore_state: true
+  delay: 0.2
 
 - platform: smartir
   name: Bedroom AC
@@ -15,5 +16,6 @@
   controller_data: remote.bedroom_ir_remote_1
   temperature_sensor: sensor.bedroom_temperature_humidity_1_temperature
   humidity_sensor: sensor.bedroom_temperature_humidity_1_humidity
-  #power_sensor: binary_sensor.ac_power
-  #power_sensor_restore_state: true
+  power_sensor: binary_sensor.bedroom_ac_running
+  power_sensor_restore_state: true
+  delay: 0.2
