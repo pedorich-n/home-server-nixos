@@ -111,11 +111,12 @@ version = '0.5.0'
 versioning = 'semver'
 
 [multiscrobbler]
-digest = 'sha256:74c306b059f6953bc38d69372ca57260b616f2d98502189d32e14caba3c9e419'
+digest = 'sha256:56e706f1f0f3a60997862fb0525845b3636b059382f0cb8535aa495d2496be32'
 image = 'foxxmd/multi-scrobbler'
 registry = 'ghcr.io'
-version = '0.20.3'
-versioning = 'semver'
+version = 'pr-771'
+# versioning = 'semver'
+versioning = 'docker'
 
 [shelfmark]
 digest = 'sha256:1f090c0b4ce3b80d0a2a05e54a469d652b6930ac84dd1fa8806e50c23ac1cccb'

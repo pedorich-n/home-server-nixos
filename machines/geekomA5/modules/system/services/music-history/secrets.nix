@@ -92,6 +92,7 @@ in
 
       # See structure at https://docs.multi-scrobbler.app/playground/
       file = pkgs.writers.writeJSON "multiscrobbler-config.json" {
+        auth.mode = "disabled";
         base_url = networkingLib.mkLocalUrl "multiscrobbler";
         logging = {
           level = "debug";

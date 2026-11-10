@@ -56,7 +56,6 @@ in
 
         containerConfig = {
           environments = {
-            inherit (containerLib.containerIds) PUID PGID;
             TZ = config.time.timeZone;
             # NodeJS 20+ uses IPv6 by default. I don't have IPv6 enabled, but for some reason it still tries to use it and fails with ETIMEDOUT
             # See https://github.com/nodejs/node/issues/54359
@@ -68,6 +67,7 @@ in
           ];
           publishPorts = [ "127.0.0.1:${portsCfg.multiscrobbler.portStr}:9078" ];
           inherit networks;
+          inherit (containerLib.containerIds) user;
         };
       };
 
