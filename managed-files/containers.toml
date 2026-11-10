@@ -152,10 +152,3 @@ image = 'mauriceboe/trek'
 registry = 'docker.io'
 version = '5.1.0'
 versioning = 'semver'
-
-[valheim-server]
-digest = 'sha256:f34d67ba8023e343b10ffda0144759a8c8d986f276510460315a01051bed8a6d'
-image = 'community-valheim-tools/valheim-server'
-registry = 'ghcr.io'
-version = '1.4.1'
-versioning = 'semver'
