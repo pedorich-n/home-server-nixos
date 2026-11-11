@@ -17,7 +17,7 @@
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    # nixpkgs-netdata.url = "github:rhoriguchi/nixpkgs/netdata";
+    nixpkgs-netdata.url = "github:rhoriguchi/nixpkgs/netdata";
 
     systems.url = "github:nix-systems/default-linux";
     flake-parts = {
