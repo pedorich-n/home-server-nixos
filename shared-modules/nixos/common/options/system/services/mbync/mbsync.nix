@@ -18,6 +18,61 @@ let
   ]
   ++ (lib.optional cfg.verbose "--verbose")
   ++ (lib.optional cfg.dryRun "--dry-run");
+
+  mkService =
+    {
+      description,
+      extraArgs,
+    }:
+    {
+      inherit description;
+
+      after = [ "network-online.target" ];
+      wants = [ "network-online.target" ];
+
+      environment = {
+        "HOME" = "/var/lib/mbsync";
+      };
+
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = ''
+          ${lib.getExe' cfg.package "mbsync"} ${lib.concatStringsSep " " (args ++ extraArgs)}
+        '';
+        StateDirectory = "mbsync";
+        Group = cfg.group;
+        UMask = 0007; # Directories created with 770, files with 660
+
+        LoadCredential = [
+          "config:${cfg.configFile}"
+        ];
+
+        # Hardening
+        ReadWritePaths = cfg.localMailboxes;
+        NoNewPrivileges = true;
+        MemoryDenyWriteExecute = true;
+        LockPersonality = true;
+        PrivateDevices = true;
+        PrivateTmp = true;
+        PrivateUsers = true;
+        PrivateMounts = true;
+        DynamicUser = true;
+        ProtectHome = true;
+        ProtectSystem = "strict";
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        ProtectKernelLogs = true;
+        ProtectControlGroups = true;
+        ProtectClock = true;
+        RestrictSUIDSGID = true;
+        RestrictNamespaces = true;
+        RestrictRealtime = true;
+        RestrictAddressFamilies = [
+          "AF_INET"
+          "AF_INET6"
+        ];
+      };
+    };
 in
 {
   options.custom.services.mbsync = {
@@ -68,6 +123,22 @@ in
       };
     };
 
+    expungeNearTimer = lib.mkOption {
+      type = lib.types.nullOr (lib.types.attrsOf unitOption);
+      default = null;
+      description = ''
+        When to permanently remove local messages that no longer exist on the
+        server. Syncing only marks such messages as deleted locally, so this
+        timer is what actually reclaims the space; it runs `mbsync` with
+        `--noop --expunge-near`, which propagates nothing and uploads nothing.
+        If null no timer is created and nothing is ever removed.
+      '';
+      example = {
+        OnCalendar = "Sun *-*-* 04:00:00";
+        Persistent = true;
+      };
+    };
+
   };
 
   config = lib.mkIf cfg.enable {
@@ -81,54 +152,25 @@ in
         timerConfig = cfg.timerConfig;
       };
 
-      services.mbsync = {
+      services.mbsync = mkService {
         description = "Mail synchronization using mbsync";
-        after = [ "network-online.target" ];
-        wants = [ "network-online.target" ];
-
-        environment = {
-          "HOME" = "/var/lib/mbsync";
-        };
-
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = ''
-            ${lib.getExe' cfg.package "mbsync"} ${lib.concatStringsSep " " args}
-          '';
-          StateDirectory = "mbsync";
-          Group = cfg.group;
-          UMask = 0007; # Directories created with 770, files with 660
-
-          LoadCredential = [
-            "config:${cfg.configFile}"
-          ];
-
-          # Hardening
-          ReadWritePaths = cfg.localMailboxes;
-          NoNewPrivileges = true;
-          MemoryDenyWriteExecute = true;
-          LockPersonality = true;
-          PrivateDevices = true;
-          PrivateTmp = true;
-          PrivateUsers = true;
-          PrivateMounts = true;
-          DynamicUser = true;
-          ProtectHome = true;
-          ProtectSystem = "strict";
-          ProtectKernelModules = true;
-          ProtectKernelTunables = true;
-          ProtectKernelLogs = true;
-          ProtectControlGroups = true;
-          ProtectClock = true;
-          RestrictSUIDSGID = true;
-          RestrictNamespaces = true;
-          RestrictRealtime = true;
-          RestrictAddressFamilies = [
-            "AF_INET"
-            "AF_INET6"
-          ];
-        };
+        extraArgs = [ ];
       };
+
+      timers.mbsync-expunge = lib.mkIf (cfg.expungeNearTimer != null) {
+        description = "Timer for the deferred mbsync expunge";
+        wantedBy = [ "timers.target" ];
+
+        timerConfig = cfg.expungeNearTimer;
+      };
+
+      services.mbsync-expunge = lib.mkIf (cfg.expungeNearTimer != null) (mkService {
+        description = "Permanently remove locally archived mail deleted on the server";
+        extraArgs = [
+          "--noop"
+          "--expunge-near"
+        ];
+      });
     };
   };
 }

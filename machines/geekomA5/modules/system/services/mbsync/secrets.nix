@@ -46,14 +46,11 @@ let
       SyncState *
     '';
 
-  gmailPatterns = [
-    "*"
-    "![Gmail]*"
-    ''"[Gmail]/Sent Mail"''
-    ''"[Gmail]/Starred"''
-    ''"[Gmail]/All Mail"''
-    ''"[Gmail]/Trash"''
-  ];
+  # Gmail exposes every message once per label plus once in All Mail, so syncing
+  # the label folders duplicates the whole archive. All Mail is the complete
+  # non-spam, non-trash set (it includes Inbox and Sent Mail), so sync only it.
+  # NOTE: the "[Gmail]" prefix is localized by the account's UI language.
+  gmailPatterns = [ ''"[Gmail]/All Mail"'' ];
 
   accounts = [
     {
@@ -72,8 +69,9 @@ let
       account = "email_4";
       patterns = [
         "*"
+        "INBOX"
         "!Junk"
-        "!Spam"
+        "!Trash"
       ];
       tlsType = "STARTTLS";
     }

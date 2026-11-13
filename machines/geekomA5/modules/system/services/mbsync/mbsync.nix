@@ -11,6 +11,11 @@
       Persistent = true;
     };
 
+    expungeNearTimer = {
+      OnCalendar = "Sun *-*-* 04:00:00"; # Every Sunday 04:00
+      Persistent = true;
+    };
+
     configFile = config.sops.templates."mbsyncrc".path;
     localMailboxes = [ "/mnt/store/mail/archive" ];
     verbose = true;
