@@ -1,7 +1,3 @@
-# Zigbee2MQTT publishes actions for the Tuya TS0043 family as MQTT device
-# triggers. Since Z2M 2.x, `homeassistant.legacy_action_sensor` defaults to
-# false, so no `sensor.*_action` entity exists and blueprints that trigger on
-# one silently never fire.
 blueprint:
   name: Zigbee2MQTT - Tuya TS0043 3-button remote
   description: >
@@ -13,8 +9,7 @@ blueprint:
 
     Pair the remote first, then pick it below. On a LoraTap SS600ZB pairing
     means removing the screw and shell, then holding the PCB button for 5-10 s
-    until the yellow LED flashes. No `legacy_action_sensor` override and no
-    helper entity are required.
+    until the yellow LED flashes.
   domain: automation
   author: pedorich-n
   homeassistant:
