@@ -1,0 +1,49 @@
+{% macro ac_remote(automation_id, name, friendly_name, climate) -%}
+{%- set t = "state_attr('" ~ climate ~ "', 'temperature') | float(24)" -%}
+{%- set up = "{{ [ (" ~ t ~ ") + 1, 30 ] | min }}" -%}
+{%- set down = "{{ [ (" ~ t ~ ") - 1, 20 ] | max }}" -%}
+- id: {{ automation_id }}
+  alias: "{{ name }}"
+  mode: queued
+  max: 10
+  triggers:
+    - trigger: mqtt
+      topic: "zigbee2mqtt/{{ friendly_name }}/action"
+      payload: "1_single"
+      id: power
+    - trigger: mqtt
+      topic: "zigbee2mqtt/{{ friendly_name }}/action"
+      payload: "2_single"
+      id: up
+    - trigger: mqtt
+      topic: "zigbee2mqtt/{{ friendly_name }}/action"
+      payload: "3_single"
+      id: down
+  actions:
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: power
+          sequence:
+            - action: climate.toggle
+              target:
+                entity_id: {{ climate }}
+        - conditions:
+            - condition: trigger
+              id: up
+          sequence:
+            - action: climate.set_temperature
+              target:
+                entity_id: {{ climate }}
+              data:
+                temperature: "{{ up }}"
+        - conditions:
+            - condition: trigger
+              id: down
+          sequence:
+            - action: climate.set_temperature
+              target:
+                entity_id: {{ climate }}
+              data:
+                temperature: "{{ down }}"
+{%- endmacro %}
