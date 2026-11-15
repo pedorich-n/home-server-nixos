@@ -53,6 +53,7 @@
             options = {
               mountpoint = "/mnt/external/immich-library"; # ZFS prop: https://openzfs.github.io/openzfs-docs/man/v2.2/7/zfsprops.7.html#mountpoint
               recordsize = "1M"; # Better read performance for "large" files like images, videos, etc.
+              snapdir = "visible"; # Mounts snapshots directory under .zfs folder
             };
           };
 
@@ -69,6 +70,7 @@
             options = {
               mountpoint = "/mnt/external/papra-library";
               quota = "10G";
+              snapdir = "visible"; # Mounts snapshots directory under .zfs folder
             };
           };
 
@@ -78,6 +80,7 @@
               mountpoint = "/mnt/external/data-library";
               quota = "1T";
               recordsize = "1M"; # Better read performance for "large" files like images, videos, etc.
+              snapdir = "visible"; # Mounts snapshots directory under .zfs folder
             };
           };
 
