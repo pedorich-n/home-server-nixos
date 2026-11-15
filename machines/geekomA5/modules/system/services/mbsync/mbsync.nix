@@ -12,7 +12,7 @@
     };
 
     expungeNearTimer = {
-      OnCalendar = "Sun *-*-* 04:00:00"; # Every Sunday 04:00
+      OnCalendar = "Sun *-*-* 04:05:00"; # Every Sunday 04:05
       Persistent = true;
     };
 
