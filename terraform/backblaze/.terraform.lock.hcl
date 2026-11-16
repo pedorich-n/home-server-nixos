@@ -14,6 +14,7 @@ provider "registry.opentofu.org/1password/onepassword" {
     "h1:sfvN1OOuXaxSkYMT6ZMbrwSGUvaiB7Y24E2gVwIQlvU=",
     "zh:0259dece04523bcdbd558c20c0eda0f614535fae3d583fb191549d8139137b85",
     "zh:2f387a14e2cbd5c1ef4f9540b1a1aa4f84a61eb2c633b1a6bab16609afbeb8b2",
+    "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
     "zh:9c0f5db50328ab322b8a4ab85ce89c8f386ff60671d337705f3e307b31001b7b",
     "zh:9ccbbb83dba7c8b1ce2b08c91aa58af77419f9dd04b4ca76cca7fe47d3791b3d",
     "zh:d650a08d8521d5a51f0c4929decafbdd965c9bd191c7f48004427ba310613ade",
