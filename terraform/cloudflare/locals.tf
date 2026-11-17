@@ -53,6 +53,23 @@ locals {
     }
   }
 
+  # Prevents anyone impersonating `From: @<domain>`
+  apex_mail_policy_records = {
+    spf = {
+      name    = "@" # zone apex
+      type    = "TXT"
+      content = "\"v=spf1 -all\""
+      # Cloudflare UI insists TXT records have to be wrapped in quotes
+    }
+
+    dmarc = {
+      name    = "_dmarc"
+      type    = "TXT"
+      content = "\"v=DMARC1; p=reject\""
+      # Cloudflare UI insists TXT records have to be wrapped in quotes
+    }
+  }
+
   telegram_subnets = [
     # From https://core.telegram.org/bots/webhooks#the-short-version
     "149.154.160.0/20",

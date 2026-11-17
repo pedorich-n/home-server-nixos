@@ -10,6 +10,18 @@ resource "cloudflare_dns_record" "purelymail" {
   proxied  = false
 }
 
+resource "cloudflare_dns_record" "apex_mail_policy" {
+  for_each = local.apex_mail_policy_records
+
+  zone_id = cloudflare_zone.main.id
+  ttl     = 1 # Auto
+  type    = each.value.type
+  name    = each.value.name
+  content = each.value.content
+  comment = "apex mail policy"
+  proxied = false
+}
+
 resource "cloudflare_dns_record" "n8n" {
   zone_id = cloudflare_zone.main.id
   name    = local.n8n_local_domain
