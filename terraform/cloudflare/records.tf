@@ -1,6 +1,6 @@
 resource "cloudflare_dns_record" "purelymail" {
   for_each = local.purelymail_records
-  zone_id  = cloudflare_zone.main.id
+  zone_id  = data.cloudflare_zone.main.id
   ttl      = 1 # Auto
   type     = each.value.type
   name     = each.value.name
@@ -10,8 +10,20 @@ resource "cloudflare_dns_record" "purelymail" {
   proxied  = false
 }
 
+resource "cloudflare_dns_record" "apex_mail_policy" {
+  for_each = local.apex_mail_policy_records
+
+  zone_id = data.cloudflare_zone.main.id
+  ttl     = 1 # Auto
+  type    = each.value.type
+  name    = each.value.name
+  content = each.value.content
+  comment = "apex mail policy"
+  proxied = false
+}
+
 resource "cloudflare_dns_record" "n8n" {
-  zone_id = cloudflare_zone.main.id
+  zone_id = data.cloudflare_zone.main.id
   name    = local.n8n_local_domain
   content = "${cloudflare_zero_trust_tunnel_cloudflared.n8n.id}.cfargotunnel.com"
   type    = "CNAME"
@@ -21,7 +33,7 @@ resource "cloudflare_dns_record" "n8n" {
 }
 
 resource "cloudflare_dns_record" "safebucket" {
-  zone_id = cloudflare_zone.main.id
+  zone_id = data.cloudflare_zone.main.id
   name    = local.safebucket_local_domain
   content = "${cloudflare_zero_trust_tunnel_cloudflared.safebucket.id}.cfargotunnel.com"
   type    = "CNAME"
@@ -31,7 +43,7 @@ resource "cloudflare_dns_record" "safebucket" {
 }
 
 resource "cloudflare_dns_record" "searxng" {
-  zone_id = cloudflare_zone.main.id
+  zone_id = data.cloudflare_zone.main.id
   name    = local.searxng_local_domain
   content = "${cloudflare_zero_trust_tunnel_cloudflared.searxng.id}.cfargotunnel.com"
   type    = "CNAME"
