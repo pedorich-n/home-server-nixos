@@ -69,7 +69,7 @@ resource "cloudflare_zero_trust_access_policy" "bypass_all" {
 
 # Cloudflare Zero Trust Access Applications
 resource "cloudflare_zero_trust_access_application" "n8n" {
-  zone_id          = cloudflare_zone.main.id
+  zone_id          = data.cloudflare_zone.main.id
   name             = "N8N"
   type             = "self_hosted"
   domain           = local.n8n_local_domain
@@ -95,7 +95,7 @@ resource "cloudflare_zero_trust_access_application" "n8n" {
 }
 
 resource "cloudflare_zero_trust_access_application" "safebucket" {
-  zone_id          = cloudflare_zone.main.id
+  zone_id          = data.cloudflare_zone.main.id
   name             = "Safebucket"
   type             = "self_hosted"
   domain           = local.safebucket_local_domain
@@ -130,7 +130,7 @@ resource "cloudflare_zero_trust_access_policy" "allow_searxng_mcp_remote_service
 }
 
 resource "cloudflare_zero_trust_access_application" "searxng_mcp" {
-  zone_id          = cloudflare_zone.main.id
+  zone_id          = data.cloudflare_zone.main.id
   name             = "Searxng MCP"
   type             = "self_hosted"
   domain           = local.searxng_local_domain
