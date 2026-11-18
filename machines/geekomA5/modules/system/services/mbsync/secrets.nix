@@ -46,35 +46,31 @@ let
       SyncState *
     '';
 
-  # Gmail exposes every message once per label plus once in All Mail, so syncing
-  # the label folders duplicates the whole archive. All Mail is the complete
-  # non-spam, non-trash set (it includes Inbox and Sent Mail), so sync only it.
-  # NOTE: the "[Gmail]" prefix is localized by the account's UI language.
-  gmailPatterns = [ ''"[Gmail]/All Mail"'' ];
+  gmailSettings = {
+    # Gmail exposes every message once per label plus once in All Mail, so syncing
+    # the label folders duplicates the whole archive. All Mail is the complete
+    # non-spam, non-trash set (it includes Inbox and Sent Mail), so sync only it.
+    # NOTE: the "[Gmail]" prefix is localized by the account's UI language.
+    patterns = [ ''"[Gmail]/All Mail"'' ];
+  };
+
+  purelymailSettings = {
+    # Everything except the server's junk and trash folders.
+    patterns = [
+      "*"
+      "INBOX"
+      "!Junk"
+      "!Trash"
+    ];
+    tlsType = "STARTTLS";
+  };
 
   accounts = [
-    {
-      account = "email_1";
-      patterns = gmailPatterns;
-    }
-    {
-      account = "email_2";
-      patterns = gmailPatterns;
-    }
-    {
-      account = "email_3";
-      patterns = gmailPatterns;
-    }
-    {
-      account = "email_4";
-      patterns = [
-        "*"
-        "INBOX"
-        "!Junk"
-        "!Trash"
-      ];
-      tlsType = "STARTTLS";
-    }
+    (gmailSettings // { account = "email_1"; })
+    (gmailSettings // { account = "email_2"; })
+    (gmailSettings // { account = "email_3"; })
+    (purelymailSettings // { account = "email_4"; })
+    (purelymailSettings // { account = "email_5"; })
   ];
 in
 {

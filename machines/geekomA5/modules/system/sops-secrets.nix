@@ -199,7 +199,7 @@ let
         "mbsync/accounts/${account}/imap" = { };
       };
 
-      # 4 accounts: email_1, email_2, ...
+      # 5 accounts: email_1, email_2, ...
       accounts = lib.map (i: "email_${toString i}") (lib.range 1 5);
     in
     mapMergeAttrsList mkSecret accounts;
