@@ -397,6 +397,8 @@ in
         "radarr/api/key" = { };
         "homeassistant/api/key" = { };
 
+        "anki-sync-server/users/user_1/password" = { };
+
         "forgejo-mirror-seeder/github_token" = { };
         "forgejo-mirror-seeder/forgejo_token" = { };
 
