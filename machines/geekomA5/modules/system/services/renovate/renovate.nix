@@ -13,6 +13,7 @@
     schedule = "*-*-* 05,10,15,20:00:00"; # Every day 4 times a day
 
     runtimePackages = with pkgs; [
+      nodejs
       uv
       python3
       openssh
