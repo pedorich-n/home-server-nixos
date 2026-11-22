@@ -174,6 +174,10 @@ in
             url = "${networkingLib.mkLocalUrl "radarr"}/ping";
           }
           {
+            name = "Radicale";
+            url = "${networkingLib.mkLocalUrl "radicale"}/.web/";
+          }
+          {
             name = "SABnzbd";
             url = "${networkingLib.mkLocalUrl "sabnzbd"}/api?mode=version";
           }

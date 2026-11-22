@@ -160,6 +160,9 @@ let
           (mkEntry {
             slug = "grist";
           })
+          (mkEntry {
+            slug = "radicale";
+          })
         ];
       }
       {
