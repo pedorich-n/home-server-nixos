@@ -155,6 +155,9 @@ let
         "lldap/users/jellyfin/email"
         "lldap/users/jellyfin/password"
 
+        "lldap/users/radicale/email"
+        "lldap/users/radicale/password"
+
         "lldap/users/user_1/username"
         "lldap/users/user_1/displayname"
         "lldap/users/user_1/email"
