@@ -1,4 +1,5 @@
 {
+  autheliaLib,
   config,
   networkingLib,
   pkgs-unstable,
@@ -36,7 +37,6 @@ in
 
     settings = {
       server.hosts = [ "127.0.0.1:${portsCfg.portStr}" ];
-
       auth = {
         type = "ldap";
         ldap_uri = "ldaps://${networkingLib.mkLocalDomain "lldap"}:${lldapPortsCfg.portStr}";
@@ -44,11 +44,40 @@ in
         ldap_reader_dn = "UID=radicale,OU=people,${ldapBase}";
         ldap_secret_file = "/run/credentials/${config.systemd.services.radicale.name}/ldap_secret";
         ldap_filter = "(uid={0})";
+        ldap_groups_attribute = "memberOf";
       };
 
       storage = {
         filesystem_folder = "${storageRoot}/collections";
         strict_preconditions = true;
+      };
+    };
+
+    rights = {
+      "00-admin" = {
+        groups = autheliaLib.groups.Admins;
+        collection = ".+";
+        permissions = "RrWw";
+      };
+
+      # `R` on the root collection is what makes principal discovery work:
+      # /.well-known/caldav -> / -> /{user}/.
+      "10-root" = {
+        user = ".+";
+        collection = "";
+        permissions = "R";
+      };
+
+      "20-principal" = {
+        user = ".+";
+        collection = "{user}";
+        permissions = "RW";
+      };
+
+      "30-collections" = {
+        user = ".+";
+        collection = "{user}/[^/]+";
+        permissions = "rw";
       };
     };
   };
