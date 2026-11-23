@@ -10,11 +10,11 @@ import requests
 from holidays.constants import PUBLIC, WORKDAY
 
 CALENDARS: tuple[tuple[str, str, str, tuple[str, ...]], ...] = (
-    ("Holidays in Japan", "JP", "d814c29f-6a40-f7ee-85b8-43fb3d1ab975", (PUBLIC,)),
+    ("Holidays in Japan", "JP", "f74b3d44-af0c-df44-39eb-a2e4dd0dded4", (PUBLIC,)),
     (
         "Holidays in Ukraine",
         "UA",
-        "4bd046be-7d5d-c2f3-9986-0e00b276a0bc",
+        "657d386c-1325-026a-87c8-624e9e4a3fc7",
         (PUBLIC, WORKDAY),
     ),
 )
@@ -23,17 +23,25 @@ MIN_EVENTS: int = 50
 YEARS: int = 3
 
 
-def build(
-    name: str, country: str, categories: tuple[str, ...], years: range
-) -> tuple[bytes, int]:
+def env_or_file(name: str) -> str | None:
+    if name in os.environ:
+        return os.environ[name]
+    path = os.environ.get(f"{name}_FILE")
+    if path is None:
+        return None
+    try:
+        return Path(path).read_text().strip()
+    except OSError as error:
+        sys.exit(f"{path}: {error}")
+
+
+def build(name: str, country: str, categories: tuple[str, ...], years: range) -> tuple[bytes, int]:
     calendar = icalendar.Calendar()
     calendar.add("PRODID", "-//home-server-nixos//holidays//EN")
     calendar.add("VERSION", "2.0")
     calendar.add("X-WR-CALNAME", name)
 
-    days = holidays.country_holidays(
-        country, years=years, categories=categories, language="en_US"
-    )
+    days = holidays.country_holidays(country, years=years, categories=categories, language="en_US")
     if len(days) < MIN_EVENTS:
         raise RuntimeError(f"{name}: only {len(days)} events, refusing to upload")
 
@@ -92,22 +100,29 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--url",
-        default=os.environ.get("RADICALE_URL"),
+        default=env_or_file("RADICALE_URL"),
         help="Radicale base URL (env RADICALE_URL)",
     )
     parser.add_argument(
         "--user",
-        default=os.environ.get("RADICALE_USER"),
-        help="Radicale account (env RADICALE_USER)",
+        default=env_or_file("RADICALE_USER"),
+        help="Radicale account (env RADICALE_USER or RADICALE_USER_FILE)",
     )
     parser.add_argument("--dry-run", action="store_true", help="report actions without writing")
     args = parser.parse_args()
 
-    password: str | None = os.environ.get("RADICALE_PASSWORD")
+    password: str | None = env_or_file("RADICALE_PASSWORD")
     if password is None:
-        sys.exit("RADICALE_PASSWORD is not set")
+        sys.exit("RADICALE_PASSWORD or RADICALE_PASSWORD_FILE is not set")
+    if args.url is None:
+        sys.exit("RADICALE_URL is not set")
+    if args.user is None:
+        sys.exit("RADICALE_USER or RADICALE_USER_FILE is not set")
 
-    state_dir = Path(os.environ["STATE_DIR"])
+    state_value: str | None = os.environ.get("STATE_DIR") or os.environ.get("STATE_DIRECTORY")
+    if state_value is None:
+        sys.exit("STATE_DIR or STATE_DIRECTORY is not set")
+    state_dir = Path(state_value)
     state_dir.mkdir(parents=True, exist_ok=True)
 
     session = requests.Session()
