@@ -40,10 +40,10 @@ in
       auth = {
         type = "ldap";
         ldap_uri = "ldaps://${networkingLib.mkLocalDomain "lldap"}:${lldapPortsCfg.portStr}";
-        ldap_base = ldapBase;
+        ldap_base = "ou=people,${ldapBase}";
         ldap_reader_dn = "UID=radicale,OU=people,${ldapBase}";
         ldap_secret_file = "/run/credentials/${config.systemd.services.radicale.name}/ldap_secret";
-        ldap_filter = "(uid={0})";
+        ldap_filter = "(&(uid={0})(|(memberOf=cn=${autheliaLib.groups.Users},ou=groups,${ldapBase})(memberOf=cn=${autheliaLib.groups.Admins},ou=groups,${ldapBase})(memberOf=cn=${autheliaLib.groups.Service},ou=groups,${ldapBase})))";
         ldap_groups_attribute = "memberOf";
       };
 
