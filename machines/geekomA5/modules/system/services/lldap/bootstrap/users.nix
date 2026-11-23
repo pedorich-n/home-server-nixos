@@ -101,9 +101,27 @@ in
         config.systemd.services.lldap.name
       ];
 
-      path = "/var/lib/lldap/bootstrap/users/jksv.json";
-      file = pkgs.writers.writeJSON "lldap-jksv-template.json" (mkUserFromSops {
-        user = "jksv";
+      path = "/var/lib/lldap/bootstrap/users/service_jksv.json";
+      file = pkgs.writers.writeJSON "lldap-service-jksv-template.json" (mkUserFromSops {
+        user = "service_jksv";
+        extraArgs = {
+          groups = [
+            autheliaLib.groups.Service
+          ];
+        };
+      });
+    };
+
+    "lldap/bootstrap/users/service_radicale_holidays.json" = {
+      owner = config.users.users.lldap.name;
+      group = config.users.users.lldap.group;
+      restartUnits = [
+        config.systemd.services.lldap.name
+      ];
+
+      path = "/var/lib/lldap/bootstrap/users/radicale_holidays.json";
+      file = pkgs.writers.writeJSON "lldap-service-radicale-holidays-template.json" (mkUserFromSops {
+        user = "service_radicale_holidays";
         extraArgs = {
           groups = [
             autheliaLib.groups.Service
