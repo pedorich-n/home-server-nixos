@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+import xml.etree.ElementTree as ET
 from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
 
@@ -8,6 +9,11 @@ import holidays
 import icalendar
 import requests
 from holidays.constants import PUBLIC, WORKDAY
+
+DAV = "DAV:"
+CALDAV = "urn:ietf:params:xml:ns:caldav"
+COMPONENT_SET = f"{{{CALDAV}}}supported-calendar-component-set"
+COMPONENTS: tuple[str, ...] = ("VEVENT",)
 
 CALENDARS: tuple[tuple[str, str, str, tuple[str, ...]], ...] = (
     ("Holidays in Japan", "JP", "f74b3d44-af0c-df44-39eb-a2e4dd0dded4", (PUBLIC,)),
@@ -18,6 +24,13 @@ CALENDARS: tuple[tuple[str, str, str, tuple[str, ...]], ...] = (
         (PUBLIC, WORKDAY),
     ),
 )
+
+PROPFIND_BODY = f"""<?xml version="1.0" encoding="utf-8"?>
+<D:propfind xmlns:D="{DAV}" xmlns:C="{CALDAV}">
+  <D:prop>
+    <C:supported-calendar-component-set/>
+  </D:prop>
+</D:propfind>"""
 
 MIN_EVENTS: int = 50
 YEARS: int = 3
@@ -33,6 +46,36 @@ def env_or_file(name: str) -> str | None:
         return Path(path).read_text().strip()
     except OSError as error:
         sys.exit(f"{path}: {error}")
+
+
+def read_components(session: requests.Session, url: str) -> tuple[str, ...] | None:
+    """Current supported component set, or None if the collection is missing."""
+    response = session.request(
+        "PROPFIND",
+        url,
+        data=PROPFIND_BODY,
+        headers={"Depth": "0", "Content-Type": 'text/xml; charset="utf-8"'},
+        timeout=60,
+    )
+    if response.status_code == 404:
+        return None
+    response.raise_for_status()
+
+    for prop in ET.fromstring(response.content).iter(COMPONENT_SET):
+        return tuple(comp.get("name", "") for comp in prop)
+    return ()
+
+
+def proppatch_body() -> bytes:
+    components = "".join(f'<C:comp name="{name}"/>' for name in COMPONENTS)
+    return f"""<?xml version="1.0" encoding="utf-8"?>
+<D:propertyupdate xmlns:D="{DAV}" xmlns:C="{CALDAV}">
+  <D:set>
+    <D:prop>
+      <C:supported-calendar-component-set>{components}</C:supported-calendar-component-set>
+    </D:prop>
+  </D:set>
+</D:propertyupdate>""".encode()
 
 
 def build(name: str, country: str, categories: tuple[str, ...], years: range) -> tuple[bytes, int]:
@@ -73,26 +116,48 @@ def sync(
     dry_run: bool,
 ) -> bool:
     body, count = build(name, country, categories, years)
+    url = f"{base_url}/{user}/{uuid}/"
     cached = state_dir / f"{uuid}.ics"
-    if cached.exists() and cached.read_bytes() == body:
+
+    present = read_components(session, url)
+    body_current = present is not None and cached.exists() and cached.read_bytes() == body
+    components_current = present == COMPONENTS
+
+    actions: list[str] = []
+    if not body_current:
+        actions.append(f"{'create' if present is None else 'replace'} ({count} events)")
+    if not components_current:
+        actions.append("update calendar type")
+
+    if not actions:
         print(f"{name}: unchanged ({count} events)")
         return False
 
-    print(f"{name}: {'would replace' if dry_run else 'replace'} ({count} events)")
+    print(f"{name}: {'would ' if dry_run else ''}{', '.join(actions)}")
     if dry_run:
         return True
 
-    response = session.put(
-        f"{base_url}/{user}/{uuid}/",
-        data=body,
-        headers={
-            "Content-Type": "text/calendar; charset=utf-8",
-            "If-Match": "*",
-        },
-        timeout=120,
+    if not body_current:
+        response = session.put(
+            url,
+            data=body,
+            headers={
+                "Content-Type": "text/calendar; charset=utf-8",
+                "If-None-Match" if present is None else "If-Match": "*",
+            },
+            timeout=120,
+        )
+        response.raise_for_status()
+        cached.write_bytes(body)
+
+    response = session.request(
+        "PROPPATCH",
+        url,
+        data=proppatch_body(),
+        headers={"Content-Type": 'text/xml; charset="utf-8"'},
+        timeout=60,
     )
     response.raise_for_status()
-    cached.write_bytes(body)
     return True
 
 
@@ -129,10 +194,10 @@ def main() -> int:
     session.auth = (args.user, password)
 
     years = range(date.today().year - YEARS, date.today().year + YEARS + 1)
-    replaced: int = 0
+    updated: int = 0
     try:
         for name, country, uuid, categories in CALENDARS:
-            replaced += sync(
+            updated += sync(
                 session,
                 args.url.rstrip("/"),
                 args.user,
@@ -144,11 +209,11 @@ def main() -> int:
                 years,
                 args.dry_run,
             )
-    except (requests.RequestException, OSError, RuntimeError, ValueError) as error:
+    except (requests.RequestException, OSError, RuntimeError, ValueError, ET.ParseError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
 
-    print(f"total: {replaced} of {len(CALENDARS)} calendars replaced")
+    print(f"total: {updated} of {len(CALENDARS)} calendars updated")
     return 0
 
 
