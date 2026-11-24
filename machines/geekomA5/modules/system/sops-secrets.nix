@@ -164,9 +164,13 @@ let
         "lldap/users/user_1/email"
         "lldap/users/user_1/password"
 
-        "lldap/users/jksv/username"
-        "lldap/users/jksv/email"
-        "lldap/users/jksv/password"
+        "lldap/users/service_jksv/username"
+        "lldap/users/service_jksv/email"
+        "lldap/users/service_jksv/password"
+
+        "lldap/users/service_radicale_holidays/username"
+        "lldap/users/service_radicale_holidays/email"
+        "lldap/users/service_radicale_holidays/password"
       ];
 
       mkSecret = secret: {

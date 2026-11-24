@@ -6,12 +6,12 @@
   ...
 }:
 let
-  portsCfg = config.custom.networking.ports.tcp.radicale;
-  lldapPortsCfg = config.custom.networking.ports.tcp.lldap-ldaps;
-
-  storageRoot = "/mnt/store/radicale";
+  portsCfg = config.custom.networking.ports.tcp;
 
   ldapBase = config.services.lldap.settings.ldap_base_dn;
+
+  storageRoot = "/mnt/store/radicale";
+  credentialsDir = "/run/credentials/${config.systemd.services.radicale.name}";
 in
 {
   custom = {
@@ -21,7 +21,7 @@ in
     };
 
     services.caddy.hosts.radicale = {
-      upstream = "http://127.0.0.1:${portsCfg.portStr}";
+      upstream = "http://127.0.0.1:${portsCfg.radicale.portStr}";
 
       extraConfig = ''
         redir /.well-known/caldav / permanent
@@ -36,15 +36,21 @@ in
     package = pkgs-unstable.radicale;
 
     settings = {
-      server.hosts = [ "127.0.0.1:${portsCfg.portStr}" ];
+      server.hosts = [ "127.0.0.1:${portsCfg.radicale.portStr}" ];
       auth = {
         type = "ldap";
-        ldap_uri = "ldaps://${networkingLib.mkLocalDomain "lldap"}:${lldapPortsCfg.portStr}";
-        ldap_base = ldapBase;
+        ldap_uri = "ldaps://${networkingLib.mkLocalDomain "lldap"}:${portsCfg.lldap-ldaps.portStr}";
+        ldap_base = "ou=people,${ldapBase}";
         ldap_reader_dn = "UID=radicale,OU=people,${ldapBase}";
-        ldap_secret_file = "/run/credentials/${config.systemd.services.radicale.name}/ldap_secret";
-        ldap_filter = "(uid={0})";
+        ldap_secret_file = "${credentialsDir}/ldap_secret";
+        ldap_filter = "(&(uid={0})(|(memberOf=cn=${autheliaLib.groups.Users},ou=groups,${ldapBase})(memberOf=cn=${autheliaLib.groups.Admins},ou=groups,${ldapBase})(memberOf=cn=${autheliaLib.groups.Service},ou=groups,${ldapBase})))";
         ldap_groups_attribute = "memberOf";
+      };
+
+      sharing = {
+        type = "csv";
+        database_path = "${credentialsDir}/sharing_csv";
+        collection_by_map = true;
       };
 
       storage = {
@@ -83,6 +89,9 @@ in
   };
 
   systemd.services.radicale.serviceConfig = {
-    LoadCredential = "ldap_secret:${config.sops.secrets."lldap/users/radicale/password".path}";
+    LoadCredential = [
+      "ldap_secret:${config.sops.secrets."lldap/users/radicale/password".path}"
+      "sharing_csv:${config.sops.templates."radicale/sharing.csv".path}"
+    ];
   };
 }

@@ -1,8 +1,11 @@
 {
-  python3Packages,
   writers,
 }:
 writers.writePython3Bin "forgejo-mirror-seeder" {
-  libraries = [ python3Packages.requests ];
+  libraries =
+    ps:
+    (with ps; [
+      requests
+    ]);
   flakeIgnore = [ "E501" ];
 } (builtins.readFile ./seeder.py)
